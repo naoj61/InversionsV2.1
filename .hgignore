@@ -1,0 +1,7 @@
+syntax: glob
+Inversions/bin
+Inversions/obj
+*.suo
+bin/
+obj/
+packages/

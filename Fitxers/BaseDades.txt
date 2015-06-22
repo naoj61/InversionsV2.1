@@ -1,0 +1,187 @@
+ALTER TABLE [dbo].[Empreses]
+	ADD CONSTRAINT [IU_NomEmpresa]
+    UNIQUE ([Nom] ASC);
+GO
+
+ALTER TABLE [dbo].[Gestors]
+	ADD CONSTRAINT [IU_NomGestor]
+    UNIQUE ([Nom] ASC);
+GO
+
+ALTER TABLE [dbo].[Mercats]
+	ADD CONSTRAINT [IU_NomMercat]
+    UNIQUE ([Nom] ASC);
+GO
+
+ALTER TABLE [dbo].[Gestors]
+	ADD CONSTRAINT [IU_NomGestor]
+    UNIQUE ([Nom] ASC);
+GO
+
+ALTER TABLE [dbo].[Productes_ProdFons]
+	ADD CONSTRAINT [IU_NomProductes_ProdFons] UNIQUE ([Nom] ASC);
+GO
+
+ALTER TABLE [dbo].[Productes_ProdFons]
+	ADD CONSTRAINT [IU_IsinProductes_ProdFons] UNIQUE ([ISIN] ASC);
+GO
+
+
+ALTER TABLE [dbo].[Valoracions]
+	ADD CONSTRAINT [IU_Valoracions] UNIQUE ([ProdId] ASC, [Data] ASC);
+GO
+
+
+
+-- ---------------------------------------------------------------------------------------
+-- Vistes
+
+CREATE VIEW [dbo].[View_Accions]
+	AS SELECT [Empreses].Nom As NomEmpresa, [Mercats].Nom 
+	FROM [Empreses], [Productes], [Productes_ProdAccions], [Mercats]
+	WHERE [Empreses].Id = [Productes].EmpresaId  AND [Productes].Id = [Productes_ProdAccions].Id 
+	AND [Mercats].Id = [Productes_ProdAccions].MercatId
+GO
+
+DROP ViEW [dbo].[View_Fons]
+GO
+CREATE VIEW [dbo].[View_Fons]
+	AS SELECT [Empreses].Id As IdEmpresa, [Empreses].Nom As NomEmpresa, [Productes].Id As IdProducte, [Productes_ProdFons].Nom As NomFons, ISIN, Descripcio 
+	FROM [Empreses], [Productes], [Productes_ProdFons]
+	WHERE [Empreses].Id = [Productes].EmpresaId 
+	AND [Productes].Id = [Productes_ProdFons].Id 
+GO
+
+INSERT INTO [dbo].[Moviments] ([Id], [ProdId], [TipusMoviment], [Data], [Participacions], [Import], [ProducteTraspasId], [Descripcio]) VALUES (31, 5, 0, N'2014-12-03', 264.18, 44532.91, 1, N'Traspàs a DWS Deuschland')
+CREATE TABLE [dbo].[Moviments] (
+    [Id]                INT            IDENTITY (1, 1) NOT NULL,
+    [ProdId]            INT            NOT NULL,
+    [TipusMoviment]     INT            NOT NULL,
+    [Data]              DATE           NOT NULL,
+    [Participacions]    FLOAT (53)     NOT NULL,
+    [Import]            FLOAT (53)     NOT NULL,
+    [ProducteTraspasId] INT            NULL,
+    [Descripcio]        NVARCHAR (MAX) NULL,
+    [RowVersion]        ROWVERSION     NOT NULL,
+	
+CREATE VIEW [dbo].[View_Moviments]
+	AS SELECT [Empreses].Nom As NomEmpresa, [Productes_ProdFons].Nom As NomFons, [Moviments].*
+	FROM [Productes], [Productes_ProdFons], [Empreses], [Moviments]
+	WHERE [Empreses].Id = [Productes].EmpresaId 
+	AND [Productes].Id = [Moviments].ProdId 
+	AND [Productes_ProdFons].Id = [Moviments].ProducteTraspasId 
+GO
+
+-- ---------------------------------------------------------------------------------------
+-- Procedures
+
+CREATE PROCEDURE [dbo].[sp_InsertStudentInfo]
+        -- Add the parameters for the stored procedure here
+        @StandardId int = null,
+        @StudentName varchar
+    AS
+    BEGIN
+        -- SET NOCOUNT ON added to prevent extra result sets from
+        -- interfering with SELECT statements.
+        SET NOCOUNT ON;
+
+         INSERT INTO [SchoolDB].[dbo].[Student]([StudentName],[StandardId])
+         VALUES(@StudentName, @StandardId)
+
+        SELECT SCOPE_IDENTITY() AS StudentId
+
+    END
+
+DROP PROCEDURE [dbo].[sp_InsertEmpresa] 
+GO
+DROP PROCEDURE [dbo].[sp_UpdateEmpresa] 
+GO
+DROP PROCEDURE [dbo].[sp_DeleteEmpresa] 
+GO
+DROP PROCEDURE [dbo].[sp_InsertValoracio] 
+GO
+DROP PROCEDURE [dbo].[sp_InsertTipusMoviment] 
+GO
+
+CREATE PROCEDURE [dbo].[sp_InsertEmpresa]
+        -- Add the parameters for the stored procedure here
+        @Nom nvarchar(max)
+    AS
+    BEGIN
+        -- SET NOCOUNT ON added to prevent extra result sets from
+        -- interfering with SELECT statements.
+        SET NOCOUNT ON;
+
+         INSERT INTO [dbo].[Empresa]([Nom])
+         VALUES(@Nom)
+
+        SELECT SCOPE_IDENTITY() AS Id
+	END
+GO
+
+CREATE PROCEDURE [dbo].[sp_UpdateEmpresa]
+        -- Add the parameters for the stored procedure here
+        @Id int,
+        @Nom nvarchar(max)
+    AS
+    BEGIN
+        -- SET NOCOUNT ON added to prevent extra result sets from
+        -- interfering with SELECT statements.
+        SET NOCOUNT ON;
+
+        Update [dbo].[Empresa] 
+        set Nom = @Nom
+        where Id = @Id;
+	END
+GO
+
+CREATE PROCEDURE [dbo].[sp_DeleteEmpresa]
+        -- Add the parameters for the stored procedure here
+        @Id int
+    AS
+    BEGIN
+        -- SET NOCOUNT ON added to prevent extra result sets from
+        -- interfering with SELECT statements.
+        SET NOCOUNT ON;
+
+        DELETE FROM [dbo].[Empresa]
+        where Id = @Id
+
+    END
+GO	
+
+CREATE PROCEDURE [dbo].[sp_InsertValoracio]
+        -- Add the parameters for the stored procedure here
+        @Data datetime,
+		@Import float,
+		@ProducteId int = null
+    AS
+    BEGIN
+        -- SET NOCOUNT ON added to prevent extra result sets from
+        -- interfering with SELECT statements.
+        SET NOCOUNT ON;
+
+         INSERT INTO [dbo].[Valoracio]([Data],[Import],[ProducteId])
+         VALUES(@Data,@Import,@ProducteId)
+
+        SELECT SCOPE_IDENTITY() AS Id
+	END
+GO
+
+DROP PROCEDURE [dbo].[sp_InsertTipusMoviment]
+GO
+CREATE PROCEDURE [dbo].[sp_InsertTipusMoviment]
+        -- Add the parameters for the stored procedure here
+        @Nom nvarchar(max)
+    AS
+    BEGIN
+        -- SET NOCOUNT ON added to prevent extra result sets from
+        -- interfering with SELECT statements.
+        SET NOCOUNT ON;
+
+         INSERT INTO [dbo].[TipusMoviment]([Nom])
+         VALUES(@Nom)
+
+        SELECT SCOPE_IDENTITY() AS Id
+	END
+GO
