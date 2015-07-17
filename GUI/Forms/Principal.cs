@@ -13,6 +13,8 @@ namespace Inversions.GUI
         {
             InitializeComponent();
 
+            this.Text = "Producte. Ver: " + Application.ProductVersion;
+
             tabControl1.SelectTab(2);
 
             List<Producte.TipusProducte> tipusProductes = new List<Producte.TipusProducte>(Enum.GetValues(typeof(Producte.TipusProducte)).Cast<Producte.TipusProducte>());

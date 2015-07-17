@@ -60,8 +60,8 @@ namespace Inversions.GUI
         {
             if (gestioProductesTabValoracions._ProducteSeleccionat != null)
             {
-
                 actualitzaLlistaPerduesGuanys();
+                colDataTraspas.Visible = gestioProductesTabValoracions._ProducteSeleccionat._TipusProducte != Producte.TipusProducte.Accions;
                 cDataGridView1.Visible = true;
             }
         }

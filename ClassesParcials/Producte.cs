@@ -11,12 +11,15 @@ namespace Inversions
     {
         public struct PiG
         {
-            public PiG(DateTime dataCompra, DateTime? dataVenda, double import, bool hisenda)
+            public PiG(DateTime dataCompra, DateTime? dataVenda, double participacions, double preuUnitariCompra, double preuUnitariVenda, double import, bool hisenda)
                 : this()
             {
                 _Hisenda = hisenda;
                 _DataCompra = dataCompra;
                 _DataVenda = dataVenda;
+                _Participacions = participacions;
+                _PreuUnitariCompra = preuUnitariCompra;
+                _PreuUnitariVenda = preuUnitariVenda;
                 _Import = import;
                 
                 ImpAcc += import;
@@ -26,6 +29,9 @@ namespace Inversions
             private static double ImpAcc = 0;
             public DateTime _DataCompra { get; private set; }
             public DateTime? _DataVenda { get; private set; }
+            public double _Participacions { get; private set; }
+            public double _PreuUnitariCompra { get; private set; }
+            public double _PreuUnitariVenda { get; private set; }
             public double _Import { get; private set; }
             public bool _Hisenda { get; private set; }
             public double _ImportAcumulat { get; private set; }
@@ -38,6 +44,15 @@ namespace Inversions
             {
                 get { return _Hisenda && _DataVenda.HasValue ? _DataVenda : null; }
             }
+
+            /// <summary>
+            /// Si hi ha data venda la torna sinò, torna la data compra.
+            /// </summary>
+            public DateTime? _DataMovimentReal
+            {
+                get { return _DataVenda.HasValue ? _DataVenda : _DataCompra; }
+            }
+
 
             /// <summary>
             /// Si és una venda torna null
@@ -243,7 +258,7 @@ namespace Inversions
                         if (!nomesVenut || !venda._EsTraspas)
                         {
                             importPiG += (part * venda._PreuParticipacio) - (part * compra._PreuParticipacio);
-                            piG.Add(new PiG(compra.Data, venda.Data, importPiG, !venda._EsTraspas));
+                            piG.Add(new PiG(compra.Data, venda.Data, part, compra._PreuParticipacio, venda._PreuParticipacio, importPiG, !venda._EsTraspas));
                         }
 
                         participacionsCompradesRestants = Math.Round(participacionsCompradesRestants - part, 4);
@@ -274,7 +289,7 @@ namespace Inversions
                         if (!nomesVenut || !venda._EsTraspas)
                         {
                             importPiG += (part * venda._PreuParticipacio) - (part * compra._PreuParticipacio);
-                            piG.Add(new PiG(compra.Data, venda.Data, importPiG, !venda._EsTraspas));
+                            piG.Add(new PiG(compra.Data, venda.Data, part, compra._PreuParticipacio, venda._PreuParticipacio, importPiG, !venda._EsTraspas));
                         }
 
                         if(Math.Abs(part) < 1)
@@ -296,8 +311,7 @@ namespace Inversions
                     if (nomesVenut)
                         break;
 
-                    importPiG += Valoracions.Last().Import * participacionsCompradesRestants - participacionsCompradesRestants * compra._PreuParticipacio;
-                    piG.Add(new PiG(compra.Data, null, importPiG, false));
+                    piG.Add(new PiG(compra.Data, null, participacionsCompradesRestants, compra._PreuParticipacio, 0, 0, false));
                     importPiG = 0;
                     participacionsCompradesRestants = 0;
 
@@ -316,11 +330,19 @@ namespace Inversions
             if (!nomesVenut && participacionsCompradesRestants > 0)
             {
                 // Valoro les participacions que tinc actualment segons l'última valoració introduida.
-                importPiG += Valoracions.Last().Import * participacionsCompradesRestants - compra._PreuParticipacio * participacionsCompradesRestants;
-                piG.Add(new PiG(compra.Data, null, importPiG, false));
+                piG.Add(new PiG(compra.Data, null, participacionsCompradesRestants, compra._PreuParticipacio, 0, 0, false));
             }
 
-            return piG;
+
+            // Faig que acumuli les PiG en l'ordre real de la data del moviment.
+            var piG2 = new List<PiG>();
+            PiG.InicialitzaAcumulat();
+            foreach (var g in piG.OrderBy(o=>o._DataMovimentReal))
+            {
+                piG2.Add(new PiG(g._DataCompra, g._DataVenda,g._Participacions, g._PreuUnitariCompra, g._PreuUnitariVenda, g._Import, g._Hisenda));
+            }
+
+            return piG2;
         }
 
 

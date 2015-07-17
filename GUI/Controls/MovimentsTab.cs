@@ -81,7 +81,7 @@ namespace Inversions.GUI
             var movimentsProducte = MyClass.Sessio.Moviments.Where(w => w.Prod.Id == prod.Id).ToList();
 
             cDataGridView1.SuspendLayout();
-            cDataGridView1.DataSource = movimentsProducte;
+            cDataGridView1.DataSource = movimentsProducte.OrderBy(o=>o.Data).ToList();
             cDataGridView1.Columns["colTraspasOrigen"].Visible = movimentsProducte.Exists(eo => eo._NomProducteTraspasOrigen != null);
             cDataGridView1.Columns["colTraspasDesti"].Visible = movimentsProducte.Exists(eo => eo._NomProducteTraspasDesti != null);
             cDataGridView1.ClearSelection();
