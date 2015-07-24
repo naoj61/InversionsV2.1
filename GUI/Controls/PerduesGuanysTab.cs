@@ -40,9 +40,9 @@ namespace Inversions.GUI
                             int clau = piG._DataVenda.Value.Year * 10 + Convert.ToInt32(piG._LlargPlaç);
 
                             if (dictPiGs.ContainsKey(clau))
-                                dictPiGs[clau] += piG._Import;
+                                dictPiGs[clau] += piG._PiG;
                             else
-                                dictPiGs[clau] = piG._Import;
+                                dictPiGs[clau] = piG._PiG;
                         }
                     }
                 }
@@ -55,6 +55,7 @@ namespace Inversions.GUI
                 }
             }
         }
+
 
         private void gestioProductesTabValoracions_ProducteSeleccionat(object sender, EventArgs e)
         {
@@ -74,6 +75,7 @@ namespace Inversions.GUI
             cDataGridView1.ClearSelection();
             cDataGridView1.ResumeLayout();
         }
+
 
         //private Valoracio vValoracioSeleccionada = null;
 

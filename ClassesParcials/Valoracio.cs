@@ -20,7 +20,7 @@ namespace Inversions
         {
             get
             {
-                var v1 = MyClass.Sessio.Valoracions.Where(w => w.Prod.Id == Prod.Id && w.Id < Id).OrderBy(o=>o.Data).ToList();
+                var v1 = MyClass.Sessio.Valoracions.Where(w => w.Prod.Id == Prod.Id && w.Data < Data).OrderBy(o => o.Data).ToList();
                 if (v1.Count == 0)
                     return 0;
 
