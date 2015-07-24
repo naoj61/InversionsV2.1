@@ -24,6 +24,9 @@ namespace Inversions.GUI
             cTipusMovimentTab2.DataSource = Enum.GetValues(typeof(TipusMoviment));
             cTipusMovimentTab2.SelectedItem = null;
             cTipusMovimentTab2.ResumeLayout();
+
+
+            gestioProductesTabMoviments._NomesAmbParticipacions = false;
         }
 
 
@@ -85,6 +88,12 @@ namespace Inversions.GUI
             cDataGridView1.Columns["colTraspasOrigen"].Visible = movimentsProducte.Exists(eo => eo._NomProducteTraspasOrigen != null);
             cDataGridView1.Columns["colTraspasDesti"].Visible = movimentsProducte.Exists(eo => eo._NomProducteTraspasDesti != null);
             cDataGridView1.ClearSelection();
+            var ultimaFila = cDataGridView1.Rows.GetLastRow(DataGridViewElementStates.Visible);
+            if (ultimaFila >= 0)
+            {
+                // Selecciona la última fila del dataGrid.
+                cDataGridView1.FirstDisplayedScrollingRowIndex = ultimaFila;
+            }
             cDataGridView1.ResumeLayout();
         }
 
