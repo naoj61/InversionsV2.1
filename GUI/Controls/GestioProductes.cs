@@ -38,6 +38,7 @@ namespace Inversions.GUI
                 tbParticipacions.Text = "";
                 tbValorActual.Text = "";
                 tbPiG.Text = "";
+                tbPiGTotal.Text = "";
                 lbIsin.Text = "";
                 tbDescripcio.Text = "";
                 lbMercat.Text = "";
@@ -115,6 +116,7 @@ namespace Inversions.GUI
                 tbValorActual.Valor = prod._ValorActual;
                 tbPiGInversioEnCartera.Valor = prod._PiGActual();
                 tbPiG.Valor = prod._PiG();
+                tbPiGTotal.Valor = prod._PiG() + prod._PiGActual();
 
                 if (prod is ProdFons)
                 {

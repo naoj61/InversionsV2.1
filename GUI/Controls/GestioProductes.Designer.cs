@@ -44,7 +44,7 @@ namespace Inversions.GUI
             this.tbValorActual = new Controls.NumericTextBox2();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.gbIsinProd = new System.Windows.Forms.GroupBox();
-            this.lbIsin = new System.Windows.Forms.Label();
+            this.lbIsin = new System.Windows.Forms.TextBox();
             this.gbMercatProd = new System.Windows.Forms.GroupBox();
             this.lbMercat = new System.Windows.Forms.Label();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
@@ -59,6 +59,8 @@ namespace Inversions.GUI
             this.cbTipusProducteFiltreTab2 = new System.Windows.Forms.ComboBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.lbEmpresa = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tbPiGTotal = new Controls.NumericTextBox2();
             this.panel1.SuspendLayout();
             this.gbDescripcio.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -75,10 +77,12 @@ namespace Inversions.GUI
             this.panel3.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox11.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.gbDescripcio);
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.groupBox4);
@@ -261,9 +265,10 @@ namespace Inversions.GUI
             this.lbIsin.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbIsin.Location = new System.Drawing.Point(3, 18);
             this.lbIsin.Name = "lbIsin";
-            this.lbIsin.Size = new System.Drawing.Size(229, 32);
+            this.lbIsin.ReadOnly = true;
+            this.lbIsin.Size = new System.Drawing.Size(229, 22);
             this.lbIsin.TabIndex = 0;
-            this.lbIsin.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbIsin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // gbMercatProd
             // 
@@ -429,6 +434,35 @@ namespace Inversions.GUI
             this.lbEmpresa.TabIndex = 0;
             this.lbEmpresa.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.tbPiGTotal);
+            this.groupBox1.Location = new System.Drawing.Point(173, 70);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            this.groupBox1.Size = new System.Drawing.Size(156, 50);
+            this.groupBox1.TabIndex = 17;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "P i G Total";
+            // 
+            // tbPiGTotal
+            // 
+            this.tbPiGTotal._Format = "#,#0.00 €";
+            this.tbPiGTotal._PermetDecimals = true;
+            this.tbPiGTotal._PermetEspais = false;
+            this.tbPiGTotal._PermetNegatius = true;
+            this.tbPiGTotal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbPiGTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbPiGTotal.Location = new System.Drawing.Point(5, 18);
+            this.tbPiGTotal.Name = "tbPiGTotal";
+            this.tbPiGTotal.ReadOnly = true;
+            this.tbPiGTotal.Size = new System.Drawing.Size(146, 22);
+            this.tbPiGTotal.TabIndex = 0;
+            this.tbPiGTotal.Text = "0,00 €";
+            this.tbPiGTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.tbPiGTotal.Valor = 0D;
+            // 
             // GestioProductes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -451,6 +485,7 @@ namespace Inversions.GUI
             this.groupBox15.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.gbIsinProd.ResumeLayout(false);
+            this.gbIsinProd.PerformLayout();
             this.gbMercatProd.ResumeLayout(false);
             this.groupBox13.ResumeLayout(false);
             this.groupBox13.PerformLayout();
@@ -461,6 +496,8 @@ namespace Inversions.GUI
             this.panel3.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox11.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -480,7 +517,7 @@ namespace Inversions.GUI
         private NumericTextBox2 tbValorActual;
         private FlowLayoutPanel flowLayoutPanel1;
         private GroupBox gbIsinProd;
-        private Label lbIsin;
+        private TextBox lbIsin;
         private GroupBox gbMercatProd;
         private Label lbMercat;
         private GroupBox groupBox13;
@@ -495,5 +532,7 @@ namespace Inversions.GUI
         private ComboBox cbTipusProducteFiltreTab2;
         private GroupBox groupBox11;
         private Label lbEmpresa;
+        private GroupBox groupBox1;
+        private NumericTextBox2 tbPiGTotal;
     }
 }
