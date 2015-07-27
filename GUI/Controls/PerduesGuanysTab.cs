@@ -24,10 +24,8 @@ namespace Inversions.GUI
 
             if (!MyClass.DesignMode)
             {
-
-                tbPiGTotConsolidat.Valor = Enumerable.Aggregate<Producte, double>(MyClass.Sessio.Productes, 0, (current, producte) => Math.Round(current + producte._PiGTotal(true), 4));
-                tbPiGTotActual.Valor = Enumerable.Aggregate<Producte, double>(MyClass.Sessio.Productes, 0, (current, producte) => Math.Round(current + producte._PiGTotal(false), 4));
-
+                tbPiGTotConsolidat.Valor = Enumerable.Aggregate<Producte, double>(MyClass.Sessio.Productes, 0, (current, producte) => Math.Round(current + producte._PiG(), 4));
+                tbPiGTotActual.Valor = Enumerable.Aggregate<Producte, double>(MyClass.Sessio.Productes, 0, (current, producte) => Math.Round(current + producte._PiGActual(), 4));
 
                 Dictionary<int, double> dictPiGs = new Dictionary<int, Double>();
 

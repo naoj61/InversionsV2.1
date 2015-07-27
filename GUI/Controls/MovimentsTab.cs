@@ -75,6 +75,9 @@ namespace Inversions.GUI
                 btCancelaMoviment.Enabled = false;
                 btCompra.Enabled = true;
                 btDesaMoviment.Enabled = false;
+
+                btVenda.Text = prod._TipusProducte == Producte.TipusProducte.Fons ? "Venda\nTraspàs" : "Venda";
+
             }
 
         }
