@@ -32,6 +32,8 @@ namespace Inversions.GUI
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tbPiGTotal = new Controls.NumericTextBox2();
             this.gbDescripcio = new System.Windows.Forms.GroupBox();
             this.tbDescripcio = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -59,9 +61,8 @@ namespace Inversions.GUI
             this.cbTipusProducteFiltreTab2 = new System.Windows.Forms.ComboBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.lbEmpresa = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tbPiGTotal = new Controls.NumericTextBox2();
             this.panel1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.gbDescripcio.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -77,7 +78,6 @@ namespace Inversions.GUI
             this.panel3.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox11.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -95,6 +95,35 @@ namespace Inversions.GUI
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(337, 625);
             this.panel1.TabIndex = 11;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.tbPiGTotal);
+            this.groupBox1.Location = new System.Drawing.Point(173, 70);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            this.groupBox1.Size = new System.Drawing.Size(156, 50);
+            this.groupBox1.TabIndex = 17;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "P i G Total";
+            // 
+            // tbPiGTotal
+            // 
+            this.tbPiGTotal._Format = "#,#0.00 €";
+            this.tbPiGTotal._PermetDecimals = true;
+            this.tbPiGTotal._PermetEspais = false;
+            this.tbPiGTotal._PermetNegatius = true;
+            this.tbPiGTotal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbPiGTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbPiGTotal.Location = new System.Drawing.Point(5, 18);
+            this.tbPiGTotal.Name = "tbPiGTotal";
+            this.tbPiGTotal.ReadOnly = true;
+            this.tbPiGTotal.Size = new System.Drawing.Size(146, 22);
+            this.tbPiGTotal.TabIndex = 0;
+            this.tbPiGTotal.Text = "0,00 €";
+            this.tbPiGTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.tbPiGTotal.Valor = 0D;
             // 
             // gbDescripcio
             // 
@@ -434,35 +463,6 @@ namespace Inversions.GUI
             this.lbEmpresa.TabIndex = 0;
             this.lbEmpresa.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.tbPiGTotal);
-            this.groupBox1.Location = new System.Drawing.Point(173, 70);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
-            this.groupBox1.Size = new System.Drawing.Size(156, 50);
-            this.groupBox1.TabIndex = 17;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "P i G Total";
-            // 
-            // tbPiGTotal
-            // 
-            this.tbPiGTotal._Format = "#,#0.00 €";
-            this.tbPiGTotal._PermetDecimals = true;
-            this.tbPiGTotal._PermetEspais = false;
-            this.tbPiGTotal._PermetNegatius = true;
-            this.tbPiGTotal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbPiGTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbPiGTotal.Location = new System.Drawing.Point(5, 18);
-            this.tbPiGTotal.Name = "tbPiGTotal";
-            this.tbPiGTotal.ReadOnly = true;
-            this.tbPiGTotal.Size = new System.Drawing.Size(146, 22);
-            this.tbPiGTotal.TabIndex = 0;
-            this.tbPiGTotal.Text = "0,00 €";
-            this.tbPiGTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbPiGTotal.Valor = 0D;
-            // 
             // GestioProductes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -473,6 +473,8 @@ namespace Inversions.GUI
             this.Name = "GestioProductes";
             this.Size = new System.Drawing.Size(801, 625);
             this.panel1.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.gbDescripcio.ResumeLayout(false);
             this.gbDescripcio.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -496,8 +498,6 @@ namespace Inversions.GUI
             this.panel3.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox11.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }

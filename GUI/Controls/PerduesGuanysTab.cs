@@ -24,14 +24,14 @@ namespace Inversions.GUI
 
             if (!MyClass.DesignMode)
             {
-                tbPiGTotConsolidat.Valor = Enumerable.Aggregate<Producte, double>(MyClass.Sessio.Productes, 0, (current, producte) => Math.Round(current + producte._PiG(), 4));
+                tbPiGTotConsolidat.Valor = Enumerable.Aggregate<Producte, double>(MyClass.Sessio.Productes, 0, (current, producte) => Math.Round(current + producte._PiGReal(), 4));
                 tbPiGTotActual.Valor = Enumerable.Aggregate<Producte, double>(MyClass.Sessio.Productes, 0, (current, producte) => Math.Round(current + producte._PiGActual(), 4));
 
                 Dictionary<int, double> dictPiGs = new Dictionary<int, Double>();
 
                 foreach (Producte producte in MyClass.Sessio.Productes)
                 {
-                    foreach (Producte.PiG piG in producte._PiG(true))
+                    foreach (Producte.PiG piG in producte._PiG())
                     {
                         if (piG._DataVenda.HasValue)
                         {
@@ -69,7 +69,7 @@ namespace Inversions.GUI
         private void actualitzaLlistaPerduesGuanys()
         {
             cDataGridView1.SuspendLayout();
-            cDataGridView1.DataSource = gestioProductesTabValoracions._ProducteSeleccionat._PiG(false);
+            cDataGridView1.DataSource = gestioProductesTabValoracions._ProducteSeleccionat._PiG();
             cDataGridView1.ClearSelection();
             cDataGridView1.ResumeLayout();
         }

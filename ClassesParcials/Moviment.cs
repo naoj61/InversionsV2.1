@@ -24,7 +24,7 @@ namespace Inversions
         {
             get
             {
-                return TipusMoviment == TipusMoviment.Venda && ProducteTraspas != null;
+                return ProducteTraspas != null;
             }
         }
 
@@ -40,7 +40,7 @@ namespace Inversions
         {
             get
             {
-                return TipusMoviment == TipusMoviment.Venda;
+                return TipusMoviment == TipusMoviment.Venda && ProducteTraspas == null;
             }
         }
 
