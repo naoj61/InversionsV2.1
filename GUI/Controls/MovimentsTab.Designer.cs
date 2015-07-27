@@ -160,7 +160,7 @@
             // 
             // tbNumParticipacionsDesti
             // 
-            this.tbNumParticipacionsDesti._Format = "#,##0.###";
+            this.tbNumParticipacionsDesti._Format = "#,##0.####";
             this.tbNumParticipacionsDesti._PermetDecimals = true;
             this.tbNumParticipacionsDesti._PermetEspais = false;
             this.tbNumParticipacionsDesti._PermetNegatius = false;
@@ -288,7 +288,7 @@
             // 
             // tbNumParticipacions
             // 
-            this.tbNumParticipacions._Format = "#,##0.###";
+            this.tbNumParticipacions._Format = "#,##0.####";
             this.tbNumParticipacions._PermetDecimals = true;
             this.tbNumParticipacions._PermetEspais = false;
             this.tbNumParticipacions._PermetNegatius = false;
@@ -521,7 +521,7 @@
             this.colImport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colImport.DataPropertyName = "Import";
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "C3";
+            dataGridViewCellStyle4.Format = "C2";
             dataGridViewCellStyle4.NullValue = null;
             this.colImport.DefaultCellStyle = dataGridViewCellStyle4;
             this.colImport.HeaderText = "Import";

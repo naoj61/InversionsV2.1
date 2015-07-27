@@ -220,14 +220,91 @@ namespace Inversions
 
         public double _ValorActual
         {
-            get { return Valoracions.Count == 0 ? 0 : _Participacions * Valoracions.Last().Import; }
+            get { return Valoracions.Count == 0 ? 0 : _Participacions * Valoracions.OrderBy(o=>o.Data).Last().Import; }
         }
 
-        public double _PiGTotal(bool nomesVenut)
+
+
+        /// <summary>
+        /// Calcula les PiG d'un producte de les participacions actualment en cartera.
+        /// </summary>
+        /// <returns></returns>
+        public double _PiGActual()
         {
-            return _PiG(nomesVenut).Sum(s => s._PiG);
+            double piG = 0;
+
+            if (_Participacions > 0)
+            {
+                var participacions = _Participacions;
+                double importCompres = 0;
+                foreach (var compra in MovimentsProducte.Where(w => w.TipusMoviment == TipusMoviment.Compra).OrderByDescending(o => o.Data))
+                {
+                    if (participacions > compra.Participacions)
+                    {
+                        importCompres += compra.Import;
+                        participacions -= compra.Participacions;
+                    }
+                    else
+                    {
+                        importCompres += (participacions * compra._PreuParticipacio);
+                        participacions = 0;
+                    }
+
+                    if (participacions <= 0)
+                        break;
+                }
+                piG = _ValorActual - importCompres;
+            }
+
+            return piG;
         }
 
+
+        /// <summary>
+        /// Calcula les PiG d'un producte.
+        /// </summary>
+        /// <returns></returns>
+        public double _PiG()
+        {
+            double piG = 0;
+
+            var totalParticipacionsVenudes = MovimentsProducte.Where(w => w.TipusMoviment == TipusMoviment.Venda).Sum(s => s.Participacions);
+            if (totalParticipacionsVenudes > 0)
+            {
+                double importCompres = 0;
+                var importVendes = MovimentsProducte.Where(w => w.TipusMoviment == TipusMoviment.Venda).Sum(s => s.Import);
+                foreach (var compra in MovimentsProducte.Where(w => w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data))
+                {
+                    // Llegeixo les compres des del inici.
+                    if (totalParticipacionsVenudes > compra.Participacions)
+                    {
+                        // Si les particip venudes que queden, son més que les d'aquesta compra, acumulo tot l'impot de la mateixa.
+                        importCompres += compra.Import;
+                        totalParticipacionsVenudes -= compra.Participacions; // Resto les particip d'aquesta compra del total de particip venudes.
+                    }
+                    else
+                    {
+                        // Si les particip venudes que queden, son menys que les d'aquesta compra, acumulo l'impot parcial.
+                        importCompres += (totalParticipacionsVenudes * compra._PreuParticipacio);
+                        totalParticipacionsVenudes = 0;
+                    }
+
+                    if (totalParticipacionsVenudes <= 0)
+                        break;
+                }
+                piG = importVendes - importCompres;
+            }
+
+            return piG;
+            //return _PiG(nomesVenut).Sum(s => s._PiG);
+        }
+
+
+        /// <summary>
+        /// Calcula les PiG d'un producte per cada compra feta.
+        /// </summary>
+        /// <param name="nomesVenut"></param>
+        /// <returns></returns>
         public List<PiG> _PiG(bool nomesVenut)
         {
             /* Quan hi ha una venda Pot ser que no sigui total i que les accions venudes tinguin diferents preus de compra

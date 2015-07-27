@@ -36,9 +36,6 @@ namespace Inversions.GUI
             {
                 lbEmpresa.Text = "";
                 tbParticipacions.Text = "";
-                tbValorCompra.Text = "";
-                tbValorVenda.Text = "";
-                tbTotalInvertit.Text = "";
                 tbValorActual.Text = "";
                 tbPiG.Text = "";
                 lbIsin.Text = "";
@@ -114,13 +111,10 @@ namespace Inversions.GUI
             {
                 lbEmpresa.Text = prod._NomEmpresa;
                 tbParticipacions.Valor = prod._Participacions;
-                tbValorCompra.Valor = prod._ImportTotalCompres;
-                tbValorVenda.Valor = prod._ImportTotalVendes;
-                tbTotalInvertit.Valor = prod._ImportTotalCompres - prod._ImportTotalVendes;
                 tbInversioActual.Valor = prod._InversioActual;
                 tbValorActual.Valor = prod._ValorActual;
-                tbDiferencia.Valor = (prod._ValorActual - prod._InversioActual);
-                tbPiG.Valor = prod._PiGTotal(true);
+                tbPiGInversioEnCartera.Valor = prod._PiGActual();
+                tbPiG.Valor = prod._PiG();
 
                 if (prod is ProdFons)
                 {
