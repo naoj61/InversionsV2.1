@@ -184,7 +184,7 @@ namespace Inversions.GUI
                 tbImport.Valor = 0;
             }
 
-            pnEdicio.Visible = val != null;
+            //pnEdicio.Visible = val != null;
 
 
             if (sender != null)

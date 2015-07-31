@@ -100,7 +100,7 @@ namespace Inversions.GUI
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.tbPiGTotal);
-            this.groupBox1.Location = new System.Drawing.Point(173, 70);
+            this.groupBox1.Location = new System.Drawing.Point(10, 184);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.groupBox1.Size = new System.Drawing.Size(156, 50);
@@ -130,9 +130,9 @@ namespace Inversions.GUI
             this.gbDescripcio.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbDescripcio.Controls.Add(this.tbDescripcio);
-            this.gbDescripcio.Location = new System.Drawing.Point(7, 244);
+            this.gbDescripcio.Location = new System.Drawing.Point(7, 240);
             this.gbDescripcio.Name = "gbDescripcio";
-            this.gbDescripcio.Size = new System.Drawing.Size(319, 374);
+            this.gbDescripcio.Size = new System.Drawing.Size(319, 378);
             this.gbDescripcio.TabIndex = 16;
             this.gbDescripcio.TabStop = false;
             this.gbDescripcio.Text = "Descripció";
@@ -145,7 +145,7 @@ namespace Inversions.GUI
             this.tbDescripcio.Name = "tbDescripcio";
             this.tbDescripcio.ReadOnly = true;
             this.tbDescripcio.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbDescripcio.Size = new System.Drawing.Size(313, 353);
+            this.tbDescripcio.Size = new System.Drawing.Size(313, 357);
             this.tbDescripcio.TabIndex = 0;
             // 
             // groupBox2
@@ -181,7 +181,7 @@ namespace Inversions.GUI
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this.tbPiGInversioEnCartera);
-            this.groupBox4.Location = new System.Drawing.Point(173, 188);
+            this.groupBox4.Location = new System.Drawing.Point(10, 127);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.groupBox4.Size = new System.Drawing.Size(156, 50);
@@ -210,7 +210,7 @@ namespace Inversions.GUI
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.tbInversioActual);
-            this.groupBox3.Location = new System.Drawing.Point(173, 129);
+            this.groupBox3.Location = new System.Drawing.Point(173, 127);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.groupBox3.Size = new System.Drawing.Size(156, 50);
@@ -239,7 +239,7 @@ namespace Inversions.GUI
             // 
             this.groupBox15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox15.Controls.Add(this.tbValorActual);
-            this.groupBox15.Location = new System.Drawing.Point(10, 188);
+            this.groupBox15.Location = new System.Drawing.Point(173, 184);
             this.groupBox15.Name = "groupBox15";
             this.groupBox15.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.groupBox15.Size = new System.Drawing.Size(156, 50);
@@ -326,7 +326,7 @@ namespace Inversions.GUI
             // 
             this.groupBox13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox13.Controls.Add(this.tbParticipacions);
-            this.groupBox13.Location = new System.Drawing.Point(10, 129);
+            this.groupBox13.Location = new System.Drawing.Point(173, 70);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.groupBox13.Size = new System.Drawing.Size(156, 50);

@@ -262,7 +262,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\c_Comuns\Controls\Controls.csproj">
+    <ProjectReference Include="..\_Comuns\Controls\Controls.csproj">
       <Project>{7103983b-f402-4b13-890a-2747374fb115}</Project>
       <Name>Controls</Name>
     </ProjectReference>

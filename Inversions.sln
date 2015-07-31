@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inversions", "Inversions.csproj", "{641FBA40-BCC0-488C-B3E3-FDB267AF2ED9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controls", "..\c_Comuns\Controls\Controls.csproj", "{7103983B-F402-4B13-890A-2747374FB115}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controls", "..\_Comuns\Controls\Controls.csproj", "{7103983B-F402-4B13-890A-2747374FB115}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

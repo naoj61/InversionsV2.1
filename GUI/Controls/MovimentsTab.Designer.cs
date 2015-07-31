@@ -69,8 +69,8 @@
             this.colPreuUnitari = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colImport = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDespeses = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTraspasOrigen = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTraspasDesti = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTraspasOrigen = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDescripcio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gbTraspas.SuspendLayout();
             this.gbProducteTraspas.SuspendLayout();
@@ -411,11 +411,10 @@
             this.colPreuUnitari,
             this.colImport,
             this.colDespeses,
-            this.colTraspasOrigen,
             this.colTraspasDesti,
+            this.colTraspasOrigen,
             this.colDescripcio});
             this.cDataGridView1.Location = new System.Drawing.Point(0, 410);
-            this.cDataGridView1.MultiSelect = false;
             this.cDataGridView1.Name = "cDataGridView1";
             this.cDataGridView1.ReadOnly = true;
             this.cDataGridView1.RowTemplate.Height = 24;
@@ -541,23 +540,23 @@
             this.colDespeses.ReadOnly = true;
             this.colDespeses.Width = 96;
             // 
-            // colTraspasOrigen
-            // 
-            this.colTraspasOrigen.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colTraspasOrigen.DataPropertyName = "_NomProducteTraspasOrigen";
-            this.colTraspasOrigen.HeaderText = "Traspassat de:";
-            this.colTraspasOrigen.Name = "colTraspasOrigen";
-            this.colTraspasOrigen.ReadOnly = true;
-            this.colTraspasOrigen.Width = 117;
-            // 
             // colTraspasDesti
             // 
             this.colTraspasDesti.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colTraspasDesti.DataPropertyName = "_NomProducteTraspasDesti";
-            this.colTraspasDesti.HeaderText = "Traspassat a:";
+            this.colTraspasDesti.HeaderText = "Traspassat de:";
             this.colTraspasDesti.Name = "colTraspasDesti";
             this.colTraspasDesti.ReadOnly = true;
-            this.colTraspasDesti.Width = 110;
+            this.colTraspasDesti.Width = 117;
+            // 
+            // colTraspasOrigen
+            // 
+            this.colTraspasOrigen.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colTraspasOrigen.DataPropertyName = "_NomProducteTraspasOrigen";
+            this.colTraspasOrigen.HeaderText = "Traspassat a:";
+            this.colTraspasOrigen.Name = "colTraspasOrigen";
+            this.colTraspasOrigen.ReadOnly = true;
+            this.colTraspasOrigen.Width = 110;
             // 
             // colDescripcio
             // 
@@ -643,8 +642,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colPreuUnitari;
         private System.Windows.Forms.DataGridViewTextBoxColumn colImport;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDespeses;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colTraspasOrigen;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTraspasDesti;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTraspasOrigen;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDescripcio;
     }
 }

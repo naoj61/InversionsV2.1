@@ -11,7 +11,23 @@ namespace Inversions
     {
         public struct PiG
         {
-            public PiG(Moviment compra, Moviment venda, double participacions, bool hisenda)
+            public PiG(int any, double pigCurt, double pigLlarg)
+                : this()
+            {
+                _Any = any;
+                _PigLlarg = pigLlarg;
+                _PigCurt = pigCurt;
+            }
+
+            public int _Any{ get; private set; }
+            public double _PigCurt{ get; private set; }
+            public double _PigLlarg { get; private set; }
+        }
+
+
+        public struct PiGPerCompra
+        {
+            public PiGPerCompra(Moviment compra, Moviment venda, double participacions, bool hisenda)
                 : this()
             {
                 _Hisenda = hisenda;
@@ -112,6 +128,7 @@ namespace Inversions
         public abstract string _NomProducte { get; }
         public abstract string _TipusNomProducte { get; }
 
+
         public string _NomEmpresa
         {
             get { return Empresa == null ? null : Empresa.Nom; }
@@ -133,6 +150,22 @@ namespace Inversions
 
                 return compra - venda;
             }
+        }
+
+
+        public virtual ICollection<Moviment> _Vendes
+        {
+            get { return MovimentsProducte.Where(w => w._EsVenda).ToList(); }
+        }
+
+        public virtual ICollection<Moviment> _Compres
+        {
+            get { return MovimentsProducte.Where(w => w._EsCompra).ToList(); }
+        }
+
+        public virtual ICollection<Moviment> _Dividents
+        {
+            get { return MovimentsProducte.Where(w => w._EsDividents).ToList(); }
         }
 
 
@@ -222,7 +255,6 @@ namespace Inversions
             get { return Valoracions.Count == 0 ? 0 : _Participacions * Valoracions.OrderBy(o=>o.Data).Last().Import; }
         }
 
-
         /// <summary>
         /// Calcula les PiG d'un producte de les participacions actualment en cartera.
         /// </summary>
@@ -236,7 +268,7 @@ namespace Inversions
             {
                 var participacions = _Participacions;
                 double importCompres = 0;
-                foreach (var compra in MovimentsProducte.Where(w => w.TipusMoviment == TipusMoviment.Compra).OrderByDescending(o => o.Data))
+                foreach (var compra in MovimentsProducte.Where(w => w._EsCompra).OrderByDescending(o => o.Data))
                 {
                     if(nomesVenudes && compra._EsTraspas)
                         continue;
@@ -262,65 +294,164 @@ namespace Inversions
             return piG;
         }
 
+        
+        /// <summary>
+        /// P i G del producte, inclou traspassos i dividents.
+        /// </summary>
+        /// <returns></returns>
+        public double _PiGReal()
+        {
+            double pigCurt, pigLlarg, dividents;
+            _PiGReal(false, null, out pigCurt, out pigLlarg, out dividents);
+
+            return pigCurt + pigLlarg + dividents;
+        }
 
         /// <summary>
-        /// Calcula les PiG d'un producte. Només participacions venudes o traspassades.
+        /// Calcula les PiG real d'un producte, no utilitza les participacions que estan en cartera.
         /// </summary>
-        /// <param name="nomesVenudes">Si true, no tracta les participacions traspassades.</param>
-        /// <returns></returns>
-        public double _PiGReal(bool nomesVenudes = false)
+        /// <param name="tributaIrpf">Si true, no tracta les participacions traspassades.</param>
+        /// <param name="any">Any de les vendes. Si null utilitza totes les vendes.</param>
+        /// <returns>Torna les PiG curtes i llargues sumades.</returns>
+        public double _PiGReal(bool tributaIrpf, int? any)
         {
-            double piG = 0;
+            double pigCurt, pigLlarg, dividents;
+            _PiGReal(tributaIrpf, any, out pigCurt, out pigLlarg, out dividents);
 
-            var totalParticipacionsVenudes = MovimentsProducte.Where(w => w.TipusMoviment == TipusMoviment.Venda).Sum(s => s.Participacions);
-            if (totalParticipacionsVenudes > 0)
+            return pigCurt + pigLlarg + dividents; 
+        }
+
+        /// <summary>
+        /// Calcula les PiG real d'un producte, no utilitza les participacions que estan en cartera.
+        /// </summary>
+        /// <param name="tributaIrpf">Indica si pel càlcul s'utilitzaran els traspassos de fons o no.</param>
+        /// <param name="any">Any de la venda. Si null tots els anys.</param>
+        /// <param name="pigCurt"></param>
+        /// <param name="pigLlarg"></param>
+        /// <param name="dividents"></param>
+        public void _PiGReal(bool tributaIrpf, int? any, out double pigCurt, out double pigLlarg, out double dividents)
+        {
+            pigCurt = 0;
+            pigLlarg = 0;
+            dividents = 0;
+
+            var vendes = MovimentsProducte.Where(w => w._EsVenda && (!tributaIrpf || !w._EsTraspas)).ToList();
+
+            var dataUltimaVenda = vendes.Where(w => any == null || w.Data.Year == any).Select(s => s.Data).LastOrDefault();
+            if (dataUltimaVenda == DateTime.MinValue)
+                return; //No hi ha cap venda.
+
+            vendes = vendes.Where(w => w.Data <= dataUltimaVenda).OrderBy(o => o.Data).ToList();
+            if (!vendes.Any())
+                return;
+
+
+            var vendesX = vendes.Where(w => w.Data <= dataUltimaVenda).OrderBy(o => o.Data).GetEnumerator();
+            var compresX = MovimentsProducte.Where(w => w._EsCompra && w.Data <= dataUltimaVenda).OrderBy(o => o.Data).GetEnumerator();
+
+            bool vendaLlegida = vendesX.MoveNext();
+            var venda = vendesX.Current;
+            double participacionsVenudesRestants = venda.Participacions;
+
+            compresX.MoveNext();
+            var compra = compresX.Current;
+            double participacionsCompradesRestants = compra.Participacions;
+
+            //if(any.HasValue)
+            //{
+            //    //Salto els moviments que corresponen als anys anteriors.
+
+            //    while(vendaLlegida && venda.Data.Year < any.Value)
+            //    {
+            //        while (participacionsVenudesRestants > 0)
+            //        {
+            //            if (participacionsVenudesRestants > participacionsCompradesRestants)
+            //            {
+            //                participacionsVenudesRestants -= compra.Participacions;
+            //            }
+            //            else
+            //            {
+            //                participacionsCompradesRestants = venda.Participacions;
+            //                break;
+            //            }
+
+            //            compresX.MoveNext();
+            //            participacionsCompradesRestants = compra.Participacions;
+            //        }
+            //        vendaLlegida = vendesX.MoveNext();
+            //        participacionsVenudesRestants = venda.Participacions;
+            //    }
+            //}
+
+
+            while (vendaLlegida)
             {
-                double importCompres = 0;
-                double despesesCompra = 0;
-                foreach (var compra in MovimentsProducte.Where(w => w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data))
-                {
-                    // Llegeixo les compres des del inici.
-                    if (totalParticipacionsVenudes > compra.Participacions)
-                    {
-                        // Si les particip venudes que queden, son més que les d'aquesta compra, acumulo tot l'impot de la mateixa.
-                        importCompres += compra.Import;
-                        despesesCompra += compra.Despeses.GetValueOrDefault();
-                        totalParticipacionsVenudes -= compra.Participacions; // Resto les particip d'aquesta compra del total de particip venudes.
-                    }
-                    else
-                    {
-                        // Si les particip venudes que queden, son menys que les d'aquesta compra, acumulo l'impot parcial.
-                        importCompres += (totalParticipacionsVenudes * compra._PreuParticipacio);
-                        despesesCompra += (compra.Despeses.GetValueOrDefault() / compra.Participacions * totalParticipacionsVenudes);
-                        totalParticipacionsVenudes = 0;
-                    }
+                bool esLlarPlaç = compra.Data <= venda.Data.AddYears(-1);
+                double numParticipacionsCalcul;
 
-                    if (totalParticipacionsVenudes <= 0)
-                        break;
+                if (participacionsVenudesRestants > participacionsCompradesRestants)
+                {
+                    // Si les particip venudes que queden, son més que les d'aquesta compra, utilitzo totes les particip de la mateixa.
+                    numParticipacionsCalcul = participacionsCompradesRestants;
                 }
-                var importVendes = MovimentsProducte.Where(w => w.TipusMoviment == TipusMoviment.Venda).Sum(s => s.Import);
-                var dividents = MovimentsProducte.Where(w => w.TipusMoviment == TipusMoviment.Dividends).Sum(s => s.Import - s.Despeses.GetValueOrDefault());
-                var despesesVenda = MovimentsProducte.Where(w => w.TipusMoviment == TipusMoviment.Venda).Sum(s => s.Despeses.GetValueOrDefault());
-                piG = (importVendes + dividents) - (importCompres + despesesCompra + despesesVenda);
+                else
+                {
+                    // Si les particip venudes que queden, son menys que les d'aquesta compra, utilitzo la resta de particip de la venda.
+                    numParticipacionsCalcul = participacionsVenudesRestants;
+                }
+
+
+                if (!any.HasValue || any.Value == venda.Data.Year)
+                {
+
+                    double importCompra = numParticipacionsCalcul * compra._PreuParticipacio;
+                    double importVenda = numParticipacionsCalcul * venda._PreuParticipacio;
+                    double despesesCompra = compra.Despeses.GetValueOrDefault() / compra.Participacions * numParticipacionsCalcul;
+                    double despesesVenda = venda.Despeses.GetValueOrDefault() / venda.Participacions * numParticipacionsCalcul;
+                    double piG = importVenda - importCompra - despesesVenda - despesesCompra;
+
+                    if (esLlarPlaç)
+                        pigLlarg += piG;
+                    else
+                        pigCurt += piG;
+                }
+                participacionsVenudesRestants -= numParticipacionsCalcul; // Resto les particip d'aquesta compra del total de particip venudes.
+                participacionsCompradesRestants -= numParticipacionsCalcul; // Resto les particip d'aquesta compra del total de particip venudes.
+
+                if (Math.Abs(participacionsVenudesRestants) < .0001)
+                {
+                    vendaLlegida = vendesX.MoveNext();
+                    venda = vendesX.Current;
+                    participacionsVenudesRestants = venda.Participacions;
+                }
+
+                if (Math.Abs(participacionsCompradesRestants) < .0001)
+                {
+                    compresX.MoveNext();
+                    compra = compresX.Current;
+                    participacionsCompradesRestants = compra.Participacions;
+                }
             }
 
-            return piG;
-            //return _PiG(nomesVenut).Sum(s => s._PiG);
+            if (any.HasValue)
+                dividents = MovimentsProducte.Where(w => w._EsDividents && w.Data.Year == venda.Data.Year).Sum(s => s.Import);
+            else
+                dividents = MovimentsProducte.Where(w => w._EsDividents).Sum(s => s.Import);
         }
 
 
         /// <summary>
-        /// Calcula les PiG d'un producte per cada compra feta.
+        /// Calcula les PiG d'un producte per cada compra feta i torna una llista.
         /// </summary>
         /// <returns></returns>
-        public List<PiG> _PiG()
+        public List<PiGPerCompra> _PiGPerCompra()
         {
             /* Quan hi ha una venda Pot ser que no sigui total i que les accions venudes tinguin diferents preus de compra
              * Pot ser que una compra tingui zero, una o varies vendes.
              * Pot ser que una venda tingui una o varies compres.
             */
 
-            var piG = new List<PiG>();
+            var piG = new List<PiGPerCompra>();
 
             var compres = new Queue<Moviment>(MovimentsProducte.Where(w => w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data));
             var vendes = new Queue<Moviment>(MovimentsProducte.Where(w => w.TipusMoviment == TipusMoviment.Venda).OrderBy(o => o.Data));
@@ -360,7 +491,7 @@ namespace Inversions
 
                         var part = participacionsVenudesRestants;
 
-                        piG.Add(new PiG(compra, venda, part, !venda._EsTraspas));
+                        piG.Add(new PiGPerCompra(compra, venda, part, !venda._EsTraspas));
 
                         participacionsCompradesRestants = Math.Round(participacionsCompradesRestants - part, 4);
                         participacionsVenudesRestants = 0;
@@ -386,7 +517,7 @@ namespace Inversions
 
                         var part = participacionsCompradesRestants;
 
-                        piG.Add(new PiG(compra, venda, part,  !venda._EsTraspas));
+                        piG.Add(new PiGPerCompra(compra, venda, part,  !venda._EsTraspas));
 
                         if(Math.Abs(part) < 1)
                         { }
@@ -421,15 +552,15 @@ namespace Inversions
 
             foreach (var divident in MovimentsProducte.Where(w => w.TipusMoviment == TipusMoviment.Dividends).OrderBy(o => o.Data))
             {
-                piG.Add(new PiG(divident, null, 0, true));
+                piG.Add(new PiGPerCompra(divident, null, 0, true));
             }
 
             // Faig que acumuli les PiG en l'ordre real de la data del moviment.
-            var piG2 = new List<PiG>();
-            PiG.InicialitzaAcumulat();
+            var piG2 = new List<PiGPerCompra>();
+            PiGPerCompra.InicialitzaAcumulat();
             foreach (var g in piG.OrderBy(o => o._DataMovimentReal))
             {
-                piG2.Add(new PiG( g._Compra, g._Venda, g._Participacions, g._Hisenda));
+                piG2.Add(new PiGPerCompra( g._Compra, g._Venda, g._Participacions, g._Hisenda));
             }
 
             return piG2;

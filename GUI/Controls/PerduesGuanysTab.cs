@@ -21,37 +21,62 @@ namespace Inversions.GUI
 
             gestioProductesTabValoracions._NomesAmbParticipacions = false;
 
+            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof(Producte.TipusProducte));
+            cbTipusProducteFiltreTab2.SelectedIndex = -1;
+            cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
+            cbTipusProducteFiltreTab2.SelectedIndex = 0;
+        }
 
+        private void calculaPiG()
+        {
             if (!MyClass.DesignMode)
             {
-                tbPiGTotConsolidat.Valor = Enumerable.Aggregate<Producte, double>(MyClass.Sessio.Productes, 0, (current, producte) => Math.Round(current + producte._PiGReal(), 4));
-                tbPiGTotActual.Valor = Enumerable.Aggregate<Producte, double>(MyClass.Sessio.Productes, 0, (current, producte) => Math.Round(current + producte._PiGActual(), 4));
+                var movsOrdenats = MyClass.Sessio.Moviments.OrderBy(o => o.Data).Where(w => w.TipusMoviment == TipusMoviment.Venda && w.ProducteTraspas == null).ToList();
+                int anyPrimeraVenda = movsOrdenats.First().Data.Year;
+                int anyUltimaVenda = movsOrdenats.Last().Data.Year;
 
-                Dictionary<int, double> dictPiGs = new Dictionary<int, Double>();
+                double pigTotal = 0;
+                double pigActual = 0;
 
-                foreach (Producte producte in MyClass.Sessio.Productes)
+                dgvPiGAnualsTributen.Rows.Clear();
+                dgvPiGAnualsTotal.Rows.Clear();
+                for (int any = anyPrimeraVenda; any <= anyUltimaVenda; any++)
                 {
-                    foreach (Producte.PiG piG in producte._PiG())
+                    double piGCurtTrib = 0;
+                    double piGLlargTrib = 0;
+                    double piGCurtTot = 0;
+                    double piGLlargTot = 0;
+                    double dividents = 0;
+
+                    foreach (var producte in MyClass.Sessio.Productes)
                     {
-                        if (piG._DataVenda.HasValue)
-                        {
-                            int clau = piG._DataVenda.Value.Year * 10 + Convert.ToInt32(piG._LlargPlaç);
+                        double pigC, pigL, div;
+                        producte._PiGReal(true, any, out pigC, out pigL, out div);
+                        piGCurtTrib += pigC;
+                        piGLlargTrib += pigL;
 
-                            if (dictPiGs.ContainsKey(clau))
-                                dictPiGs[clau] += piG._PiG;
-                            else
-                                dictPiGs[clau] = piG._PiG;
-                        }
+                        producte._PiGReal(false, any, out pigC, out pigL, out div);
+                        piGCurtTot += pigC;
+                        piGLlargTot += pigL;
+                        dividents += div;
+                        pigTotal += pigC + pigL + div;
+
+                        if (any == DateTime.Today.Year)
+                            pigActual += producte._PiGActual();
                     }
+                    dgvPiGAnualsTributen.Rows.Add(any, piGCurtTrib, piGLlargTrib, piGCurtTrib + piGLlargTrib);
+                    dgvPiGAnualsTotal.Rows.Add(any, piGCurtTot + piGLlargTot + dividents, pigActual);
                 }
 
-                foreach (KeyValuePair<int, double> keyValuePair in dictPiGs.OrderBy(o => o.Key))
-                {
-                    int any = (int) Math.Truncate(keyValuePair.Key / 10m);
-                    string termini = Convert.ToBoolean(keyValuePair.Key % 10) ? "Llarg" : "Curt";
-                    dgvPiGAnuals.Rows.Add(any, termini, keyValuePair.Value);
-                }
+                tbPiGTotConsolidat.Valor = pigTotal;
+                tbPiGTotActual.Valor = pigActual;
+
             }
+        }
+
+        void cbTipusProducteFiltreTab2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            calculaPiG();
         }
 
 
@@ -69,24 +94,10 @@ namespace Inversions.GUI
         private void actualitzaLlistaPerduesGuanys()
         {
             cDataGridView1.SuspendLayout();
-            cDataGridView1.DataSource = gestioProductesTabValoracions._ProducteSeleccionat._PiG();
+            cDataGridView1.DataSource = gestioProductesTabValoracions._ProducteSeleccionat._PiGPerCompra();
             cDataGridView1.ClearSelection();
             cDataGridView1.ResumeLayout();
         }
 
-
-        //private Valoracio vValoracioSeleccionada = null;
-
-        //private void cDataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
-        //{
-        //    if (cDataGridView1.CurrentRow == null)
-        //    {
-        //        vValoracioSeleccionada = null;
-        //    }
-        //    else if (vValoracioSeleccionada != (Valoracio) cDataGridView1.Rows[e.RowIndex].DataBoundItem)
-        //    {
-        //        vValoracioSeleccionada = (Valoracio) cDataGridView1.Rows[e.RowIndex].DataBoundItem;
-        //    }
-        //}
     }
 }

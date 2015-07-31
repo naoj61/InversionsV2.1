@@ -48,6 +48,12 @@ namespace Inversions.GUI
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cDataGridView1 = new System.Windows.Forms.DataGridView();
             this.colMoviment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDataCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -67,16 +73,29 @@ namespace Inversions.GUI
             this.tbPiGTotConsolidat = new Controls.NumericTextBox2();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tbPiGTotActual = new Controls.NumericTextBox2();
-            this.dgvPiGAnuals = new System.Windows.Forms.DataGridView();
+            this.dgvPiGAnualsTributen = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.cbTipusProducteFiltreTab2 = new System.Windows.Forms.ComboBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.dgvPiGAnualsTotal = new System.Windows.Forms.DataGridView();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.gestioProductesTabValoracions = new Inversions.GUI.GestioProductes();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.cDataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvPiGAnuals)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPiGAnualsTributen)).BeginInit();
+            this.groupBox5.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPiGAnualsTotal)).BeginInit();
             this.SuspendLayout();
             // 
             // cDataGridView1
@@ -117,7 +136,7 @@ namespace Inversions.GUI
             this.cDataGridView1.Name = "cDataGridView1";
             this.cDataGridView1.ReadOnly = true;
             this.cDataGridView1.RowTemplate.Height = 24;
-            this.cDataGridView1.Size = new System.Drawing.Size(1297, 218);
+            this.cDataGridView1.Size = new System.Drawing.Size(909, 218);
             this.cDataGridView1.TabIndex = 5;
             this.cDataGridView1.Visible = false;
             // 
@@ -290,9 +309,9 @@ namespace Inversions.GUI
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.tbPiGTotConsolidat);
-            this.groupBox1.Location = new System.Drawing.Point(915, 3);
+            this.groupBox1.Location = new System.Drawing.Point(915, 68);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(184, 78);
+            this.groupBox1.Size = new System.Drawing.Size(184, 52);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Total PiG Consolidat";
@@ -303,14 +322,12 @@ namespace Inversions.GUI
             this.tbPiGTotConsolidat._PermetDecimals = true;
             this.tbPiGTotConsolidat._PermetEspais = false;
             this.tbPiGTotConsolidat._PermetNegatius = true;
-            this.tbPiGTotConsolidat.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbPiGTotConsolidat.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbPiGTotConsolidat.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbPiGTotConsolidat.Location = new System.Drawing.Point(6, 42);
+            this.tbPiGTotConsolidat.Location = new System.Drawing.Point(3, 18);
             this.tbPiGTotConsolidat.Name = "tbPiGTotConsolidat";
             this.tbPiGTotConsolidat.ReadOnly = true;
-            this.tbPiGTotConsolidat.Size = new System.Drawing.Size(172, 27);
+            this.tbPiGTotConsolidat.Size = new System.Drawing.Size(178, 27);
             this.tbPiGTotConsolidat.TabIndex = 0;
             this.tbPiGTotConsolidat.Text = "0,0 €";
             this.tbPiGTotConsolidat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -320,9 +337,9 @@ namespace Inversions.GUI
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.tbPiGTotActual);
-            this.groupBox2.Location = new System.Drawing.Point(1107, 3);
+            this.groupBox2.Location = new System.Drawing.Point(1107, 68);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(184, 78);
+            this.groupBox2.Size = new System.Drawing.Size(184, 52);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Total PiG Actual";
@@ -333,26 +350,24 @@ namespace Inversions.GUI
             this.tbPiGTotActual._PermetDecimals = true;
             this.tbPiGTotActual._PermetEspais = false;
             this.tbPiGTotActual._PermetNegatius = true;
-            this.tbPiGTotActual.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbPiGTotActual.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbPiGTotActual.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbPiGTotActual.Location = new System.Drawing.Point(3, 42);
+            this.tbPiGTotActual.Location = new System.Drawing.Point(3, 18);
             this.tbPiGTotActual.Name = "tbPiGTotActual";
             this.tbPiGTotActual.ReadOnly = true;
-            this.tbPiGTotActual.Size = new System.Drawing.Size(175, 27);
+            this.tbPiGTotActual.Size = new System.Drawing.Size(178, 27);
             this.tbPiGTotActual.TabIndex = 0;
             this.tbPiGTotActual.Text = "0,0 €";
             this.tbPiGTotActual.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.tbPiGTotActual.Valor = 0D;
             // 
-            // dgvPiGAnuals
+            // dgvPiGAnualsTributen
             // 
-            this.dgvPiGAnuals.AllowUserToAddRows = false;
-            this.dgvPiGAnuals.AllowUserToDeleteRows = false;
-            this.dgvPiGAnuals.AllowUserToOrderColumns = true;
-            this.dgvPiGAnuals.AllowUserToResizeRows = false;
-            this.dgvPiGAnuals.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvPiGAnuals.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvPiGAnualsTributen.AllowUserToAddRows = false;
+            this.dgvPiGAnualsTributen.AllowUserToDeleteRows = false;
+            this.dgvPiGAnualsTributen.AllowUserToOrderColumns = true;
+            this.dgvPiGAnualsTributen.AllowUserToResizeRows = false;
+            this.dgvPiGAnualsTributen.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -360,23 +375,24 @@ namespace Inversions.GUI
             dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvPiGAnuals.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle15;
-            this.dgvPiGAnuals.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvPiGAnuals.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvPiGAnualsTributen.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle15;
+            this.dgvPiGAnualsTributen.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvPiGAnualsTributen.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn6,
             this.dataGridViewTextBoxColumn5,
             this.Column1});
-            this.dgvPiGAnuals.Location = new System.Drawing.Point(908, 87);
-            this.dgvPiGAnuals.Name = "dgvPiGAnuals";
-            this.dgvPiGAnuals.ReadOnly = true;
-            this.dgvPiGAnuals.RowTemplate.Height = 24;
-            this.dgvPiGAnuals.Size = new System.Drawing.Size(389, 351);
-            this.dgvPiGAnuals.TabIndex = 7;
+            this.dgvPiGAnualsTributen.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvPiGAnualsTributen.Location = new System.Drawing.Point(3, 28);
+            this.dgvPiGAnualsTributen.Name = "dgvPiGAnualsTributen";
+            this.dgvPiGAnualsTributen.ReadOnly = true;
+            this.dgvPiGAnualsTributen.RowTemplate.Height = 24;
+            this.dgvPiGAnualsTributen.Size = new System.Drawing.Size(373, 238);
+            this.dgvPiGAnualsTributen.TabIndex = 7;
             // 
             // dataGridViewTextBoxColumn1
             // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle16.Format = "0000";
             dataGridViewCellStyle16.NullValue = null;
@@ -384,34 +400,132 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn1.HeaderText = "Any";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 57;
             // 
             // dataGridViewTextBoxColumn6
             // 
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle17.Format = "c2";
             this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle17;
-            this.dataGridViewTextBoxColumn6.HeaderText = "Termini";
+            this.dataGridViewTextBoxColumn6.HeaderText = "P i G Curt";
             this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
             this.dataGridViewTextBoxColumn6.ReadOnly = true;
-            this.dataGridViewTextBoxColumn6.Width = 80;
+            this.dataGridViewTextBoxColumn6.Width = 94;
             // 
             // dataGridViewTextBoxColumn5
             // 
             this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle18.Format = "c3";
+            dataGridViewCellStyle18.Format = "c2";
             this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle18;
-            this.dataGridViewTextBoxColumn5.HeaderText = "Import";
+            this.dataGridViewTextBoxColumn5.HeaderText = "P i G Llarg";
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             this.dataGridViewTextBoxColumn5.ReadOnly = true;
-            this.dataGridViewTextBoxColumn5.Width = 72;
             // 
             // Column1
             // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column1.HeaderText = "";
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle19.Format = "c2";
+            this.Column1.DefaultCellStyle = dataGridViewCellStyle19;
+            this.Column1.HeaderText = "P i G Total";
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox5.Controls.Add(this.cbTipusProducteFiltreTab2);
+            this.groupBox5.Location = new System.Drawing.Point(918, 3);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(5);
+            this.groupBox5.Size = new System.Drawing.Size(141, 53);
+            this.groupBox5.TabIndex = 12;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Tipus Producte";
+            // 
+            // cbTipusProducteFiltreTab2
+            // 
+            this.cbTipusProducteFiltreTab2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbTipusProducteFiltreTab2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbTipusProducteFiltreTab2.FormattingEnabled = true;
+            this.cbTipusProducteFiltreTab2.Location = new System.Drawing.Point(5, 20);
+            this.cbTipusProducteFiltreTab2.Name = "cbTipusProducteFiltreTab2";
+            this.cbTipusProducteFiltreTab2.Size = new System.Drawing.Size(131, 24);
+            this.cbTipusProducteFiltreTab2.TabIndex = 0;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.dgvPiGAnualsTotal, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.dgvPiGAnualsTributen, 0, 1);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(913, 119);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(379, 539);
+            this.tableLayoutPanel1.TabIndex = 14;
+            // 
+            // dgvPiGAnualsTotal
+            // 
+            this.dgvPiGAnualsTotal.AllowUserToAddRows = false;
+            this.dgvPiGAnualsTotal.AllowUserToDeleteRows = false;
+            this.dgvPiGAnualsTotal.AllowUserToOrderColumns = true;
+            this.dgvPiGAnualsTotal.AllowUserToResizeRows = false;
+            this.dgvPiGAnualsTotal.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle20.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle20.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvPiGAnualsTotal.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle20;
+            this.dgvPiGAnualsTotal.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvPiGAnualsTotal.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn2,
+            this.dataGridViewTextBoxColumn3,
+            this.dataGridViewTextBoxColumn4,
+            this.dataGridViewTextBoxColumn7});
+            this.dgvPiGAnualsTotal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvPiGAnualsTotal.Location = new System.Drawing.Point(3, 297);
+            this.dgvPiGAnualsTotal.Name = "dgvPiGAnualsTotal";
+            this.dgvPiGAnualsTotal.ReadOnly = true;
+            this.dgvPiGAnualsTotal.RowTemplate.Height = 24;
+            this.dgvPiGAnualsTotal.Size = new System.Drawing.Size(373, 239);
+            this.dgvPiGAnualsTotal.TabIndex = 15;
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(3, 269);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(373, 25);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "P i G Total";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(373, 25);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "P i G que tributen";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // gestioProductesTabValoracions
             // 
@@ -427,11 +541,56 @@ namespace Inversions.GUI
             this.gestioProductesTabValoracions.TabIndex = 0;
             this.gestioProductesTabValoracions.ProducteSeleccionat += new System.EventHandler(this.gestioProductesTabValoracions_ProducteSeleccionat);
             // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle21.Format = "0000";
+            dataGridViewCellStyle21.NullValue = null;
+            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle21;
+            this.dataGridViewTextBoxColumn2.HeaderText = "Any";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle22.Format = "c2";
+            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle22;
+            this.dataGridViewTextBoxColumn3.HeaderText = "P i G Venut Traspassat";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            this.dataGridViewTextBoxColumn3.Width = 5;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle23.Format = "c2";
+            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle23;
+            this.dataGridViewTextBoxColumn4.HeaderText = "P i G Particip. en cartera";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            this.dataGridViewTextBoxColumn4.Width = 5;
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            this.dataGridViewTextBoxColumn7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle24.Format = "c2";
+            this.dataGridViewTextBoxColumn7.DefaultCellStyle = dataGridViewCellStyle24;
+            this.dataGridViewTextBoxColumn7.HeaderText = "P i G Total";
+            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            this.dataGridViewTextBoxColumn7.ReadOnly = true;
+            this.dataGridViewTextBoxColumn7.Width = 92;
+            // 
             // PerduesGuanysTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.dgvPiGAnuals);
+            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.gestioProductesTabValoracions);
@@ -443,7 +602,10 @@ namespace Inversions.GUI
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvPiGAnuals)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPiGAnualsTributen)).EndInit();
+            this.groupBox5.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPiGAnualsTotal)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -456,11 +618,7 @@ namespace Inversions.GUI
         private Controls.NumericTextBox2 tbPiGTotConsolidat;
         private System.Windows.Forms.GroupBox groupBox2;
         private Controls.NumericTextBox2 tbPiGTotActual;
-        private System.Windows.Forms.DataGridView dgvPiGAnuals;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridView dgvPiGAnualsTributen;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMoviment;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDataCompra;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDataVenda;
@@ -475,5 +633,19 @@ namespace Inversions.GUI
         private System.Windows.Forms.DataGridViewTextBoxColumn colImportAcumulat;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTermini;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.ComboBox cbTipusProducteFiltreTab2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.DataGridView dgvPiGAnualsTotal;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
     }
 }

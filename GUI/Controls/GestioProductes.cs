@@ -116,7 +116,7 @@ namespace Inversions.GUI
                 tbValorActual.Valor = prod._ValorActual;
                 tbPiGInversioEnCartera.Valor = prod._PiGActual();
                 tbPiG.Valor = prod._PiGReal();
-                tbPiGTotal.Valor = prod._PiGReal() + prod._PiGActual();
+                tbPiGTotal.Valor = tbPiG.Valor + prod._PiGActual();
 
                 if (prod is ProdFons)
                 {
