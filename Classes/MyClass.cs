@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace Inversions
 {
@@ -13,10 +15,14 @@ namespace Inversions
         internal static readonly MyClass Sessio;
         internal static readonly bool DesignMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
 
+        internal static ObjectContext SessioContextAdapter {
+            get { return ((IObjectContextAdapter) Sessio).ObjectContext; }
+        }
+
         static MyClass()
         {
             Sessio = new MyClass();
-            Sessio.Configuration.AutoDetectChangesEnabled = true;
+            Sessio.Configuration.AutoDetectChangesEnabled = false; // Si poso true, dona error quan inserto una fila i l'esborro en la mateixa sessió.
             Sessio.Configuration.LazyLoadingEnabled = true;
         }
 
@@ -39,6 +45,23 @@ namespace Inversions
             return dataAnt;
         }
 
+        public void Refresh()
+        {
+
+            var ctx = ((IObjectContextAdapter)this).ObjectContext;
+
+            // Get all objects in statemanager with entityKey 
+            // (context.Refresh will throw an exception otherwise) 
+            var objects = (from entry in ctx.ObjectStateManager.GetObjectStateEntries(
+                                                       EntityState.Added
+                                                      | EntityState.Deleted
+                                                      | EntityState.Modified
+                                                      | EntityState.Unchanged)
+                           where entry.EntityKey != null
+                           select entry.Entity);
+
+            ctx.Refresh(RefreshMode.StoreWins, objects);
+        }
 
         /// <summary>
         /// Desfà els canvis pendents de "entity"
