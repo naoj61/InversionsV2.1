@@ -20,6 +20,8 @@ namespace Inversions.GUI
         {
             InitializeComponent();
 
+            chart1.GetToolTipText += chart1_GetToolTipText;
+
             cDataGridView1.AutoGenerateColumns = false;
 
             cData.Value = DateTime.Today;
@@ -41,6 +43,24 @@ namespace Inversions.GUI
         }
 
         private bool vEsNouValor = false;
+
+        
+        void chart1_GetToolTipText(object sender, ToolTipEventArgs e)
+        {
+            // Check selected chart element and set tooltip text for it
+            switch (e.HitTestResult.ChartElementType)
+            {
+                case ChartElementType.DataPoint:
+                    if (e.HitTestResult.Series != null)
+                    {
+                        var dataPoint = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
+
+                        e.Text = string.Format("Import:\t{0}", dataPoint.YValues[0]);
+                    }
+                    break;
+            }
+        }
+
 
         private void btNouValor_Click(object sender, EventArgs e)
         {
