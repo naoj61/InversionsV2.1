@@ -171,6 +171,7 @@ namespace Inversions.GUI
                     val.Prod = gestioProductesTabValoracions._ProducteSeleccionat;
                     MyClass.Sessio.Valoracions.Add(val);
                 }
+                MyClass.Context.DetectChanges();
                 MyClass.Sessio.SaveChanges();
 
                 modeConsulta();

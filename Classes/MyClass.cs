@@ -26,6 +26,7 @@ namespace Inversions
             Sessio.Configuration.LazyLoadingEnabled = true;
         }
 
+        public static ObjectContext Context { get { return ((IObjectContextAdapter)Sessio).ObjectContext; } }
 
         /// <summary>
         /// Torna la data del dia anterior laborable.
@@ -45,23 +46,6 @@ namespace Inversions
             return dataAnt;
         }
 
-        public void Refresh()
-        {
-
-            var ctx = ((IObjectContextAdapter)this).ObjectContext;
-
-            // Get all objects in statemanager with entityKey 
-            // (context.Refresh will throw an exception otherwise) 
-            var objects = (from entry in ctx.ObjectStateManager.GetObjectStateEntries(
-                                                       EntityState.Added
-                                                      | EntityState.Deleted
-                                                      | EntityState.Modified
-                                                      | EntityState.Unchanged)
-                           where entry.EntityKey != null
-                           select entry.Entity);
-
-            ctx.Refresh(RefreshMode.StoreWins, objects);
-        }
 
         /// <summary>
         /// Desfà els canvis pendents de "entity"
