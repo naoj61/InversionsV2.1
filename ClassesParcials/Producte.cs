@@ -148,7 +148,7 @@ namespace Inversions
                 var compra = MovimentsProducte.Where(w => w.TipusMoviment == TipusMoviment.Compra).Sum(s => s.Participacions);
                 var venda = MovimentsProducte.Where(w => w.TipusMoviment == TipusMoviment.Venda).Sum(s => s.Participacions);
 
-                return compra - venda;
+                return Math.Round(compra - venda, 6);
             }
         }
 
@@ -179,7 +179,7 @@ namespace Inversions
             var compra = MovimentsProducte.Where(w => w.Data <= data && w.TipusMoviment == TipusMoviment.Compra).Sum(s => s.Participacions);
             var venda = MovimentsProducte.Where(w => w.Data <= data && w.TipusMoviment == TipusMoviment.Venda).Sum(s => s.Participacions);
 
-            return compra - venda;
+            return Math.Round(compra - venda, 6);
         }
 
 
@@ -288,7 +288,7 @@ namespace Inversions
                     if (participacions <= 0)
                         break;
                 }
-                piG = _ValorActual - importCompres;
+                piG = Math.Round( _ValorActual - importCompres, 6);
             }
 
             return piG;

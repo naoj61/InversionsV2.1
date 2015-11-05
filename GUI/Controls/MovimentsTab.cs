@@ -194,7 +194,7 @@ namespace Inversions.GUI
 
         private void btDesaMoviment_Click(object sender, EventArgs e)
         {
-            TipusMoviment tp = (TipusMoviment)cTipusMovimentTab2.SelectedItem;
+            TipusMoviment tp = (TipusMoviment) cTipusMovimentTab2.SelectedItem;
 
             //if (tbImport._DoubleValue <= 0)
             //{
@@ -216,9 +216,9 @@ namespace Inversions.GUI
 
             var prod = gestioProductesTabMoviments._ProducteSeleccionat;
 
-            if(tp== TipusMoviment.Venda && tbNumParticipacions.Valor > prod._Participacions)
+            if (tp == TipusMoviment.Venda && tbNumParticipacions.Valor > prod._Participacions)
             {
-                MessageBox.Show("No hi ha proutes participacions per vemdre");
+                MessageBox.Show("No hi ha prou participacions per vendre");
                 return;
             }
 

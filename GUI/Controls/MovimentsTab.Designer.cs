@@ -59,8 +59,6 @@
             this.btCompra = new System.Windows.Forms.Button();
             this.btDesaMoviment = new System.Windows.Forms.Button();
             this.cDataGridView1 = new System.Windows.Forms.DataGridView();
-            this.btDividends = new System.Windows.Forms.Button();
-            this.gestioProductesTabMoviments = new Inversions.GUI.GestioProductes();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colProducte = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTipusMoviment = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -72,6 +70,8 @@
             this.colTraspasDesti = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTraspasOrigen = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDescripcio = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btDividends = new System.Windows.Forms.Button();
+            this.gestioProductesTabMoviments = new Inversions.GUI.GestioProductes();
             this.gbTraspas.SuspendLayout();
             this.gbProducteTraspas.SuspendLayout();
             this.gbDataDesti.SuspendLayout();
@@ -224,7 +224,7 @@
             // 
             this.gbDespeses.Controls.Add(this.tbDespeses);
             this.gbDespeses.Dock = System.Windows.Forms.DockStyle.Left;
-            this.gbDespeses.Location = new System.Drawing.Point(444, 0);
+            this.gbDespeses.Location = new System.Drawing.Point(446, 0);
             this.gbDespeses.Name = "gbDespeses";
             this.gbDespeses.Padding = new System.Windows.Forms.Padding(5);
             this.gbDespeses.Size = new System.Drawing.Size(96, 60);
@@ -254,10 +254,10 @@
             this.groupBox10.Location = new System.Drawing.Point(348, 0);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox10.Size = new System.Drawing.Size(96, 60);
+            this.groupBox10.Size = new System.Drawing.Size(98, 60);
             this.groupBox10.TabIndex = 3;
             this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Import";
+            this.groupBox10.Text = "Import Total";
             // 
             // tbImport
             // 
@@ -268,7 +268,7 @@
             this.tbImport.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbImport.Location = new System.Drawing.Point(5, 20);
             this.tbImport.Name = "tbImport";
-            this.tbImport.Size = new System.Drawing.Size(86, 22);
+            this.tbImport.Size = new System.Drawing.Size(88, 22);
             this.tbImport.TabIndex = 0;
             this.tbImport.Text = "0 €";
             this.tbImport.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -421,32 +421,6 @@
             this.cDataGridView1.Size = new System.Drawing.Size(1585, 189);
             this.cDataGridView1.TabIndex = 7;
             // 
-            // btDividends
-            // 
-            this.btDividends.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btDividends.Enabled = false;
-            this.btDividends.Location = new System.Drawing.Point(1241, 12);
-            this.btDividends.Name = "btDividends";
-            this.btDividends.Size = new System.Drawing.Size(101, 50);
-            this.btDividends.TabIndex = 2;
-            this.btDividends.Text = "Dividends";
-            this.btDividends.UseVisualStyleBackColor = true;
-            this.btDividends.Click += new System.EventHandler(this.btDividends_Click);
-            // 
-            // gestioProductesTabMoviments
-            // 
-            this.gestioProductesTabMoviments._NomesAmbParticipacions = true;
-            this.gestioProductesTabMoviments._ProducteSeleccionat = null;
-            this.gestioProductesTabMoviments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gestioProductesTabMoviments.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.gestioProductesTabMoviments.Location = new System.Drawing.Point(0, 0);
-            this.gestioProductesTabMoviments.MinimumSize = new System.Drawing.Size(733, 395);
-            this.gestioProductesTabMoviments.Name = "gestioProductesTabMoviments";
-            this.gestioProductesTabMoviments.Size = new System.Drawing.Size(1011, 410);
-            this.gestioProductesTabMoviments.TabIndex = 0;
-            this.gestioProductesTabMoviments.ProducteSeleccionat += new System.EventHandler(this.gestioProductes1_ProducteSeleccionat);
-            // 
             // colId
             // 
             this.colId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -566,6 +540,32 @@
             this.colDescripcio.Name = "colDescripcio";
             this.colDescripcio.ReadOnly = true;
             this.colDescripcio.Width = 99;
+            // 
+            // btDividends
+            // 
+            this.btDividends.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btDividends.Enabled = false;
+            this.btDividends.Location = new System.Drawing.Point(1241, 12);
+            this.btDividends.Name = "btDividends";
+            this.btDividends.Size = new System.Drawing.Size(101, 50);
+            this.btDividends.TabIndex = 2;
+            this.btDividends.Text = "Dividends";
+            this.btDividends.UseVisualStyleBackColor = true;
+            this.btDividends.Click += new System.EventHandler(this.btDividends_Click);
+            // 
+            // gestioProductesTabMoviments
+            // 
+            this.gestioProductesTabMoviments._NomesAmbParticipacions = true;
+            this.gestioProductesTabMoviments._ProducteSeleccionat = null;
+            this.gestioProductesTabMoviments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gestioProductesTabMoviments.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.gestioProductesTabMoviments.Location = new System.Drawing.Point(0, 0);
+            this.gestioProductesTabMoviments.MinimumSize = new System.Drawing.Size(733, 395);
+            this.gestioProductesTabMoviments.Name = "gestioProductesTabMoviments";
+            this.gestioProductesTabMoviments.Size = new System.Drawing.Size(1011, 410);
+            this.gestioProductesTabMoviments.TabIndex = 0;
+            this.gestioProductesTabMoviments.ProducteSeleccionat += new System.EventHandler(this.gestioProductes1_ProducteSeleccionat);
             // 
             // MovimentsTab
             // 
