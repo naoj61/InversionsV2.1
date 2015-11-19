@@ -15,8 +15,8 @@ namespace Inversions
     
     public class InversionsBDContainer : DbContext
     {
-        public InversionsBDContainer()
-            : base("name=InversionsBDContainer")
+        public InversionsBDContainer(string nomConnexio)
+            : base("name="+nomConnexio)
         {
         }
     
