@@ -26,7 +26,7 @@ namespace Inversions.GUI
             cTipusMovimentTab2.ResumeLayout();
 
 
-            gestioProductesTabMoviments._NomesAmbParticipacions = false;
+            gestioProductesTabMoviments._NomesAmbParticipacions = true;
         }
 
 

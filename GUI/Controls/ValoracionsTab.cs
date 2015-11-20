@@ -276,6 +276,9 @@ namespace Inversions.GUI
                     break;
             }
 
+            if (!valoracions.Any())
+                return;
+
             dgvValoracionsPerData.Rows.Clear();
 
             DateTime? dataAnt = null;
@@ -328,7 +331,9 @@ namespace Inversions.GUI
                 dgvValoracionsPerData.Rows.Add(dataAnt.Value, importAct, (importAct / importAnt - 1), importAct - importAnt, importAcumulat);
             }
 
-            dgvValoracionsPerData.FirstDisplayedScrollingRowIndex = dgvValoracionsPerData.Rows.GetLastRow(DataGridViewElementStates.Visible);
+            var ultimaFila = dgvValoracionsPerData.Rows.GetLastRow(DataGridViewElementStates.Visible);
+            if (ultimaFila >= 0)
+                dgvValoracionsPerData.FirstDisplayedScrollingRowIndex = ultimaFila;
 
             chart2.ChartAreas[0].AxisY.Minimum = minVal;
             chart2.ChartAreas[0].AxisY.Maximum = maxVal;

@@ -19,7 +19,7 @@ namespace Inversions.GUI
 
             cDataGridView1.AutoGenerateColumns = false;
 
-            gestioProductesTabValoracions._NomesAmbParticipacions = false;
+            gestioProductesTabValoracions._NomesAmbParticipacions = true;
 
             cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof(Producte.TipusProducte));
             cbTipusProducteFiltreTab2.SelectedIndex = -1;
@@ -32,6 +32,9 @@ namespace Inversions.GUI
             if (!MyClass.DesignMode)
             {
                 var movsOrdenats = MyClass.Sessio.Moviments.OrderBy(o => o.Data).Where(w => w.TipusMoviment == TipusMoviment.Venda && w.ProducteTraspas == null).ToList();
+                if (movsOrdenats.Count == 0)
+                    return;
+
                 int anyPrimeraVenda = movsOrdenats.First().Data.Year;
                 int anyUltimaVenda = movsOrdenats.Last().Data.Year;
 
