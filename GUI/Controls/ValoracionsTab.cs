@@ -282,6 +282,7 @@ namespace Inversions.GUI
             dgvValoracionsPerData.Rows.Clear();
 
             DateTime? dataAnt = null;
+            double variacioEurosAnt = 0;
             double importAnt = 0;
             double importAct = 0;
             double importAcumulat = 0;
@@ -295,6 +296,8 @@ namespace Inversions.GUI
             //chart2.ChartAreas[0].AxisY.Minimum = double.MaxValue;
             chart2.ChartAreas[0].AxisY.Maximum = Math.Ceiling(valoracions.Max(m => m.Import));
 
+            // valoracio._VariacioEuros
+
             foreach (var valoracio in valoracions.OrderBy(o => o.Data))
             {
                 if (!dataAnt.HasValue || dataAnt.Value != valoracio.Data)
@@ -303,7 +306,9 @@ namespace Inversions.GUI
                     {
                         importAcumulat += (importAct - importAnt);
 
-                        dgvValoracionsPerData.Rows.Add(dataAnt.Value, importAct, (importAct / importAnt - 1), importAct - importAnt, importAcumulat);
+                        //Data, Import, %Variació, Variacio€, Acumulat€
+                        // dgvValoracionsPerData.Rows.Add(dataAnt.Value, importAct, (importAct / importAnt - 1), importAcumulat);
+                        dgvValoracionsPerData.Rows.Add(dataAnt.Value, importAct, (importAct / importAnt - 1), importAct - importAnt, variacioEurosAnt);
 
                         if (dataAnt.Value >= new DateTime(2015, 3, 20))
                         {
@@ -320,6 +325,7 @@ namespace Inversions.GUI
                         importAct = 0;
                     }
                     dataAnt = valoracio.Data.Date;
+                    variacioEurosAnt = valoracio.variacioEuros(valoracio.Data.Date);
                 }
 
                 importAct += valoracio.Import * valoracio.Prod.participacions(valoracio.Data);
@@ -328,7 +334,8 @@ namespace Inversions.GUI
             if (dataAnt.HasValue && importAct > 0)
             {
                 importAcumulat += (importAct - importAnt);
-                dgvValoracionsPerData.Rows.Add(dataAnt.Value, importAct, (importAct / importAnt - 1), importAct - importAnt, importAcumulat);
+                //dgvValoracionsPerData.Rows.Add(dataAnt.Value, importAct, (importAct / importAnt - 1), importAct - importAnt, importAcumulat);
+                dgvValoracionsPerData.Rows.Add(dataAnt.Value, importAct, (importAct / importAnt - 1), importAct - importAnt, variacioEurosAnt);
             }
 
             var ultimaFila = dgvValoracionsPerData.Rows.GetLastRow(DataGridViewElementStates.Visible);

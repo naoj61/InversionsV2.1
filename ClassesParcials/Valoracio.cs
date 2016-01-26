@@ -32,6 +32,7 @@ namespace Inversions
         {
             get
             {
+                return variacioEuros();
                 var v1 = MyClass.Sessio.Valoracions.Where(w => w.Prod.Id == Prod.Id && w.Id < Id).OrderBy(o => o.Data).ToList();
                 if (v1.Count == 0)
                     return 0;
@@ -39,6 +40,23 @@ namespace Inversions
 
                 return (Import * Prod._Participacions) - (v1.Last().Import * Prod._Participacions);
             }
+        }
+
+
+        public double variacioEuros(DateTime? data = null)
+        {
+            var v1 = data.HasValue ? 
+                MyClass.Sessio.Valoracions.Where(w => w.Data <= data.Value && w.Prod.Id == Prod.Id && w.Id < Id).OrderBy(o => o.Data).ToList() : 
+                MyClass.Sessio.Valoracions.Where(w => w.Prod.Id == Prod.Id && w.Id < Id).OrderBy(o => o.Data).ToList();
+
+            //if (!data.HasValue)
+            //    data = DateTime.MaxValue;
+            //var v1 = MyClass.Sessio.Valoracions.Where(w => w.Data <= data.Value && w.Prod.Id == Prod.Id && w.Id < Id).OrderBy(o => o.Data).ToList();
+            
+            if (v1.Count == 0)
+                return 0;
+
+            return (Import * Prod._Participacions) - (v1.Last().Import * Prod.participacions(data.GetValueOrDefault(DateTime.MaxValue)));
         }
 
 

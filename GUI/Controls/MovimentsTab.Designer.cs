@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -71,6 +72,7 @@
             this.colTraspasOrigen = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDescripcio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btDividends = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.gestioProductesTabMoviments = new Inversions.GUI.GestioProductes();
             this.gbTraspas.SuspendLayout();
             this.gbProducteTraspas.SuspendLayout();
@@ -258,6 +260,7 @@
             this.groupBox10.TabIndex = 3;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Import Total";
+            this.toolTip1.SetToolTip(this.groupBox10, "Import brut sense despeses");
             // 
             // tbImport
             // 
@@ -420,6 +423,7 @@
             this.cDataGridView1.RowTemplate.Height = 24;
             this.cDataGridView1.Size = new System.Drawing.Size(1585, 189);
             this.cDataGridView1.TabIndex = 7;
+            this.toolTip1.SetToolTip(this.cDataGridView1, "nhjfghj");
             // 
             // colId
             // 
@@ -645,5 +649,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colTraspasDesti;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTraspasOrigen;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDescripcio;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
