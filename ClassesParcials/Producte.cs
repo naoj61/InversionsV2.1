@@ -48,8 +48,10 @@ namespace Inversions
                     _PreuUnitariVenda = venda == null ? 0 : venda._PreuParticipacio;
                     _PreuCompra = participacions * compra._PreuParticipacio;
                     _PreuVenda = venda == null ? 0 : participacions * venda._PreuParticipacio;
-                    _Despeses = (compra.Despeses.GetValueOrDefault(0) / compra.Participacions * participacions) + (venda == null ? 0 : (venda.Despeses.GetValueOrDefault(0) / venda.Participacions * participacions));
-                    _PiG = venda == null ? 0 : ((participacions * venda._PreuParticipacio) - (participacions * compra._PreuParticipacio) - _Despeses);
+                    //_Despeses = (compra.Despeses.GetValueOrDefault(0) / compra.Participacions * participacions) + (venda == null ? 0 : (venda.Despeses.GetValueOrDefault(0) / venda.Participacions * participacions));
+                    _DespesesC = (compra.Despeses.GetValueOrDefault(0) / compra.Participacions * participacions);
+                    _DespesesV = (venda == null ? 0 : (venda.Despeses.GetValueOrDefault(0) / venda.Participacions * participacions));
+                    _PiG = venda == null ? 0 : ((participacions * venda._PreuParticipacio) - (participacions * compra._PreuParticipacio) - (_DespesesC + _DespesesV));
                 }
                 ImpAcc += _PiG;
                 _PiGAcumulat = ImpAcc;
@@ -67,7 +69,8 @@ namespace Inversions
             public double _PreuUnitariVenda { get; private set; }
             public double _PreuCompra { get; private set; }
             public double _PreuVenda { get; private set; }
-            public double _Despeses { get; private set; }
+            public double _DespesesC { get; private set; }
+            public double _DespesesV { get; private set; }
             public double _PiG { get; private set; }
             public bool _Hisenda { get; private set; }
             public double _PiGAcumulat { get; private set; }

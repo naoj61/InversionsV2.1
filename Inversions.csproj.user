@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <PublishUrlHistory />
+    <PublishUrlHistory>C:\Temp\ma\</PublishUrlHistory>
     <InstallUrlHistory />
     <SupportUrlHistory />
     <UpdateUrlHistory />
@@ -14,6 +14,6 @@
     <EnableSecurityDebugging>false</EnableSecurityDebugging>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>"C:\Users\joanp\Documents\Visual Studio 2013\Projects\Inversions\BD"</StartArguments>
+    <StartArguments>"C:\Users\joanp\Documents\Visual Studio 2013\Projects\Altres\Inversions\BD"</StartArguments>
   </PropertyGroup>
 </Project>
