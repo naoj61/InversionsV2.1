@@ -74,8 +74,8 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.gestioProductesTabValoracions = new Inversions.GUI.GestioProductes();
             this.cDataGridView1 = new System.Windows.Forms.DataGridView();
+            this.gestioProductesTabValoracions = new Inversions.GUI.GestioProductes();
             this.colMoviment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDataCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDataVenda = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -366,20 +366,6 @@ namespace Inversions.GUI
             this.label2.Text = "P i G que tributen";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // gestioProductesTabValoracions
-            // 
-            this.gestioProductesTabValoracions._NomesAmbParticipacions = true;
-            this.gestioProductesTabValoracions._ProducteSeleccionat = null;
-            this.gestioProductesTabValoracions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gestioProductesTabValoracions.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.gestioProductesTabValoracions.Location = new System.Drawing.Point(0, 0);
-            this.gestioProductesTabValoracions.MinimumSize = new System.Drawing.Size(733, 395);
-            this.gestioProductesTabValoracions.Name = "gestioProductesTabValoracions";
-            this.gestioProductesTabValoracions.Size = new System.Drawing.Size(909, 440);
-            this.gestioProductesTabValoracions.TabIndex = 0;
-            this.gestioProductesTabValoracions.ProducteSeleccionat += new System.EventHandler(this.gestioProductesTabValoracions_ProducteSeleccionat);
-            // 
             // cDataGridView1
             // 
             this.cDataGridView1.AllowUserToAddRows = false;
@@ -423,6 +409,20 @@ namespace Inversions.GUI
             this.cDataGridView1.TabIndex = 5;
             this.cDataGridView1.Visible = false;
             // 
+            // gestioProductesTabValoracions
+            // 
+            this.gestioProductesTabValoracions._NomesAmbParticipacions = true;
+            this.gestioProductesTabValoracions._ProducteSeleccionat = null;
+            this.gestioProductesTabValoracions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gestioProductesTabValoracions.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.gestioProductesTabValoracions.Location = new System.Drawing.Point(0, 0);
+            this.gestioProductesTabValoracions.MinimumSize = new System.Drawing.Size(733, 395);
+            this.gestioProductesTabValoracions.Name = "gestioProductesTabValoracions";
+            this.gestioProductesTabValoracions.Size = new System.Drawing.Size(909, 440);
+            this.gestioProductesTabValoracions.TabIndex = 0;
+            this.gestioProductesTabValoracions.ProducteSeleccionat += new System.EventHandler(this.gestioProductesTabValoracions_ProducteSeleccionat);
+            // 
             // colMoviment
             // 
             this.colMoviment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -432,7 +432,9 @@ namespace Inversions.GUI
             this.colMoviment.HeaderText = "Moviment";
             this.colMoviment.Name = "colMoviment";
             this.colMoviment.ReadOnly = true;
-            this.colMoviment.Width = 93;
+            this.colMoviment.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colMoviment.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colMoviment.Width = 74;
             // 
             // colDataCompra
             // 
@@ -445,7 +447,9 @@ namespace Inversions.GUI
             this.colDataCompra.HeaderText = "Data Compra";
             this.colDataCompra.Name = "colDataCompra";
             this.colDataCompra.ReadOnly = true;
-            this.colDataCompra.Width = 116;
+            this.colDataCompra.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colDataCompra.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colDataCompra.Width = 97;
             // 
             // colDataVenda
             // 
@@ -457,7 +461,9 @@ namespace Inversions.GUI
             this.colDataVenda.HeaderText = "Data Venda";
             this.colDataVenda.Name = "colDataVenda";
             this.colDataVenda.ReadOnly = true;
-            this.colDataVenda.Width = 108;
+            this.colDataVenda.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colDataVenda.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colDataVenda.Width = 89;
             // 
             // colDataTraspas
             // 
@@ -469,7 +475,8 @@ namespace Inversions.GUI
             this.colDataTraspas.HeaderText = "Data Traspàs";
             this.colDataTraspas.Name = "colDataTraspas";
             this.colDataTraspas.ReadOnly = true;
-            this.colDataTraspas.Width = 119;
+            this.colDataTraspas.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colDataTraspas.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // colParticipacions
             // 
@@ -482,7 +489,9 @@ namespace Inversions.GUI
             this.colParticipacions.HeaderText = "Participacions";
             this.colParticipacions.Name = "colParticipacions";
             this.colParticipacions.ReadOnly = true;
-            this.colParticipacions.Width = 121;
+            this.colParticipacions.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colParticipacions.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colParticipacions.Width = 102;
             // 
             // colPreuUnitariCompra
             // 
@@ -494,7 +503,9 @@ namespace Inversions.GUI
             this.colPreuUnitariCompra.HeaderText = "Preu unit Compra";
             this.colPreuUnitariCompra.Name = "colPreuUnitariCompra";
             this.colPreuUnitariCompra.ReadOnly = true;
-            this.colPreuUnitariCompra.Width = 131;
+            this.colPreuUnitariCompra.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colPreuUnitariCompra.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colPreuUnitariCompra.Width = 112;
             // 
             // colPreuUnitariVenda
             // 
@@ -506,7 +517,9 @@ namespace Inversions.GUI
             this.colPreuUnitariVenda.HeaderText = "Preu unit Venda";
             this.colPreuUnitariVenda.Name = "colPreuUnitariVenda";
             this.colPreuUnitariVenda.ReadOnly = true;
-            this.colPreuUnitariVenda.Width = 123;
+            this.colPreuUnitariVenda.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colPreuUnitariVenda.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colPreuUnitariVenda.Width = 104;
             // 
             // colPreuCompra
             // 
@@ -519,7 +532,9 @@ namespace Inversions.GUI
             this.colPreuCompra.HeaderText = "Preu Compra";
             this.colPreuCompra.Name = "colPreuCompra";
             this.colPreuCompra.ReadOnly = true;
-            this.colPreuCompra.Width = 106;
+            this.colPreuCompra.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colPreuCompra.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colPreuCompra.Width = 87;
             // 
             // colPreuVenda
             // 
@@ -532,7 +547,9 @@ namespace Inversions.GUI
             this.colPreuVenda.HeaderText = "Preu Venda";
             this.colPreuVenda.Name = "colPreuVenda";
             this.colPreuVenda.ReadOnly = true;
-            this.colPreuVenda.Width = 99;
+            this.colPreuVenda.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colPreuVenda.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colPreuVenda.Width = 80;
             // 
             // colDespesesC
             // 
@@ -541,10 +558,12 @@ namespace Inversions.GUI
             dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle21.Format = "c2";
             this.colDespesesC.DefaultCellStyle = dataGridViewCellStyle21;
-            this.colDespesesC.HeaderText = "Desp. C.";
+            this.colDespesesC.HeaderText = "Desp. Compra";
             this.colDespesesC.Name = "colDespesesC";
             this.colDespesesC.ReadOnly = true;
-            this.colDespesesC.Width = 83;
+            this.colDespesesC.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colDespesesC.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colDespesesC.Width = 94;
             // 
             // colDespesesV
             // 
@@ -553,10 +572,12 @@ namespace Inversions.GUI
             dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle22.Format = "c2";
             this.colDespesesV.DefaultCellStyle = dataGridViewCellStyle22;
-            this.colDespesesV.HeaderText = "Desp. V.";
+            this.colDespesesV.HeaderText = "Desp. Venda";
             this.colDespesesV.Name = "colDespesesV";
             this.colDespesesV.ReadOnly = true;
-            this.colDespesesV.Width = 83;
+            this.colDespesesV.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colDespesesV.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colDespesesV.Width = 86;
             // 
             // colImport
             // 
@@ -569,7 +590,9 @@ namespace Inversions.GUI
             this.colImport.HeaderText = "P i G";
             this.colImport.Name = "colImport";
             this.colImport.ReadOnly = true;
-            this.colImport.Width = 50;
+            this.colImport.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colImport.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colImport.Width = 31;
             // 
             // colImportAcumulat
             // 
@@ -581,7 +604,9 @@ namespace Inversions.GUI
             this.colImportAcumulat.HeaderText = "P i G Acumulades";
             this.colImportAcumulat.Name = "colImportAcumulat";
             this.colImportAcumulat.ReadOnly = true;
-            this.colImportAcumulat.Width = 132;
+            this.colImportAcumulat.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colImportAcumulat.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colImportAcumulat.Width = 113;
             // 
             // colTermini
             // 
@@ -591,7 +616,9 @@ namespace Inversions.GUI
             this.colTermini.HeaderText = "Termini";
             this.colTermini.Name = "colTermini";
             this.colTermini.ReadOnly = true;
-            this.colTermini.Width = 80;
+            this.colTermini.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colTermini.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colTermini.Width = 61;
             // 
             // Column2
             // 
@@ -599,6 +626,8 @@ namespace Inversions.GUI
             this.Column2.HeaderText = "";
             this.Column2.Name = "Column2";
             this.Column2.ReadOnly = true;
+            this.Column2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // PerduesGuanysTab
             // 
