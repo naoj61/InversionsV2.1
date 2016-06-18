@@ -346,7 +346,8 @@ namespace Inversions.GUI
 
         private void actualitzaLlistaValoracionsPerProducte()
         {
-            var valoracionsProducte = MyClass.Sessio.Valoracions.Where(w => w.Prod.Id == gestioProductesTabValoracions._ProducteSeleccionat.Id).OrderBy(o=>o.Data).ToList();
+            var valoracionsProducte = MyClass.Sessio.Valoracions
+                .Where(w => w.Prod.Id == gestioProductesTabValoracions._ProducteSeleccionat.Id).OrderBy(o=>o.Data).ToList();
 
             cDataGridView1.SuspendLayout();
             cDataGridView1.DataSource = valoracionsProducte;

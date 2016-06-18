@@ -41,6 +41,13 @@ namespace Inversions
             }
         }
 
+        /// <summary>
+        /// Valoració total en funció de les participacions
+        /// </summary>
+        public double _ValoracioTotal
+        {
+            get { return Import * Prod.participacions(Data); }
+        }
 
         #region Overrides
 

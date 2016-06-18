@@ -20,6 +20,37 @@ namespace Inversions
         }
 
 
+        /// <summary>
+        /// Torna tipus movimen en string i indica els traspassos.
+        /// </summary>
+        public string _TipusMoviment
+        {
+            get
+            {
+                string result;
+
+                if (_EsDividents)
+                    result = TipusMoviment.Dividends.ToString();
+
+                if (_EsCompra)
+                {
+                    if (_EsTraspas)
+                        result = "Traspàs C";
+                    else
+                        result = TipusMoviment.Compra.ToString();
+                }
+                else
+                {
+                    if (_EsTraspas)
+                        result = "Traspàs V";
+                    else
+                        result = TipusMoviment.Venda.ToString();
+                }
+
+                return result;
+            }
+        }
+
         public bool _EsTraspas
         {
             get

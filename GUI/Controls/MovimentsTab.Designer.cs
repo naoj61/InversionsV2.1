@@ -60,6 +60,9 @@
             this.btCompra = new System.Windows.Forms.Button();
             this.btDesaMoviment = new System.Windows.Forms.Button();
             this.cDataGridView1 = new System.Windows.Forms.DataGridView();
+            this.btDividends = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.gestioProductesTabMoviments = new Inversions.GUI.GestioProductes();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colProducte = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTipusMoviment = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -71,9 +74,6 @@
             this.colTraspasDesti = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTraspasOrigen = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDescripcio = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btDividends = new System.Windows.Forms.Button();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.gestioProductesTabMoviments = new Inversions.GUI.GestioProductes();
             this.gbTraspas.SuspendLayout();
             this.gbProducteTraspas.SuspendLayout();
             this.gbDataDesti.SuspendLayout();
@@ -425,6 +425,32 @@
             this.cDataGridView1.TabIndex = 7;
             this.toolTip1.SetToolTip(this.cDataGridView1, "nhjfghj");
             // 
+            // btDividends
+            // 
+            this.btDividends.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btDividends.Enabled = false;
+            this.btDividends.Location = new System.Drawing.Point(1241, 12);
+            this.btDividends.Name = "btDividends";
+            this.btDividends.Size = new System.Drawing.Size(101, 50);
+            this.btDividends.TabIndex = 2;
+            this.btDividends.Text = "Dividends";
+            this.btDividends.UseVisualStyleBackColor = true;
+            this.btDividends.Click += new System.EventHandler(this.btDividends_Click);
+            // 
+            // gestioProductesTabMoviments
+            // 
+            this.gestioProductesTabMoviments._NomesAmbParticipacions = true;
+            this.gestioProductesTabMoviments._ProducteSeleccionat = null;
+            this.gestioProductesTabMoviments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gestioProductesTabMoviments.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.gestioProductesTabMoviments.Location = new System.Drawing.Point(0, 0);
+            this.gestioProductesTabMoviments.MinimumSize = new System.Drawing.Size(733, 395);
+            this.gestioProductesTabMoviments.Name = "gestioProductesTabMoviments";
+            this.gestioProductesTabMoviments.Size = new System.Drawing.Size(1011, 410);
+            this.gestioProductesTabMoviments.TabIndex = 0;
+            this.gestioProductesTabMoviments.ProducteSeleccionat += new System.EventHandler(this.gestioProductes1_ProducteSeleccionat);
+            // 
             // colId
             // 
             this.colId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -447,7 +473,7 @@
             // colTipusMoviment
             // 
             this.colTipusMoviment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colTipusMoviment.DataPropertyName = "TipusMoviment";
+            this.colTipusMoviment.DataPropertyName = "_TipusMoviment";
             this.colTipusMoviment.HeaderText = "Tipus moviment";
             this.colTipusMoviment.Name = "colTipusMoviment";
             this.colTipusMoviment.ReadOnly = true;
@@ -545,32 +571,6 @@
             this.colDescripcio.ReadOnly = true;
             this.colDescripcio.Width = 99;
             // 
-            // btDividends
-            // 
-            this.btDividends.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btDividends.Enabled = false;
-            this.btDividends.Location = new System.Drawing.Point(1241, 12);
-            this.btDividends.Name = "btDividends";
-            this.btDividends.Size = new System.Drawing.Size(101, 50);
-            this.btDividends.TabIndex = 2;
-            this.btDividends.Text = "Dividends";
-            this.btDividends.UseVisualStyleBackColor = true;
-            this.btDividends.Click += new System.EventHandler(this.btDividends_Click);
-            // 
-            // gestioProductesTabMoviments
-            // 
-            this.gestioProductesTabMoviments._NomesAmbParticipacions = true;
-            this.gestioProductesTabMoviments._ProducteSeleccionat = null;
-            this.gestioProductesTabMoviments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gestioProductesTabMoviments.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.gestioProductesTabMoviments.Location = new System.Drawing.Point(0, 0);
-            this.gestioProductesTabMoviments.MinimumSize = new System.Drawing.Size(733, 395);
-            this.gestioProductesTabMoviments.Name = "gestioProductesTabMoviments";
-            this.gestioProductesTabMoviments.Size = new System.Drawing.Size(1011, 410);
-            this.gestioProductesTabMoviments.TabIndex = 0;
-            this.gestioProductesTabMoviments.ProducteSeleccionat += new System.EventHandler(this.gestioProductes1_ProducteSeleccionat);
-            // 
             // MovimentsTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -638,6 +638,7 @@
         private Controls.NumericTextBox2 tbDespeses;
         private Controls.NumericTextBox2 tbNumParticipacionsDesti;
         private Controls.NumericTextBox2 tbNumParticipacions;
+        private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.DataGridViewTextBoxColumn colId;
         private System.Windows.Forms.DataGridViewTextBoxColumn colProducte;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTipusMoviment;
@@ -649,6 +650,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colTraspasDesti;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTraspasOrigen;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDescripcio;
-        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

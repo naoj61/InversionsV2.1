@@ -119,5 +119,9 @@ namespace Inversions
             else
                 return base.ValidateEntity(entityEntry, items);
         }
+
+
+        public virtual DbSet<Valoracio> Valoracions { get; set; }
+        public virtual DbSet<Producte> Productes { get; set; }
     }
 }
