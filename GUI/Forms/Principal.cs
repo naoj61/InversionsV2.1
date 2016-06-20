@@ -13,6 +13,23 @@ namespace Inversions.GUI
         {
             InitializeComponent();
 
+            //var ss = MyClass.Sessio.Productes.Single(s => s.Id == 9).pigAny(2014);
+
+            //double dd = 0;
+            //System.Diagnostics.Debug.WriteLine("Nom Prod\tNum part\tPreu part inici\tpreu part actual");
+            //foreach (var prod in MyClass.Sessio.Productes)
+            //{
+            //    var numPart = prod._Participacions;
+                //if (numPart > 0)
+                //    System.Diagnostics.Debug.WriteLine("{0}\t{1}\t{2}\t{3}", prod._NomProducte, numPart.ToString("0.0000"),
+                //        prod.valorParticipacio(new Producte.DateTimeFinalDia(2016, 1, 1)).ToString("0.0000"),
+                //        prod.valorParticipacio(new Producte.DateTimeFinalDia(DateTime.Today)).ToString("0.0000"));
+
+            //    var cc = prod.pigPerDates(new Producte.DateTimeIniciDia(2014, 1, 1), new Producte.DateTimeFinalDia(2016, 6, 20));
+            //    System.Diagnostics.Debug.WriteLine("Id:\t{2}\tNom producte:\t{0}\tPiG:\t{1}", prod._NomProducte, cc.ToString("#,##0.00"), prod.Id);
+            //    dd += cc;
+            //}
+
             this.Text = "Producte. Ver: " + Application.ProductVersion;
 
             tabControl1.SelectTab(2);

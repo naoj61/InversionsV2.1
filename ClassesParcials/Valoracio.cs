@@ -46,7 +46,7 @@ namespace Inversions
         /// </summary>
         public double _ValoracioTotal
         {
-            get { return Import * Prod.participacions(Data); }
+            get { return Import * Prod.participacions(new Producte.DateTimeFinalDia(Data)); }
         }
 
         #region Overrides

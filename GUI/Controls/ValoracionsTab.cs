@@ -322,7 +322,7 @@ namespace Inversions.GUI
                     dataAnt = valoracio.Data.Date;
                 }
 
-                importAct += valoracio.Import * valoracio.Prod.participacions(valoracio.Data);
+                importAct += valoracio.Import * valoracio.Prod.participacions(new Producte.DateTimeFinalDia(valoracio.Data));
             }
 
             if (dataAnt.HasValue && importAct > 0)

@@ -37,11 +37,11 @@ namespace Inversions.GUI
             this.gbDescripcio = new System.Windows.Forms.GroupBox();
             this.tbDescripcio = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.tbPiG = new Controls.NumericTextBox2();
+            this.tbPiGActiusVenuts = new Controls.NumericTextBox2();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.tbPiGInversioEnCartera = new Controls.NumericTextBox2();
+            this.tbPiGActiusEnCartera = new Controls.NumericTextBox2();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.tbInversioActual = new Controls.NumericTextBox2();
+            this.tbPreuCompra = new Controls.NumericTextBox2();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.tbValorActual = new Controls.NumericTextBox2();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -106,7 +106,7 @@ namespace Inversions.GUI
             this.groupBox1.Size = new System.Drawing.Size(156, 50);
             this.groupBox1.TabIndex = 17;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "P i G Total";
+            this.groupBox1.Text = "PiG Total";
             // 
             // tbPiGTotal
             // 
@@ -151,65 +151,66 @@ namespace Inversions.GUI
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.tbPiG);
+            this.groupBox2.Controls.Add(this.tbPiGActiusVenuts);
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(10, 70);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.groupBox2.Size = new System.Drawing.Size(156, 50);
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "P i G";
+            this.groupBox2.Text = "PiG Actius Venuts";
             // 
-            // tbPiG
+            // tbPiGActiusVenuts
             // 
-            this.tbPiG._Format = "#,#0.00 €";
-            this.tbPiG._PermetDecimals = true;
-            this.tbPiG._PermetEspais = false;
-            this.tbPiG._PermetNegatius = true;
-            this.tbPiG.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbPiG.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbPiG.Location = new System.Drawing.Point(5, 18);
-            this.tbPiG.Name = "tbPiG";
-            this.tbPiG.ReadOnly = true;
-            this.tbPiG.Size = new System.Drawing.Size(146, 22);
-            this.tbPiG.TabIndex = 0;
-            this.tbPiG.Text = "0,00 €";
-            this.tbPiG.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbPiG.Valor = 0D;
+            this.tbPiGActiusVenuts._Format = "#,#0.00 €";
+            this.tbPiGActiusVenuts._PermetDecimals = true;
+            this.tbPiGActiusVenuts._PermetEspais = false;
+            this.tbPiGActiusVenuts._PermetNegatius = true;
+            this.tbPiGActiusVenuts.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbPiGActiusVenuts.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbPiGActiusVenuts.Location = new System.Drawing.Point(5, 18);
+            this.tbPiGActiusVenuts.Name = "tbPiGActiusVenuts";
+            this.tbPiGActiusVenuts.ReadOnly = true;
+            this.tbPiGActiusVenuts.Size = new System.Drawing.Size(146, 22);
+            this.tbPiGActiusVenuts.TabIndex = 0;
+            this.tbPiGActiusVenuts.Text = "0,00 €";
+            this.tbPiGActiusVenuts.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.tbPiGActiusVenuts.Valor = 0D;
             // 
             // groupBox4
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox4.Controls.Add(this.tbPiGInversioEnCartera);
+            this.groupBox4.Controls.Add(this.tbPiGActiusEnCartera);
             this.groupBox4.Location = new System.Drawing.Point(10, 127);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.groupBox4.Size = new System.Drawing.Size(156, 50);
             this.groupBox4.TabIndex = 13;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "P i G Inversió Actual";
+            this.groupBox4.Text = "PiG Actius en cartera";
             // 
-            // tbPiGInversioEnCartera
+            // tbPiGActiusEnCartera
             // 
-            this.tbPiGInversioEnCartera._Format = "#,#0.00 €";
-            this.tbPiGInversioEnCartera._PermetDecimals = true;
-            this.tbPiGInversioEnCartera._PermetEspais = false;
-            this.tbPiGInversioEnCartera._PermetNegatius = true;
-            this.tbPiGInversioEnCartera.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbPiGInversioEnCartera.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbPiGInversioEnCartera.Location = new System.Drawing.Point(5, 18);
-            this.tbPiGInversioEnCartera.Name = "tbPiGInversioEnCartera";
-            this.tbPiGInversioEnCartera.ReadOnly = true;
-            this.tbPiGInversioEnCartera.Size = new System.Drawing.Size(146, 22);
-            this.tbPiGInversioEnCartera.TabIndex = 0;
-            this.tbPiGInversioEnCartera.Text = "0,00 €";
-            this.tbPiGInversioEnCartera.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbPiGInversioEnCartera.Valor = 0D;
+            this.tbPiGActiusEnCartera._Format = "#,#0.00 €";
+            this.tbPiGActiusEnCartera._PermetDecimals = true;
+            this.tbPiGActiusEnCartera._PermetEspais = false;
+            this.tbPiGActiusEnCartera._PermetNegatius = true;
+            this.tbPiGActiusEnCartera.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbPiGActiusEnCartera.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbPiGActiusEnCartera.Location = new System.Drawing.Point(5, 18);
+            this.tbPiGActiusEnCartera.Name = "tbPiGActiusEnCartera";
+            this.tbPiGActiusEnCartera.ReadOnly = true;
+            this.tbPiGActiusEnCartera.Size = new System.Drawing.Size(146, 22);
+            this.tbPiGActiusEnCartera.TabIndex = 0;
+            this.tbPiGActiusEnCartera.Text = "0,00 €";
+            this.tbPiGActiusEnCartera.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.tbPiGActiusEnCartera.Valor = 0D;
             // 
             // groupBox3
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.tbInversioActual);
+            this.groupBox3.Controls.Add(this.tbPreuCompra);
             this.groupBox3.Location = new System.Drawing.Point(173, 127);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
@@ -218,22 +219,22 @@ namespace Inversions.GUI
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Preu Compra";
             // 
-            // tbInversioActual
+            // tbPreuCompra
             // 
-            this.tbInversioActual._Format = "#,#0.00 €";
-            this.tbInversioActual._PermetDecimals = true;
-            this.tbInversioActual._PermetEspais = false;
-            this.tbInversioActual._PermetNegatius = true;
-            this.tbInversioActual.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbInversioActual.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbInversioActual.Location = new System.Drawing.Point(5, 18);
-            this.tbInversioActual.Name = "tbInversioActual";
-            this.tbInversioActual.ReadOnly = true;
-            this.tbInversioActual.Size = new System.Drawing.Size(146, 22);
-            this.tbInversioActual.TabIndex = 0;
-            this.tbInversioActual.Text = "0,00 €";
-            this.tbInversioActual.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbInversioActual.Valor = 0D;
+            this.tbPreuCompra._Format = "#,#0.00 €";
+            this.tbPreuCompra._PermetDecimals = true;
+            this.tbPreuCompra._PermetEspais = false;
+            this.tbPreuCompra._PermetNegatius = true;
+            this.tbPreuCompra.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbPreuCompra.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbPreuCompra.Location = new System.Drawing.Point(5, 18);
+            this.tbPreuCompra.Name = "tbPreuCompra";
+            this.tbPreuCompra.ReadOnly = true;
+            this.tbPreuCompra.Size = new System.Drawing.Size(146, 22);
+            this.tbPreuCompra.TabIndex = 0;
+            this.tbPreuCompra.Text = "0,00 €";
+            this.tbPreuCompra.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.tbPreuCompra.Valor = 0D;
             // 
             // groupBox15
             // 
@@ -508,11 +509,11 @@ namespace Inversions.GUI
         private GroupBox gbDescripcio;
         private TextBox tbDescripcio;
         private GroupBox groupBox2;
-        private NumericTextBox2 tbPiG;
+        private NumericTextBox2 tbPiGActiusVenuts;
         private GroupBox groupBox4;
-        private NumericTextBox2 tbPiGInversioEnCartera;
+        private NumericTextBox2 tbPiGActiusEnCartera;
         private GroupBox groupBox3;
-        private NumericTextBox2 tbInversioActual;
+        private NumericTextBox2 tbPreuCompra;
         private GroupBox groupBox15;
         private NumericTextBox2 tbValorActual;
         private FlowLayoutPanel flowLayoutPanel1;
