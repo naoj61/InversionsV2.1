@@ -13,6 +13,11 @@ namespace Inversions.GUI
         {
             InitializeComponent();
 
+            foreach (var prod in MyClass.Sessio.Productes)
+            {
+                System.Diagnostics.Debug.WriteLine("Id: {0}. Nom: {1}", prod.Id, prod._NomProducte);
+            }
+
             //var ss = MyClass.Sessio.Productes.Single(s => s.Id == 9).pigAny(2014);
 
             //double dd = 0;

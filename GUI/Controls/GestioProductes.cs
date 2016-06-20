@@ -71,7 +71,7 @@ namespace Inversions.GUI
                 lbProductesTab2.SuspendLayout();
                 lbProductesTab2.SelectedIndexChanged -= lbProductesTab2_SelectedIndexChanged;
                 lbProductesTab2.DisplayMember = "_TipusNomProducte";
-                lbProductesTab2.DataSource = prods.OrderBy(o => o._NomProducte).ToList();
+                lbProductesTab2.DataSource = prods.OrderBy(o => o.OrdreGrid).ToList();
                 lbProductesTab2.SelectedIndexChanged += lbProductesTab2_SelectedIndexChanged;
                 lbProductesTab2.SelectedItem = null;
                 lbProductesTab2.ResumeLayout();

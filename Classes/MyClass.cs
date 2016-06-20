@@ -10,14 +10,11 @@ using System.Windows.Forms;
 
 namespace Inversions
 {
-    public class MyClass : InversionsBDContainer
+    public class MyClass : InversionsBDContext
     {
         internal static readonly MyClass Sessio;
         internal static readonly bool DesignMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
 
-        public MyClass(string nomConnexio) : base(nomConnexio)
-        {
-        }
 
         internal static ObjectContext SessioContextAdapter {
             get { return ((IObjectContextAdapter) Sessio).ObjectContext; }
@@ -25,7 +22,7 @@ namespace Inversions
 
         static MyClass()
         {
-            Sessio = new MyClass("InversionsBDContainer");
+            Sessio = new MyClass();
             Sessio.Configuration.AutoDetectChangesEnabled = false; // Si poso true, dona error quan inserto una fila i l'esborro en la mateixa sessió.
             Sessio.Configuration.LazyLoadingEnabled = true;
         }

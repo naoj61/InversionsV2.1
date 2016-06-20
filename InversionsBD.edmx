@@ -4,267 +4,268 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="InversionsBD.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityContainer Name="InversionsBDStoreContainer">
-    <EntitySet Name="Empreses" EntityType="InversionsBD.Store.Empreses" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Gestors" EntityType="InversionsBD.Store.Gestors" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Valoracions" EntityType="InversionsBD.Store.Valoracions" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Productes" EntityType="InversionsBD.Store.Productes" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Mercats" EntityType="InversionsBD.Store.Mercats" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Moviments" EntityType="InversionsBD.Store.Moviments" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Productes_ProdFons" EntityType="InversionsBD.Store.Productes_ProdFons" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Productes_ProdAccions" EntityType="InversionsBD.Store.Productes_ProdAccions" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProdFonsGestor" EntityType="InversionsBD.Store.ProdFonsGestor" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="FK_EmpresaGestor" Association="InversionsBD.Store.FK_EmpresaGestor">
-      <End Role="Empresa" EntitySet="Empreses" />
-      <End Role="Gestor" EntitySet="Gestors" />
-    </AssociationSet>
-    <AssociationSet Name="EmpresaP2" Association="InversionsBD.Store.EmpresaP2">
-      <End Role="Empresa" EntitySet="Empreses" />
-      <End Role="Producte" EntitySet="Productes" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProdFonsGestor_ProdFons" Association="InversionsBD.Store.FK_ProdFonsGestor_ProdFons">
-      <End Role="ProdFons" EntitySet="Productes_ProdFons" />
-      <End Role="ProdFonsGestor" EntitySet="ProdFonsGestor" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProdFonsGestor_Gestor" Association="InversionsBD.Store.FK_ProdFonsGestor_Gestor">
-      <End Role="Gestor" EntitySet="Gestors" />
-      <End Role="ProdFonsGestor" EntitySet="ProdFonsGestor" />
-    </AssociationSet>
-    <AssociationSet Name="MercatProdAccions" Association="InversionsBD.Store.MercatProdAccions">
-      <End Role="Mercat" EntitySet="Mercats" />
-      <End Role="ProdAccions" EntitySet="Productes_ProdAccions" />
-    </AssociationSet>
-    <AssociationSet Name="ProdMov" Association="InversionsBD.Store.ProdMov">
-      <End Role="Prod" EntitySet="Productes" />
-      <End Role="Mov" EntitySet="Moviments" />
-    </AssociationSet>
-    <AssociationSet Name="ProdValoracio" Association="InversionsBD.Store.ProdValoracio">
-      <End Role="Prod" EntitySet="Productes" />
-      <End Role="Valoracio" EntitySet="Valoracions" />
-    </AssociationSet>
-    <AssociationSet Name="ProducteMoviment" Association="InversionsBD.Store.ProducteMoviment">
-      <End Role="Producte" EntitySet="Productes" />
-      <End Role="Moviment" EntitySet="Moviments" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProdFons_inherits_Producte" Association="InversionsBD.Store.FK_ProdFons_inherits_Producte">
-      <End Role="Producte" EntitySet="Productes" />
-      <End Role="ProdFons" EntitySet="Productes_ProdFons" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProdAccions_inherits_Producte" Association="InversionsBD.Store.FK_ProdAccions_inherits_Producte">
-      <End Role="Producte" EntitySet="Productes" />
-      <End Role="ProdAccions" EntitySet="Productes_ProdAccions" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="Empreses">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Nom" Type="nvarchar" Nullable="false" MaxLength="50" />
-    <Property Name="TipusEmpresa" Type="int" Nullable="false" />
-    <Property Name="RowVersion" Type="binary" StoreGeneratedPattern="Computed" Nullable="false" MaxLength="8" />
-  </EntityType>
-  <EntityType Name="Gestors">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="EmpresaId" Type="int" Nullable="false" />
-    <Property Name="ProducteId" Type="int" Nullable="true" />
-    <Property Name="Nom" Type="nvarchar" Nullable="false" MaxLength="50" />
-    <Property Name="RowVersion" Type="binary" StoreGeneratedPattern="Computed" Nullable="false" MaxLength="8" />
-  </EntityType>
-  <EntityType Name="Valoracions">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ProdId" Type="int" Nullable="false" />
-    <Property Name="Data" Type="datetime" Nullable="false" />
-    <Property Name="Import" Type="float" Nullable="false" />
-    <Property Name="RowVersion" Type="binary" StoreGeneratedPattern="Computed" Nullable="false" MaxLength="8" />
-  </EntityType>
-  <EntityType Name="Productes">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="EmpresaId" Type="int" Nullable="false" />
-    <Property Name="RowVersion" Type="binary" StoreGeneratedPattern="Computed" Nullable="false" MaxLength="8" />
-  </EntityType>
-  <EntityType Name="Mercats">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Nom" Type="nvarchar" Nullable="false" MaxLength="50" />
-    <Property Name="RowVersion" Type="binary" StoreGeneratedPattern="Computed" Nullable="false" MaxLength="8" />
-  </EntityType>
-  <EntityType Name="Moviments">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ProdId" Type="int" Nullable="false" />
-    <Property Name="TipusMoviment" Type="int" Nullable="false" />
-    <Property Name="Data" Type="datetime" Nullable="false" />
-    <Property Name="Participacions" Type="float" Nullable="false" />
-    <Property Name="Import" Type="float" Nullable="false" />
-    <Property Name="Despeses" Type="float" Nullable="true" />
-    <Property Name="ProducteTraspasId" Type="int" Nullable="true" />
-    <Property Name="Descripcio" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="RowVersion" Type="binary" StoreGeneratedPattern="Computed" Nullable="false" MaxLength="8" />
-  </EntityType>
-  <EntityType Name="Productes_ProdFons">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Nom" Type="nvarchar" Nullable="false" MaxLength="50" />
-    <Property Name="ISIN" Type="nvarchar" Nullable="false" MaxLength="25" />
-    <Property Name="Descripcio" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Productes_ProdAccions">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="MercatId" Type="int" Nullable="false" />
-    <Property Name="Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ProdFonsGestor">
-    <Key>
-      <PropertyRef Name="ProdFons_Id" />
-      <PropertyRef Name="Gestors_Id" />
-    </Key>
-    <Property Name="ProdFons_Id" Type="int" Nullable="false" />
-    <Property Name="Gestors_Id" Type="int" Nullable="false" />
-  </EntityType>
-  <Association Name="FK_EmpresaGestor">
-    <End Role="Empresa" Type="InversionsBD.Store.Empreses" Multiplicity="1" />
-    <End Role="Gestor" Type="InversionsBD.Store.Gestors" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Empresa">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Gestor">
-        <PropertyRef Name="EmpresaId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="EmpresaP2">
-    <End Role="Empresa" Type="InversionsBD.Store.Empreses" Multiplicity="1" />
-    <End Role="Producte" Type="InversionsBD.Store.Productes" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Empresa">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Producte">
-        <PropertyRef Name="EmpresaId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="MercatProdAccions">
-    <End Role="Mercat" Type="InversionsBD.Store.Mercats" Multiplicity="1" />
-    <End Role="ProdAccions" Type="InversionsBD.Store.Productes_ProdAccions" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Mercat">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ProdAccions">
-        <PropertyRef Name="MercatId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ProdMov">
-    <End Role="Prod" Type="InversionsBD.Store.Productes" Multiplicity="1" />
-    <End Role="Mov" Type="InversionsBD.Store.Moviments" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Prod">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Mov">
-        <PropertyRef Name="ProdId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ProdValoracio">
-    <End Role="Prod" Type="InversionsBD.Store.Productes" Multiplicity="1" />
-    <End Role="Valoracio" Type="InversionsBD.Store.Valoracions" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Prod">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Valoracio">
-        <PropertyRef Name="ProdId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ProducteMoviment">
-    <End Role="Producte" Type="InversionsBD.Store.Productes" Multiplicity="0..1" />
-    <End Role="Moviment" Type="InversionsBD.Store.Moviments" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Producte">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Moviment">
-        <PropertyRef Name="ProducteTraspasId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProdFonsGestor_ProdFons">
-    <End Role="ProdFons" Type="InversionsBD.Store.Productes_ProdFons" Multiplicity="1" />
-    <End Role="ProdFonsGestor" Type="InversionsBD.Store.ProdFonsGestor" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProdFons">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ProdFonsGestor">
-        <PropertyRef Name="ProdFons_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProdFonsGestor_Gestor">
-    <End Role="ProdFonsGestor" Type="InversionsBD.Store.ProdFonsGestor" Multiplicity="*" />
-    <End Role="Gestor" Type="InversionsBD.Store.Gestors" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Gestor">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ProdFonsGestor">
-        <PropertyRef Name="Gestors_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProdFons_inherits_Producte">
-    <End Role="Producte" Type="InversionsBD.Store.Productes" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="ProdFons" Type="InversionsBD.Store.Productes_ProdFons" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Producte">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ProdFons">
-        <PropertyRef Name="Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProdAccions_inherits_Producte">
-    <End Role="Producte" Type="InversionsBD.Store.Productes" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="ProdAccions" Type="InversionsBD.Store.Productes_ProdAccions" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Producte">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ProdAccions">
-        <PropertyRef Name="Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-</Schema></edmx:StorageModels>
+    <Schema Namespace="InversionsBD.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Empreses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="TipusEmpresa" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Gestors">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpresaId" Type="int" Nullable="false" />
+          <Property Name="ProducteId" Type="int" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Mercats">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Moviments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProdId" Type="int" Nullable="false" />
+          <Property Name="TipusMoviment" Type="int" Nullable="false" />
+          <Property Name="Data" Type="datetime" Nullable="false" />
+          <Property Name="Participacions" Type="float" Nullable="false" />
+          <Property Name="Import" Type="float" Nullable="false" />
+          <Property Name="ProducteTraspasId" Type="int" />
+          <Property Name="Descripcio" Type="nvarchar(max)" />
+          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="Despeses" Type="float" />
+        </EntityType>
+        <EntityType Name="ProdFonsGestor">
+          <Key>
+            <PropertyRef Name="ProdFons_Id" />
+            <PropertyRef Name="Gestors_Id" />
+          </Key>
+          <Property Name="ProdFons_Id" Type="int" Nullable="false" />
+          <Property Name="Gestors_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Productes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpresaId" Type="int" Nullable="false" />
+          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="OrdreGrid" Type="int" />
+        </EntityType>
+        <EntityType Name="Productes_ProdAccions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="MercatId" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Productes_ProdFons">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ISIN" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Descripcio" Type="nvarchar(max)" />
+          <Property Name="Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Valoracions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProdId" Type="int" Nullable="false" />
+          <Property Name="Data" Type="date" Nullable="false" />
+          <Property Name="Import" Type="float" Nullable="false" />
+          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_EmpresaGestor">
+          <End Role="Empreses" Type="Self.Empreses" Multiplicity="1" />
+          <End Role="Gestors" Type="Self.Gestors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empreses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gestors">
+              <PropertyRef Name="EmpresaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmpresaP2">
+          <End Role="Empreses" Type="Self.Empreses" Multiplicity="1" />
+          <End Role="Productes" Type="Self.Productes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empreses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Productes">
+              <PropertyRef Name="EmpresaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MercatProdAccions">
+          <End Role="Mercats" Type="Self.Mercats" Multiplicity="1" />
+          <End Role="Productes_ProdAccions" Type="Self.Productes_ProdAccions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mercats">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Productes_ProdAccions">
+              <PropertyRef Name="MercatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProdAccions_inherits_Producte">
+          <End Role="Productes" Type="Self.Productes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Productes_ProdAccions" Type="Self.Productes_ProdAccions" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Productes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Productes_ProdAccions">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProdFons_inherits_Producte">
+          <End Role="Productes" Type="Self.Productes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Productes_ProdFons" Type="Self.Productes_ProdFons" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Productes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Productes_ProdFons">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProdFonsGestor_Gestor">
+          <End Role="Gestors" Type="Self.Gestors" Multiplicity="1" />
+          <End Role="ProdFonsGestor" Type="Self.ProdFonsGestor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gestors">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProdFonsGestor">
+              <PropertyRef Name="Gestors_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProdFonsGestor_ProdFons">
+          <End Role="Productes_ProdFons" Type="Self.Productes_ProdFons" Multiplicity="1" />
+          <End Role="ProdFonsGestor" Type="Self.ProdFonsGestor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productes_ProdFons">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProdFonsGestor">
+              <PropertyRef Name="ProdFons_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProdMov">
+          <End Role="Productes" Type="Self.Productes" Multiplicity="1" />
+          <End Role="Moviments" Type="Self.Moviments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Moviments">
+              <PropertyRef Name="ProdId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProducteMoviment">
+          <End Role="Productes" Type="Self.Productes" Multiplicity="0..1" />
+          <End Role="Moviments" Type="Self.Moviments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Moviments">
+              <PropertyRef Name="ProducteTraspasId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProdValoracio">
+          <End Role="Productes" Type="Self.Productes" Multiplicity="1" />
+          <End Role="Valoracions" Type="Self.Valoracions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Valoracions">
+              <PropertyRef Name="ProdId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="InversionsBDStoreContainer">
+          <EntitySet Name="Empreses" EntityType="Self.Empreses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Gestors" EntityType="Self.Gestors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mercats" EntityType="Self.Mercats" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Moviments" EntityType="Self.Moviments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProdFonsGestor" EntityType="Self.ProdFonsGestor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Productes" EntityType="Self.Productes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Productes_ProdAccions" EntityType="Self.Productes_ProdAccions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Productes_ProdFons" EntityType="Self.Productes_ProdFons" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Valoracions" EntityType="Self.Valoracions" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_EmpresaGestor" Association="Self.FK_EmpresaGestor">
+            <End Role="Empreses" EntitySet="Empreses" />
+            <End Role="Gestors" EntitySet="Gestors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmpresaP2" Association="Self.FK_EmpresaP2">
+            <End Role="Empreses" EntitySet="Empreses" />
+            <End Role="Productes" EntitySet="Productes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MercatProdAccions" Association="Self.FK_MercatProdAccions">
+            <End Role="Mercats" EntitySet="Mercats" />
+            <End Role="Productes_ProdAccions" EntitySet="Productes_ProdAccions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProdAccions_inherits_Producte" Association="Self.FK_ProdAccions_inherits_Producte">
+            <End Role="Productes" EntitySet="Productes" />
+            <End Role="Productes_ProdAccions" EntitySet="Productes_ProdAccions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProdFons_inherits_Producte" Association="Self.FK_ProdFons_inherits_Producte">
+            <End Role="Productes" EntitySet="Productes" />
+            <End Role="Productes_ProdFons" EntitySet="Productes_ProdFons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProdFonsGestor_Gestor" Association="Self.FK_ProdFonsGestor_Gestor">
+            <End Role="Gestors" EntitySet="Gestors" />
+            <End Role="ProdFonsGestor" EntitySet="ProdFonsGestor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProdFonsGestor_ProdFons" Association="Self.FK_ProdFonsGestor_ProdFons">
+            <End Role="Productes_ProdFons" EntitySet="Productes_ProdFons" />
+            <End Role="ProdFonsGestor" EntitySet="ProdFonsGestor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProdMov" Association="Self.FK_ProdMov">
+            <End Role="Productes" EntitySet="Productes" />
+            <End Role="Moviments" EntitySet="Moviments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProducteMoviment" Association="Self.FK_ProducteMoviment">
+            <End Role="Productes" EntitySet="Productes" />
+            <End Role="Moviments" EntitySet="Moviments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProdValoracio" Association="Self.FK_ProdValoracio">
+            <End Role="Productes" EntitySet="Productes" />
+            <End Role="Valoracions" EntitySet="Valoracions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="InversionsBD" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
@@ -336,7 +337,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Private" />
           <Property Name="ProdId" Type="Int32" Nullable="false" />
-          <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Import" Type="Double" Nullable="false" />
           <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" cg:SetterAccess="Private" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="Prod" Relationship="InversionsBD.ProdValoracio" FromRole="Valoracio" ToRole="Prod" />
@@ -369,6 +370,7 @@
           <NavigationProperty Name="Valoracions" Relationship="InversionsBD.ProdValoracio" FromRole="Prod" ToRole="Valoracio" />
           <NavigationProperty Name="MovimentsTraspas" Relationship="InversionsBD.ProducteMoviment" FromRole="Producte" ToRole="Moviment" />
           <Property Name="RowVersion" Type="Binary" Nullable="false" ConcurrencyMode="Fixed" cg:SetterAccess="Private" annotation:StoreGeneratedPattern="Computed" MaxLength="8" FixedLength="true" />
+          <Property Name="OrdreGrid" Type="Int32" />
         </EntityType>
         <Association Name="EmpresaP2">
           <End Type="InversionsBD.Empresa" Role="Empresa" Multiplicity="1" />
@@ -518,7 +520,8 @@
     <EntitySetMapping Name="Productes">
       <EntityTypeMapping TypeName="IsTypeOf(InversionsBD.Producte)">
         <MappingFragment StoreEntitySet="Productes">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="OrdreGrid" ColumnName="OrdreGrid" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="EmpresaId" ColumnName="EmpresaId" />
           <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
         </MappingFragment>

@@ -13,10 +13,10 @@ namespace Inversions
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public class InversionsBDContainer : DbContext
+    public partial class InversionsBDContext : DbContext
     {
-        public InversionsBDContainer(string nomConnexio)
-            : base("name="+nomConnexio)
+        public InversionsBDContext()
+            : base("name=InversionsBDContainer")
         {
         }
     
