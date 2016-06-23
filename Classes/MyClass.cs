@@ -118,7 +118,5 @@ namespace Inversions
         }
 
 
-        public virtual DbSet<Valoracio> Valoracions { get; set; }
-        public virtual DbSet<Producte> Productes { get; set; }
     }
 }

@@ -57,6 +57,8 @@
             this.valoracionsTab1 = new Inversions.GUI.ValoracionsTab();
             this.tabPerduesGuanys = new System.Windows.Forms.TabPage();
             this.perduesGuanysTab1 = new Inversions.GUI.PerduesGuanysTab();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.tbId = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.gbNom.SuspendLayout();
@@ -71,6 +73,7 @@
             this.tabMoviments.SuspendLayout();
             this.tabValoracions.SuspendLayout();
             this.tabPerduesGuanys.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // cbTipusProducte
@@ -142,10 +145,10 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.cbEmpresa);
-            this.groupBox4.Location = new System.Drawing.Point(3, 3);
+            this.groupBox4.Location = new System.Drawing.Point(45, 3);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox4.Size = new System.Drawing.Size(373, 53);
+            this.groupBox4.Size = new System.Drawing.Size(331, 53);
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Empresa";
@@ -157,7 +160,7 @@
             this.cbEmpresa.FormattingEnabled = true;
             this.cbEmpresa.Location = new System.Drawing.Point(5, 20);
             this.cbEmpresa.Name = "cbEmpresa";
-            this.cbEmpresa.Size = new System.Drawing.Size(363, 24);
+            this.cbEmpresa.Size = new System.Drawing.Size(321, 24);
             this.cbEmpresa.TabIndex = 0;
             this.cbEmpresa.SelectedIndexChanged += new System.EventHandler(this.cbEmpresa_SelectedIndexChanged);
             // 
@@ -226,6 +229,7 @@
             this.flpDades.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.flpDades.Controls.Add(this.groupBox5);
             this.flpDades.Controls.Add(this.groupBox4);
             this.flpDades.Controls.Add(this.groupBox1);
             this.flpDades.Controls.Add(this.gbMercat);
@@ -368,6 +372,7 @@
             // 
             this.valoracionsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.valoracionsTab1.Location = new System.Drawing.Point(0, 0);
+            this.valoracionsTab1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.valoracionsTab1.MinimumSize = new System.Drawing.Size(1301, 655);
             this.valoracionsTab1.Name = "valoracionsTab1";
             this.valoracionsTab1.Size = new System.Drawing.Size(1352, 706);
@@ -391,6 +396,25 @@
             this.perduesGuanysTab1.Name = "perduesGuanysTab1";
             this.perduesGuanysTab1.Size = new System.Drawing.Size(1346, 700);
             this.perduesGuanysTab1.TabIndex = 0;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.tbId);
+            this.groupBox5.Location = new System.Drawing.Point(3, 3);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(5);
+            this.groupBox5.Size = new System.Drawing.Size(36, 53);
+            this.groupBox5.TabIndex = 6;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Id";
+            // 
+            // tbId
+            // 
+            this.tbId.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbId.Location = new System.Drawing.Point(5, 20);
+            this.tbId.Name = "tbId";
+            this.tbId.Size = new System.Drawing.Size(26, 22);
+            this.tbId.TabIndex = 1;
             // 
             // Principal
             // 
@@ -419,6 +443,8 @@
             this.tabMoviments.ResumeLayout(false);
             this.tabValoracions.ResumeLayout(false);
             this.tabPerduesGuanys.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -455,5 +481,7 @@
         private System.Windows.Forms.Button btEditaProducte;
         private System.Windows.Forms.TabPage tabPerduesGuanys;
         private PerduesGuanysTab perduesGuanysTab1;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.TextBox tbId;
     }
 }

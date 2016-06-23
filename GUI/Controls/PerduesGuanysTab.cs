@@ -17,11 +17,11 @@ namespace Inversions.GUI
         {
             InitializeComponent();
 
-            cDataGridView1.AutoGenerateColumns = false;
+            dgvPiGProducte.AutoGenerateColumns = false;
 
             gestioProductesTabValoracions._NomesAmbParticipacions = true;
 
-            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof(Producte.TipusProducte));
+            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof (Producte.TipusProducte));
             cbTipusProducteFiltreTab2.SelectedIndex = -1;
             cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
             cbTipusProducteFiltreTab2.SelectedIndex = 0;
@@ -91,7 +91,7 @@ namespace Inversions.GUI
             }
         }
 
-        void cbTipusProducteFiltreTab2_SelectedIndexChanged(object sender, EventArgs e)
+        private void cbTipusProducteFiltreTab2_SelectedIndexChanged(object sender, EventArgs e)
         {
             calculaPiG();
         }
@@ -103,18 +103,38 @@ namespace Inversions.GUI
             {
                 actualitzaLlistaPerduesGuanys();
                 colDataTraspas.Visible = gestioProductesTabValoracions._ProducteSeleccionat._TipusProducte != Producte.TipusProducte.Accions;
-                cDataGridView1.Visible = true;
+                dgvPiGProducte.Visible = true;
             }
         }
 
 
         private void actualitzaLlistaPerduesGuanys()
         {
-            cDataGridView1.SuspendLayout();
-            cDataGridView1.DataSource = gestioProductesTabValoracions._ProducteSeleccionat._PiGPerCompra();
-            cDataGridView1.ClearSelection();
-            cDataGridView1.ResumeLayout();
-        }
+            var proSeleccionat = gestioProductesTabValoracions._ProducteSeleccionat;
 
+            dgvPiGProducte.SuspendLayout();
+            dgvPiGProducte.DataSource = proSeleccionat._PiGPerCompra();
+            dgvPiGProducte.ClearSelection();
+            dgvPiGProducte.ResumeLayout();
+
+            dgvPiGProductePerAny.SuspendLayout();
+
+            dgvPiGProductePerAny.Rows.Clear();
+
+            double pigAcumulat = 0;
+            for (int any = proSeleccionat.MovimentsProducte.OrderBy(o => o.Data).First().Data.Year; any <= DateTime.Today.Year; any++)
+            {
+                double pigTotAnual = 0;
+                pigTotAnual += proSeleccionat.pigPerDates(any);
+
+                dgvPiGProductePerAny.Rows.Add(any, pigTotAnual);
+
+                pigAcumulat += pigTotAnual;
+            }
+            int fila = dgvPiGProductePerAny.Rows.Add("Total", pigAcumulat);
+            dgvPiGProductePerAny.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGProductePerAny.Font, FontStyle.Bold);
+
+            dgvPiGProductePerAny.ResumeLayout();
+        }
     }
 }

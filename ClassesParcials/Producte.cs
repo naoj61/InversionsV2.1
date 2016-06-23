@@ -108,6 +108,11 @@ namespace Inversions
                 }
             }
 
+            public double _PiGActual
+            {
+                get { return _Compra.Prod.pigActualTotal(); }
+            }
+
             public string _Termini
             {
                 get { return !_Hisenda ? null : _LlargPlaç ? "Llarg" : "Curt"; }
@@ -234,14 +239,14 @@ namespace Inversions
         public double valorParticipacio(DateTimeFinalDia data)
         {
             var movs = Valoracions.
-                Where(w => w.Data <= data._Data).Select(s => new { Data = s.Data, Import = s.Import }).
+                Where(w => w.Data <= data._Data).Select(s => new { Data = s.Data, PreuParticipacio = s.Import }).
                 Union(MovimentsProducte.
-                Where(w => w.Data <= data._Data && w.Participacions > 0).Select(s => new { Data = s.Data, Import = s._PreuParticipacio })).
+                Where(w => w.Data <= data._Data && w.Participacions > 0).Select(s => new { Data = s.Data, PreuParticipacio = s._PreuParticipacio })).
                 OrderBy(o => o.Data);
 
             var mov = movs.Any() ? movs.OrderBy(o => o.Data).Last() : null;
 
-            return mov == null ? 0 : mov.Import;
+            return mov == null ? 0 : mov.PreuParticipacio;
         }
 
         public double _InversioActual
@@ -275,7 +280,7 @@ namespace Inversions
 
         
         /// <summary>
-        /// És la variació del valor tant si s'ha venut com no.
+        /// És el PiG del valor tant si s'ha venut com no.
         /// Torna PiG de l'any sencer. 
         /// </summary>
         /// <param name="any"></param>
@@ -285,9 +290,28 @@ namespace Inversions
             return pigPerDates(new DateTimeIniciDia(any, 1, 1), new DateTimeFinalDia(any, 12, 31));
         }
 
+        /// <summary>
+        /// El PiG avui amb tot venut i no venut.
+        /// </summary>
+        /// <returns></returns>
+        public double pigActualTotal()
+        {
+            return pigPerDates(DateTimeFinalDia.Today);
+        }
 
         /// <summary>
-        /// És la variació del valor tant si s'ha venut com no.
+        /// És la variació del valor tant si s'ha venut com no desde l'inici fins DataFi.
+        /// Torna PiG generat entre dues dates.
+        /// </summary>
+        /// <param name="dataFi"></param>
+        /// <returns></returns>
+        public double pigPerDates(DateTimeFinalDia dataFi)
+        {
+            return pigPerDates(new DateTimeIniciDia(200, 11, 11), dataFi);
+        }
+
+        /// <summary>
+        /// És la variació del valor tant si s'ha venut com no entre dates.
         /// Torna PiG generat entre dues dates.
         /// </summary>
         /// <param name="dataInici"></param>

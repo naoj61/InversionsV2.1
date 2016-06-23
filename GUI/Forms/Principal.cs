@@ -122,6 +122,7 @@ namespace Inversions.GUI
                     if (fons != null)
                     {
                         cbTipusProducte.SelectedItem = Producte.TipusProducte.Accions;
+                        tbId.Text = fons.Id.ToString("0");
                         cbEmpresa.SelectedItem = fons.Empresa;
                         tbIsin.Text = fons.ISIN;
                         tbNom.Text = fons.Nom;
