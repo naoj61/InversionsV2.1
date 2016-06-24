@@ -263,27 +263,34 @@ namespace Inversions.GUI
 
             var tipusProdFiltre = cbTipusProducteFiltre.SelectedItem == null ? Producte.TipusProducte.Tots : (Producte.TipusProducte) cbTipusProducteFiltre.SelectedItem;
             IQueryable<Valoracio> valoracions;
+            IQueryable<Moviment> moviments;
             switch (tipusProdFiltre)
             {
                 case Producte.TipusProducte.Accions:
+                    //valoracions = MyClass.Sessio.Valoracions.Where(w => w.Prod is ProdAccions);
                     valoracions = MyClass.Sessio.Valoracions.Where(w => w.Prod is ProdAccions);
+                    moviments = MyClass.Sessio.Moviments.Where(w => w.Prod is ProdAccions && w.Participacions > 0);
                     break;
                 case Producte.TipusProducte.Fons:
+                    //valoracions = MyClass.Sessio.Valoracions.Where(w => w.Prod is ProdFons);
                     valoracions = MyClass.Sessio.Valoracions.Where(w => w.Prod is ProdFons);
+                    moviments = MyClass.Sessio.Moviments.Where(w => w.Prod is ProdFons && w.Participacions > 0);
                     break;
                 default:
+                    //valoracions = MyClass.Sessio.Valoracions;
                     valoracions = MyClass.Sessio.Valoracions;
+                    moviments = MyClass.Sessio.Moviments.Where(w => w.Participacions > 0);
                     break;
             }
 
-            if (!valoracions.Any())
+            var valMovs = valoracions.Select(s => new { Data = s.Data, PreuParticipacio = s.Import }).
+                Union(moviments.Select(s => new { Data = s.Data, PreuParticipacio = (s.Import / s.Participacions) })).GroupBy(g=>g.Data);
+
+            if (!valMovs.Any())
                 return;
 
             dgvValoracionsPerData.Rows.Clear();
 
-            DateTime? dataAnt = null;
-            double importAnt = 0;
-            double importAct = 0;
             double importAcumulat = 0;
 
             double maxVal = 0;
@@ -295,41 +302,32 @@ namespace Inversions.GUI
             //chart2.ChartAreas[0].AxisY.Minimum = double.MaxValue;
             chart2.ChartAreas[0].AxisY.Maximum = Math.Ceiling(valoracions.Max(m => m.Import));
 
-            foreach (var valoracio in valoracions.OrderBy(o => o.Data))
+            double pigPerData = 0;
+            double pigPerDataAnt = 0;
+            foreach (var valoracio in valMovs)
             {
-                if (!dataAnt.HasValue || dataAnt.Value != valoracio.Data)
+                DateTime data = valoracio.Key;
+
+                pigPerData = Producte.PiG(new Producte.DateTimeFinalDia(data));
+
+                importAcumulat += (pigPerData - pigPerDataAnt);
+
+                dgvValoracionsPerData.Rows.Add(data, pigPerData, (pigPerData / pigPerDataAnt - 1), pigPerData - pigPerDataAnt);
+
+                if (data >= new DateTime(2015, 3, 20) && pigPerData > 0)
                 {
-                    if (dataAnt.HasValue)
-                    {
-                        importAcumulat += (importAct - importAnt);
+                    chart2.Series[0].Points.AddXY(data.ToOADate(), pigPerData);
 
-                        dgvValoracionsPerData.Rows.Add(dataAnt.Value, importAct, (importAct / importAnt - 1), importAct - importAnt, importAcumulat);
+                    if (maxVal < pigPerData)
+                        maxVal = Math.Ceiling(pigPerData / 10) * 10;
 
-                        if (dataAnt.Value >= new DateTime(2015, 3, 20))
-                        {
-                            chart2.Series[0].Points.AddXY(dataAnt.Value.ToOADate(), importAcumulat);
-
-                            if (maxVal < importAcumulat)
-                                maxVal = Math.Ceiling(importAcumulat / 10) * 10;
-
-                            if (minVal > importAcumulat)
-                                minVal = Math.Floor(importAcumulat / 10) * 10;
-                        }
-
-                        importAnt = importAct;
-                        importAct = 0;
-                    }
-                    dataAnt = valoracio.Data.Date;
+                    if (minVal > importAcumulat)
+                        minVal = Math.Floor(pigPerData / 10) * 10;
                 }
 
-                importAct += valoracio.Import * valoracio.Prod.participacions(new Producte.DateTimeFinalDia(valoracio.Data));
+                pigPerDataAnt = pigPerData;
             }
 
-            if (dataAnt.HasValue && importAct > 0)
-            {
-                importAcumulat += (importAct - importAnt);
-                dgvValoracionsPerData.Rows.Add(dataAnt.Value, importAct, (importAct / importAnt - 1), importAct - importAnt, importAcumulat);
-            }
 
             var ultimaFila = dgvValoracionsPerData.Rows.GetLastRow(DataGridViewElementStates.Visible);
             if (ultimaFila >= 0)

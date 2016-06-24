@@ -9,21 +9,6 @@ namespace Inversions
 {
     public abstract partial class Producte : IComparable<Producte>
     {
-        public struct PiG
-        {
-            public PiG(int any, double pigCurt, double pigLlarg)
-                : this()
-            {
-                _Any = any;
-                _PigLlarg = pigLlarg;
-                _PigCurt = pigCurt;
-            }
-
-            public int _Any{ get; private set; }
-            public double _PigCurt{ get; private set; }
-            public double _PigLlarg { get; private set; }
-        }
-
         public struct PiGPerCompra
         {
             public PiGPerCompra(Moviment compra, Moviment venda, double participacions, bool hisenda)
@@ -278,7 +263,13 @@ namespace Inversions
             get { return Valoracions.Count == 0 ? 0 : _Participacions * valorParticipacio(DateTimeFinalDia.Today); }
         }
 
-        
+
+        public static double PiG(DateTimeFinalDia dataFi)
+        {
+            return Enumerable.Sum(MyClass.Sessio.Productes, producte => producte.pigPerDates(dataFi));
+        }
+
+
         /// <summary>
         /// És el PiG del valor tant si s'ha venut com no.
         /// Torna PiG de l'any sencer. 
