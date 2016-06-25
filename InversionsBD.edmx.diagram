@@ -7,7 +7,7 @@
       <Diagram DiagramId="5a71190cc79e4d69bd61006f990390a4" Name="Diagram1" ZoomLevel="82" >
         <EntityTypeShape EntityType="InversionsBD.Empresa" Width="1.5" PointX="4" PointY="0.625" />
         <EntityTypeShape EntityType="InversionsBD.Gestor" Width="1.5" PointX="4" PointY="3.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="InversionsBD.Valoracio" Width="1.5" PointX="11.125" PointY="4" />
+        <EntityTypeShape EntityType="InversionsBD.Valoracio" Width="1.5" PointX="11.125" PointY="4.125" />
         <AssociationConnector Association="InversionsBD.FK_EmpresaGestor" />
         <EntityTypeShape EntityType="InversionsBD.Producte" Width="2.125" PointX="6.625" PointY="2.5" />
         <AssociationConnector Association="InversionsBD.EmpresaP2" />

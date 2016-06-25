@@ -12,7 +12,7 @@ namespace Inversions.GUI
         public Principal()
         {
             InitializeComponent();
-
+            
             foreach (var prod in MyClass.Sessio.Productes)
             {
                 System.Diagnostics.Debug.WriteLine("Id: {0}. Nom: {1}", prod.Id, prod._NomProducte);

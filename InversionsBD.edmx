@@ -38,14 +38,14 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProdId" Type="int" Nullable="false" />
+          <Property Name="ProducteTraspasId" Type="int" />
           <Property Name="TipusMoviment" Type="int" Nullable="false" />
           <Property Name="Data" Type="datetime" Nullable="false" />
           <Property Name="Participacions" Type="float" Nullable="false" />
           <Property Name="Import" Type="float" Nullable="false" />
-          <Property Name="ProducteTraspasId" Type="int" />
+          <Property Name="Despeses" Type="float" />
           <Property Name="Descripcio" Type="nvarchar(max)" />
           <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
-          <Property Name="Despeses" Type="float" />
         </EntityType>
         <EntityType Name="ProdFonsGestor">
           <Key>
@@ -87,7 +87,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProdId" Type="int" Nullable="false" />
           <Property Name="Data" Type="date" Nullable="false" />
-          <Property Name="Import" Type="float" Nullable="false" />
+          <Property Name="PreuParticipacio" Type="float" Nullable="false" />
           <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
         <Association Name="FK_EmpresaGestor">
@@ -269,7 +269,7 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="InversionsBD" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
-        <EntityContainer Name="InversionsBDContainer" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="InversionsBDContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Empreses" EntityType="InversionsBD.Empresa" />
           <EntitySet Name="Gestors" EntityType="InversionsBD.Gestor" />
           <EntitySet Name="Valoracions" EntityType="InversionsBD.Valoracio" />
@@ -338,9 +338,9 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Private" />
           <Property Name="ProdId" Type="Int32" Nullable="false" />
           <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Import" Type="Double" Nullable="false" />
           <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" cg:SetterAccess="Private" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="Prod" Relationship="InversionsBD.ProdValoracio" FromRole="Valoracio" ToRole="Prod" />
+          <Property Name="PreuParticipacio" Type="Double" Nullable="false" />
         </EntityType>
         <Association Name="FK_EmpresaGestor">
           <End Type="InversionsBD.Empresa" Role="Empresa" Multiplicity="1" />
@@ -484,7 +484,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="InversionsBDStoreContainer" CdmEntityContainer="InversionsBDContainer">
+  <EntityContainerMapping StorageEntityContainer="InversionsBDStoreContainer" CdmEntityContainer="InversionsBDContext">
     <EntitySetMapping Name="Empreses">
       <EntityTypeMapping TypeName="IsTypeOf(InversionsBD.Empresa)">
         <MappingFragment StoreEntitySet="Empreses">
@@ -509,10 +509,10 @@
     <EntitySetMapping Name="Valoracions">
       <EntityTypeMapping TypeName="IsTypeOf(InversionsBD.Valoracio)">
         <MappingFragment StoreEntitySet="Valoracions">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PreuParticipacio" ColumnName="PreuParticipacio" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="ProdId" ColumnName="ProdId" />
           <ScalarProperty Name="Data" ColumnName="Data" />
-          <ScalarProperty Name="Import" ColumnName="Import" />
           <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -553,7 +553,7 @@
     <EntitySetMapping Name="Moviments">
       <EntityTypeMapping TypeName="IsTypeOf(InversionsBD.Moviment)">
         <MappingFragment StoreEntitySet="Moviments">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="ProdId" ColumnName="ProdId" />
           <ScalarProperty Name="TipusMoviment" ColumnName="TipusMoviment" />
           <ScalarProperty Name="Data" ColumnName="Data" />

@@ -233,49 +233,6 @@ namespace Inversions.GUI
             }
 
 
-            //if (tp == TipusMoviment.Compra)
-            //{
-            //    // Compra
-
-            //    try
-            //    {
-            //        desaMoviment(TipusMoviment.Compra, prod);
-            //    }
-            //    catch (DbEntityValidationException ex1)
-            //    {
-            //        MessageBox.Show(ex1.Message);
-            //        return;
-            //    }
-            //}
-            //else if (tp == TipusMoviment.Venda)
-            //{
-            //        // Venda/Traspàs
-
-            //        try
-            //        {
-            //            desaMoviment(TipusMoviment.Venda, prod, (ProdFons)cProducteTraspas.SelectedItem);
-            //        }
-            //        catch (DbEntityValidationException ex1)
-            //        {
-            //            MessageBox.Show(ex1.Message);
-            //            return;
-            //        }
-            //}
-            //else if (tp == TipusMoviment.Dividends)
-            //{
-            //    // Pagament dividents
-
-            //    try
-            //    {
-            //        desaMoviment(TipusMoviment.Dividends, prod);
-            //    }
-            //    catch (DbEntityValidationException ex1)
-            //    {
-            //        MessageBox.Show(ex1.Message);
-            //        return;
-            //    }
-            //}
-
             gbTraspas.Visible = false;
             gbNumParticipacionsDesti.Visible = false;
             gbEdicio.Visible = false;

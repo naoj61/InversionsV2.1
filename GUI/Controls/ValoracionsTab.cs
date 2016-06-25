@@ -164,7 +164,7 @@ namespace Inversions.GUI
             {
                 val = vEsNouValor ? new Valoracio() : vValoracioSeleccionada;
                 val.Data = cData.Value;
-                val.Import = tbImport._DoubleValue;
+                val.PreuParticipacio = tbImport._DoubleValue;
 
                 if (vEsNouValor)
                 {
@@ -237,7 +237,7 @@ namespace Inversions.GUI
             if (!vModeEdicio)
             {
                 cData.Value = vValoracioSeleccionada.Data;
-                tbImport.Valor = vValoracioSeleccionada.Import;
+                tbImport.Valor = vValoracioSeleccionada.PreuParticipacio;
             }
         }
 
@@ -283,7 +283,7 @@ namespace Inversions.GUI
                     break;
             }
 
-            var valMovs = valoracions.Select(s => new { Data = s.Data.Date, PreuParticipacio = s.Import }).
+            var valMovs = valoracions.Select(s => new { Data = s.Data.Date, PreuParticipacio = s.PreuParticipacio }).
                 Union(moviments.Select(s => new { Data = s.Data.Date, PreuParticipacio = (s.Import / s.Participacions) })).GroupBy(g=>g.Data).OrderBy(o=>o.Key);
 
             if (!valMovs.Any())
@@ -298,7 +298,7 @@ namespace Inversions.GUI
             double minVal = double.MaxValue;
 
             chart2.Series[0].Points.Clear();
-            chart2.ChartAreas[0].AxisY.Maximum = Math.Ceiling(valoracions.Max(m => m.Import));
+            chart2.ChartAreas[0].AxisY.Maximum = Math.Ceiling(valoracions.Max(m => m.PreuParticipacio));
 
             double pigPerDataAnt = 0;
             foreach (var valoracio in valMovs)
@@ -366,9 +366,9 @@ namespace Inversions.GUI
 
             chart1.ChartAreas[0].AxisY.LabelStyle.Format = "#,##0.00";
 
-            chart1.ChartAreas[0].AxisY.Minimum = valoracionsProducte.Min(m => m.Import) / 1.02;
+            chart1.ChartAreas[0].AxisY.Minimum = valoracionsProducte.Min(m => m.PreuParticipacio) / 1.02;
 
-            chart1.ChartAreas[0].AxisY.Maximum = valoracionsProducte.Max(m => m.Import) * 1.02;
+            chart1.ChartAreas[0].AxisY.Maximum = valoracionsProducte.Max(m => m.PreuParticipacio) * 1.02;
 
             chart1.DataSource = valoracionsProducte;
             chart1.DataBind();

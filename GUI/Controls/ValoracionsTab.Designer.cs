@@ -482,7 +482,7 @@ namespace Inversions.GUI
             series1.Name = "Series1";
             series1.XValueMember = "Data";
             series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-            series1.YValueMembers = "Import";
+            series1.YValueMembers = "PreuParticipacio";
             series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(871, 130);

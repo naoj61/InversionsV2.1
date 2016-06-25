@@ -16,7 +16,7 @@ namespace Inversions
     public partial class InversionsBDContext : DbContext
     {
         public InversionsBDContext()
-            : base("name=InversionsBDContainer")
+            : base("name=InversionsBDContext")
         {
         }
     

@@ -224,7 +224,7 @@ namespace Inversions
         public double valorParticipacio(DateTimeFinalDia data)
         {
             var movs = Valoracions.
-                Where(w => w.Data <= data._Data).Select(s => new { Data = s.Data, PreuParticipacio = s.Import }).
+                Where(w => w.Data <= data._Data).Select(s => new { Data = s.Data, PreuParticipacio = s.PreuParticipacio }).
                 Union(MovimentsProducte.
                 Where(w => w.Data <= data._Data && w.Participacions > 0).Select(s => new { Data = s.Data, PreuParticipacio = s._PreuParticipacio })).
                 OrderBy(o => o.Data);

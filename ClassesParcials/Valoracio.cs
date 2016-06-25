@@ -24,7 +24,7 @@ namespace Inversions
                 if (v1.Count == 0)
                     return 0;
 
-                return Import / v1.Last().Import - 1;
+                return PreuParticipacio / v1.Last().PreuParticipacio - 1;
             }
         }
 
@@ -37,7 +37,7 @@ namespace Inversions
                     return 0;
 
 
-                return (Import * Prod._Participacions) - (v1.Last().Import * Prod._Participacions);
+                return (PreuParticipacio * Prod._Participacions) - (v1.Last().PreuParticipacio * Prod._Participacions);
             }
         }
 
@@ -46,7 +46,7 @@ namespace Inversions
         /// </summary>
         public double _ValoracioTotal
         {
-            get { return Import * Prod.participacions(new Producte.DateTimeFinalDia(Data)); }
+            get { return PreuParticipacio * Prod.participacions(new Producte.DateTimeFinalDia(Data)); }
         }
 
         #region Overrides
