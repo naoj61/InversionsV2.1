@@ -262,32 +262,33 @@ namespace Inversions.GUI
                 return;
 
             var tipusProdFiltre = cbTipusProducteFiltre.SelectedItem == null ? Producte.TipusProducte.Tots : (Producte.TipusProducte) cbTipusProducteFiltre.SelectedItem;
-            IQueryable<Valoracio> valoracions;
-            IQueryable<Moviment> moviments;
+            List<Valoracio> valoracions;
+            List<Moviment> moviments;
             switch (tipusProdFiltre)
             {
                 case Producte.TipusProducte.Accions:
                     //valoracions = MyClass.Sessio.Valoracions.Where(w => w.Prod is ProdAccions);
-                    valoracions = MyClass.Sessio.Valoracions.Where(w => w.Prod is ProdAccions);
-                    moviments = MyClass.Sessio.Moviments.Where(w => w.Prod is ProdAccions && w.Participacions > 0);
+                    valoracions = MyClass.Sessio.Valoracions.Where(w => w.Prod is ProdAccions).ToList();
+                    moviments = MyClass.Sessio.Moviments.Where(w => w.Prod is ProdAccions && w.Participacions > 0).ToList();
                     break;
                 case Producte.TipusProducte.Fons:
                     //valoracions = MyClass.Sessio.Valoracions.Where(w => w.Prod is ProdFons);
-                    valoracions = MyClass.Sessio.Valoracions.Where(w => w.Prod is ProdFons);
-                    moviments = MyClass.Sessio.Moviments.Where(w => w.Prod is ProdFons && w.Participacions > 0);
+                    valoracions = MyClass.Sessio.Valoracions.Where(w => w.Prod is ProdFons).ToList();
+                    moviments = MyClass.Sessio.Moviments.Where(w => w.Prod is ProdFons && w.Participacions > 0).ToList();
                     break;
                 default:
                     //valoracions = MyClass.Sessio.Valoracions;
-                    valoracions = MyClass.Sessio.Valoracions;
-                    moviments = MyClass.Sessio.Moviments.Where(w => w.Participacions > 0);
+                    valoracions = MyClass.Sessio.Valoracions.ToList();
+                    moviments = MyClass.Sessio.Moviments.Where(w => w.Participacions > 0).ToList();
                     break;
             }
 
-            var valMovs = valoracions.Select(s => new { Data = s.Data, PreuParticipacio = s.Import }).
-                Union(moviments.Select(s => new { Data = s.Data, PreuParticipacio = (s.Import / s.Participacions) })).GroupBy(g=>g.Data);
+            var valMovs = valoracions.Select(s => new { Data = s.Data.Date, PreuParticipacio = s.Import }).
+                Union(moviments.Select(s => new { Data = s.Data.Date, PreuParticipacio = (s.Import / s.Participacions) })).GroupBy(g=>g.Data).OrderBy(o=>o.Key);
 
             if (!valMovs.Any())
                 return;
+
 
             dgvValoracionsPerData.Rows.Clear();
 
@@ -297,18 +298,14 @@ namespace Inversions.GUI
             double minVal = double.MaxValue;
 
             chart2.Series[0].Points.Clear();
-            //chart2.ChartAreas[0].AxisX.Minimum = valoracions.Min(m => m.Data).ToOADate();
-            //chart2.ChartAreas[0].AxisX.Maximum = valoracions.Max(m => m.Data).ToOADate();
-            //chart2.ChartAreas[0].AxisY.Minimum = double.MaxValue;
             chart2.ChartAreas[0].AxisY.Maximum = Math.Ceiling(valoracions.Max(m => m.Import));
 
-            double pigPerData = 0;
             double pigPerDataAnt = 0;
             foreach (var valoracio in valMovs)
             {
                 DateTime data = valoracio.Key;
 
-                pigPerData = Producte.PiG(new Producte.DateTimeFinalDia(data));
+                double pigPerData = Producte.PiG(new Producte.DateTimeFinalDia(data));
 
                 importAcumulat += (pigPerData - pigPerDataAnt);
 
@@ -335,7 +332,6 @@ namespace Inversions.GUI
 
             chart2.ChartAreas[0].AxisY.Minimum = minVal;
             chart2.ChartAreas[0].AxisY.Maximum = maxVal;
-            //chart2.DataBind();
             chart2.Update();
 
             //ompleGrafica2(valoracions.Where(w=>w.Data>=(new DateTime(2015,03,20))).OrderBy(o => o.Data).ToList());
