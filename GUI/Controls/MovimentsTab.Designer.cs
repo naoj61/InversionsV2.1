@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gbTraspas = new System.Windows.Forms.GroupBox();
             this.gbProducteTraspas = new System.Windows.Forms.GroupBox();
             this.cProducteTraspas = new System.Windows.Forms.ComboBox();
@@ -45,24 +45,11 @@
             this.gbDescripcio = new System.Windows.Forms.GroupBox();
             this.tbDescripcio = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.gbDespeses = new System.Windows.Forms.GroupBox();
-            this.tbDespeses = new Controls.NumericTextBox2();
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.tbImport = new Controls.NumericTextBox2();
-            this.gbParticipacions = new System.Windows.Forms.GroupBox();
-            this.tbNumParticipacions = new Controls.NumericTextBox2();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.cData1 = new System.Windows.Forms.DateTimePicker();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.cTipusMovimentTab2 = new System.Windows.Forms.ComboBox();
             this.btCancelaMoviment = new System.Windows.Forms.Button();
             this.btVenda = new System.Windows.Forms.Button();
             this.btCompra = new System.Windows.Forms.Button();
             this.btDesaMoviment = new System.Windows.Forms.Button();
             this.cDataGridView1 = new System.Windows.Forms.DataGridView();
-            this.btDividends = new System.Windows.Forms.Button();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.gestioProductesTabMoviments = new Inversions.GUI.GestioProductes();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colProducte = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTipusMoviment = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -74,6 +61,22 @@
             this.colTraspasDesti = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTraspasOrigen = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDescripcio = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btDividends = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.gbDespeses = new System.Windows.Forms.GroupBox();
+            this.tbDespeses = new Controls.NumericTextBox2();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.tbPreuParticipacio = new Controls.NumericTextBox2();
+            this.gbParticipacions = new System.Windows.Forms.GroupBox();
+            this.tbNumParticipacions = new Controls.NumericTextBox2();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.cData1 = new System.Windows.Forms.DateTimePicker();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.cTipusMovimentTab2 = new System.Windows.Forms.ComboBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tbImportTotal = new Controls.NumericTextBox2();
+            this.gestioProductesTabMoviments = new Inversions.GUI.GestioProductes();
             this.gbTraspas.SuspendLayout();
             this.gbProducteTraspas.SuspendLayout();
             this.gbDataDesti.SuspendLayout();
@@ -81,12 +84,14 @@
             this.gbEdicio.SuspendLayout();
             this.gbDescripcio.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cDataGridView1)).BeginInit();
+            this.panel2.SuspendLayout();
             this.gbDespeses.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.gbParticipacions.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cDataGridView1)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbTraspas
@@ -192,9 +197,9 @@
             // 
             this.gbDescripcio.Controls.Add(this.tbDescripcio);
             this.gbDescripcio.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbDescripcio.Location = new System.Drawing.Point(3, 78);
+            this.gbDescripcio.Location = new System.Drawing.Point(3, 123);
             this.gbDescripcio.Name = "gbDescripcio";
-            this.gbDescripcio.Size = new System.Drawing.Size(545, 141);
+            this.gbDescripcio.Size = new System.Drawing.Size(545, 96);
             this.gbDescripcio.TabIndex = 5;
             this.gbDescripcio.TabStop = false;
             this.gbDescripcio.Text = "Descripció";
@@ -206,147 +211,19 @@
             this.tbDescripcio.Multiline = true;
             this.tbDescripcio.Name = "tbDescripcio";
             this.tbDescripcio.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.tbDescripcio.Size = new System.Drawing.Size(539, 120);
+            this.tbDescripcio.Size = new System.Drawing.Size(539, 75);
             this.tbDescripcio.TabIndex = 0;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.gbDespeses);
-            this.panel1.Controls.Add(this.groupBox10);
-            this.panel1.Controls.Add(this.gbParticipacions);
-            this.panel1.Controls.Add(this.groupBox8);
-            this.panel1.Controls.Add(this.groupBox7);
+            this.panel1.Controls.Add(this.groupBox1);
+            this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(3, 18);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(545, 60);
+            this.panel1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.panel1.Size = new System.Drawing.Size(545, 105);
             this.panel1.TabIndex = 4;
-            // 
-            // gbDespeses
-            // 
-            this.gbDespeses.Controls.Add(this.tbDespeses);
-            this.gbDespeses.Dock = System.Windows.Forms.DockStyle.Left;
-            this.gbDespeses.Location = new System.Drawing.Point(446, 0);
-            this.gbDespeses.Name = "gbDespeses";
-            this.gbDespeses.Padding = new System.Windows.Forms.Padding(5);
-            this.gbDespeses.Size = new System.Drawing.Size(96, 60);
-            this.gbDespeses.TabIndex = 5;
-            this.gbDespeses.TabStop = false;
-            this.gbDespeses.Text = "Despeses";
-            // 
-            // tbDespeses
-            // 
-            this.tbDespeses._Format = "#,##0.### €";
-            this.tbDespeses._PermetDecimals = true;
-            this.tbDespeses._PermetEspais = false;
-            this.tbDespeses._PermetNegatius = false;
-            this.tbDespeses.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbDespeses.Location = new System.Drawing.Point(5, 20);
-            this.tbDespeses.Name = "tbDespeses";
-            this.tbDespeses.Size = new System.Drawing.Size(86, 22);
-            this.tbDespeses.TabIndex = 0;
-            this.tbDespeses.Text = "0 €";
-            this.tbDespeses.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbDespeses.Valor = 0D;
-            // 
-            // groupBox10
-            // 
-            this.groupBox10.Controls.Add(this.tbImport);
-            this.groupBox10.Dock = System.Windows.Forms.DockStyle.Left;
-            this.groupBox10.Location = new System.Drawing.Point(348, 0);
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox10.Size = new System.Drawing.Size(98, 60);
-            this.groupBox10.TabIndex = 3;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Import Total";
-            this.toolTip1.SetToolTip(this.groupBox10, "Import brut sense despeses");
-            // 
-            // tbImport
-            // 
-            this.tbImport._Format = "#,##0.### €";
-            this.tbImport._PermetDecimals = true;
-            this.tbImport._PermetEspais = false;
-            this.tbImport._PermetNegatius = false;
-            this.tbImport.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbImport.Location = new System.Drawing.Point(5, 20);
-            this.tbImport.Name = "tbImport";
-            this.tbImport.Size = new System.Drawing.Size(88, 22);
-            this.tbImport.TabIndex = 0;
-            this.tbImport.Text = "0 €";
-            this.tbImport.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbImport.Valor = 0D;
-            // 
-            // gbParticipacions
-            // 
-            this.gbParticipacions.Controls.Add(this.tbNumParticipacions);
-            this.gbParticipacions.Dock = System.Windows.Forms.DockStyle.Left;
-            this.gbParticipacions.Location = new System.Drawing.Point(237, 0);
-            this.gbParticipacions.Name = "gbParticipacions";
-            this.gbParticipacions.Padding = new System.Windows.Forms.Padding(5);
-            this.gbParticipacions.Size = new System.Drawing.Size(111, 60);
-            this.gbParticipacions.TabIndex = 2;
-            this.gbParticipacions.TabStop = false;
-            this.gbParticipacions.Text = "Participacions";
-            // 
-            // tbNumParticipacions
-            // 
-            this.tbNumParticipacions._Format = "#,##0.####";
-            this.tbNumParticipacions._PermetDecimals = true;
-            this.tbNumParticipacions._PermetEspais = false;
-            this.tbNumParticipacions._PermetNegatius = false;
-            this.tbNumParticipacions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbNumParticipacions.Location = new System.Drawing.Point(5, 20);
-            this.tbNumParticipacions.Name = "tbNumParticipacions";
-            this.tbNumParticipacions.Size = new System.Drawing.Size(101, 22);
-            this.tbNumParticipacions.TabIndex = 1;
-            this.tbNumParticipacions.Text = "0";
-            this.tbNumParticipacions.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbNumParticipacions.Valor = 0D;
-            // 
-            // groupBox8
-            // 
-            this.groupBox8.Controls.Add(this.cData1);
-            this.groupBox8.Dock = System.Windows.Forms.DockStyle.Left;
-            this.groupBox8.Location = new System.Drawing.Point(132, 0);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox8.Size = new System.Drawing.Size(105, 60);
-            this.groupBox8.TabIndex = 1;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Data";
-            // 
-            // cData1
-            // 
-            this.cData1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cData1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.cData1.Location = new System.Drawing.Point(5, 20);
-            this.cData1.Name = "cData1";
-            this.cData1.Size = new System.Drawing.Size(95, 22);
-            this.cData1.TabIndex = 0;
-            // 
-            // groupBox7
-            // 
-            this.groupBox7.Controls.Add(this.cTipusMovimentTab2);
-            this.groupBox7.Dock = System.Windows.Forms.DockStyle.Left;
-            this.groupBox7.Location = new System.Drawing.Point(0, 0);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox7.Size = new System.Drawing.Size(132, 60);
-            this.groupBox7.TabIndex = 0;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Tipus Moviment";
-            // 
-            // cTipusMovimentTab2
-            // 
-            this.cTipusMovimentTab2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cTipusMovimentTab2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cTipusMovimentTab2.Enabled = false;
-            this.cTipusMovimentTab2.FormattingEnabled = true;
-            this.cTipusMovimentTab2.Location = new System.Drawing.Point(5, 20);
-            this.cTipusMovimentTab2.Name = "cTipusMovimentTab2";
-            this.cTipusMovimentTab2.Size = new System.Drawing.Size(122, 24);
-            this.cTipusMovimentTab2.TabIndex = 0;
             // 
             // btCancelaMoviment
             // 
@@ -425,32 +302,6 @@
             this.cDataGridView1.TabIndex = 7;
             this.toolTip1.SetToolTip(this.cDataGridView1, "nhjfghj");
             // 
-            // btDividends
-            // 
-            this.btDividends.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btDividends.Enabled = false;
-            this.btDividends.Location = new System.Drawing.Point(1241, 12);
-            this.btDividends.Name = "btDividends";
-            this.btDividends.Size = new System.Drawing.Size(101, 50);
-            this.btDividends.TabIndex = 2;
-            this.btDividends.Text = "Dividends";
-            this.btDividends.UseVisualStyleBackColor = true;
-            this.btDividends.Click += new System.EventHandler(this.btDividends_Click);
-            // 
-            // gestioProductesTabMoviments
-            // 
-            this.gestioProductesTabMoviments._NomesAmbParticipacions = true;
-            this.gestioProductesTabMoviments._ProducteSeleccionat = null;
-            this.gestioProductesTabMoviments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gestioProductesTabMoviments.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.gestioProductesTabMoviments.Location = new System.Drawing.Point(0, 0);
-            this.gestioProductesTabMoviments.MinimumSize = new System.Drawing.Size(733, 395);
-            this.gestioProductesTabMoviments.Name = "gestioProductesTabMoviments";
-            this.gestioProductesTabMoviments.Size = new System.Drawing.Size(1011, 410);
-            this.gestioProductesTabMoviments.TabIndex = 0;
-            this.gestioProductesTabMoviments.ProducteSeleccionat += new System.EventHandler(this.gestioProductes1_ProducteSeleccionat);
-            // 
             // colId
             // 
             this.colId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -485,10 +336,10 @@
             // 
             this.colData.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colData.DataPropertyName = "Data";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.Format = "d";
-            dataGridViewCellStyle1.NullValue = null;
-            this.colData.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.Format = "d";
+            dataGridViewCellStyle11.NullValue = null;
+            this.colData.DefaultCellStyle = dataGridViewCellStyle11;
             this.colData.HeaderText = "Data";
             this.colData.Name = "colData";
             this.colData.ReadOnly = true;
@@ -498,10 +349,10 @@
             // 
             this.colParticipacions.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colParticipacions.DataPropertyName = "Participacions";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Format = "N4";
-            dataGridViewCellStyle2.NullValue = null;
-            this.colParticipacions.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle12.Format = "N4";
+            dataGridViewCellStyle12.NullValue = null;
+            this.colParticipacions.DefaultCellStyle = dataGridViewCellStyle12;
             this.colParticipacions.HeaderText = "Participacions";
             this.colParticipacions.Name = "colParticipacions";
             this.colParticipacions.ReadOnly = true;
@@ -511,9 +362,9 @@
             // 
             this.colPreuUnitari.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colPreuUnitari.DataPropertyName = "_PreuParticipacio";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "c3";
-            this.colPreuUnitari.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle13.Format = "c3";
+            this.colPreuUnitari.DefaultCellStyle = dataGridViewCellStyle13;
             this.colPreuUnitari.HeaderText = "Preu Unitari";
             this.colPreuUnitari.Name = "colPreuUnitari";
             this.colPreuUnitari.ReadOnly = true;
@@ -523,10 +374,10 @@
             // 
             this.colImport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colImport.DataPropertyName = "Import";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "C2";
-            dataGridViewCellStyle4.NullValue = null;
-            this.colImport.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle14.Format = "C2";
+            dataGridViewCellStyle14.NullValue = null;
+            this.colImport.DefaultCellStyle = dataGridViewCellStyle14;
             this.colImport.HeaderText = "Import";
             this.colImport.Name = "colImport";
             this.colImport.ReadOnly = true;
@@ -536,9 +387,9 @@
             // 
             this.colDespeses.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colDespeses.DataPropertyName = "Despeses";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Format = "c2";
-            this.colDespeses.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle15.Format = "c2";
+            this.colDespeses.DefaultCellStyle = dataGridViewCellStyle15;
             this.colDespeses.HeaderText = "Despeses";
             this.colDespeses.Name = "colDespeses";
             this.colDespeses.ReadOnly = true;
@@ -571,11 +422,206 @@
             this.colDescripcio.ReadOnly = true;
             this.colDescripcio.Width = 99;
             // 
+            // btDividends
+            // 
+            this.btDividends.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btDividends.Enabled = false;
+            this.btDividends.Location = new System.Drawing.Point(1241, 12);
+            this.btDividends.Name = "btDividends";
+            this.btDividends.Size = new System.Drawing.Size(101, 50);
+            this.btDividends.TabIndex = 2;
+            this.btDividends.Text = "Dividends";
+            this.btDividends.UseVisualStyleBackColor = true;
+            this.btDividends.Click += new System.EventHandler(this.btDividends_Click);
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.gbDespeses);
+            this.panel2.Controls.Add(this.groupBox10);
+            this.panel2.Controls.Add(this.gbParticipacions);
+            this.panel2.Controls.Add(this.groupBox8);
+            this.panel2.Controls.Add(this.groupBox7);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(545, 50);
+            this.panel2.TabIndex = 0;
+            // 
+            // gbDespeses
+            // 
+            this.gbDespeses.Controls.Add(this.tbDespeses);
+            this.gbDespeses.Dock = System.Windows.Forms.DockStyle.Left;
+            this.gbDespeses.Location = new System.Drawing.Point(446, 0);
+            this.gbDespeses.Name = "gbDespeses";
+            this.gbDespeses.Padding = new System.Windows.Forms.Padding(5);
+            this.gbDespeses.Size = new System.Drawing.Size(96, 50);
+            this.gbDespeses.TabIndex = 10;
+            this.gbDespeses.TabStop = false;
+            this.gbDespeses.Text = "Despeses";
+            // 
+            // tbDespeses
+            // 
+            this.tbDespeses._Format = "#,##0.### €";
+            this.tbDespeses._PermetDecimals = true;
+            this.tbDespeses._PermetEspais = false;
+            this.tbDespeses._PermetNegatius = false;
+            this.tbDespeses.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbDespeses.Location = new System.Drawing.Point(5, 20);
+            this.tbDespeses.Name = "tbDespeses";
+            this.tbDespeses.Size = new System.Drawing.Size(86, 22);
+            this.tbDespeses.TabIndex = 0;
+            this.tbDespeses.Text = "0 €";
+            this.tbDespeses.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.tbDespeses.Valor = 0D;
+            this.tbDespeses.Leave += new System.EventHandler(this.tbDespeses_Leave);
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.tbPreuParticipacio);
+            this.groupBox10.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBox10.Location = new System.Drawing.Point(348, 0);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Padding = new System.Windows.Forms.Padding(5);
+            this.groupBox10.Size = new System.Drawing.Size(98, 50);
+            this.groupBox10.TabIndex = 9;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Preu Partic.";
+            this.toolTip1.SetToolTip(this.groupBox10, "Import brut sense despeses");
+            // 
+            // tbPreuParticipacio
+            // 
+            this.tbPreuParticipacio._Format = "#,##0.### €";
+            this.tbPreuParticipacio._PermetDecimals = true;
+            this.tbPreuParticipacio._PermetEspais = false;
+            this.tbPreuParticipacio._PermetNegatius = false;
+            this.tbPreuParticipacio.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbPreuParticipacio.Location = new System.Drawing.Point(5, 20);
+            this.tbPreuParticipacio.Name = "tbPreuParticipacio";
+            this.tbPreuParticipacio.Size = new System.Drawing.Size(88, 22);
+            this.tbPreuParticipacio.TabIndex = 0;
+            this.tbPreuParticipacio.Text = "0 €";
+            this.tbPreuParticipacio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.tbPreuParticipacio.Valor = 0D;
+            this.tbPreuParticipacio.Leave += new System.EventHandler(this.tbPreuParticipacio_Leave);
+            // 
+            // gbParticipacions
+            // 
+            this.gbParticipacions.Controls.Add(this.tbNumParticipacions);
+            this.gbParticipacions.Dock = System.Windows.Forms.DockStyle.Left;
+            this.gbParticipacions.Location = new System.Drawing.Point(237, 0);
+            this.gbParticipacions.Name = "gbParticipacions";
+            this.gbParticipacions.Padding = new System.Windows.Forms.Padding(5);
+            this.gbParticipacions.Size = new System.Drawing.Size(111, 50);
+            this.gbParticipacions.TabIndex = 8;
+            this.gbParticipacions.TabStop = false;
+            this.gbParticipacions.Text = "Participacions";
+            // 
+            // tbNumParticipacions
+            // 
+            this.tbNumParticipacions._Format = "#,##0.####";
+            this.tbNumParticipacions._PermetDecimals = true;
+            this.tbNumParticipacions._PermetEspais = false;
+            this.tbNumParticipacions._PermetNegatius = false;
+            this.tbNumParticipacions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbNumParticipacions.Location = new System.Drawing.Point(5, 20);
+            this.tbNumParticipacions.Name = "tbNumParticipacions";
+            this.tbNumParticipacions.Size = new System.Drawing.Size(101, 22);
+            this.tbNumParticipacions.TabIndex = 1;
+            this.tbNumParticipacions.Text = "0";
+            this.tbNumParticipacions.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.tbNumParticipacions.Valor = 0D;
+            this.tbNumParticipacions.Leave += new System.EventHandler(this.tbNumParticipacions_Leave);
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.cData1);
+            this.groupBox8.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBox8.Location = new System.Drawing.Point(132, 0);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Padding = new System.Windows.Forms.Padding(5);
+            this.groupBox8.Size = new System.Drawing.Size(105, 50);
+            this.groupBox8.TabIndex = 7;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Data";
+            // 
+            // cData1
+            // 
+            this.cData1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cData1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.cData1.Location = new System.Drawing.Point(5, 20);
+            this.cData1.Name = "cData1";
+            this.cData1.Size = new System.Drawing.Size(95, 22);
+            this.cData1.TabIndex = 0;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.cTipusMovimentTab2);
+            this.groupBox7.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBox7.Location = new System.Drawing.Point(0, 0);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Padding = new System.Windows.Forms.Padding(5);
+            this.groupBox7.Size = new System.Drawing.Size(132, 50);
+            this.groupBox7.TabIndex = 6;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Tipus Moviment";
+            // 
+            // cTipusMovimentTab2
+            // 
+            this.cTipusMovimentTab2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cTipusMovimentTab2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cTipusMovimentTab2.Enabled = false;
+            this.cTipusMovimentTab2.FormattingEnabled = true;
+            this.cTipusMovimentTab2.Location = new System.Drawing.Point(5, 20);
+            this.cTipusMovimentTab2.Name = "cTipusMovimentTab2";
+            this.cTipusMovimentTab2.Size = new System.Drawing.Size(122, 24);
+            this.cTipusMovimentTab2.TabIndex = 0;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.tbImportTotal);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBox1.Location = new System.Drawing.Point(0, 50);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(5);
+            this.groupBox1.Size = new System.Drawing.Size(96, 50);
+            this.groupBox1.TabIndex = 11;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Imp. Total";
+            // 
+            // tbImportTotal
+            // 
+            this.tbImportTotal._Format = "#,##0.### €";
+            this.tbImportTotal._PermetDecimals = true;
+            this.tbImportTotal._PermetEspais = false;
+            this.tbImportTotal._PermetNegatius = false;
+            this.tbImportTotal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbImportTotal.Location = new System.Drawing.Point(5, 20);
+            this.tbImportTotal.Name = "tbImportTotal";
+            this.tbImportTotal.ReadOnly = true;
+            this.tbImportTotal.Size = new System.Drawing.Size(86, 22);
+            this.tbImportTotal.TabIndex = 0;
+            this.tbImportTotal.Text = "0 €";
+            this.tbImportTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.tbImportTotal.Valor = 0D;
+            // 
+            // gestioProductesTabMoviments
+            // 
+            this.gestioProductesTabMoviments._NomesAmbParticipacions = true;
+            this.gestioProductesTabMoviments._ProducteSeleccionat = null;
+            this.gestioProductesTabMoviments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gestioProductesTabMoviments.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.gestioProductesTabMoviments.Location = new System.Drawing.Point(0, 0);
+            this.gestioProductesTabMoviments.MinimumSize = new System.Drawing.Size(733, 395);
+            this.gestioProductesTabMoviments.Name = "gestioProductesTabMoviments";
+            this.gestioProductesTabMoviments.Size = new System.Drawing.Size(1011, 410);
+            this.gestioProductesTabMoviments.TabIndex = 0;
+            this.gestioProductesTabMoviments.ProducteSeleccionat += new System.EventHandler(this.gestioProductes1_ProducteSeleccionat);
+            // 
             // MovimentsTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.gestioProductesTabMoviments);
             this.Controls.Add(this.gbTraspas);
             this.Controls.Add(this.gbEdicio);
             this.Controls.Add(this.btCancelaMoviment);
@@ -584,6 +630,7 @@
             this.Controls.Add(this.btCompra);
             this.Controls.Add(this.btDesaMoviment);
             this.Controls.Add(this.cDataGridView1);
+            this.Controls.Add(this.gestioProductesTabMoviments);
             this.Name = "MovimentsTab";
             this.Size = new System.Drawing.Size(1585, 599);
             this.gbTraspas.ResumeLayout(false);
@@ -595,6 +642,8 @@
             this.gbDescripcio.ResumeLayout(false);
             this.gbDescripcio.PerformLayout();
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.cDataGridView1)).EndInit();
+            this.panel2.ResumeLayout(false);
             this.gbDespeses.ResumeLayout(false);
             this.gbDespeses.PerformLayout();
             this.groupBox10.ResumeLayout(false);
@@ -603,7 +652,8 @@
             this.gbParticipacions.PerformLayout();
             this.groupBox8.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.cDataGridView1)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -615,18 +665,11 @@
         private System.Windows.Forms.ComboBox cProducteTraspas;
         private System.Windows.Forms.GroupBox gbNumParticipacionsDesti;
         private System.Windows.Forms.GroupBox gbEdicio;
-        private System.Windows.Forms.GroupBox groupBox10;
-        private System.Windows.Forms.GroupBox gbParticipacions;
-        private System.Windows.Forms.GroupBox groupBox8;
-        private System.Windows.Forms.DateTimePicker cData1;
-        private System.Windows.Forms.GroupBox groupBox7;
-        private System.Windows.Forms.ComboBox cTipusMovimentTab2;
         private System.Windows.Forms.Button btCancelaMoviment;
         private System.Windows.Forms.Button btVenda;
         private System.Windows.Forms.Button btCompra;
         private System.Windows.Forms.Button btDesaMoviment;
         private System.Windows.Forms.DataGridView cDataGridView1;
-        private Controls.NumericTextBox2 tbImport;
         private GestioProductes gestioProductesTabMoviments;
         private System.Windows.Forms.GroupBox gbDescripcio;
         private System.Windows.Forms.TextBox tbDescripcio;
@@ -634,10 +677,7 @@
         private System.Windows.Forms.GroupBox gbDataDesti;
         private System.Windows.Forms.DateTimePicker cDataDesti;
         private System.Windows.Forms.Button btDividends;
-        private System.Windows.Forms.GroupBox gbDespeses;
-        private Controls.NumericTextBox2 tbDespeses;
         private Controls.NumericTextBox2 tbNumParticipacionsDesti;
-        private Controls.NumericTextBox2 tbNumParticipacions;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.DataGridViewTextBoxColumn colId;
         private System.Windows.Forms.DataGridViewTextBoxColumn colProducte;
@@ -650,5 +690,18 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colTraspasDesti;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTraspasOrigen;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDescripcio;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private Controls.NumericTextBox2 tbImportTotal;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.GroupBox gbDespeses;
+        private Controls.NumericTextBox2 tbDespeses;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private Controls.NumericTextBox2 tbPreuParticipacio;
+        private System.Windows.Forms.GroupBox gbParticipacions;
+        private Controls.NumericTextBox2 tbNumParticipacions;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.DateTimePicker cData1;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.ComboBox cTipusMovimentTab2;
     }
 }

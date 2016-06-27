@@ -42,7 +42,7 @@
           <Property Name="TipusMoviment" Type="int" Nullable="false" />
           <Property Name="Data" Type="datetime" Nullable="false" />
           <Property Name="Participacions" Type="float" Nullable="false" />
-          <Property Name="Import" Type="float" Nullable="false" />
+          <Property Name="PreuParticipacio" Type="float" Nullable="false" />
           <Property Name="Despeses" Type="float" />
           <Property Name="Descripcio" Type="nvarchar(max)" />
           <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
@@ -426,12 +426,12 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Private" />
           <NavigationProperty Name="Prod" Relationship="InversionsBD.ProdMov" FromRole="Mov" ToRole="Prod" />
           <Property Name="ProdId" Type="Int32" Nullable="false" />
+          <Property Name="ProducteTraspasId" Type="Int32" Nullable="true" />
           <Property Name="TipusMoviment" Type="InversionsBD.TipusMoviment" Nullable="false" />
           <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Participacions" Type="Double" Nullable="false" />
-          <Property Name="Import" Type="Double" Nullable="false" />
+          <Property Name="PreuParticipacio" Type="Double" Nullable="false" />
           <Property Name="Despeses" Type="Double" Nullable="true" />
-          <Property Name="ProducteTraspasId" Type="Int32" Nullable="true" />
           <Property Name="Descripcio" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="ProducteTraspas" Relationship="InversionsBD.ProducteMoviment" FromRole="Moviment" ToRole="Producte" />
           <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" ConcurrencyMode="Fixed" FixedLength="true" cg:SetterAccess="Private" annotation:StoreGeneratedPattern="Computed" />
@@ -553,12 +553,12 @@
     <EntitySetMapping Name="Moviments">
       <EntityTypeMapping TypeName="IsTypeOf(InversionsBD.Moviment)">
         <MappingFragment StoreEntitySet="Moviments">
+                <ScalarProperty Name="PreuParticipacio" ColumnName="PreuParticipacio" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="ProdId" ColumnName="ProdId" />
           <ScalarProperty Name="TipusMoviment" ColumnName="TipusMoviment" />
           <ScalarProperty Name="Data" ColumnName="Data" />
           <ScalarProperty Name="Participacions" ColumnName="Participacions" />
-          <ScalarProperty Name="Import" ColumnName="Import" />
           <ScalarProperty Name="Despeses" ColumnName="Despeses" />
           <ScalarProperty Name="ProducteTraspasId" ColumnName="ProducteTraspasId" />
           <ScalarProperty Name="Descripcio" ColumnName="Descripcio" />

@@ -87,7 +87,29 @@ namespace Inversions
         {
             get
             {
-                return Import / Participacions;
+                return PreuParticipacio;
+            }
+        }
+
+        public double Import
+        {
+            get
+            {
+                double result;
+                if (Participacions == 0)
+                {
+                    result = PreuParticipacio;
+                }
+                else
+                {
+                    if (_EsCompra)
+                        result = PreuParticipacio * Participacions + Despeses.GetValueOrDefault();
+                    else if (_EsVenda)
+                        result = PreuParticipacio * Participacions - Despeses.GetValueOrDefault();
+                    else
+                        result = PreuParticipacio * Participacions;
+                }
+                return result;
             }
         }
 

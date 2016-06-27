@@ -17,11 +17,11 @@ namespace Inversions.GUI
         public MovimentsTab()
         {
             InitializeComponent();
-            
+
             cDataGridView1.AutoGenerateColumns = false;
 
             cTipusMovimentTab2.SuspendLayout();
-            cTipusMovimentTab2.DataSource = Enum.GetValues(typeof(TipusMoviment));
+            cTipusMovimentTab2.DataSource = Enum.GetValues(typeof (TipusMoviment));
             cTipusMovimentTab2.SelectedItem = null;
             cTipusMovimentTab2.ResumeLayout();
 
@@ -61,8 +61,9 @@ namespace Inversions.GUI
                 btDividends.Enabled = false;
                 btDesaMoviment.Enabled = false;
             }
-            else{
-                var prod = (Producte)sender;
+            else
+            {
+                var prod = (Producte) sender;
 
                 ompleTaulaMovimentsProducte(prod);
 
@@ -87,7 +88,7 @@ namespace Inversions.GUI
             var movimentsProducte = MyClass.Sessio.Moviments.Where(w => w.Prod.Id == prod.Id).ToList();
 
             cDataGridView1.SuspendLayout();
-            cDataGridView1.DataSource = movimentsProducte.OrderBy(o=>o.Data).ToList();
+            cDataGridView1.DataSource = movimentsProducte.OrderBy(o => o.Data).ToList();
             cDataGridView1.Columns["colTraspasOrigen"].Visible = movimentsProducte.Exists(eo => eo._NomProducteTraspasOrigen != null);
             cDataGridView1.Columns["colTraspasDesti"].Visible = movimentsProducte.Exists(eo => eo._NomProducteTraspasDesti != null);
             cDataGridView1.ClearSelection();
@@ -100,9 +101,12 @@ namespace Inversions.GUI
             cDataGridView1.ResumeLayout();
         }
 
+        private bool? comprant = null;
 
         private void btCompra_Click(object sender, EventArgs e)
         {
+            comprant = true;
+
             gbTraspas.Visible = false;
             gbNumParticipacionsDesti.Visible = false;
             gbEdicio.Visible = true;
@@ -118,13 +122,15 @@ namespace Inversions.GUI
             cProducteTraspas.SelectedItem = null;
             cTipusMovimentTab2.SelectedItem = TipusMoviment.Compra;
             tbNumParticipacions.Valor = 0;
-            tbImport.Valor = 0;
+            tbPreuParticipacio.Valor = 0;
             tbDespeses.Valor = 0;
             tbDescripcio.Text = "";
         }
 
         private void btVenda_Click(object sender, EventArgs e)
         {
+            comprant = false;
+
             var prod = gestioProductesTabMoviments._ProducteSeleccionat;
 
             if (prod._TipusProducte == Producte.TipusProducte.Fons)
@@ -154,10 +160,10 @@ namespace Inversions.GUI
             btCompra.Enabled = false;
             btDesaMoviment.Enabled = true;
 
-            tbNumParticipacions.Valor =prod._Participacions;
+            tbNumParticipacions.Valor = prod._Participacions;
 
             cTipusMovimentTab2.SelectedItem = TipusMoviment.Venda;
-            tbImport.Valor = 0;
+            tbPreuParticipacio.Valor = 0;
             cProducteTraspas.SelectedItem = null;
             tbNumParticipacionsDesti.Valor = 0;
             tbDespeses.Valor = 0;
@@ -181,10 +187,10 @@ namespace Inversions.GUI
             btDesaMoviment.Enabled = true;
             gbDespeses.Visible = false;
 
-            tbNumParticipacions.Valor =0;
+            tbNumParticipacions.Valor = 0;
 
             cTipusMovimentTab2.SelectedItem = TipusMoviment.Dividends;
-            tbImport.Valor = 0;
+            tbPreuParticipacio.Valor = 0;
             cProducteTraspas.SelectedItem = null;
             tbNumParticipacionsDesti.Valor = 0;
             tbDespeses.Valor = 0;
@@ -224,7 +230,7 @@ namespace Inversions.GUI
 
             try
             {
-                desaMoviment(tp, prod, (ProdFons)cProducteTraspas.SelectedItem);
+                desaMoviment(tp, prod, (ProdFons) cProducteTraspas.SelectedItem);
             }
             catch (DbEntityValidationException ex1)
             {
@@ -246,6 +252,8 @@ namespace Inversions.GUI
             btDesaMoviment.Enabled = false;
 
             cProducteTraspas.SelectedItem = null;
+
+            comprant = null;
         }
 
 
@@ -266,7 +274,7 @@ namespace Inversions.GUI
                 {
                     Moviment mov = new Moviment();
                     mov.TipusMoviment = tipusMoviment;
-                    mov.Import = tbImport._DoubleValue;
+                    mov.PreuParticipacio = tbPreuParticipacio._DoubleValue;
                     mov.Despeses = tbDespeses.Valor == 0 ? (double?) null : tbDespeses._DoubleValue;
                     mov.Data = cData1.Value;
                     mov.Descripcio = String.IsNullOrEmpty(tbDescripcio.Text) ? null : tbDescripcio.Text;
@@ -285,10 +293,10 @@ namespace Inversions.GUI
                         mov2.TipusMoviment = TipusMoviment.Compra;
                         mov.Despeses = null;
                         mov2.Data = cDataDesti.Value;
-                        mov2.Participacions = (double)tbNumParticipacionsDesti.Valor;
+                        mov2.Participacions = (double) tbNumParticipacionsDesti.Valor;
                         mov2.Prod = movimentOrigen;
                         mov2.ProducteTraspas = prod;
-                        
+
                         MyClass.Sessio.Moviments.Add(mov2);
                         MyClass.Sessio.SaveChanges();
                     }
@@ -323,11 +331,13 @@ namespace Inversions.GUI
             btDesaMoviment.Enabled = false;
 
             cProducteTraspas.SelectedItem = null;
+
+            comprant = null;
         }
 
         private void cProducteTraspas_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(cProducteTraspas.SelectedItem == null)
+            if (cProducteTraspas.SelectedItem == null)
             {
                 gbDataDesti.Visible = false;
                 gbNumParticipacionsDesti.Visible = false;
@@ -339,5 +349,32 @@ namespace Inversions.GUI
                 gbNumParticipacionsDesti.Visible = true;
             }
         }
+
+        private void tbNumParticipacions_Leave(object sender, EventArgs e)
+        {
+            calculaImportTotal();
+        }
+
+        private void tbPreuParticipacio_Leave(object sender, EventArgs e)
+        {
+            calculaImportTotal();
+        }
+
+        private void tbDespeses_Leave(object sender, EventArgs e)
+        {
+            calculaImportTotal();
+        }
+
+        private void calculaImportTotal()
+        {
+            var imp = tbPreuParticipacio.Valor * tbNumParticipacions.Valor;
+            if (comprant.GetValueOrDefault())
+                imp += tbDespeses.Valor;
+            else
+                imp -= tbDespeses.Valor;
+
+            tbImportTotal.Valor = imp;
+        }
+
     }
 }

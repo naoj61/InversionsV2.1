@@ -11,12 +11,21 @@ namespace Inversions.GUI
     {
         public Principal()
         {
-            InitializeComponent();
-            
-            foreach (var prod in MyClass.Sessio.Productes)
-            {
-                System.Diagnostics.Debug.WriteLine("Id: {0}. Nom: {1}", prod.Id, prod._NomProducte);
-            }
+
+            //foreach (var moviment in MyClass.Sessio.Moviments)
+            //{
+            //    moviment.PreuParticipacio = moviment.Participacions == 0 ? moviment.Import :
+            //        moviment.Import / moviment.Participacions;
+            //    MyClass.Sessio.Entry(moviment).State = EntityState.Modified;
+            //}
+
+            //int ii = MyClass.Sessio.SaveChanges();
+
+
+            //foreach (var prod in MyClass.Sessio.Productes)
+            //{
+            //    System.Diagnostics.Debug.WriteLine("Id: {0}. Nom: {1}", prod.Id, prod._NomProducte);
+            //}
 
             //var ss = MyClass.Sessio.Productes.Single(s => s.Id == 9).pigAny(2014);
 
@@ -25,15 +34,17 @@ namespace Inversions.GUI
             //foreach (var prod in MyClass.Sessio.Productes)
             //{
             //    var numPart = prod._Participacions;
-                //if (numPart > 0)
-                //    System.Diagnostics.Debug.WriteLine("{0}\t{1}\t{2}\t{3}", prod._NomProducte, numPart.ToString("0.0000"),
-                //        prod.valorParticipacio(new Producte.DateTimeFinalDia(2016, 1, 1)).ToString("0.0000"),
-                //        prod.valorParticipacio(new Producte.DateTimeFinalDia(DateTime.Today)).ToString("0.0000"));
+            //if (numPart > 0)
+            //    System.Diagnostics.Debug.WriteLine("{0}\t{1}\t{2}\t{3}", prod._NomProducte, numPart.ToString("0.0000"),
+            //        prod.valorParticipacio(new Producte.DateTimeFinalDia(2016, 1, 1)).ToString("0.0000"),
+            //        prod.valorParticipacio(new Producte.DateTimeFinalDia(DateTime.Today)).ToString("0.0000"));
 
             //    var cc = prod.pigPerDates(new Producte.DateTimeIniciDia(2014, 1, 1), new Producte.DateTimeFinalDia(2016, 6, 20));
             //    System.Diagnostics.Debug.WriteLine("Id:\t{2}\tNom producte:\t{0}\tPiG:\t{1}", prod._NomProducte, cc.ToString("#,##0.00"), prod.Id);
             //    dd += cc;
             //}
+
+            InitializeComponent();
 
             this.Text = "Producte. Ver: " + Application.ProductVersion;
 

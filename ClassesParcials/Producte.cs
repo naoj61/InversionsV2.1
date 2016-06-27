@@ -316,7 +316,7 @@ namespace Inversions
             var valorPartI = valorParticipacio(new DateTimeFinalDia(dataInici._Data));
 
             // Simulo un moviment de compra de les participacions existents.
-            movs.Add(new Moviment {Data = dataInici._Data, Import = valorPartI * partI, Participacions = partI, TipusMoviment = TipusMoviment.Compra});
+            movs.Add(new Moviment {Data = dataInici._Data, PreuParticipacio = valorPartI, Participacions = partI, TipusMoviment = TipusMoviment.Compra});
 
             foreach (var moviment in MovimentsProducte.Where(w=>w.Data >= dataInici._Data && w.Data <= dataFi._Data))
             {
@@ -327,7 +327,7 @@ namespace Inversions
             var valorPartF = valorParticipacio(dataFi);
 
             // Simulo un moviment de venda per deixar les participacions a cero.
-            movs.Add(new Moviment { Data = dataFi._Data, Import = valorPartF * partF, Participacions = partF, TipusMoviment = TipusMoviment.Venda });
+            movs.Add(new Moviment { Data = dataFi._Data, PreuParticipacio = valorPartF, Participacions = partF, TipusMoviment = TipusMoviment.Venda });
 
             double pig = 0;
             foreach (var moviment in movs)
