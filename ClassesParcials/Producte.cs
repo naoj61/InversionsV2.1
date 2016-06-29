@@ -134,6 +134,11 @@ namespace Inversions
             {
                 get { return new DateTimeIniciDia(DateTime.Today); }
             }
+
+            public override string ToString()
+            {
+                return _Data.ToString();
+            }
         }
 
 
@@ -162,6 +167,11 @@ namespace Inversions
             public static DateTimeFinalDia Today
             {
                 get { return new DateTimeFinalDia(DateTime.Today); }
+            }
+
+            public override string ToString()
+            {
+                return _Data.ToString();
             }
         }
 

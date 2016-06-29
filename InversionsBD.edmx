@@ -90,6 +90,10 @@
           <Property Name="PreuParticipacio" Type="float" Nullable="false" />
           <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJECTS\ALTRES\INVERSIONS\BD\INVERSIONSBD.MDF.dbo.View_Accions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJECTS\ALTRES\INVERSIONS\BD\INVERSIONSBD.MDF.dbo.View_Fons' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <Association Name="FK_EmpresaGestor">
           <End Role="Empreses" Type="Self.Empreses" Multiplicity="1" />
           <End Role="Gestors" Type="Self.Gestors" Multiplicity="*" />
@@ -304,7 +308,7 @@
             <End Role="Producte" EntitySet="Productes" />
             <End Role="Moviment" EntitySet="Moviments" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="Empresa">
           <Key>
             <PropertyRef Name="Id" />
@@ -574,7 +578,7 @@
         <ScalarProperty Name="Id" ColumnName="Gestors_Id" />
       </EndProperty>
     </AssociationSetMapping>
-  </EntityContainerMapping>
+          </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->

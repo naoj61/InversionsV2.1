@@ -11,6 +11,7 @@ namespace Inversions.GUI
     {
         public Principal()
         {
+            //var xxx = MyClass.Sessio.Productes.Single(w => w.Id == 18).pigPerDates(new Producte.DateTimeFinalDia(2016, 06, 27));
 
             //foreach (var moviment in MyClass.Sessio.Moviments)
             //{
@@ -126,6 +127,7 @@ namespace Inversions.GUI
                     cbEmpresa.SelectedItem = accions.Empresa;
                     //cbTipusProducte.SelectedIndex = 0;
                     cbMercat.SelectedItem = accions.Mercat;
+                    tbId.Text = accions.Id.ToString("0");
                 }
                 else
                 {

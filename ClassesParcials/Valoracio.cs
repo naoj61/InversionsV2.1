@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Net.Mail;
@@ -20,6 +21,9 @@ namespace Inversions
         {
             get
             {
+                if (Prod == null)
+                    return 0;
+
                 var v1 = MyClass.Sessio.Valoracions.Where(w => w.Prod.Id == Prod.Id && w.Data < Data).OrderBy(o => o.Data).ToList();
                 if (v1.Count == 0)
                     return 0;
@@ -32,7 +36,11 @@ namespace Inversions
         {
             get
             {
-                var v1 = MyClass.Sessio.Valoracions.Where(w => w.Prod.Id == Prod.Id && w.Id < Id).OrderBy(o => o.Data).ToList();
+                if (Prod == null)
+                    return 0;
+
+                //var v1 = MyClass.Sessio.Valoracions.Where(w => w.Prod.Id == Prod.Id && w.Id < Id).OrderBy(o => o.Data).ToList();
+                var v1 = MyClass.Sessio.Valoracions.Where(w => w.Prod.Id == Prod.Id && w.Data < Data).OrderBy(o => o.Data).ToList();
                 if (v1.Count == 0)
                     return 0;
 
@@ -46,7 +54,13 @@ namespace Inversions
         /// </summary>
         public double _ValoracioTotal
         {
-            get { return PreuParticipacio * Prod.participacions(new Producte.DateTimeFinalDia(Data)); }
+            get
+            {
+                if (Prod == null)
+                    return 0;
+         
+                return PreuParticipacio * Prod.participacions(new Producte.DateTimeFinalDia(Data));
+            }
         }
 
         #region Overrides

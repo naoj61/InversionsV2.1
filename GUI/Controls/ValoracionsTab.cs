@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
 using System.Drawing;
 using System.Data;
@@ -27,7 +29,7 @@ namespace Inversions.GUI
             cData.Value = DateTime.Today;
 
             cbTipusProducteFiltre.SelectedIndexChanged -= cbTipusProducteFiltre_SelectedIndexChanged;
-            cbTipusProducteFiltre.DataSource = Enum.GetValues(typeof(Producte.TipusProducte));
+            cbTipusProducteFiltre.DataSource = Enum.GetValues(typeof (Producte.TipusProducte));
             cbTipusProducteFiltre.SelectedIndex = 0;
             cbTipusProducteFiltre.SelectedIndexChanged += cbTipusProducteFiltre_SelectedIndexChanged;
         }
@@ -42,10 +44,13 @@ namespace Inversions.GUI
             get { return tbImport._DoubleValue; }
         }
 
+        /// <summary>
+        /// S'activa només al fer una alta, es desactiva tant si es desa com si es cancel·la.
+        /// </summary>
         private bool vEsNouValor = false;
 
-        
-        void chart1_GetToolTipText(object sender, ToolTipEventArgs e)
+
+        private void chart1_GetToolTipText(object sender, ToolTipEventArgs e)
         {
             // Check selected chart element and set tooltip text for it
             switch (e.HitTestResult.ChartElementType)
@@ -76,8 +81,6 @@ namespace Inversions.GUI
 
         private void btModifica_Click(object sender, EventArgs e)
         {
-            vEsNouValor = false;
-
             modeEdicio();
 
             tbImport.Focus();
@@ -88,24 +91,26 @@ namespace Inversions.GUI
         {
             if (MessageBox.Show(String.Format("S'esborrarà: {0}-{1}", vValoracioSeleccionada.Prod.Empresa.Nom, vValoracioSeleccionada.Data.ToShortDateString()), "", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                try
+                using (var conn = new InversionsBDContext())
                 {
-                    vEsNouValor = false;
+                    try
+                    {
+                        Valoracio valToRemove = conn.Valoracions.Single(s => s.Id == vValoracioSeleccionada.Id);
+                        conn.Valoracions.Remove(valToRemove);
+                        conn.SaveChanges();
 
-                    MyClass.Sessio.Valoracions.Remove(vValoracioSeleccionada);
-                    MyClass.Sessio.SaveChanges();
-
-                    actualitzaLlistaValoracionsPerProducte();
-                }
-                catch (DbUpdateException ex2)
-                {
-                    MessageBox.Show(ex2.InnerException.InnerException.Message);
-                    MyClass.UndoingChangesDbEntityPropertyLevel(vValoracioSeleccionada);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                    MyClass.UndoingChangesDbEntityPropertyLevel(vValoracioSeleccionada);
+                        actualitzaLlistaValoracionsPerProducte();
+                    }
+                    catch (DbUpdateException ex2)
+                    {
+                        MessageBox.Show(ex2.InnerException.InnerException.Message);
+                        conn.UndoingChangesDbEntityPropertyLevel(vValoracioSeleccionada);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        conn.UndoingChangesDbEntityPropertyLevel(vValoracioSeleccionada);
+                    }
                 }
             }
         }
@@ -113,6 +118,8 @@ namespace Inversions.GUI
 
         private void btCancela_Click(object sender, EventArgs e)
         {
+            vEsNouValor = false;
+
             posaValorsDeLaFilaSeleccionada();
             modeConsulta();
         }
@@ -130,8 +137,8 @@ namespace Inversions.GUI
             tbImport.Enabled = true;
             gbFiltreTipusProducte.Enabled = false;
 
-            ((Form)Parent.Parent.Parent).AcceptButton = btDesa;
-            ((Form)Parent.Parent.Parent).CancelButton = btCancela;
+            ((Form) Parent.Parent.Parent).AcceptButton = btDesa;
+            ((Form) Parent.Parent.Parent).CancelButton = btCancela;
 
             vModeEdicio = true;
         }
@@ -152,46 +159,62 @@ namespace Inversions.GUI
 
             vModeEdicio = false;
 
-            ((Form)this.Parent.Parent.Parent).AcceptButton = null;
-            ((Form)this.Parent.Parent.Parent).CancelButton = null;
+            ((Form) this.Parent.Parent.Parent).AcceptButton = null;
+            ((Form) this.Parent.Parent.Parent).CancelButton = null;
         }
 
 
         private void btDesa_Click(object sender, EventArgs e)
         {
             Valoracio val = null;
-            try
+            using (var conn = new InversionsBDContext())
             {
-                val = vEsNouValor ? new Valoracio() : vValoracioSeleccionada;
-                val.Data = cData.Value;
-                val.PreuParticipacio = tbImport._DoubleValue;
-
-                if (vEsNouValor)
+                try
                 {
-                    val.Prod = gestioProductesTabValoracions._ProducteSeleccionat;
-                    MyClass.Sessio.Valoracions.Add(val);
+                    if(vValoracioSeleccionada == null)
+                    {
+                        // Alta
+                        val = new Valoracio();
+                        val.ProdId = gestioProductesTabValoracions._ProducteSeleccionat.Id;
+                    }
+                    else
+                    {
+                        // Modificacio
+                        val = conn.Valoracions.Single(s => s.Id == vValoracioSeleccionada.Id);
+                    }
+
+                    val.Data = cData.Value;
+                    val.PreuParticipacio = tbImport._DoubleValue;
+
+                    conn.Valoracions.AddOrUpdate(val);
+                    conn.SaveChanges();
+
+                    if (vValoracioSeleccionada != null)
+                        // Carrega el nou valor.
+                        MyClass.Sessio.Entry(vValoracioSeleccionada).Reload();
+
+                    modeConsulta();
+
+                    tbImport.Valor = 0;
+
+                    actualitzaLlistaValoracionsPerProducte();
                 }
-                MyClass.Context.DetectChanges();
-                MyClass.Sessio.SaveChanges();
-
-                modeConsulta();
-
-                tbImport.Valor = 0;
-
-                actualitzaLlistaValoracionsPerProducte();
-            }
-            catch (DbUpdateException ex2)
-            {
-                MessageBox.Show(ex2.InnerException.InnerException.Message);
-                MyClass.UndoingChangesDbEntityPropertyLevel(val);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                MyClass.UndoingChangesDbEntityPropertyLevel(val);
+                catch (DbUpdateException ex2)
+                {
+                    MessageBox.Show(ex2.InnerException.InnerException.Message);
+                    conn.UndoingChangesDbEntityPropertyLevel(val);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    conn.UndoingChangesDbEntityPropertyLevel(val);
+                }
+                finally
+                {
+                    vEsNouValor = false;
+                }
             }
         }
-
 
         private void gestioProductesTabValoracions_ProducteSeleccionat(object sender, EventArgs e)
         {
@@ -283,8 +306,9 @@ namespace Inversions.GUI
                     break;
             }
 
-            var valMovs = valoracions.Select(s => new { Data = s.Data.Date, PreuParticipacio = s.PreuParticipacio }).
-                Union(moviments.Select(s => new { Data = s.Data.Date, PreuParticipacio = (s.Import / s.Participacions) })).GroupBy(g=>g.Data).OrderBy(o=>o.Key);
+            var valMovs = valoracions.Select(s => new {Data = s.Data.Date, PreuParticipacio = s.PreuParticipacio}).
+                Union(moviments.Select(s => new {Data = s.Data.Date, PreuParticipacio = s.PreuParticipacio})).
+                GroupBy(g => g.Data).OrderBy(o => o.Key);
 
             if (!valMovs.Any())
                 return;
@@ -341,7 +365,7 @@ namespace Inversions.GUI
         private void actualitzaLlistaValoracionsPerProducte()
         {
             var valoracionsProducte = MyClass.Sessio.Valoracions
-                .Where(w => w.Prod.Id == gestioProductesTabValoracions._ProducteSeleccionat.Id).OrderBy(o=>o.Data).ToList();
+                .Where(w => w.Prod.Id == gestioProductesTabValoracions._ProducteSeleccionat.Id).OrderBy(o => o.Data).ToList();
 
             cDataGridView1.SuspendLayout();
             cDataGridView1.DataSource = valoracionsProducte;
