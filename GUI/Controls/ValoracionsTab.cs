@@ -74,7 +74,7 @@ namespace Inversions.GUI
 
             modeEdicio();
 
-            cData.Value = MyClass.AnteriorDiaLaborable(DateTime.Today);
+            cData.Value = Program.AnteriorDiaLaborable(DateTime.Today);
             tbImport.Focus();
         }
 
@@ -191,7 +191,7 @@ namespace Inversions.GUI
 
                     if (vValoracioSeleccionada != null)
                         // Carrega el nou valor.
-                        MyClass.Sessio.Entry(vValoracioSeleccionada).Reload();
+                        Program.Sessio.Entry(vValoracioSeleccionada).Reload();
 
                     modeConsulta();
 
@@ -222,7 +222,7 @@ namespace Inversions.GUI
             btModifica.Enabled = false;
             btEsborra.Enabled = false;
 
-            Valoracio val = MyClass.Sessio.Valoracions.ToList().LastOrDefault(l => l.Prod == gestioProductesTabValoracions._ProducteSeleccionat);
+            Valoracio val = Program.Sessio.Valoracions.ToList().LastOrDefault(l => l.Prod == gestioProductesTabValoracions._ProducteSeleccionat);
             if (val == null)
             {
                 tbImport.Valor = 0;
@@ -281,7 +281,7 @@ namespace Inversions.GUI
 
         private void actualitzaLlistaValoracionsTotal()
         {
-            if (MyClass.DesignMode)
+            if (Program.DesignMode)
                 return;
 
             var tipusProdFiltre = cbTipusProducteFiltre.SelectedItem == null ? Producte.TipusProducte.Tots : (Producte.TipusProducte) cbTipusProducteFiltre.SelectedItem;
@@ -291,18 +291,18 @@ namespace Inversions.GUI
             {
                 case Producte.TipusProducte.Accions:
                     //valoracions = MyClass.Sessio.Valoracions.Where(w => w.Prod is ProdAccions);
-                    valoracions = MyClass.Sessio.Valoracions.Where(w => w.Prod is ProdAccions).ToList();
-                    moviments = MyClass.Sessio.Moviments.Where(w => w.Prod is ProdAccions && w.Participacions > 0).ToList();
+                    valoracions = Program.Sessio.Valoracions.Where(w => w.Prod is ProdAccions).ToList();
+                    moviments = Program.Sessio.Moviments.Where(w => w.Prod is ProdAccions && w.Participacions > 0).ToList();
                     break;
                 case Producte.TipusProducte.Fons:
                     //valoracions = MyClass.Sessio.Valoracions.Where(w => w.Prod is ProdFons);
-                    valoracions = MyClass.Sessio.Valoracions.Where(w => w.Prod is ProdFons).ToList();
-                    moviments = MyClass.Sessio.Moviments.Where(w => w.Prod is ProdFons && w.Participacions > 0).ToList();
+                    valoracions = Program.Sessio.Valoracions.Where(w => w.Prod is ProdFons).ToList();
+                    moviments = Program.Sessio.Moviments.Where(w => w.Prod is ProdFons && w.Participacions > 0).ToList();
                     break;
                 default:
                     //valoracions = MyClass.Sessio.Valoracions;
-                    valoracions = MyClass.Sessio.Valoracions.ToList();
-                    moviments = MyClass.Sessio.Moviments.Where(w => w.Participacions > 0).ToList();
+                    valoracions = Program.Sessio.Valoracions.ToList();
+                    moviments = Program.Sessio.Moviments.Where(w => w.Participacions > 0).ToList();
                     break;
             }
 
@@ -364,7 +364,7 @@ namespace Inversions.GUI
 
         private void actualitzaLlistaValoracionsPerProducte()
         {
-            var valoracionsProducte = MyClass.Sessio.Valoracions
+            var valoracionsProducte = Program.Sessio.Valoracions
                 .Where(w => w.Prod.Id == gestioProductesTabValoracions._ProducteSeleccionat.Id).OrderBy(o => o.Data).ToList();
 
             cDataGridView1.SuspendLayout();

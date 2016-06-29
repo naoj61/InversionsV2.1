@@ -11,28 +11,28 @@ namespace Inversions.GUI
     {
         public Principal()
         {
-            //var xxx = MyClass.Sessio.Productes.Single(w => w.Id == 18).pigPerDates(new Producte.DateTimeFinalDia(2016, 06, 27));
+            //var xxx = Program.Sessio.Productes.Single(w => w.Id == 18).pigPerDates(new Producte.DateTimeFinalDia(2016, 06, 27));
 
-            //foreach (var moviment in MyClass.Sessio.Moviments)
+            //foreach (var moviment in Program.Sessio.Moviments)
             //{
             //    moviment.PreuParticipacio = moviment.Participacions == 0 ? moviment.Import :
             //        moviment.Import / moviment.Participacions;
-            //    MyClass.Sessio.Entry(moviment).State = EntityState.Modified;
+            //    Program.Sessio.Entry(moviment).State = EntityState.Modified;
             //}
 
-            //int ii = MyClass.Sessio.SaveChanges();
+            //int ii = Program.Sessio.SaveChanges();
 
 
-            //foreach (var prod in MyClass.Sessio.Productes)
+            //foreach (var prod in Program.Sessio.Productes)
             //{
             //    System.Diagnostics.Debug.WriteLine("Id: {0}. Nom: {1}", prod.Id, prod._NomProducte);
             //}
 
-            //var ss = MyClass.Sessio.Productes.Single(s => s.Id == 9).pigAny(2014);
+            //var ss = Program.Sessio.Productes.Single(s => s.Id == 9).pigAny(2014);
 
             //double dd = 0;
             //System.Diagnostics.Debug.WriteLine("Nom Prod\tNum part\tPreu part inici\tpreu part actual");
-            //foreach (var prod in MyClass.Sessio.Productes)
+            //foreach (var prod in Program.Sessio.Productes)
             //{
             //    var numPart = prod._Participacions;
             //if (numPart > 0)
@@ -59,7 +59,7 @@ namespace Inversions.GUI
 
             cbMercat.SuspendLayout();
             cbMercat.DisplayMember = "Nom";
-            cbMercat.DataSource = MyClass.Sessio.Mercats.ToList();
+            cbMercat.DataSource = Program.Sessio.Mercats.ToList();
             cbMercat.SelectedItem = null;
             cbMercat.ResumeLayout();
 
@@ -73,7 +73,7 @@ namespace Inversions.GUI
             cbEmpresa.DisplayMember = "Nom";
             cbEmpresa.ValueMember = "Id";
             //cbEmpresa.DataSource = MyClass.Sessio.Empreses.Include(emp => emp.Productes).OrderBy(o => o.Nom).ToList();
-            cbEmpresa.DataSource = MyClass.Sessio.Empreses.OrderBy(o => o.Nom).ToList();
+            cbEmpresa.DataSource = Program.Sessio.Empreses.OrderBy(o => o.Nom).ToList();
             cbEmpresa.SelectedIndexChanged += cbEmpresa_SelectedIndexChanged;
             cbEmpresa.SelectedItem = null;
             cbEmpresa.ResumeLayout();
@@ -180,15 +180,15 @@ namespace Inversions.GUI
 
             if (tipusProducte == Producte.TipusProducte.Accions)
             {
-                prods = new List<Producte>(MyClass.Sessio.Productes.OfType<ProdAccions>().Include(inc => inc.Empresa));
+                prods = new List<Producte>(Program.Sessio.Productes.OfType<ProdAccions>().Include(inc => inc.Empresa));
             }
             else if (tipusProducte == Producte.TipusProducte.Fons)
             {
-                prods = new List<Producte>(MyClass.Sessio.Productes.OfType<ProdFons>().Include(inc => inc.Empresa));
+                prods = new List<Producte>(Program.Sessio.Productes.OfType<ProdFons>().Include(inc => inc.Empresa));
             }
             else
             {
-                prods = MyClass.Sessio.Productes.Include(inc => inc.Empresa).ToList();
+                prods = Program.Sessio.Productes.Include(inc => inc.Empresa).ToList();
             }
             return prods.OrderBy(s => s._NomProducte);
         }
@@ -218,9 +218,9 @@ namespace Inversions.GUI
 
         private void btNouProducte_Click(object sender, EventArgs e)
         {
-            var e1 = MyClass.Sessio.Empreses.Where(w => (w.TipusEmpresa == TipusEmpresa.GestoraFons)
+            var e1 = Program.Sessio.Empreses.Where(w => (w.TipusEmpresa == TipusEmpresa.GestoraFons)
                                                         || (w.TipusEmpresa == TipusEmpresa.Accions
-                                                            && !MyClass.Sessio.Productes.Any(a => a.Empresa == w)));
+                                                            && !Program.Sessio.Productes.Any(a => a.Empresa == w)));
 
             cbEmpresa.SuspendLayout(); ;
             cbEmpresa.SelectedIndexChanged -= cbEmpresa_SelectedIndexChanged;
@@ -260,53 +260,56 @@ namespace Inversions.GUI
                 if (cbEmpresa.SelectedItem == null)
                     throw new ApplicationException("Falta Empresa");
 
-                Producte.TipusProducte tp = (Producte.TipusProducte) cbTipusProducte.SelectedItem;
-
-                if (tp == Producte.TipusProducte.Accions)
+                using (var conn = new InversionsBDContext())
                 {
-                    if (cbMercat.SelectedItem == null)
-                        throw new ApplicationException("Falta Mercat");
+                    Producte.TipusProducte tp = (Producte.TipusProducte)cbTipusProducte.SelectedItem;
+                    
+                    Empresa empresaSeleccionada = conn.Empreses.Single(s=>s.Id == ((Empresa) cbEmpresa.SelectedItem).Id);
+                    Producte producteSeleccionat = vProducteNou ? null : conn.Productes.Single(s => s.Id == ((Producte)cbProductesTab1.SelectedItem).Id);
 
-                    ProdAccions prodAccions;
-                    if (vProducteNou)
-                        prodAccions = new ProdAccions();
-                    else
-                        prodAccions = (ProdAccions) cbProductesTab1.SelectedItem;
+                    if (tp == Producte.TipusProducte.Accions)
+                    {
+                        if (cbMercat.SelectedItem == null)
+                            throw new ApplicationException("Falta Mercat");
 
-                    prodAccions.Empresa = (Empresa) cbEmpresa.SelectedItem;
-                    prodAccions.Mercat = (Mercat) cbMercat.SelectedItem;
+                        ProdAccions prodAccions = producteSeleccionat == null ? new ProdAccions() : (ProdAccions) producteSeleccionat;
 
-                    if (vProducteNou)
-                        MyClass.Sessio.Productes.Add(prodAccions);
+                        
+                        prodAccions.Empresa = empresaSeleccionada;
+                        prodAccions.MercatId = ((Mercat) cbMercat.SelectedItem).Id;
 
-                    MyClass.Sessio.SaveChanges();
+                        if (vProducteNou)
+                            conn.Productes.Add(prodAccions);
 
-                    prod = prodAccions;
-                }
-                else if (tp == Producte.TipusProducte.Fons)
-                {
-                    if (String.IsNullOrEmpty(tbNom.Text))
-                        throw new ApplicationException("Falta Nom");
-                    if (String.IsNullOrEmpty(tbIsin.Text))
-                        throw new ApplicationException("Falta ISIN");
+                        conn.SaveChanges();
 
-                    ProdFons prodFons;
-                    if (vProducteNou)
-                        prodFons = new ProdFons();
-                    else
-                        prodFons = (ProdFons) cbProductesTab1.SelectedItem;
+                        prod = prodAccions;
+                    }
+                    else if (tp == Producte.TipusProducte.Fons)
+                    {
+                        if (String.IsNullOrEmpty(tbNom.Text))
+                            throw new ApplicationException("Falta Nom");
+                        if (String.IsNullOrEmpty(tbIsin.Text))
+                            throw new ApplicationException("Falta ISIN");
 
-                    prodFons.Empresa = (Empresa) cbEmpresa.SelectedItem;
-                    prodFons.Nom = tbNom.Text;
-                    prodFons.ISIN = tbIsin.Text;
-                    prodFons.Descripcio = tbDescripcio.Text;
+                        ProdFons prodFons = producteSeleccionat == null ? new ProdFons() : (ProdFons) producteSeleccionat;
 
-                    if (vProducteNou)
-                        MyClass.Sessio.Productes.Add(prodFons);
+                        prodFons.Empresa = empresaSeleccionada;
+                        prodFons.Nom = tbNom.Text;
+                        prodFons.ISIN = tbIsin.Text;
+                        prodFons.Descripcio = tbDescripcio.Text;
 
-                    MyClass.Sessio.SaveChanges();
+                        if (vProducteNou)
+                            conn.Productes.Add(prodFons);
 
-                    prod = prodFons;
+                        conn.SaveChanges();
+
+                        prod = prodFons;
+                    }
+
+                    if (!vProducteNou)
+                        Program.Sessio.Entry(cbProductesTab1.SelectedItem).Reload();
+
                 }
 
                 ompleTabProductes(prod);

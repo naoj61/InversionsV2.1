@@ -24,7 +24,7 @@ namespace Inversions
                 if (Prod == null)
                     return 0;
 
-                var v1 = MyClass.Sessio.Valoracions.Where(w => w.Prod.Id == Prod.Id && w.Data < Data).OrderBy(o => o.Data).ToList();
+                var v1 = Program.Sessio.Valoracions.Where(w => w.Prod.Id == Prod.Id && w.Data < Data).OrderBy(o => o.Data).ToList();
                 if (v1.Count == 0)
                     return 0;
 
@@ -40,7 +40,7 @@ namespace Inversions
                     return 0;
 
                 //var v1 = MyClass.Sessio.Valoracions.Where(w => w.Prod.Id == Prod.Id && w.Id < Id).OrderBy(o => o.Data).ToList();
-                var v1 = MyClass.Sessio.Valoracions.Where(w => w.Prod.Id == Prod.Id && w.Data < Data).OrderBy(o => o.Data).ToList();
+                var v1 = Program.Sessio.Valoracions.Where(w => w.Prod.Id == Prod.Id && w.Data < Data).OrderBy(o => o.Data).ToList();
                 if (v1.Count == 0)
                     return 0;
 

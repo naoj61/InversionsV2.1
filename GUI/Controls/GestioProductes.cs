@@ -54,17 +54,17 @@ namespace Inversions.GUI
             switch ((Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem)
             {
                 case Producte.TipusProducte.Accions:
-                    prods = new List<Producte>(MyClass.Sessio.Productes.OfType<ProdAccions>());
+                    prods = new List<Producte>(Program.Sessio.Productes.OfType<ProdAccions>());
                     break;
                 case Producte.TipusProducte.Fons:
-                    prods = new List<Producte>(MyClass.Sessio.Productes.OfType<ProdFons>());
+                    prods = new List<Producte>(Program.Sessio.Productes.OfType<ProdFons>());
                     break;
                 default:
-                    prods = MyClass.Sessio.Productes;
+                    prods = Program.Sessio.Productes;
                     break;
             }
 
-            if (!MyClass.DesignMode)
+            if (!Program.DesignMode)
             {
                 if (ckNomesAmbParticipacions.Checked)
                     prods = prods.Where(w => w._Participacions > 0);
@@ -84,15 +84,15 @@ namespace Inversions.GUI
 
             if (tipusProducte == Producte.TipusProducte.Accions)
             {
-                prods = new List<Producte>(MyClass.Sessio.Productes.OfType<ProdAccions>());
+                prods = new List<Producte>(Program.Sessio.Productes.OfType<ProdAccions>());
             }
             else if (tipusProducte == Producte.TipusProducte.Fons)
             {
-                prods = new List<Producte>(MyClass.Sessio.Productes.OfType<ProdFons>());
+                prods = new List<Producte>(Program.Sessio.Productes.OfType<ProdFons>());
             }
             else
             {
-                prods = MyClass.Sessio.Productes.ToList();
+                prods = Program.Sessio.Productes.ToList();
             }
 
             return prods.OrderBy(s => s._NomProducte);

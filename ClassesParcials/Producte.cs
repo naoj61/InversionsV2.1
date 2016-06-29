@@ -276,7 +276,7 @@ namespace Inversions
 
         public static double PiG(DateTimeFinalDia dataFi)
         {
-            return Enumerable.Sum(MyClass.Sessio.Productes, producte => producte.pigPerDates(dataFi));
+            return Enumerable.Sum(Program.Sessio.Productes, producte => producte.pigPerDates(dataFi));
         }
 
 

@@ -152,7 +152,6 @@
     <Compile Include="Moviment.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Classes\MyClass.cs" />
     <Compile Include="NomEmpresa.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>

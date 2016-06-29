@@ -36,15 +36,15 @@ namespace Inversions.GUI
 
             if (tipusProducte == Producte.TipusProducte.Accions)
             {
-                prods = new List<Producte>(MyClass.Sessio.Productes.OfType<ProdAccions>());
+                prods = new List<Producte>(Program.Sessio.Productes.OfType<ProdAccions>());
             }
             else if (tipusProducte == Producte.TipusProducte.Fons)
             {
-                prods = new List<Producte>(MyClass.Sessio.Productes.OfType<ProdFons>());
+                prods = new List<Producte>(Program.Sessio.Productes.OfType<ProdFons>());
             }
             else
             {
-                prods = MyClass.Sessio.Productes.ToList();
+                prods = Program.Sessio.Productes.ToList();
             }
 
             return prods.OrderBy(s => s._NomProducte);
@@ -85,7 +85,7 @@ namespace Inversions.GUI
 
         private void ompleTaulaMovimentsProducte(Producte prod)
         {
-            var movimentsProducte = MyClass.Sessio.Moviments.Where(w => w.Prod.Id == prod.Id).ToList();
+            var movimentsProducte = Program.Sessio.Moviments.Where(w => w.Prod.Id == prod.Id).ToList();
 
             cDataGridView1.SuspendLayout();
             cDataGridView1.DataSource = movimentsProducte.OrderBy(o => o.Data).ToList();
@@ -140,7 +140,7 @@ namespace Inversions.GUI
 
                 cProducteTraspas.SuspendLayout();
                 cProducteTraspas.DisplayMember = "_NomProducte";
-                cProducteTraspas.DataSource = MyClass.Sessio.Productes.Where(w => w is ProdFons && w.Id != prod.Id).ToList();
+                cProducteTraspas.DataSource = Program.Sessio.Productes.Where(w => w is ProdFons && w.Id != prod.Id).ToList();
                 cProducteTraspas.ResumeLayout();
             }
             else
@@ -268,49 +268,56 @@ namespace Inversions.GUI
             if ((tipusMoviment == TipusMoviment.Compra || tipusMoviment == TipusMoviment.Dividends) && movimentOrigen != null)
                 throw new ArgumentException("L'argument només pot estar informat si és una venda.", "movimentOrigen");
 
-            using (var dbContextTransaction = MyClass.Sessio.Database.BeginTransaction())
+            using (var conn = new InversionsBDContext())
             {
-                try
+                using (var dbContextTransaction = conn.Database.BeginTransaction())
                 {
-                    Moviment mov = new Moviment();
-                    mov.TipusMoviment = tipusMoviment;
-                    mov.PreuParticipacio = tbPreuParticipacio._DoubleValue;
-                    mov.Despeses = tbDespeses.Valor == 0 ? (double?) null : tbDespeses._DoubleValue;
-                    mov.Data = cData1.Value;
-                    mov.Descripcio = String.IsNullOrEmpty(tbDescripcio.Text) ? null : tbDescripcio.Text;
-                    mov.Participacions = (double) tbNumParticipacions.Valor;
-                    mov.Prod = prod;
-                    mov.ProducteTraspas = movimentOrigen;
-
-                    MyClass.Sessio.Moviments.Add(mov);
-                    MyClass.Sessio.SaveChanges();
-
-                    if (tipusMoviment == TipusMoviment.Venda && movimentOrigen != null)
+                    try
                     {
-                        // És un traspàs
+                        int prodId = prod.Id;
+                        int? movimentOrigenId = movimentOrigen == null ?(int?) null : movimentOrigen.Id;
 
-                        Moviment mov2 = mov.Duplica();
-                        mov2.TipusMoviment = TipusMoviment.Compra;
-                        mov.Despeses = null;
-                        mov2.Data = cDataDesti.Value;
-                        mov2.Participacions = (double) tbNumParticipacionsDesti.Valor;
-                        mov2.Prod = movimentOrigen;
-                        mov2.ProducteTraspas = prod;
+                        Moviment mov = new Moviment();
+                        mov.TipusMoviment = tipusMoviment;
+                        mov.PreuParticipacio = tbPreuParticipacio._DoubleValue;
+                        mov.Despeses = tbDespeses.Valor == 0 ? (double?)null : tbDespeses._DoubleValue;
+                        mov.Data = cData1.Value;
+                        mov.Descripcio = String.IsNullOrEmpty(tbDescripcio.Text) ? null : tbDescripcio.Text;
+                        mov.Participacions = (double)tbNumParticipacions.Valor;
+                        mov.ProdId = prodId;
+                        mov.ProducteTraspasId = movimentOrigenId;
 
-                        MyClass.Sessio.Moviments.Add(mov2);
-                        MyClass.Sessio.SaveChanges();
+                        conn.Moviments.Add(mov);
+                        conn.SaveChanges();
+
+                        if (tipusMoviment == TipusMoviment.Venda && movimentOrigenId.HasValue)
+                        {
+                            // És un traspàs
+
+                            Moviment mov2 = mov.Duplica();
+                            mov2.TipusMoviment = TipusMoviment.Compra;
+                            mov.Despeses = null;
+                            mov2.Data = cDataDesti.Value;
+                            mov2.Participacions = (double)tbNumParticipacionsDesti.Valor;
+                            mov2.ProdId = movimentOrigenId.Value;
+                            mov2.ProducteTraspasId = prodId;
+
+                            conn.Moviments.Add(mov2);
+                            conn.SaveChanges();
+                        }
+
+                        dbContextTransaction.Commit();
+
+                        gestioProductesTabMoviments._ProducteSeleccionat = prod;
+                        ompleTaulaMovimentsProducte(movimentOrigen ?? prod);
                     }
-
-                    dbContextTransaction.Commit();
-
-                    gestioProductesTabMoviments._ProducteSeleccionat = prod;
-                    ompleTaulaMovimentsProducte(movimentOrigen ?? prod);
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        throw;
+                    }
                 }
-                catch (Exception)
-                {
-                    dbContextTransaction.Rollback();
-                    throw;
-                }
+
             }
         }
 

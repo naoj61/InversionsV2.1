@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Inversions
 {
-    public partial class InversionsBDContext : DbContext
+    public partial class InversionsBDContext
     {
 
         public ObjectContext Context

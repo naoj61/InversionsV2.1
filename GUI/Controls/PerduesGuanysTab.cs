@@ -29,9 +29,9 @@ namespace Inversions.GUI
 
         private void calculaPiG()
         {
-            if (!MyClass.DesignMode)
+            if (!Program.DesignMode)
             {
-                var movsOrdenats = MyClass.Sessio.Moviments.OrderBy(o => o.Data).Where(w => w.TipusMoviment == TipusMoviment.Venda && w.ProducteTraspas == null).ToList();
+                var movsOrdenats = Program.Sessio.Moviments.OrderBy(o => o.Data).Where(w => w.TipusMoviment == TipusMoviment.Venda && w.ProducteTraspas == null).ToList();
                 if (movsOrdenats.Count == 0)
                     return;
 
@@ -52,7 +52,7 @@ namespace Inversions.GUI
                     double piGLlargTot = 0;
                     double dividents = 0;
 
-                    foreach (var producte in MyClass.Sessio.Productes)
+                    foreach (var producte in Program.Sessio.Productes)
                     {
                         double pigC, pigL, div;
                         producte._PiGReal(true, any, out pigC, out pigL, out div);
@@ -71,7 +71,7 @@ namespace Inversions.GUI
                     dgvPiGAnualsTributen.Rows.Add(any, piGCurtTrib, piGLlargTrib, piGCurtTrib + piGLlargTrib);
 
                     double pigTotAnual = 0;
-                    foreach (var prod in MyClass.Sessio.Productes)
+                    foreach (var prod in Program.Sessio.Productes)
                     {
                         var cc = prod.pigPerDates(any);
                         pigTotAnual += cc;
