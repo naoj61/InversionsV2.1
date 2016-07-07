@@ -55,11 +55,11 @@ namespace Inversions.GUI
                     foreach (var producte in Program.Sessio.Productes)
                     {
                         double pigC, pigL, div;
-                        producte._PiGReal(true, any, out pigC, out pigL, out div);
+                        producte.pigReal(true, any, out pigC, out pigL, out div);
                         piGCurtTrib += pigC;
                         piGLlargTrib += pigL;
 
-                        producte._PiGReal(false, any, out pigC, out pigL, out div);
+                        producte.pigReal(false, any, out pigC, out pigL, out div);
                         piGCurtTot += pigC;
                         piGLlargTot += pigL;
                         dividents += div;
@@ -113,7 +113,7 @@ namespace Inversions.GUI
             var proSeleccionat = gestioProductesTabValoracions._ProducteSeleccionat;
 
             dgvPiGProducte.SuspendLayout();
-            dgvPiGProducte.DataSource = proSeleccionat._PiGPerCompra();
+            dgvPiGProducte.DataSource = proSeleccionat.pigPerCompra();
             dgvPiGProducte.ClearSelection();
             dgvPiGProducte.ResumeLayout();
 

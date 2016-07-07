@@ -1,14 +1,16 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Inversions
 {
     public abstract partial class Producte : IComparable<Producte>
     {
+
+        public abstract TipusProducte _TipusProducte { get; }
+        public abstract string _NomProducte { get; }
+        public abstract string _TipusNomProducte { get; }
+
         public struct PiGPerCompra
         {
             public PiGPerCompra(Moviment compra, Moviment venda, double participacions, bool hisenda)
@@ -95,7 +97,7 @@ namespace Inversions
 
             public double _PiGActual
             {
-                get { return _Compra.Prod.pigActualTotal(); }
+                get { return _Compra.Prod.pigPerDates(DateTimeFinalDia.Today); }
             }
 
             public string _Termini
@@ -183,16 +185,11 @@ namespace Inversions
             Fons = 2
         }
 
-        public abstract TipusProducte _TipusProducte { get; }
-        public abstract string _NomProducte { get; }
-        public abstract string _TipusNomProducte { get; }
-
 
         public string _NomEmpresa
         {
             get { return Empresa == null ? null : Empresa.Nom; }
         }
-
 
         /// <summary>
         /// Torna les participacions actuals.
@@ -201,16 +198,74 @@ namespace Inversions
         {
             get
             {
-                return participacions(DateTimeFinalDia.Today);
+                return numParticipacionsEnData(DateTimeFinalDia.Today);
             }
         }
+
+        /// <summary>
+        /// Torna l'import total brut que han costat les participacions que hi ha comprades avui.
+        /// No 'sinclouen despeses.
+        /// </summary>
+        public double _InversioActual
+        {
+            get
+            {
+                return invertitEnData(DateTimeFinalDia.Today);
+            }
+        }
+
+
+        /// <summary>
+        /// És el valor de les participacions avui.
+        /// </summary>
+        public double _ValorActual
+        {
+            get { return valorEnData(DateTimeFinalDia.Today); }
+        }
+
+
+        /// <summary>
+        /// PiG de tots els productes en una data.
+        /// </summary>
+        /// <param name="dataFi"></param>
+        /// <returns></returns>
+        public static double PiG(DateTimeFinalDia dataFi)
+        {
+            return Enumerable.Sum(Program.Sessio.Productes, producte => producte.pigPerDates(dataFi));
+        }
+
+
+        /// <summary>
+        /// Torna l'import total brut que han costat les participacions que tenia comprades en una data determinada.
+        /// No 'sinclouen despeses.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public double invertitEnData(DateTimeFinalDia data)
+        {
+            var parts = numParticipacionsEnData(data);
+            double inversio = 0;
+            foreach (Moviment moviment in MovimentsProducte.Where(w => w.TipusMoviment == TipusMoviment.Compra).OrderByDescending(o => o.Data))
+            {
+                var partMov = parts > moviment.Participacions ? moviment.Participacions : parts;
+                inversio += (moviment.PreuParticipacio * partMov);
+
+                if (parts == partMov)
+                    break;
+
+                parts -= partMov;
+            }
+
+            return inversio;
+        }
+
 
         /// <summary>
         /// Torna les participacions en una data determinada.
         /// </summary>
         /// <param name="data">Si null data d'avui</param>
         /// <returns></returns>
-        public double participacions(DateTimeFinalDia data)
+        public double numParticipacionsEnData(DateTimeFinalDia data)
         {
             List<Moviment> movs =MovimentsProducte.Where(w => w.Data <= data._Data).ToList();
 
@@ -225,6 +280,7 @@ namespace Inversions
 
             return result;
         }
+
 
         /// <summary>
         /// Torna el valor de la participació en una data determinada o la inmediatament inferior.
@@ -244,41 +300,19 @@ namespace Inversions
             return mov == null ? 0 : mov.PreuParticipacio;
         }
 
-        public double _InversioActual
+
+        /// <summary>
+        /// És el valor de les participacions comprades, en una data determinada.
+        /// </summary>
+        /// <param name="dataFi"></param>
+        /// <returns></returns>
+        public double valorEnData(DateTimeFinalDia dataFi)
         {
-            get
-            {
-                double numParticipacionsVenudes = MovimentsProducte.Where(w => w.TipusMoviment == TipusMoviment.Venda).Sum(s => s.Participacions);
-                double inversioActual = 0;
-                foreach (Moviment moviment in MovimentsProducte.Where(w => w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data))
-                {
-                    if (numParticipacionsVenudes >= moviment.Participacions)
-                        numParticipacionsVenudes = Math.Round(numParticipacionsVenudes - moviment.Participacions, 6);
-                    else
-                    {
-                        double part = moviment.Participacions - numParticipacionsVenudes;
-                        numParticipacionsVenudes = 0;
-
-                        inversioActual += part * moviment._PreuParticipacio;
-                    }
-                }
-
-                return inversioActual;
-            }
+            return numParticipacionsEnData(dataFi) * valorParticipacio(dataFi); 
         }
-
-
-        public double _ValorActual
-        {
-            get { return Valoracions.Count == 0 ? 0 : _Participacions * valorParticipacio(DateTimeFinalDia.Today); }
-        }
-
-
-        public static double PiG(DateTimeFinalDia dataFi)
-        {
-            return Enumerable.Sum(Program.Sessio.Productes, producte => producte.pigPerDates(dataFi));
-        }
-
+        
+        
+        #region ***** Nou PiG *****
 
         /// <summary>
         /// És el PiG del valor tant si s'ha venut com no.
@@ -292,15 +326,6 @@ namespace Inversions
         }
 
         /// <summary>
-        /// El PiG avui amb tot venut i no venut.
-        /// </summary>
-        /// <returns></returns>
-        public double pigActualTotal()
-        {
-            return pigPerDates(DateTimeFinalDia.Today);
-        }
-
-        /// <summary>
         /// És la variació del valor tant si s'ha venut com no desde l'inici fins DataFi.
         /// Torna PiG generat entre dues dates.
         /// </summary>
@@ -308,7 +333,7 @@ namespace Inversions
         /// <returns></returns>
         public double pigPerDates(DateTimeFinalDia dataFi)
         {
-            return pigPerDates(new DateTimeIniciDia(200, 11, 11), dataFi);
+            return pigPerDates(new DateTimeIniciDia(2000, 11, 11), dataFi);
         }
 
         /// <summary>
@@ -321,19 +346,19 @@ namespace Inversions
         public double pigPerDates(DateTimeIniciDia dataInici, DateTimeFinalDia dataFi)
         {
             List<Moviment> movs = new List<Moviment>();
-            
-            var partI = participacions(new DateTimeFinalDia(dataInici._Data));
+
+            var partI = numParticipacionsEnData(new DateTimeFinalDia(dataInici._Data));
             var valorPartI = valorParticipacio(new DateTimeFinalDia(dataInici._Data));
 
             // Simulo un moviment de compra de les participacions existents.
-            movs.Add(new Moviment {Data = dataInici._Data, PreuParticipacio = valorPartI, Participacions = partI, TipusMoviment = TipusMoviment.Compra});
+            movs.Add(new Moviment { Data = dataInici._Data, PreuParticipacio = valorPartI, Participacions = partI, TipusMoviment = TipusMoviment.Compra });
 
-            foreach (var moviment in MovimentsProducte.Where(w=>w.Data >= dataInici._Data && w.Data <= dataFi._Data))
+            foreach (var moviment in MovimentsProducte.Where(w => w.Data >= dataInici._Data && w.Data <= dataFi._Data))
             {
                 movs.Add(moviment);
             }
 
-            var partF = participacions(dataFi);
+            var partF = numParticipacionsEnData(dataFi);
             var valorPartF = valorParticipacio(dataFi);
 
             // Simulo un moviment de venda per deixar les participacions a cero.
@@ -348,6 +373,9 @@ namespace Inversions
 
             return pig;
         }
+        
+        #endregion ***** Nou PiG *****
+
 
         /// <summary>
         /// Calcula les PiG d'un producte de les participacions actualment en cartera.
@@ -396,23 +424,9 @@ namespace Inversions
         public double pigReal()
         {
             double pigCurt, pigLlarg, dividents;
-            _PiGReal(false, null, out pigCurt, out pigLlarg, out dividents);
+            pigReal(false, null, out pigCurt, out pigLlarg, out dividents);
 
             return pigCurt + pigLlarg + dividents;
-        }
-
-        /// <summary>
-        /// Calcula les PiG real d'un producte, no utilitza les participacions que estan en cartera.
-        /// </summary>
-        /// <param name="tributaIrpf">Si true, no tracta les participacions traspassades.</param>
-        /// <param name="any">Any de les vendes. Si null utilitza totes les vendes.</param>
-        /// <returns>Torna les PiG curtes i llargues sumades.</returns>
-        public double _PiGReal(bool tributaIrpf, int? any)
-        {
-            double pigCurt, pigLlarg, dividents;
-            _PiGReal(tributaIrpf, any, out pigCurt, out pigLlarg, out dividents);
-
-            return pigCurt + pigLlarg + dividents; 
         }
 
         /// <summary>
@@ -423,7 +437,7 @@ namespace Inversions
         /// <param name="pigCurt"></param>
         /// <param name="pigLlarg"></param>
         /// <param name="dividents"></param>
-        public void _PiGReal(bool tributaIrpf, int? any, out double pigCurt, out double pigLlarg, out double dividents)
+        public void pigReal(bool tributaIrpf, int? any, out double pigCurt, out double pigLlarg, out double dividents)
         {
             pigCurt = 0;
             pigLlarg = 0;
@@ -538,7 +552,7 @@ namespace Inversions
         /// Calcula les PiG d'un producte per cada compra feta i torna una llista.
         /// </summary>
         /// <returns></returns>
-        public List<PiGPerCompra> _PiGPerCompra()
+        public List<PiGPerCompra> pigPerCompra()
         {
             /* Quan hi ha una venda Pot ser que no sigui total i que les accions venudes tinguin diferents preus de compra
              * Pot ser que una compra tingui zero, una o varies vendes.
@@ -704,13 +718,13 @@ namespace Inversions
             return _NomProducte;
         }
 
-        #endregion
-
         public int CompareTo(Producte other)
         {
             if (Id < other.Id)
                 return -1;
             return Id > other.Id ? 1 : 0;
         }
+        #endregion
+
     }
 }

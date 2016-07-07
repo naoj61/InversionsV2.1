@@ -17,6 +17,17 @@ namespace Inversions
             private double import;
         }
 
+        /// <summary>
+        /// Número de participacions en la data de la valoració.
+        /// </summary>
+        public double _NumParticipacions
+        {
+            get
+            {
+                return Prod == null ? 0 : Prod.numParticipacionsEnData(new Producte.DateTimeFinalDia(this.Data));
+            }
+        }
+
         public double _VariacioPercentatge
         {
             get
@@ -59,7 +70,7 @@ namespace Inversions
                 if (Prod == null)
                     return 0;
          
-                return PreuParticipacio * Prod.participacions(new Producte.DateTimeFinalDia(Data));
+                return PreuParticipacio * Prod.numParticipacionsEnData(new Producte.DateTimeFinalDia(Data));
             }
         }
 

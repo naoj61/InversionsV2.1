@@ -59,6 +59,9 @@ namespace Inversions
             }
         }
 
+        /// <summary>
+        /// Pot ser compra o traspas compra.
+        /// </summary>
         public bool _EsCompra
         {
             get
@@ -67,11 +70,36 @@ namespace Inversions
             }
         }
 
+        /// <summary>
+        /// Compra. No traspàs.
+        /// </summary>
+        public bool _EsCompraReal
+        {
+            get
+            {
+                return _EsCompra && !_EsTraspas;
+            }
+        }
+
+        /// <summary>
+        /// Pot ser venda o traspàs venda.
+        /// </summary>
         public bool _EsVenda
         {
             get
             {
                 return TipusMoviment == TipusMoviment.Venda;
+            }
+        }
+
+        /// <summary>
+        /// Venda. no traspàs
+        /// </summary>
+        public bool _EsVendaReal
+        {
+            get
+            {
+                return _EsVenda && !_EsTraspas;
             }
         }
 
@@ -122,6 +150,7 @@ namespace Inversions
 
             return mov;
         }
+
 
         #region Overrides
 
