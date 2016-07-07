@@ -40,6 +40,7 @@
           <Property Name="ProdId" Type="int" Nullable="false" />
           <Property Name="ProducteTraspasId" Type="int" />
           <Property Name="TipusMoviment" Type="int" Nullable="false" />
+          <Property Name="IdRefVenda" Type="int" />
           <Property Name="Data" Type="datetime" Nullable="false" />
           <Property Name="Participacions" Type="float" Nullable="false" />
           <Property Name="PreuParticipacio" Type="float" Nullable="false" />
@@ -90,10 +91,6 @@
           <Property Name="PreuParticipacio" Type="float" Nullable="false" />
           <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJECTS\ALTRES\INVERSIONS\BD\INVERSIONSBD.MDF.dbo.View_Accions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJECTS\ALTRES\INVERSIONS\BD\INVERSIONSBD.MDF.dbo.View_Fons' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <Association Name="FK_EmpresaGestor">
           <End Role="Empreses" Type="Self.Empreses" Multiplicity="1" />
           <End Role="Gestors" Type="Self.Gestors" Multiplicity="*" />
@@ -218,6 +215,18 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RefVenda">
+          <End Role="Moviments" Type="Self.Moviments" Multiplicity="0..1" />
+          <End Role="Moviments1" Type="Self.Moviments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moviments">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Moviments1">
+              <PropertyRef Name="IdRefVenda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="InversionsBDStoreContainer">
           <EntitySet Name="Empreses" EntityType="Self.Empreses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gestors" EntityType="Self.Gestors" Schema="dbo" store:Type="Tables" />
@@ -268,6 +277,10 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
             <End Role="Productes" EntitySet="Productes" />
             <End Role="Valoracions" EntitySet="Valoracions" />
           </AssociationSet>
+          <AssociationSet Name="FK_RefVenda" Association="Self.FK_RefVenda">
+            <End Role="Moviments" EntitySet="Moviments" />
+            <End Role="Moviments1" EntitySet="Moviments" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -307,6 +320,10 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
           <AssociationSet Name="ProducteMoviment" Association="InversionsBD.ProducteMoviment">
             <End Role="Producte" EntitySet="Productes" />
             <End Role="Moviment" EntitySet="Moviments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RefVenda" Association="InversionsBD.FK_RefVenda">
+            <End Role="Moviment" EntitySet="Moviments" />
+            <End Role="Moviment1" EntitySet="Moviments" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Empresa">
@@ -432,6 +449,7 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
           <Property Name="ProdId" Type="Int32" Nullable="false" />
           <Property Name="ProducteTraspasId" Type="Int32" Nullable="true" />
           <Property Name="TipusMoviment" Type="InversionsBD.TipusMoviment" Nullable="false" />
+          <Property Name="IdRefVenda" Type="Int32" />
           <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Participacions" Type="Double" Nullable="false" />
           <Property Name="PreuParticipacio" Type="Double" Nullable="false" />
@@ -439,6 +457,8 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
           <Property Name="Descripcio" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="ProducteTraspas" Relationship="InversionsBD.ProducteMoviment" FromRole="Moviment" ToRole="Producte" />
           <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" ConcurrencyMode="Fixed" FixedLength="true" cg:SetterAccess="Private" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Moviments1" Relationship="InversionsBD.FK_RefVenda" FromRole="Moviment" ToRole="Moviment1" />
+          <NavigationProperty Name="Moviment1" Relationship="InversionsBD.FK_RefVenda" FromRole="Moviment1" ToRole="Moviment" />
           </EntityType>
         <Association Name="ProdMov">
           <End Type="InversionsBD.Producte" Role="Prod" Multiplicity="1" />
@@ -483,6 +503,18 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
           <Member Name="GestoraFons" />
           <Member Name="Accions" />
         </EnumType>
+        <Association Name="FK_RefVenda">
+          <End Type="InversionsBD.Moviment" Role="Moviment" Multiplicity="0..1" />
+          <End Type="InversionsBD.Moviment" Role="Moviment1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moviment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Moviment1">
+              <PropertyRef Name="IdRefVenda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -557,6 +589,7 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
     <EntitySetMapping Name="Moviments">
       <EntityTypeMapping TypeName="IsTypeOf(InversionsBD.Moviment)">
         <MappingFragment StoreEntitySet="Moviments">
+                <ScalarProperty Name="IdRefVenda" ColumnName="IdRefVenda" />
                 <ScalarProperty Name="PreuParticipacio" ColumnName="PreuParticipacio" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="ProdId" ColumnName="ProdId" />

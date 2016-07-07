@@ -24,6 +24,7 @@
         <InheritanceConnector EntityType="InversionsBD.ProdAccions" />
         <InheritanceConnector EntityType="InversionsBD.ProdFons" />
         <AssociationConnector Association="InversionsBD.ProducteMoviment" />
+        <AssociationConnector Association="InversionsBD.FK_RefVenda" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

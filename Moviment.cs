@@ -14,10 +14,16 @@ namespace Inversions
     
     public partial class Moviment
     {
+        public Moviment()
+        {
+            this.Moviments1 = new HashSet<Moviment>();
+        }
+    
         public int Id { get; private set; }
         public int ProdId { get; set; }
         public Nullable<int> ProducteTraspasId { get; set; }
         public TipusMoviment TipusMoviment { get; set; }
+        public Nullable<int> IdRefVenda { get; set; }
         public System.DateTime Data { get; set; }
         public double Participacions { get; set; }
         public double PreuParticipacio { get; set; }
@@ -27,5 +33,7 @@ namespace Inversions
     
         public virtual Producte Prod { get; set; }
         public virtual Producte ProducteTraspas { get; set; }
+        public virtual ICollection<Moviment> Moviments1 { get; set; }
+        public virtual Moviment Moviment1 { get; set; }
     }
 }

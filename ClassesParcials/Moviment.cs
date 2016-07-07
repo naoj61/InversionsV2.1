@@ -141,6 +141,43 @@ namespace Inversions
             }
         }
 
+        /*
+        /// <summary>
+        /// Calcula el PiG si el moviment és una venda.
+        /// Invlou despeses.
+        /// No inclou dividents.
+        /// </summary>
+        /// <returns></returns>
+        public double pig()
+        {
+            if (!_EsVendaReal)
+                return 0;
+
+            double pig = 0;
+
+            List<Moviment> compres = new List<Moviment>();
+
+            foreach (var compra in this.Prod.MovimentsProducte.Where(w=>w._EsCompra && w.Data < Data))
+            {
+                compres.Add(buscaCompraOrigen(compra));
+            }
+
+
+            return pig
+        }
+
+        private Moviment buscaCompraOrigen(Moviment compra)
+        {
+            if(!compra._EsCompra)
+                throw new ArgumentException("El moviment ha de ser una compra.", "compra");
+
+            if (compra._EsCompraReal)
+                return compra;
+            
+            buscaCompraOrigen(compra.ProducteTraspas)
+        }
+        */
+
 
         public Moviment Duplica()
         {

@@ -262,10 +262,10 @@ namespace Inversions.GUI
         /// </summary>
         /// <param name="tipusMoviment">Compra o venda.</param>
         /// <param name="prod">Producte on es fa la compra/venda</param>
-        /// <param name="movimentOrigen">Si != null, ha de ser una compra que vé d'un traspàs. </param>
-        private void desaMoviment(TipusMoviment tipusMoviment, Producte prod, ProdFons movimentOrigen = null)
+        /// <param name="producteOrigen">Si != null, ha de ser una compra que vé d'un traspàs. </param>
+        private void desaMoviment(TipusMoviment tipusMoviment, Producte prod, ProdFons producteOrigen = null)
         {
-            if ((tipusMoviment == TipusMoviment.Compra || tipusMoviment == TipusMoviment.Dividends) && movimentOrigen != null)
+            if ((tipusMoviment == TipusMoviment.Compra || tipusMoviment == TipusMoviment.Dividends) && producteOrigen != null)
                 throw new ArgumentException("L'argument només pot estar informat si és una venda.", "movimentOrigen");
 
             using (var conn = new InversionsBDContext())
@@ -275,7 +275,7 @@ namespace Inversions.GUI
                     try
                     {
                         int prodId = prod.Id;
-                        int? movimentOrigenId = movimentOrigen == null ?(int?) null : movimentOrigen.Id;
+                        int? producteOrigenId = producteOrigen == null ?(int?) null : producteOrigen.Id;
 
                         Moviment mov = new Moviment();
                         mov.TipusMoviment = tipusMoviment;
@@ -285,12 +285,12 @@ namespace Inversions.GUI
                         mov.Descripcio = String.IsNullOrEmpty(tbDescripcio.Text) ? null : tbDescripcio.Text;
                         mov.Participacions = (double)tbNumParticipacions.Valor;
                         mov.ProdId = prodId;
-                        mov.ProducteTraspasId = movimentOrigenId;
-
+                        mov.ProducteTraspasId = producteOrigenId;
+                        
                         conn.Moviments.Add(mov);
-                        conn.SaveChanges();
+                        //conn.SaveChanges();
 
-                        if (tipusMoviment == TipusMoviment.Venda && movimentOrigenId.HasValue)
+                        if (tipusMoviment == TipusMoviment.Venda && producteOrigenId.HasValue)
                         {
                             // És un traspàs
 
@@ -299,17 +299,22 @@ namespace Inversions.GUI
                             mov.Despeses = null;
                             mov2.Data = cDataDesti.Value;
                             mov2.Participacions = (double)tbNumParticipacionsDesti.Valor;
-                            mov2.ProdId = movimentOrigenId.Value;
+                            mov2.ProdId = producteOrigenId.Value;
                             mov2.ProducteTraspasId = prodId;
 
                             conn.Moviments.Add(mov2);
                             conn.SaveChanges();
+
+                            // Ho faig així sinó dona error.
+                            mov2.IdRefVenda = mov.Id;
                         }
+
+                        conn.SaveChanges();
 
                         dbContextTransaction.Commit();
 
                         gestioProductesTabMoviments._ProducteSeleccionat = prod;
-                        ompleTaulaMovimentsProducte(movimentOrigen ?? prod);
+                        ompleTaulaMovimentsProducte(producteOrigen ?? prod);
                     }
                     catch (Exception)
                     {
