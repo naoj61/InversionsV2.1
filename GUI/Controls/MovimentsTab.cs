@@ -279,11 +279,11 @@ namespace Inversions.GUI
 
                         Moviment mov = new Moviment();
                         mov.TipusMoviment = tipusMoviment;
+                        mov.Participacions = (double)tbNumParticipacions.Valor;
                         mov.PreuParticipacio = tbPreuParticipacio._DoubleValue;
                         mov.Despeses = tbDespeses.Valor == 0 ? (double?)null : tbDespeses._DoubleValue;
                         mov.Data = cData1.Value;
                         mov.Descripcio = String.IsNullOrEmpty(tbDescripcio.Text) ? null : tbDescripcio.Text;
-                        mov.Participacions = (double)tbNumParticipacions.Valor;
                         mov.ProdId = prodId;
                         mov.ProducteTraspasId = producteOrigenId;
                         
@@ -294,11 +294,19 @@ namespace Inversions.GUI
                         {
                             // És un traspàs
 
-                            Moviment mov2 = mov.Duplica();
+                            //double importOriginal =  0;
+                            //foreach (var VARIABLE in Program.Sessio.Moviments.Where(w=>w.ProdId == prodId && w._EsCompra && w.Data <= ))
+                            //{
+                                
+                            //}
+
+                            Moviment mov2 = new Moviment();
                             mov2.TipusMoviment = TipusMoviment.Compra;
+                            mov2.Participacions = tbNumParticipacionsDesti.Valor;
+                            mov2.PreuParticipacio = mov.Participacions * mov.PreuParticipacio / tbNumParticipacionsDesti.Valor;
                             mov.Despeses = null;
                             mov2.Data = cDataDesti.Value;
-                            mov2.Participacions = (double)tbNumParticipacionsDesti.Valor;
+                            mov2.Descripcio = String.IsNullOrEmpty(tbDescripcio.Text) ? null : tbDescripcio.Text;
                             mov2.ProdId = producteOrigenId.Value;
                             mov2.ProducteTraspasId = prodId;
 

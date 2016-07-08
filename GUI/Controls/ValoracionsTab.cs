@@ -20,6 +20,7 @@ namespace Inversions.GUI
     {
         public ValoracionsTab()
         {
+
             InitializeComponent();
 
             chart1.GetToolTipText += chart1_GetToolTipText;
@@ -329,11 +330,27 @@ namespace Inversions.GUI
             {
                 DateTime data = valoracio.Key;
 
-                double pigPerData = Producte.PiG(new Producte.DateTimeFinalDia(data));
+                double pigPerData;
+                double saldo;
+                switch (tipusProdFiltre)
+                {
+                    case Producte.TipusProducte.Accions:
+                        pigPerData = ProdAccions.PiG(new Producte.DateTimeFinalDia(data));
+                        saldo = ProdAccions.Valor(new Producte.DateTimeFinalDia(data));
+                        break;
+                    case Producte.TipusProducte.Fons:
+                        pigPerData = ProdFons.PiG(new Producte.DateTimeFinalDia(data));
+                        saldo = ProdFons.Valor(new Producte.DateTimeFinalDia(data));
+                        break;
+                    default:
+                        pigPerData = ProdAccions.PiG(new Producte.DateTimeFinalDia(data)) + ProdFons.PiG(new Producte.DateTimeFinalDia(data));
+                        saldo = ProdAccions.Valor(new Producte.DateTimeFinalDia(data)) + ProdFons.Valor(new Producte.DateTimeFinalDia(data));
+                        break;
+                }
 
                 importAcumulat += (pigPerData - pigPerDataAnt);
 
-                dgvValoracionsPerData.Rows.Add(data, pigPerData, (pigPerData / pigPerDataAnt - 1), pigPerData - pigPerDataAnt);
+                dgvValoracionsPerData.Rows.Add(data, pigPerData, (pigPerData / pigPerDataAnt - 1), pigPerData - pigPerDataAnt, saldo);
 
                 if (data >= new DateTime(2015, 3, 20) && pigPerData > 0)
                 {

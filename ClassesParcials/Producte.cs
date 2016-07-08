@@ -225,17 +225,6 @@ namespace Inversions
 
 
         /// <summary>
-        /// PiG de tots els productes en una data.
-        /// </summary>
-        /// <param name="dataFi"></param>
-        /// <returns></returns>
-        public static double PiG(DateTimeFinalDia dataFi)
-        {
-            return Enumerable.Sum(Program.Sessio.Productes, producte => producte.pigPerDates(dataFi));
-        }
-
-
-        /// <summary>
         /// Torna l'import total brut que han costat les participacions que tenia comprades en una data determinada.
         /// No 'sinclouen despeses.
         /// </summary>
@@ -725,6 +714,5 @@ namespace Inversions
             return Id > other.Id ? 1 : 0;
         }
         #endregion
-
     }
 }
