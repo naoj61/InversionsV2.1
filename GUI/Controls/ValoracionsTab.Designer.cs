@@ -593,12 +593,12 @@ namespace Inversions.GUI
             dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle13.Format = "#,#0.00€";
             this.Column1.DefaultCellStyle = dataGridViewCellStyle13;
-            this.Column1.HeaderText = "Saldo";
+            this.Column1.HeaderText = "Valor total";
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
             this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column1.Width = 50;
+            this.Column1.Width = 78;
             // 
             // ValoracionsTab
             // 

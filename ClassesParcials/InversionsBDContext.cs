@@ -88,5 +88,9 @@ namespace Inversions
                 return base.ValidateEntity(entityEntry, items);
         }
 
+
+        public virtual DbSet<ProdFons> ProdFons { get; set; }
+        public virtual DbSet<ProdAccions> ProdAccions { get; set; }
+
     }
 }

@@ -89,8 +89,8 @@ namespace Inversions.GUI
 
             cDataGridView1.SuspendLayout();
             cDataGridView1.DataSource = movimentsProducte.OrderBy(o => o.Data).ToList();
-            cDataGridView1.Columns["colTraspasOrigen"].Visible = movimentsProducte.Exists(eo => eo._NomProducteTraspasOrigen != null);
-            cDataGridView1.Columns["colTraspasDesti"].Visible = movimentsProducte.Exists(eo => eo._NomProducteTraspasDesti != null);
+            cDataGridView1.Columns["colTraspasOrigen"].Visible = movimentsProducte.Any(eo => eo._ProducteTraspasOrigen != null);
+            cDataGridView1.Columns["colTraspasDesti"].Visible = movimentsProducte.Any(eo => eo._ProducteTraspasDesti != null);
             cDataGridView1.ClearSelection();
             var ultimaFila = cDataGridView1.Rows.GetLastRow(DataGridViewElementStates.Visible);
             if (ultimaFila >= 0)
@@ -261,12 +261,12 @@ namespace Inversions.GUI
         /// Modifica la tauma "Moviments"
         /// </summary>
         /// <param name="tipusMoviment">Compra o venda.</param>
-        /// <param name="prod">Producte on es fa la compra/venda</param>
-        /// <param name="producteOrigen">Si != null, ha de ser una compra que vé d'un traspàs. </param>
-        private void desaMoviment(TipusMoviment tipusMoviment, Producte prod, ProdFons producteOrigen = null)
+        /// <param name="prodOrigen">Producte on es fa la compra/venda</param>
+        /// <param name="prodDesti">És el fons on van les participacions venudes en cas de traspàs. Si != null, ha de ser una venda que es trapassa. </param>
+        private void desaMoviment(TipusMoviment tipusMoviment, Producte prodOrigen, ProdFons prodDesti = null)
         {
-            if ((tipusMoviment == TipusMoviment.Compra || tipusMoviment == TipusMoviment.Dividends) && producteOrigen != null)
-                throw new ArgumentException("L'argument només pot estar informat si és una venda.", "movimentOrigen");
+            if (prodDesti != null && tipusMoviment != TipusMoviment.Venda)
+                throw new ArgumentException("L'argument només pot estar informat si és una venda.", "prodDesti");
 
             using (var conn = new InversionsBDContext())
             {
@@ -274,55 +274,54 @@ namespace Inversions.GUI
                 {
                     try
                     {
-                        int prodId = prod.Id;
-                        int? producteOrigenId = producteOrigen == null ?(int?) null : producteOrigen.Id;
-
-                        Moviment mov = new Moviment();
-                        mov.TipusMoviment = tipusMoviment;
-                        mov.Participacions = (double)tbNumParticipacions.Valor;
-                        mov.PreuParticipacio = tbPreuParticipacio._DoubleValue;
-                        mov.Despeses = tbDespeses.Valor == 0 ? (double?)null : tbDespeses._DoubleValue;
-                        mov.Data = cData1.Value;
-                        mov.Descripcio = String.IsNullOrEmpty(tbDescripcio.Text) ? null : tbDescripcio.Text;
-                        mov.ProdId = prodId;
-                        mov.ProducteTraspasId = producteOrigenId;
+                        Moviment mov1 = new Moviment();
+                        mov1.TipusMoviment = tipusMoviment;
+                        mov1.ProdId = prodOrigen.Id;
+                        mov1.Participacions = tbNumParticipacions._DoubleValue;
+                        mov1.PreuParticipacio = tbPreuParticipacio._DoubleValue;
+                        mov1.Despeses = Program.EsZero(tbDespeses._DoubleValue) ? (double?)null : tbDespeses._DoubleValue;
+                        mov1.Data = cData1.Value;
+                        mov1.Descripcio = String.IsNullOrEmpty(tbDescripcio.Text) ? null : tbDescripcio.Text;
+                        mov1.ProducteTraspasId = null;
+                        mov1.IdRefVenda = null;
+                        if (tipusMoviment == TipusMoviment.Compra)
+                            mov1.ValorCompraOriginal = tbNumParticipacions._DoubleValue * tbPreuParticipacio._DoubleValue - tbDespeses._DoubleValue;
+                        else
+                            mov1.ValorCompraOriginal = null;
                         
-                        conn.Moviments.Add(mov);
-                        //conn.SaveChanges();
+                        conn.Moviments.Add(mov1);
+                        conn.SaveChanges();
 
-                        if (tipusMoviment == TipusMoviment.Venda && producteOrigenId.HasValue)
+
+                        if (prodDesti != null)
                         {
-                            // És un traspàs
+                            /* És un traspàs. 
+                             * Ja he creat la venda en el producte origen.
+                             * Ara faig la compra en el producte destí.
+                            */
 
-                            //double importOriginal =  0;
-                            //foreach (var VARIABLE in Program.Sessio.Moviments.Where(w=>w.ProdId == prodId && w._EsCompra && w.Data <= ))
-                            //{
-                                
-                            //}
+                            mov1.ProducteTraspasId = prodDesti.Id; // Informo el prod desti en la venda.
 
                             Moviment mov2 = new Moviment();
                             mov2.TipusMoviment = TipusMoviment.Compra;
-                            mov2.Participacions = tbNumParticipacionsDesti.Valor;
-                            mov2.PreuParticipacio = mov.Participacions * mov.PreuParticipacio / tbNumParticipacionsDesti.Valor;
-                            mov.Despeses = null;
-                            mov2.Data = cDataDesti.Value;
+                            mov2.ProdId = prodDesti.Id;
+                            mov2.Participacions = tbNumParticipacionsDesti._DoubleValue;
+                            mov2.PreuParticipacio = mov1.Participacions * mov1.PreuParticipacio / tbNumParticipacionsDesti._DoubleValue;
+                            mov2.Despeses = null;
+                            mov2.Data = mov1.Data.AddSeconds(1);
                             mov2.Descripcio = String.IsNullOrEmpty(tbDescripcio.Text) ? null : tbDescripcio.Text;
-                            mov2.ProdId = producteOrigenId.Value;
-                            mov2.ProducteTraspasId = prodId;
+                            mov2.ProducteTraspasId = prodOrigen.Id;
+                            mov2.IdRefVenda = mov1.Id; // Abans d'utilitzar "mov1.Id" he d'haver fet SaveChanges de "mov1".
+                            mov2.ValorCompraOriginal = prodOrigen.valorCompraReal(tbNumParticipacions._DoubleValue);
 
                             conn.Moviments.Add(mov2);
                             conn.SaveChanges();
-
-                            // Ho faig així sinó dona error.
-                            mov2.IdRefVenda = mov.Id;
                         }
-
-                        conn.SaveChanges();
 
                         dbContextTransaction.Commit();
 
-                        gestioProductesTabMoviments._ProducteSeleccionat = prod;
-                        ompleTaulaMovimentsProducte(producteOrigen ?? prod);
+                        gestioProductesTabMoviments._ProducteSeleccionat = prodOrigen;
+                        ompleTaulaMovimentsProducte(prodDesti ?? prodOrigen);
                     }
                     catch (Exception)
                     {
@@ -396,5 +395,16 @@ namespace Inversions.GUI
             tbImportTotal.Valor = imp;
         }
 
+        private void cDataGridView1_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Left)
+            {
+                var prodTraspas = (Producte)cDataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                if (prodTraspas != null)
+                {
+                    gestioProductesTabMoviments._ProducteSeleccionat = prodTraspas;
+                }
+            }
+        }
     }
 }

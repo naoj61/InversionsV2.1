@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -11,14 +13,24 @@ namespace Inversions
     {
         public string _NomProducteTraspasOrigen
         {
-            get { return (TipusMoviment == TipusMoviment.Compra || ProducteTraspas == null)  ? null : ProducteTraspas._NomProducte; }
+            get { return _ProducteTraspasOrigen != null ? _ProducteTraspasOrigen._NomProducte : null; }
         }
 
         public string _NomProducteTraspasDesti
         {
-            get { return (TipusMoviment == TipusMoviment.Venda || ProducteTraspas == null) ? null : ProducteTraspas._NomProducte; }
+            get { return _ProducteTraspasDesti != null ? _ProducteTraspasDesti._NomProducte : null; }
         }
 
+        public Producte _ProducteTraspasOrigen
+        {
+            get { return TipusMoviment == TipusMoviment.Compra ? ProducteTraspas : null; }
+        }
+
+
+        public Producte _ProducteTraspasDesti
+        {
+            get { return TipusMoviment == TipusMoviment.Venda ? ProducteTraspas : null; }
+        }
 
         /// <summary>
         /// Torna tipus movimen en string i indica els traspassos.
@@ -27,29 +39,25 @@ namespace Inversions
         {
             get
             {
-                string result;
-
-                if (_EsDividents)
-                    result = TipusMoviment.Dividends.ToString();
-
-                if (_EsCompra)
+                if (TipusMoviment == TipusMoviment.Dividends)
                 {
-                    if (_EsTraspas)
-                        result = "Traspàs C";
-                    else
-                        result = TipusMoviment.Compra.ToString();
+                    return TipusMoviment.Dividends.ToString();
                 }
-                else
+                
+                if (TipusMoviment == TipusMoviment.Compra)
                 {
-                    if (_EsTraspas)
-                        result = "Traspàs V";
-                    else
-                        result = TipusMoviment.Venda.ToString();
+                    return _EsTraspas ? "Traspàs C" : TipusMoviment.Compra.ToString();
                 }
-
-                return result;
+                
+                if (TipusMoviment == TipusMoviment.Venda)
+                {
+                    return _EsTraspas ? "Traspàs V" : TipusMoviment.Venda.ToString();
+                }
+                
+                throw new Exception("No hauria d'arribar aquí");
             }
         }
+
 
         public bool _EsTraspas
         {
@@ -119,6 +127,16 @@ namespace Inversions
             }
         }
 
+        /// <summary>
+        /// És la referéncia del la venda traspàs sobre la compra.
+        /// En la BD és una relació de 0..1-->*, però hauria de ser de 0..1-->1.
+        /// Per aixó només torno el primer element, que hauria de ser l'unic, si existeix.
+        /// </summary>
+        public Moviment _MovimentRefCompra
+        {
+            get { return NoUtilitzar1.FirstOrDefault(); }
+        }
+
         public double Import
         {
             get
@@ -140,6 +158,59 @@ namespace Inversions
                 return result;
             }
         }
+
+        /// <summary>
+        /// Torna el pig actual des de
+        /// </summary>
+        /// <returns></returns>
+        public double pig()
+        {
+            double pig = 0;
+            //foreach (var mov in MovimentsProducte.OrderByDescending(o => o.Data).ToList())
+            {
+                if (IdRefVenda.HasValue)
+                    // És un traspàs de compra
+                    pig = Program.Sessio.Moviments.Single(s => s.Id == IdRefVenda.Value).pig();
+                else
+                {
+                    if (_EsCompraReal)
+                    {
+                        // És una compra
+                    }
+                    else if(_EsVenda)
+                    {
+                        // És una venda real o no.
+                        pig = PreuParticipacio * Participacions - Despeses.GetValueOrDefault();
+                        double partsRestants = Participacions;
+                        foreach (var mov in Prod.MovimentsProducte.Where(w=>w.Data <= Data).OrderByDescending(o=>o.Data).ToList())
+                        {
+                            Debug.Assert(mov._EsCompra, "No pot ser una venda");
+
+                            var parts = partsRestants > mov.Participacions ? mov.Participacions : partsRestants;
+
+                            pig -= mov.PreuParticipacio * mov.Participacions + mov.Despeses.GetValueOrDefault();
+
+                            if(partsRestants == parts)
+                                break;
+
+                            partsRestants -= parts;
+                        }
+                    }
+                    else
+                    {
+                        Debug.Assert(false, "No hauria d'arribar aquí");
+                    }
+                }
+            }
+
+            return pig;
+        }
+  
+        
+        /*
+         * En cada traspàs hauria de desar el valor de la compra original, com que el número de participacions canvia en funció del producte, 
+         * hauria de desar l'import total per si hi ha un traspàs posterior parcial obtenir el balor original de la part traspassada.
+         */
 
         /*
         /// <summary>

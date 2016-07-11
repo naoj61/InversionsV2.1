@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Inversions.GUI
 {
@@ -11,6 +13,67 @@ namespace Inversions.GUI
     {
         public Principal()
         {
+            //var prod = Program.Sessio.Productes.Single(s => s.Id == 9);
+            var prod = Program.Sessio.Productes.ToList().Single(s => s._NomProducte.Contains("DWS"));
+
+            var valor = prod.pigValorat(Producte.DateTimeFinalDia.Today);
+
+            var pigReal = prod.pigReal(Producte.DateTimeFinalDia.Today, true);
+
+            for (int any = 2013; any < 2017; any++)
+            {
+                var pig = prod.pigReal(new Producte.DateTimeFinalDia(any, 1, 1), new Producte.DateTimeFinalDia(any, 12, 31), false);
+                Debug.WriteLine("Empresa:\t{0}.\tAny:\t{1}.\tPiG:\t{2}", prod._NomProducte, any, pig.ToString("#,##0.00"));                
+            }
+
+
+            Debug.WriteLine(prod._NomProducte);
+
+            //using (var conn = new InversionsBDContext())
+           // {
+           //     foreach (var mov in conn.Moviments.OrderBy(o => o.Data).ThenBy(t => t.Id).ToList())
+           //     {
+           //         if (mov._EsCompraReal)
+           //         {
+           //             mov.ValorCompraOriginal = mov.Participacions * mov.PreuParticipacio + mov.Despeses.GetValueOrDefault();
+           //         }
+           //     }
+
+           //     foreach (var mov in conn.Moviments.OrderBy(o => o.Data).ThenBy(t => t.Id).ToList())
+           //     {
+           //         if (mov._EsCompra && mov._EsTraspas)
+           //         {
+           //             var movVenda = mov.MovimentRefVenda;
+                        
+           //             mov.ValorCompraOriginal = mov.Participacions * mov.PreuParticipacio + mov.Despeses.GetValueOrDefault();
+
+           //         }
+           //     }
+
+           //     var sv = conn.SaveChanges();
+           // }
+
+
+            //using (var conn = new InversionsBDContext())
+            //{
+            //    Moviment movAnt = null;
+            //    foreach (var mov in conn.Moviments.OrderBy(o => o.Data).ThenBy(t => t.Id).ToList())
+            //    {
+            //        if (movAnt != null)
+            //        {
+            //            if (mov.Data == movAnt.Data)
+            //            {
+            //                mov.Data = mov.Data.AddSeconds(1);
+            //            }
+            //        }
+
+            //        movAnt = mov;
+            //    }
+            //    var sv = conn.SaveChanges();
+            //}
+
+            //var prod = Program.Sessio.Productes.ToList().Single(s => s._NomProducte.Contains("DW")).pigDefinitiu();
+
             //var xxx = Program.Sessio.Productes.Single(w => w.Id == 18).pigPerDates(new Producte.DateTimeFinalDia(2016, 06, 27));
 
             //foreach (var moviment in Program.Sessio.Moviments)
@@ -49,9 +112,9 @@ namespace Inversions.GUI
 
             this.Text = "Producte. Ver: " + Application.ProductVersion;
 
-            tabControl1.SelectTab(2);
+            tabControl1.SelectTab(1);
 
-            List<Producte.TipusProducte> tipusProductes = new List<Producte.TipusProducte>(Enum.GetValues(typeof(Producte.TipusProducte)).Cast<Producte.TipusProducte>());
+            List<Producte.TipusProducte> tipusProductes = new List<Producte.TipusProducte>(Enum.GetValues(typeof (Producte.TipusProducte)).Cast<Producte.TipusProducte>());
             cbTipusProducteFiltreTab1.DataSource = tipusProductes;
             cbTipusProducte.DataSource = tipusProductes.Where(w => w != Producte.TipusProducte.Tots).ToList();
 
@@ -156,7 +219,7 @@ namespace Inversions.GUI
 
         private void ompleTabProductes(Producte prod = null)
         {
-            IEnumerable<Producte> prods = LlistaProductes((Producte.TipusProducte)cbTipusProducteFiltreTab1.SelectedItem);
+            IEnumerable<Producte> prods = LlistaProductes((Producte.TipusProducte) cbTipusProducteFiltreTab1.SelectedItem);
 
             if (prods == null) return;
 
@@ -198,7 +261,7 @@ namespace Inversions.GUI
         {
             if (cbEmpresa.SelectedItem != null)
             {
-                switch(((Empresa) cbEmpresa.SelectedItem).TipusEmpresa)
+                switch (((Empresa) cbEmpresa.SelectedItem).TipusEmpresa)
                 {
                     case TipusEmpresa.GestoraFons:
                         cbTipusProducte.SelectedItem = Producte.TipusProducte.Fons;
@@ -222,7 +285,8 @@ namespace Inversions.GUI
                                                         || (w.TipusEmpresa == TipusEmpresa.Accions
                                                             && !Program.Sessio.Productes.Any(a => a.Empresa == w)));
 
-            cbEmpresa.SuspendLayout(); ;
+            cbEmpresa.SuspendLayout();
+            ;
             cbEmpresa.SelectedIndexChanged -= cbEmpresa_SelectedIndexChanged;
             cbEmpresa.DisplayMember = "Nom";
             cbEmpresa.ValueMember = "Id";
@@ -262,10 +326,10 @@ namespace Inversions.GUI
 
                 using (var conn = new InversionsBDContext())
                 {
-                    Producte.TipusProducte tp = (Producte.TipusProducte)cbTipusProducte.SelectedItem;
-                    
-                    Empresa empresaSeleccionada = conn.Empreses.Single(s=>s.Id == ((Empresa) cbEmpresa.SelectedItem).Id);
-                    Producte producteSeleccionat = vProducteNou ? null : conn.Productes.Single(s => s.Id == ((Producte)cbProductesTab1.SelectedItem).Id);
+                    Producte.TipusProducte tp = (Producte.TipusProducte) cbTipusProducte.SelectedItem;
+
+                    Empresa empresaSeleccionada = conn.Empreses.Single(s => s.Id == ((Empresa) cbEmpresa.SelectedItem).Id);
+                    Producte producteSeleccionat = vProducteNou ? null : conn.Productes.Single(s => s.Id == ((Producte) cbProductesTab1.SelectedItem).Id);
 
                     if (tp == Producte.TipusProducte.Accions)
                     {
@@ -274,7 +338,7 @@ namespace Inversions.GUI
 
                         ProdAccions prodAccions = producteSeleccionat == null ? new ProdAccions() : (ProdAccions) producteSeleccionat;
 
-                        
+
                         prodAccions.Empresa = empresaSeleccionada;
                         prodAccions.MercatId = ((Mercat) cbMercat.SelectedItem).Id;
 
@@ -334,7 +398,7 @@ namespace Inversions.GUI
         {
             modeConsulta();
 
-            ompleTabProductes((Producte)cbProductesTab1.SelectedItem);
+            ompleTabProductes((Producte) cbProductesTab1.SelectedItem);
             OmpleEmpresesCombo();
         }
 

@@ -10,7 +10,7 @@ using Inversions.GUI;
 
 namespace Inversions
 {
-    static class Program
+    internal static class Program
     {
         internal static readonly InversionsBDContext Sessio;
         internal static readonly bool DesignMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
@@ -26,7 +26,7 @@ namespace Inversions
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             try
             {
@@ -76,5 +76,29 @@ namespace Inversions
 
             return dataAnt;
         }
+
+
+        /// <summary>
+        /// Compara dos valor double, però eliminant decimals residuals.
+        /// </summary>
+        /// <param name="valor1"></param>
+        /// <param name="valor2"></param>
+        /// <param name="tolerancia"></param>
+        /// <returns></returns>
+        internal static bool SonIguals(double valor1, double valor2, double tolerancia = 0.000001)
+        {
+            return Math.Abs(valor1 - valor2) < tolerancia;
+        }
+
+        /// <summary>
+        /// Elimina decimals residuals i comprova si el valor és zero.
+        /// </summary>
+        /// <param name="valor"></param>
+        /// <returns></returns>
+        internal static bool EsZero(double valor)
+        {
+            return SonIguals(valor, 0);
+        }
+
     }
 }

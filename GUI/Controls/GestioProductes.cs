@@ -20,8 +20,16 @@ namespace Inversions.GUI
 
         public Producte _ProducteSeleccionat
         {
-            get { return (Producte)lbProductesTab2.SelectedItem; }
-            set { lbProductesTab2.SelectedItem = value; }
+            get { return (Producte) lbProductesTab2.SelectedItem; }
+            set
+            {
+                lbProductesTab2.SelectedItem = value;
+                if ((Producte) lbProductesTab2.SelectedItem != value && ckNomesAmbParticipacions.Checked)
+                {
+                    ckNomesAmbParticipacions.Checked = false;
+                    lbProductesTab2.SelectedItem = value;
+                }
+            }
         }
 
         public bool _NomesAmbParticipacions
