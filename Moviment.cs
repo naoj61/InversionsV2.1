@@ -16,7 +16,7 @@ namespace Inversions
     {
         public Moviment()
         {
-            this.Moviments1 = new HashSet<Moviment>();
+            this.NoUtilitzar1 = new HashSet<Moviment>();
         }
     
         public int Id { get; private set; }
@@ -28,12 +28,13 @@ namespace Inversions
         public double Participacions { get; set; }
         public double PreuParticipacio { get; set; }
         public Nullable<double> Despeses { get; set; }
+        public Nullable<double> ValorCompraOriginal { get; set; }
         public string Descripcio { get; set; }
         public byte[] RowVersion { get; private set; }
     
         public virtual Producte Prod { get; set; }
         public virtual Producte ProducteTraspas { get; set; }
-        public virtual ICollection<Moviment> Moviments1 { get; set; }
-        public virtual Moviment Moviment1 { get; set; }
+        public virtual ICollection<Moviment> NoUtilitzar1 { get; set; }
+        public virtual Moviment MovimentRefVenda { get; set; }
     }
 }
