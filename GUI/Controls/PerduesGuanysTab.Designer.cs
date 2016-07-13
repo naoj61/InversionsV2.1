@@ -55,10 +55,6 @@ namespace Inversions.GUI
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tbPiGTotConsolidat = new Controls.NumericTextBox2();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.tbPiGTotActual = new Controls.NumericTextBox2();
             this.dgvPiGAnualsTributen = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -92,8 +88,6 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.gestioProductesTabValoracions = new Inversions.GUI.GestioProductes();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPiGAnualsTributen)).BeginInit();
             this.groupBox5.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -101,62 +95,6 @@ namespace Inversions.GUI
             ((System.ComponentModel.ISupportInitialize)(this.dgvPiGProducte)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPiGProductePerAny)).BeginInit();
             this.SuspendLayout();
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.tbPiGTotConsolidat);
-            this.groupBox1.Location = new System.Drawing.Point(915, 68);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(184, 52);
-            this.groupBox1.TabIndex = 6;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Total PiG Consolidat";
-            // 
-            // tbPiGTotConsolidat
-            // 
-            this.tbPiGTotConsolidat._Format = "#,#0.0 €";
-            this.tbPiGTotConsolidat._PermetDecimals = true;
-            this.tbPiGTotConsolidat._PermetEspais = false;
-            this.tbPiGTotConsolidat._PermetNegatius = true;
-            this.tbPiGTotConsolidat.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbPiGTotConsolidat.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbPiGTotConsolidat.Location = new System.Drawing.Point(3, 18);
-            this.tbPiGTotConsolidat.Name = "tbPiGTotConsolidat";
-            this.tbPiGTotConsolidat.ReadOnly = true;
-            this.tbPiGTotConsolidat.Size = new System.Drawing.Size(178, 27);
-            this.tbPiGTotConsolidat.TabIndex = 0;
-            this.tbPiGTotConsolidat.Text = "0,0 €";
-            this.tbPiGTotConsolidat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbPiGTotConsolidat.Valor = 0D;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.tbPiGTotActual);
-            this.groupBox2.Location = new System.Drawing.Point(1107, 68);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(184, 52);
-            this.groupBox2.TabIndex = 6;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Total PiG Actual";
-            // 
-            // tbPiGTotActual
-            // 
-            this.tbPiGTotActual._Format = "#,#0.0 €";
-            this.tbPiGTotActual._PermetDecimals = true;
-            this.tbPiGTotActual._PermetEspais = false;
-            this.tbPiGTotActual._PermetNegatius = true;
-            this.tbPiGTotActual.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbPiGTotActual.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbPiGTotActual.Location = new System.Drawing.Point(3, 18);
-            this.tbPiGTotActual.Name = "tbPiGTotActual";
-            this.tbPiGTotActual.ReadOnly = true;
-            this.tbPiGTotActual.Size = new System.Drawing.Size(178, 27);
-            this.tbPiGTotActual.TabIndex = 0;
-            this.tbPiGTotActual.Text = "0,0 €";
-            this.tbPiGTotActual.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbPiGTotActual.Valor = 0D;
             // 
             // dgvPiGAnualsTributen
             // 
@@ -184,7 +122,7 @@ namespace Inversions.GUI
             this.dgvPiGAnualsTributen.Name = "dgvPiGAnualsTributen";
             this.dgvPiGAnualsTributen.ReadOnly = true;
             this.dgvPiGAnualsTributen.RowTemplate.Height = 24;
-            this.dgvPiGAnualsTributen.Size = new System.Drawing.Size(373, 238);
+            this.dgvPiGAnualsTributen.Size = new System.Drawing.Size(373, 267);
             this.dgvPiGAnualsTributen.TabIndex = 7;
             // 
             // dataGridViewTextBoxColumn1
@@ -261,14 +199,14 @@ namespace Inversions.GUI
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.dgvPiGAnualsTributen, 0, 1);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(913, 119);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(913, 62);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(379, 539);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(379, 596);
             this.tableLayoutPanel1.TabIndex = 14;
             // 
             // dgvPiGAnualsTotal
@@ -291,11 +229,11 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn7});
             this.dgvPiGAnualsTotal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvPiGAnualsTotal.Location = new System.Drawing.Point(3, 297);
+            this.dgvPiGAnualsTotal.Location = new System.Drawing.Point(3, 326);
             this.dgvPiGAnualsTotal.Name = "dgvPiGAnualsTotal";
             this.dgvPiGAnualsTotal.ReadOnly = true;
             this.dgvPiGAnualsTotal.RowTemplate.Height = 24;
-            this.dgvPiGAnualsTotal.Size = new System.Drawing.Size(373, 239);
+            this.dgvPiGAnualsTotal.Size = new System.Drawing.Size(373, 267);
             this.dgvPiGAnualsTotal.TabIndex = 15;
             // 
             // dataGridViewTextBoxColumn2
@@ -330,7 +268,7 @@ namespace Inversions.GUI
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(3, 269);
+            this.label3.Location = new System.Drawing.Point(3, 298);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(373, 25);
             this.label3.TabIndex = 14;
@@ -673,16 +611,10 @@ namespace Inversions.GUI
             this.Controls.Add(this.dgvPiGProductePerAny);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.gestioProductesTabValoracions);
             this.Controls.Add(this.dgvPiGProducte);
             this.Name = "PerduesGuanysTab";
             this.Size = new System.Drawing.Size(1297, 658);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPiGAnualsTributen)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -696,10 +628,6 @@ namespace Inversions.GUI
         #endregion
 
         private GestioProductes gestioProductesTabValoracions;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private Controls.NumericTextBox2 tbPiGTotConsolidat;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private Controls.NumericTextBox2 tbPiGTotActual;
         private System.Windows.Forms.DataGridView dgvPiGAnualsTributen;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.ComboBox cbTipusProducteFiltreTab2;

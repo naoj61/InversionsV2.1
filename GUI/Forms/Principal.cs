@@ -14,24 +14,24 @@ namespace Inversions.GUI
         public Principal()
         {
 
-            var prod = Program.Sessio.Productes.Single(s => s.Id == 3);
-            //var prod = Program.Sessio.Productes.ToList().Single(s => s._NomProducte.Contains("Deuch"));
+            //var prod = Program.Sessio.Productes.Single(s => s.Id == 3);
+            ////var prod = Program.Sessio.Productes.ToList().Single(s => s._NomProducte.Contains("Deuch"));
 
-            //var pigVal = prod.pigValorat(new Producte.DateTimeIniciDia(2013, 1, 1), new Producte.DateTimeFinalDia(2013, 12, 31));
+            ////var pigVal = prod.pigValorat(new Producte.DateTimeIniciDia(2013, 1, 1), new Producte.DateTimeFinalDia(2013, 12, 31));
 
-            var valorx = prod.pigValorat(new Producte.DateTimeFinalDia(2015,7,15));
-            var valor = prod.pigValorat(Producte.DateTimeFinalDia.Today);
+            //var valorx = prod.pigValorat(new Producte.DateTimeFinalDia(2015,7,15));
+            //var valor = prod.pigValorat(Producte.DateTimeFinalDia.Today);
 
-            var pigReal = Math.Round(prod.pigReal(Producte.DateTimeFinalDia.Today), 2);
+            //var pigReal = Math.Round(prod.pigReal(Producte.DateTimeFinalDia.Today), 2);
 
-            for (int any = 2013; any < 2017; any++)
-            {
-                var pig = prod.pigReal(new Producte.DateTimeFinalDia(any, 1, 1), new Producte.DateTimeFinalDia(any, 12, 31));
-                Debug.WriteLine("Empresa:\t{0}.\tAny:\t{1}.\tPiG:\t{2}", prod._NomProducte, any, pig.ToString("#,##0.00"));                
-            }
+            //for (int any = 2013; any < 2017; any++)
+            //{
+            //    var pig = prod.pigReal(new Producte.DateTimeFinalDia(any, 1, 1), new Producte.DateTimeFinalDia(any, 12, 31));
+            //    Debug.WriteLine("Empresa:\t{0}.\tAny:\t{1}.\tPiG:\t{2}", prod._NomProducte, any, pig.ToString("#,##0.00"));                
+            //}
 
 
-            Debug.WriteLine(prod._NomProducte);
+            //Debug.WriteLine(prod._NomProducte);
 
             //using (var conn = new InversionsBDContext())
            // {
@@ -116,7 +116,7 @@ namespace Inversions.GUI
 
             this.Text = "Producte. Ver: " + Application.ProductVersion;
 
-            tabControl1.SelectTab(1);
+            tabControl1.SelectTab(tabValoracions.Name);
 
             List<Producte.TipusProducte> tipusProductes = new List<Producte.TipusProducte>(Enum.GetValues(typeof (Producte.TipusProducte)).Cast<Producte.TipusProducte>());
             cbTipusProducteFiltreTab1.DataSource = tipusProductes;

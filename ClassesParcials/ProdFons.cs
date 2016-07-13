@@ -31,7 +31,7 @@ namespace Inversions
         /// <returns></returns>
         public static double PiG(DateTimeFinalDia dataFi)
         {
-            return Enumerable.Sum(Program.Sessio.Productes.Where(w => w is ProdFons), producte => producte.pigPerDates(dataFi));
+            return Enumerable.Sum(Program.Sessio.Productes.Where(w => w is ProdFons), producte => producte.pigValorat(dataFi));
         }
 
 
@@ -46,7 +46,7 @@ namespace Inversions
 
             foreach (Producte producte in Program.Sessio.Productes.Where(w => w is ProdFons))
             {
-                saldo += producte.valorEnData(data);
+                saldo += producte.valorEnCartera(data);
             }
 
             return saldo;

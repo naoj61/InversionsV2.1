@@ -12,8 +12,12 @@ namespace Inversions.GUI
         public GestioProductes()
         {
             InitializeComponent();
+
             cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof (Producte.TipusProducte));
             cbTipusProducteFiltreTab2.Focus();
+
+            tbIsin.Dock = DockStyle.Fill;
+            tbMercat.Dock = DockStyle.Fill;
         }
 
         public event EventHandler ProducteSeleccionat;
@@ -45,11 +49,10 @@ namespace Inversions.GUI
                 lbEmpresa.Text = "";
                 tbParticipacions.Text = "";
                 tbValorActual.Text = "";
-                tbPiGActiusVenuts.Text = "";
-                tbPiGTotal.Text = "";
-                lbIsin.Text = "";
+                tbPiGReal.Text = "";
+                tbIsin.Text = "";
                 tbDescripcio.Text = "";
-                lbMercat.Text = "";
+                tbMercat.Text = "";
 
                 carregaLbProductesTab2();
             }
@@ -112,42 +115,46 @@ namespace Inversions.GUI
             Producte prod = _ProducteSeleccionat;
             if (prod == null)
             {
-                gbIsinProd.Visible = false;
-                gbMercatProd.Visible = false;
+                //lbIsin.Visible = true;
+                //lbMercat.Visible = false;
+                gbIsinMercat.Text = "ISIN";
+                tbIsin.BringToFront();
+
                 gbDescripcio.Visible = false;
             }
             else
             {
                 lbEmpresa.Text = prod._NomEmpresa;
                 tbParticipacions.Valor = prod._Participacions;
-                tbPreuCompra.Valor = prod._InversioActual;
+                tbDividends.Valor = prod.dividends(Producte.DateTimeFinalDia.Today);
                 tbValorActual.Valor = prod._ValorActual;
 
-                var pigActiusEnCartera = prod.pigActual();
-                var pigActiusVenuts = prod.pigReal();
-
-                tbPiGActiusEnCartera.Valor = pigActiusEnCartera;
-                tbPiGActiusVenuts.Valor = pigActiusVenuts;
-                tbPiGTotal.Valor = pigActiusVenuts + pigActiusEnCartera;
+                tbPiGActual.Valor = prod.pigValorat(Producte.DateTimeFinalDia.Today);
+                tbPiGReal.Valor = prod.pigReal(Producte.DateTimeFinalDia.Today);
 
                 if (prod is ProdFons)
                 {
                     var prodFons = (ProdFons) prod;
-                    lbIsin.Text = prodFons.ISIN;
+                    tbIsin.Text = prodFons.ISIN;
                     tbDescripcio.Text = prodFons.Descripcio;
 
-                    gbIsinProd.Visible = true;
                     gbDescripcio.Visible = true;
-                    gbMercatProd.Visible = false;
+                    
+                    //lbIsin.Visible = true;
+                    //lbMercat.Visible = false;
+                    gbIsinMercat.Text = "ISIN";
+                    tbIsin.BringToFront();
                 }
                 else if (prod is ProdAccions)
                 {
                     var prodAccions = (ProdAccions) prod;
-                    lbMercat.Text = prodAccions.Mercat.Nom;
+                    tbMercat.Text = prodAccions.Mercat.Nom;
 
-                    gbIsinProd.Visible = false;
                     gbDescripcio.Visible = false;
-                    gbMercatProd.Visible = true;
+                    //lbIsin.Visible = false;
+                    //lbMercat.Visible = true;
+                    gbIsinMercat.Text = "Mercat";
+                    tbMercat.BringToFront();
                 }
             }
 
