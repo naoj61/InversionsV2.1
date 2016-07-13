@@ -100,5 +100,28 @@ namespace Inversions
             return SonIguals(valor, 0);
         }
 
+        /// <summary>
+        /// Compara dos números amb decimals amb una precisió màxima.
+        /// -1 si valor1 és més petit. 0 si valor1 = valor2. +1 si valor2 és més petit.
+        /// </summary>
+        /// <param name="valor1"></param>
+        /// <param name="valor2"></param>
+        /// <param name="numDecimals"></param>
+        /// <returns></returns>
+        internal static int Compara(double valor1, double valor2, int numDecimals = 5)
+        {
+            var precisio = Math.Pow(10, numDecimals);
+            var v1 = Math.Truncate(valor1 * precisio);
+            var v2 = Math.Truncate(valor2 * precisio);
+
+            if (v1 > v2)
+                return 1;
+            
+            if (v1 < v2)
+                return -1;
+
+            return 0;
+        }
+
     }
 }

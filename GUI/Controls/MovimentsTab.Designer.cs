@@ -63,9 +63,6 @@
             this.btCompra = new System.Windows.Forms.Button();
             this.btDesaMoviment = new System.Windows.Forms.Button();
             this.cDataGridView1 = new System.Windows.Forms.DataGridView();
-            this.btDividends = new System.Windows.Forms.Button();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.gestioProductesTabMoviments = new Inversions.GUI.GestioProductes();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colProducte = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTipusMoviment = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -77,6 +74,9 @@
             this.colTraspasOrigen = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTraspasDesti = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDescripcio = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btDividends = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.gestioProductesTabMoviments = new Inversions.GUI.GestioProductes();
             this.gbTraspas.SuspendLayout();
             this.gbProducteTraspas.SuspendLayout();
             this.gbDataDesti.SuspendLayout();
@@ -104,7 +104,7 @@
             this.gbTraspas.Location = new System.Drawing.Point(1017, 311);
             this.gbTraspas.Name = "gbTraspas";
             this.gbTraspas.Size = new System.Drawing.Size(551, 78);
-            this.gbTraspas.TabIndex = 6;
+            this.gbTraspas.TabIndex = 8;
             this.gbTraspas.TabStop = false;
             this.gbTraspas.Text = "Traspàs";
             this.gbTraspas.Visible = false;
@@ -140,7 +140,7 @@
             this.gbDataDesti.Name = "gbDataDesti";
             this.gbDataDesti.Padding = new System.Windows.Forms.Padding(5);
             this.gbDataDesti.Size = new System.Drawing.Size(111, 57);
-            this.gbDataDesti.TabIndex = 2;
+            this.gbDataDesti.TabIndex = 1;
             this.gbDataDesti.TabStop = false;
             this.gbDataDesti.Text = "Data";
             // 
@@ -161,7 +161,7 @@
             this.gbNumParticipacionsDesti.Name = "gbNumParticipacionsDesti";
             this.gbNumParticipacionsDesti.Padding = new System.Windows.Forms.Padding(5);
             this.gbNumParticipacionsDesti.Size = new System.Drawing.Size(114, 57);
-            this.gbNumParticipacionsDesti.TabIndex = 1;
+            this.gbNumParticipacionsDesti.TabIndex = 2;
             this.gbNumParticipacionsDesti.TabStop = false;
             this.gbNumParticipacionsDesti.Text = "Participacions";
             // 
@@ -175,7 +175,7 @@
             this.tbNumParticipacionsDesti.Location = new System.Drawing.Point(5, 20);
             this.tbNumParticipacionsDesti.Name = "tbNumParticipacionsDesti";
             this.tbNumParticipacionsDesti.Size = new System.Drawing.Size(104, 22);
-            this.tbNumParticipacionsDesti.TabIndex = 1;
+            this.tbNumParticipacionsDesti.TabIndex = 0;
             this.tbNumParticipacionsDesti.Text = "0";
             this.tbNumParticipacionsDesti.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.tbNumParticipacionsDesti.Valor = 0D;
@@ -189,7 +189,7 @@
             this.gbEdicio.Location = new System.Drawing.Point(1017, 83);
             this.gbEdicio.Name = "gbEdicio";
             this.gbEdicio.Size = new System.Drawing.Size(551, 222);
-            this.gbEdicio.TabIndex = 5;
+            this.gbEdicio.TabIndex = 7;
             this.gbEdicio.TabStop = false;
             this.gbEdicio.Visible = false;
             // 
@@ -200,7 +200,7 @@
             this.gbDescripcio.Location = new System.Drawing.Point(3, 123);
             this.gbDescripcio.Name = "gbDescripcio";
             this.gbDescripcio.Size = new System.Drawing.Size(545, 96);
-            this.gbDescripcio.TabIndex = 5;
+            this.gbDescripcio.TabIndex = 0;
             this.gbDescripcio.TabStop = false;
             this.gbDescripcio.Text = "Descripció";
             // 
@@ -233,7 +233,7 @@
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(5);
             this.groupBox1.Size = new System.Drawing.Size(96, 50);
-            this.groupBox1.TabIndex = 11;
+            this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Imp. Total";
             // 
@@ -274,7 +274,7 @@
             this.gbDespeses.Name = "gbDespeses";
             this.gbDespeses.Padding = new System.Windows.Forms.Padding(5);
             this.gbDespeses.Size = new System.Drawing.Size(96, 50);
-            this.gbDespeses.TabIndex = 10;
+            this.gbDespeses.TabIndex = 4;
             this.gbDespeses.TabStop = false;
             this.gbDespeses.Text = "Despeses";
             // 
@@ -302,7 +302,7 @@
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Padding = new System.Windows.Forms.Padding(5);
             this.groupBox10.Size = new System.Drawing.Size(98, 50);
-            this.groupBox10.TabIndex = 9;
+            this.groupBox10.TabIndex = 3;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Preu Partic.";
             this.toolTip1.SetToolTip(this.groupBox10, "Import brut sense despeses");
@@ -331,7 +331,7 @@
             this.gbParticipacions.Name = "gbParticipacions";
             this.gbParticipacions.Padding = new System.Windows.Forms.Padding(5);
             this.gbParticipacions.Size = new System.Drawing.Size(111, 50);
-            this.gbParticipacions.TabIndex = 8;
+            this.gbParticipacions.TabIndex = 2;
             this.gbParticipacions.TabStop = false;
             this.gbParticipacions.Text = "Participacions";
             // 
@@ -345,7 +345,7 @@
             this.tbNumParticipacions.Location = new System.Drawing.Point(5, 20);
             this.tbNumParticipacions.Name = "tbNumParticipacions";
             this.tbNumParticipacions.Size = new System.Drawing.Size(101, 22);
-            this.tbNumParticipacions.TabIndex = 1;
+            this.tbNumParticipacions.TabIndex = 0;
             this.tbNumParticipacions.Text = "0";
             this.tbNumParticipacions.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.tbNumParticipacions.Valor = 0D;
@@ -359,7 +359,7 @@
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Padding = new System.Windows.Forms.Padding(5);
             this.groupBox8.Size = new System.Drawing.Size(105, 50);
-            this.groupBox8.TabIndex = 7;
+            this.groupBox8.TabIndex = 1;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Data";
             // 
@@ -380,7 +380,7 @@
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Padding = new System.Windows.Forms.Padding(5);
             this.groupBox7.Size = new System.Drawing.Size(132, 50);
-            this.groupBox7.TabIndex = 6;
+            this.groupBox7.TabIndex = 0;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Tipus Moviment";
             // 
@@ -402,7 +402,7 @@
             this.btCancelaMoviment.Location = new System.Drawing.Point(1465, 12);
             this.btCancelaMoviment.Name = "btCancelaMoviment";
             this.btCancelaMoviment.Size = new System.Drawing.Size(101, 50);
-            this.btCancelaMoviment.TabIndex = 4;
+            this.btCancelaMoviment.TabIndex = 6;
             this.btCancelaMoviment.Text = "Cancela";
             this.btCancelaMoviment.UseVisualStyleBackColor = true;
             this.btCancelaMoviment.Click += new System.EventHandler(this.btCancelaMoviment_Click);
@@ -414,7 +414,7 @@
             this.btVenda.Location = new System.Drawing.Point(1129, 12);
             this.btVenda.Name = "btVenda";
             this.btVenda.Size = new System.Drawing.Size(101, 50);
-            this.btVenda.TabIndex = 2;
+            this.btVenda.TabIndex = 3;
             this.btVenda.Text = "Venda";
             this.btVenda.UseVisualStyleBackColor = true;
             this.btVenda.Click += new System.EventHandler(this.btVenda_Click);
@@ -426,7 +426,7 @@
             this.btCompra.Location = new System.Drawing.Point(1017, 12);
             this.btCompra.Name = "btCompra";
             this.btCompra.Size = new System.Drawing.Size(101, 50);
-            this.btCompra.TabIndex = 1;
+            this.btCompra.TabIndex = 2;
             this.btCompra.Text = "Compra";
             this.btCompra.UseVisualStyleBackColor = true;
             this.btCompra.Click += new System.EventHandler(this.btCompra_Click);
@@ -438,7 +438,7 @@
             this.btDesaMoviment.Location = new System.Drawing.Point(1353, 12);
             this.btDesaMoviment.Name = "btDesaMoviment";
             this.btDesaMoviment.Size = new System.Drawing.Size(101, 50);
-            this.btDesaMoviment.TabIndex = 3;
+            this.btDesaMoviment.TabIndex = 5;
             this.btDesaMoviment.Text = "Desa";
             this.btDesaMoviment.UseVisualStyleBackColor = true;
             this.btDesaMoviment.Click += new System.EventHandler(this.btDesaMoviment_Click);
@@ -469,35 +469,9 @@
             this.cDataGridView1.ReadOnly = true;
             this.cDataGridView1.RowTemplate.Height = 24;
             this.cDataGridView1.Size = new System.Drawing.Size(1585, 189);
-            this.cDataGridView1.TabIndex = 7;
+            this.cDataGridView1.TabIndex = 0;
             this.toolTip1.SetToolTip(this.cDataGridView1, "nhjfghj");
             this.cDataGridView1.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.cDataGridView1_CellMouseDoubleClick);
-            // 
-            // btDividends
-            // 
-            this.btDividends.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btDividends.Enabled = false;
-            this.btDividends.Location = new System.Drawing.Point(1241, 12);
-            this.btDividends.Name = "btDividends";
-            this.btDividends.Size = new System.Drawing.Size(101, 50);
-            this.btDividends.TabIndex = 2;
-            this.btDividends.Text = "Dividends";
-            this.btDividends.UseVisualStyleBackColor = true;
-            this.btDividends.Click += new System.EventHandler(this.btDividends_Click);
-            // 
-            // gestioProductesTabMoviments
-            // 
-            this.gestioProductesTabMoviments._NomesAmbParticipacions = true;
-            this.gestioProductesTabMoviments._ProducteSeleccionat = null;
-            this.gestioProductesTabMoviments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gestioProductesTabMoviments.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.gestioProductesTabMoviments.Location = new System.Drawing.Point(0, 0);
-            this.gestioProductesTabMoviments.MinimumSize = new System.Drawing.Size(733, 395);
-            this.gestioProductesTabMoviments.Name = "gestioProductesTabMoviments";
-            this.gestioProductesTabMoviments.Size = new System.Drawing.Size(1011, 410);
-            this.gestioProductesTabMoviments.TabIndex = 0;
-            this.gestioProductesTabMoviments.ProducteSeleccionat += new System.EventHandler(this.gestioProductes1_ProducteSeleccionat);
             // 
             // colId
             // 
@@ -620,6 +594,32 @@
             this.colDescripcio.Name = "colDescripcio";
             this.colDescripcio.ReadOnly = true;
             this.colDescripcio.Width = 99;
+            // 
+            // btDividends
+            // 
+            this.btDividends.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btDividends.Enabled = false;
+            this.btDividends.Location = new System.Drawing.Point(1241, 12);
+            this.btDividends.Name = "btDividends";
+            this.btDividends.Size = new System.Drawing.Size(101, 50);
+            this.btDividends.TabIndex = 4;
+            this.btDividends.Text = "Dividends";
+            this.btDividends.UseVisualStyleBackColor = true;
+            this.btDividends.Click += new System.EventHandler(this.btDividends_Click);
+            // 
+            // gestioProductesTabMoviments
+            // 
+            this.gestioProductesTabMoviments._NomesAmbParticipacions = true;
+            this.gestioProductesTabMoviments._ProducteSeleccionat = null;
+            this.gestioProductesTabMoviments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gestioProductesTabMoviments.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.gestioProductesTabMoviments.Location = new System.Drawing.Point(0, 0);
+            this.gestioProductesTabMoviments.MinimumSize = new System.Drawing.Size(733, 395);
+            this.gestioProductesTabMoviments.Name = "gestioProductesTabMoviments";
+            this.gestioProductesTabMoviments.Size = new System.Drawing.Size(1011, 410);
+            this.gestioProductesTabMoviments.TabIndex = 0;
+            this.gestioProductesTabMoviments.ProducteSeleccionat += new System.EventHandler(this.gestioProductes1_ProducteSeleccionat);
             // 
             // MovimentsTab
             // 

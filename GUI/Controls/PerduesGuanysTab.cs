@@ -70,12 +70,13 @@ namespace Inversions.GUI
                     }
                     dgvPiGAnualsTributen.Rows.Add(any, piGCurtTrib, piGLlargTrib, piGCurtTrib + piGLlargTrib);
 
-                    double pigTotAnual = 0;
-                    foreach (var prod in Program.Sessio.Productes)
-                    {
-                        var cc = prod.pigPerDates(any);
-                        pigTotAnual += cc;
-                    }
+                    //double pigTotAnual = 0;
+                    //foreach (var prod in Program.Sessio.Productes)
+                    //{
+                    //    var cc = prod.pigPerDates(any);
+                    //    pigTotAnual += cc;
+                    //}
+                    double pigTotAnual = Producte.PigValorat(any);
 
                     //dgvPiGAnualsTotal.Rows.Add(any, piGCurtTot + piGLlargTot + dividents, pigActual);
                     dgvPiGAnualsTotal.Rows.Add(any, pigTotAnual);

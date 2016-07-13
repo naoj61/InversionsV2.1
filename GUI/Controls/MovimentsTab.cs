@@ -6,6 +6,7 @@ using System.Data.Entity.Validation;
 using System.Drawing;
 using System.Data;
 using System.Linq;
+using System.Runtime.Hosting;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -232,7 +233,7 @@ namespace Inversions.GUI
             {
                 desaMoviment(tp, prod, (ProdFons) cProducteTraspas.SelectedItem);
             }
-            catch (DbEntityValidationException ex1)
+            catch (Exception ex1)
             {
                 MessageBox.Show(ex1.Message);
                 return;
@@ -274,62 +275,72 @@ namespace Inversions.GUI
                 {
                     try
                     {
-                        Moviment mov1 = new Moviment();
-                        mov1.TipusMoviment = tipusMoviment;
-                        mov1.ProdId = prodOrigen.Id;
-                        mov1.Participacions = tbNumParticipacions._DoubleValue;
-                        mov1.PreuParticipacio = tbPreuParticipacio._DoubleValue;
-                        mov1.Despeses = Program.EsZero(tbDespeses._DoubleValue) ? (double?)null : tbDespeses._DoubleValue;
-                        mov1.Data = cData1.Value;
-                        mov1.Descripcio = String.IsNullOrEmpty(tbDescripcio.Text) ? null : tbDescripcio.Text;
-                        mov1.ProducteTraspasId = null;
-                        mov1.IdRefVenda = null;
-                        if (tipusMoviment == TipusMoviment.Compra)
-                            mov1.ValorCompraOriginal = tbNumParticipacions._DoubleValue * tbPreuParticipacio._DoubleValue - tbDespeses._DoubleValue;
-                        else
-                            mov1.ValorCompraOriginal = null;
-                        
-                        conn.Moviments.Add(mov1);
-                        conn.SaveChanges();
-
-
-                        if (prodDesti != null)
+                        if (prodDesti == null)
                         {
-                            /* És un traspàs. 
-                             * Ja he creat la venda en el producte origen.
-                             * Ara faig la compra en el producte destí.
-                            */
-
-                            mov1.ProducteTraspasId = prodDesti.Id; // Informo el prod desti en la venda.
-
-                            Moviment mov2 = new Moviment();
-                            mov2.TipusMoviment = TipusMoviment.Compra;
-                            mov2.ProdId = prodDesti.Id;
-                            mov2.Participacions = tbNumParticipacionsDesti._DoubleValue;
-                            mov2.PreuParticipacio = mov1.Participacions * mov1.PreuParticipacio / tbNumParticipacionsDesti._DoubleValue;
-                            mov2.Despeses = null;
-                            mov2.Data = mov1.Data.AddSeconds(1);
-                            mov2.Descripcio = String.IsNullOrEmpty(tbDescripcio.Text) ? null : tbDescripcio.Text;
-                            mov2.ProducteTraspasId = prodOrigen.Id;
-                            mov2.IdRefVenda = mov1.Id; // Abans d'utilitzar "mov1.Id" he d'haver fet SaveChanges de "mov1".
-                            mov2.ValorCompraOriginal = prodOrigen.valorCompraReal(tbNumParticipacions._DoubleValue);
-
-                            conn.Moviments.Add(mov2);
-                            conn.SaveChanges();
+                            prodOrigen.compraVenda(conn, tipusMoviment, cData1.Value, tbNumParticipacions._DoubleValue, tbPreuParticipacio._DoubleValue,
+                                tbDespeses._DoubleValue, tbDescripcio.Text);
                         }
+                        else
+                        {
+                            prodOrigen.traspas(conn, cData1.Value, tbNumParticipacions._DoubleValue, tbPreuParticipacio._DoubleValue, tbDescripcio.Text, 
+                                cDataDesti.Value,  prodDesti, tbNumParticipacionsDesti._DoubleValue);
+                        }
+
+                        //Moviment mov1 = new Moviment();
+                        //mov1.TipusMoviment = tipusMoviment;
+                        //mov1.ProdId = prodOrigen.Id;
+                        //mov1.Participacions = tbNumParticipacions._DoubleValue;
+                        //mov1.PreuParticipacio = tbPreuParticipacio._DoubleValue;
+                        //mov1.Despeses = Program.EsZero(tbDespeses._DoubleValue) ? (double?)null : tbDespeses._DoubleValue;
+                        //mov1.Data = cData1.Value;
+                        //mov1.Descripcio = String.IsNullOrEmpty(tbDescripcio.Text) ? null : tbDescripcio.Text;
+                        //mov1.ProducteTraspasId = null;
+                        //mov1.IdRefVenda = null;
+                        //if (tipusMoviment == TipusMoviment.Compra)
+                        //    mov1.ValorCompraOriginal = tbNumParticipacions._DoubleValue * tbPreuParticipacio._DoubleValue - tbDespeses._DoubleValue;
+                        //else
+                        //    mov1.ValorCompraOriginal = null;
+                        
+                        //conn.Moviments.Add(mov1);
+                        //conn.SaveChanges();
+
+
+                        //if (prodDesti != null)
+                        //{
+                        //    /* És un traspàs. 
+                        //     * Ja he creat la venda en el producte origen.
+                        //     * Ara faig la compra en el producte destí.
+                        //    */
+
+                        //    mov1.ProducteTraspasId = prodDesti.Id; // Informo el prod desti en la venda.
+
+                        //    Moviment mov2 = new Moviment();
+                        //    mov2.TipusMoviment = TipusMoviment.Compra;
+                        //    mov2.ProdId = prodDesti.Id;
+                        //    mov2.Participacions = tbNumParticipacionsDesti._DoubleValue;
+                        //    mov2.PreuParticipacio = mov1.Participacions * mov1.PreuParticipacio / tbNumParticipacionsDesti._DoubleValue;
+                        //    mov2.Despeses = null;
+                        //    mov2.Data = mov1.Data.AddSeconds(1);
+                        //    mov2.Descripcio = String.IsNullOrEmpty(tbDescripcio.Text) ? null : tbDescripcio.Text;
+                        //    mov2.ProducteTraspasId = prodOrigen.Id;
+                        //    mov2.IdRefVenda = mov1.Id; // Abans d'utilitzar "mov1.Id" he d'haver fet SaveChanges de "mov1".
+                        //    mov2.ValorCompraOriginal = prodOrigen.valorCompraReal(tbNumParticipacions._DoubleValue);
+
+                        //    conn.Moviments.Add(mov2);
+                        //    conn.SaveChanges();
+                        //}
 
                         dbContextTransaction.Commit();
 
                         gestioProductesTabMoviments._ProducteSeleccionat = prodOrigen;
                         ompleTaulaMovimentsProducte(prodDesti ?? prodOrigen);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         dbContextTransaction.Rollback();
                         throw;
                     }
                 }
-
             }
         }
 

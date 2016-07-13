@@ -238,110 +238,223 @@ namespace Inversions
 
         #region *** Mètodes validats ***
 
+        internal Moviment compraVenda(InversionsBDContext connexio, TipusMoviment tipusMoviment, DateTime data, double numParticipacions, double preuParticipacio, double? despeses, 
+            string descripcio)
+        {
+
+            // Poso la hora actual. No tinc clar si hauria d'agafar l'ordre del Id en lloc de la data.
+            DateTime dataHora = data.Date + DateTime.Now.TimeOfDay;
+
+            var ultimaData = MovimentsProducte.Max(m => m.Data);
+
+            // Valido que DateTime no sigui inferior a un moviment prèvi del mateix producte.
+            if (ultimaData >= dataHora)
+                throw new ApplicationException("La data no pot ser inferior a la data del últim moviment del producte. Data últim moviment: " +  ultimaData);
+
+            if(connexio == null)
+                throw new ArgumentNullException("connexio");
+
+            if (numParticipacions <= 0)
+                throw new ArgumentException("El valor ha de ser major de zero", "numParticipacions");
+
+            if (preuParticipacio <= 0)
+                throw new ArgumentException("El valor ha de ser major de zero", "preuParticipacio");
+
+            Moviment moviment = new Moviment();
+            moviment.TipusMoviment = tipusMoviment;
+            moviment.ProdId = this.Id;
+            moviment.Participacions = numParticipacions;
+            moviment.PreuParticipacio = preuParticipacio;
+            moviment.Despeses = despeses;
+            moviment.Data = dataHora;
+            moviment.Descripcio = String.IsNullOrEmpty(descripcio) ? null : descripcio;
+            moviment.ProducteTraspasId = null;
+            moviment.IdRefVenda = null;
+            if (tipusMoviment == TipusMoviment.Compra)
+                moviment.ValorCompraOriginal = numParticipacions * preuParticipacio - despeses.GetValueOrDefault();
+            moviment.ProducteTraspasId = null;
+
+            connexio.Moviments.Add(moviment);
+            connexio.SaveChanges();
+
+            return moviment;
+        }
+
+        internal void traspas(InversionsBDContext connexio, DateTime data, double numParticipacions, double preuParticipacio, string descripcio, 
+            DateTime dataDesti, Producte prodDesti, double numParticipacionsDesti)
+        {
+            if(prodDesti == null)
+                throw new ArgumentNullException("prodDesti");
+
+            if (numParticipacionsDesti <= 0)
+                throw new ArgumentException("El valor ha de ser major de zero", "numParticipacionsDesti");
+
+
+            // Faig la venda del producte origen.
+            var movVenda = this.compraVenda(connexio, TipusMoviment.Venda, data, numParticipacions, preuParticipacio, null, descripcio);
+
+            // Faig la compra del producte destí.
+            var movCompra = prodDesti.compraVenda(connexio, TipusMoviment.Compra, dataDesti, numParticipacionsDesti, 
+                movVenda.Participacions * movVenda.PreuParticipacio / numParticipacionsDesti, null, descripcio);
+
+
+            movVenda.ProducteTraspasId = prodDesti.Id; // Informo el prod desti en la venda.
+            movCompra.ProducteTraspasId = this.Id;
+            movCompra.IdRefVenda = movVenda.Id;
+            movCompra.ValorCompraOriginal = valorCompraReal(numParticipacions);
+
+            connexio.SaveChanges();
+        }
+
+
+
+        public static double PigValorat(int any)
+        {
+            double pig = 0;
+
+            foreach (var prod in Program.Sessio.Productes)
+            {
+                pig += prod.pigValorat(new DateTimeIniciDia(any, 1, 1), new DateTimeFinalDia(any, 12, 31));
+            }
+
+            return pig;
+        }
+        
+
+        public double pigValorat(DateTimeIniciDia dataIni, DateTimeFinalDia dataFi)
+        {
+            return pigValorat(dataFi) - pigValorat(dataIni.finalDia);
+        }
+
+
         /// <summary>
-        /// PiG en una data, segons el valor de la valoració més recent anterior a la data. *******************
-        /// Inclou Dividends.
+        /// PiG en una data, segons el valor de la valoració més recent anterior a la data.
+        /// Inclou dividends.
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
         public double pigValorat(DateTimeFinalDia data)
         {
+            var importCompres = MovimentsProducte.Where(w => w._EsCompra && w.Data < data._Data).Sum(s => (s.Participacions * s.PreuParticipacio) + s.Despeses.GetValueOrDefault());
+            var importVendes = MovimentsProducte.Where(w => w._EsVenda && w.Data < data._Data).Sum(s => (s.Participacions * s.PreuParticipacio) - s.Despeses.GetValueOrDefault());
+            var dividends = this.dividends(data);
+            var valoracioActual = valorEnCartera(data);
+
+            return importVendes + dividends + valoracioActual - importCompres;
+        }
+
+
+        /// <summary>
+        /// Torna el valor de les participacions en cartera en una data determinada.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        private double valorEnCartera(DateTimeFinalDia data)
+        {
             double numPartEnCartera = numParticipacionsEnData(data);
 
             if (Program.EsZero(numPartEnCartera))
-                return pigReal(data, true);
+                return dividends(data);
 
             var compres = new Stack<Moviment>(MovimentsProducte.Where(w => w._EsCompra).OrderBy(o => o.Data));
 
             double preuUnitariEnData = valorParticipacio(data);
             double valorCarteraEnData = 0;
-            while(numPartEnCartera > 0)
+            while (true)
             {
                 var compra = compres.Pop();
 
-                if(numPartEnCartera > compra.Participacions)
+                if (Program.Compara(numPartEnCartera, compra.Participacions) > 0)
                 {
-                    valorCarteraEnData += compra.Participacions * preuUnitariEnData - compra.ValorCompraOriginal.GetValueOrDefault();
+                    valorCarteraEnData += compra.Participacions * preuUnitariEnData;
                     numPartEnCartera -= compra.Participacions;
                 }
                 else
                 {
-                    valorCarteraEnData += numPartEnCartera * preuUnitariEnData -  compra.ValorCompraOriginal.GetValueOrDefault() / compra.Participacions * numPartEnCartera;
-                    numPartEnCartera = 0;
+                    valorCarteraEnData += numPartEnCartera * preuUnitariEnData;
+                    break;
                 }
             }
 
-            return pigReal(data, true) + valorCarteraEnData;
+            return valorCarteraEnData;
         }
 
 
         /// <summary>
         /// PiG entre dates, a partir de la venda més recent anterior a la dataFi.
+        /// No inclou dividends.
         /// </summary>
         /// <param name="dataInici"></param>
         /// <param name="dataFi"></param>
-        /// <param name="ambDividends"></param>
         /// <returns></returns>
-        public double pigReal(DateTimeFinalDia dataInici, DateTimeFinalDia dataFi, bool ambDividends)
+        public double pigReal(DateTimeFinalDia dataInici, DateTimeFinalDia dataFi)
         {
-            var ini = pigReal(dataInici, ambDividends);
-            var fi = pigReal(dataFi, ambDividends);
+            var ini = pigReal(dataInici);
+            var fi = pigReal(dataFi);
             return fi - ini;
         }
 
         /// <summary>
         /// PiG en una data, a partir de la venda més recent anterior a la data.
+        /// No inclou dividends.
         /// </summary>
         /// <param name="data"></param>
-        /// <param name="ambDividends"></param>
         /// <returns></returns>
-        public double pigReal(DateTimeFinalDia data, bool ambDividends)
+        public double pigReal(DateTimeFinalDia data)
         {
-            var vendes = MovimentsProducte.Where(w => w._EsVenda && w.Data < data._Data).OrderBy(o=>o.Data).ToList();
-            
-            if (!vendes.Any())
+            // Troba la data de l'última venda real.
+            var vendesReals = MovimentsProducte.Where(w => w._EsVendaReal && w.Data < data._Data).ToList();
+            if (!vendesReals.Any())
                 return 0;
+            DateTime dataUltimaVenda = vendesReals.Max(m => m.Data);
 
+            // Totes les vendes, inclou traspassos, a partir de la data de la última venda real.
+            var vendes = MovimentsProducte.Where(w => w._EsVenda && w.Data <= dataUltimaVenda).OrderBy(o => o.Data).ToList();
 
-            var dataUltimaVenda = vendes.Last().Data;
+            // Totes les compres, inclou traspassos, a partir de la data de la última venda real.
+            var compres = new Queue<Moviment>(MovimentsProducte.Where(w => w._EsCompra && w.Data < dataUltimaVenda).OrderBy(o => o.Data));
 
-            var compres = new Queue<Moviment>(MovimentsProducte.Where(w => w._EsCompra && w.Data < dataUltimaVenda).OrderBy(o=>o.Data));
-
-            bool llegirCompra = true;
             Moviment compra = null;
             double importCompres = 0;
+            double numPartsCompresRestants = 0;
             foreach (var venda in vendes)
             {
                 double numPartsVendesRestants = venda.Participacions;
 
                 while (true)
                 {
-                    if (llegirCompra)
+                    if (Program.EsZero(numPartsCompresRestants))
                     {
                         compra = compres.Dequeue();
-                        llegirCompra = false;
+                        numPartsCompresRestants = compra.Participacions;
                     }
 
-                    if(numPartsVendesRestants > compra.Participacions)
+                    if (Program.Compara(numPartsVendesRestants, numPartsCompresRestants) > 0)
                     {
-                        numPartsVendesRestants -= compra.Participacions;
-                        llegirCompra = true;
-                        importCompres += compra.ValorCompraOriginal.GetValueOrDefault();
+                        importCompres += compra._ValorCompraOriginalPreuUnitari.GetValueOrDefault() * numPartsCompresRestants;
+                        numPartsVendesRestants = Math.Round(numPartsVendesRestants - numPartsCompresRestants, 5);
+                        //numPartsVendesRestants -= numPartsCompresRestants;
+                        numPartsCompresRestants = 0;
                     }
                     else
                     {
-                        llegirCompra = Program.EsZero(compra.Participacions - numPartsVendesRestants);
-                        importCompres += compra.ValorCompraOriginal.GetValueOrDefault() / compra.Participacions * numPartsVendesRestants;
+                        importCompres += compra._ValorCompraOriginalPreuUnitari.GetValueOrDefault() * numPartsVendesRestants;
+                        numPartsCompresRestants = Math.Round(numPartsCompresRestants - numPartsVendesRestants, 5);
+                        //numPartsCompresRestants -= numPartsVendesRestants;
                         break;
                     }
                 }
             }
 
-            var importVendes = vendes.Sum(s => s.Participacions * s.PreuParticipacio - s.Despeses.GetValueOrDefault());
+            var importVendes = vendes.Where(w=>!w._EsTraspas).Sum(s => s.Participacions * s.PreuParticipacio - s.Despeses.GetValueOrDefault());
 
-            return importVendes - importCompres + MovimentsProducte.Where(w => w._EsDividents && w.Data < dataUltimaVenda).Sum(s => s.PreuParticipacio);
+            return importVendes - importCompres;
         }
 
+        private double dividends(DateTimeFinalDia data)
+        {
+            return MovimentsProducte.Where(w => w._EsDividents && w.Data < data._Data).Sum(s => s.PreuParticipacio);
+        }
 
         /// <summary>
         /// Calcula el valor real de compra de "participacionsAValorar".
@@ -351,7 +464,7 @@ namespace Inversions
         /// </summary>
         /// <param name="participacionsAValorar">Si participacionsAValorar > participacions en cartera, torna error.</param>
         /// <returns></returns>
-        public double valorCompraReal(double participacionsAValorar)
+        private double valorCompraReal(double participacionsAValorar)
         {
             if (participacionsAValorar > numParticipacionsEnData(DateTimeFinalDia.Today))
                 throw new ArgumentException("'participacionsAValorar' no pot ser un valor més gran que les participacions en cartera", "participacionsAValorar");
@@ -468,7 +581,7 @@ namespace Inversions
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public double valorParticipacio(DateTimeFinalDia data)
+        private double valorParticipacio(DateTimeFinalDia data)
         {
             var movs = Valoracions.
                 Where(w => w.Data <= data._Data).Select(s => new { Data = s.Data, PreuParticipacio = s.PreuParticipacio }).

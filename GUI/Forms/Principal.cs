@@ -13,16 +13,20 @@ namespace Inversions.GUI
     {
         public Principal()
         {
-            //var prod = Program.Sessio.Productes.Single(s => s.Id == 9);
-            var prod = Program.Sessio.Productes.ToList().Single(s => s._NomProducte.Contains("DWS"));
 
+            var prod = Program.Sessio.Productes.Single(s => s.Id == 3);
+            //var prod = Program.Sessio.Productes.ToList().Single(s => s._NomProducte.Contains("Deuch"));
+
+            //var pigVal = prod.pigValorat(new Producte.DateTimeIniciDia(2013, 1, 1), new Producte.DateTimeFinalDia(2013, 12, 31));
+
+            var valorx = prod.pigValorat(new Producte.DateTimeFinalDia(2015,7,15));
             var valor = prod.pigValorat(Producte.DateTimeFinalDia.Today);
 
-            var pigReal = prod.pigReal(Producte.DateTimeFinalDia.Today, true);
+            var pigReal = Math.Round(prod.pigReal(Producte.DateTimeFinalDia.Today), 2);
 
             for (int any = 2013; any < 2017; any++)
             {
-                var pig = prod.pigReal(new Producte.DateTimeFinalDia(any, 1, 1), new Producte.DateTimeFinalDia(any, 12, 31), false);
+                var pig = prod.pigReal(new Producte.DateTimeFinalDia(any, 1, 1), new Producte.DateTimeFinalDia(any, 12, 31));
                 Debug.WriteLine("Empresa:\t{0}.\tAny:\t{1}.\tPiG:\t{2}", prod._NomProducte, any, pig.ToString("#,##0.00"));                
             }
 

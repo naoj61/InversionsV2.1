@@ -127,6 +127,11 @@ namespace Inversions
             }
         }
 
+        public double? _ValorCompraOriginalPreuUnitari
+        {
+            get { return ValorCompraOriginal.HasValue ? (double?) ValorCompraOriginal.Value / Participacions : null; }
+        }
+
         /// <summary>
         /// És la referéncia del la venda traspàs sobre la compra.
         /// En la BD és una relació de 0..1-->*, però hauria de ser de 0..1-->1.
@@ -303,5 +308,6 @@ namespace Inversions
         }
 
         #endregion
+
     }
 }
