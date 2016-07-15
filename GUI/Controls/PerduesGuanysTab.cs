@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data.Entity.Validation;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Inversions.GUI
@@ -36,38 +30,9 @@ namespace Inversions.GUI
                     return;
 
                 int anyPrimeraVenda = movsOrdenats.First().Data.Year;
-                int anyUltimaVenda = movsOrdenats.Last().Data.Year;
-
-            //    double pigTotal = 0;
-            //    double pigActual = 0;
-
-            //    dgvPiGAnualsTributen.Rows.Clear();
-            //    dgvPiGAnualsTotal.Rows.Clear();
+                
                 for (int any = anyPrimeraVenda; any <= DateTime.Today.Year; any++)
                 {
-                    //double piGCurtTrib = 0;
-                    //double piGLlargTrib = 0;
-                    //double piGCurtTot = 0;
-                    //double piGLlargTot = 0;
-                    //double dividents = 0;
-
-                    //foreach (var producte in Program.Sessio.Productes)
-                    //{
-                    //    double pigC, pigL, div;
-                    //    producte.pigReal(true, any, out pigC, out pigL, out div);
-                    //    piGCurtTrib += pigC;
-                    //    piGLlargTrib += pigL;
-
-                    //    producte.pigReal(false, any, out pigC, out pigL, out div);
-                    //    piGCurtTot += pigC;
-                    //    piGLlargTot += pigL;
-                    //    dividents += div;
-                    //    pigTotal += pigC + pigL + div;
-
-                    //    if (any == DateTime.Today.Year)
-                    //        pigActual += producte.pigActual();
-                    //}
-                    //dgvPiGAnualsTributen.Rows.Add(any, piGCurtTrib, piGLlargTrib, piGCurtTrib + piGLlargTrib);
                     dgvPiGAnualsTributen.Rows.Add(any, 0, 0, Producte.PigReal(any));
 
                     dgvPiGAnualsTotal.Rows.Add(any, Producte.PigValorat(any));
@@ -77,10 +42,6 @@ namespace Inversions.GUI
 
                 fila = dgvPiGAnualsTributen.Rows.Add("Total", 0, 0, Producte.PigReal());
                 dgvPiGAnualsTributen.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTributen.Font, FontStyle.Bold);
-
-                //tbPiGTotConsolidat.Valor = Producte.PigReal();
-                //tbPiGTotActual.Valor = pigActual;
-
             }
         }
 
@@ -114,7 +75,6 @@ namespace Inversions.GUI
 
             dgvPiGProductePerAny.Rows.Clear();
 
-            double pigAcumulat = 0;
             for (int any = proSeleccionat.MovimentsProducte.OrderBy(o => o.Data).First().Data.Year; any <= DateTime.Today.Year; any++)
             {
                 dgvPiGProductePerAny.Rows.Add(any, proSeleccionat.pigValorat(any));

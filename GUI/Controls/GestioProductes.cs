@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.Design.Serialization;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -87,26 +85,6 @@ namespace Inversions.GUI
                 lbProductesTab2.SelectedItem = null;
                 lbProductesTab2.ResumeLayout();
             }
-        }
-
-        private static IEnumerable<Producte> LlistaProductes(Producte.TipusProducte tipusProducte)
-        {
-            List<Producte> prods = null;
-
-            if (tipusProducte == Producte.TipusProducte.Accions)
-            {
-                prods = new List<Producte>(Program.Sessio.Productes.OfType<ProdAccions>());
-            }
-            else if (tipusProducte == Producte.TipusProducte.Fons)
-            {
-                prods = new List<Producte>(Program.Sessio.Productes.OfType<ProdFons>());
-            }
-            else
-            {
-                prods = Program.Sessio.Productes.ToList();
-            }
-
-            return prods.OrderBy(s => s._NomProducte);
         }
 
 

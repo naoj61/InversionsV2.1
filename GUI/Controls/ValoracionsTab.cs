@@ -1,16 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
-using System.Data.Entity.Validation;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -45,11 +37,6 @@ namespace Inversions.GUI
             get { return tbImport._DoubleValue; }
         }
 
-        /// <summary>
-        /// S'activa només al fer una alta, es desactiva tant si es desa com si es cancel·la.
-        /// </summary>
-        private bool vEsNouValor = false;
-
 
         private void chart1_GetToolTipText(object sender, ToolTipEventArgs e)
         {
@@ -71,7 +58,6 @@ namespace Inversions.GUI
         private void btNouValor_Click(object sender, EventArgs e)
         {
             tbImport.Valor = 0;
-            vEsNouValor = true;
 
             modeEdicio();
 
@@ -119,8 +105,6 @@ namespace Inversions.GUI
 
         private void btCancela_Click(object sender, EventArgs e)
         {
-            vEsNouValor = false;
-
             posaValorsDeLaFilaSeleccionada();
             modeConsulta();
         }
@@ -172,7 +156,7 @@ namespace Inversions.GUI
             {
                 try
                 {
-                    if(vValoracioSeleccionada == null)
+                    if (vValoracioSeleccionada == null)
                     {
                         // Alta
                         val = new Valoracio();
@@ -209,10 +193,6 @@ namespace Inversions.GUI
                 {
                     MessageBox.Show(ex.Message);
                     conn.UndoingChangesDbEntityPropertyLevel(val);
-                }
-                finally
-                {
-                    vEsNouValor = false;
                 }
             }
         }

@@ -5,7 +5,6 @@ using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Inversions.GUI
 {
@@ -192,7 +191,6 @@ namespace Inversions.GUI
                                                             && !Program.Sessio.Productes.Any(a => a.Empresa == w)));
 
             cbEmpresa.SuspendLayout();
-            ;
             cbEmpresa.SelectedIndexChanged -= cbEmpresa_SelectedIndexChanged;
             cbEmpresa.DisplayMember = "Nom";
             cbEmpresa.ValueMember = "Id";

@@ -1,22 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Inversions
 {
     public partial class Valoracio : IComparable<Valoracio>
     {
-        public struct MyStruct
-        {
-            private DateTime vData;
-            private double import;
-        }
-
         /// <summary>
         /// Número de participacions en la data de la valoració.
         /// </summary>

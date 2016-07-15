@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace Inversions
 {
@@ -102,7 +101,7 @@ namespace Inversions
 
             public double _PiGActual
             {
-                get { return _Compra.Prod.pigValorat(Producte.DateTimeFinalDia.Today); }
+                get { return _Compra.Prod.pigValorat(DateTimeFinalDia.Today); }
             }
 
             public string _Termini
@@ -188,7 +187,7 @@ namespace Inversions
         /// </summary>
         public double _ValorActual
         {
-            get { return valorEnCartera(Producte.DateTimeFinalDia.Today); }
+            get { return valorEnCartera(DateTimeFinalDia.Today); }
         }
         
         #endregion
