@@ -116,45 +116,7 @@ namespace Inversions
             }
         }
 
-        /// <summary>
-        /// Estructura per assegurar-me que la data té l'hora del inici del dia.
-        /// </summary>
-        public struct DateTimeIniciDia
-        {
-            public DateTimeIniciDia(DateTime data)
-            {
-                vData = data.Date; // Deso la data amb hora 00:00:00
-            }
-
-            public DateTimeIniciDia(int any, int mes, int dia)
-                : this(new DateTime(any, mes, dia))
-            {
-            }
-
-            private readonly DateTime vData;
-
-            public static DateTimeIniciDia Today
-            {
-                get { return new DateTimeIniciDia(DateTime.Today); }
-            }
-
-            public DateTime _Data
-            {
-                get { return vData; }
-            }
-
-            public  DateTimeFinalDia finalDia
-            {
-                get { return new DateTimeFinalDia(vData); }
-            }
-
-            public override string ToString()
-            {
-                return _Data.ToString();
-            }
-        }
-
-
+        
         /// <summary>
         /// Estructura per assegurar-me que la data té l'hora del final del dia.
         /// </summary>
@@ -209,6 +171,7 @@ namespace Inversions
         
         #endregion
 
+
         #region Atributs
 
         /// <summary>
@@ -236,7 +199,6 @@ namespace Inversions
         internal Moviment compraVenda(InversionsBDContext connexio, TipusMoviment tipusMoviment, DateTime data, double numParticipacions, double preuParticipacio, double? despeses, 
             string descripcio)
         {
-
             // Poso la hora actual. No tinc clar si hauria d'agafar l'ordre del Id en lloc de la data.
             DateTime dataHora = data.Date + DateTime.Now.TimeOfDay;
 
@@ -321,7 +283,8 @@ namespace Inversions
 
             foreach (var prod in Program.Sessio.Productes)
             {
-                pig += prod.pigValorat(new DateTimeIniciDia(any, 1, 1), new DateTimeFinalDia(any, 12, 31));
+                var data = new DateTimeFinalDia(any, 12, 31);
+                pig += prod.pigValorat(data.AddYears(-1), data);
             }
 
             return pig;
@@ -358,15 +321,16 @@ namespace Inversions
         {
             double pig = 0;
 
-            pig += pigValorat(new DateTimeIniciDia(any, 1, 1), new DateTimeFinalDia(any, 12, 31));
+            DateTimeFinalDia data = new DateTimeFinalDia(any, 12, 31);
+            pig += pigValorat(data.AddYears(-1), data);
 
             return pig;
         }
 
 
-        public double pigValorat(DateTimeIniciDia dataIni, DateTimeFinalDia dataFi)
+        public double pigValorat(DateTimeFinalDia dataIni, DateTimeFinalDia dataFi)
         {
-            return pigValorat(dataFi) - pigValorat(dataIni.finalDia);
+            return pigValorat(dataFi) - pigValorat(dataIni);
         }
 
 
@@ -636,7 +600,7 @@ namespace Inversions
 
             return mov == null ? 0 : mov.PreuParticipacio;
         }
-
+        
 
         #endregion *** Mètodes validats ***
 
