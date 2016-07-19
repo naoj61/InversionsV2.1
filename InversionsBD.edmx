@@ -37,6 +37,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUsuaris" Type="int" Nullable="false" />
           <Property Name="ProdId" Type="int" Nullable="false" />
           <Property Name="TipusMoviment" Type="int" Nullable="false" />
           <Property Name="ProducteTraspasId" Type="int" />
@@ -81,6 +82,13 @@
           <Property Name="ISIN" Type="nvarchar" MaxLength="25" Nullable="false" />
           <Property Name="Descripcio" Type="nvarchar(max)" />
           <Property Name="Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuaris">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Nom" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Valoracions">
           <Key>
@@ -228,6 +236,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Usuaris">
+          <End Role="Usuaris" Type="Self.Usuaris" Multiplicity="1" />
+          <End Role="Moviments" Type="Self.Moviments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuaris">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Moviments">
+              <PropertyRef Name="IdUsuaris" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="InversionsBDStoreContainer">
           <EntitySet Name="Empreses" EntityType="Self.Empreses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gestors" EntityType="Self.Gestors" Schema="dbo" store:Type="Tables" />
@@ -237,6 +257,7 @@
           <EntitySet Name="Productes" EntityType="Self.Productes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Productes_ProdAccions" EntityType="Self.Productes_ProdAccions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Productes_ProdFons" EntityType="Self.Productes_ProdFons" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuaris" EntityType="Self.Usuaris" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Valoracions" EntityType="Self.Valoracions" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_EmpresaGestor" Association="Self.FK_EmpresaGestor">
             <End Role="Empreses" EntitySet="Empreses" />
@@ -282,6 +303,10 @@
             <End Role="Moviments" EntitySet="Moviments" />
             <End Role="Moviments1" EntitySet="Moviments" />
           </AssociationSet>
+          <AssociationSet Name="FK_Usuaris" Association="Self.FK_Usuaris">
+            <End Role="Usuaris" EntitySet="Usuaris" />
+            <End Role="Moviments" EntitySet="Moviments" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -325,6 +350,11 @@
           <AssociationSet Name="FK_RefVenda" Association="InversionsBD.FK_RefVenda">
             <End Role="Moviment" EntitySet="Moviments" />
             <End Role="MovimentRefVenda" EntitySet="Moviments" />
+          </AssociationSet>
+          <EntitySet Name="Usuaris" EntityType="InversionsBD.Usuari" />
+          <AssociationSet Name="FK_Usuaris" Association="InversionsBD.FK_Usuaris">
+            <End Role="Usuari" EntitySet="Usuaris" />
+            <End Role="Moviment" EntitySet="Moviments" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Empresa">
@@ -461,6 +491,8 @@
           <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" ConcurrencyMode="Fixed" FixedLength="true" cg:SetterAccess="Private" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="NoUtilitzar1" Relationship="InversionsBD.FK_RefVenda" FromRole="Moviment" ToRole="MovimentRefVenda" />
           <NavigationProperty Name="MovimentRefVenda" Relationship="InversionsBD.FK_RefVenda" FromRole="MovimentRefVenda" ToRole="Moviment" />
+          <Property Name="IdUsuaris" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Usuari" Relationship="InversionsBD.FK_Usuaris" FromRole="Moviment" ToRole="Usuari" />
           </EntityType>
         <Association Name="ProdMov">
           <End Type="InversionsBD.Producte" Role="Prod" Multiplicity="1" />
@@ -514,6 +546,26 @@
             </Principal>
             <Dependent Role="MovimentRefVenda">
               <PropertyRef Name="IdRefVenda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Usuari">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Nom" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Moviments" Relationship="InversionsBD.FK_Usuaris" FromRole="Usuari" ToRole="Moviment" />
+        </EntityType>
+        <Association Name="FK_Usuaris">
+          <End Type="InversionsBD.Usuari" Role="Usuari" Multiplicity="1" />
+          <End Type="InversionsBD.Moviment" Role="Moviment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuari">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Moviment">
+              <PropertyRef Name="IdUsuaris" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -591,6 +643,7 @@
     <EntitySetMapping Name="Moviments">
       <EntityTypeMapping TypeName="IsTypeOf(InversionsBD.Moviment)">
         <MappingFragment StoreEntitySet="Moviments">
+                <ScalarProperty Name="IdUsuaris" ColumnName="IdUsuaris" />
                 <ScalarProperty Name="ValorCompraOriginal" ColumnName="ValorCompraOriginal" />
                 <ScalarProperty Name="IdRefVenda" ColumnName="IdRefVenda" />
                 <ScalarProperty Name="PreuParticipacio" ColumnName="PreuParticipacio" />
@@ -614,6 +667,14 @@
         <ScalarProperty Name="Id" ColumnName="Gestors_Id" />
       </EndProperty>
     </AssociationSetMapping>
+          <EntitySetMapping Name="Usuaris">
+            <EntityTypeMapping TypeName="InversionsBD.Usuari">
+              <MappingFragment StoreEntitySet="Usuaris">
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

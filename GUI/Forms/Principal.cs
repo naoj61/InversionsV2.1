@@ -289,11 +289,13 @@ namespace Inversions.GUI
             }
             catch (DbEntityValidationException ex1)
             {
-                MessageBox.Show(ex1.Message);
+                Comuns.Utilitats.EscriuLog(ex1, Program.FitxerLog);
+                //MessageBox.Show(ex1.Message);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Comuns.Utilitats.EscriuLog(ex, Program.FitxerLog);
+                //MessageBox.Show(ex.Message);
             }
         }
 

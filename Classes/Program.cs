@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.IO;
@@ -13,7 +14,9 @@ namespace Inversions
     internal static class Program
     {
         internal static readonly InversionsBDContext Sessio;
-        internal static readonly bool DesignMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
+        internal static readonly bool RuntimeMode = LicenseManager.UsageMode == LicenseUsageMode.Runtime;
+        internal static Usuari UsuariSeleccionat;
+        internal static FileInfo FitxerLog = null;
 
         static Program()
         {
@@ -28,24 +31,53 @@ namespace Inversions
         [STAThread]
         private static void Main(string[] args)
         {
+            FitxerLog = Comuns.Utilitats.LlegeixFitxerLog();
             try
             {
-                // Valida arguments.
-                if (args.Count() != 1)
+                string bd = null;
+                int? idUsuari = null;
+
+                foreach (var arg in args)
                 {
-                    throw new ArgumentException("És obligatori el directori de la BD com únic argument.");
-                }
-                if (!Directory.Exists(args[0]))
-                {
-                    throw new ArgumentException("El directori de la BD no existeix.");
-                }
-                if (!File.Exists(Path.Combine(args[0], "InversionsBD.mdf")))
-                {
-                    throw new ArgumentException("La BD 'InversionsBD.mdf' no existeix en el directori: " + args[0]);
+                    if (arg.StartsWith("Bd:", StringComparison.CurrentCultureIgnoreCase))
+                        if (bd == null)
+                            bd = arg.Remove(0, 3);
+                        else
+                            throw new ArgumentException("Hi ha més d'un paràmetre 'Bd'");
+                    else if (arg.StartsWith("IdUsuari:", StringComparison.CurrentCultureIgnoreCase))
+                        if (idUsuari == null)
+                            idUsuari = Convert.ToInt32(arg.Remove(0, 9));
+                        else
+                            throw new ArgumentException("Hi ha més d'un paràmetre 'idUsuari'");
+                    else
+                        throw new ArgumentException("Hi ha un paràmetre desconegut '" + arg + "'");
                 }
 
+                if (bd == null)
+                    throw new ArgumentException("Falta el paràmetre 'Bd:'");
+
+                if (idUsuari == null)
+                    throw new ArgumentException("Falta el paràmetre 'idUsuari:'");
+
+
+                // Valida arguments.
+                //if (args.Count() != 1)
+                //{
+                //    throw new ArgumentException("És obligatori el directori de la BD com únic argument.");
+                //}
+                //if (!Directory.Exists(args[0]))
+                //{
+                //    throw new ArgumentException("El directori de la BD no existeix.");
+                //}
+                //if (!File.Exists(Path.Combine(args[0], "InversionsBD.mdf")))
+                //{
+                //    throw new ArgumentException("La BD 'InversionsBD.mdf' no existeix en el directori: " + args[0]);
+                //}
+
                 // Informa la variable |DataDirectory|, s'utilitza en App.config.
-                AppDomain.CurrentDomain.SetData("DataDirectory", args[0]);
+                AppDomain.CurrentDomain.SetData("DataDirectory", bd);
+
+                UsuariSeleccionat = Sessio.Usuaris.Single(s => s.Id == idUsuari);
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
@@ -53,7 +85,8 @@ namespace Inversions
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Comuns.Utilitats.EscriuLog(ex, FitxerLog);
+                //MessageBox.Show(ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

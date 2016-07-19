@@ -11,11 +11,9 @@ namespace Inversions.GUI
         {
             InitializeComponent();
 
-            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof (Producte.TipusProducte));
-            cbTipusProducteFiltreTab2.Focus();
-
             tbIsin.Dock = DockStyle.Fill;
             tbMercat.Dock = DockStyle.Fill;
+
         }
 
         public event EventHandler ProducteSeleccionat;
@@ -32,6 +30,12 @@ namespace Inversions.GUI
                     lbProductesTab2.SelectedItem = value;
                 }
             }
+        }
+
+        public Usuari _UsuariSeleccionat
+        {
+            get { return (Usuari) cbUsuaris.SelectedItem; }
+            set { cbUsuaris.SelectedItem = value; }
         }
 
         public bool _NomesAmbParticipacions
@@ -73,7 +77,7 @@ namespace Inversions.GUI
                     break;
             }
 
-            if (!Program.DesignMode)
+            if (Program.RuntimeMode)
             {
                 if (ckNomesAmbParticipacions.Checked)
                     prods = prods.Where(w => w._Participacions > 0);
@@ -117,7 +121,7 @@ namespace Inversions.GUI
                     tbDescripcio.Text = prodFons.Descripcio;
 
                     gbDescripcio.Visible = true;
-                    
+
                     //lbIsin.Visible = true;
                     //lbMercat.Visible = false;
                     gbIsinMercat.Text = "ISIN";
@@ -143,6 +147,22 @@ namespace Inversions.GUI
         private void ckNomesAmbParticipacions_CheckedChanged(object sender, EventArgs e)
         {
             carregaLbProductesTab2();
+        }
+
+
+
+        private void GestioProductes_Load(object sender, EventArgs e)
+        {
+            if (Program.RuntimeMode)
+            {
+                // Aquí només s'executa al entrar en la perstanya.
+                cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof (Producte.TipusProducte));
+                cbTipusProducteFiltreTab2.Focus();
+
+                cbUsuaris.DisplayMember = "Nom";
+                cbUsuaris.DataSource = Program.Sessio.Usuaris.ToList();
+                cbUsuaris.SelectedItem = Program.UsuariSeleccionat;
+            }
         }
     }
 }

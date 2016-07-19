@@ -14,6 +14,6 @@
     <EnableSecurityDebugging>false</EnableSecurityDebugging>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>"C:\Users\joanp\Documents\Visual Studio 2013\Projects\Altres\Inversions\BD"</StartArguments>
+    <StartArguments>Bd:"C:\Users\joanp\Documents\Visual Studio 2013\Projects\Altres\Inversions\BD" IdUsuari:1</StartArguments>
   </PropertyGroup>
 </Project>

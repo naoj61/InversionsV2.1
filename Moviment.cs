@@ -31,10 +31,12 @@ namespace Inversions
         public Nullable<double> ValorCompraOriginal { get; set; }
         public string Descripcio { get; set; }
         public byte[] RowVersion { get; private set; }
+        public int IdUsuaris { get; set; }
     
         public virtual Producte Prod { get; set; }
         public virtual Producte ProducteTraspas { get; set; }
         public virtual ICollection<Moviment> NoUtilitzar1 { get; set; }
         public virtual Moviment MovimentRefVenda { get; set; }
+        public virtual Usuari Usuari { get; set; }
     }
 }

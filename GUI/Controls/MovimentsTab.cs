@@ -10,17 +10,19 @@ namespace Inversions.GUI
         {
             InitializeComponent();
 
-            cDataGridView1.AutoGenerateColumns = false;
+            if (Program.RuntimeMode)
+            {
+                cDataGridView1.AutoGenerateColumns = false;
 
-            cTipusMovimentTab2.SuspendLayout();
-            cTipusMovimentTab2.DataSource = Enum.GetValues(typeof (TipusMoviment));
-            cTipusMovimentTab2.SelectedItem = null;
-            cTipusMovimentTab2.ResumeLayout();
+                cTipusMovimentTab2.SuspendLayout();
+                cTipusMovimentTab2.DataSource = Enum.GetValues(typeof (TipusMoviment));
+                cTipusMovimentTab2.SelectedItem = null;
+                cTipusMovimentTab2.ResumeLayout();
 
 
-            gestioProductesTabMoviments._NomesAmbParticipacions = true;
+                gestioProductesTabMoviments._NomesAmbParticipacions = true;
+            }
         }
-
 
         private void gestioProductes1_ProducteSeleccionat(object sender, EventArgs e)
         {
@@ -56,7 +58,7 @@ namespace Inversions.GUI
 
         private void ompleTaulaMovimentsProducte(Producte prod)
         {
-            var movimentsProducte = Program.Sessio.Moviments.Where(w => w.Prod.Id == prod.Id).ToList();
+            var movimentsProducte = Program.Sessio.MovimentsUsuari.Where(w => w.Prod.Id == prod.Id).ToList();
 
             cDataGridView1.SuspendLayout();
             cDataGridView1.DataSource = movimentsProducte.OrderBy(o => o.Data).ToList();

@@ -90,12 +90,14 @@ namespace Inversions.GUI
                     }
                     catch (DbUpdateException ex2)
                     {
-                        MessageBox.Show(ex2.InnerException.InnerException.Message);
+                        Comuns.Utilitats.EscriuLog(ex2, Program.FitxerLog);
+                        //MessageBox.Show(ex2.InnerException.InnerException.Message);
                         conn.UndoingChangesDbEntityPropertyLevel(vValoracioSeleccionada);
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message);
+                        Comuns.Utilitats.EscriuLog(ex, Program.FitxerLog);
+                        //MessageBox.Show(ex.Message);
                         conn.UndoingChangesDbEntityPropertyLevel(vValoracioSeleccionada);
                     }
                 }
@@ -186,12 +188,14 @@ namespace Inversions.GUI
                 }
                 catch (DbUpdateException ex2)
                 {
-                    MessageBox.Show(ex2.InnerException.InnerException.Message);
+                    Comuns.Utilitats.EscriuLog(ex2, Program.FitxerLog);
+                    //MessageBox.Show(ex2.InnerException.InnerException.Message);
                     conn.UndoingChangesDbEntityPropertyLevel(val);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    Comuns.Utilitats.EscriuLog(ex, Program.FitxerLog);
+                    //MessageBox.Show(ex.Message);
                     conn.UndoingChangesDbEntityPropertyLevel(val);
                 }
             }
@@ -262,7 +266,7 @@ namespace Inversions.GUI
 
         private void actualitzaLlistaValoracionsTotal()
         {
-            if (Program.DesignMode)
+            if (!Program.RuntimeMode)
                 return;
 
             var tipusProdFiltre = cbTipusProducteFiltre.SelectedItem == null ? Producte.TipusProducte.Tots : (Producte.TipusProducte) cbTipusProducteFiltre.SelectedItem;
@@ -273,17 +277,17 @@ namespace Inversions.GUI
                 case Producte.TipusProducte.Accions:
                     //valoracions = MyClass.Sessio.Valoracions.Where(w => w.Prod is ProdAccions);
                     valoracions = Program.Sessio.Valoracions.Where(w => w.Prod is ProdAccions).ToList();
-                    moviments = Program.Sessio.Moviments.Where(w => w.Prod is ProdAccions && w.Participacions > 0).ToList();
+                    moviments = Program.Sessio.MovimentsUsuari.Where(w => w.Prod is ProdAccions && w.Participacions > 0).ToList();
                     break;
                 case Producte.TipusProducte.Fons:
                     //valoracions = MyClass.Sessio.Valoracions.Where(w => w.Prod is ProdFons);
                     valoracions = Program.Sessio.Valoracions.Where(w => w.Prod is ProdFons).ToList();
-                    moviments = Program.Sessio.Moviments.Where(w => w.Prod is ProdFons && w.Participacions > 0).ToList();
+                    moviments = Program.Sessio.MovimentsUsuari.Where(w => w.Prod is ProdFons && w.Participacions > 0).ToList();
                     break;
                 default:
                     //valoracions = MyClass.Sessio.Valoracions;
                     valoracions = Program.Sessio.Valoracions.ToList();
-                    moviments = Program.Sessio.Moviments.Where(w => w.Participacions > 0).ToList();
+                    moviments = Program.Sessio.MovimentsUsuari.Where(w => w.Participacions > 0).ToList();
                     break;
             }
 

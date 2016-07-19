@@ -33,6 +33,8 @@ namespace Inversions.GUI
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.gbUsuari = new System.Windows.Forms.GroupBox();
+            this.cbUsuaris = new System.Windows.Forms.ComboBox();
             this.gbIsinMercat = new System.Windows.Forms.GroupBox();
             this.tbMercat = new System.Windows.Forms.TextBox();
             this.tbIsin = new System.Windows.Forms.TextBox();
@@ -60,6 +62,7 @@ namespace Inversions.GUI
             this.lbEmpresa = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panel1.SuspendLayout();
+            this.gbUsuari.SuspendLayout();
             this.gbIsinMercat.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -77,6 +80,7 @@ namespace Inversions.GUI
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.gbUsuari);
             this.panel1.Controls.Add(this.gbIsinMercat);
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.groupBox3);
@@ -89,6 +93,29 @@ namespace Inversions.GUI
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(337, 625);
             this.panel1.TabIndex = 11;
+            // 
+            // gbUsuari
+            // 
+            this.gbUsuari.Controls.Add(this.cbUsuaris);
+            this.gbUsuari.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gbUsuari.Location = new System.Drawing.Point(0, 46);
+            this.gbUsuari.Margin = new System.Windows.Forms.Padding(3, 3, 9, 3);
+            this.gbUsuari.Name = "gbUsuari";
+            this.gbUsuari.Padding = new System.Windows.Forms.Padding(9, 3, 9, 3);
+            this.gbUsuari.Size = new System.Drawing.Size(337, 46);
+            this.gbUsuari.TabIndex = 7;
+            this.gbUsuari.TabStop = false;
+            this.gbUsuari.Text = "Usuari";
+            // 
+            // cbUsuaris
+            // 
+            this.cbUsuaris.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbUsuaris.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbUsuaris.Enabled = false;
+            this.cbUsuaris.Location = new System.Drawing.Point(9, 18);
+            this.cbUsuaris.Name = "cbUsuaris";
+            this.cbUsuaris.Size = new System.Drawing.Size(319, 24);
+            this.cbUsuaris.TabIndex = 0;
             // 
             // gbIsinMercat
             // 
@@ -131,7 +158,7 @@ namespace Inversions.GUI
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.tbPiGReal);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(178, 184);
+            this.groupBox2.Location = new System.Drawing.Point(172, 224);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.groupBox2.Size = new System.Drawing.Size(156, 50);
@@ -162,7 +189,7 @@ namespace Inversions.GUI
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.tbDividends);
-            this.groupBox3.Location = new System.Drawing.Point(178, 127);
+            this.groupBox3.Location = new System.Drawing.Point(172, 167);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.groupBox3.Size = new System.Drawing.Size(156, 50);
@@ -194,9 +221,9 @@ namespace Inversions.GUI
             this.gbDescripcio.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbDescripcio.Controls.Add(this.tbDescripcio);
-            this.gbDescripcio.Location = new System.Drawing.Point(7, 240);
+            this.gbDescripcio.Location = new System.Drawing.Point(7, 315);
             this.gbDescripcio.Name = "gbDescripcio";
-            this.gbDescripcio.Size = new System.Drawing.Size(319, 378);
+            this.gbDescripcio.Size = new System.Drawing.Size(319, 303);
             this.gbDescripcio.TabIndex = 6;
             this.gbDescripcio.TabStop = false;
             this.gbDescripcio.Text = "Descripció";
@@ -209,14 +236,14 @@ namespace Inversions.GUI
             this.tbDescripcio.Name = "tbDescripcio";
             this.tbDescripcio.ReadOnly = true;
             this.tbDescripcio.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbDescripcio.Size = new System.Drawing.Size(313, 357);
+            this.tbDescripcio.Size = new System.Drawing.Size(313, 282);
             this.tbDescripcio.TabIndex = 0;
             // 
             // groupBox4
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this.tbPiGActual);
-            this.groupBox4.Location = new System.Drawing.Point(14, 184);
+            this.groupBox4.Location = new System.Drawing.Point(8, 224);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.groupBox4.Size = new System.Drawing.Size(156, 50);
@@ -247,7 +274,7 @@ namespace Inversions.GUI
             // 
             this.groupBox15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox15.Controls.Add(this.tbValorActual);
-            this.groupBox15.Location = new System.Drawing.Point(10, 71);
+            this.groupBox15.Location = new System.Drawing.Point(8, 111);
             this.groupBox15.Name = "groupBox15";
             this.groupBox15.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.groupBox15.Size = new System.Drawing.Size(156, 50);
@@ -278,7 +305,7 @@ namespace Inversions.GUI
             // 
             this.groupBox13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox13.Controls.Add(this.tbParticipacions);
-            this.groupBox13.Location = new System.Drawing.Point(173, 71);
+            this.groupBox13.Location = new System.Drawing.Point(172, 111);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.groupBox13.Size = new System.Drawing.Size(156, 50);
@@ -426,7 +453,9 @@ namespace Inversions.GUI
             this.MinimumSize = new System.Drawing.Size(733, 395);
             this.Name = "GestioProductes";
             this.Size = new System.Drawing.Size(801, 625);
+            this.Load += new System.EventHandler(this.GestioProductes_Load);
             this.panel1.ResumeLayout(false);
+            this.gbUsuari.ResumeLayout(false);
             this.gbIsinMercat.ResumeLayout(false);
             this.gbIsinMercat.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -481,5 +510,7 @@ namespace Inversions.GUI
         private TextBox tbMercat;
         private TextBox tbIsin;
         private ToolTip toolTip1;
+        private GroupBox gbUsuari;
+        private ComboBox cbUsuaris;
     }
 }

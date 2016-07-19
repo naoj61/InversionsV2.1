@@ -23,9 +23,9 @@ namespace Inversions.GUI
 
         private void calculaPiG()
         {
-            if (!Program.DesignMode)
+            if (Program.RuntimeMode)
             {
-                var movsOrdenats = Program.Sessio.Moviments.OrderBy(o => o.Data).Where(w => w.TipusMoviment == TipusMoviment.Venda && w.ProducteTraspas == null).ToList();
+                var movsOrdenats = Program.Sessio.MovimentsUsuari.OrderBy(o => o.Data).Where(w => w.TipusMoviment == TipusMoviment.Venda && w.ProducteTraspas == null).ToList();
                 if (movsOrdenats.Count == 0)
                     return;
 
@@ -75,13 +75,16 @@ namespace Inversions.GUI
 
             dgvPiGProductePerAny.Rows.Clear();
 
-            for (int any = proSeleccionat.MovimentsProducte.OrderBy(o => o.Data).First().Data.Year; any <= DateTime.Today.Year; any++)
+            var primerMoviment = proSeleccionat.MovimentsProducteUsuari.OrderBy(o => o.Data).FirstOrDefault();
+            if (primerMoviment != null)
             {
-                dgvPiGProductePerAny.Rows.Add(any, proSeleccionat.pigValorat(any));
+                for (int any = primerMoviment.Data.Year; any <= DateTime.Today.Year; any++)
+                {
+                    dgvPiGProductePerAny.Rows.Add(any, proSeleccionat.pigValorat(any));
+                }
+                int fila = dgvPiGProductePerAny.Rows.Add("Total", proSeleccionat.pigValorat(Producte.DateTimeFinalDia.Today));
+                dgvPiGProductePerAny.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGProductePerAny.Font, FontStyle.Bold);
             }
-            int fila = dgvPiGProductePerAny.Rows.Add("Total", proSeleccionat.pigValorat(Producte.DateTimeFinalDia.Today));
-            dgvPiGProductePerAny.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGProductePerAny.Font, FontStyle.Bold);
-
             dgvPiGProductePerAny.ResumeLayout();
         }
     }
