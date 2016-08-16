@@ -8,6 +8,13 @@ namespace Inversions
 {
     public partial class Usuari
     {
+        private static Usuari Seleccionat1;
+
+        internal static Usuari Seleccionat
+        {
+            get { return Seleccionat1; }
+            set { Seleccionat1 = value; }
+        }
 
         #region Overrides
 

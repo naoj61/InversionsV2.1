@@ -96,6 +96,7 @@
     <Compile Include="ClassesParcials\ProdAccions.cs" />
     <Compile Include="ClassesParcials\Moviment.cs" />
     <Compile Include="ClassesParcials\Producte.cs" />
+    <Compile Include="Classes\ITabs.cs" />
     <Compile Include="Empresa.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>

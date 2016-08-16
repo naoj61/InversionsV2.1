@@ -34,7 +34,6 @@ namespace Inversions.GUI
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.gbUsuari = new System.Windows.Forms.GroupBox();
-            this.cbUsuaris = new System.Windows.Forms.ComboBox();
             this.gbIsinMercat = new System.Windows.Forms.GroupBox();
             this.tbMercat = new System.Windows.Forms.TextBox();
             this.tbIsin = new System.Windows.Forms.TextBox();
@@ -61,6 +60,7 @@ namespace Inversions.GUI
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.lbEmpresa = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.lbUsuari = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.gbUsuari.SuspendLayout();
             this.gbIsinMercat.SuspendLayout();
@@ -96,7 +96,7 @@ namespace Inversions.GUI
             // 
             // gbUsuari
             // 
-            this.gbUsuari.Controls.Add(this.cbUsuaris);
+            this.gbUsuari.Controls.Add(this.lbUsuari);
             this.gbUsuari.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbUsuari.Location = new System.Drawing.Point(0, 46);
             this.gbUsuari.Margin = new System.Windows.Forms.Padding(3, 3, 9, 3);
@@ -106,16 +106,6 @@ namespace Inversions.GUI
             this.gbUsuari.TabIndex = 7;
             this.gbUsuari.TabStop = false;
             this.gbUsuari.Text = "Usuari";
-            // 
-            // cbUsuaris
-            // 
-            this.cbUsuaris.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbUsuaris.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbUsuaris.Enabled = false;
-            this.cbUsuaris.Location = new System.Drawing.Point(9, 18);
-            this.cbUsuaris.Name = "cbUsuaris";
-            this.cbUsuaris.Size = new System.Drawing.Size(319, 24);
-            this.cbUsuaris.TabIndex = 0;
             // 
             // gbIsinMercat
             // 
@@ -444,6 +434,16 @@ namespace Inversions.GUI
             this.lbEmpresa.TabIndex = 0;
             this.lbEmpresa.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // lbUsuari
+            // 
+            this.lbUsuari.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbUsuari.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbUsuari.Location = new System.Drawing.Point(9, 18);
+            this.lbUsuari.Name = "lbUsuari";
+            this.lbUsuari.Size = new System.Drawing.Size(319, 25);
+            this.lbUsuari.TabIndex = 0;
+            this.lbUsuari.Text = "Usuari";
+            // 
             // GestioProductes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -511,6 +511,6 @@ namespace Inversions.GUI
         private TextBox tbIsin;
         private ToolTip toolTip1;
         private GroupBox gbUsuari;
-        private ComboBox cbUsuaris;
+        private Label lbUsuari;
     }
 }

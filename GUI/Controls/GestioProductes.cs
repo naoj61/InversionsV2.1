@@ -15,6 +15,12 @@ namespace Inversions.GUI
             tbIsin.Dock = DockStyle.Fill;
             tbMercat.Dock = DockStyle.Fill;
 
+            cbTipusProducteFiltreTab2.SelectedIndexChanged -= cbTipusProducteFiltreTab2_SelectedIndexChanged;
+            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof(Producte.TipusProducte));
+            cbTipusProducteFiltreTab2.Focus();
+            cbTipusProducteFiltreTab2.SelectedIndex = 0;
+            cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
+
         }
 
         public event EventHandler ProducteSeleccionat;
@@ -35,8 +41,13 @@ namespace Inversions.GUI
 
         public Usuari _UsuariSeleccionat
         {
-            get { return (Usuari) cbUsuaris.SelectedItem; }
-            set { cbUsuaris.SelectedItem = value; }
+            //get { return (Usuari) cbUsuaris.SelectedItem; }
+            //set { cbUsuaris.SelectedItem = value; }
+            set
+            {
+                lbUsuari.Text = value.Nom;
+                carregaLbProductesTab2();
+            }
         }
 
         public bool _NomesAmbParticipacions
@@ -79,7 +90,7 @@ namespace Inversions.GUI
             }
 
             //if (Program.RuntimeMode)
-            if (!this.DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Runtime)
+            if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
                 if (ckNomesAmbParticipacions.Checked)
                     prods = prods.Where(w => w._Participacions > 0);
@@ -152,19 +163,18 @@ namespace Inversions.GUI
         }
 
 
+        
 
         private void GestioProductes_Load(object sender, EventArgs e)
         {
-            if (!this.DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             //if (Program.RuntimeMode)
+            if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
                 // Aquí només s'executa al entrar en la perstanya.
-                cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof (Producte.TipusProducte));
-                cbTipusProducteFiltreTab2.Focus();
 
-                cbUsuaris.DisplayMember = "Nom";
-                cbUsuaris.DataSource = Program.Sessio.Usuaris.ToList();
-                cbUsuaris.SelectedItem = Program.UsuariSeleccionat;
+                //cbUsuaris.DisplayMember = "Nom";
+                //cbUsuaris.DataSource = Program.Sessio.Usuaris.ToList();
+                //cbUsuaris.SelectedItem = Program.UsuariSeleccionat;
             }
         }
     }

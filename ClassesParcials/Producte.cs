@@ -16,7 +16,7 @@ namespace Inversions
 
         public IEnumerable<Moviment> MovimentsProducteUsuari
         {
-            get { return MovimentsProducte.Where(w => w.IdUsuari == Program.UsuariSeleccionat.Id); }
+            get { return MovimentsProducte.Where(w => w.IdUsuari == Usuari.Seleccionat.Id); }
         }
 
         public struct PiGPerCompra
@@ -222,7 +222,7 @@ namespace Inversions
             //    throw new ArgumentException("El valor ha de ser major de zero", "preuParticipacio");
 
             Moviment moviment = new Moviment();
-            moviment.IdUsuari = Program.UsuariSeleccionat.Id;
+            moviment.IdUsuari = Usuari.Seleccionat.Id;
             moviment.TipusMoviment = tipusMoviment;
             moviment.ProdId = this.Id;
             moviment.Participacions = numParticipacions;

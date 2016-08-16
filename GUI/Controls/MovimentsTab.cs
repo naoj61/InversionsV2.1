@@ -5,14 +5,14 @@ using System.Windows.Forms;
 
 namespace Inversions.GUI
 {
-    public partial class MovimentsTab : UserControl
+    public partial class MovimentsTab : UserControl, ITabs
     {
         public MovimentsTab()
         {
             InitializeComponent();
 
            // if (Program.RuntimeMode)
-            if (!this.DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Runtime)
+            if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
                 cDataGridView1.AutoGenerateColumns = false;
 
@@ -223,6 +223,12 @@ namespace Inversions.GUI
             cProducteTraspas.SelectedItem = null;
 
             comprant = null;
+        }
+
+        public void canviUsuari(Usuari usuari)
+        {
+            gestioProductesTabMoviments._UsuariSeleccionat = usuari;
+            cDataGridView1.DataSource = null;
         }
 
 

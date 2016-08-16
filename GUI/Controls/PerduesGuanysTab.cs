@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace Inversions.GUI
 {
-    public partial class PerduesGuanysTab : UserControl
+    public partial class PerduesGuanysTab : UserControl, ITabs
     {
         public PerduesGuanysTab()
         {
@@ -25,7 +25,7 @@ namespace Inversions.GUI
         private void calculaPiG()
         {
             //if (Program.RuntimeMode)
-            if (!this.DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Runtime)
+            if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
                 var movsOrdenats = Program.Sessio.MovimentsUsuari.OrderBy(o => o.Data).Where(w => w.TipusMoviment == TipusMoviment.Venda && w.ProducteTraspas == null).ToList();
                 if (movsOrdenats.Count == 0)
@@ -45,6 +45,13 @@ namespace Inversions.GUI
                 fila = dgvPiGAnualsTributen.Rows.Add("Total", 0, 0, Producte.PigReal());
                 dgvPiGAnualsTributen.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTributen.Font, FontStyle.Bold);
             }
+        }
+
+
+        public void canviUsuari(Usuari usuari)
+        {
+            gestioProductesTabValoracions._UsuariSeleccionat = usuari;
+            dgvPiGProducte.DataSource = null;
         }
 
         private void cbTipusProducteFiltreTab2_SelectedIndexChanged(object sender, EventArgs e)

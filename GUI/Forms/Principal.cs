@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
@@ -12,7 +13,7 @@ namespace Inversions.GUI
     {
         public Principal()
         {
- 
+
             InitializeComponent();
 
             this.Text = "Producte. Ver: " + Application.ProductVersion;
@@ -368,6 +369,32 @@ namespace Inversions.GUI
             cbEmpresa.Enabled = true;
             //cbTipusProducte.Enabled = true;
             cbMercat.Enabled = true;
+        }
+
+        private void Principal_Load(object sender, EventArgs e)
+        {
+            if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
+            {
+                SuspendLayout();
+                cbUsuaris.SelectedIndexChanged -= cbUsuaris_SelectedIndexChanged;
+                cbUsuaris.DisplayMember = "Nom";
+                cbUsuaris.DataSource = Program.Sessio.Usuaris.ToList();
+                cbUsuaris.SelectedItem = null;
+                cbUsuaris.SelectedIndexChanged += cbUsuaris_SelectedIndexChanged;
+                ResumeLayout();
+                if (Usuari.Seleccionat == null)
+                    Usuari.Seleccionat = Program.Sessio.Usuaris.First();
+
+                cbUsuaris.SelectedItem = Usuari.Seleccionat;
+            }
+        }
+
+        private void cbUsuaris_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Usuari.Seleccionat = (Usuari) cbUsuaris.SelectedItem;
+            movimentsTab1.canviUsuari(Usuari.Seleccionat);
+            valoracionsTab1.canviUsuari(Usuari.Seleccionat);
+            perduesGuanysTab1.canviUsuari(Usuari.Seleccionat);
         }
     }
 }

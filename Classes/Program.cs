@@ -15,7 +15,7 @@ namespace Inversions
     {
         internal static readonly InversionsBDContext Sessio;
         internal static readonly bool RuntimeMode = LicenseManager.UsageMode == LicenseUsageMode.Runtime;
-        internal static Usuari UsuariSeleccionat;
+        //internal static Usuari UsuariSeleccionat;
         internal static FileInfo FitxerLog = null;
 
         static Program()
@@ -77,7 +77,7 @@ namespace Inversions
                 // Informa la variable |DataDirectory|, s'utilitza en App.config.
                 AppDomain.CurrentDomain.SetData("DataDirectory", bd);
 
-                UsuariSeleccionat = Sessio.Usuaris.Single(s => s.Id == idUsuari);
+                Usuari.Seleccionat = Sessio.Usuaris.Single(s => s.Id == idUsuari);
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);

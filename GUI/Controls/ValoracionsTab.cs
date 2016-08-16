@@ -9,7 +9,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Inversions.GUI
 {
-    public partial class ValoracionsTab : UserControl
+    public partial class ValoracionsTab : UserControl, ITabs
     {
         public ValoracionsTab()
         {
@@ -249,6 +249,14 @@ namespace Inversions.GUI
                 tbImport.Valor = vValoracioSeleccionada.PreuParticipacio;
             }
         }
+
+
+        public void canviUsuari(Usuari usuari)
+        {
+            gestioProductesTabValoracions._UsuariSeleccionat = usuari;
+            cDataGridView1.DataSource = null;
+        }
+
 
         private void ValoracionsTab_Load(object sender, EventArgs e)
         {
