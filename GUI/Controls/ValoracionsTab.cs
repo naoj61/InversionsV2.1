@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 using System.Linq;
@@ -266,7 +267,8 @@ namespace Inversions.GUI
 
         private void actualitzaLlistaValoracionsTotal()
         {
-            if (!Program.RuntimeMode)
+            //if (!Program.RuntimeMode)
+            if (this.DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Designtime)
                 return;
 
             var tipusProdFiltre = cbTipusProducteFiltre.SelectedItem == null ? Producte.TipusProducte.Tots : (Producte.TipusProducte) cbTipusProducteFiltre.SelectedItem;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -77,7 +78,8 @@ namespace Inversions.GUI
                     break;
             }
 
-            if (Program.RuntimeMode)
+            //if (Program.RuntimeMode)
+            if (!this.DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
                 if (ckNomesAmbParticipacions.Checked)
                     prods = prods.Where(w => w._Participacions > 0);
@@ -153,7 +155,8 @@ namespace Inversions.GUI
 
         private void GestioProductes_Load(object sender, EventArgs e)
         {
-            if (Program.RuntimeMode)
+            if (!this.DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Runtime)
+            //if (Program.RuntimeMode)
             {
                 // Aquí només s'executa al entrar en la perstanya.
                 cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof (Producte.TipusProducte));

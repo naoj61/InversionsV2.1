@@ -491,7 +491,7 @@
           <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" ConcurrencyMode="Fixed" FixedLength="true" cg:SetterAccess="Private" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="NoUtilitzar1" Relationship="InversionsBD.FK_RefVenda" FromRole="Moviment" ToRole="MovimentRefVenda" />
           <NavigationProperty Name="MovimentRefVenda" Relationship="InversionsBD.FK_RefVenda" FromRole="MovimentRefVenda" ToRole="Moviment" />
-          <Property Name="IdUsuaris" Type="Int32" Nullable="false" />
+          <Property Name="IdUsuari" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Usuari" Relationship="InversionsBD.FK_Usuaris" FromRole="Moviment" ToRole="Usuari" />
           </EntityType>
         <Association Name="ProdMov">
@@ -565,7 +565,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Moviment">
-              <PropertyRef Name="IdUsuaris" />
+              <PropertyRef Name="IdUsuari" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -643,7 +643,7 @@
     <EntitySetMapping Name="Moviments">
       <EntityTypeMapping TypeName="IsTypeOf(InversionsBD.Moviment)">
         <MappingFragment StoreEntitySet="Moviments">
-                <ScalarProperty Name="IdUsuaris" ColumnName="IdUsuaris" />
+                <ScalarProperty Name="IdUsuari" ColumnName="IdUsuaris" />
                 <ScalarProperty Name="ValorCompraOriginal" ColumnName="ValorCompraOriginal" />
                 <ScalarProperty Name="IdRefVenda" ColumnName="IdRefVenda" />
                 <ScalarProperty Name="PreuParticipacio" ColumnName="PreuParticipacio" />

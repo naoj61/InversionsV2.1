@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -23,7 +24,8 @@ namespace Inversions.GUI
 
         private void calculaPiG()
         {
-            if (Program.RuntimeMode)
+            //if (Program.RuntimeMode)
+            if (!this.DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
                 var movsOrdenats = Program.Sessio.MovimentsUsuari.OrderBy(o => o.Data).Where(w => w.TipusMoviment == TipusMoviment.Venda && w.ProducteTraspas == null).ToList();
                 if (movsOrdenats.Count == 0)

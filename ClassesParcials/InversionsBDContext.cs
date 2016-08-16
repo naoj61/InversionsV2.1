@@ -94,7 +94,7 @@ namespace Inversions
 
         public IEnumerable<Moviment> MovimentsUsuari
         {
-            get { return Moviments.Where(w => w.IdUsuaris == Program.UsuariSeleccionat.Id); }
+            get { return Moviments.Where(w => w.IdUsuari == Program.UsuariSeleccionat.Id); }
         }
     }
 }

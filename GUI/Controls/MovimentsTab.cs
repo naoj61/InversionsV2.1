@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -10,7 +11,8 @@ namespace Inversions.GUI
         {
             InitializeComponent();
 
-            if (Program.RuntimeMode)
+           // if (Program.RuntimeMode)
+            if (!this.DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
                 cDataGridView1.AutoGenerateColumns = false;
 
