@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace Inversions
 {
@@ -210,12 +211,16 @@ namespace Inversions
 
             // Valido que DateTime no sigui inferior a un moviment prèvi del mateix producte.
             if (ultimaData >= dataHora)
-                throw new ApplicationException("La data no pot ser inferior a la data del últim moviment del producte. Data últim moviment: " +  ultimaData);
+            {
+                if (MessageBox.Show("La data és inferior a la data del últim moviment del producte.\nVols continuar?", "Avís", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                    throw new ApplicationException("Operació cancelada");
+                //throw new ApplicationException("La data no pot ser inferior a la data del últim moviment del producte. Data últim moviment: " + ultimaData);
+            }
 
             if(connexio == null)
                 throw new ArgumentNullException("connexio");
 
-            if (numParticipacions <= 0)
+            if (tipusMoviment != TipusMoviment.Dividends && numParticipacions <= 0)
                 throw new ArgumentException("El valor ha de ser major de zero", "numParticipacions");
 
             //if (preuParticipacio <= 0)
