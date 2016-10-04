@@ -91,6 +91,7 @@ namespace Inversions
 
         public virtual DbSet<ProdFons> ProdFons { get; set; }
         public virtual DbSet<ProdAccions> ProdAccions { get; set; }
+        public virtual DbSet<Valoracio> Valoracio { get; set; }
 
         public IEnumerable<Moviment> MovimentsUsuari
         {

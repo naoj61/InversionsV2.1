@@ -32,6 +32,12 @@ namespace Inversions.GUI
             cbMercat.SelectedItem = null;
             cbMercat.ResumeLayout();
 
+            cbMercat2.SuspendLayout();
+            cbMercat2.DisplayMember = "Nom";
+            cbMercat2.DataSource = Program.Sessio.Mercats.ToList();
+            cbMercat2.SelectedItem = null;
+            cbMercat2.ResumeLayout();
+
             modeConsulta();
         }
 
@@ -96,6 +102,7 @@ namespace Inversions.GUI
                     cbEmpresa.SelectedItem = accions.Empresa;
                     //cbTipusProducte.SelectedIndex = 0;
                     cbMercat.SelectedItem = accions.Mercat;
+                    cbMercat2.SelectedItem = accions.Mercat;
                     tbId.Text = accions.Id.ToString("0");
                 }
                 else
@@ -182,6 +189,16 @@ namespace Inversions.GUI
             }
         }
 
+        private bool vAltaEmpresa = false;
+
+        private void btNovaEmpresa_Click(object sender, EventArgs e)
+        {
+            modeEdicio();
+
+            grAltaEmpresa.Visible = true;
+            flpDades.Visible = false;
+            vAltaEmpresa = true;
+        }
 
         private bool vProducteNou;
 
@@ -203,6 +220,7 @@ namespace Inversions.GUI
             cbTipusProducte.SelectedItem = null;
             cbEmpresa.SelectedItem = null;
             cbMercat.SelectedItem = null;
+            cbMercat2.SelectedItem = null;
             tbDescripcio.Text = "";
             tbIsin.Text = "";
             tbNom.Text = "";
@@ -221,6 +239,14 @@ namespace Inversions.GUI
 
         private void btDesa_Click(object sender, EventArgs e)
         {
+            if (vAltaEmpresa)
+                altaEmpresa();
+            else
+                altaProducte();
+        }
+
+        private void altaProducte()
+        {
             Producte prod = null;
             try
             {
@@ -231,21 +257,21 @@ namespace Inversions.GUI
 
                 using (var conn = new InversionsBDContext())
                 {
-                    Producte.TipusProducte tp = (Producte.TipusProducte) cbTipusProducte.SelectedItem;
+                    Producte.TipusProducte tp = (Producte.TipusProducte)cbTipusProducte.SelectedItem;
 
-                    Empresa empresaSeleccionada = conn.Empreses.Single(s => s.Id == ((Empresa) cbEmpresa.SelectedItem).Id);
-                    Producte producteSeleccionat = vProducteNou ? null : conn.Productes.Single(s => s.Id == ((Producte) cbProductesTab1.SelectedItem).Id);
+                    Empresa empresaSeleccionada = conn.Empreses.Single(s => s.Id == ((Empresa)cbEmpresa.SelectedItem).Id);
+                    Producte producteSeleccionat = vProducteNou ? null : conn.Productes.Single(s => s.Id == ((Producte)cbProductesTab1.SelectedItem).Id);
 
                     if (tp == Producte.TipusProducte.Accions)
                     {
                         if (cbMercat.SelectedItem == null)
                             throw new ApplicationException("Falta Mercat");
 
-                        ProdAccions prodAccions = producteSeleccionat == null ? new ProdAccions() : (ProdAccions) producteSeleccionat;
+                        ProdAccions prodAccions = producteSeleccionat == null ? new ProdAccions() : (ProdAccions)producteSeleccionat;
 
 
                         prodAccions.Empresa = empresaSeleccionada;
-                        prodAccions.MercatId = ((Mercat) cbMercat.SelectedItem).Id;
+                        prodAccions.MercatId = ((Mercat)cbMercat.SelectedItem).Id;
 
                         if (vProducteNou)
                             conn.Productes.Add(prodAccions);
@@ -261,7 +287,7 @@ namespace Inversions.GUI
                         if (String.IsNullOrEmpty(tbIsin.Text))
                             throw new ApplicationException("Falta ISIN");
 
-                        ProdFons prodFons = producteSeleccionat == null ? new ProdFons() : (ProdFons) producteSeleccionat;
+                        ProdFons prodFons = producteSeleccionat == null ? new ProdFons() : (ProdFons)producteSeleccionat;
 
                         prodFons.Empresa = empresaSeleccionada;
                         prodFons.Nom = tbNom.Text;
@@ -298,6 +324,56 @@ namespace Inversions.GUI
                 Comuns.Utilitats.EscriuLog(ex, Program.FitxerLog);
                 //MessageBox.Show(ex.Message);
             }
+ 
+        }
+
+        private void altaEmpresa()
+        {
+            using (var connexio = new InversionsBDContext())
+            {
+                using (var dbContextTransaction = connexio.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        if (!rbCotitzada.Checked && !rbGestora.Checked)
+                            throw new ApplicationException("No s'ha informat el tipus d'empresa");
+
+                        if (String.IsNullOrEmpty(tbNomNovaEmpresa.Text))
+                            throw new ApplicationException("Falta el nom de la empresa.");
+
+                        if (rbCotitzada.Checked && cbMercat2.SelectedItem == null)
+                            throw new ApplicationException("Falta el mercat.");
+
+
+                        Empresa emp = new Empresa();
+                        emp.Nom = tbNomNovaEmpresa.Text;
+                        emp.TipusEmpresa = rbCotitzada.Checked ? TipusEmpresa.Accions : TipusEmpresa.GestoraFons;
+
+                        connexio.Empreses.Add(emp);
+
+                        if (rbCotitzada.Checked)
+                        {
+                            ProdAccions prod = new ProdAccions();
+                            prod.MercatId = ((Mercat) cbMercat2.SelectedItem).Id;
+                            prod.Empresa = emp;
+                            prod.OrdreGrid = ntbOrdreGrid._IntValue;
+                         
+                            connexio.ProdAccions.Add(prod);
+                        }
+
+                        connexio.SaveChanges();
+
+                        dbContextTransaction.Commit();
+
+                        modeConsulta();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        dbContextTransaction.Rollback();
+                    }
+                }
+            }
         }
 
 
@@ -307,11 +383,16 @@ namespace Inversions.GUI
 
             ompleTabProductes((Producte) cbProductesTab1.SelectedItem);
             OmpleEmpresesCombo();
-        }
 
+            vAltaEmpresa = false;
+            grAltaEmpresa.Visible = false;
+        }
 
         private void modeConsulta()
         {
+            grAltaEmpresa.Visible = false;
+            vAltaEmpresa = false;
+
             flpDades.Visible = cbProductesTab1.SelectedItem != null;
 
             ProdFons prodFons = cbProductesTab1.SelectedItem as ProdFons;
@@ -337,6 +418,7 @@ namespace Inversions.GUI
             cbTipusProducteFiltreTab1.Enabled = true;
             cbProductesTab1.Enabled = true;
 
+            btNovaEmpresa.Enabled = true;
             btNouProducte.Enabled = true;
             btEditaProducte.Enabled = cbProductesTab1.SelectedItem != null;
             btCancela.Enabled = false;
@@ -344,6 +426,7 @@ namespace Inversions.GUI
             cbEmpresa.Enabled = false;
             cbTipusProducte.Enabled = false;
             cbMercat.Enabled = false;
+            cbMercat2.Enabled = false;
             tbNom.ReadOnly = true;
             tbIsin.ReadOnly = true;
             tbDescripcio.ReadOnly = true;
@@ -364,11 +447,14 @@ namespace Inversions.GUI
             tbIsin.ReadOnly = false;
             tbDescripcio.ReadOnly = false;
 
+            btNovaEmpresa.Enabled = false;
+
             btCancela.Enabled = true;
             btDesa.Enabled = true;
             cbEmpresa.Enabled = true;
             //cbTipusProducte.Enabled = true;
             cbMercat.Enabled = true;
+            cbMercat2.Enabled = true;
         }
 
         private void Principal_Load(object sender, EventArgs e)
@@ -395,6 +481,18 @@ namespace Inversions.GUI
             movimentsTab1.canviUsuari(Usuari.Seleccionat);
             valoracionsTab1.canviUsuari(Usuari.Seleccionat);
             perduesGuanysTab1.canviUsuari(Usuari.Seleccionat);
+        }
+
+        private void rbGestora_CheckedChanged(object sender, EventArgs e)
+        {
+            grMercat.Visible = false;
+            gbOrdreGrid.Visible = false;
+        }
+
+        private void rbCotitzada_CheckedChanged(object sender, EventArgs e)
+        {
+            grMercat.Visible = true;
+            gbOrdreGrid.Visible = true;
         }
     }
 }

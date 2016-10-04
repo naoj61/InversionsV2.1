@@ -154,53 +154,32 @@ namespace Inversions.GUI
 
         private void btDesa_Click(object sender, EventArgs e)
         {
-            Valoracio val = null;
             using (var conn = new InversionsBDContext())
             {
                 try
                 {
                     if (vValoracioSeleccionada == null)
                     {
-                        // Alta
-                        val = new Valoracio();
-                        val.ProdId = gestioProductesTabValoracions._ProducteSeleccionat.Id;
+                        Valoracio.Nova(conn, gestioProductesTabValoracions._ProducteSeleccionat, cData.Value, tbImport._DoubleValue);
                     }
                     else
                     {
-                        // Modificacio
-                        val = conn.Valoracions.Single(s => s.Id == vValoracioSeleccionada.Id);
+                        vValoracioSeleccionada.modifica(conn, cData.Value, tbImport._DoubleValue);
                     }
-
-                    val.Data = cData.Value;
-                    val.PreuParticipacio = tbImport._DoubleValue;
-
-                    conn.Valoracions.AddOrUpdate(val);
-                    conn.SaveChanges();
-
-                    if (vValoracioSeleccionada != null)
-                        // Carrega el nou valor.
-                        Program.Sessio.Entry(vValoracioSeleccionada).Reload();
-
-                    modeConsulta();
-
-                    tbImport.Valor = 0;
-
-                    actualitzaLlistaValoracionsPerProducte();
-                }
-                catch (DbUpdateException ex2)
-                {
-                    Comuns.Utilitats.EscriuLog(ex2, Program.FitxerLog);
-                    //MessageBox.Show(ex2.InnerException.InnerException.Message);
-                    conn.UndoingChangesDbEntityPropertyLevel(val);
                 }
                 catch (Exception ex)
                 {
-                    Comuns.Utilitats.EscriuLog(ex, Program.FitxerLog);
-                    //MessageBox.Show(ex.Message);
-                    conn.UndoingChangesDbEntityPropertyLevel(val);
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+
+            modeConsulta();
+
+            tbImport.Valor = 0;
+
+            actualitzaLlistaValoracionsPerProducte();
         }
+
 
         private void gestioProductesTabValoracions_ProducteSeleccionat(object sender, EventArgs e)
         {

@@ -51,14 +51,25 @@
             this.btDesa = new System.Windows.Forms.Button();
             this.btCancela = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabUsuari = new System.Windows.Forms.TabPage();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.cbUsuaris = new System.Windows.Forms.ComboBox();
             this.tabProductes = new System.Windows.Forms.TabPage();
             this.btEditaProducte = new System.Windows.Forms.Button();
             this.tabMoviments = new System.Windows.Forms.TabPage();
             this.tabValoracions = new System.Windows.Forms.TabPage();
             this.tabPerduesGuanys = new System.Windows.Forms.TabPage();
-            this.tabUsuari = new System.Windows.Forms.TabPage();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.cbUsuaris = new System.Windows.Forms.ComboBox();
+            this.btNovaEmpresa = new System.Windows.Forms.Button();
+            this.grAltaEmpresa = new System.Windows.Forms.GroupBox();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.rbGestora = new System.Windows.Forms.RadioButton();
+            this.rbCotitzada = new System.Windows.Forms.RadioButton();
+            this.grMercat = new System.Windows.Forms.GroupBox();
+            this.cbMercat2 = new System.Windows.Forms.ComboBox();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.tbNomNovaEmpresa = new System.Windows.Forms.TextBox();
+            this.gbOrdreGrid = new System.Windows.Forms.GroupBox();
+            this.ntbOrdreGrid = new Controls.NumericTextBox2();
             this.movimentsTab1 = new Inversions.GUI.MovimentsTab();
             this.valoracionsTab1 = new Inversions.GUI.ValoracionsTab();
             this.perduesGuanysTab1 = new Inversions.GUI.PerduesGuanysTab();
@@ -73,12 +84,17 @@
             this.groupBox5.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tabUsuari.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.tabProductes.SuspendLayout();
             this.tabMoviments.SuspendLayout();
             this.tabValoracions.SuspendLayout();
             this.tabPerduesGuanys.SuspendLayout();
-            this.tabUsuari.SuspendLayout();
-            this.groupBox6.SuspendLayout();
+            this.grAltaEmpresa.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            this.grMercat.SuspendLayout();
+            this.groupBox9.SuspendLayout();
+            this.gbOrdreGrid.SuspendLayout();
             this.SuspendLayout();
             // 
             // cbTipusProducte
@@ -243,7 +259,7 @@
             this.flpDades.Controls.Add(this.gbDescripcio);
             this.flpDades.Location = new System.Drawing.Point(20, 83);
             this.flpDades.Name = "flpDades";
-            this.flpDades.Size = new System.Drawing.Size(1175, 243);
+            this.flpDades.Size = new System.Drawing.Size(1274, 243);
             this.flpDades.TabIndex = 6;
             // 
             // groupBox5
@@ -290,7 +306,7 @@
             // btNouProducte
             // 
             this.btNouProducte.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btNouProducte.Location = new System.Drawing.Point(782, 16);
+            this.btNouProducte.Location = new System.Drawing.Point(881, 16);
             this.btNouProducte.Name = "btNouProducte";
             this.btNouProducte.Size = new System.Drawing.Size(101, 50);
             this.btNouProducte.TabIndex = 2;
@@ -302,7 +318,7 @@
             // 
             this.btDesa.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btDesa.Enabled = false;
-            this.btDesa.Location = new System.Drawing.Point(990, 16);
+            this.btDesa.Location = new System.Drawing.Point(1089, 16);
             this.btDesa.Name = "btDesa";
             this.btDesa.Size = new System.Drawing.Size(101, 50);
             this.btDesa.TabIndex = 4;
@@ -314,7 +330,7 @@
             // 
             this.btCancela.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btCancela.Enabled = false;
-            this.btCancela.Location = new System.Drawing.Point(1094, 16);
+            this.btCancela.Location = new System.Drawing.Point(1193, 16);
             this.btCancela.Name = "btCancela";
             this.btCancela.Size = new System.Drawing.Size(101, 50);
             this.btCancela.TabIndex = 5;
@@ -336,14 +352,48 @@
             this.tabControl1.Size = new System.Drawing.Size(1360, 735);
             this.tabControl1.TabIndex = 0;
             // 
+            // tabUsuari
+            // 
+            this.tabUsuari.Controls.Add(this.groupBox6);
+            this.tabUsuari.Location = new System.Drawing.Point(4, 25);
+            this.tabUsuari.Name = "tabUsuari";
+            this.tabUsuari.Size = new System.Drawing.Size(1352, 706);
+            this.tabUsuari.TabIndex = 4;
+            this.tabUsuari.Text = "Usuari";
+            this.tabUsuari.UseVisualStyleBackColor = true;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.cbUsuaris);
+            this.groupBox6.Location = new System.Drawing.Point(25, 41);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            this.groupBox6.Size = new System.Drawing.Size(230, 49);
+            this.groupBox6.TabIndex = 0;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Usuari";
+            // 
+            // cbUsuaris
+            // 
+            this.cbUsuaris.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbUsuaris.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbUsuaris.FormattingEnabled = true;
+            this.cbUsuaris.Location = new System.Drawing.Point(5, 18);
+            this.cbUsuaris.Name = "cbUsuaris";
+            this.cbUsuaris.Size = new System.Drawing.Size(220, 24);
+            this.cbUsuaris.TabIndex = 0;
+            this.cbUsuaris.SelectedIndexChanged += new System.EventHandler(this.cbUsuaris_SelectedIndexChanged);
+            // 
             // tabProductes
             // 
+            this.tabProductes.Controls.Add(this.grAltaEmpresa);
             this.tabProductes.Controls.Add(this.groupBox3);
             this.tabProductes.Controls.Add(this.btCancela);
             this.tabProductes.Controls.Add(this.groupBox2);
             this.tabProductes.Controls.Add(this.btDesa);
             this.tabProductes.Controls.Add(this.flpDades);
             this.tabProductes.Controls.Add(this.btEditaProducte);
+            this.tabProductes.Controls.Add(this.btNovaEmpresa);
             this.tabProductes.Controls.Add(this.btNouProducte);
             this.tabProductes.Location = new System.Drawing.Point(4, 25);
             this.tabProductes.Name = "tabProductes";
@@ -356,7 +406,7 @@
             // btEditaProducte
             // 
             this.btEditaProducte.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btEditaProducte.Location = new System.Drawing.Point(886, 16);
+            this.btEditaProducte.Location = new System.Drawing.Point(985, 16);
             this.btEditaProducte.Name = "btEditaProducte";
             this.btEditaProducte.Size = new System.Drawing.Size(101, 50);
             this.btEditaProducte.TabIndex = 3;
@@ -396,37 +446,134 @@
             this.tabPerduesGuanys.Text = "Perdues i Guanys";
             this.tabPerduesGuanys.UseVisualStyleBackColor = true;
             // 
-            // tabUsuari
+            // btNovaEmpresa
             // 
-            this.tabUsuari.Controls.Add(this.groupBox6);
-            this.tabUsuari.Location = new System.Drawing.Point(4, 25);
-            this.tabUsuari.Name = "tabUsuari";
-            this.tabUsuari.Size = new System.Drawing.Size(1352, 706);
-            this.tabUsuari.TabIndex = 4;
-            this.tabUsuari.Text = "Usuari";
-            this.tabUsuari.UseVisualStyleBackColor = true;
+            this.btNovaEmpresa.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btNovaEmpresa.Location = new System.Drawing.Point(776, 16);
+            this.btNovaEmpresa.Name = "btNovaEmpresa";
+            this.btNovaEmpresa.Size = new System.Drawing.Size(101, 50);
+            this.btNovaEmpresa.TabIndex = 2;
+            this.btNovaEmpresa.Text = "Nova Empresa";
+            this.btNovaEmpresa.UseVisualStyleBackColor = true;
+            this.btNovaEmpresa.Click += new System.EventHandler(this.btNovaEmpresa_Click);
             // 
-            // groupBox6
+            // grAltaEmpresa
             // 
-            this.groupBox6.Controls.Add(this.cbUsuaris);
-            this.groupBox6.Location = new System.Drawing.Point(25, 41);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
-            this.groupBox6.Size = new System.Drawing.Size(230, 49);
-            this.groupBox6.TabIndex = 0;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Usuari";
+            this.grAltaEmpresa.Controls.Add(this.groupBox7);
+            this.grAltaEmpresa.Controls.Add(this.grMercat);
+            this.grAltaEmpresa.Controls.Add(this.gbOrdreGrid);
+            this.grAltaEmpresa.Controls.Add(this.groupBox9);
+            this.grAltaEmpresa.Location = new System.Drawing.Point(20, 344);
+            this.grAltaEmpresa.Name = "grAltaEmpresa";
+            this.grAltaEmpresa.Size = new System.Drawing.Size(1274, 93);
+            this.grAltaEmpresa.TabIndex = 7;
+            this.grAltaEmpresa.TabStop = false;
+            this.grAltaEmpresa.Text = "Alta empresa";
+            this.grAltaEmpresa.Visible = false;
             // 
-            // cbUsuaris
+            // groupBox7
             // 
-            this.cbUsuaris.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbUsuaris.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbUsuaris.FormattingEnabled = true;
-            this.cbUsuaris.Location = new System.Drawing.Point(5, 18);
-            this.cbUsuaris.Name = "cbUsuaris";
-            this.cbUsuaris.Size = new System.Drawing.Size(220, 24);
-            this.cbUsuaris.TabIndex = 0;
-            this.cbUsuaris.SelectedIndexChanged += new System.EventHandler(this.cbUsuaris_SelectedIndexChanged);
+            this.groupBox7.Controls.Add(this.rbCotitzada);
+            this.groupBox7.Controls.Add(this.rbGestora);
+            this.groupBox7.Location = new System.Drawing.Point(8, 21);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Padding = new System.Windows.Forms.Padding(5);
+            this.groupBox7.Size = new System.Drawing.Size(229, 53);
+            this.groupBox7.TabIndex = 0;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Tipus Empresa";
+            // 
+            // rbGestora
+            // 
+            this.rbGestora.AutoSize = true;
+            this.rbGestora.Location = new System.Drawing.Point(8, 23);
+            this.rbGestora.Name = "rbGestora";
+            this.rbGestora.Size = new System.Drawing.Size(115, 21);
+            this.rbGestora.TabIndex = 0;
+            this.rbGestora.TabStop = true;
+            this.rbGestora.Text = "Gestora Fons";
+            this.rbGestora.UseVisualStyleBackColor = true;
+            this.rbGestora.CheckedChanged += new System.EventHandler(this.rbGestora_CheckedChanged);
+            // 
+            // rbCotitzada
+            // 
+            this.rbCotitzada.AutoSize = true;
+            this.rbCotitzada.Location = new System.Drawing.Point(129, 23);
+            this.rbCotitzada.Name = "rbCotitzada";
+            this.rbCotitzada.Size = new System.Drawing.Size(88, 21);
+            this.rbCotitzada.TabIndex = 1;
+            this.rbCotitzada.TabStop = true;
+            this.rbCotitzada.Text = "Cotitzada";
+            this.rbCotitzada.UseVisualStyleBackColor = true;
+            this.rbCotitzada.CheckedChanged += new System.EventHandler(this.rbCotitzada_CheckedChanged);
+            // 
+            // grMercat
+            // 
+            this.grMercat.Controls.Add(this.cbMercat2);
+            this.grMercat.Location = new System.Drawing.Point(783, 21);
+            this.grMercat.Name = "grMercat";
+            this.grMercat.Padding = new System.Windows.Forms.Padding(5);
+            this.grMercat.Size = new System.Drawing.Size(234, 53);
+            this.grMercat.TabIndex = 3;
+            this.grMercat.TabStop = false;
+            this.grMercat.Text = "Mercat";
+            this.grMercat.Visible = false;
+            // 
+            // cbMercat2
+            // 
+            this.cbMercat2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbMercat2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbMercat2.FormattingEnabled = true;
+            this.cbMercat2.Location = new System.Drawing.Point(5, 20);
+            this.cbMercat2.Name = "cbMercat2";
+            this.cbMercat2.Size = new System.Drawing.Size(224, 24);
+            this.cbMercat2.TabIndex = 0;
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.tbNomNovaEmpresa);
+            this.groupBox9.Location = new System.Drawing.Point(261, 20);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Padding = new System.Windows.Forms.Padding(5);
+            this.groupBox9.Size = new System.Drawing.Size(371, 55);
+            this.groupBox9.TabIndex = 1;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Nom";
+            // 
+            // tbNomNovaEmpresa
+            // 
+            this.tbNomNovaEmpresa.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbNomNovaEmpresa.Location = new System.Drawing.Point(5, 20);
+            this.tbNomNovaEmpresa.Name = "tbNomNovaEmpresa";
+            this.tbNomNovaEmpresa.Size = new System.Drawing.Size(361, 22);
+            this.tbNomNovaEmpresa.TabIndex = 0;
+            // 
+            // gbOrdreGrid
+            // 
+            this.gbOrdreGrid.Controls.Add(this.ntbOrdreGrid);
+            this.gbOrdreGrid.Location = new System.Drawing.Point(656, 20);
+            this.gbOrdreGrid.Name = "gbOrdreGrid";
+            this.gbOrdreGrid.Padding = new System.Windows.Forms.Padding(5);
+            this.gbOrdreGrid.Size = new System.Drawing.Size(103, 55);
+            this.gbOrdreGrid.TabIndex = 2;
+            this.gbOrdreGrid.TabStop = false;
+            this.gbOrdreGrid.Text = "Ordre Grid";
+            this.gbOrdreGrid.Visible = false;
+            // 
+            // ntbOrdreGrid
+            // 
+            this.ntbOrdreGrid._Format = "0";
+            this.ntbOrdreGrid._PermetDecimals = true;
+            this.ntbOrdreGrid._PermetEspais = false;
+            this.ntbOrdreGrid._PermetNegatius = true;
+            this.ntbOrdreGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbOrdreGrid.Location = new System.Drawing.Point(5, 20);
+            this.ntbOrdreGrid.Name = "ntbOrdreGrid";
+            this.ntbOrdreGrid.Size = new System.Drawing.Size(93, 22);
+            this.ntbOrdreGrid.TabIndex = 0;
+            this.ntbOrdreGrid.Text = "999";
+            this.ntbOrdreGrid.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbOrdreGrid.Valor = 999D;
             // 
             // movimentsTab1
             // 
@@ -480,12 +627,20 @@
             this.groupBox5.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
+            this.tabUsuari.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
             this.tabProductes.ResumeLayout(false);
             this.tabMoviments.ResumeLayout(false);
             this.tabValoracions.ResumeLayout(false);
             this.tabPerduesGuanys.ResumeLayout(false);
-            this.tabUsuari.ResumeLayout(false);
-            this.groupBox6.ResumeLayout(false);
+            this.grAltaEmpresa.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            this.grMercat.ResumeLayout(false);
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
+            this.gbOrdreGrid.ResumeLayout(false);
+            this.gbOrdreGrid.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -527,5 +682,16 @@
         private System.Windows.Forms.TabPage tabUsuari;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.ComboBox cbUsuaris;
+        private System.Windows.Forms.Button btNovaEmpresa;
+        private System.Windows.Forms.GroupBox grAltaEmpresa;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.RadioButton rbCotitzada;
+        private System.Windows.Forms.RadioButton rbGestora;
+        private System.Windows.Forms.GroupBox grMercat;
+        private System.Windows.Forms.ComboBox cbMercat2;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.TextBox tbNomNovaEmpresa;
+        private System.Windows.Forms.GroupBox gbOrdreGrid;
+        private Controls.NumericTextBox2 ntbOrdreGrid;
     }
 }

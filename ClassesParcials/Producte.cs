@@ -207,14 +207,17 @@ namespace Inversions
             // Poso la hora actual. No tinc clar si hauria d'agafar l'ordre del Id en lloc de la data.
             DateTime dataHora = data.Date + DateTime.Now.TimeOfDay;
 
-            var ultimaData = MovimentsProducteUsuari.Max(m => m.Data);
-
-            // Valido que DateTime no sigui inferior a un moviment prèvi del mateix producte.
-            if (ultimaData >= dataHora)
+            if (MovimentsProducteUsuari.Any())
             {
-                if (MessageBox.Show("La data és inferior a la data del últim moviment del producte.\nVols continuar?", "Avís", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
-                    throw new ApplicationException("Operació cancelada");
-                //throw new ApplicationException("La data no pot ser inferior a la data del últim moviment del producte. Data últim moviment: " + ultimaData);
+                var ultimaData = MovimentsProducteUsuari.Max(m => m.Data);
+
+                // Valido que DateTime no sigui inferior a un moviment prèvi del mateix producte.
+                if (ultimaData >= dataHora)
+                {
+                    if (MessageBox.Show("La data és inferior a la data del últim moviment del producte.\nVols continuar?", "Avís", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                        throw new ApplicationException("Operació cancelada");
+                    //throw new ApplicationException("La data no pot ser inferior a la data del últim moviment del producte. Data últim moviment: " + ultimaData);
+                }
             }
 
             if(connexio == null)
@@ -243,6 +246,13 @@ namespace Inversions
 
             connexio.Moviments.Add(moviment);
             connexio.SaveChanges();
+
+            // Crea una valoració amb el preu del moviment
+            Valoracio val = Valoracions.SingleOrDefault(a => a.ProdId == this.Id && a.Data == dataHora.Date);
+            if (val == null)
+                Valoracio.Nova(connexio, this, dataHora, preuParticipacio);
+            else
+                val.modifica(connexio, dataHora, preuParticipacio);
 
             return moviment;
         }

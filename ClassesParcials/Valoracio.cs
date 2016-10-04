@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Migrations;
 using System.Globalization;
 using System.Linq;
+using Inversions.GUI;
 
 namespace Inversions
 {
@@ -63,6 +66,82 @@ namespace Inversions
             }
         }
 
+        /// <summary>
+        /// Crea una nova valoració.
+        /// </summary>
+        /// <param name="conn"></param>
+        /// <param name="producte"></param>
+        /// <param name="data"></param>
+        /// <param name="import"></param>
+        internal static Valoracio Nova(InversionsBDContext conn, Producte producte, DateTime data, double import)
+        {
+            // Alta
+            Valoracio val = null;
+            try
+            {
+                val = new Valoracio();
+                val.ProdId = producte.Id;
+                val.Data = data;
+                val.PreuParticipacio = import;
+
+                conn.Valoracions.Add(val);
+                conn.SaveChanges();
+            }
+            catch (DbUpdateException ex2)
+            {
+                Comuns.Utilitats.EscriuLog(ex2, Program.FitxerLog);
+                conn.UndoingChangesDbEntityPropertyLevel(val);
+                throw ex2.InnerException.InnerException;
+            }
+            catch (Exception ex)
+            {
+                Comuns.Utilitats.EscriuLog(ex, Program.FitxerLog);
+                conn.UndoingChangesDbEntityPropertyLevel(val);
+                throw;
+            }
+
+            return val;
+        }
+
+        /// <summary>
+        /// Modifica una valoració
+        /// </summary>
+        /// <param name="conn"></param>
+        /// <param name="data"></param>
+        /// <param name="import"></param>
+        internal void modifica(InversionsBDContext conn, DateTime data, double import)
+        {
+            Valoracio val = null;
+            try
+            {
+                // Modificacio
+                val = conn.Valoracions.Single(s => s.Id == this.Id);
+
+                val.Data = data;
+                val.PreuParticipacio = import;
+
+                conn.Valoracions.AddOrUpdate(val);
+                conn.SaveChanges();
+
+                // Carrega el nou valor.
+                Program.Sessio.Entry(this).Reload();
+
+            }
+            catch (DbUpdateException ex2)
+            {
+                Comuns.Utilitats.EscriuLog(ex2, Program.FitxerLog);
+                conn.UndoingChangesDbEntityPropertyLevel(val);
+                throw ex2.InnerException.InnerException;
+            }
+            catch (Exception ex)
+            {
+                Comuns.Utilitats.EscriuLog(ex, Program.FitxerLog);
+                conn.UndoingChangesDbEntityPropertyLevel(val);
+                throw;
+            }
+        }
+
+
         #region Overrides
 
         public override int GetHashCode()
@@ -124,5 +203,6 @@ namespace Inversions
                 return -1;
             return Id > other.Id ? 1 : 0;
         }
+
     }
 }
