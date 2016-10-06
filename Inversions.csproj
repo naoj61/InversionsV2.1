@@ -241,6 +241,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Docs\Notes.txt" />
     <Content Include="Fitxers\BaseDades.txt" />
     <Content Include="Fitxers\ProvesAmbEntityFramework.txt" />
     <Content Include="InversionsBD.edmx.sql" />

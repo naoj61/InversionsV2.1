@@ -1,0 +1,2 @@
+﻿- Fer una comparativa entre gràfiques.
+- Llegir valors dels fons d'inversió fent Copy/Paste de la pàgina de fons.'
