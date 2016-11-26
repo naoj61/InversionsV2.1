@@ -16,10 +16,10 @@ namespace Inversions.GUI
             {
                 cDataGridView1.AutoGenerateColumns = false;
 
-                cTipusMovimentTab2.SuspendLayout();
-                cTipusMovimentTab2.DataSource = Enum.GetValues(typeof (TipusMoviment));
-                cTipusMovimentTab2.SelectedItem = null;
-                cTipusMovimentTab2.ResumeLayout();
+                cbTipusMovimentTab2.SuspendLayout();
+                cbTipusMovimentTab2.DataSource = Enum.GetValues(typeof (TipusMoviment));
+                cbTipusMovimentTab2.SelectedItem = null;
+                cbTipusMovimentTab2.ResumeLayout();
 
 
                 gestioProductesTabMoviments._NomesAmbParticipacions = true;
@@ -95,7 +95,7 @@ namespace Inversions.GUI
             gbDespeses.Visible = gestioProductesTabMoviments._ProducteSeleccionat._TipusProducte == Producte.TipusProducte.Accions;
 
             cProducteTraspas.SelectedItem = null;
-            cTipusMovimentTab2.SelectedItem = TipusMoviment.Compra;
+            cbTipusMovimentTab2.SelectedItem = TipusMoviment.Compra;
             tbNumParticipacions.Valor = 0;
             tbPreuParticipacio.Valor = 0;
             tbDespeses.Valor = 0;
@@ -137,7 +137,7 @@ namespace Inversions.GUI
 
             tbNumParticipacions.Valor = prod._Participacions;
 
-            cTipusMovimentTab2.SelectedItem = TipusMoviment.Venda;
+            cbTipusMovimentTab2.SelectedItem = TipusMoviment.Venda;
             tbPreuParticipacio.Valor = 0;
             cProducteTraspas.SelectedItem = null;
             tbNumParticipacionsDesti.Valor = 0;
@@ -164,7 +164,7 @@ namespace Inversions.GUI
 
             tbNumParticipacions.Valor = 0;
 
-            cTipusMovimentTab2.SelectedItem = TipusMoviment.Dividends;
+            cbTipusMovimentTab2.SelectedItem = TipusMoviment.Dividends;
             tbPreuParticipacio.Valor = 0;
             cProducteTraspas.SelectedItem = null;
             tbNumParticipacionsDesti.Valor = 0;
@@ -175,7 +175,7 @@ namespace Inversions.GUI
 
         private void btDesaMoviment_Click(object sender, EventArgs e)
         {
-            TipusMoviment tp = (TipusMoviment) cTipusMovimentTab2.SelectedItem;
+            TipusMoviment tp = (TipusMoviment) cbTipusMovimentTab2.SelectedItem;
 
             if (tp != TipusMoviment.Dividends && tbNumParticipacions.Valor <= 0)
             {
