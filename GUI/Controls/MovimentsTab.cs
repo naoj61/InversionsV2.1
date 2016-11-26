@@ -215,7 +215,7 @@ namespace Inversions.GUI
             gbParticipacions.Visible = true;
 
             btVenda.Enabled = prod != null && prod._Participacions > 0;
-            btDividends.Enabled = prod != null && prod._Participacions > 0;
+            btDividends.Enabled = prod != null && prod._TipusProducte == Producte.TipusProducte.Accions && prod._Participacions > 0;
             btCancelaMoviment.Enabled = false;
             btCompra.Enabled = true;
             btDesaMoviment.Enabled = false;
@@ -285,7 +285,7 @@ namespace Inversions.GUI
             gbParticipacions.Visible = true;
 
             btVenda.Enabled = prod != null && prod._Participacions > 0;
-            btDividends.Enabled = prod != null && prod._Participacions > 0;
+            btDividends.Enabled = prod != null && prod._TipusProducte == Producte.TipusProducte.Accions && prod._Participacions > 0;
             btCancelaMoviment.Enabled = false;
             btCompra.Enabled = true;
             btDesaMoviment.Enabled = false;
