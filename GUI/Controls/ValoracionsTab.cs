@@ -117,6 +117,7 @@ namespace Inversions.GUI
             btNouValor.Enabled = false;
             btModifica.Enabled = false;
             btEsborra.Enabled = false;
+            btCopiaValorsDelPaste.Enabled = false;
             btCancela.Enabled = true;
             btDesa.Enabled = true;
             cDataGridView1.Enabled = false;
@@ -136,6 +137,7 @@ namespace Inversions.GUI
             btNouValor.Enabled = true;
             btModifica.Enabled = false;
             btEsborra.Enabled = false;
+            btCopiaValorsDelPaste.Enabled = true;
             btCancela.Enabled = false;
             btDesa.Enabled = false;
             gestioProductesTabValoracions.Enabled = true;
@@ -389,6 +391,12 @@ namespace Inversions.GUI
             chart1.Update();
 
             chart1.Visible = true;
+        }
+
+        private void btCopiaValorsDelPaste_Click(object sender, EventArgs e)
+        {
+            PasteSelfBank pSelf = new PasteSelfBank();
+            pSelf.ShowDialog(this);
         }
     }
 }
