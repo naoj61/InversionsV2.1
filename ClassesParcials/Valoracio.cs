@@ -1,14 +1,35 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using Inversions.GUI;
 
 namespace Inversions
 {
     public partial class Valoracio : IComparable<Valoracio>
     {
+        
+
+        internal static IEnumerable<Valoracio> ValoracionsProducte(Producte producte)
+        {
+            return Program.Sessio.Valoracions.Where(w => w.Prod.Id == producte.Id).Where(valoracio => valoracio._NumParticipacions > 0);
+        }
+
+
+        /// <summary>
+        /// Expressió per seleccionar pendents en un LINQ.
+        /// </summary>
+        public static Expression<Func<Valoracio, bool>> ExpHiHaParticipacions
+        {
+            get
+            {
+                return p => p.Prod != null && p.Prod.MovimentsProducte.Where(w => w.IdUsuari == Usuari.Seleccionat.Id && w.Data <= p.Data).Sum(s => s.Participacions) > 0;
+            }
+        }
+
         /// <summary>
         /// Número de participacions en la data de la valoració.
         /// </summary>
@@ -91,7 +112,13 @@ namespace Inversions
             {
                 Comuns.Utilitats.EscriuLog(ex2, Program.FitxerLog);
                 conn.UndoingChangesDbEntityPropertyLevel(val);
-                throw ex2.InnerException.InnerException;
+                if (ex2.InnerException != null)
+                    if (ex2.InnerException.InnerException != null)
+                        throw ex2.InnerException.InnerException;
+                    else
+                        throw ex2.InnerException;
+                else
+                    throw;
             }
             catch (Exception ex)
             {
@@ -124,7 +151,7 @@ namespace Inversions
                 conn.SaveChanges();
 
                 // Carrega el nou valor.
-                Program.Sessio.Entry(this).Reload();
+                //Program.Sessio.Entry(this).Reload();
 
             }
             catch (DbUpdateException ex2)
@@ -203,6 +230,5 @@ namespace Inversions
                 return -1;
             return Id > other.Id ? 1 : 0;
         }
-
     }
 }

@@ -13,7 +13,7 @@ namespace Inversions
     public partial class InversionsBDContext
     {
 
-        public ObjectContext Context
+        public ObjectContext _Context
         {
             get { return ((IObjectContextAdapter)this).ObjectContext; }
         }
@@ -89,6 +89,44 @@ namespace Inversions
         }
 
 
+
+        /// <summary>
+        /// Refresca totes les taules de la BD
+        /// </summary>
+        public void refrescaTot()
+        {
+            var objects = (from entry in _Context.ObjectStateManager.GetObjectStateEntries(
+                                                       EntityState.Added
+                                                      | EntityState.Deleted
+                                                      | EntityState.Modified
+                                                      | EntityState.Unchanged)
+                           where entry.EntityKey != null
+                           select entry.Entity);
+
+            _Context.Refresh(RefreshMode.StoreWins, objects);
+        }
+
+
+        /// <summary>
+        /// Refresca només una taula.
+        /// </summary>
+        /// <param name="entityType"></param>
+        public void refrescaTaula(Type entityType)
+        {
+            var refreshableObjects = _Context.ObjectStateManager.GetObjectStateEntries(
+                                                    EntityState.Added 
+                                                    | EntityState.Deleted 
+                                                    | EntityState.Modified 
+                                                    | EntityState.Unchanged)
+                .Where(x => ObjectContext.GetObjectType(x.Entity.GetType()).Name == entityType.Name)
+                .Where(entry => entry.EntityKey != null)
+                .Select(e => e.Entity);
+
+            _Context.Refresh(RefreshMode.StoreWins, refreshableObjects);
+        }
+
+        
+
         public virtual DbSet<ProdFons> ProdFons { get; set; }
         public virtual DbSet<ProdAccions> ProdAccions { get; set; }
         public virtual DbSet<Valoracio> Valoracio { get; set; }
@@ -97,5 +135,6 @@ namespace Inversions
         {
             get { return Moviments.Where(w => w.IdUsuari == Usuari.Seleccionat.Id); }
         }
+
     }
 }

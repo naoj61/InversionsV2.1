@@ -13,7 +13,7 @@ namespace Inversions
 {
     internal static class Program
     {
-        internal static readonly InversionsBDContext Sessio;
+        internal static InversionsBDContext Sessio;
         internal static readonly bool RuntimeMode = LicenseManager.UsageMode == LicenseUsageMode.Runtime;
         //internal static Usuari UsuariSeleccionat;
         internal static FileInfo FitxerLog = null;

@@ -25,7 +25,7 @@
         <InheritanceConnector EntityType="InversionsBD.ProdFons" />
         <AssociationConnector Association="InversionsBD.ProducteMoviment" />
         <AssociationConnector Association="InversionsBD.FK_RefVenda" />
-        <EntityTypeShape EntityType="InversionsBD.Usuari" Width="1.5" PointX="0.75" PointY="7.875" />
+        <EntityTypeShape EntityType="InversionsBD.Usuari" Width="1.5" PointX="12.875" PointY="0.5" />
         <AssociationConnector Association="InversionsBD.FK_Usuaris" />
         </Diagram>
     </edmx:Diagrams>

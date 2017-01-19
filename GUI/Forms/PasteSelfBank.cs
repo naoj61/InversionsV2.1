@@ -17,7 +17,7 @@ namespace Inversions.GUI
         {
             InitializeComponent();
 
-            dateTimePicker1.Value = DateTime.Now;
+            dateTimePicker1.Value = Program.AnteriorDiaLaborable(DateTime.Today);
         }
 
         private void btCapturaValors_Click(object sender, EventArgs e)
@@ -25,7 +25,7 @@ namespace Inversions.GUI
             dataGridView1.Rows.Clear();
 
             var text1 = textBox1.Text.Replace(Environment.NewLine, "\t");
-            var items = text1.Split(new char[]{'\t', }, StringSplitOptions.RemoveEmptyEntries);
+            var items = text1.Split(new char[] {'\t',}, StringSplitOptions.RemoveEmptyEntries);
             ProdFons prod = null;
             int conta = 0;
             string valor;
@@ -53,22 +53,38 @@ namespace Inversions.GUI
             btDesa.Enabled = dataGridView1.Rows.Count > 0;
         }
 
+
         private void btDesa_Click(object sender, EventArgs e)
         {
             using (var connexio = new InversionsBDContext())
             {
                 try
                 {
+                    bool hiHaUpdate = false;
                     foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
-                        Valoracio val = new Valoracio();
+                        var prodFons = (ProdFons) row.Cells[0].Value;
+
+                        var val = connexio.Valoracions.SingleOrDefault(w => w.ProdId == prodFons.Id && w.Data == dateTimePicker1.Value);
+                        if (val == null)
+                        {
+                            val = new Valoracio();
+                            val.ProdId = prodFons.Id;
+                            val.Data = dateTimePicker1.Value;
+                            connexio.Valoracions.Add(val);
+                        }
+                        else
+                        {
+                            hiHaUpdate = true;
+                        }
+
                         val.PreuParticipacio = (double) row.Cells[1].Value;
-                        val.ProdId = ((ProdFons) row.Cells[0].Value).Id;
-                        val.Data = dateTimePicker1.Value;
-                        connexio.Valoracions.Add(val);
                     }
 
-                    connexio.SaveChanges();
+                        connexio.SaveChanges();
+
+                    if(hiHaUpdate)
+                        Program.Sessio.refrescaTaula(typeof(Valoracio));
 
                     btDesa.Enabled = false;
 
@@ -76,7 +92,7 @@ namespace Inversions.GUI
                 }
                 catch (Exception ex)
                 {
-                    Utilitats.EscriuLog(ex, null);
+                    Utilitats.EscriuLog(ex, Program.FitxerLog);
                 }
             }
         }
