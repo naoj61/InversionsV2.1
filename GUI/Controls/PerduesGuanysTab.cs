@@ -22,7 +22,7 @@ namespace Inversions.GUI
             cbTipusProducteFiltreTab2.SelectedIndex = 0;
         }
 
-        private void calculaPiG()
+        private void calculaPiG(Producte.TipusProducte tipusProducte)
         {
             //if (Program.RuntimeMode)
             if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
@@ -33,16 +33,18 @@ namespace Inversions.GUI
 
                 int anyPrimeraVenda = movsOrdenats.First().Data.Year;
                 
+                dgvPiGAnualsTributen.Rows.Clear();
+                dgvPiGAnualsTotal.Rows.Clear();
                 for (int any = anyPrimeraVenda; any <= DateTime.Today.Year; any++)
                 {
-                    dgvPiGAnualsTributen.Rows.Add(any, 0, 0, Producte.PigReal(any));
+                    dgvPiGAnualsTributen.Rows.Add(any, 0, 0, Producte.PigReal(any, tipusProducte));
 
-                    dgvPiGAnualsTotal.Rows.Add(any, Producte.PigValorat(any));
+                    dgvPiGAnualsTotal.Rows.Add(any, Producte.PigValorat(any, tipusProducte));
                 }
-                int fila = dgvPiGAnualsTotal.Rows.Add("Total", Producte.PigValorat());
+                int fila = dgvPiGAnualsTotal.Rows.Add("Total", Producte.PigValorat(tipusProducte));
                 dgvPiGAnualsTotal.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTotal.Font, FontStyle.Bold);
 
-                fila = dgvPiGAnualsTributen.Rows.Add("Total", 0, 0, Producte.PigReal());
+                fila = dgvPiGAnualsTributen.Rows.Add("Total", 0, 0, Producte.PigReal(tipusProducte));
                 dgvPiGAnualsTributen.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTributen.Font, FontStyle.Bold);
             }
         }
@@ -56,7 +58,8 @@ namespace Inversions.GUI
 
         private void cbTipusProducteFiltreTab2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            calculaPiG();
+            if (cbTipusProducteFiltreTab2.SelectedItem != null)
+                calculaPiG((Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem);
         }
 
 
