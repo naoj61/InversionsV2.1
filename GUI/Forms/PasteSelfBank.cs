@@ -92,7 +92,7 @@ namespace Inversions.GUI
                 }
                 catch (Exception ex)
                 {
-                    Utilitats.EscriuLog(ex, Program.FitxerLog);
+                    Utilitats.EscriuLog(ex, Program.FitxerLog, Program.Versio);
                 }
             }
         }

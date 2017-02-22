@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,6 +18,8 @@ namespace Inversions
         internal static readonly bool RuntimeMode = LicenseManager.UsageMode == LicenseUsageMode.Runtime;
         //internal static Usuari UsuariSeleccionat;
         internal static FileInfo FitxerLog = null;
+        internal static readonly Version Versio = Assembly.GetExecutingAssembly().GetName().Version;
+
 
         static Program()
         {
@@ -85,7 +88,7 @@ namespace Inversions
             }
             catch (Exception ex)
             {
-                Comuns.Utilitats.EscriuLog(ex, FitxerLog);
+                Comuns.Utilitats.EscriuLog(ex, FitxerLog, Versio);
                 //MessageBox.Show(ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

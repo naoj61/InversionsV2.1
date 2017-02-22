@@ -91,13 +91,13 @@ namespace Inversions.GUI
                     }
                     catch (DbUpdateException ex2)
                     {
-                        Comuns.Utilitats.EscriuLog(ex2, Program.FitxerLog);
+                        Comuns.Utilitats.EscriuLog(ex2, Program.FitxerLog, Program.Versio);
                         //MessageBox.Show(ex2.InnerException.InnerException.Message);
                         conn.UndoingChangesDbEntityPropertyLevel(vValoracioSeleccionada);
                     }
                     catch (Exception ex)
                     {
-                        Comuns.Utilitats.EscriuLog(ex, Program.FitxerLog);
+                        Comuns.Utilitats.EscriuLog(ex, Program.FitxerLog, Program.Versio);
                         //MessageBox.Show(ex.Message);
                         conn.UndoingChangesDbEntityPropertyLevel(vValoracioSeleccionada);
                     }
@@ -156,7 +156,10 @@ namespace Inversions.GUI
 
         private void btDesa_Click(object sender, EventArgs e)
         {
-            using (var conn = new InversionsBDContext())
+
+            //using (var conn = new InversionsBDContext())
+            var conn = Program.Sessio;
+            using (var trans = conn.Database.BeginTransaction())
             {
                 try
                 {
@@ -168,10 +171,12 @@ namespace Inversions.GUI
                     {
                         vValoracioSeleccionada.modifica(conn, cData.Value, tbImport._DoubleValue);
                     }
+                    trans.Commit();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    trans.Rollback();
                 }
             }
 

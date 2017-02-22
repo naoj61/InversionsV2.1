@@ -110,7 +110,7 @@ namespace Inversions
             }
             catch (DbUpdateException ex2)
             {
-                Comuns.Utilitats.EscriuLog(ex2, Program.FitxerLog);
+                Comuns.Utilitats.EscriuLog(ex2, Program.FitxerLog, Program.Versio);
                 conn.UndoingChangesDbEntityPropertyLevel(val);
                 if (ex2.InnerException != null)
                     if (ex2.InnerException.InnerException != null)
@@ -122,7 +122,7 @@ namespace Inversions
             }
             catch (Exception ex)
             {
-                Comuns.Utilitats.EscriuLog(ex, Program.FitxerLog);
+                Comuns.Utilitats.EscriuLog(ex, Program.FitxerLog, Program.Versio);
                 conn.UndoingChangesDbEntityPropertyLevel(val);
                 throw;
             }
@@ -156,13 +156,13 @@ namespace Inversions
             }
             catch (DbUpdateException ex2)
             {
-                Comuns.Utilitats.EscriuLog(ex2, Program.FitxerLog);
+                Comuns.Utilitats.EscriuLog(ex2, Program.FitxerLog, Program.Versio);
                 conn.UndoingChangesDbEntityPropertyLevel(val);
                 throw ex2.InnerException.InnerException;
             }
             catch (Exception ex)
             {
-                Comuns.Utilitats.EscriuLog(ex, Program.FitxerLog);
+                Comuns.Utilitats.EscriuLog(ex, Program.FitxerLog, Program.Versio);
                 conn.UndoingChangesDbEntityPropertyLevel(val);
                 throw;
             }

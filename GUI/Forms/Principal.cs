@@ -316,12 +316,12 @@ namespace Inversions.GUI
             }
             catch (DbEntityValidationException ex1)
             {
-                Comuns.Utilitats.EscriuLog(ex1, Program.FitxerLog);
+                Comuns.Utilitats.EscriuLog(ex1, Program.FitxerLog, Program.Versio);
                 //MessageBox.Show(ex1.Message);
             }
             catch (Exception ex)
             {
-                Comuns.Utilitats.EscriuLog(ex, Program.FitxerLog);
+                Comuns.Utilitats.EscriuLog(ex, Program.FitxerLog, Program.Versio);
                 //MessageBox.Show(ex.Message);
             }
  
