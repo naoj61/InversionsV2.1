@@ -463,7 +463,8 @@ namespace Inversions
             double numPartEnCartera = numParticipacionsEnData(data);
 
             if (Program.EsZero(numPartEnCartera))
-                return dividends(data);
+                return 0; // No calcular dividents si no hi ha res en cartera.
+                // return dividends(data);
 
             var compres = new Stack<Moviment>(MovimentsProducteUsuari.Where(w => w._EsCompra).OrderBy(o => o.Data));
 
