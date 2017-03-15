@@ -149,10 +149,6 @@ namespace Inversions
 
                 conn.Valoracions.AddOrUpdate(val);
                 conn.SaveChanges();
-
-                // Carrega el nou valor.
-                //Program.Sessio.Entry(this).Reload();
-
             }
             catch (DbUpdateException ex2)
             {

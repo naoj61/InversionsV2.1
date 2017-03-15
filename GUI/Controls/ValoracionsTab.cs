@@ -156,27 +156,34 @@ namespace Inversions.GUI
 
         private void btDesa_Click(object sender, EventArgs e)
         {
-
-            //using (var conn = new InversionsBDContext())
-            var conn = Program.Sessio;
-            using (var trans = conn.Database.BeginTransaction())
+            using (var conn = new InversionsBDContext())
             {
-                try
+                using (var trans = conn.Database.BeginTransaction())
                 {
-                    if (vValoracioSeleccionada == null)
+                    try
                     {
-                        Valoracio.Nova(conn, gestioProductesTabValoracions._ProducteSeleccionat, cData.Value, tbImport._DoubleValue);
+                        if (vValoracioSeleccionada == null)
+                        {
+                            Valoracio.Nova(conn, gestioProductesTabValoracions._ProducteSeleccionat, cData.Value, tbImport._DoubleValue);
+
+                            trans.Commit();
+                        }
+                        else
+                        {
+                            vValoracioSeleccionada.modifica(conn, cData.Value, tbImport._DoubleValue);
+                         
+                            trans.Commit();
+
+                            if (vValoracioSeleccionada != null)
+                                // Carrega el nou valor.
+                                Program.Sessio.Entry(vValoracioSeleccionada).Reload();
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        vValoracioSeleccionada.modifica(conn, cData.Value, tbImport._DoubleValue);
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        trans.Rollback();
                     }
-                    trans.Commit();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    trans.Rollback();
                 }
             }
 
