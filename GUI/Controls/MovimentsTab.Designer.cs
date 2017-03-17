@@ -47,7 +47,7 @@
             this.colTraspasDesti = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDescripcio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.gbPreuPartic = new System.Windows.Forms.GroupBox();
             this.tbPreuParticipacio = new Controls.NumericTextBox2();
             this.btDesaMoviment = new System.Windows.Forms.Button();
             this.btCompra = new System.Windows.Forms.Button();
@@ -55,16 +55,16 @@
             this.btDividends = new System.Windows.Forms.Button();
             this.btCancelaMoviment = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cbTipusMovimentTab2 = new System.Windows.Forms.ComboBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.cData1 = new System.Windows.Forms.DateTimePicker();
             this.gbParticipacions = new System.Windows.Forms.GroupBox();
             this.tbNumParticipacions = new Controls.NumericTextBox2();
             this.gbDespeses = new System.Windows.Forms.GroupBox();
             this.tbDespeses = new Controls.NumericTextBox2();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gbImportTotal = new System.Windows.Forms.GroupBox();
             this.tbImportTotal = new Controls.NumericTextBox2();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.cbTipusMovimentTab2 = new System.Windows.Forms.ComboBox();
             this.gbDescripcio = new System.Windows.Forms.GroupBox();
             this.tbDescripcio = new System.Windows.Forms.TextBox();
             this.gbEdicio = new System.Windows.Forms.GroupBox();
@@ -80,13 +80,13 @@
             this.pnMovTop = new System.Windows.Forms.Panel();
             this.gestioProductesTabMoviments = new Inversions.GUI.GestioProductes();
             ((System.ComponentModel.ISupportInitialize)(this.cDataGridView1)).BeginInit();
-            this.groupBox10.SuspendLayout();
+            this.gbPreuPartic.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.gbParticipacions.SuspendLayout();
             this.gbDespeses.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.gbImportTotal.SuspendLayout();
             this.gbDescripcio.SuspendLayout();
             this.gbEdicio.SuspendLayout();
             this.gbNumParticipacionsDesti.SuspendLayout();
@@ -246,17 +246,17 @@
             this.colDescripcio.Name = "colDescripcio";
             this.colDescripcio.ReadOnly = true;
             // 
-            // groupBox10
+            // gbPreuPartic
             // 
-            this.groupBox10.Controls.Add(this.tbPreuParticipacio);
-            this.groupBox10.Location = new System.Drawing.Point(376, 3);
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox10.Size = new System.Drawing.Size(111, 50);
-            this.groupBox10.TabIndex = 3;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Preu Partic.";
-            this.toolTip1.SetToolTip(this.groupBox10, "Import brut sense despeses");
+            this.gbPreuPartic.Controls.Add(this.tbPreuParticipacio);
+            this.gbPreuPartic.Location = new System.Drawing.Point(376, 3);
+            this.gbPreuPartic.Name = "gbPreuPartic";
+            this.gbPreuPartic.Padding = new System.Windows.Forms.Padding(5);
+            this.gbPreuPartic.Size = new System.Drawing.Size(111, 50);
+            this.gbPreuPartic.TabIndex = 3;
+            this.gbPreuPartic.TabStop = false;
+            this.gbPreuPartic.Text = "Preu Partic.";
+            this.toolTip1.SetToolTip(this.gbPreuPartic, "Import brut sense despeses");
             // 
             // tbPreuParticipacio
             // 
@@ -334,15 +334,37 @@
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.groupBox8);
             this.panel1.Controls.Add(this.gbParticipacions);
-            this.panel1.Controls.Add(this.groupBox10);
+            this.panel1.Controls.Add(this.gbPreuPartic);
             this.panel1.Controls.Add(this.gbDespeses);
-            this.panel1.Controls.Add(this.groupBox1);
+            this.panel1.Controls.Add(this.gbImportTotal);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(3, 18);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
             this.panel1.Size = new System.Drawing.Size(566, 111);
             this.panel1.TabIndex = 4;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.cbTipusMovimentTab2);
+            this.groupBox2.Location = new System.Drawing.Point(3, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(5);
+            this.groupBox2.Size = new System.Drawing.Size(139, 46);
+            this.groupBox2.TabIndex = 5;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Tipus Moviment";
+            // 
+            // cbTipusMovimentTab2
+            // 
+            this.cbTipusMovimentTab2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbTipusMovimentTab2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbTipusMovimentTab2.Enabled = false;
+            this.cbTipusMovimentTab2.FormattingEnabled = true;
+            this.cbTipusMovimentTab2.Location = new System.Drawing.Point(5, 20);
+            this.cbTipusMovimentTab2.Name = "cbTipusMovimentTab2";
+            this.cbTipusMovimentTab2.Size = new System.Drawing.Size(129, 24);
+            this.cbTipusMovimentTab2.TabIndex = 0;
             // 
             // groupBox8
             // 
@@ -418,16 +440,16 @@
             this.tbDespeses.Valor = 0D;
             this.tbDespeses.Leave += new System.EventHandler(this.tbDespeses_Leave);
             // 
-            // groupBox1
+            // gbImportTotal
             // 
-            this.groupBox1.Controls.Add(this.tbImportTotal);
-            this.groupBox1.Location = new System.Drawing.Point(120, 59);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox1.Size = new System.Drawing.Size(111, 46);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Imp. Total";
+            this.gbImportTotal.Controls.Add(this.tbImportTotal);
+            this.gbImportTotal.Location = new System.Drawing.Point(120, 59);
+            this.gbImportTotal.Name = "gbImportTotal";
+            this.gbImportTotal.Padding = new System.Windows.Forms.Padding(5);
+            this.gbImportTotal.Size = new System.Drawing.Size(111, 46);
+            this.gbImportTotal.TabIndex = 0;
+            this.gbImportTotal.TabStop = false;
+            this.gbImportTotal.Text = "Imp. Total";
             // 
             // tbImportTotal
             // 
@@ -444,28 +466,6 @@
             this.tbImportTotal.Text = "0 €";
             this.tbImportTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.tbImportTotal.Valor = 0D;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.cbTipusMovimentTab2);
-            this.groupBox2.Location = new System.Drawing.Point(3, 3);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox2.Size = new System.Drawing.Size(139, 46);
-            this.groupBox2.TabIndex = 5;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Tipus Moviment";
-            // 
-            // cbTipusMovimentTab2
-            // 
-            this.cbTipusMovimentTab2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbTipusMovimentTab2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbTipusMovimentTab2.Enabled = false;
-            this.cbTipusMovimentTab2.FormattingEnabled = true;
-            this.cbTipusMovimentTab2.Location = new System.Drawing.Point(5, 20);
-            this.cbTipusMovimentTab2.Name = "cbTipusMovimentTab2";
-            this.cbTipusMovimentTab2.Size = new System.Drawing.Size(129, 24);
-            this.cbTipusMovimentTab2.TabIndex = 0;
             // 
             // gbDescripcio
             // 
@@ -644,17 +644,17 @@
             this.Name = "MovimentsTab";
             this.Size = new System.Drawing.Size(1585, 599);
             ((System.ComponentModel.ISupportInitialize)(this.cDataGridView1)).EndInit();
-            this.groupBox10.ResumeLayout(false);
-            this.groupBox10.PerformLayout();
+            this.gbPreuPartic.ResumeLayout(false);
+            this.gbPreuPartic.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.gbParticipacions.ResumeLayout(false);
             this.gbParticipacions.PerformLayout();
             this.gbDespeses.ResumeLayout(false);
             this.gbDespeses.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
+            this.gbImportTotal.ResumeLayout(false);
+            this.gbImportTotal.PerformLayout();
             this.gbDescripcio.ResumeLayout(false);
             this.gbDescripcio.PerformLayout();
             this.gbEdicio.ResumeLayout(false);
@@ -682,11 +682,11 @@
         private System.Windows.Forms.Button btDividends;
         private System.Windows.Forms.Button btCancelaMoviment;
         private System.Windows.Forms.FlowLayoutPanel panel1;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gbImportTotal;
         private Controls.NumericTextBox2 tbImportTotal;
         private System.Windows.Forms.GroupBox gbDespeses;
         private Controls.NumericTextBox2 tbDespeses;
-        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.GroupBox gbPreuPartic;
         private Controls.NumericTextBox2 tbPreuParticipacio;
         private System.Windows.Forms.GroupBox gbParticipacions;
         private Controls.NumericTextBox2 tbNumParticipacions;

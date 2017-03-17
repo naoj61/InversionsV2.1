@@ -170,6 +170,11 @@ namespace Inversions.GUI
             tbNumParticipacionsDesti.Valor = 0;
             tbDespeses.Valor = 0;
             tbDescripcio.Text = "";
+
+
+            gbImportTotal.Visible = false;
+            gbPreuPartic.Text = "Import Brut";
+
         }
 
 
@@ -219,6 +224,10 @@ namespace Inversions.GUI
             btCancelaMoviment.Enabled = false;
             btCompra.Enabled = true;
             btDesaMoviment.Enabled = false;
+
+            gbImportTotal.Visible = true;
+            gbPreuPartic.Text = "Preu Partic.";
+
 
             cProducteTraspas.SelectedItem = null;
 
@@ -289,6 +298,9 @@ namespace Inversions.GUI
             btCancelaMoviment.Enabled = false;
             btCompra.Enabled = true;
             btDesaMoviment.Enabled = false;
+
+            gbImportTotal.Visible = true;
+            gbPreuPartic.Text = "Preu Partic.";
 
             cProducteTraspas.SelectedItem = null;
 
