@@ -33,7 +33,10 @@ namespace Inversions.GUI
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.gbMoneda = new System.Windows.Forms.GroupBox();
+            this.lbMoneda = new System.Windows.Forms.Label();
             this.gbUsuari = new System.Windows.Forms.GroupBox();
+            this.lbUsuari = new System.Windows.Forms.Label();
             this.gbIsinMercat = new System.Windows.Forms.GroupBox();
             this.tbMercat = new System.Windows.Forms.TextBox();
             this.tbIsin = new System.Windows.Forms.TextBox();
@@ -60,8 +63,8 @@ namespace Inversions.GUI
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.lbEmpresa = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.lbUsuari = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
+            this.gbMoneda.SuspendLayout();
             this.gbUsuari.SuspendLayout();
             this.gbIsinMercat.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -80,6 +83,7 @@ namespace Inversions.GUI
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.gbMoneda);
             this.panel1.Controls.Add(this.gbUsuari);
             this.panel1.Controls.Add(this.gbIsinMercat);
             this.panel1.Controls.Add(this.groupBox2);
@@ -94,6 +98,27 @@ namespace Inversions.GUI
             this.panel1.Size = new System.Drawing.Size(337, 625);
             this.panel1.TabIndex = 11;
             // 
+            // gbMoneda
+            // 
+            this.gbMoneda.Controls.Add(this.lbMoneda);
+            this.gbMoneda.Location = new System.Drawing.Point(8, 173);
+            this.gbMoneda.Margin = new System.Windows.Forms.Padding(3, 3, 9, 3);
+            this.gbMoneda.Name = "gbMoneda";
+            this.gbMoneda.Padding = new System.Windows.Forms.Padding(9, 3, 9, 3);
+            this.gbMoneda.Size = new System.Drawing.Size(74, 38);
+            this.gbMoneda.TabIndex = 8;
+            this.gbMoneda.TabStop = false;
+            this.gbMoneda.Text = "Moneda";
+            // 
+            // lbMoneda
+            // 
+            this.lbMoneda.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbMoneda.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbMoneda.Location = new System.Drawing.Point(9, 18);
+            this.lbMoneda.Name = "lbMoneda";
+            this.lbMoneda.Size = new System.Drawing.Size(56, 17);
+            this.lbMoneda.TabIndex = 0;
+            // 
             // gbUsuari
             // 
             this.gbUsuari.Controls.Add(this.lbUsuari);
@@ -106,6 +131,16 @@ namespace Inversions.GUI
             this.gbUsuari.TabIndex = 7;
             this.gbUsuari.TabStop = false;
             this.gbUsuari.Text = "Usuari";
+            // 
+            // lbUsuari
+            // 
+            this.lbUsuari.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbUsuari.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbUsuari.Location = new System.Drawing.Point(9, 18);
+            this.lbUsuari.Name = "lbUsuari";
+            this.lbUsuari.Size = new System.Drawing.Size(319, 25);
+            this.lbUsuari.TabIndex = 0;
+            this.lbUsuari.Text = "Usuari";
             // 
             // gbIsinMercat
             // 
@@ -211,9 +246,9 @@ namespace Inversions.GUI
             this.gbDescripcio.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbDescripcio.Controls.Add(this.tbDescripcio);
-            this.gbDescripcio.Location = new System.Drawing.Point(7, 315);
+            this.gbDescripcio.Location = new System.Drawing.Point(7, 280);
             this.gbDescripcio.Name = "gbDescripcio";
-            this.gbDescripcio.Size = new System.Drawing.Size(319, 303);
+            this.gbDescripcio.Size = new System.Drawing.Size(319, 337);
             this.gbDescripcio.TabIndex = 6;
             this.gbDescripcio.TabStop = false;
             this.gbDescripcio.Text = "Descripció";
@@ -226,7 +261,7 @@ namespace Inversions.GUI
             this.tbDescripcio.Name = "tbDescripcio";
             this.tbDescripcio.ReadOnly = true;
             this.tbDescripcio.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbDescripcio.Size = new System.Drawing.Size(313, 282);
+            this.tbDescripcio.Size = new System.Drawing.Size(313, 316);
             this.tbDescripcio.TabIndex = 0;
             // 
             // groupBox4
@@ -434,16 +469,6 @@ namespace Inversions.GUI
             this.lbEmpresa.TabIndex = 0;
             this.lbEmpresa.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lbUsuari
-            // 
-            this.lbUsuari.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbUsuari.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbUsuari.Location = new System.Drawing.Point(9, 18);
-            this.lbUsuari.Name = "lbUsuari";
-            this.lbUsuari.Size = new System.Drawing.Size(319, 25);
-            this.lbUsuari.TabIndex = 0;
-            this.lbUsuari.Text = "Usuari";
-            // 
             // GestioProductes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -455,6 +480,7 @@ namespace Inversions.GUI
             this.Size = new System.Drawing.Size(801, 625);
             this.Load += new System.EventHandler(this.GestioProductes_Load);
             this.panel1.ResumeLayout(false);
+            this.gbMoneda.ResumeLayout(false);
             this.gbUsuari.ResumeLayout(false);
             this.gbIsinMercat.ResumeLayout(false);
             this.gbIsinMercat.PerformLayout();
@@ -512,5 +538,7 @@ namespace Inversions.GUI
         private ToolTip toolTip1;
         private GroupBox gbUsuari;
         private Label lbUsuari;
+        private GroupBox gbMoneda;
+        private Label lbMoneda;
     }
 }

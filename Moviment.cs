@@ -32,6 +32,7 @@ namespace Inversions
         public string Descripcio { get; set; }
         public byte[] RowVersion { get; private set; }
         public int IdUsuari { get; set; }
+        public double CanviAplicat { get; set; }
     
         public virtual Producte Prod { get; set; }
         public virtual Producte ProducteTraspas { get; set; }

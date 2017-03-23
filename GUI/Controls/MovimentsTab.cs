@@ -93,11 +93,13 @@ namespace Inversions.GUI
             btCompra.Enabled = false;
             btDesaMoviment.Enabled = true;
             gbDespeses.Visible = gestioProductesTabMoviments._ProducteSeleccionat._TipusProducte == Producte.TipusProducte.Accions;
+            gbCanviAplicat.Visible = gestioProductesTabMoviments._ProducteSeleccionat._TipusProducte == Producte.TipusProducte.Accions;
 
             cProducteTraspas.SelectedItem = null;
             cbTipusMovimentTab2.SelectedItem = TipusMoviment.Compra;
             tbNumParticipacions.Valor = 0;
             tbPreuParticipacio.Valor = 0;
+            tbCanviAplicat.Valor = 1;
             tbDespeses.Valor = 0;
             tbDescripcio.Text = "";
         }
@@ -125,6 +127,7 @@ namespace Inversions.GUI
             }
 
             gbDespeses.Visible = gestioProductesTabMoviments._ProducteSeleccionat._TipusProducte == Producte.TipusProducte.Accions;
+            gbCanviAplicat.Visible = gestioProductesTabMoviments._ProducteSeleccionat._TipusProducte == Producte.TipusProducte.Accions;
 
             gbEdicio.Visible = true;
             gestioProductesTabMoviments.Enabled = false;
@@ -139,6 +142,7 @@ namespace Inversions.GUI
 
             cbTipusMovimentTab2.SelectedItem = TipusMoviment.Venda;
             tbPreuParticipacio.Valor = 0;
+            tbCanviAplicat.Valor = 1;
             cProducteTraspas.SelectedItem = null;
             tbNumParticipacionsDesti.Valor = 0;
             tbDespeses.Valor = 0;
@@ -260,12 +264,12 @@ namespace Inversions.GUI
                     {
                         if (prodDesti == null)
                         {
-                            prodOrigen.compraVenda(conn, tipusMoviment, cData1.Value, tbNumParticipacions._DoubleValue, tbPreuParticipacio._DoubleValue,
+                            prodOrigen.compraVenda(conn, tipusMoviment, cData1.Value, tbNumParticipacions._DoubleValue, tbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue,
                                 tbDespeses._DoubleValue, tbDescripcio.Text);
                         }
                         else
                         {
-                            prodOrigen.traspas(conn, cData1.Value, tbNumParticipacions._DoubleValue, tbPreuParticipacio._DoubleValue, tbDescripcio.Text, 
+                            prodOrigen.traspas(conn, cData1.Value, tbNumParticipacions._DoubleValue, tbPreuParticipacio._DoubleValue, 1, tbDescripcio.Text, 
                                 cDataDesti.Value,  prodDesti, tbNumParticipacionsDesti._DoubleValue);
                         }
 

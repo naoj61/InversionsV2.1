@@ -120,6 +120,7 @@ namespace Inversions.GUI
             else
             {
                 lbEmpresa.Text = prod._NomEmpresa;
+                lbMoneda.Text = prod.Moneda;
                 tbParticipacions.Valor = prod._Participacions;
                 tbDividends.Valor = prod.dividends(Producte.DateTimeFinalDia.Today);
                 tbValorActual.Valor = prod._ValorActual;

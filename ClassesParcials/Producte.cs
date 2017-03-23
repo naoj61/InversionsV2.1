@@ -201,8 +201,8 @@ namespace Inversions
 
         #region *** Mètodes validats ***
 
-        internal Moviment compraVenda(InversionsBDContext connexio, TipusMoviment tipusMoviment, DateTime data, double numParticipacions, double preuParticipacio, double? despeses, 
-            string descripcio)
+        internal Moviment compraVenda(InversionsBDContext connexio, TipusMoviment tipusMoviment, DateTime data, double numParticipacions, double preuParticipacio, double canviAplicat, 
+            double? despeses, string descripcio)
         {
             // Poso la hora actual. No tinc clar si hauria d'agafar l'ordre del Id en lloc de la data.
             DateTime dataHora = data.Date + DateTime.Now.TimeOfDay;
@@ -235,6 +235,7 @@ namespace Inversions
             moviment.ProdId = this.Id;
             moviment.Participacions = numParticipacions;
             moviment.PreuParticipacio = preuParticipacio;
+            moviment.CanviAplicat = canviAplicat;
             moviment.Despeses = despeses;
             moviment.Data = dataHora;
             moviment.Descripcio = String.IsNullOrEmpty(descripcio) ? null : descripcio;
@@ -257,7 +258,7 @@ namespace Inversions
             return moviment;
         }
 
-        internal void traspas(InversionsBDContext connexio, DateTime data, double numParticipacions, double preuParticipacio, string descripcio, 
+        internal void traspas(InversionsBDContext connexio, DateTime data, double numParticipacions, double preuParticipacio, double canviAplicat, string descripcio, 
             DateTime dataDesti, Producte prodDesti, double numParticipacionsDesti)
         {
             if(prodDesti == null)
@@ -268,11 +269,11 @@ namespace Inversions
 
 
             // Faig la venda del producte origen.
-            var movVenda = this.compraVenda(connexio, TipusMoviment.Venda, data, numParticipacions, preuParticipacio, null, descripcio);
+            var movVenda = this.compraVenda(connexio, TipusMoviment.Venda, data, numParticipacions, preuParticipacio, canviAplicat, null, descripcio);
 
             // Faig la compra del producte destí.
             var movCompra = prodDesti.compraVenda(connexio, TipusMoviment.Compra, dataDesti, numParticipacionsDesti, 
-                movVenda.Participacions * movVenda.PreuParticipacio / numParticipacionsDesti, null, descripcio);
+                movVenda.Participacions * movVenda.PreuParticipacio / numParticipacionsDesti, canviAplicat, null, descripcio);
 
 
             movVenda.ProducteTraspasId = prodDesti.Id; // Informo el prod desti en la venda.

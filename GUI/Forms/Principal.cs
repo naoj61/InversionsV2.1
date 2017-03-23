@@ -38,6 +38,16 @@ namespace Inversions.GUI
             cbMercat2.SelectedItem = null;
             cbMercat2.ResumeLayout();
 
+            cbMoneda.SuspendLayout();
+            cbMoneda.DataSource = Enum.GetValues(typeof(Comuns.Utilitats.Monedes));
+            cbMoneda.SelectedItem = null;
+            cbMoneda.ResumeLayout();
+
+            cbMoneda2.SuspendLayout();
+            cbMoneda2.DataSource = Enum.GetValues(typeof(Comuns.Utilitats.Monedes));
+            cbMoneda2.SelectedItem = null;
+            cbMoneda2.ResumeLayout();
+
             modeConsulta();
         }
 
@@ -96,23 +106,25 @@ namespace Inversions.GUI
                 flpDades.Visible = true;
                 btEditaProducte.Enabled = true;
 
-                ProdAccions accions = cbProductesTab1.SelectedItem as ProdAccions;
-                if (accions != null)
+                var prod = cbProductesTab1.SelectedItem as Producte;
+
+                if (prod != null)
                 {
-                    cbEmpresa.SelectedItem = accions.Empresa;
-                    //cbTipusProducte.SelectedIndex = 0;
-                    cbMercat.SelectedItem = accions.Mercat;
-                    cbMercat2.SelectedItem = accions.Mercat;
-                    tbId.Text = accions.Id.ToString("0");
-                }
-                else
-                {
-                    ProdFons fons = cbProductesTab1.SelectedItem as ProdFons;
-                    if (fons != null)
+                    cbMoneda.SelectedItem = (Comuns.Utilitats.Monedes) Enum.Parse(typeof (Comuns.Utilitats.Monedes), prod.Moneda);
+                    cbEmpresa.SelectedItem = prod.Empresa;
+
+                    if (prod is ProdAccions)
                     {
+                        ProdAccions accions = prod as ProdAccions;
+                        cbMercat.SelectedItem = accions.Mercat;
+                        cbMercat2.SelectedItem = accions.Mercat;
+                        tbId.Text = accions.Id.ToString("0");
+                    }
+                    else if (prod is ProdFons)
+                    {
+                        ProdFons fons = prod as ProdFons;
                         cbTipusProducte.SelectedItem = Producte.TipusProducte.Accions;
                         tbId.Text = fons.Id.ToString("0");
-                        cbEmpresa.SelectedItem = fons.Empresa;
                         tbIsin.Text = fons.ISIN;
                         tbNom.Text = fons.Nom;
                         tbDescripcio.Text = fons.Descripcio;
@@ -254,6 +266,8 @@ namespace Inversions.GUI
                     throw new ApplicationException("Falta Tipus producte");
                 if (cbEmpresa.SelectedItem == null)
                     throw new ApplicationException("Falta Empresa");
+                if (cbMoneda2.SelectedItem == null)
+                    throw new ApplicationException("Falta Moneda");
 
                 using (var conn = new InversionsBDContext())
                 {
@@ -267,11 +281,13 @@ namespace Inversions.GUI
                         if (cbMercat.SelectedItem == null)
                             throw new ApplicationException("Falta Mercat");
 
-                        ProdAccions prodAccions = producteSeleccionat == null ? new ProdAccions() : (ProdAccions)producteSeleccionat;
+                        //ProdAccions prodAccions = producteSeleccionat == null ? new ProdAccions() : (ProdAccions)producteSeleccionat;
+                        ProdAccions prodAccions = (ProdAccions) producteSeleccionat ?? new ProdAccions();
 
 
                         prodAccions.Empresa = empresaSeleccionada;
                         prodAccions.MercatId = ((Mercat)cbMercat.SelectedItem).Id;
+                        prodAccions.Moneda = cbMoneda2.SelectedText;
 
                         if (vProducteNou)
                             conn.Productes.Add(prodAccions);
@@ -287,12 +303,14 @@ namespace Inversions.GUI
                         if (String.IsNullOrEmpty(tbIsin.Text))
                             throw new ApplicationException("Falta ISIN");
 
-                        ProdFons prodFons = producteSeleccionat == null ? new ProdFons() : (ProdFons)producteSeleccionat;
+                        //ProdFons prodFons = producteSeleccionat == null ? new ProdFons() : (ProdFons)producteSeleccionat;
+                        ProdFons prodFons = (ProdFons)producteSeleccionat ?? new ProdFons();
 
                         prodFons.Empresa = empresaSeleccionada;
                         prodFons.Nom = tbNom.Text;
                         prodFons.ISIN = tbIsin.Text;
                         prodFons.Descripcio = tbDescripcio.Text;
+                        prodFons.Moneda = cbMoneda2.SelectedText;
 
                         if (vProducteNou)
                             conn.Productes.Add(prodFons);
