@@ -35,6 +35,18 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cDataGridView1 = new System.Windows.Forms.DataGridView();
+            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colProducte = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTipusMoviment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colData = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colParticipacions = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPreuUnitari = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colImport = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCanviAplicat = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDespeses = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTraspasOrigen = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTraspasDesti = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDescripcio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.gbPreuPartic = new System.Windows.Forms.GroupBox();
             this.tbPreuParticipacio = new Controls.NumericTextBox2();
@@ -70,18 +82,6 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.pnMovTop = new System.Windows.Forms.Panel();
             this.gestioProductesTabMoviments = new Inversions.GUI.GestioProductes();
-            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colProducte = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTipusMoviment = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colData = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colParticipacions = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPreuUnitari = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colImport = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCanviAplicat = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDespeses = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTraspasOrigen = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTraspasDesti = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDescripcio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.cDataGridView1)).BeginInit();
             this.gbPreuPartic.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -131,6 +131,133 @@
             this.toolTip1.SetToolTip(this.cDataGridView1, "nhjfghj");
             this.cDataGridView1.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.cDataGridView1_CellMouseDoubleClick);
             // 
+            // colId
+            // 
+            this.colId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colId.DataPropertyName = "Id";
+            this.colId.HeaderText = "Id";
+            this.colId.Name = "colId";
+            this.colId.ReadOnly = true;
+            this.colId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colId.Width = 48;
+            // 
+            // colProducte
+            // 
+            this.colProducte.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colProducte.DataPropertyName = "Prod";
+            this.colProducte.HeaderText = "Producte";
+            this.colProducte.Name = "colProducte";
+            this.colProducte.ReadOnly = true;
+            this.colProducte.Width = 94;
+            // 
+            // colTipusMoviment
+            // 
+            this.colTipusMoviment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colTipusMoviment.DataPropertyName = "_TipusMoviment";
+            this.colTipusMoviment.HeaderText = "Tipus moviment";
+            this.colTipusMoviment.Name = "colTipusMoviment";
+            this.colTipusMoviment.ReadOnly = true;
+            this.colTipusMoviment.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colTipusMoviment.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colTipusMoviment.Width = 102;
+            // 
+            // colData
+            // 
+            this.colData.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colData.DataPropertyName = "Data";
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.Format = "d";
+            dataGridViewCellStyle1.NullValue = null;
+            this.colData.DefaultCellStyle = dataGridViewCellStyle1;
+            this.colData.HeaderText = "Data";
+            this.colData.Name = "colData";
+            this.colData.ReadOnly = true;
+            this.colData.Width = 67;
+            // 
+            // colParticipacions
+            // 
+            this.colParticipacions.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colParticipacions.DataPropertyName = "Participacions";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Format = "N4";
+            dataGridViewCellStyle2.NullValue = null;
+            this.colParticipacions.DefaultCellStyle = dataGridViewCellStyle2;
+            this.colParticipacions.HeaderText = "Participacions";
+            this.colParticipacions.Name = "colParticipacions";
+            this.colParticipacions.ReadOnly = true;
+            this.colParticipacions.Width = 125;
+            // 
+            // colPreuUnitari
+            // 
+            this.colPreuUnitari.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colPreuUnitari.DataPropertyName = "_PreuParticipacio";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Format = "c3";
+            this.colPreuUnitari.DefaultCellStyle = dataGridViewCellStyle3;
+            this.colPreuUnitari.HeaderText = "Preu Unitari";
+            this.colPreuUnitari.Name = "colPreuUnitari";
+            this.colPreuUnitari.ReadOnly = true;
+            this.colPreuUnitari.Width = 103;
+            // 
+            // colImport
+            // 
+            this.colImport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colImport.DataPropertyName = "Import";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle4.Format = "C2";
+            dataGridViewCellStyle4.NullValue = null;
+            this.colImport.DefaultCellStyle = dataGridViewCellStyle4;
+            this.colImport.HeaderText = "Import";
+            this.colImport.Name = "colImport";
+            this.colImport.ReadOnly = true;
+            this.colImport.Width = 76;
+            // 
+            // colCanviAplicat
+            // 
+            this.colCanviAplicat.DataPropertyName = "CanviAplicat";
+            this.colCanviAplicat.HeaderText = "Canvi Aplicat";
+            this.colCanviAplicat.Name = "colCanviAplicat";
+            this.colCanviAplicat.ReadOnly = true;
+            // 
+            // colDespeses
+            // 
+            this.colDespeses.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colDespeses.DataPropertyName = "Despeses";
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Format = "c2";
+            this.colDespeses.DefaultCellStyle = dataGridViewCellStyle5;
+            this.colDespeses.HeaderText = "Despeses";
+            this.colDespeses.Name = "colDespeses";
+            this.colDespeses.ReadOnly = true;
+            // 
+            // colTraspasOrigen
+            // 
+            this.colTraspasOrigen.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colTraspasOrigen.DataPropertyName = "_ProducteTraspasOrigen";
+            this.colTraspasOrigen.HeaderText = "Traspassat de:";
+            this.colTraspasOrigen.MinimumWidth = 130;
+            this.colTraspasOrigen.Name = "colTraspasOrigen";
+            this.colTraspasOrigen.ReadOnly = true;
+            this.colTraspasOrigen.Width = 130;
+            // 
+            // colTraspasDesti
+            // 
+            this.colTraspasDesti.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colTraspasDesti.DataPropertyName = "_ProducteTraspasDesti";
+            this.colTraspasDesti.HeaderText = "Traspassat a:";
+            this.colTraspasDesti.MinimumWidth = 130;
+            this.colTraspasDesti.Name = "colTraspasDesti";
+            this.colTraspasDesti.ReadOnly = true;
+            this.colTraspasDesti.Width = 130;
+            // 
+            // colDescripcio
+            // 
+            this.colDescripcio.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colDescripcio.DataPropertyName = "Descripcio";
+            this.colDescripcio.HeaderText = "Descripció";
+            this.colDescripcio.Name = "colDescripcio";
+            this.colDescripcio.ReadOnly = true;
+            // 
             // gbPreuPartic
             // 
             this.gbPreuPartic.Controls.Add(this.tbPreuParticipacio);
@@ -145,7 +272,7 @@
             // 
             // tbPreuParticipacio
             // 
-            this.tbPreuParticipacio._Format = "#,##0.### €";
+            this.tbPreuParticipacio._Format = "#,##0.###### €";
             this.tbPreuParticipacio._PermetDecimals = true;
             this.tbPreuParticipacio._PermetEspais = false;
             this.tbPreuParticipacio._PermetNegatius = false;
@@ -285,7 +412,7 @@
             // 
             // tbNumParticipacions
             // 
-            this.tbNumParticipacions._Format = "#,##0.####";
+            this.tbNumParticipacions._Format = "#,##0.######";
             this.tbNumParticipacions._PermetDecimals = true;
             this.tbNumParticipacions._PermetEspais = false;
             this.tbNumParticipacions._PermetNegatius = false;
@@ -547,133 +674,6 @@
             this.gestioProductesTabMoviments.Size = new System.Drawing.Size(1013, 453);
             this.gestioProductesTabMoviments.TabIndex = 0;
             this.gestioProductesTabMoviments.ProducteSeleccionat += new System.EventHandler(this.gestioProductes1_ProducteSeleccionat);
-            // 
-            // colId
-            // 
-            this.colId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colId.DataPropertyName = "Id";
-            this.colId.HeaderText = "Id";
-            this.colId.Name = "colId";
-            this.colId.ReadOnly = true;
-            this.colId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colId.Width = 48;
-            // 
-            // colProducte
-            // 
-            this.colProducte.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colProducte.DataPropertyName = "Prod";
-            this.colProducte.HeaderText = "Producte";
-            this.colProducte.Name = "colProducte";
-            this.colProducte.ReadOnly = true;
-            this.colProducte.Width = 94;
-            // 
-            // colTipusMoviment
-            // 
-            this.colTipusMoviment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colTipusMoviment.DataPropertyName = "_TipusMoviment";
-            this.colTipusMoviment.HeaderText = "Tipus moviment";
-            this.colTipusMoviment.Name = "colTipusMoviment";
-            this.colTipusMoviment.ReadOnly = true;
-            this.colTipusMoviment.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colTipusMoviment.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colTipusMoviment.Width = 102;
-            // 
-            // colData
-            // 
-            this.colData.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colData.DataPropertyName = "Data";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.Format = "d";
-            dataGridViewCellStyle1.NullValue = null;
-            this.colData.DefaultCellStyle = dataGridViewCellStyle1;
-            this.colData.HeaderText = "Data";
-            this.colData.Name = "colData";
-            this.colData.ReadOnly = true;
-            this.colData.Width = 67;
-            // 
-            // colParticipacions
-            // 
-            this.colParticipacions.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colParticipacions.DataPropertyName = "Participacions";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Format = "N4";
-            dataGridViewCellStyle2.NullValue = null;
-            this.colParticipacions.DefaultCellStyle = dataGridViewCellStyle2;
-            this.colParticipacions.HeaderText = "Participacions";
-            this.colParticipacions.Name = "colParticipacions";
-            this.colParticipacions.ReadOnly = true;
-            this.colParticipacions.Width = 125;
-            // 
-            // colPreuUnitari
-            // 
-            this.colPreuUnitari.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colPreuUnitari.DataPropertyName = "_PreuParticipacio";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "c3";
-            this.colPreuUnitari.DefaultCellStyle = dataGridViewCellStyle3;
-            this.colPreuUnitari.HeaderText = "Preu Unitari";
-            this.colPreuUnitari.Name = "colPreuUnitari";
-            this.colPreuUnitari.ReadOnly = true;
-            this.colPreuUnitari.Width = 103;
-            // 
-            // colImport
-            // 
-            this.colImport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colImport.DataPropertyName = "Import";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "C2";
-            dataGridViewCellStyle4.NullValue = null;
-            this.colImport.DefaultCellStyle = dataGridViewCellStyle4;
-            this.colImport.HeaderText = "Import";
-            this.colImport.Name = "colImport";
-            this.colImport.ReadOnly = true;
-            this.colImport.Width = 76;
-            // 
-            // colCanviAplicat
-            // 
-            this.colCanviAplicat.DataPropertyName = "CanviAplicat";
-            this.colCanviAplicat.HeaderText = "Canvi Aplicat";
-            this.colCanviAplicat.Name = "colCanviAplicat";
-            this.colCanviAplicat.ReadOnly = true;
-            // 
-            // colDespeses
-            // 
-            this.colDespeses.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colDespeses.DataPropertyName = "Despeses";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Format = "c2";
-            this.colDespeses.DefaultCellStyle = dataGridViewCellStyle5;
-            this.colDespeses.HeaderText = "Despeses";
-            this.colDespeses.Name = "colDespeses";
-            this.colDespeses.ReadOnly = true;
-            // 
-            // colTraspasOrigen
-            // 
-            this.colTraspasOrigen.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colTraspasOrigen.DataPropertyName = "_ProducteTraspasOrigen";
-            this.colTraspasOrigen.HeaderText = "Traspassat de:";
-            this.colTraspasOrigen.MinimumWidth = 130;
-            this.colTraspasOrigen.Name = "colTraspasOrigen";
-            this.colTraspasOrigen.ReadOnly = true;
-            this.colTraspasOrigen.Width = 130;
-            // 
-            // colTraspasDesti
-            // 
-            this.colTraspasDesti.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colTraspasDesti.DataPropertyName = "_ProducteTraspasDesti";
-            this.colTraspasDesti.HeaderText = "Traspassat a:";
-            this.colTraspasDesti.MinimumWidth = 130;
-            this.colTraspasDesti.Name = "colTraspasDesti";
-            this.colTraspasDesti.ReadOnly = true;
-            this.colTraspasDesti.Width = 130;
-            // 
-            // colDescripcio
-            // 
-            this.colDescripcio.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colDescripcio.DataPropertyName = "Descripcio";
-            this.colDescripcio.HeaderText = "Descripció";
-            this.colDescripcio.Name = "colDescripcio";
-            this.colDescripcio.ReadOnly = true;
             // 
             // MovimentsTab
             // 
