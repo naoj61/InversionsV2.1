@@ -7,6 +7,8 @@ namespace Inversions.GUI
 {
     public partial class MovimentsTab : UserControl, ITabs
     {
+        // todo mostrar el preu brut(sense despeses) i el net(amb despeses). El net és el que es mostra ara.
+
         public MovimentsTab()
         {
             InitializeComponent();
@@ -21,8 +23,7 @@ namespace Inversions.GUI
                 cbTipusMovimentTab2.SelectedItem = null;
                 cbTipusMovimentTab2.ResumeLayout();
 
-
-                gestioProductesTabMoviments._NomesAmbParticipacions = true;
+                // gestioProductesTabMoviments._NomesAmbParticipacions = true;
             }
         }
 

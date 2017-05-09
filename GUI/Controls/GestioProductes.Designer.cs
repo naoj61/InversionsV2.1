@@ -56,7 +56,11 @@ namespace Inversions.GUI
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.lbProductesTab2 = new System.Windows.Forms.ListBox();
             this.gbFiltres = new System.Windows.Forms.GroupBox();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.ckNomesAmbParticipacions = new System.Windows.Forms.CheckBox();
+            this.ckFiltreAny = new System.Windows.Forms.CheckBox();
+            this.cbFiltreAny = new System.Windows.Forms.ComboBox();
+            this.btFiltra = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cbTipusProducteFiltreTab2 = new System.Windows.Forms.ComboBox();
@@ -76,6 +80,7 @@ namespace Inversions.GUI
             this.panel2.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.gbFiltres.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox11.SuspendLayout();
@@ -93,7 +98,7 @@ namespace Inversions.GUI
             this.panel1.Controls.Add(this.groupBox15);
             this.panel1.Controls.Add(this.groupBox13);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(464, 0);
+            this.panel1.Location = new System.Drawing.Point(498, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(337, 625);
             this.panel1.TabIndex = 11;
@@ -365,17 +370,17 @@ namespace Inversions.GUI
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(464, 625);
+            this.panel2.Size = new System.Drawing.Size(498, 625);
             this.panel2.TabIndex = 12;
             // 
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.lbProductesTab2);
             this.groupBox6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox6.Location = new System.Drawing.Point(0, 128);
+            this.groupBox6.Location = new System.Drawing.Point(0, 151);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox6.Size = new System.Drawing.Size(464, 497);
+            this.groupBox6.Size = new System.Drawing.Size(498, 474);
             this.groupBox6.TabIndex = 2;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Productes";
@@ -387,33 +392,78 @@ namespace Inversions.GUI
             this.lbProductesTab2.ItemHeight = 16;
             this.lbProductesTab2.Location = new System.Drawing.Point(5, 20);
             this.lbProductesTab2.Name = "lbProductesTab2";
-            this.lbProductesTab2.Size = new System.Drawing.Size(454, 472);
+            this.lbProductesTab2.Size = new System.Drawing.Size(488, 449);
             this.lbProductesTab2.TabIndex = 0;
             this.lbProductesTab2.SelectedIndexChanged += new System.EventHandler(this.lbProductesTab2_SelectedIndexChanged);
             // 
             // gbFiltres
             // 
-            this.gbFiltres.Controls.Add(this.ckNomesAmbParticipacions);
+            this.gbFiltres.Controls.Add(this.btFiltra);
+            this.gbFiltres.Controls.Add(this.flowLayoutPanel1);
             this.gbFiltres.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbFiltres.Location = new System.Drawing.Point(0, 64);
             this.gbFiltres.Name = "gbFiltres";
-            this.gbFiltres.Size = new System.Drawing.Size(464, 64);
+            this.gbFiltres.Size = new System.Drawing.Size(498, 87);
             this.gbFiltres.TabIndex = 1;
             this.gbFiltres.TabStop = false;
             this.gbFiltres.Text = "Filtres";
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.ckNomesAmbParticipacions);
+            this.flowLayoutPanel1.Controls.Add(this.ckFiltreAny);
+            this.flowLayoutPanel1.Controls.Add(this.cbFiltreAny);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 18);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(492, 66);
+            this.flowLayoutPanel1.TabIndex = 1;
             // 
             // ckNomesAmbParticipacions
             // 
             this.ckNomesAmbParticipacions.AutoSize = true;
             this.ckNomesAmbParticipacions.Checked = true;
             this.ckNomesAmbParticipacions.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ckNomesAmbParticipacions.Location = new System.Drawing.Point(6, 28);
+            this.ckNomesAmbParticipacions.Location = new System.Drawing.Point(3, 5);
             this.ckNomesAmbParticipacions.Name = "ckNomesAmbParticipacions";
             this.ckNomesAmbParticipacions.Size = new System.Drawing.Size(150, 21);
             this.ckNomesAmbParticipacions.TabIndex = 0;
             this.ckNomesAmbParticipacions.Text = "Amb Participacions";
             this.ckNomesAmbParticipacions.UseVisualStyleBackColor = true;
-            this.ckNomesAmbParticipacions.CheckedChanged += new System.EventHandler(this.ckNomesAmbParticipacions_CheckedChanged);
+            // 
+            // ckFiltreAny
+            // 
+            this.ckFiltreAny.AutoSize = true;
+            this.ckFiltreAny.Location = new System.Drawing.Point(159, 5);
+            this.ckFiltreAny.Name = "ckFiltreAny";
+            this.ckFiltreAny.Size = new System.Drawing.Size(111, 21);
+            this.ckFiltreAny.TabIndex = 2;
+            this.ckFiltreAny.Text = "Vendes l\'any";
+            this.ckFiltreAny.UseVisualStyleBackColor = true;
+            this.ckFiltreAny.Visible = false;
+            this.ckFiltreAny.CheckedChanged += new System.EventHandler(this.ckFiltreAny_CheckedChanged);
+            // 
+            // cbFiltreAny
+            // 
+            this.cbFiltreAny.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFiltreAny.Enabled = false;
+            this.cbFiltreAny.FormattingEnabled = true;
+            this.cbFiltreAny.Location = new System.Drawing.Point(276, 5);
+            this.cbFiltreAny.Name = "cbFiltreAny";
+            this.cbFiltreAny.Size = new System.Drawing.Size(93, 24);
+            this.cbFiltreAny.TabIndex = 3;
+            // 
+            // btFiltra
+            // 
+            this.btFiltra.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btFiltra.Location = new System.Drawing.Point(3, 53);
+            this.btFiltra.Name = "btFiltra";
+            this.btFiltra.Size = new System.Drawing.Size(492, 31);
+            this.btFiltra.TabIndex = 4;
+            this.btFiltra.Text = "Filtra";
+            this.btFiltra.UseVisualStyleBackColor = true;
+            this.btFiltra.Click += new System.EventHandler(this.btFiltra_Click);
             // 
             // panel3
             // 
@@ -422,7 +472,7 @@ namespace Inversions.GUI
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(464, 64);
+            this.panel3.Size = new System.Drawing.Size(498, 64);
             this.panel3.TabIndex = 0;
             // 
             // groupBox5
@@ -454,7 +504,7 @@ namespace Inversions.GUI
             this.groupBox11.Controls.Add(this.lbEmpresa);
             this.groupBox11.Location = new System.Drawing.Point(172, 7);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(290, 50);
+            this.groupBox11.Size = new System.Drawing.Size(324, 50);
             this.groupBox11.TabIndex = 1;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Empresa";
@@ -465,7 +515,7 @@ namespace Inversions.GUI
             this.lbEmpresa.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbEmpresa.Location = new System.Drawing.Point(3, 18);
             this.lbEmpresa.Name = "lbEmpresa";
-            this.lbEmpresa.Size = new System.Drawing.Size(284, 29);
+            this.lbEmpresa.Size = new System.Drawing.Size(318, 29);
             this.lbEmpresa.TabIndex = 0;
             this.lbEmpresa.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -477,7 +527,7 @@ namespace Inversions.GUI
             this.Controls.Add(this.panel1);
             this.MinimumSize = new System.Drawing.Size(733, 395);
             this.Name = "GestioProductes";
-            this.Size = new System.Drawing.Size(801, 625);
+            this.Size = new System.Drawing.Size(835, 625);
             this.Load += new System.EventHandler(this.GestioProductes_Load);
             this.panel1.ResumeLayout(false);
             this.gbMoneda.ResumeLayout(false);
@@ -499,7 +549,8 @@ namespace Inversions.GUI
             this.panel2.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.gbFiltres.ResumeLayout(false);
-            this.gbFiltres.PerformLayout();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox11.ResumeLayout(false);
@@ -540,5 +591,9 @@ namespace Inversions.GUI
         private Label lbUsuari;
         private GroupBox gbMoneda;
         private Label lbMoneda;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private CheckBox ckFiltreAny;
+        private ComboBox cbFiltreAny;
+        private Button btFiltra;
     }
 }

@@ -137,7 +137,24 @@ namespace Inversions
             get { return NoUtilitzar1.FirstOrDefault(); }
         }
 
-        public double Import
+        public double ImportBrut
+        {
+            get
+            {
+                double result;
+                if (Program.EsZero(Participacions))
+                {
+                    result = PreuParticipacio;
+                }
+                else
+                {
+                    result = PreuParticipacio * Participacions;
+                }
+                return result;
+            }
+        }
+
+        public double ImportNet
         {
             get
             {

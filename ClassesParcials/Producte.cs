@@ -32,8 +32,8 @@ namespace Inversions
 
                 if (compra.TipusMoviment == TipusMoviment.Dividends)
                 {
-                    _PiG = compra.Import;
-                    _PreuVenda = compra.Import;
+                    _PiG = compra.ImportNet;
+                    _PreuVenda = compra.ImportNet;
                 }
                 else
                 {

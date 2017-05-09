@@ -34,6 +34,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cDataGridView1 = new System.Windows.Forms.DataGridView();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colProducte = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -41,6 +42,7 @@
             this.colData = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colParticipacions = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPreuUnitari = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ImportBrut = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colImport = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCanviAplicat = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDespeses = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -115,6 +117,7 @@
             this.colData,
             this.colParticipacions,
             this.colPreuUnitari,
+            this.ImportBrut,
             this.colImport,
             this.colCanviAplicat,
             this.colDespeses,
@@ -199,18 +202,30 @@
             this.colPreuUnitari.ReadOnly = true;
             this.colPreuUnitari.Width = 103;
             // 
+            // ImportBrut
+            // 
+            this.ImportBrut.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ImportBrut.DataPropertyName = "ImportBrut";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle4.Format = "C2";
+            this.ImportBrut.DefaultCellStyle = dataGridViewCellStyle4;
+            this.ImportBrut.HeaderText = "Import Brut";
+            this.ImportBrut.Name = "ImportBrut";
+            this.ImportBrut.ReadOnly = true;
+            this.ImportBrut.Width = 98;
+            // 
             // colImport
             // 
             this.colImport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colImport.DataPropertyName = "Import";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "C2";
-            dataGridViewCellStyle4.NullValue = null;
-            this.colImport.DefaultCellStyle = dataGridViewCellStyle4;
-            this.colImport.HeaderText = "Import";
+            this.colImport.DataPropertyName = "ImportNet";
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Format = "C2";
+            dataGridViewCellStyle5.NullValue = null;
+            this.colImport.DefaultCellStyle = dataGridViewCellStyle5;
+            this.colImport.HeaderText = "Import Net";
             this.colImport.Name = "colImport";
             this.colImport.ReadOnly = true;
-            this.colImport.Width = 76;
+            this.colImport.Width = 94;
             // 
             // colCanviAplicat
             // 
@@ -223,9 +238,9 @@
             // 
             this.colDespeses.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colDespeses.DataPropertyName = "Despeses";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Format = "c2";
-            this.colDespeses.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle6.Format = "c2";
+            this.colDespeses.DefaultCellStyle = dataGridViewCellStyle6;
             this.colDespeses.HeaderText = "Despeses";
             this.colDespeses.Name = "colDespeses";
             this.colDespeses.ReadOnly = true;
@@ -664,7 +679,8 @@
             // 
             // gestioProductesTabMoviments
             // 
-            this.gestioProductesTabMoviments._NomesAmbParticipacions = true;
+            this.gestioProductesTabMoviments._FiltreAnyVisible = true;
+            this.gestioProductesTabMoviments._NomesAmbParticipacions = false;
             this.gestioProductesTabMoviments._ProducteSeleccionat = null;
             this.gestioProductesTabMoviments.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.gestioProductesTabMoviments.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -758,6 +774,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colData;
         private System.Windows.Forms.DataGridViewTextBoxColumn colParticipacions;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPreuUnitari;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ImportBrut;
         private System.Windows.Forms.DataGridViewTextBoxColumn colImport;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCanviAplicat;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDespeses;

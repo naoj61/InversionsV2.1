@@ -12,11 +12,21 @@ namespace Inversions.GUI
         {
             InitializeComponent();
 
+            if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
+            {
+                for (int any = Program.Sessio.Moviments.OrderBy(o => o.Data).First().Data.Year; any <= DateTime.Today.Year; any++)
+                {
+                    cbFiltreAny.Items.Add(any);
+                }
+                cbFiltreAny.SelectedItem = DateTime.Today.Year;
+                
+            }
+
             tbIsin.Dock = DockStyle.Fill;
             tbMercat.Dock = DockStyle.Fill;
 
             cbTipusProducteFiltreTab2.SelectedIndexChanged -= cbTipusProducteFiltreTab2_SelectedIndexChanged;
-            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof(Producte.TipusProducte));
+            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof (Producte.TipusProducte));
             cbTipusProducteFiltreTab2.Focus();
             cbTipusProducteFiltreTab2.SelectedIndex = 0;
             cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
@@ -39,6 +49,16 @@ namespace Inversions.GUI
             }
         }
 
+        public bool _FiltreAnyVisible
+        {
+            get { return ckFiltreAny.Visible; }
+            set
+            {
+                ckFiltreAny.Visible = value;
+                cbFiltreAny.Visible = value;
+            }
+        }
+
         public Usuari _UsuariSeleccionat
         {
             //get { return (Usuari) cbUsuaris.SelectedItem; }
@@ -46,7 +66,6 @@ namespace Inversions.GUI
             set
             {
                 lbUsuari.Text = value.Nom;
-                carregaLbProductesTab2();
             }
         }
 
@@ -67,8 +86,6 @@ namespace Inversions.GUI
                 tbIsin.Text = "";
                 tbDescripcio.Text = "";
                 tbMercat.Text = "";
-
-                carregaLbProductesTab2();
             }
         }
 
@@ -92,15 +109,32 @@ namespace Inversions.GUI
             //if (Program.RuntimeMode)
             if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
-                if (ckNomesAmbParticipacions.Checked)
-                    prods = prods.Where(w => w._Participacions > 0);
-                lbProductesTab2.SuspendLayout();
-                lbProductesTab2.SelectedIndexChanged -= lbProductesTab2_SelectedIndexChanged;
-                lbProductesTab2.DisplayMember = "_TipusNomProducte";
-                lbProductesTab2.DataSource = prods.OrderBy(o => o.OrdreGrid).ToList();
-                lbProductesTab2.SelectedIndexChanged += lbProductesTab2_SelectedIndexChanged;
-                lbProductesTab2.SelectedItem = null;
-                lbProductesTab2.ResumeLayout();
+                try
+                {
+                    if (ckNomesAmbParticipacions.Checked)
+                        prods = prods.Where(w => w._Participacions > 0);
+
+                    var idUsuSel = Usuari.Seleccionat.Id;
+                    if (ckFiltreAny.Checked)
+                    {
+                        var movs = Program.Sessio.MovimentsUsuari.Where(w => w.Data.Year == (int)cbFiltreAny.SelectedItem && w.TipusMoviment == TipusMoviment.Venda);
+
+                        prods = prods.Where(prod => movs.Any(mov => mov.ProdId == prod.Id));
+                    }
+
+                    lbProductesTab2.SuspendLayout();
+                    lbProductesTab2.SelectedIndexChanged -= lbProductesTab2_SelectedIndexChanged;
+                    lbProductesTab2.DisplayMember = "_TipusNomProducte";
+                    lbProductesTab2.DataSource = prods.OrderBy(o => o.OrdreGrid).ToList();
+                    lbProductesTab2.SelectedIndexChanged += lbProductesTab2_SelectedIndexChanged;
+                    lbProductesTab2.SelectedItem = null;
+                    lbProductesTab2.ResumeLayout();
+                }
+                catch (Exception)
+                {
+                    
+                    throw;
+                }
             }
         }
 
@@ -158,13 +192,6 @@ namespace Inversions.GUI
                 ProducteSeleccionat(prod, EventArgs.Empty);
         }
 
-        private void ckNomesAmbParticipacions_CheckedChanged(object sender, EventArgs e)
-        {
-            carregaLbProductesTab2();
-        }
-
-
-        
 
         private void GestioProductes_Load(object sender, EventArgs e)
         {
@@ -177,6 +204,16 @@ namespace Inversions.GUI
                 //cbUsuaris.DataSource = Program.Sessio.Usuaris.ToList();
                 //cbUsuaris.SelectedItem = Program.UsuariSeleccionat;
             }
+        }
+
+        private void ckFiltreAny_CheckedChanged(object sender, EventArgs e)
+        {
+            cbFiltreAny.Enabled = ckFiltreAny.Checked;
+        }
+
+        private void btFiltra_Click(object sender, EventArgs e)
+        {
+            carregaLbProductesTab2();
         }
     }
 }
