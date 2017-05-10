@@ -51,11 +51,10 @@ namespace Inversions.GUI
 
         public bool _FiltreAnyVisible
         {
-            get { return ckFiltreAny.Visible; }
+            get { return pnFiltreAny.Visible; }
             set
             {
-                ckFiltreAny.Visible = value;
-                cbFiltreAny.Visible = value;
+                pnFiltreAny.Visible = value;
             }
         }
 
@@ -114,10 +113,10 @@ namespace Inversions.GUI
                     if (ckNomesAmbParticipacions.Checked)
                         prods = prods.Where(w => w._Participacions > 0);
 
-                    var idUsuSel = Usuari.Seleccionat.Id;
-                    if (ckFiltreAny.Checked)
+                    if (ckFiltreCompresAny.Checked || ckFiltreVendesAny.Checked)
                     {
-                        var movs = Program.Sessio.MovimentsUsuari.Where(w => w.Data.Year == (int)cbFiltreAny.SelectedItem && w.TipusMoviment == TipusMoviment.Venda);
+                        var movs = Program.Sessio.MovimentsUsuari.Where(w => w.Data.Year == (int)cbFiltreAny.SelectedItem 
+                            && ((ckFiltreCompresAny.Checked && w.TipusMoviment == TipusMoviment.Compra) || (ckFiltreVendesAny.Checked && w.TipusMoviment == TipusMoviment.Venda)));
 
                         prods = prods.Where(prod => movs.Any(mov => mov.ProdId == prod.Id));
                     }
@@ -208,7 +207,7 @@ namespace Inversions.GUI
 
         private void ckFiltreAny_CheckedChanged(object sender, EventArgs e)
         {
-            cbFiltreAny.Enabled = ckFiltreAny.Checked;
+            cbFiltreAny.Enabled = ckFiltreCompresAny.Checked || ckFiltreVendesAny.Checked;
         }
 
         private void btFiltra_Click(object sender, EventArgs e)
