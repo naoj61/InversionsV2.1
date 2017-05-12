@@ -7,7 +7,9 @@ namespace Inversions.GUI
 {
     public partial class MovimentsTab : UserControl, ITabs
     {
-        // todo mostrar el preu brut(sense despeses) i el net(amb despeses). El net és el que es mostra ara.
+        // Todo - Moneda. Les valoracions del valors en dolars els hauria de veure convertits a Euros a partir del l'ultim canvi de moneda introduit.
+		// Todo - Afegir pestanya amb simulació venda. Veuria les PiG i l'import a tributar en cas d'una venda.
+		// Todo - La casella PiG actual no l'entenc, hauria de ser el PiG dels valors actualment en cartera.
 
         public MovimentsTab()
         {

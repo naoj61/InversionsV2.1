@@ -201,6 +201,12 @@ namespace Inversions
 
         #region *** Mètodes validats ***
 
+        /* SELECT Participacions, PreuParticipacio, CanviAplicat, Despeses, ValorCompraOriginal,
+            (Participacions * PreuParticipacio + ISNULL(Despeses,0)), ValorCompraOriginal - (Participacions * PreuParticipacio + Despeses) FROM [Moviments] 
+            WHERE Despeses is not null and TipusMoviment = 0
+           UPDATE [Moviments] set ValorCompraOriginal = (Participacions * PreuParticipacio + Despeses) WHERE Despeses is not null and TipusMoviment = 0 AND ValorCompraOriginal <> (Participacions * PreuParticipacio + Despeses)
+         */
+
         internal Moviment compraVenda(InversionsBDContext connexio, TipusMoviment tipusMoviment, DateTime data, double numParticipacions, double preuParticipacio, double canviAplicat, 
             double? despeses, string descripcio)
         {
@@ -242,7 +248,7 @@ namespace Inversions
             moviment.ProducteTraspasId = null;
             moviment.IdRefVenda = null;
             if (tipusMoviment == TipusMoviment.Compra)
-                moviment.ValorCompraOriginal = numParticipacions * preuParticipacio - despeses.GetValueOrDefault();
+                moviment.ValorCompraOriginal = numParticipacions * preuParticipacio + despeses.GetValueOrDefault();
             moviment.ProducteTraspasId = null;
 
             connexio.Moviments.Add(moviment);

@@ -450,7 +450,7 @@
             this.gbCanviAplicat.Size = new System.Drawing.Size(111, 50);
             this.gbCanviAplicat.TabIndex = 3;
             this.gbCanviAplicat.TabStop = false;
-            this.gbCanviAplicat.Text = "Canvi Aplicat";
+            this.gbCanviAplicat.Text = "Canvi €/x";
             // 
             // tbCanviAplicat
             // 
