@@ -8,24 +8,17 @@ namespace Inversions.GUI
     public partial class MovimentsTab : UserControl, ITabs
     {
         // Todo - Moneda. Les valoracions del valors en dolars els hauria de veure convertits a Euros a partir del l'ultim canvi de moneda introduit.
-		// Todo - Afegir pestanya amb simulació venda. Veuria les PiG i l'import a tributar en cas d'una venda.
-		// Todo - La casella PiG actual no l'entenc, hauria de ser el PiG dels valors actualment en cartera.
+        // Todo - Afegir pestanya amb simulació venda. Veuria les PiG i l'import a tributar en cas d'una venda.
+        // Todo - La casella PiG actual no l'entenc, hauria de ser el PiG dels valors actualment en cartera.
 
         public MovimentsTab()
         {
             InitializeComponent();
 
-           // if (Program.RuntimeMode)
+            // if (Program.RuntimeMode)
             if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
                 cDataGridView1.AutoGenerateColumns = false;
-
-                cbTipusMovimentTab2.SuspendLayout();
-                cbTipusMovimentTab2.DataSource = Enum.GetValues(typeof (TipusMoviment));
-                cbTipusMovimentTab2.SelectedItem = null;
-                cbTipusMovimentTab2.ResumeLayout();
-
-                // gestioProductesTabMoviments._NomesAmbParticipacions = true;
             }
         }
 
@@ -33,10 +26,9 @@ namespace Inversions.GUI
         {
             if (sender == null)
             {
+                cbTipusMoviment.Enabled = false;
                 btCancelaMoviment.Enabled = false;
-                btCompra.Enabled = false;
-                btVenda.Enabled = false;
-                btDividends.Enabled = false;
+                //btFes.Enabled = false;
                 btDesaMoviment.Enabled = false;
             }
             else
@@ -49,16 +41,32 @@ namespace Inversions.GUI
                 gbNumParticipacionsDesti.Visible = prod._TipusProducte == Producte.TipusProducte.Fons;
                 gbEdicio.Visible = false;
 
-                btVenda.Enabled = prod._Participacions > 0;
-                btDividends.Enabled = prod._TipusProducte == Producte.TipusProducte.Accions && prod._Participacions > 0;
+                cbTipusMoviment.Enabled = true;
+                //btFes.Enabled = prod._TipusProducte == Producte.TipusProducte.Accions && prod._Participacions > 0;
                 btCancelaMoviment.Enabled = false;
-                btCompra.Enabled = true;
                 btDesaMoviment.Enabled = false;
 
-                btVenda.Text = prod._TipusProducte == Producte.TipusProducte.Fons ? "Venda\nTraspàs" : "Venda";
+                
+                cbTipusMoviment.SuspendLayout();
+                cbTipusMoviment.Items.Clear();
+                cbTipusMoviment.Items.Add(TipusMoviment.Compra);
+                if (prod._Participacions > 0)
+                {
+                    cbTipusMoviment.Items.Add(TipusMoviment.Venda);
+                    if (prod._TipusProducte == Producte.TipusProducte.Accions)
+                    {
+                        cbTipusMoviment.Items.Add(TipusMoviment.Dividends);
+                        cbTipusMoviment.Items.Add(TipusMoviment.Split);
+                        cbTipusMoviment.Items.Add(TipusMoviment.ContraSplit);
+                    }
+                    else
+                        cbTipusMoviment.Items.Add(TipusMoviment.Traspàs);
+                }
+
+                cbTipusMoviment.SelectedItem = null;
+                cbTipusMoviment.ResumeLayout();
 
             }
-
         }
 
         private void ompleTaulaMovimentsProducte(Producte prod)
@@ -81,33 +89,20 @@ namespace Inversions.GUI
 
         private bool? comprant = null;
 
-        private void btCompra_Click(object sender, EventArgs e)
+        private void compra()
         {
             comprant = true;
 
-            gbTraspas.Visible = false;
-            gbNumParticipacionsDesti.Visible = false;
-            gbEdicio.Visible = true;
-            gestioProductesTabMoviments.Enabled = false;
-
-            btVenda.Enabled = false;
-            btDividends.Enabled = false;
-            btCancelaMoviment.Enabled = true;
-            btCompra.Enabled = false;
-            btDesaMoviment.Enabled = true;
-            gbDespeses.Visible = gestioProductesTabMoviments._ProducteSeleccionat._TipusProducte == Producte.TipusProducte.Accions;
-            gbCanviAplicat.Visible = gestioProductesTabMoviments._ProducteSeleccionat._TipusProducte == Producte.TipusProducte.Accions;
-
             cProducteTraspas.SelectedItem = null;
-            cbTipusMovimentTab2.SelectedItem = TipusMoviment.Compra;
             tbNumParticipacions.Valor = 0;
-            tbPreuParticipacio.Valor = 0;
+            ntbPreuParticipacio.Valor = 0;
             tbCanviAplicat.Valor = 1;
             tbDespeses.Valor = 0;
-            tbDescripcio.Text = "";
+
+            preparaPantallaEdicio();
         }
 
-        private void btVenda_Click(object sender, EventArgs e)
+        private void vendaTraspas()
         {
             comprant = false;
 
@@ -115,81 +110,62 @@ namespace Inversions.GUI
 
             if (prod._TipusProducte == Producte.TipusProducte.Fons)
             {
-                gbTraspas.Visible = true;
-                gbNumParticipacionsDesti.Visible = true;
-
                 cProducteTraspas.SuspendLayout();
                 cProducteTraspas.DisplayMember = "_NomProducte";
                 cProducteTraspas.DataSource = Program.Sessio.Productes.Where(w => w is ProdFons && w.Id != prod.Id).ToList();
                 cProducteTraspas.ResumeLayout();
             }
-            else
-            {
-                gbTraspas.Visible = false;
-                gbNumParticipacionsDesti.Visible = false;
-            }
-
-            gbDespeses.Visible = gestioProductesTabMoviments._ProducteSeleccionat._TipusProducte == Producte.TipusProducte.Accions;
-            gbCanviAplicat.Visible = gestioProductesTabMoviments._ProducteSeleccionat._TipusProducte == Producte.TipusProducte.Accions;
-
-            gbEdicio.Visible = true;
-            gestioProductesTabMoviments.Enabled = false;
-
-            btVenda.Enabled = false;
-            btDividends.Enabled = false;
-            btCancelaMoviment.Enabled = true;
-            btCompra.Enabled = false;
-            btDesaMoviment.Enabled = true;
 
             tbNumParticipacions.Valor = prod._Participacions;
 
-            cbTipusMovimentTab2.SelectedItem = TipusMoviment.Venda;
-            tbPreuParticipacio.Valor = 0;
+            ntbPreuParticipacio.Valor = 0;
             tbCanviAplicat.Valor = 1;
             cProducteTraspas.SelectedItem = null;
             tbNumParticipacionsDesti.Valor = 0;
             tbDespeses.Valor = 0;
-            tbDescripcio.Text = "";
+
+            preparaPantallaEdicio();
         }
 
 
-        private void btDividends_Click(object sender, EventArgs e)
+        private void dividents()
         {
-            gbTraspas.Visible = false;
-            gbNumParticipacionsDesti.Visible = false;
-
-            gbEdicio.Visible = true;
-            gestioProductesTabMoviments.Enabled = false;
-            gbParticipacions.Visible = false;
-
-            btVenda.Enabled = false;
-            btDividends.Enabled = false;
-            btCancelaMoviment.Enabled = true;
-            btCompra.Enabled = false;
-            btDesaMoviment.Enabled = true;
-            gbDespeses.Visible = false;
-
             tbNumParticipacions.Valor = 0;
-
-            cbTipusMovimentTab2.SelectedItem = TipusMoviment.Dividends;
-            tbPreuParticipacio.Valor = 0;
+            ntbPreuParticipacio.Valor = 0;
             cProducteTraspas.SelectedItem = null;
             tbNumParticipacionsDesti.Valor = 0;
             tbDespeses.Valor = 0;
-            tbDescripcio.Text = "";
-
-
-            gbImportTotal.Visible = false;
             gbPreuPartic.Text = "Import Brut";
 
+            preparaPantallaEdicio();
         }
 
 
+        private string vDesaToolTipGbPreuPartic = null;
+        private void split()
+        {
+            gbPreuPartic.Text = "Preu abans";
+            vDesaToolTipGbPreuPartic = this.toolTip1.GetToolTip(this.gbPreuPartic);
+            toolTip1.SetToolTip(this.gbPreuPartic, "Preu participació abans del Split");
+
+            preparaPantallaEdicio();
+        }
+
+
+        private void contraSplit()
+        {
+            gbPreuPartic.Text = "Preu abans";
+            vDesaToolTipGbPreuPartic = this.toolTip1.GetToolTip(this.gbPreuPartic);
+            toolTip1.SetToolTip(this.gbPreuPartic, "Preu participació abans del ContraSplit");
+
+            preparaPantallaEdicio();
+        }
+
         private void btDesaMoviment_Click(object sender, EventArgs e)
         {
-            TipusMoviment tp = (TipusMoviment) cbTipusMovimentTab2.SelectedItem;
+            TipusMoviment tp = (TipusMoviment) cbTipusMoviment.SelectedItem;
 
-            if (tp != TipusMoviment.Dividends && tbNumParticipacions.Valor <= 0)
+            if ((tp == TipusMoviment.Compra || tp == TipusMoviment.Venda || tp == TipusMoviment.Traspàs) && tbNumParticipacions.Valor <= 0)
             {
                 MessageBox.Show("Falta num. participacions");
                 return;
@@ -209,6 +185,20 @@ namespace Inversions.GUI
                 return;
             }
 
+            if (tp == TipusMoviment.Split || tp == TipusMoviment.ContraSplit)
+            {
+                if (ntbFactorConversor.Valor <= 0)
+                {
+                    MessageBox.Show("El valor del Split o Cantraplit ha de ser més gran de zero.");
+                    return;
+                }
+                if (ntbPreuParticipacio.Valor <= 0)
+                {
+                    MessageBox.Show("El nou import de l'acció ha de ser més gran de zero.");
+                    return;
+                }
+            }
+
             try
             {
                 desaMoviment(tp, prod, (ProdFons) cProducteTraspas.SelectedItem);
@@ -219,26 +209,13 @@ namespace Inversions.GUI
                 return;
             }
 
-
-            gbTraspas.Visible = false;
-            gbNumParticipacionsDesti.Visible = false;
-            gbEdicio.Visible = false;
-            gestioProductesTabMoviments.Enabled = true;
-            gbParticipacions.Visible = true;
-
-            btVenda.Enabled = prod != null && prod._Participacions > 0;
-            btDividends.Enabled = prod != null && prod._TipusProducte == Producte.TipusProducte.Accions && prod._Participacions > 0;
-            btCancelaMoviment.Enabled = false;
-            btCompra.Enabled = true;
-            btDesaMoviment.Enabled = false;
-
-            gbImportTotal.Visible = true;
-            gbPreuPartic.Text = "Preu Partic.";
+            preparaPantallaConsulta();
+        }
 
 
-            cProducteTraspas.SelectedItem = null;
-
-            comprant = null;
+        private void btCancelaMoviment_Click(object sender, EventArgs e)
+        {
+            preparaPantallaConsulta();
         }
 
         public void canviUsuari(Usuari usuari)
@@ -267,13 +244,20 @@ namespace Inversions.GUI
                     {
                         if (prodDesti == null)
                         {
-                            prodOrigen.compraVenda(conn, tipusMoviment, cData1.Value, tbNumParticipacions._DoubleValue, tbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue,
-                                tbDespeses._DoubleValue, tbDescripcio.Text);
+                            if (tipusMoviment == TipusMoviment.Split || tipusMoviment == TipusMoviment.ContraSplit)
+                            {
+                                prodOrigen.splitContraSplit(conn, tipusMoviment, cData1.Value, ntbFactorConversor._IntValue, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue);
+                            }
+                            else
+                            {
+                                prodOrigen.compraVenda(conn, tipusMoviment, cData1.Value, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue,
+                                    tbDespeses._DoubleValue, tbDescripcio.Text);
+                            }
                         }
                         else
                         {
-                            prodOrigen.traspas(conn, cData1.Value, tbNumParticipacions._DoubleValue, tbPreuParticipacio._DoubleValue, 1, tbDescripcio.Text, 
-                                cDataDesti.Value,  prodDesti, tbNumParticipacionsDesti._DoubleValue);
+                            prodOrigen.traspas(conn, cData1.Value, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, 1, tbDescripcio.Text,
+                                cDataDesti.Value, prodDesti, tbNumParticipacionsDesti._DoubleValue);
                         }
 
                         dbContextTransaction.Commit();
@@ -291,29 +275,6 @@ namespace Inversions.GUI
         }
 
 
-        private void btCancelaMoviment_Click(object sender, EventArgs e)
-        {
-            var prod = gestioProductesTabMoviments._ProducteSeleccionat;
-
-            gbTraspas.Visible = false;
-            gbEdicio.Visible = false;
-            gestioProductesTabMoviments.Enabled = true;
-            gbParticipacions.Visible = true;
-
-            btVenda.Enabled = prod != null && prod._Participacions > 0;
-            btDividends.Enabled = prod != null && prod._TipusProducte == Producte.TipusProducte.Accions && prod._Participacions > 0;
-            btCancelaMoviment.Enabled = false;
-            btCompra.Enabled = true;
-            btDesaMoviment.Enabled = false;
-
-            gbImportTotal.Visible = true;
-            gbPreuPartic.Text = "Preu Partic.";
-
-            cProducteTraspas.SelectedItem = null;
-
-            comprant = null;
-        }
-
         private void cProducteTraspas_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cProducteTraspas.SelectedItem == null)
@@ -329,24 +290,28 @@ namespace Inversions.GUI
             }
         }
 
+
         private void tbNumParticipacions_Leave(object sender, EventArgs e)
         {
             calculaImportTotal();
         }
+
 
         private void tbPreuParticipacio_Leave(object sender, EventArgs e)
         {
             calculaImportTotal();
         }
 
+
         private void tbDespeses_Leave(object sender, EventArgs e)
         {
             calculaImportTotal();
         }
 
+
         private void calculaImportTotal()
         {
-            var imp = tbPreuParticipacio.Valor * tbNumParticipacions.Valor;
+            var imp = ntbPreuParticipacio.Valor * tbNumParticipacions.Valor;
             if (comprant.GetValueOrDefault())
                 imp += tbDespeses.Valor;
             else
@@ -355,16 +320,103 @@ namespace Inversions.GUI
             tbImportTotal.Valor = imp;
         }
 
+
         private void cDataGridView1_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if(e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
-                var prodTraspas = (Producte)cDataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                var prodTraspas = (Producte) cDataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
                 if (prodTraspas != null)
                 {
                     gestioProductesTabMoviments._ProducteSeleccionat = prodTraspas;
                 }
             }
+        }
+
+
+        private void cbTipusMoviment_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btFes.Enabled = cbTipusMoviment.SelectedItem != null;
+        }
+
+
+        private void btFes_Click(object sender, EventArgs e)
+        {
+            if (cbTipusMoviment.SelectedItem != null)
+            {
+                switch ((TipusMoviment) cbTipusMoviment.SelectedItem)
+                {
+                    case TipusMoviment.Compra:
+                        compra();
+                        break;
+                    case TipusMoviment.Venda:
+                    case TipusMoviment.Traspàs:
+                        vendaTraspas();
+                        break;
+                    case TipusMoviment.Dividends:
+                        dividents();
+                        break;
+                    case TipusMoviment.Split:
+                        split();
+                        break;
+                    case TipusMoviment.ContraSplit:
+                        contraSplit();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+
+        private void preparaPantallaConsulta()
+        {
+            gbEdicio.Visible = false;
+            
+            cbTipusMoviment.Enabled = true;
+            btCancelaMoviment.Enabled = false;
+            btDesaMoviment.Enabled = false;
+            gestioProductesTabMoviments.Enabled = true;
+            
+            gbPreuPartic.Text = "Preu Partic.";
+            if (vDesaToolTipGbPreuPartic != null)
+            {
+                toolTip1.SetToolTip(this.gbPreuPartic, vDesaToolTipGbPreuPartic);
+                vDesaToolTipGbPreuPartic = null;
+            }
+
+
+            cProducteTraspas.SelectedItem = null;
+            cbTipusMoviment.SelectedItem = null;
+
+            comprant = null;
+        }
+
+
+        private void preparaPantallaEdicio()
+        {
+            var tipusProd = gestioProductesTabMoviments._ProducteSeleccionat._TipusProducte;
+            var esUnaAccio = tipusProd == Producte.TipusProducte.Accions;
+            var tipusMov = (TipusMoviment) cbTipusMoviment.SelectedItem;
+
+            gestioProductesTabMoviments.Enabled = false;
+            cbTipusMoviment.Enabled = false;
+            btFes.Enabled = false;
+            btCancelaMoviment.Enabled = true;
+            btDesaMoviment.Enabled = true;
+
+            gbDataMoviment.Visible = true;;
+            gbParticipacions.Visible = tipusMov == TipusMoviment.Compra || tipusMov == TipusMoviment.Venda || tipusMov == TipusMoviment.Traspàs;
+            gbFactorConversor.Visible = tipusMov == TipusMoviment.Split || tipusMov == TipusMoviment.ContraSplit;
+            gbPreuPartic.Visible = true;
+            gbCanviAplicat.Visible = esUnaAccio;
+            gbDespeses.Visible = esUnaAccio && (tipusMov == TipusMoviment.Compra || tipusMov == TipusMoviment.Venda);
+            gbImportTotal.Visible = tipusMov == TipusMoviment.Compra || tipusMov == TipusMoviment.Venda || tipusMov == TipusMoviment.Traspàs;
+            gbTraspas.Visible = tipusMov == TipusMoviment.Traspàs;
+            gbNumParticipacionsDesti.Visible = tipusMov == TipusMoviment.Traspàs;
+            gbDescripcio.Visible = !esUnaAccio;
+
+            gbEdicio.Visible = true;
         }
     }
 }

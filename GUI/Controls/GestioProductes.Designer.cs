@@ -41,12 +41,17 @@ namespace Inversions.GUI
             this.tbMercat = new System.Windows.Forms.TextBox();
             this.tbIsin = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tbPiGReal = new Controls.NumericTextBox2();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.tbDividends = new Controls.NumericTextBox2();
             this.gbDescripcio = new System.Windows.Forms.GroupBox();
             this.tbDescripcio = new System.Windows.Forms.TextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.tbPiGActual = new Controls.NumericTextBox2();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
+            this.tbValorActual = new Controls.NumericTextBox2();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.tbParticipacions = new Controls.NumericTextBox2();
             this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.lbProductesTab2 = new System.Windows.Forms.ListBox();
@@ -54,22 +59,17 @@ namespace Inversions.GUI
             this.btFiltra = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.ckNomesAmbParticipacions = new System.Windows.Forms.CheckBox();
+            this.pnFiltreAny = new System.Windows.Forms.Panel();
             this.ckFiltreCompresAny = new System.Windows.Forms.CheckBox();
-            this.ckFiltreVendesAny = new System.Windows.Forms.CheckBox();
+            this.gbFiltreAny = new System.Windows.Forms.GroupBox();
             this.cbFiltreAny = new System.Windows.Forms.ComboBox();
+            this.ckFiltreVendesAny = new System.Windows.Forms.CheckBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cbTipusProducteFiltreTab2 = new System.Windows.Forms.ComboBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.lbEmpresa = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.tbPiGReal = new Controls.NumericTextBox2();
-            this.tbDividends = new Controls.NumericTextBox2();
-            this.tbPiGActual = new Controls.NumericTextBox2();
-            this.tbValorActual = new Controls.NumericTextBox2();
-            this.tbParticipacions = new Controls.NumericTextBox2();
-            this.gbFiltreAny = new System.Windows.Forms.GroupBox();
-            this.pnFiltreAny = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.gbMoneda.SuspendLayout();
             this.gbUsuari.SuspendLayout();
@@ -84,11 +84,11 @@ namespace Inversions.GUI
             this.groupBox6.SuspendLayout();
             this.gbFiltres.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.pnFiltreAny.SuspendLayout();
+            this.gbFiltreAny.SuspendLayout();
             this.panel3.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox11.SuspendLayout();
-            this.gbFiltreAny.SuspendLayout();
-            this.pnFiltreAny.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -200,7 +200,25 @@ namespace Inversions.GUI
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "PiG Real";
-            this.toolTip1.SetToolTip(this.groupBox2, "PiG de les vendes reals. No inclou dividends");
+            this.toolTip1.SetToolTip(this.groupBox2, "PiG de les vendes reals. \r\nInclou despeses.\r\nNo inclou dividends");
+            // 
+            // tbPiGReal
+            // 
+            this.tbPiGReal._Format = "#,#0.00 €";
+            this.tbPiGReal._PermetDecimals = true;
+            this.tbPiGReal._PermetEspais = false;
+            this.tbPiGReal._PermetNegatius = true;
+            this.tbPiGReal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbPiGReal.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbPiGReal.Location = new System.Drawing.Point(5, 18);
+            this.tbPiGReal.Name = "tbPiGReal";
+            this.tbPiGReal.ReadOnly = true;
+            this.tbPiGReal.Size = new System.Drawing.Size(146, 22);
+            this.tbPiGReal.TabIndex = 0;
+            this.tbPiGReal.Text = "0,00 €";
+            this.tbPiGReal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.tbPiGReal, "PiG de les vendes reals. No inclou dividends");
+            this.tbPiGReal.Valor = 0D;
             // 
             // groupBox3
             // 
@@ -214,6 +232,24 @@ namespace Inversions.GUI
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Dividends";
             this.toolTip1.SetToolTip(this.groupBox3, "Dividends historics");
+            // 
+            // tbDividends
+            // 
+            this.tbDividends._Format = "#,#0.00 €";
+            this.tbDividends._PermetDecimals = true;
+            this.tbDividends._PermetEspais = false;
+            this.tbDividends._PermetNegatius = true;
+            this.tbDividends.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbDividends.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbDividends.Location = new System.Drawing.Point(5, 18);
+            this.tbDividends.Name = "tbDividends";
+            this.tbDividends.ReadOnly = true;
+            this.tbDividends.Size = new System.Drawing.Size(146, 22);
+            this.tbDividends.TabIndex = 0;
+            this.tbDividends.Text = "0,00 €";
+            this.tbDividends.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.tbDividends, "Dividends historics");
+            this.tbDividends.Valor = 0D;
             // 
             // gbDescripcio
             // 
@@ -249,7 +285,26 @@ namespace Inversions.GUI
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "PiG Actual";
-            this.toolTip1.SetToolTip(this.groupBox4, "Vendes + dividends - compres. Inclou traspassos");
+            this.toolTip1.SetToolTip(this.groupBox4, "Calculat a partir de l\'última valoració.\r\nVendes + dividends - compres. \r\nInclou " +
+        "traspassos");
+            // 
+            // tbPiGActual
+            // 
+            this.tbPiGActual._Format = "#,#0.00 €";
+            this.tbPiGActual._PermetDecimals = true;
+            this.tbPiGActual._PermetEspais = false;
+            this.tbPiGActual._PermetNegatius = true;
+            this.tbPiGActual.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbPiGActual.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbPiGActual.Location = new System.Drawing.Point(5, 18);
+            this.tbPiGActual.Name = "tbPiGActual";
+            this.tbPiGActual.ReadOnly = true;
+            this.tbPiGActual.Size = new System.Drawing.Size(146, 22);
+            this.tbPiGActual.TabIndex = 0;
+            this.tbPiGActual.Text = "0,00 €";
+            this.tbPiGActual.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.tbPiGActual, "Vendes + dividends - compres. Inclou traspassos");
+            this.tbPiGActual.Valor = 0D;
             // 
             // groupBox15
             // 
@@ -264,6 +319,24 @@ namespace Inversions.GUI
             this.groupBox15.Text = "Valor Actual";
             this.toolTip1.SetToolTip(this.groupBox15, "Valor de les participacions en cartera segons l\'últim valor");
             // 
+            // tbValorActual
+            // 
+            this.tbValorActual._Format = "#,#0.00 €";
+            this.tbValorActual._PermetDecimals = true;
+            this.tbValorActual._PermetEspais = false;
+            this.tbValorActual._PermetNegatius = true;
+            this.tbValorActual.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbValorActual.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbValorActual.Location = new System.Drawing.Point(5, 18);
+            this.tbValorActual.Name = "tbValorActual";
+            this.tbValorActual.ReadOnly = true;
+            this.tbValorActual.Size = new System.Drawing.Size(146, 22);
+            this.tbValorActual.TabIndex = 0;
+            this.tbValorActual.Text = "0,00 €";
+            this.tbValorActual.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.tbValorActual, "Valor de les participacions en cartera segons l\'últim valor");
+            this.tbValorActual.Valor = 0D;
+            // 
             // groupBox13
             // 
             this.groupBox13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -276,6 +349,24 @@ namespace Inversions.GUI
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "Participacions";
             this.toolTip1.SetToolTip(this.groupBox13, "Número de participacions en cartera");
+            // 
+            // tbParticipacions
+            // 
+            this.tbParticipacions._Format = "#,#0.00";
+            this.tbParticipacions._PermetDecimals = true;
+            this.tbParticipacions._PermetEspais = false;
+            this.tbParticipacions._PermetNegatius = true;
+            this.tbParticipacions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbParticipacions.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbParticipacions.Location = new System.Drawing.Point(5, 18);
+            this.tbParticipacions.Name = "tbParticipacions";
+            this.tbParticipacions.ReadOnly = true;
+            this.tbParticipacions.Size = new System.Drawing.Size(146, 22);
+            this.tbParticipacions.TabIndex = 0;
+            this.tbParticipacions.Text = "0,00";
+            this.tbParticipacions.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.tbParticipacions, "Número de participacions en cartera");
+            this.tbParticipacions.Valor = 0D;
             // 
             // panel2
             // 
@@ -359,6 +450,17 @@ namespace Inversions.GUI
             this.ckNomesAmbParticipacions.Text = "Amb Participacions";
             this.ckNomesAmbParticipacions.UseVisualStyleBackColor = true;
             // 
+            // pnFiltreAny
+            // 
+            this.pnFiltreAny.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnFiltreAny.Controls.Add(this.ckFiltreCompresAny);
+            this.pnFiltreAny.Controls.Add(this.gbFiltreAny);
+            this.pnFiltreAny.Controls.Add(this.ckFiltreVendesAny);
+            this.pnFiltreAny.Location = new System.Drawing.Point(141, 5);
+            this.pnFiltreAny.Name = "pnFiltreAny";
+            this.pnFiltreAny.Size = new System.Drawing.Size(239, 50);
+            this.pnFiltreAny.TabIndex = 6;
+            // 
             // ckFiltreCompresAny
             // 
             this.ckFiltreCompresAny.AutoSize = true;
@@ -372,6 +474,28 @@ namespace Inversions.GUI
             this.ckFiltreCompresAny.UseVisualStyleBackColor = true;
             this.ckFiltreCompresAny.CheckedChanged += new System.EventHandler(this.ckFiltreAny_CheckedChanged);
             // 
+            // gbFiltreAny
+            // 
+            this.gbFiltreAny.Controls.Add(this.cbFiltreAny);
+            this.gbFiltreAny.Location = new System.Drawing.Point(142, 1);
+            this.gbFiltreAny.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
+            this.gbFiltreAny.Name = "gbFiltreAny";
+            this.gbFiltreAny.Size = new System.Drawing.Size(90, 45);
+            this.gbFiltreAny.TabIndex = 5;
+            this.gbFiltreAny.TabStop = false;
+            this.gbFiltreAny.Text = "Any";
+            // 
+            // cbFiltreAny
+            // 
+            this.cbFiltreAny.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbFiltreAny.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFiltreAny.Enabled = false;
+            this.cbFiltreAny.FormattingEnabled = true;
+            this.cbFiltreAny.Location = new System.Drawing.Point(3, 18);
+            this.cbFiltreAny.Name = "cbFiltreAny";
+            this.cbFiltreAny.Size = new System.Drawing.Size(84, 24);
+            this.cbFiltreAny.TabIndex = 3;
+            // 
             // ckFiltreVendesAny
             // 
             this.ckFiltreVendesAny.AutoSize = true;
@@ -384,17 +508,6 @@ namespace Inversions.GUI
             this.ckFiltreVendesAny.Text = "Vendes";
             this.ckFiltreVendesAny.UseVisualStyleBackColor = true;
             this.ckFiltreVendesAny.CheckedChanged += new System.EventHandler(this.ckFiltreAny_CheckedChanged);
-            // 
-            // cbFiltreAny
-            // 
-            this.cbFiltreAny.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbFiltreAny.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbFiltreAny.Enabled = false;
-            this.cbFiltreAny.FormattingEnabled = true;
-            this.cbFiltreAny.Location = new System.Drawing.Point(3, 18);
-            this.cbFiltreAny.Name = "cbFiltreAny";
-            this.cbFiltreAny.Size = new System.Drawing.Size(84, 24);
-            this.cbFiltreAny.TabIndex = 3;
             // 
             // panel3
             // 
@@ -450,118 +563,6 @@ namespace Inversions.GUI
             this.lbEmpresa.TabIndex = 0;
             this.lbEmpresa.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // tbPiGReal
-            // 
-            this.tbPiGReal._Format = "#,#0.00 €";
-            this.tbPiGReal._PermetDecimals = true;
-            this.tbPiGReal._PermetEspais = false;
-            this.tbPiGReal._PermetNegatius = true;
-            this.tbPiGReal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbPiGReal.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbPiGReal.Location = new System.Drawing.Point(5, 18);
-            this.tbPiGReal.Name = "tbPiGReal";
-            this.tbPiGReal.ReadOnly = true;
-            this.tbPiGReal.Size = new System.Drawing.Size(146, 22);
-            this.tbPiGReal.TabIndex = 0;
-            this.tbPiGReal.Text = "0,00 €";
-            this.tbPiGReal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.toolTip1.SetToolTip(this.tbPiGReal, "PiG de les vendes reals. No inclou dividends");
-            this.tbPiGReal.Valor = 0D;
-            // 
-            // tbDividends
-            // 
-            this.tbDividends._Format = "#,#0.00 €";
-            this.tbDividends._PermetDecimals = true;
-            this.tbDividends._PermetEspais = false;
-            this.tbDividends._PermetNegatius = true;
-            this.tbDividends.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbDividends.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbDividends.Location = new System.Drawing.Point(5, 18);
-            this.tbDividends.Name = "tbDividends";
-            this.tbDividends.ReadOnly = true;
-            this.tbDividends.Size = new System.Drawing.Size(146, 22);
-            this.tbDividends.TabIndex = 0;
-            this.tbDividends.Text = "0,00 €";
-            this.tbDividends.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.toolTip1.SetToolTip(this.tbDividends, "Dividends historics");
-            this.tbDividends.Valor = 0D;
-            // 
-            // tbPiGActual
-            // 
-            this.tbPiGActual._Format = "#,#0.00 €";
-            this.tbPiGActual._PermetDecimals = true;
-            this.tbPiGActual._PermetEspais = false;
-            this.tbPiGActual._PermetNegatius = true;
-            this.tbPiGActual.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbPiGActual.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbPiGActual.Location = new System.Drawing.Point(5, 18);
-            this.tbPiGActual.Name = "tbPiGActual";
-            this.tbPiGActual.ReadOnly = true;
-            this.tbPiGActual.Size = new System.Drawing.Size(146, 22);
-            this.tbPiGActual.TabIndex = 0;
-            this.tbPiGActual.Text = "0,00 €";
-            this.tbPiGActual.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.toolTip1.SetToolTip(this.tbPiGActual, "Vendes + dividends - compres. Inclou traspassos");
-            this.tbPiGActual.Valor = 0D;
-            // 
-            // tbValorActual
-            // 
-            this.tbValorActual._Format = "#,#0.00 €";
-            this.tbValorActual._PermetDecimals = true;
-            this.tbValorActual._PermetEspais = false;
-            this.tbValorActual._PermetNegatius = true;
-            this.tbValorActual.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbValorActual.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbValorActual.Location = new System.Drawing.Point(5, 18);
-            this.tbValorActual.Name = "tbValorActual";
-            this.tbValorActual.ReadOnly = true;
-            this.tbValorActual.Size = new System.Drawing.Size(146, 22);
-            this.tbValorActual.TabIndex = 0;
-            this.tbValorActual.Text = "0,00 €";
-            this.tbValorActual.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.toolTip1.SetToolTip(this.tbValorActual, "Valor de les participacions en cartera segons l\'últim valor");
-            this.tbValorActual.Valor = 0D;
-            // 
-            // tbParticipacions
-            // 
-            this.tbParticipacions._Format = "#,#0.00";
-            this.tbParticipacions._PermetDecimals = true;
-            this.tbParticipacions._PermetEspais = false;
-            this.tbParticipacions._PermetNegatius = true;
-            this.tbParticipacions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbParticipacions.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbParticipacions.Location = new System.Drawing.Point(5, 18);
-            this.tbParticipacions.Name = "tbParticipacions";
-            this.tbParticipacions.ReadOnly = true;
-            this.tbParticipacions.Size = new System.Drawing.Size(146, 22);
-            this.tbParticipacions.TabIndex = 0;
-            this.tbParticipacions.Text = "0,00";
-            this.tbParticipacions.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.toolTip1.SetToolTip(this.tbParticipacions, "Número de participacions en cartera");
-            this.tbParticipacions.Valor = 0D;
-            // 
-            // gbFiltreAny
-            // 
-            this.gbFiltreAny.Controls.Add(this.cbFiltreAny);
-            this.gbFiltreAny.Location = new System.Drawing.Point(142, 1);
-            this.gbFiltreAny.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
-            this.gbFiltreAny.Name = "gbFiltreAny";
-            this.gbFiltreAny.Size = new System.Drawing.Size(90, 45);
-            this.gbFiltreAny.TabIndex = 5;
-            this.gbFiltreAny.TabStop = false;
-            this.gbFiltreAny.Text = "Any";
-            // 
-            // pnFiltreAny
-            // 
-            this.pnFiltreAny.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnFiltreAny.Controls.Add(this.ckFiltreCompresAny);
-            this.pnFiltreAny.Controls.Add(this.gbFiltreAny);
-            this.pnFiltreAny.Controls.Add(this.ckFiltreVendesAny);
-            this.pnFiltreAny.Location = new System.Drawing.Point(141, 5);
-            this.pnFiltreAny.Name = "pnFiltreAny";
-            this.pnFiltreAny.Size = new System.Drawing.Size(239, 50);
-            this.pnFiltreAny.TabIndex = 6;
-            // 
             // GestioProductes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -594,12 +595,12 @@ namespace Inversions.GUI
             this.gbFiltres.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
+            this.pnFiltreAny.ResumeLayout(false);
+            this.pnFiltreAny.PerformLayout();
+            this.gbFiltreAny.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox11.ResumeLayout(false);
-            this.gbFiltreAny.ResumeLayout(false);
-            this.pnFiltreAny.ResumeLayout(false);
-            this.pnFiltreAny.PerformLayout();
             this.ResumeLayout(false);
 
         }

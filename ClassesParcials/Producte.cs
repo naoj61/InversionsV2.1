@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
+using System.Security;
 using System.Windows.Forms;
 
 namespace Inversions
@@ -208,7 +210,7 @@ namespace Inversions
          */
 
         internal Moviment compraVenda(InversionsBDContext connexio, TipusMoviment tipusMoviment, DateTime data, double numParticipacions, double preuParticipacio, double canviAplicat, 
-            double? despeses, string descripcio)
+            double? despeses, string descripcio, bool afegeigPreuAValoracions = true)
         {
             // Poso la hora actual. No tinc clar si hauria d'agafar l'ordre del Id en lloc de la data.
             DateTime dataHora = data.Date + DateTime.Now.TimeOfDay;
@@ -254,12 +256,25 @@ namespace Inversions
             connexio.Moviments.Add(moviment);
             connexio.SaveChanges();
 
-            // Crea una valoració amb el preu del moviment
-            Valoracio val = Valoracions.SingleOrDefault(a => a.ProdId == this.Id && a.Data == dataHora.Date);
-            if (val == null)
-                Valoracio.Nova(connexio, this, dataHora, preuParticipacio);
-            else
-                val.modifica(connexio, dataHora, preuParticipacio);
+            if (afegeigPreuAValoracions)
+            {
+                // Crea una valoració amb el preu del moviment
+                Valoracio val = Valoracions.SingleOrDefault(a => a.ProdId == this.Id && a.Data == dataHora.Date);
+                if (val == null)
+                {
+                    try
+                    {
+                        Valoracio.Nova(connexio, this, dataHora, preuParticipacio);
+                    }
+                    catch (SqlException ex)
+                    {
+                        if (ex.Number != 2627) // Si Duplicate Key en Valoracions no fa cas
+                            throw;
+                    }
+                }
+                else
+                    val.modifica(connexio, dataHora, preuParticipacio); 
+            }
 
             return moviment;
         }
@@ -288,6 +303,148 @@ namespace Inversions
             movCompra.ValorCompraOriginal = valorCompraReal(numParticipacions);
 
             connexio.SaveChanges();
+        }
+
+
+        internal void splitContraSplit(InversionsBDContext connexio, TipusMoviment tipusMoviment, DateTime data, int factorConversor, double preuParticipacioAbans, double canviAplicat)
+        {
+            var preuParticipacioDespres = Math.Round(preuParticipacioAbans * factorConversor, 3);
+
+            int numPartActual = (int) _Participacions;
+
+            // *** Les participacions en les accions han de ser números entres. ***
+            int numPartticipacionsDespresSplit;
+            int numPartticipacionsRemanent;
+            if (tipusMoviment == TipusMoviment.Split)
+            {
+                numPartticipacionsDespresSplit = (numPartActual * factorConversor);
+                numPartticipacionsRemanent = 0;
+            }
+            else if (tipusMoviment == TipusMoviment.ContraSplit)
+            {
+                numPartticipacionsDespresSplit = numPartActual / factorConversor;
+                numPartticipacionsRemanent = numPartActual %  factorConversor;
+            }
+            else
+            {
+                throw new ArgumentException("Moviment: " + tipusMoviment + "incorrecte. ha de ser 'Split' o 'ContraSplit'");
+            }
+
+            var numPartticipacionsAbansSplit = numPartActual - numPartticipacionsRemanent;
+
+            double numPartNoVenudesPrimeraCompra;
+            var movsCompra = compresAmbParticipacionsNoVenudes(out numPartNoVenudesPrimeraCompra).ToList();
+
+            //// Venc accions remanents.
+            double partPerVendre = numPartticipacionsRemanent;
+            //foreach (var compra in movsCompra)
+            //{
+            //    if (partPerVendre > 0)
+            //    {
+            //        if (partPerVendre <= compra.Participacions)
+            //        {
+            //            var despeses = compra.Despeses.HasValue ? (double?) (compra.Despeses.Value / compra.Participacions * partPerVendre) : null;
+
+            //            compraVenda(connexio, TipusMoviment.Venda, data, partPerVendre, preuParticipacioAbans, canviAplicat, -despeses, tipusMoviment.ToString(), false);
+
+            //            break;
+            //        }
+            //        else
+            //        {
+            //            compraVenda(connexio, TipusMoviment.Venda, data, compra.Participacions, preuParticipacioAbans, canviAplicat, -compra.Despeses, tipusMoviment.ToString(), false);
+            //            partPerVendre -= compra.Participacions;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        break;
+            //    }
+            //}
+
+            //return;
+
+            // Venc accions antiges per convertirles.
+            double desAcum = 0;
+            foreach (var compra in movsCompra)
+            {
+                var particCompra = compra.Participacions;
+
+                if (partPerVendre > 0)
+                {
+                    if (partPerVendre <= particCompra)
+                    {
+                        var despeses = compra.Despeses.HasValue ? (double?)(compra.Despeses.Value / compra.Participacions * partPerVendre) : null;
+                        desAcum += despeses.GetValueOrDefault();
+
+                        compraVenda(connexio, TipusMoviment.Venda, data, partPerVendre, preuParticipacioAbans, canviAplicat, -despeses, tipusMoviment.ToString(), false);
+
+                        particCompra -= partPerVendre;
+                        partPerVendre = 0;
+                    }
+                    else
+                    {
+                        var despeses = compra.Despeses.HasValue ? (double?)(compra.Despeses.Value / compra.Participacions * particCompra) : null;
+                        desAcum += despeses.GetValueOrDefault();
+
+                        compraVenda(connexio, TipusMoviment.Venda, data, particCompra, preuParticipacioAbans, canviAplicat, -despeses, tipusMoviment.ToString(), false);
+                        particCompra -= 0;
+                        partPerVendre -= particCompra;
+                    }
+                }
+
+                if (particCompra > 0)
+                {
+                    var despeses = compra.Despeses.HasValue ? (double?)(compra.Despeses.Value / compra.Participacions * particCompra) : null;
+                    desAcum += despeses.GetValueOrDefault();
+                    
+                    compraVenda(connexio, TipusMoviment.Venda, data, particCompra, compra.PreuParticipacio, compra.CanviAplicat, -despeses, tipusMoviment.ToString(), false);
+                }
+            }
+
+            // Compro noves accions.
+            compraVenda(connexio, TipusMoviment.Compra, data, numPartticipacionsDespresSplit, preuParticipacioDespres, canviAplicat, desAcum == 0 ? (double?) null : desAcum, tipusMoviment.ToString(), true);
+        }
+
+        /// <summary>
+        /// Torna una llista amb els moviments de compra que tenen perticipacions/accions NO venudes.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerable<Moviment> compresAmbParticipacionsNoVenudes(out double numPartNoVenudes)
+        {
+            Moviment primeraCompraAmbSaldo = null;
+            var compres = MovimentsProducteUsuari.Where(w => w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data).ThenBy(o=>o.Id).ToList();
+            var vendes = new Queue<Moviment>(MovimentsProducteUsuari.Where(w => w.TipusMoviment == TipusMoviment.Venda).OrderBy(o => o.Data).ThenBy(o=>o.Id));
+            numPartNoVenudes = 0;
+
+            foreach (var compra in compres)
+            {
+                numPartNoVenudes += compra.Participacions;
+
+                while (vendes.Count > 0 && numPartNoVenudes > 0)
+                {
+                    Moviment ultimaVendaLlegida = vendes.Dequeue();
+                    numPartNoVenudes -= ultimaVendaLlegida.Participacions;
+                }
+
+                if (numPartNoVenudes > 0)
+                {
+                    primeraCompraAmbSaldo = compra;
+                    break;
+                }
+            }
+
+            List<Moviment> compresAmbParticipacio = new List<Moviment>();
+
+            if (primeraCompraAmbSaldo == null)
+                return compresAmbParticipacio;
+
+            //Moviment xx = primeraCompraAmbSaldo.Clone(); // Clono per modificar el numero de participacions no venudes, nomes per aquesta funció.
+            //xx.Participacions = numPartNoVenudes;
+            //compresAmbParticipacio.Add(xx);
+            //compresAmbParticipacio.AddRange(MovimentsProducteUsuari.Where(w => w.Data >= primeraCompraAmbSaldo.Data && w.TipusMoviment == TipusMoviment.Compra).ToList());
+            //return compresAmbParticipacio.OrderBy(o => o.Data).ThenBy(o=>o.Id);
+            
+            return MovimentsProducteUsuari.Where(w => w.Data >= primeraCompraAmbSaldo.Data && w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data).ThenBy(o => o.Id);
         }
 
 
@@ -600,14 +757,24 @@ namespace Inversions
 
 
         /// <summary>
-        /// Torna les participacions en una data determinada.
+        /// Torna les participacions en una data determinada. Te en compte tots els moviments del dia.
         /// </summary>
-        /// <param name="usuari"></param>
-        /// <param name="data">Si null data d'avui</param>
+        /// <param name="data"></param>
         /// <returns></returns>
         public double numParticipacionsEnData(DateTimeFinalDia data)
         {
-            List<Moviment> movs = MovimentsProducteUsuari.Where(w => w.Data <= data._Data).ToList();
+            return numParticipacionsEnData(data._Data);
+        }
+        
+        
+        /// <summary>
+        /// Torna les participacions en una data hora determinada. No te en compte els moviments del mateix dia fets en hora posterior.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public double numParticipacionsEnData(DateTime data)
+        {
+            List<Moviment> movs = MovimentsProducteUsuari.Where(w => w.Data <= data).ToList();
 
             double result = 0;
             if (movs.Any())

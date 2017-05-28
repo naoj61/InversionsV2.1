@@ -18,7 +18,11 @@ namespace Inversions.GUI
 
             this.Text = "Producte. Ver: " + Application.ProductVersion;
 
+#if DEBUG
+            tabControl1.SelectTab(tabMoviments.Name);
+#else
             tabControl1.SelectTab(tabValoracions.Name);
+#endif
 
             List<Producte.TipusProducte> tipusProductes = new List<Producte.TipusProducte>(Enum.GetValues(typeof (Producte.TipusProducte)).Cast<Producte.TipusProducte>());
             cbTipusProducteFiltreTab1.DataSource = tipusProductes;

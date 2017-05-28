@@ -412,6 +412,9 @@
           <Member Name="Compra" />
           <Member Name="Venda" />
           <Member Name="Dividends" />
+          <Member Name="Traspàs" />
+          <Member Name="Split" />
+          <Member Name="ContraSplit" />
         </EnumType>
         <EntityType Name="Producte" Abstract="true">
           <Key>
