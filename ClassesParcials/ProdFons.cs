@@ -1,9 +1,56 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms.VisualStyles;
+using Comuns;
 
 namespace Inversions
 {
     public partial class ProdFons
     {
+        public override IEnumerable<MovimentCompra> compresRealsPerParticipacionsEnCartera(DateTime data)
+        {
+            var dataFinalDia = Utilitats.DataHoraFinalDia(data);
+            var numPartEnData = numParticipacionsEnCartera(dataFinalDia);
+            List<MovimentCompra> movs = new List<MovimentCompra>();
+
+            if (Utilitats.EsZero(numPartEnData))
+                return movs;
+
+            var asd = compresPerParticipacionsEnCartera(data).OrderByDescending(o => o._Moviment.Data);
+            foreach (var moviment in asd)
+            {
+                if (moviment._Moviment._EsTraspas)
+                {
+                    var movVenda = Program.Sessio.Moviments.Single(s => s.Id == moviment._Moviment.IdRefVenda);
+                    var dataAnteriorVenda = movVenda.Data.AddDays(-1);
+                    IEnumerable<MovimentCompra> xx = movVenda.Prod.compresRealsPerParticipacionsEnCartera(dataAnteriorVenda);
+
+                    foreach (var moviment1 in xx.Where(mov => !movs.Contains(mov)))
+                    {
+                        movs.Add(moviment1);
+                    }
+                }
+                else
+                {
+                    var mov = moviment._Moviment.Clone();
+
+                    if (numPartEnData <= mov.Participacions)
+                        mov.Participacions = numPartEnData;
+
+                    movs.Add(new MovimentCompra(mov, mov.Participacions));
+
+                    numPartEnData -= mov.Participacions;
+
+                    if (numPartEnData <= 0)
+                        break;
+                }
+            }
+
+            return movs;
+        }
+
+
         public override TipusProducte _TipusProducte
         {
             get { return TipusProducte.Fons; }

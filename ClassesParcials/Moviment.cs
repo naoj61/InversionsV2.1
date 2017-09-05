@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using Comuns;
 
 namespace Inversions
 {
@@ -214,6 +216,46 @@ namespace Inversions
             
             //return mov;
         }
+
+
+        /// <summary>
+        /// Torma una llista amb les Compres o Traspassos compres que pertanyen a la venda.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Producte.MovimentCompra> compresDeLaVenda()
+        {
+            if(!_EsVenda)
+                throw new ApplicationException(String.Format("Tipus de moviment incorrecte. If={0}. Tipus mov.:{1})", Id, TipusMoviment));
+
+            // Troba suma participacions venudes anteriors a aquesta venda.
+            var participVenudesAbans = Program.Sessio.Moviments.Where(w => w.ProdId == this.ProdId && w.Data < this.Data && w.TipusMoviment == TipusMoviment.Venda).Sum(s => (double?)s.Participacions) ?? 0;
+            List<Producte.MovimentCompra> compresAmbParticipacio = new List<Producte.MovimentCompra>();
+            var trobadaPrimeraCompra = false;
+
+            // Llegeix compres anteriors a la venda del producte ordenades per data creixent i vaig restant les participacions venudes anteriorment.
+            foreach (var compra in Program.Sessio.Moviments.Where(w => w.ProdId == this.ProdId && w.Data < this.Data && w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data).ToList())
+            {
+                if (!trobadaPrimeraCompra)
+                {
+                    if (participVenudesAbans > compra.Participacions)
+                    {
+                        participVenudesAbans -= compra.Participacions;
+                    }
+                    else
+                    {
+                        compresAmbParticipacio.Add(new Producte.MovimentCompra(compra, compra.Participacions - participVenudesAbans));
+                        trobadaPrimeraCompra = true;
+                    }
+                }
+                else
+                {
+                    compresAmbParticipacio.Add(new Producte.MovimentCompra(compra, compra.Participacions));
+                }
+            }
+
+            return compresAmbParticipacio;
+        }
+
 
         #region Overrides
 

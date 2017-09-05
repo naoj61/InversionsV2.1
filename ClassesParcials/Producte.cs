@@ -666,7 +666,7 @@ namespace Inversions
         /// </summary>
         /// <param name="participacionsAValorar">Si participacionsAValorar > participacions en cartera, torna error.</param>
         /// <returns></returns>
-        private double valorCompraReal(double participacionsAValorar)
+        public double valorCompraReal(double participacionsAValorar)
         {
             if (participacionsAValorar > numParticipacionsEnData(DateTimeFinalDia.Today))
                 throw new ArgumentException("'participacionsAValorar' no pot ser un valor més gran que les participacions en cartera", "participacionsAValorar");

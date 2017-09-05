@@ -17,8 +17,8 @@ namespace Inversions
         public int Id { get; private set; }
         public int ProdId { get; set; }
         public System.DateTime Data { get; set; }
-        public byte[] RowVersion { get; private set; }
         public double PreuParticipacio { get; set; }
+        public byte[] RowVersion { get; private set; }
     
         public virtual Producte Prod { get; set; }
     }

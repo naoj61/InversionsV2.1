@@ -44,6 +44,7 @@
           <Property Name="IdRefVenda" Type="int" />
           <Property Name="Data" Type="datetime" Nullable="false" />
           <Property Name="Participacions" Type="float" Nullable="false" />
+          <Property Name="PreuParticipacioOrigen" Type="float" />
           <Property Name="PreuParticipacio" Type="float" Nullable="false" />
           <Property Name="CanviAplicat" Type="float" Nullable="false" />
           <Property Name="Despeses" Type="float" />
@@ -392,9 +393,9 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Private" />
           <Property Name="ProdId" Type="Int32" Nullable="false" />
           <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" cg:SetterAccess="Private" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="Prod" Relationship="InversionsBD.ProdValoracio" FromRole="Valoracio" ToRole="Prod" />
           <Property Name="PreuParticipacio" Type="Double" Nullable="false" />
+          <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" cg:SetterAccess="Private" ConcurrencyMode="Fixed" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" />
         </EntityType>
         <Association Name="FK_EmpresaGestor">
           <End Type="InversionsBD.Empresa" Role="Empresa" Multiplicity="1" />
@@ -426,9 +427,9 @@
           <NavigationProperty Name="MovimentsProducte" Relationship="InversionsBD.ProdMov" FromRole="Prod" ToRole="Mov" />
           <NavigationProperty Name="Valoracions" Relationship="InversionsBD.ProdValoracio" FromRole="Prod" ToRole="Valoracio" />
           <NavigationProperty Name="MovimentsTraspas" Relationship="InversionsBD.ProducteMoviment" FromRole="Producte" ToRole="Moviment" />
-          <Property Name="RowVersion" Type="Binary" Nullable="false" ConcurrencyMode="Fixed" cg:SetterAccess="Private" annotation:StoreGeneratedPattern="Computed" MaxLength="8" FixedLength="true" />
           <Property Name="OrdreGrid" Type="Int32" />
           <Property Name="Moneda" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="RowVersion" Type="Binary" Nullable="false" ConcurrencyMode="Fixed" cg:SetterAccess="Private" annotation:StoreGeneratedPattern="Computed" MaxLength="8" FixedLength="true" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" />
         </EntityType>
         <Association Name="EmpresaP2">
           <End Type="InversionsBD.Empresa" Role="Empresa" Multiplicity="1" />
@@ -482,6 +483,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Private" />
+          <Property Name="IdUsuari" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Prod" Relationship="InversionsBD.ProdMov" FromRole="Mov" ToRole="Prod" />
           <Property Name="ProdId" Type="Int32" Nullable="false" />
           <Property Name="ProducteTraspasId" Type="Int32" Nullable="true" />
@@ -489,17 +491,17 @@
           <Property Name="IdRefVenda" Type="Int32" />
           <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Participacions" Type="Double" Nullable="false" />
+          <Property Name="PreuParticipacioOrigen" Type="Double" />
           <Property Name="PreuParticipacio" Type="Double" Nullable="false" />
           <Property Name="Despeses" Type="Double" Nullable="true" />
           <Property Name="ValorCompraOriginal" Type="Double" />
           <Property Name="Descripcio" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="ProducteTraspas" Relationship="InversionsBD.ProducteMoviment" FromRole="Moviment" ToRole="Producte" />
-          <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" ConcurrencyMode="Fixed" FixedLength="true" cg:SetterAccess="Private" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="NoUtilitzar1" Relationship="InversionsBD.FK_RefVenda" FromRole="Moviment" ToRole="MovimentRefVenda" />
           <NavigationProperty Name="MovimentRefVenda" Relationship="InversionsBD.FK_RefVenda" FromRole="MovimentRefVenda" ToRole="Moviment" />
-          <Property Name="IdUsuari" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Usuari" Relationship="InversionsBD.FK_Usuaris" FromRole="Moviment" ToRole="Usuari" />
           <Property Name="CanviAplicat" Type="Double" Nullable="false" />
+          <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" ConcurrencyMode="Fixed" FixedLength="true" cg:SetterAccess="Private" annotation:StoreGeneratedPattern="Computed" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" />
           </EntityType>
         <Association Name="ProdMov">
           <End Type="InversionsBD.Producte" Role="Prod" Multiplicity="1" />
@@ -651,6 +653,7 @@
     <EntitySetMapping Name="Moviments">
       <EntityTypeMapping TypeName="IsTypeOf(InversionsBD.Moviment)">
         <MappingFragment StoreEntitySet="Moviments">
+                <ScalarProperty Name="PreuParticipacioOrigen" ColumnName="PreuParticipacioOrigen" />
                 <ScalarProperty Name="CanviAplicat" ColumnName="CanviAplicat" />
                 <ScalarProperty Name="IdUsuari" ColumnName="IdUsuaris" />
                 <ScalarProperty Name="ValorCompraOriginal" ColumnName="ValorCompraOriginal" />

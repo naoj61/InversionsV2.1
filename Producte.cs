@@ -23,9 +23,9 @@ namespace Inversions
     
         public int Id { get; private set; }
         public int EmpresaId { get; private set; }
-        public byte[] RowVersion { get; private set; }
         public Nullable<int> OrdreGrid { get; set; }
         public string Moneda { get; set; }
+        public byte[] RowVersion { get; private set; }
     
         public virtual Empresa Empresa { get; set; }
         public virtual ICollection<Moviment> MovimentsProducte { get; set; }

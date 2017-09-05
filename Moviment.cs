@@ -20,19 +20,20 @@ namespace Inversions
         }
     
         public int Id { get; private set; }
+        public int IdUsuari { get; set; }
         public int ProdId { get; set; }
         public Nullable<int> ProducteTraspasId { get; set; }
         public TipusMoviment TipusMoviment { get; set; }
         public Nullable<int> IdRefVenda { get; set; }
         public System.DateTime Data { get; set; }
         public double Participacions { get; set; }
+        public Nullable<double> PreuParticipacioOrigen { get; set; }
         public double PreuParticipacio { get; set; }
         public Nullable<double> Despeses { get; set; }
         public Nullable<double> ValorCompraOriginal { get; set; }
         public string Descripcio { get; set; }
-        public byte[] RowVersion { get; private set; }
-        public int IdUsuari { get; set; }
         public double CanviAplicat { get; set; }
+        public byte[] RowVersion { get; private set; }
     
         public virtual Producte Prod { get; set; }
         public virtual Producte ProducteTraspas { get; set; }

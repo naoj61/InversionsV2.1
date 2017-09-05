@@ -6,6 +6,7 @@ using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
+using Comuns;
 
 namespace Inversions.GUI
 {
@@ -15,6 +16,17 @@ namespace Inversions.GUI
         {
 
             InitializeComponent();
+
+            Producte.PosaPreuOrigenATot();
+
+            var xx = Program.Sessio.ProdAccions.Single(s => s.Empresa.Nom.StartsWith("Telef"));
+            //var xx = Program.Sessio.ProdFons.Single(s => s.Nom.StartsWith("DWS"));
+            var dfd = xx.valorCompraReal(1);
+
+            double ddd;
+            // var cc = xx.compresRealsPerParticipacionsEnCartera(new DateTime(2014, 12, 02), out ddd);
+            var cc = xx.compresRealsPerParticipacionsEnCartera(DateTime.Now);
+
 
             this.Text = "Producte. Ver: " + Application.ProductVersion;
 
