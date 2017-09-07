@@ -218,44 +218,66 @@ namespace Inversions
         }
 
 
+
         /// <summary>
-        /// Torma una llista amb les Compres o Traspassos compres que pertanyen a la venda.
+        /// Calcula 
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Producte.MovimentCompra> compresDeLaVenda()
+        public double? calculaPreuUnitariOrigen()
         {
-            if(!_EsVenda)
-                throw new ApplicationException(String.Format("Tipus de moviment incorrecte. If={0}. Tipus mov.:{1})", Id, TipusMoviment));
-
-            // Troba suma participacions venudes anteriors a aquesta venda.
-            var participVenudesAbans = Program.Sessio.Moviments.Where(w => w.ProdId == this.ProdId && w.Data < this.Data && w.TipusMoviment == TipusMoviment.Venda).Sum(s => (double?)s.Participacions) ?? 0;
-            List<Producte.MovimentCompra> compresAmbParticipacio = new List<Producte.MovimentCompra>();
-            var trobadaPrimeraCompra = false;
-
-            // Llegeix compres anteriors a la venda del producte ordenades per data creixent i vaig restant les participacions venudes anteriorment.
-            foreach (var compra in Program.Sessio.Moviments.Where(w => w.ProdId == this.ProdId && w.Data < this.Data && w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data).ToList())
+            if (TipusMoviment == TipusMoviment.Compra)
             {
-                if (!trobadaPrimeraCompra)
+                if (_EsTraspas)
                 {
-                    if (participVenudesAbans > compra.Participacions)
-                    {
-                        participVenudesAbans -= compra.Participacions;
-                    }
-                    else
-                    {
-                        compresAmbParticipacio.Add(new Producte.MovimentCompra(compra, compra.Participacions - participVenudesAbans));
-                        trobadaPrimeraCompra = true;
-                    }
+                    /* 
+                     * És traspàs compra. 
+                     * Preu Unitari Origen = Preu U. Venda Ponderat. Sempre està lligat a una sola venda.
+                     */
+                    Moviment vendaTraspas = Program.Sessio.Moviments.Single(w => w.Id == IdRefVenda);
+                    return vendaTraspas.PreuParticipacioOrigen * vendaTraspas.Participacions / Participacions;
                 }
                 else
                 {
-                    compresAmbParticipacio.Add(new Producte.MovimentCompra(compra, compra.Participacions));
+                    /* 
+                     * És Compra normal. 
+                     * Preu Unitari Origen = Preu Unitari.
+                     */
+                    return PreuParticipacio;
                 }
             }
 
-            return compresAmbParticipacio;
+            if (TipusMoviment == TipusMoviment.Venda)
+            {
+                /*
+                 * És Venda o traspàs venda.
+                 * Preu Unitari Origen = Mitjana del Preu Unitari Origen de les unitats de les compres afectades
+                */
+                double x = 0;
+                double y = 0;
+                foreach (var compra in compresAnteriorsVenda())
+                {
+                    x += compra._ParticipacionsRestants * compra._Moviment.PreuParticipacioOrigen.GetValueOrDefault();
+                    y += compra._ParticipacionsRestants;
+                }
+
+                return x / y;
+            }
+         
+            throw new ApplicationException(String.Format("Tipus de moviment incorrecte. If={0}. Tipus mov.:{1})", Id, TipusMoviment));
         }
 
+
+        /// <summary>
+        /// Torma una llista amb les Compres o "Traspassos compres" anteriors a la data hora de la venda fins que cobreixin el número de participacions de la venda.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Producte.MovimentCompra> compresAnteriorsVenda()
+        {
+            if (TipusMoviment != TipusMoviment.Venda)
+                throw new ApplicationException(String.Format("Tipus de moviment incorrecte. No és una venda. . If={0}. Tipus mov.:{1})", Id, TipusMoviment));
+
+            return this.Prod.compresAnteriors(this.Data, this.Participacions);
+        }
 
         #region Overrides
 
