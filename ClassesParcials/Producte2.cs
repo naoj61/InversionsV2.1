@@ -176,11 +176,14 @@ namespace Inversions
                 {
                     if (participVenudesAbans > compra.Participacions)
                     {
+                        // Son les participacions que ja estan venude per una venda anterior.
                         participVenudesAbans -= compra.Participacions;
                     }
                     else
                     {
                         var part = compra.Participacions - participVenudesAbans;
+                        if (part > participacions)
+                            part = participacions;
                         compresAmbParticipacio.Add(new MovimentCompra(compra, part));
                         participacions -= part;
                         trobadaPrimeraCompra = true;
