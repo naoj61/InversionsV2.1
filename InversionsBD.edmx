@@ -48,7 +48,6 @@
           <Property Name="PreuParticipacio" Type="float" Nullable="false" />
           <Property Name="CanviAplicat" Type="float" Nullable="false" />
           <Property Name="Despeses" Type="float" />
-          <Property Name="ValorCompraOriginal" Type="float" />
           <Property Name="Descripcio" Type="nvarchar(max)" />
           <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
@@ -494,7 +493,6 @@
           <Property Name="PreuParticipacioOrigen" Type="Double" />
           <Property Name="PreuParticipacio" Type="Double" Nullable="false" />
           <Property Name="Despeses" Type="Double" Nullable="true" />
-          <Property Name="ValorCompraOriginal" Type="Double" />
           <Property Name="Descripcio" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="ProducteTraspas" Relationship="InversionsBD.ProducteMoviment" FromRole="Moviment" ToRole="Producte" />
           <NavigationProperty Name="NoUtilitzar1" Relationship="InversionsBD.FK_RefVenda" FromRole="Moviment" ToRole="MovimentRefVenda" />
@@ -656,7 +654,6 @@
                 <ScalarProperty Name="PreuParticipacioOrigen" ColumnName="PreuParticipacioOrigen" />
                 <ScalarProperty Name="CanviAplicat" ColumnName="CanviAplicat" />
                 <ScalarProperty Name="IdUsuari" ColumnName="IdUsuaris" />
-                <ScalarProperty Name="ValorCompraOriginal" ColumnName="ValorCompraOriginal" />
                 <ScalarProperty Name="IdRefVenda" ColumnName="IdRefVenda" />
                 <ScalarProperty Name="PreuParticipacio" ColumnName="PreuParticipacio" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

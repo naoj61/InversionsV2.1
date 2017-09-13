@@ -7,11 +7,6 @@ namespace Inversions
 {
     public partial class ProdAccions
     {
-        public override IEnumerable<MovimentCompra> compresRealsPerParticipacionsEnCartera(DateTime data)
-        {
-            return compresPerParticipacionsEnCartera(data);
-        }
-
         public override TipusProducte _TipusProducte
         {
             get { return TipusProducte.Accions; }

@@ -30,7 +30,6 @@ namespace Inversions
         public Nullable<double> PreuParticipacioOrigen { get; set; }
         public double PreuParticipacio { get; set; }
         public Nullable<double> Despeses { get; set; }
-        public Nullable<double> ValorCompraOriginal { get; set; }
         public string Descripcio { get; set; }
         public double CanviAplicat { get; set; }
         public byte[] RowVersion { get; private set; }

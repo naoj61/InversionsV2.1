@@ -17,16 +17,31 @@ namespace Inversions.GUI
 
             InitializeComponent();
 
+
+            var cont = 0;
+            foreach (var producte in Program.Sessio.Productes)
+            {
+                // var numPart = producte.numParticipacionsEnCartera(DateTime.Now);
+                var numPart = producte.numParticipacionsEnCartera(new DateTime(2013, 7, 4));
+                
+                if (numPart > 0)
+                {
+                    cont++;
+                    var compres = producte.compresAnteriors(new DateTime(1990,1,1), numPart - 1);
+                }
+            }
+
+            /*
             Producte.PosaPreuOrigenATot();
 
             var xx = Program.Sessio.ProdAccions.Single(s => s.Empresa.Nom.StartsWith("Telef"));
             //var xx = Program.Sessio.ProdFons.Single(s => s.Nom.StartsWith("DWS"));
-            var dfd = xx.valorCompraReal(1);
+            //var dfd = xx.valorCompraReal(1);
 
             double ddd;
             // var cc = xx.compresRealsPerParticipacionsEnCartera(new DateTime(2014, 12, 02), out ddd);
             var cc = xx.compresRealsPerParticipacionsEnCartera(DateTime.Now);
-
+            */
 
             this.Text = "Producte. Ver: " + Application.ProductVersion;
 

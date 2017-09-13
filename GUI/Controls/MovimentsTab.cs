@@ -250,14 +250,24 @@ namespace Inversions.GUI
                             }
                             else
                             {
-                                prodOrigen.compraVenda(conn, tipusMoviment, cData1.Value, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue,
-                                    tbDespeses._DoubleValue, tbDescripcio.Text);
+                                //prodOrigen.compraVenda(conn, tipusMoviment, cData1.Value, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue, 
+                                //    tbDespeses._DoubleValue, tbDescripcio.Text);
+                                if (tipusMoviment == TipusMoviment.Compra)
+                                {
+                                    prodOrigen.compra(conn, cData1.Value, DateTime.Now.TimeOfDay, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, 
+                                        tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
+                                }
+                                else if (tipusMoviment == TipusMoviment.Venda)
+                                {
+                                    prodOrigen.venda(conn, cData1.Value, DateTime.Now.TimeOfDay, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue,
+                                        tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
+                                }
                             }
                         }
                         else
                         {
-                            prodOrigen.traspas(conn, cData1.Value, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, 1, tbDescripcio.Text,
-                                cDataDesti.Value, prodDesti, tbNumParticipacionsDesti._DoubleValue);
+                            prodOrigen.traspas(conn, cData1.Value, DateTime.Now.TimeOfDay, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, tbDescripcio.Text,
+                                prodDesti, tbNumParticipacionsDesti._DoubleValue);
                         }
 
                         dbContextTransaction.Commit();

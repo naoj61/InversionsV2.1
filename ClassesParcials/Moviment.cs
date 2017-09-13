@@ -136,11 +136,6 @@ namespace Inversions
             }
         }
 
-        public double? _ValorCompraOriginalPreuUnitari
-        {
-            get { return ValorCompraOriginal.HasValue ? (double?) ValorCompraOriginal.Value / Participacions : null; }
-        }
-
         /// <summary>
         /// És la referéncia del la venda traspàs sobre la compra.
         /// En la BD és una relació de 0..1-->*, però hauria de ser de 0..1-->1.
@@ -217,67 +212,6 @@ namespace Inversions
             //return mov;
         }
 
-
-
-        /// <summary>
-        /// Calcula 
-        /// </summary>
-        /// <returns></returns>
-        public double? calculaPreuUnitariOrigen()
-        {
-            if (TipusMoviment == TipusMoviment.Compra)
-            {
-                if (_EsTraspas)
-                {
-                    /* 
-                     * És traspàs compra. 
-                     * Preu Unitari Origen = Preu U. Venda Ponderat. Sempre està lligat a una sola venda.
-                     */
-                    Moviment vendaTraspas = Program.Sessio.Moviments.Single(w => w.Id == IdRefVenda);
-                    return vendaTraspas.PreuParticipacioOrigen * vendaTraspas.Participacions / Participacions;
-                }
-                else
-                {
-                    /* 
-                     * És Compra normal. 
-                     * Preu Unitari Origen = Preu Unitari.
-                     */
-                    return PreuParticipacio;
-                }
-            }
-
-            if (TipusMoviment == TipusMoviment.Venda)
-            {
-                /*
-                 * És Venda o traspàs venda.
-                 * Preu Unitari Origen = Mitjana del Preu Unitari Origen de les unitats de les compres afectades
-                */
-                double x = 0;
-                double y = 0;
-                foreach (var compra in compresAnteriorsVenda())
-                {
-                    x += compra._ParticipacionsRestants * compra._Moviment.PreuParticipacioOrigen.GetValueOrDefault();
-                    y += compra._ParticipacionsRestants;
-                }
-
-                return x / y;
-            }
-         
-            throw new ApplicationException(String.Format("Tipus de moviment incorrecte. If={0}. Tipus mov.:{1})", Id, TipusMoviment));
-        }
-
-
-        /// <summary>
-        /// Torma una llista amb les Compres o "Traspassos compres" anteriors a la data hora de la venda fins que cobreixin el número de participacions de la venda.
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<Producte.MovimentCompra> compresAnteriorsVenda()
-        {
-            if (TipusMoviment != TipusMoviment.Venda)
-                throw new ApplicationException(String.Format("Tipus de moviment incorrecte. No és una venda. . If={0}. Tipus mov.:{1})", Id, TipusMoviment));
-
-            return this.Prod.compresAnteriors(this.Data, this.Participacions);
-        }
 
         #region Overrides
 
