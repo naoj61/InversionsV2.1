@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cDataGridView1 = new System.Windows.Forms.DataGridView();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colProducte = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -71,11 +71,6 @@
             this.gbDescripcio = new System.Windows.Forms.GroupBox();
             this.tbDescripcio = new System.Windows.Forms.TextBox();
             this.gbEdicio = new System.Windows.Forms.GroupBox();
-            this.pnMovBotons = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cbTipusMoviment = new System.Windows.Forms.ComboBox();
-            this.pnMovTop = new System.Windows.Forms.Panel();
             this.gbTraspas = new System.Windows.Forms.GroupBox();
             this.gbProducteTraspas = new System.Windows.Forms.GroupBox();
             this.cProducteTraspas = new System.Windows.Forms.ComboBox();
@@ -83,7 +78,13 @@
             this.cDataDesti = new System.Windows.Forms.DateTimePicker();
             this.gbNumParticipacionsDesti = new System.Windows.Forms.GroupBox();
             this.tbNumParticipacionsDesti = new Controls.NumericTextBox2();
+            this.pnMovBotons = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbTipusMoviment = new System.Windows.Forms.ComboBox();
+            this.pnMovTop = new System.Windows.Forms.Panel();
             this.gestioProductesTabMoviments = new Inversions.GUI.GestioProductes();
+            this.ckActivaDataDesti = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.cDataGridView1)).BeginInit();
             this.gbPreuPartic.SuspendLayout();
             this.gbFactorConversor.SuspendLayout();
@@ -95,14 +96,14 @@
             this.gbImportTotal.SuspendLayout();
             this.gbDescripcio.SuspendLayout();
             this.gbEdicio.SuspendLayout();
-            this.pnMovBotons.SuspendLayout();
-            this.panel3.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.pnMovTop.SuspendLayout();
             this.gbTraspas.SuspendLayout();
             this.gbProducteTraspas.SuspendLayout();
             this.gbDataDesti.SuspendLayout();
             this.gbNumParticipacionsDesti.SuspendLayout();
+            this.pnMovBotons.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.pnMovTop.SuspendLayout();
             this.SuspendLayout();
             // 
             // cDataGridView1
@@ -169,10 +170,10 @@
             // 
             this.colData.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colData.DataPropertyName = "Data";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.Format = "d";
-            dataGridViewCellStyle1.NullValue = null;
-            this.colData.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.Format = "d";
+            dataGridViewCellStyle7.NullValue = null;
+            this.colData.DefaultCellStyle = dataGridViewCellStyle7;
             this.colData.HeaderText = "Data";
             this.colData.Name = "colData";
             this.colData.ReadOnly = true;
@@ -182,10 +183,10 @@
             // 
             this.colParticipacions.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colParticipacions.DataPropertyName = "Participacions";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Format = "N4";
-            dataGridViewCellStyle2.NullValue = null;
-            this.colParticipacions.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle8.Format = "N4";
+            dataGridViewCellStyle8.NullValue = null;
+            this.colParticipacions.DefaultCellStyle = dataGridViewCellStyle8;
             this.colParticipacions.HeaderText = "Participacions";
             this.colParticipacions.Name = "colParticipacions";
             this.colParticipacions.ReadOnly = true;
@@ -195,9 +196,9 @@
             // 
             this.colPreuUnitari.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colPreuUnitari.DataPropertyName = "_PreuParticipacio";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "c3";
-            this.colPreuUnitari.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle9.Format = "c3";
+            this.colPreuUnitari.DefaultCellStyle = dataGridViewCellStyle9;
             this.colPreuUnitari.HeaderText = "Preu Unitari";
             this.colPreuUnitari.Name = "colPreuUnitari";
             this.colPreuUnitari.ReadOnly = true;
@@ -207,9 +208,9 @@
             // 
             this.ImportBrut.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.ImportBrut.DataPropertyName = "ImportBrut";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "C2";
-            this.ImportBrut.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle10.Format = "C2";
+            this.ImportBrut.DefaultCellStyle = dataGridViewCellStyle10;
             this.ImportBrut.HeaderText = "Import Brut";
             this.ImportBrut.Name = "ImportBrut";
             this.ImportBrut.ReadOnly = true;
@@ -219,10 +220,10 @@
             // 
             this.colImport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colImport.DataPropertyName = "ImportNet";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Format = "C2";
-            dataGridViewCellStyle5.NullValue = null;
-            this.colImport.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle11.Format = "C2";
+            dataGridViewCellStyle11.NullValue = null;
+            this.colImport.DefaultCellStyle = dataGridViewCellStyle11;
             this.colImport.HeaderText = "Import Net";
             this.colImport.Name = "colImport";
             this.colImport.ReadOnly = true;
@@ -239,9 +240,9 @@
             // 
             this.colDespeses.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colDespeses.DataPropertyName = "Despeses";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "c2";
-            this.colDespeses.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle12.Format = "c2";
+            this.colDespeses.DefaultCellStyle = dataGridViewCellStyle12;
             this.colDespeses.HeaderText = "Despeses";
             this.colDespeses.Name = "colDespeses";
             this.colDespeses.ReadOnly = true;
@@ -277,7 +278,7 @@
             // gbPreuPartic
             // 
             this.gbPreuPartic.Controls.Add(this.ntbPreuParticipacio);
-            this.gbPreuPartic.Location = new System.Drawing.Point(362, 3);
+            this.gbPreuPartic.Location = new System.Drawing.Point(3, 59);
             this.gbPreuPartic.Name = "gbPreuPartic";
             this.gbPreuPartic.Padding = new System.Windows.Forms.Padding(5);
             this.gbPreuPartic.Size = new System.Drawing.Size(111, 50);
@@ -306,7 +307,7 @@
             // 
             this.gbFactorConversor.Controls.Add(this.ntbFactorConversor);
             this.gbFactorConversor.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbFactorConversor.Location = new System.Drawing.Point(231, 3);
+            this.gbFactorConversor.Location = new System.Drawing.Point(362, 3);
             this.gbFactorConversor.Name = "gbFactorConversor";
             this.gbFactorConversor.Padding = new System.Windows.Forms.Padding(5);
             this.gbFactorConversor.Size = new System.Drawing.Size(125, 50);
@@ -370,6 +371,7 @@
             this.pnCompraVenda.AutoSize = true;
             this.pnCompraVenda.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.pnCompraVenda.Controls.Add(this.gbDataMoviment);
+            this.pnCompraVenda.Controls.Add(this.ckActivaDataDesti);
             this.pnCompraVenda.Controls.Add(this.gbParticipacions);
             this.pnCompraVenda.Controls.Add(this.gbFactorConversor);
             this.pnCompraVenda.Controls.Add(this.gbPreuPartic);
@@ -406,7 +408,7 @@
             // gbParticipacions
             // 
             this.gbParticipacions.Controls.Add(this.tbNumParticipacions);
-            this.gbParticipacions.Location = new System.Drawing.Point(114, 3);
+            this.gbParticipacions.Location = new System.Drawing.Point(245, 3);
             this.gbParticipacions.Name = "gbParticipacions";
             this.gbParticipacions.Padding = new System.Windows.Forms.Padding(5);
             this.gbParticipacions.Size = new System.Drawing.Size(111, 50);
@@ -433,7 +435,7 @@
             // gbCanviAplicat
             // 
             this.gbCanviAplicat.Controls.Add(this.tbCanviAplicat);
-            this.gbCanviAplicat.Location = new System.Drawing.Point(3, 59);
+            this.gbCanviAplicat.Location = new System.Drawing.Point(120, 59);
             this.gbCanviAplicat.Name = "gbCanviAplicat";
             this.gbCanviAplicat.Padding = new System.Windows.Forms.Padding(5);
             this.gbCanviAplicat.Size = new System.Drawing.Size(111, 50);
@@ -460,7 +462,7 @@
             // gbDespeses
             // 
             this.gbDespeses.Controls.Add(this.tbDespeses);
-            this.gbDespeses.Location = new System.Drawing.Point(120, 59);
+            this.gbDespeses.Location = new System.Drawing.Point(237, 59);
             this.gbDespeses.Name = "gbDespeses";
             this.gbDespeses.Padding = new System.Windows.Forms.Padding(5);
             this.gbDespeses.Size = new System.Drawing.Size(111, 50);
@@ -487,7 +489,7 @@
             // gbImportTotal
             // 
             this.gbImportTotal.Controls.Add(this.tbImportTotal);
-            this.gbImportTotal.Location = new System.Drawing.Point(237, 59);
+            this.gbImportTotal.Location = new System.Drawing.Point(354, 59);
             this.gbImportTotal.Name = "gbImportTotal";
             this.gbImportTotal.Padding = new System.Windows.Forms.Padding(5);
             this.gbImportTotal.Size = new System.Drawing.Size(111, 46);
@@ -545,62 +547,6 @@
             this.gbEdicio.TabIndex = 7;
             this.gbEdicio.TabStop = false;
             this.gbEdicio.Visible = false;
-            // 
-            // pnMovBotons
-            // 
-            this.pnMovBotons.Controls.Add(this.gbEdicio);
-            this.pnMovBotons.Controls.Add(this.panel3);
-            this.pnMovBotons.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnMovBotons.Location = new System.Drawing.Point(1013, 0);
-            this.pnMovBotons.MinimumSize = new System.Drawing.Size(572, 410);
-            this.pnMovBotons.Name = "pnMovBotons";
-            this.pnMovBotons.Size = new System.Drawing.Size(572, 453);
-            this.pnMovBotons.TabIndex = 9;
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.groupBox1);
-            this.panel3.Controls.Add(this.btFes);
-            this.panel3.Controls.Add(this.btCancelaMoviment);
-            this.panel3.Controls.Add(this.btDesaMoviment);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(0, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(572, 66);
-            this.panel3.TabIndex = 9;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.cbTipusMoviment);
-            this.groupBox1.Location = new System.Drawing.Point(11, 10);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox1.Size = new System.Drawing.Size(134, 46);
-            this.groupBox1.TabIndex = 7;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Tipus Moviment";
-            // 
-            // cbTipusMoviment
-            // 
-            this.cbTipusMoviment.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbTipusMoviment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbTipusMoviment.Enabled = false;
-            this.cbTipusMoviment.FormattingEnabled = true;
-            this.cbTipusMoviment.Location = new System.Drawing.Point(5, 20);
-            this.cbTipusMoviment.Name = "cbTipusMoviment";
-            this.cbTipusMoviment.Size = new System.Drawing.Size(124, 24);
-            this.cbTipusMoviment.TabIndex = 0;
-            this.cbTipusMoviment.SelectedIndexChanged += new System.EventHandler(this.cbTipusMoviment_SelectedIndexChanged);
-            // 
-            // pnMovTop
-            // 
-            this.pnMovTop.Controls.Add(this.gestioProductesTabMoviments);
-            this.pnMovTop.Controls.Add(this.pnMovBotons);
-            this.pnMovTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnMovTop.Location = new System.Drawing.Point(0, 0);
-            this.pnMovTop.Name = "pnMovTop";
-            this.pnMovTop.Size = new System.Drawing.Size(1585, 453);
-            this.pnMovTop.TabIndex = 10;
             // 
             // gbTraspas
             // 
@@ -687,6 +633,62 @@
             this.tbNumParticipacionsDesti.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.tbNumParticipacionsDesti.Valor = 0D;
             // 
+            // pnMovBotons
+            // 
+            this.pnMovBotons.Controls.Add(this.gbEdicio);
+            this.pnMovBotons.Controls.Add(this.panel3);
+            this.pnMovBotons.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pnMovBotons.Location = new System.Drawing.Point(1013, 0);
+            this.pnMovBotons.MinimumSize = new System.Drawing.Size(572, 410);
+            this.pnMovBotons.Name = "pnMovBotons";
+            this.pnMovBotons.Size = new System.Drawing.Size(572, 453);
+            this.pnMovBotons.TabIndex = 9;
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.groupBox1);
+            this.panel3.Controls.Add(this.btFes);
+            this.panel3.Controls.Add(this.btCancelaMoviment);
+            this.panel3.Controls.Add(this.btDesaMoviment);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel3.Location = new System.Drawing.Point(0, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(572, 66);
+            this.panel3.TabIndex = 9;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.cbTipusMoviment);
+            this.groupBox1.Location = new System.Drawing.Point(11, 10);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(5);
+            this.groupBox1.Size = new System.Drawing.Size(134, 46);
+            this.groupBox1.TabIndex = 7;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Tipus Moviment";
+            // 
+            // cbTipusMoviment
+            // 
+            this.cbTipusMoviment.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbTipusMoviment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbTipusMoviment.Enabled = false;
+            this.cbTipusMoviment.FormattingEnabled = true;
+            this.cbTipusMoviment.Location = new System.Drawing.Point(5, 20);
+            this.cbTipusMoviment.Name = "cbTipusMoviment";
+            this.cbTipusMoviment.Size = new System.Drawing.Size(124, 24);
+            this.cbTipusMoviment.TabIndex = 0;
+            this.cbTipusMoviment.SelectedIndexChanged += new System.EventHandler(this.cbTipusMoviment_SelectedIndexChanged);
+            // 
+            // pnMovTop
+            // 
+            this.pnMovTop.Controls.Add(this.gestioProductesTabMoviments);
+            this.pnMovTop.Controls.Add(this.pnMovBotons);
+            this.pnMovTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnMovTop.Location = new System.Drawing.Point(0, 0);
+            this.pnMovTop.Name = "pnMovTop";
+            this.pnMovTop.Size = new System.Drawing.Size(1585, 453);
+            this.pnMovTop.TabIndex = 10;
+            // 
             // gestioProductesTabMoviments
             // 
             this.gestioProductesTabMoviments._FiltreAnyVisible = true;
@@ -700,6 +702,19 @@
             this.gestioProductesTabMoviments.Size = new System.Drawing.Size(1013, 453);
             this.gestioProductesTabMoviments.TabIndex = 0;
             this.gestioProductesTabMoviments.ProducteSeleccionat += new System.EventHandler(this.gestioProductes1_ProducteSeleccionat);
+            // 
+            // ckActivaDataDesti
+            // 
+            this.ckActivaDataDesti.AutoSize = true;
+            this.ckActivaDataDesti.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ckActivaDataDesti.Location = new System.Drawing.Point(114, 3);
+            this.ckActivaDataDesti.Name = "ckActivaDataDesti";
+            this.ckActivaDataDesti.Padding = new System.Windows.Forms.Padding(0, 1, 0, 0);
+            this.ckActivaDataDesti.Size = new System.Drawing.Size(125, 39);
+            this.ckActivaDataDesti.TabIndex = 5;
+            this.ckActivaDataDesti.Text = "Mostra Data Destí";
+            this.ckActivaDataDesti.UseVisualStyleBackColor = true;
+            this.ckActivaDataDesti.CheckedChanged += new System.EventHandler(this.ckActivaDataDesti_CheckedChanged);
             // 
             // MovimentsTab
             // 
@@ -715,6 +730,7 @@
             this.gbFactorConversor.ResumeLayout(false);
             this.gbFactorConversor.PerformLayout();
             this.pnCompraVenda.ResumeLayout(false);
+            this.pnCompraVenda.PerformLayout();
             this.gbDataMoviment.ResumeLayout(false);
             this.gbParticipacions.ResumeLayout(false);
             this.gbParticipacions.PerformLayout();
@@ -728,15 +744,15 @@
             this.gbDescripcio.PerformLayout();
             this.gbEdicio.ResumeLayout(false);
             this.gbEdicio.PerformLayout();
-            this.pnMovBotons.ResumeLayout(false);
-            this.panel3.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.pnMovTop.ResumeLayout(false);
             this.gbTraspas.ResumeLayout(false);
             this.gbProducteTraspas.ResumeLayout(false);
             this.gbDataDesti.ResumeLayout(false);
             this.gbNumParticipacionsDesti.ResumeLayout(false);
             this.gbNumParticipacionsDesti.PerformLayout();
+            this.pnMovBotons.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.pnMovTop.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -794,5 +810,6 @@
         private System.Windows.Forms.DateTimePicker cDataDesti;
         private System.Windows.Forms.GroupBox gbNumParticipacionsDesti;
         private Controls.NumericTextBox2 tbNumParticipacionsDesti;
+        private System.Windows.Forms.CheckBox ckActivaDataDesti;
     }
 }

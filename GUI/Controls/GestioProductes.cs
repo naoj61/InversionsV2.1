@@ -12,16 +12,6 @@ namespace Inversions.GUI
         {
             InitializeComponent();
 
-            if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
-            {
-                for (int any = Program.Sessio.Moviments.OrderBy(o => o.Data).First().Data.Year; any <= DateTime.Today.Year; any++)
-                {
-                    cbFiltreAny.Items.Add(any);
-                }
-                cbFiltreAny.SelectedItem = DateTime.Today.Year;
-                
-            }
-
             tbIsin.Dock = DockStyle.Fill;
             tbMercat.Dock = DockStyle.Fill;
 
@@ -194,14 +184,14 @@ namespace Inversions.GUI
 
         private void GestioProductes_Load(object sender, EventArgs e)
         {
-            //if (Program.RuntimeMode)
             if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
                 // Aquí només s'executa al entrar en la perstanya.
-
-                //cbUsuaris.DisplayMember = "Nom";
-                //cbUsuaris.DataSource = Program.Sessio.Usuaris.ToList();
-                //cbUsuaris.SelectedItem = Program.UsuariSeleccionat;
+                for (int any = Program.Sessio.Moviments.OrderBy(o => o.Data).First().Data.Year; any <= DateTime.Today.Year; any++)
+                {
+                    cbFiltreAny.Items.Add(any);
+                }
+                cbFiltreAny.SelectedItem = DateTime.Today.Year;
             }
         }
 

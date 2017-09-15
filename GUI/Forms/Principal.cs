@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
@@ -17,19 +18,31 @@ namespace Inversions.GUI
 
             InitializeComponent();
 
-
-            var cont = 0;
-            foreach (var producte in Program.Sessio.Productes)
+            int cont = 0;
+            using (var conn = new InversionsBDContext())
             {
-                // var numPart = producte.numParticipacionsEnCartera(DateTime.Now);
-                var numPart = producte.numParticipacionsEnCartera(new DateTime(2013, 7, 4));
-                
-                if (numPart > 0)
+                foreach (var moviment in conn.Moviments.Where(w => w.TipusMoviment == TipusMoviment.Compra || w.TipusMoviment == TipusMoviment.Venda).OrderBy(o => o.Id))
                 {
+                    var preu = Producte.CalculaPreuOrigen(conn, moviment, moviment.MovimentRefVenda);
+                    moviment.PreuParticipacioOrigen = preu;
+                    conn.Moviments.AddOrUpdate(moviment);
                     cont++;
-                    var compres = producte.compresAnteriors(new DateTime(1990,1,1), numPart - 1);
                 }
+                conn.SaveChanges();
             }
+            System.Diagnostics.Debug.WriteLine(cont);
+            //var cont = 0;
+            //foreach (var producte in Program.Sessio.Productes)
+            //{
+            //    // var numPart = producte.numParticipacionsEnCartera(DateTime.Now);
+            //    var numPart = producte.numParticipacionsEnCartera(new DateTime(2013, 7, 4));
+                
+            //    if (numPart > 0)
+            //    {
+            //        cont++;
+            //        var compres = producte.compresAnteriors(new DateTime(1990,1,1), numPart - 1);
+            //    }
+            //}
 
             /*
             Producte.PosaPreuOrigenATot();

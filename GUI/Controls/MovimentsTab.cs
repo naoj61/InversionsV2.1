@@ -171,6 +171,12 @@ namespace Inversions.GUI
                 return;
             }
 
+            if (tp == TipusMoviment.Traspàs && cProducteTraspas.SelectedItem == null)
+            {
+                MessageBox.Show("Falta informar el producte destí");
+                return;
+            }
+
             if (cProducteTraspas.SelectedItem != null && tbNumParticipacionsDesti.Valor <= 0)
             {
                 MessageBox.Show("Falta num. participacions producte destí");
@@ -179,7 +185,7 @@ namespace Inversions.GUI
 
             var prod = gestioProductesTabMoviments._ProducteSeleccionat;
 
-            if (tp == TipusMoviment.Venda && tbNumParticipacions.Valor > prod._Participacions)
+            if ((tp == TipusMoviment.Venda || tp == TipusMoviment.Traspàs) && tbNumParticipacions.Valor > prod._Participacions)
             {
                 MessageBox.Show("No hi ha prou participacions per vendre");
                 return;
@@ -233,8 +239,8 @@ namespace Inversions.GUI
         /// <param name="prodDesti">És el fons on van les participacions venudes en cas de traspàs. Si != null, ha de ser una venda que es trapassa. </param>
         private void desaMoviment(TipusMoviment tipusMoviment, Producte prodOrigen, ProdFons prodDesti = null)
         {
-            if (prodDesti != null && tipusMoviment != TipusMoviment.Venda)
-                throw new ArgumentException("L'argument només pot estar informat si és una venda.", "prodDesti");
+            if (prodDesti != null && tipusMoviment != TipusMoviment.Traspàs)
+                throw new ArgumentException("L'argument només pot estar informat si és un traspàs.", "prodDesti");
 
             using (var conn = new InversionsBDContext())
             {
@@ -266,7 +272,8 @@ namespace Inversions.GUI
                         }
                         else
                         {
-                            prodOrigen.traspas(conn, cData1.Value, DateTime.Now.TimeOfDay, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, tbDescripcio.Text,
+                            var dataDesti = ckActivaDataDesti.Checked ? cDataDesti.Value : cData1.Value;
+                            prodOrigen.traspas(conn, cData1.Value, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, tbDescripcio.Text, dataDesti,
                                 prodDesti, tbNumParticipacionsDesti._DoubleValue);
                         }
 
@@ -423,10 +430,18 @@ namespace Inversions.GUI
             gbDespeses.Visible = esUnaAccio && (tipusMov == TipusMoviment.Compra || tipusMov == TipusMoviment.Venda);
             gbImportTotal.Visible = tipusMov == TipusMoviment.Compra || tipusMov == TipusMoviment.Venda || tipusMov == TipusMoviment.Traspàs;
             gbTraspas.Visible = tipusMov == TipusMoviment.Traspàs;
+            ckActivaDataDesti.Visible = tipusMov == TipusMoviment.Traspàs;
+            ckActivaDataDesti.Checked = false;
+            gbDataDesti.Visible = false;
             gbNumParticipacionsDesti.Visible = tipusMov == TipusMoviment.Traspàs;
             gbDescripcio.Visible = !esUnaAccio;
 
             gbEdicio.Visible = true;
+        }
+
+        private void ckActivaDataDesti_CheckedChanged(object sender, EventArgs e)
+        {
+            gbDataDesti.Visible = ckActivaDataDesti.Checked;
         }
     }
 }
