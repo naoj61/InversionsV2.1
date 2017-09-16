@@ -144,7 +144,7 @@ namespace Inversions.GUI
         private string vDesaToolTipGbPreuPartic = null;
         private void split()
         {
-            gbPreuPartic.Text = "Preu abans";
+            gbPreuPartic.Text = "Preu operació";
             vDesaToolTipGbPreuPartic = this.toolTip1.GetToolTip(this.gbPreuPartic);
             toolTip1.SetToolTip(this.gbPreuPartic, "Preu participació abans del Split");
 
@@ -250,9 +250,13 @@ namespace Inversions.GUI
                     {
                         if (prodDesti == null)
                         {
-                            if (tipusMoviment == TipusMoviment.Split || tipusMoviment == TipusMoviment.ContraSplit)
+                            if (tipusMoviment == TipusMoviment.Split)
                             {
-                                prodOrigen.splitContraSplit(conn, tipusMoviment, cData1.Value, ntbFactorConversor._IntValue, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue);
+                                prodOrigen.split(conn, cData1.Value, ntbFactorConversor._IntValue, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue);
+                            }
+                            else if (tipusMoviment == TipusMoviment.ContraSplit)
+                            {
+                                prodOrigen.contraSplit(conn, cData1.Value, ntbFactorConversor._IntValue, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue);
                             }
                             else
                             {

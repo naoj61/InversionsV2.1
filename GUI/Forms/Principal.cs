@@ -18,19 +18,20 @@ namespace Inversions.GUI
 
             InitializeComponent();
 
-            int cont = 0;
-            using (var conn = new InversionsBDContext())
-            {
-                foreach (var moviment in conn.Moviments.Where(w => w.TipusMoviment == TipusMoviment.Compra || w.TipusMoviment == TipusMoviment.Venda).OrderBy(o => o.Id))
-                {
-                    var preu = Producte.CalculaPreuOrigen(conn, moviment, moviment.MovimentRefVenda);
-                    moviment.PreuParticipacioOrigen = preu;
-                    conn.Moviments.AddOrUpdate(moviment);
-                    cont++;
-                }
-                conn.SaveChanges();
-            }
-            System.Diagnostics.Debug.WriteLine(cont);
+            //int cont = 0;
+            //using (var conn = new InversionsBDContext())
+            //{
+            //    foreach (var moviment in conn.Moviments.Where(w => w.TipusMoviment == TipusMoviment.Compra || w.TipusMoviment == TipusMoviment.Venda).OrderBy(o => o.Id))
+            //    {
+            //        var preu = Producte.CalculaPreuOrigen(conn, moviment, moviment.MovimentRefVenda);
+            //        moviment.PreuParticipacioOrigen = preu;
+            //        conn.Moviments.AddOrUpdate(moviment);
+            //        cont++;
+            //    }
+            //    conn.SaveChanges();
+            //}
+            //System.Diagnostics.Debug.WriteLine(cont);
+
             //var cont = 0;
             //foreach (var producte in Program.Sessio.Productes)
             //{

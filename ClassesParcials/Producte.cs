@@ -305,15 +305,14 @@ namespace Inversions
         }
 
 
-        internal void splitContraSplit(InversionsBDContext connexio, TipusMoviment tipusMoviment, DateTime data, int factorConversor, double preuParticipacioAbans, double canviAplicat)
+        [System.Obsolete("Mètode obsolet, Fes servir 'traspas' de splitContraSplit", true)]
+        internal void splitContraSplitX(InversionsBDContext connexio, TipusMoviment tipusMoviment, DateTime data, int factorConversor, double preuParticipacioAbans, double canviAplicat)
         {
-            throw new NotImplementedException("Aquest mètode s'ha de refer.");
-
             var preuParticipacioDespres = Math.Round(preuParticipacioAbans * factorConversor, 3);
 
             int numPartActual = (int) _Participacions;
 
-            // *** Les participacions en les accions han de ser números entres. ***
+            // *** Les participacions en les accions han de ser números enters. ***
             int numPartticipacionsDespresSplit;
             int numPartticipacionsRemanent;
             if (tipusMoviment == TipusMoviment.Split)
@@ -354,7 +353,7 @@ namespace Inversions
                         desAcum += despeses.GetValueOrDefault();
 
                         //compraVenda(connexio, TipusMoviment.Venda, data, partPerVendre, preuParticipacioAbans, canviAplicat, -despeses, tipusMoviment.ToString(), false);
-                        venda(connexio, data, partPerVendre, preuParticipacioAbans, canviAplicat, -despeses, tipusMoviment.ToString(), null, false);
+                        venda(connexio, data, partPerVendre, preuParticipacioAbans, canviAplicat, -despeses, tipusMoviment.ToString(), null, false, false);
 
                         particCompra -= partPerVendre;
                         partPerVendre = 0;
@@ -365,7 +364,7 @@ namespace Inversions
                         desAcum += despeses.GetValueOrDefault();
 
                         //compraVenda(connexio, TipusMoviment.Venda, data, particCompra, preuParticipacioAbans, canviAplicat, -despeses, tipusMoviment.ToString(), false);
-                        venda(connexio, data, particCompra, preuParticipacioAbans, canviAplicat, -despeses, tipusMoviment.ToString(), null, false);
+                        venda(connexio, data, particCompra, preuParticipacioAbans, canviAplicat, -despeses, tipusMoviment.ToString(), null, false, false);
                         particCompra -= 0;
                         partPerVendre -= particCompra;
                     }
@@ -377,13 +376,13 @@ namespace Inversions
                     desAcum += despeses.GetValueOrDefault();
 
                     //compraVenda(connexio, TipusMoviment.Venda, data, particCompra, compra.PreuParticipacio, compra.CanviAplicat, -despeses, tipusMoviment.ToString(), false);
-                    venda(connexio, data, particCompra, mCompra.PreuParticipacio, mCompra.CanviAplicat, -despeses, tipusMoviment.ToString(), null, false);
+                    venda(connexio, data, particCompra, mCompra.PreuParticipacio, mCompra.CanviAplicat, -despeses, tipusMoviment.ToString(), null, false, false);
                 }
             }
 
             // Compro noves accions.
             //compraVenda(connexio, TipusMoviment.Compra, data, numPartticipacionsDespresSplit, preuParticipacioDespres, canviAplicat, desAcum == 0 ? (double?)null : desAcum, tipusMoviment.ToString(), true);
-            compra(connexio, data, numPartticipacionsDespresSplit, preuParticipacioDespres, canviAplicat, desAcum == 0 ? (double?)null : desAcum, tipusMoviment.ToString(), null, true);
+            compra(connexio, data, numPartticipacionsDespresSplit, preuParticipacioDespres, canviAplicat, desAcum == 0 ? (double?)null : desAcum, tipusMoviment.ToString(), null, true, false);
         }
 
 
