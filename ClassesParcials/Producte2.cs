@@ -58,14 +58,14 @@ namespace Inversions
             List<MovimentCompra> compresAmbParticipacio = new List<MovimentCompra>();
             var trobadaPrimeraCompra = false;
 
-            var xx = connexio.Moviments.Where(w => w.ProdId == Id && w.Data < dataH && w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data).ToList();
+            var xx = connexio.Moviments.Where(w =>w.IdUsuari == Usuari.Seleccionat.Id && w.ProdId == Id && w.Data < dataH && w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data).ToList();
 
             // Llegeix compres anteriors a la venda del producte ordenades per data creixent i vaig restant les participacions venudes anteriorment.
             foreach (var compra in xx)
             {
                 if (!trobadaPrimeraCompra)
                 {
-                    if (participVenudesAbans > compra.Participacions)
+                    if (participVenudesAbans >= compra.Participacions)
                     {
                         // Son les participacions que ja estan venude per una venda anterior.
                         participVenudesAbans -= compra.Participacions;
@@ -388,15 +388,41 @@ namespace Inversions
         }
 
 
-        internal void split(InversionsBDContext connexio, DateTime dataHora, int factorConversor, double preuOperacio, double canviAplicat)
+        internal void split(InversionsBDContext connexio, DateTime dataHora, int factorConversor)
         {
-            throw new NotImplementedException();
+            var descripcio = String.Format("{0}. Factor conversor: {1}.", "ContraSplit", factorConversor);
+            var compres = compresAnteriors(connexio, dataHora, _Participacions);
+
+            foreach (var movimentCompra in compres)
+            {
+                var mov1 = movimentCompra._Moviment;
+
+                DateTime data1 = mov1.Data; // Deso la data per sumar-li segons.
+
+                mov1.TipusMoviment = TipusMoviment.Split; // Modifico el tipus de moviment de la compra.
+                connexio.Moviments.AddOrUpdate(mov1);
+
+                var particSenseSplit = mov1.Participacions - movimentCompra._ParticipacionsRestants;
+                if (particSenseSplit > 0)
+                {
+                    data1 = data1.AddSeconds(1);
+                    // Creo una nova compra amb la part de la compra original que no li afecta el ContraSplit
+                    compra(connexio, data1, particSenseSplit, mov1.PreuParticipacio, mov1.CanviAplicat, 0, descripcio, null, false, false);
+                }
+
+                // Calculo el nou preu i les participacions del contraSplit i creo una compra amb les participacions afectades.
+                data1 = data1.AddSeconds(1);
+                var participacions = Convert.ToInt32(mov1.Participacions - particSenseSplit) * factorConversor;
+                var preuParticipacio = Math.Round(mov1.PreuParticipacio / factorConversor, 4);
+                compra(connexio, data1, participacions, preuParticipacio, mov1.CanviAplicat, 0, descripcio, null, false, false);
+            }
+
+            connexio.SaveChanges();
         }
 
         internal void contraSplit(InversionsBDContext connexio, DateTime dataHora, int factorConversor, double preuOperacio, double canviAplicat)
         {
             var descripcio = String.Format("{0}. Factor conversor: {1}. Preu operació: {2}.", "ContraSplit", factorConversor, preuOperacio);
-            int totalPartRestants = 0;
             List<double> preuUnitOrigenParticRestants = new List<double>();
             var compres = compresAnteriors(connexio, dataHora, _Participacions);
 
@@ -419,7 +445,6 @@ namespace Inversions
 
                 // Participacions restants.
                 var partRestants = Convert.ToInt32(mov1.Participacions - particSenseSplit) % factorConversor; // Calculo el número de participacions restants.
-                totalPartRestants += partRestants; // Acumulo les particions restants.
                 for (int n = 0; n < partRestants; n++)
                 {
                     // Acumulo el  preu origen de les participacions restants.
@@ -428,16 +453,20 @@ namespace Inversions
                 }
 
                 // Calculo el nou preu i les participacions del contraSplit i creo una compra amb les participacions afectades.
-                var preuParticipacio = Math.Round(mov1.PreuParticipacio * factorConversor, 4);
                 data1 = data1.AddSeconds(1);
                 var participacions = Convert.ToInt32(mov1.Participacions - particSenseSplit) / factorConversor;
+                var preuParticipacio = Math.Round(mov1.PreuParticipacio * factorConversor, 4);
                 compra(connexio, data1, participacions, preuParticipacio, mov1.CanviAplicat, 0, descripcio, null, false, false);
             }
 
-            var ven = venda(connexio, dataHora, totalPartRestants, preuOperacio, canviAplicat, 0, descripcio, null, false, false);
+            // Faig la venda de les participacions restants
+            if (preuUnitOrigenParticRestants.Count > 0)
+            {
+                var ven = venda(connexio, dataHora, preuUnitOrigenParticRestants.Count, preuOperacio, canviAplicat, 0, descripcio, null, false, false);
+                ven.PreuParticipacioOrigen = preuUnitOrigenParticRestants.Average(a => a); // Modifico el PreuParticipacioOrigen.
+                connexio.Moviments.AddOrUpdate(ven);
+            }
 
-            ven.PreuParticipacioOrigen = preuUnitOrigenParticRestants.Average(a => a);
-            connexio.Moviments.AddOrUpdate(ven);
             connexio.SaveChanges();
         }
     }

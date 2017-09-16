@@ -252,7 +252,7 @@ namespace Inversions.GUI
                         {
                             if (tipusMoviment == TipusMoviment.Split)
                             {
-                                prodOrigen.split(conn, cData1.Value, ntbFactorConversor._IntValue, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue);
+                                prodOrigen.split(conn, cData1.Value, ntbFactorConversor._IntValue);
                             }
                             else if (tipusMoviment == TipusMoviment.ContraSplit)
                             {
@@ -429,8 +429,8 @@ namespace Inversions.GUI
             gbDataMoviment.Visible = true;;
             gbParticipacions.Visible = tipusMov == TipusMoviment.Compra || tipusMov == TipusMoviment.Venda || tipusMov == TipusMoviment.Traspàs;
             gbFactorConversor.Visible = tipusMov == TipusMoviment.Split || tipusMov == TipusMoviment.ContraSplit;
-            gbPreuPartic.Visible = true;
-            gbCanviAplicat.Visible = esUnaAccio;
+            gbPreuPartic.Visible = tipusMov != TipusMoviment.Split;
+            gbCanviAplicat.Visible = esUnaAccio && tipusMov != TipusMoviment.Split;
             gbDespeses.Visible = esUnaAccio && (tipusMov == TipusMoviment.Compra || tipusMov == TipusMoviment.Venda);
             gbImportTotal.Visible = tipusMov == TipusMoviment.Compra || tipusMov == TipusMoviment.Venda || tipusMov == TipusMoviment.Traspàs;
             gbTraspas.Visible = tipusMov == TipusMoviment.Traspàs;
