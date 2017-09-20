@@ -21,29 +21,37 @@ namespace Inversions.GUI
             //int cont = 0;
             //using (var conn = new InversionsBDContext())
             //{
-            //    foreach (var moviment in conn.Moviments.Where(w => w.TipusMoviment == TipusMoviment.Compra || w.TipusMoviment == TipusMoviment.Venda).OrderBy(o => o.Id))
+            //    foreach (var valoracio in conn.Valoracions.Where(w => w.ProdId == 7 && w.Data > new DateTime(2017, 3, 27) && w.PreuParticipacio < 17))
             //    {
-            //        var preu = Producte.CalculaPreuOrigen(conn, moviment, moviment.MovimentRefVenda);
-            //        moviment.PreuParticipacioOrigen = preu;
-            //        conn.Moviments.AddOrUpdate(moviment);
+            //        valoracio.PreuParticipacio = Math.Round(valoracio.PreuParticipacio * 3, 4);
+            //        conn.Valoracions.AddOrUpdate(valoracio);
             //        cont++;
             //    }
             //    conn.SaveChanges();
             //}
             //System.Diagnostics.Debug.WriteLine(cont);
 
-            //var cont = 0;
-            //foreach (var producte in Program.Sessio.Productes)
-            //{
-            //    // var numPart = producte.numParticipacionsEnCartera(DateTime.Now);
-            //    var numPart = producte.numParticipacionsEnCartera(new DateTime(2013, 7, 4));
-                
-            //    if (numPart > 0)
-            //    {
-            //        cont++;
-            //        var compres = producte.compresAnteriors(new DateTime(1990,1,1), numPart - 1);
-            //    }
-            //}
+            var cont = 0;
+            double pigTotal = 0;
+            
+            //for(int any = 2000; any <= 2017; any++)
+            {
+                double totalAny = 0;
+
+                //Debug.WriteLine("\nAny: {0}", any);
+                foreach (var producte in Program.Sessio.Productes)
+                {
+                    //var pig = producte.pig(any);
+                    //var pig = producte.pig(new DateTime(2013, 1, 1), new DateTime(2013, 12, 31));
+                    var pig = producte.pig();
+                    Debug.WriteLine("Producte: {0}-{1}\t{2}", producte.Id, producte, pig);
+                    pigTotal += pig;
+                    totalAny += pig;
+                    cont++;
+                }
+                Debug.WriteLine("Total\t{0}", totalAny);
+            }
+            Debug.WriteLine("PiG Total = {0}", pigTotal);
 
             /*
             Producte.PosaPreuOrigenATot();

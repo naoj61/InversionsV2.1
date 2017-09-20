@@ -195,10 +195,10 @@ namespace Inversions.GUI
             {
                 if (ntbFactorConversor.Valor <= 0)
                 {
-                    MessageBox.Show("El valor del Split o Cantraplit ha de ser més gran de zero.");
+                    MessageBox.Show("El valor del factor conversor de Split o Cantraplit ha de ser més gran de zero.");
                     return;
                 }
-                if (ntbPreuParticipacio.Valor <= 0)
+                if (tp == TipusMoviment.ContraSplit && ntbPreuParticipacio.Valor <= 0)
                 {
                     MessageBox.Show("El nou import de l'acció ha de ser més gran de zero.");
                     return;

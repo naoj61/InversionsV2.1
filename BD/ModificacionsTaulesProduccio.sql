@@ -1,0 +1,1 @@
+ALTER TABLE [dbo].[Moviments] DROP COLUMN [ValorCompraOriginal];

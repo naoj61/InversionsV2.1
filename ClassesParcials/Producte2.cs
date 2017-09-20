@@ -54,13 +54,12 @@ namespace Inversions
                 return null;
 
             // Troba suma participacions venudes anteriors a aquesta venda.
-            var participVenudesAbans = connexio.Moviments.Where(w => w.ProdId == Id && w.Data < dataH && w.TipusMoviment == TipusMoviment.Venda).Sum(s => (double?) s.Participacions) ?? 0;
+            var participVenudesAbans = connexio.MovimentsUsuari.Where(w => w.ProdId == Id && w.Data < dataH && w.TipusMoviment == TipusMoviment.Venda).Sum(s => (double?) s.Participacions) ?? 0;
             List<MovimentCompra> compresAmbParticipacio = new List<MovimentCompra>();
             var trobadaPrimeraCompra = false;
 
-            var xx = connexio.Moviments.Where(w =>w.IdUsuari == Usuari.Seleccionat.Id && w.ProdId == Id && w.Data < dataH && w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data).ToList();
-
             // Llegeix compres anteriors a la venda del producte ordenades per data creixent i vaig restant les participacions venudes anteriorment.
+            var xx = connexio.MovimentsUsuari.Where(w => w.ProdId == Id && w.Data < dataH && w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data).ToList();
             foreach (var compra in xx)
             {
                 if (!trobadaPrimeraCompra)
@@ -108,7 +107,7 @@ namespace Inversions
         public void afegeigPreuAValoracions(InversionsBDContext connexio, DateTime dataHora, double preuParticipacio)
         {
             // Crea una valoració amb el preu del moviment
-            Valoracio val = Valoracions.SingleOrDefault(a => a.ProdId == this.Id && a.Data == dataHora.Date);
+            Valoracio val = Valoracions.SingleOrDefault(a => a.ProdId == this.Id && a.Data.Date == dataHora.Date);
             if (val == null)
             {
                 try
@@ -173,6 +172,51 @@ namespace Inversions
 
 
         /// <summary>
+        /// Modifica les valoracions al fer Split o ContraSplit
+        /// </summary>
+        /// <param name="connexio"></param>
+        /// <param name="tipusMoviment"></param>
+        /// <param name="dataPrimeraCompra"></param>
+        /// <param name="factorConversor"></param>
+        private void modificaValoracions(InversionsBDContext connexio, TipusMoviment tipusMoviment, DateTime dataPrimeraCompra, int factorConversor)
+        {
+            foreach (var valoracio in connexio.Valoracions.Where(w => w.ProdId == Id && w.Data >= dataPrimeraCompra.Date))
+            {
+                if (tipusMoviment == TipusMoviment.ContraSplit)
+                    valoracio.PreuParticipacio = Math.Round(valoracio.PreuParticipacio * factorConversor, 4);
+                else if (tipusMoviment == TipusMoviment.Split)
+                    valoracio.PreuParticipacio = Math.Round(valoracio.PreuParticipacio / factorConversor, 4);
+                else
+                    throw new ArgumentException("Paràmetre incorrecte", "tipusMoviment");
+
+                connexio.Valoracions.AddOrUpdate(valoracio);
+            }
+        }
+
+
+        /// <summary>
+        /// Torna el valor de l'accio inmediatament anterior a la data.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        private double valorParticipacio(DateTime data)
+        {
+            var valoracions = Valoracions.Where(w => w.ProdId == Id && w.Data <= data).OrderBy(o => o.Data).ToList();
+
+            if (valoracions.Any())
+            {
+                return valoracions.Last().PreuParticipacio;
+            }
+            else
+            {
+                var movsAnt = MovimentsProducteUsuari.
+                    Where(w => w.ProdId == Id && w.Data <= data && (w.TipusMoviment == TipusMoviment.Compra || w.TipusMoviment == TipusMoviment.Venda)).OrderBy(o => o.Data).
+                    ToList();
+                return movsAnt.Last().PreuParticipacio;
+            }
+        }
+
+        /// <summary>
         /// Validacions en Compres o Vendes.
         /// </summary>
         /// <param name="connexio"></param>
@@ -198,7 +242,6 @@ namespace Inversions
 
             if (participacions <= 0)
                 throw new ArgumentException("El valor ha de ser major de zero", "numParticipacions");
-
         }
 
 
@@ -390,8 +433,10 @@ namespace Inversions
 
         internal void split(InversionsBDContext connexio, DateTime dataHora, int factorConversor)
         {
+            // todo Si Accio, s'han de distribuir les antigues despeses entre els nous moviments.
+
             var descripcio = String.Format("{0}. Factor conversor: {1}.", "ContraSplit", factorConversor);
-            var compres = compresAnteriors(connexio, dataHora, _Participacions);
+            var compres = compresAnteriors(connexio, dataHora, _Participacions).ToList();
 
             foreach (var movimentCompra in compres)
             {
@@ -417,14 +462,22 @@ namespace Inversions
                 compra(connexio, data1, participacions, preuParticipacio, mov1.CanviAplicat, 0, descripcio, null, false, false);
             }
 
+
+            // Modifico les valoracions a partir de la data del ContraSplit.
+            var dataPrimeraCompra = compres.First()._Moviment.Data;
+            modificaValoracions(connexio, TipusMoviment.ContraSplit, dataPrimeraCompra.Date, factorConversor);
+
             connexio.SaveChanges();
         }
 
+
         internal void contraSplit(InversionsBDContext connexio, DateTime dataHora, int factorConversor, double preuOperacio, double canviAplicat)
         {
+            // todo Si Accio, s'han de distribuir les antigues despeses entre els nous moviments.
+
             var descripcio = String.Format("{0}. Factor conversor: {1}. Preu operació: {2}.", "ContraSplit", factorConversor, preuOperacio);
             List<double> preuUnitOrigenParticRestants = new List<double>();
-            var compres = compresAnteriors(connexio, dataHora, _Participacions);
+            var compres = compresAnteriors(connexio, dataHora, _Participacions).ToList();
 
             foreach (var movimentCompra in compres)
             {
@@ -467,7 +520,108 @@ namespace Inversions
                 connexio.Moviments.AddOrUpdate(ven);
             }
 
+            // Modifico les valoracions a partir de la data del ContraSplit.
+            var dataPrimeraCompra = compres.First()._Moviment.Data;
+            modificaValoracions(connexio, TipusMoviment.ContraSplit, dataPrimeraCompra.Date, factorConversor);
+
             connexio.SaveChanges();
+        }
+
+
+        /// <summary>
+        /// Quant ha guanyat en un periode. (Vendes o vendesT dins el periode) + (participacions en cartera al final del periode).
+        /// Preu compra --> Si s'ha comprat dins el periode, preu compra o compraT, sinò, valoració al inici del periode del les venudes i en cartera.
+        /// Preu venda  --> Si s'ha venut dins el periode, preu venda o vendaT, sinò, valoració al final del periode.
+        /// </summary>
+        /// <param name="any">Del 1 de gener al 31 de desembre de l'any.</param>
+        /// <returns></returns>
+        public double pig(int any)
+        {
+            return pig(new DateTime(any, 1, 1), new DateTime(any, 12, 31));
+        }
+
+
+        /// <summary>
+        /// Quant ha guanyat en un periode. (Vendes o vendesT dins el periode) + (participacions en cartera al final del periode).
+        /// Preu compra --> Si s'ha comprat dins el periode, preu compra o compraT, sinò, valoració al inici del periode del les venudes i en cartera.
+        /// Preu venda  --> Si s'ha venut dins el periode, preu venda o vendaT, sinò, valoració al final del periode.
+        /// </summary>
+        /// <param name="dataInici"></param>
+        /// <param name="dataFinal"></param>
+        /// <returns></returns>
+        public double pig(DateTime? dataInici = null, DateTime? dataFinal = null)
+        {
+            var dInici = dataInici == null ? DateTime.MinValue : dataInici.Value.Date; // Poso la d'inici hora a zero.
+            var dFinal = dataFinal == null ? DateTime.MaxValue : dataFinal.Value.Date.AddDays(1).AddTicks(-1); // Poso la hora final a 23:59:59.
+
+            double? despeses = 0;
+            if(this is ProdAccions)
+                // todo Si Accio, s'han de trobar les despeses de les compres que corresponen a les vendes del periode.
+                despeses = MovimentsProducteUsuari.Where(w => w.ProdId == Id && w.Data >= dInici && w.Data <= dFinal).Sum(s => s.Despeses);
+
+            var compres = MovimentsProducteUsuari.Where(w => w.ProdId == Id && w.Data >= dInici && w.Data <= dFinal && w.TipusMoviment == TipusMoviment.Compra).ToList();
+            var vendes = MovimentsProducteUsuari.Where(w => w.ProdId == Id && w.Data >= dInici && w.Data <= dFinal && w.TipusMoviment == TipusMoviment.Venda).ToList();
+            var dividents = MovimentsProducteUsuari.
+                Where(w => w.ProdId == Id && w.Data >= dInici && w.Data <= dFinal && w.TipusMoviment == TipusMoviment.Dividends).Sum(s => s.PreuParticipacio);
+
+            // Calcula total compres mes valor en cartera a l'inici.
+            // Preu compra --> Si s'ha comprat dins el periode, preu compra o compraT, sinò, valoració al inici del periode del les venudes i en cartera.
+            var particEnCarteraInicial = numParticipacionsEnData(dInici);
+            double valorInicialParticEnCartera = 0;
+            if(particEnCarteraInicial > 0)
+                valorInicialParticEnCartera = valorParticipacio(dInici) * particEnCarteraInicial;
+            var importCompres = compres.Sum(s => s.Participacions * s.PreuParticipacio) + valorInicialParticEnCartera;
+
+            // Calcula total vendes mes valor en cartera al final.
+            // Preu venda  --> Si s'ha venut dins el periode, preu venda o vendaT, sinò, valoració al final del periode.
+            var particEnCarteraFinal = numParticipacionsEnData(dFinal);
+            double valorFinalParticEnCartera = 0;
+            if(particEnCarteraFinal > 0)
+                valorFinalParticEnCartera = valorParticipacio(dFinal) * particEnCarteraFinal;
+            var importVendes = vendes.Sum(s => s.Participacions * s.PreuParticipacio) + valorFinalParticEnCartera;
+
+            return importVendes - importCompres + dividents - despeses.GetValueOrDefault();
+        }
+
+
+        /// <summary>
+        /// PiG que tributen en un periode. Vendes reals dins el periode.
+        /// Preu compra --> Preu origen.
+        /// Preu venda  --> Preu venda.
+        /// </summary>
+        /// <param name="any"></param>
+        /// <returns></returns>
+        public double pigTributa(int any)
+        {
+            return pigTributa(new DateTime(any, 1, 1), new DateTime(any, 12, 31));
+        }
+
+        /// <summary>
+        /// PiG que tributen en un periode. Vendes reals dins el periode.
+        /// Preu compra --> Preu origen.
+        /// Preu venda  --> Preu venda.
+        /// </summary>
+        /// <param name="dataInici"></param>
+        /// <param name="dataFinal"></param>
+        /// <returns></returns>
+        public double pigTributa(DateTime? dataInici = null, DateTime? dataFinal = null)
+        {
+            var dInici = dataInici == null ? DateTime.MinValue : dataInici.Value.Date; // Poso la d'inici hora a zero.
+            var dFinal = dataFinal == null ? DateTime.MaxValue : dataFinal.Value.Date.AddDays(1).AddTicks(-1); // Poso la hora final a 23:59:59.
+
+            var import = MovimentsProducteUsuari.
+                Where(w => w.ProdId == Id && w.Data >= dInici && w.Data <= dFinal && w.TipusMoviment == TipusMoviment.Venda && !w._EsTraspas).
+                Sum(s => s.Participacions * (s.PreuParticipacio - s.PreuParticipacioOrigen.GetValueOrDefault()));
+
+            double? despeses = 0;
+            if (this is ProdAccions)
+                // todo Si Accio, s'han de trobar les despeses de les compres que corresponen a les vendes del periode.
+                despeses = MovimentsProducteUsuari.Where(w => w.ProdId == Id && w.Data >= dInici && w.Data <= dFinal).Sum(s => s.Despeses);
+
+            var dividents = MovimentsProducteUsuari.
+                Where(w => w.ProdId == Id && w.Data >= dInici && w.Data <= dFinal && w.TipusMoviment == TipusMoviment.Dividends).Sum(s => s.PreuParticipacio);
+            
+            return import + dividents - despeses.GetValueOrDefault();
         }
     }
 }

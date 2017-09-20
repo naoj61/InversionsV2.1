@@ -656,7 +656,7 @@ namespace Inversions
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public double numParticipacionsEnData(DateTime data)
+        private double numParticipacionsEnData(DateTime data)
         {
             List<Moviment> movs = MovimentsProducteUsuari.Where(w => w.Data <= data).ToList();
 
