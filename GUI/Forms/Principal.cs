@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
@@ -13,10 +14,44 @@ namespace Inversions.GUI
 {
     public partial class Principal : Form
     {
+        /// <summary>
+        /// **** 23/09/2017 Modifica els preus origen. S'ha d'executar sobre la BD de producció ****
+        /// </summary>
+        void modificaPreuOrigenCompraVenda()
+        {
+            using (var conn = new InversionsBDContext())
+            {
+                int contModif = 0;
+                foreach (var moviment in Program.Sessio.MovimentsUsuari.Where(w => w.TipusMoviment == TipusMoviment.Compra || w.TipusMoviment == TipusMoviment.Venda))
+                {
+                    try
+                    {
+                        var preu = moviment.Prod.calculaPreuOrigen(moviment);
+                        var preu2 = moviment.PreuParticipacioOrigen.GetValueOrDefault();
+                        if (preu != preu2)
+                        {
+                            moviment.PreuParticipacioOrigen = preu;
+                            conn.Moviments.AddOrUpdate(moviment);
+                            contModif++;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                }
+                conn.SaveChanges();
+                Debug.WriteLine("Modificats = " + contModif);
+            }
+        }
+
         public Principal()
         {
 
             InitializeComponent();
+
+            // **** 23/09/2017 Modifica els preus origen. Sha d'executar sobre la BD de producció ****
+            //modificaPreuOrigenCompraVenda();
 
             //int cont = 0;
             //using (var conn = new InversionsBDContext())
@@ -31,27 +66,27 @@ namespace Inversions.GUI
             //}
             //System.Diagnostics.Debug.WriteLine(cont);
 
-            var cont = 0;
-            double pigTotal = 0;
+            //var cont = 0;
+            //double pigTotal = 0;
             
-            //for(int any = 2000; any <= 2017; any++)
-            {
-                double totalAny = 0;
+            ////for(int any = 2000; any <= 2017; any++)
+            //{
+            //double totalAny = 0;
 
-                //Debug.WriteLine("\nAny: {0}", any);
-                foreach (var producte in Program.Sessio.Productes)
-                {
-                    //var pig = producte.pig(any);
-                    //var pig = producte.pig(new DateTime(2013, 1, 1), new DateTime(2013, 12, 31));
-                    var pig = producte.pig();
-                    Debug.WriteLine("Producte: {0}-{1}\t{2}", producte.Id, producte, pig);
-                    pigTotal += pig;
-                    totalAny += pig;
-                    cont++;
-                }
-                Debug.WriteLine("Total\t{0}", totalAny);
-            }
-            Debug.WriteLine("PiG Total = {0}", pigTotal);
+            //Debug.WriteLine("\nAny: {0}", any);
+            //foreach (var producte in Program.Sessio.Productes)
+            //{
+            //    //var pig = producte.pig(any);
+            //    //var pig = producte.pig(new DateTime(2013, 1, 1), new DateTime(2013, 12, 31));
+            //    var pig = producte.pig();
+            //    Debug.WriteLine("Producte: {0}-{1}\t{2}", producte.Id, producte, pig);
+            //    pigTotal += pig;
+            //    totalAny += pig;
+            //    cont++;
+            //}
+            //Debug.WriteLine("Total\t{0}", totalAny);
+            //}
+            //Debug.WriteLine("PiG Total = {0}", pigTotal);
 
             /*
             Producte.PosaPreuOrigenATot();

@@ -264,13 +264,17 @@ namespace Inversions.GUI
                                 //    tbDespeses._DoubleValue, tbDescripcio.Text);
                                 if (tipusMoviment == TipusMoviment.Compra)
                                 {
-                                    prodOrigen.compra(conn, cData1.Value, DateTime.Now.TimeOfDay, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, 
+                                    prodOrigen.compra(conn, cData1.Value, DateTime.Now.TimeOfDay, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue,
                                         tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
                                 }
                                 else if (tipusMoviment == TipusMoviment.Venda)
                                 {
                                     prodOrigen.venda(conn, cData1.Value, DateTime.Now.TimeOfDay, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue,
                                         tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
+                                }
+                                else if (tipusMoviment == TipusMoviment.Dividends)
+                                {
+                                    prodOrigen.dividend(conn, cData1.Value, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
                                 }
                             }
                         }
@@ -438,7 +442,7 @@ namespace Inversions.GUI
             ckActivaDataDesti.Checked = false;
             gbDataDesti.Visible = false;
             gbNumParticipacionsDesti.Visible = tipusMov == TipusMoviment.Traspàs;
-            gbDescripcio.Visible = !esUnaAccio;
+            gbDescripcio.Visible = !esUnaAccio || tipusMov == TipusMoviment.Dividends;
 
             gbEdicio.Visible = true;
         }

@@ -100,7 +100,7 @@ namespace Inversions
             Valoracio val = null;
             try
             {
-                val = new Valoracio();
+                val = conn.Valoracio.Create();
                 val.ProdId = producte.Id;
                 val.Data = data;
                 val.PreuParticipacio = import;

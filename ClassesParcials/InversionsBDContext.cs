@@ -12,8 +12,7 @@ namespace Inversions
 {
     public partial class InversionsBDContext
     {
-
-        public ObjectContext _Context
+        private ObjectContext _Context
         {
             get { return ((IObjectContextAdapter)this).ObjectContext; }
         }
