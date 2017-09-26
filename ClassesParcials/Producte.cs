@@ -107,10 +107,10 @@ namespace Inversions
                 get { return _DataVenda.HasValue && _DataCompra.AddYears(1) <= _DataVenda.Value; }
             }
 
-            public double _PiGActual
-            {
-                get { return _Compra.Prod.pigValorat(DateTimeFinalDia.Today); }
-            }
+            //public double _PiGActual
+            //{
+            //    get { return _Compra.Prod.pigValorat(DateTimeFinalDia.Today); }
+            //}
 
             public string _Termini
             {
@@ -203,188 +203,6 @@ namespace Inversions
 
         #region *** Mètodes validats ***
 
-        /* SELECT Participacions, PreuParticipacio, CanviAplicat, Despeses, ValorCompraOriginal,
-            (Participacions * PreuParticipacio + ISNULL(Despeses,0)), ValorCompraOriginal - (Participacions * PreuParticipacio + Despeses) FROM [Moviments] 
-            WHERE Despeses is not null and TipusMoviment = 0
-           UPDATE [Moviments] set ValorCompraOriginal = (Participacions * PreuParticipacio + Despeses) WHERE Despeses is not null and TipusMoviment = 0 AND ValorCompraOriginal <> (Participacions * PreuParticipacio + Despeses)
-         */
-
-        [System.Obsolete("compraVenda és obsolet, Fes servir mètodes 'compra' o 'venda'", true)]
-        internal Moviment compraVenda(InversionsBDContext connexio, TipusMoviment tipusMoviment, DateTime data, double numParticipacions, double preuParticipacio, double canviAplicat,
-            double? despeses, string descripcio, bool afegeigPreuAValoracions = true)
-        {
-            // Poso la hora actual. No tinc clar si hauria d'agafar l'ordre del Id en lloc de la data.
-            DateTime dataHora = data.Date + DateTime.Now.TimeOfDay;
-
-            if (MovimentsProducteUsuari.Any())
-            {
-                var ultimaData = MovimentsProducteUsuari.Max(m => m.Data);
-
-                // Valido que DateTime no sigui inferior a un moviment prèvi del mateix producte.
-                if (ultimaData >= dataHora)
-                {
-                    if (MessageBox.Show("La data és inferior a la data del últim moviment del producte.\nVols continuar?", "Avís", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
-                        throw new ApplicationException("Operació cancelada");
-                    //throw new ApplicationException("La data no pot ser inferior a la data del últim moviment del producte. Data últim moviment: " + ultimaData);
-                }
-            }
-
-            if (connexio == null)
-                throw new ArgumentNullException("connexio");
-
-            if (tipusMoviment != TipusMoviment.Dividends && numParticipacions <= 0)
-                throw new ArgumentException("El valor ha de ser major de zero", "numParticipacions");
-
-            //if (preuParticipacio <= 0)
-            //    throw new ArgumentException("El valor ha de ser major de zero", "preuParticipacio");
-
-            Moviment moviment = new Moviment();
-            moviment.IdUsuari = Usuari.Seleccionat.Id;
-            moviment.TipusMoviment = tipusMoviment;
-            moviment.ProdId = this.Id;
-            moviment.Participacions = numParticipacions;
-            moviment.PreuParticipacio = preuParticipacio;
-            moviment.CanviAplicat = canviAplicat;
-            moviment.Despeses = despeses;
-            moviment.Data = dataHora;
-            moviment.Descripcio = String.IsNullOrEmpty(descripcio) ? null : descripcio;
-            moviment.ProducteTraspasId = null;
-            moviment.IdRefVenda = null;
-            moviment.ProducteTraspasId = null;
-
-            connexio.Moviments.Add(moviment);
-            connexio.SaveChanges();
-
-            if (afegeigPreuAValoracions)
-            {
-                // Crea una valoració amb el preu del moviment
-                Valoracio val = Valoracions.SingleOrDefault(a => a.ProdId == this.Id && a.Data == dataHora.Date);
-                if (val == null)
-                {
-                    try
-                    {
-                        Valoracio.Nova(connexio, this, dataHora, preuParticipacio);
-                    }
-                    catch (SqlException ex)
-                    {
-                        if (ex.Number != 2627) // Si Duplicate Key en Valoracions no fa cas
-                            throw;
-                    }
-                }
-                else
-                    val.modifica(connexio, dataHora, preuParticipacio);
-            }
-
-            return moviment;
-        }
-
-        [System.Obsolete("Mètode obsolet, Fes servir 'traspas' de Producte2", true)]
-        internal void traspasX(InversionsBDContext connexio, DateTime data, double numParticipacions, double preuParticipacio, double canviAplicat, string descripcio,
-            DateTime dataDesti, Producte prodDesti, double numParticipacionsDesti)
-        {
-            if (prodDesti == null)
-                throw new ArgumentNullException("prodDesti");
-
-            if (numParticipacionsDesti <= 0)
-                throw new ArgumentException("El valor ha de ser major de zero", "numParticipacionsDesti");
-
-
-            // Faig la venda del producte origen.
-            var movVenda = this.compraVenda(connexio, TipusMoviment.Venda, data, numParticipacions, preuParticipacio, canviAplicat, null, descripcio);
-
-            // Faig la compra del producte destí.
-            var movCompra = prodDesti.compraVenda(connexio, TipusMoviment.Compra, dataDesti, numParticipacionsDesti,
-                movVenda.Participacions * movVenda.PreuParticipacio / numParticipacionsDesti, canviAplicat, null, descripcio);
-
-
-            movVenda.ProducteTraspasId = prodDesti.Id; // Informo el prod desti en la venda.
-            movCompra.ProducteTraspasId = this.Id;
-            movCompra.IdRefVenda = movVenda.Id;
-
-            connexio.SaveChanges();
-        }
-
-
-        [System.Obsolete("Mètode obsolet, Fes servir 'traspas' de splitContraSplit", true)]
-        internal void splitContraSplitX(InversionsBDContext connexio, TipusMoviment tipusMoviment, DateTime data, int factorConversor, double preuParticipacioAbans, double canviAplicat)
-        {
-            var preuParticipacioDespres = Math.Round(preuParticipacioAbans * factorConversor, 3);
-
-            int numPartActual = (int) _Participacions;
-
-            // *** Les participacions en les accions han de ser números enters. ***
-            int numPartticipacionsDespresSplit;
-            int numPartticipacionsRemanent;
-            if (tipusMoviment == TipusMoviment.Split)
-            {
-                numPartticipacionsDespresSplit = (numPartActual * factorConversor);
-                numPartticipacionsRemanent = 0;
-            }
-            else if (tipusMoviment == TipusMoviment.ContraSplit)
-            {
-                numPartticipacionsDespresSplit = numPartActual / factorConversor;
-                numPartticipacionsRemanent = numPartActual %  factorConversor;
-            }
-            else
-            {
-                throw new ArgumentException("Moviment: " + tipusMoviment + "incorrecte. ha de ser 'Split' o 'ContraSplit'");
-            }
-
-            var numPartticipacionsAbansSplit = numPartActual - numPartticipacionsRemanent;
-
-            double numPartNoVenudesPrimeraCompra;
-            var movsCompra = compresAmbParticipacionsNoVenudes(out numPartNoVenudesPrimeraCompra).ToList();
-
-            //// Venc accions remanents.
-            double partPerVendre = numPartticipacionsRemanent;
-           
-
-            // Venc accions antiges per convertirles.
-            double desAcum = 0;
-            foreach (var mCompra in movsCompra)
-            {
-                var particCompra = mCompra.Participacions;
-
-                if (partPerVendre > 0)
-                {
-                    if (partPerVendre <= particCompra)
-                    {
-                        var despeses = mCompra.Despeses.HasValue ? (double?)(mCompra.Despeses.Value / mCompra.Participacions * partPerVendre) : null;
-                        desAcum += despeses.GetValueOrDefault();
-
-                        //compraVenda(connexio, TipusMoviment.Venda, data, partPerVendre, preuParticipacioAbans, canviAplicat, -despeses, tipusMoviment.ToString(), false);
-                        venda(connexio, data, partPerVendre, preuParticipacioAbans, canviAplicat, -despeses, tipusMoviment.ToString(), null, false, false);
-
-                        particCompra -= partPerVendre;
-                        partPerVendre = 0;
-                    }
-                    else
-                    {
-                        var despeses = mCompra.Despeses.HasValue ? (double?)(mCompra.Despeses.Value / mCompra.Participacions * particCompra) : null;
-                        desAcum += despeses.GetValueOrDefault();
-
-                        //compraVenda(connexio, TipusMoviment.Venda, data, particCompra, preuParticipacioAbans, canviAplicat, -despeses, tipusMoviment.ToString(), false);
-                        venda(connexio, data, particCompra, preuParticipacioAbans, canviAplicat, -despeses, tipusMoviment.ToString(), null, false, false);
-                        particCompra -= 0;
-                        partPerVendre -= particCompra;
-                    }
-                }
-
-                if (particCompra > 0)
-                {
-                    var despeses = mCompra.Despeses.HasValue ? (double?)(mCompra.Despeses.Value / mCompra.Participacions * particCompra) : null;
-                    desAcum += despeses.GetValueOrDefault();
-
-                    //compraVenda(connexio, TipusMoviment.Venda, data, particCompra, compra.PreuParticipacio, compra.CanviAplicat, -despeses, tipusMoviment.ToString(), false);
-                    venda(connexio, data, particCompra, mCompra.PreuParticipacio, mCompra.CanviAplicat, -despeses, tipusMoviment.ToString(), null, false, false);
-                }
-            }
-
-            // Compro noves accions.
-            //compraVenda(connexio, TipusMoviment.Compra, data, numPartticipacionsDespresSplit, preuParticipacioDespres, canviAplicat, desAcum == 0 ? (double?)null : desAcum, tipusMoviment.ToString(), true);
-            compra(connexio, data, numPartticipacionsDespresSplit, preuParticipacioDespres, canviAplicat, desAcum == 0 ? (double?)null : desAcum, tipusMoviment.ToString(), null, true, false);
-        }
-
 
         /// <summary>
         /// Torna una llista amb els moviments de compra que tenen perticipacions/accions NO venudes.
@@ -429,6 +247,7 @@ namespace Inversions
         }
 
 
+        [System.Obsolete("Mètode obsolet, ", true)]
         public static double PigValorat(TipusProducte tipusProducte)
         {
             double pig = 0;
@@ -442,6 +261,7 @@ namespace Inversions
         }
 
 
+        [System.Obsolete("Mètode obsolet, Fes servir 'traspas' de splitContraSplit", true)]
         public static double PigValorat(int any, TipusProducte tipusProducte)
         {
             double pig = 0;
@@ -466,6 +286,7 @@ namespace Inversions
         }
 
 
+        [System.Obsolete("Mètode obsolet, ", true)]
         public static double PigReal(TipusProducte tipusProducte)
         {
             double pig = 0;
@@ -478,6 +299,7 @@ namespace Inversions
             return pig;
         }
 
+        [System.Obsolete("Mètode obsolet, ", true)]
         public static double PigReal(int any, TipusProducte tipusProducte)
         {
             double pig = 0;
@@ -499,6 +321,7 @@ namespace Inversions
         /// <param name="dataInici"></param>
         /// <param name="dataFi"></param>
         /// <returns></returns>
+        [System.Obsolete("Mètode obsolet, ", true)]
         public double pigReal(DateTimeFinalDia dataInici, DateTimeFinalDia dataFi)
         {
             var ini = pigReal(dataInici);
@@ -512,6 +335,7 @@ namespace Inversions
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
+        [System.Obsolete("Mètode obsolet, ", true)]
         public double pigReal(DateTimeFinalDia data)
         {
             // Troba la data de l'última venda real.
@@ -564,6 +388,7 @@ namespace Inversions
         }
 
 
+        [System.Obsolete("Mètode obsolet, Fes servir 'traspas' de splitContraSplit", true)]
         public double pigValorat(int any)
         {
             double pig = 0;
@@ -575,6 +400,7 @@ namespace Inversions
         }
 
 
+        [System.Obsolete("Mètode obsolet, Fes servir 'traspas' de splitContraSplit", true)]
         public double pigValorat(DateTimeFinalDia dataIni, DateTimeFinalDia dataFi)
         {
             return pigValorat(dataFi) - pigValorat(dataIni);
@@ -587,6 +413,7 @@ namespace Inversions
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
+        [System.Obsolete("Mètode obsolet, Fes servir 'traspas' de splitContraSplit", true)]
         public double pigValorat(DateTimeFinalDia data)
         {
             var importCompres = MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data < data._Data).Sum(s => (s.Participacions * s.PreuParticipacio) + s.Despeses.GetValueOrDefault());

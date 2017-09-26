@@ -148,8 +148,11 @@ namespace Inversions.GUI
                 tbDividends.Valor = prod.dividends(Producte.DateTimeFinalDia.Today);
                 tbValorActual.Valor = prod._ValorActual;
 
-                tbPiGActual.Valor = prod.pigValorat(Producte.DateTimeFinalDia.Today);
-                tbPiGReal.Valor = prod.pigReal(Producte.DateTimeFinalDia.Today);
+                //tbPiGActual.Valor = prod.pigValorat(Producte.DateTimeFinalDia.Today);
+                tbPiGActual.Valor = prod.pigEnCartera();
+
+                //tbPiGReal.Valor = prod.pigReal(Producte.DateTimeFinalDia.Today);
+                tbPiGReal.Valor = prod.pig();
 
                 if (prod is ProdFons)
                 {

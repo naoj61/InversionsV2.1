@@ -65,20 +65,20 @@ namespace Inversions.GUI
             //    conn.SaveChanges();
             //}
             //System.Diagnostics.Debug.WriteLine(cont);
-
-            //var cont = 0;
-            //double pigTotal = 0;
+            
+            var cont = 0;
+            double pigTotal = 0;
             
             ////for(int any = 2000; any <= 2017; any++)
             //{
-            //double totalAny = 0;
+            double totalAny = 0;
 
             //Debug.WriteLine("\nAny: {0}", any);
             //foreach (var producte in Program.Sessio.Productes)
             //{
             //    //var pig = producte.pig(any);
             //    //var pig = producte.pig(new DateTime(2013, 1, 1), new DateTime(2013, 12, 31));
-            //    var pig = producte.pig();
+            //    var pig = producte.pig(2016);
             //    Debug.WriteLine("Producte: {0}-{1}\t{2}", producte.Id, producte, pig);
             //    pigTotal += pig;
             //    totalAny += pig;

@@ -572,6 +572,56 @@ namespace Inversions
         }
 
 
+        internal static double Pig(TipusProducte tipusProducte, DateTime dataFinal)
+        {
+            double pig = 0;
+
+            if (tipusProducte == TipusProducte.Accions || tipusProducte == TipusProducte.Tots)
+            {
+                pig += Enumerable.Sum(Program.Sessio.ProdAccions, prodAccio => prodAccio.pig(dataFinal));
+            }
+
+            if (tipusProducte == TipusProducte.Fons || tipusProducte == TipusProducte.Tots)
+            {
+                pig += Enumerable.Sum(Program.Sessio.ProdFons, prodAccio => prodAccio.pig(dataFinal));
+            }
+
+            return pig;
+        }
+
+
+        public static double Pig(TipusProducte tipusProducte, int? any = null)
+        {
+            double pig = 0;
+
+            if (tipusProducte == TipusProducte.Accions || tipusProducte == TipusProducte.Tots)
+            {
+                if (any.HasValue)
+                    pig += Enumerable.Sum(Program.Sessio.ProdAccions, prodAccio => prodAccio.pig(any.Value));
+                else
+                    pig += Enumerable.Sum(Program.Sessio.ProdAccions, prodAccio => prodAccio.pig());
+            }
+
+            if (tipusProducte == TipusProducte.Fons || tipusProducte == TipusProducte.Tots)
+            {
+                if (any.HasValue)
+                    pig += Enumerable.Sum(Program.Sessio.ProdFons, prodAccio => prodAccio.pig(any.Value));
+                else
+                    pig += Enumerable.Sum(Program.Sessio.ProdFons, prodAccio => prodAccio.pig());
+            }
+
+            return pig;
+        }
+
+        /// <summary>
+        /// PiG de tots els moviments del producte.
+        /// </summary>
+        /// <returns></returns>
+        public double pig()
+        {
+            return pig(null, null);
+        }
+
         /// <summary>
         /// Quant ha guanyat en un periode. (Vendes o vendesT dins el periode) + (participacions en cartera al final del periode).
         /// Preu compra --> Si s'ha comprat dins el periode, preu compra o compraT, sinò, valoració al inici del periode del les venudes i en cartera.
@@ -584,6 +634,15 @@ namespace Inversions
             return pig(new DateTime(any, 1, 1), new DateTime(any, 12, 31));
         }
 
+        /// <summary>
+        /// PiG dels moviments amb data igual o anterior a dataFinal.
+        /// </summary>
+        /// <param name="dataFinal"></param>
+        /// <returns></returns>
+        public double pig(DateTime dataFinal)
+        {
+            return pig(null, dataFinal);
+        }
 
         /// <summary>
         /// Quant ha guanyat en un periode. (Vendes o vendesT dins el periode) + (participacions en cartera al final del periode).
@@ -593,7 +652,7 @@ namespace Inversions
         /// <param name="dataInici"></param>
         /// <param name="dataFinal"></param>
         /// <returns></returns>
-        public double pig(DateTime? dataInici = null, DateTime? dataFinal = null)
+        private double pig(DateTime? dataInici, DateTime? dataFinal)
         {
             var dInici = dataInici == null ? DateTime.MinValue : dataInici.Value.Date; // Poso la d'inici hora a zero.
             var dFinal = dataFinal == null ? DateTime.MaxValue : dataFinal.Value.Date.AddDays(1).AddTicks(-1); // Poso la hora final a 23:59:59.
@@ -605,12 +664,6 @@ namespace Inversions
             double totalDespeses = 0;
             if (this is ProdAccions)
             {
-                // todo Si Accio, s'han de trobar les despeses de les compres que corresponen a les vendes del periode.
-                //despeses = MovimentsProducteUsuari
-                //    .Where(w => w.Data >= dInici && w.Data <= dFinal && (w.TipusMoviment == TipusMoviment.Compra || w.TipusMoviment == TipusMoviment.Venda))
-                //    .Sum(s => s.Despeses.GetValueOrDefault());
-
-
                 foreach (var venda in vendes)
                 {
                     totalDespeses += venda.Despeses.GetValueOrDefault();
@@ -628,8 +681,12 @@ namespace Inversions
             // Preu compra --> Si s'ha comprat dins el periode, preu compra o compraT, sinò, valoració al inici del periode del les venudes i en cartera.
             var particEnCarteraInicial = numParticipacionsEnData(dInici);
             double valorInicialParticEnCartera = 0;
-            if(particEnCarteraInicial > 0)
-                valorInicialParticEnCartera = valorParticipacio(dInici) * particEnCarteraInicial;
+            if (particEnCarteraInicial > 0)
+            {
+                var dataValoracio = dInici == DateTime.MinValue ? dInici : dInici.AddTicks(-1); // Necessito la valoració anterior a la data dinici.
+                valorInicialParticEnCartera = valorParticipacio(dataValoracio) * particEnCarteraInicial;
+            }
+
             var importCompres = compres.Sum(s => s.Participacions * s.PreuParticipacio) + valorInicialParticEnCartera;
 
             // Calcula total vendes mes valor en cartera al final.
@@ -643,6 +700,32 @@ namespace Inversions
             return importVendes - importCompres + totalDividends - totalDespeses;
         }
 
+
+
+        public static double PigTributa(TipusProducte? tipusProducte = null, int? any = null)
+        {
+            double pig = 0;
+
+            tipusProducte = tipusProducte.HasValue ? tipusProducte : TipusProducte.Tots;
+
+            if (tipusProducte == TipusProducte.Accions || tipusProducte == TipusProducte.Tots)
+            {
+                if (any.HasValue)
+                    pig += Enumerable.Sum(Program.Sessio.ProdAccions, prodAccio => prodAccio.pigTributa(any.Value));
+                else
+                    pig += Enumerable.Sum(Program.Sessio.ProdAccions, prodAccio => prodAccio.pigTributa());
+            }
+
+            if (tipusProducte == TipusProducte.Fons || tipusProducte == TipusProducte.Tots)
+            {
+                if (any.HasValue)
+                    pig += Enumerable.Sum(Program.Sessio.ProdFons, prodAccio => prodAccio.pigTributa(any.Value));
+                else
+                    pig += Enumerable.Sum(Program.Sessio.ProdFons, prodAccio => prodAccio.pigTributa());
+            }
+
+            return pig;
+        }
 
         /// <summary>
         /// PiG que tributen en un periode. Vendes reals dins el periode.
@@ -693,6 +776,32 @@ namespace Inversions
 
 
             return Math.Round(totalVendes + totalDividends - totalDespeses, 3);
+        }
+
+
+        /// <summary>
+        /// PiG de les perticipacions en cartera a la data. Vendes reals dins el periode.
+        /// Preu compra --> Preu compra.
+        /// Preu venda  --> Valoració actual.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public double pigEnCartera(DateTime? data = null)
+        {
+            var dFinal = data.GetValueOrDefault(DateTime.MaxValue);
+
+            var participacions = numParticipacionsEnData(dFinal);
+
+            if (Utilitats.EsZero(participacions))
+                return 0;
+
+            var compresAnt = compresAnteriors(dFinal, participacions);
+
+            double totalCompres = compresAnt.Sum(compra => compra._ParticipacionsDisponibles * compra._Moviment.PreuParticipacio + compra._Moviment.Despeses.GetValueOrDefault());
+
+            double valorActual = participacions * valorParticipacio(dFinal);
+
+            return valorActual - totalCompres;
         }
     }
 }

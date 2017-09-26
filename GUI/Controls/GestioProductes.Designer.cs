@@ -199,8 +199,8 @@ namespace Inversions.GUI
             this.groupBox2.Size = new System.Drawing.Size(156, 50);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "PiG Real";
-            this.toolTip1.SetToolTip(this.groupBox2, "PiG de les vendes reals. \r\nInclou despeses.\r\nNo inclou dividends");
+            this.groupBox2.Text = "PiG Acumulat";
+            this.toolTip1.SetToolTip(this.groupBox2, "(Vendes o vendesT) + participacions en cartera");
             // 
             // tbPiGReal
             // 
@@ -285,8 +285,7 @@ namespace Inversions.GUI
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "PiG Actual";
-            this.toolTip1.SetToolTip(this.groupBox4, "Calculat a partir de l\'última valoració.\r\nVendes + dividends - compres. \r\nInclou " +
-        "traspassos");
+            this.toolTip1.SetToolTip(this.groupBox4, "PiG de les participacions actualment en cartera");
             // 
             // tbPiGActual
             // 
@@ -303,7 +302,7 @@ namespace Inversions.GUI
             this.tbPiGActual.TabIndex = 0;
             this.tbPiGActual.Text = "0,00 €";
             this.tbPiGActual.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.toolTip1.SetToolTip(this.tbPiGActual, "Vendes + dividends - compres. Inclou traspassos");
+            this.toolTip1.SetToolTip(this.tbPiGActual, "PiG de la cartera actual.");
             this.tbPiGActual.Valor = 0D;
             // 
             // groupBox15

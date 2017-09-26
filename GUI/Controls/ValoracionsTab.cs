@@ -26,6 +26,8 @@ namespace Inversions.GUI
             cbTipusProducteFiltre.DataSource = Enum.GetValues(typeof (Producte.TipusProducte));
             cbTipusProducteFiltre.SelectedIndex = 0;
             cbTipusProducteFiltre.SelectedIndexChanged += cbTipusProducteFiltre_SelectedIndexChanged;
+
+            dtpDataIniciLlista.Value = DateTime.Now.AddMonths(-6);
         }
 
         public DateTime _Data
@@ -294,8 +296,9 @@ namespace Inversions.GUI
                     break;
             }
 
-            var valMovs = valoracions.Select(s => new {Data = s.Data.Date, PreuParticipacio = s.PreuParticipacio}).
-                Union(moviments.Select(s => new {Data = s.Data.Date, PreuParticipacio = s.PreuParticipacio})).
+
+            var valMovs = valoracions.Where(w => w.Data >= dtpDataIniciLlista.Value).Select(s => new { Data = s.Data.Date, PreuParticipacio = s.PreuParticipacio }).
+                Union(moviments.Where(w => w.Data >= dtpDataIniciLlista.Value).Select(s => new {Data = s.Data.Date, PreuParticipacio = s.PreuParticipacio})).
                 GroupBy(g => g.Data).OrderBy(o => o.Key);
 
             if (!valMovs.Any())
@@ -322,15 +325,18 @@ namespace Inversions.GUI
                 switch (tipusProdFiltre)
                 {
                     case Producte.TipusProducte.Accions:
-                        pigPerData = ProdAccions.PiG(new Producte.DateTimeFinalDia(data));
+                        //pigPerData = ProdAccions.PiG(new Producte.DateTimeFinalDia(data));
+                        pigPerData = Producte.Pig(Producte.TipusProducte.Accions, data);
                         saldo = ProdAccions.Valor(new Producte.DateTimeFinalDia(data));
                         break;
                     case Producte.TipusProducte.Fons:
-                        pigPerData = ProdFons.PiG(new Producte.DateTimeFinalDia(data));
+                        //pigPerData = ProdFons.PiG(new Producte.DateTimeFinalDia(data));
+                        pigPerData = Producte.Pig(Producte.TipusProducte.Fons, data);
                         saldo = ProdFons.Valor(new Producte.DateTimeFinalDia(data));
                         break;
                     default:
-                        pigPerData = ProdAccions.PiG(new Producte.DateTimeFinalDia(data)) + ProdFons.PiG(new Producte.DateTimeFinalDia(data));
+                        //pigPerData = ProdAccions.PiG(new Producte.DateTimeFinalDia(data)) + ProdFons.PiG(new Producte.DateTimeFinalDia(data));
+                        pigPerData = Producte.Pig(Producte.TipusProducte.Tots, data);
                         saldo = ProdAccions.Valor(new Producte.DateTimeFinalDia(data)) + ProdFons.Valor(new Producte.DateTimeFinalDia(data));
                         break;
                 }

@@ -37,14 +37,18 @@ namespace Inversions.GUI
                 dgvPiGAnualsTotal.Rows.Clear();
                 for (int any = anyPrimeraVenda; any <= DateTime.Today.Year; any++)
                 {
-                    dgvPiGAnualsTributen.Rows.Add(any, 0, 0, Producte.PigReal(any, tipusProducte));
+                    //dgvPiGAnualsTributen.Rows.Add(any, 0, 0, Producte.PigReal(any, tipusProducte));
+                    dgvPiGAnualsTributen.Rows.Add(any, 0, 0, Producte.PigTributa(tipusProducte, any));
 
-                    dgvPiGAnualsTotal.Rows.Add(any, Producte.PigValorat(any, tipusProducte));
+                    //dgvPiGAnualsTotal.Rows.Add(any, Producte.PigValorat(any, tipusProducte));
+                    dgvPiGAnualsTotal.Rows.Add(any, Producte.Pig(tipusProducte, any));
                 }
-                int fila = dgvPiGAnualsTotal.Rows.Add("Total", Producte.PigValorat(tipusProducte));
+                //int fila = dgvPiGAnualsTotal.Rows.Add("Total", Producte.PigValorat(tipusProducte));
+                int fila = dgvPiGAnualsTotal.Rows.Add("Total", Producte.Pig(tipusProducte));
                 dgvPiGAnualsTotal.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTotal.Font, FontStyle.Bold);
 
-                fila = dgvPiGAnualsTributen.Rows.Add("Total", 0, 0, Producte.PigReal(tipusProducte));
+                //fila = dgvPiGAnualsTributen.Rows.Add("Total", 0, 0, Producte.PigReal(tipusProducte));
+                fila = dgvPiGAnualsTributen.Rows.Add("Total", 0, 0, Producte.PigTributa(tipusProducte));
                 dgvPiGAnualsTributen.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTributen.Font, FontStyle.Bold);
             }
         }
@@ -90,11 +94,18 @@ namespace Inversions.GUI
             var primerMoviment = proSeleccionat.MovimentsProducteUsuari.OrderBy(o => o.Data).FirstOrDefault();
             if (primerMoviment != null)
             {
+                double pigTotal = 0;
                 for (int any = primerMoviment.Data.Year; any <= DateTime.Today.Year; any++)
                 {
-                    dgvPiGProductePerAny.Rows.Add(any, proSeleccionat.pigValorat(any));
+                    //double pig = proSeleccionat.pigValorat(any);
+                    double pig = proSeleccionat.pig(any);
+                    
+                    pigTotal += pig;
+
+                    dgvPiGProductePerAny.Rows.Add(any, pig);
                 }
-                int fila = dgvPiGProductePerAny.Rows.Add("Total", proSeleccionat.pigValorat(Producte.DateTimeFinalDia.Today));
+                //int fila = dgvPiGProductePerAny.Rows.Add("Total", proSeleccionat.pigValorat(Producte.DateTimeFinalDia.Today));
+                int fila = dgvPiGProductePerAny.Rows.Add("Total", pigTotal);
                 dgvPiGProductePerAny.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGProductePerAny.Font, FontStyle.Bold);
             }
             dgvPiGProductePerAny.ResumeLayout();

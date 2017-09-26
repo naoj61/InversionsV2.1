@@ -28,6 +28,7 @@ namespace Inversions
         /// </summary>
         /// <param name="dataFi"></param>
         /// <returns></returns>
+        [System.Obsolete("Mètode obsolet, ", true)]
         public static double PiG(DateTimeFinalDia dataFi)
         {
             return Enumerable.Sum(Program.Sessio.Productes.Where(w => w is ProdAccions), producte => producte.pigValorat(dataFi));
