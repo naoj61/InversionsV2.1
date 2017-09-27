@@ -73,12 +73,18 @@ namespace Inversions.GUI
             //{
             double totalAny = 0;
 
+            //var prod = Program.Sessio.Productes.Single(s => s.Id == 7);
+            //var pigA = prod.pig(2014);
+            //var pigB = prod.pig(2015);
+
             //Debug.WriteLine("\nAny: {0}", any);
             //foreach (var producte in Program.Sessio.Productes)
             //{
             //    //var pig = producte.pig(any);
             //    //var pig = producte.pig(new DateTime(2013, 1, 1), new DateTime(2013, 12, 31));
-            //    var pig = producte.pig(2016);
+            //    var pig = producte.valorEnCartera();
+            //    var pig2 = producte.valorEnCartera(DateTime.Today);
+                
             //    Debug.WriteLine("Producte: {0}-{1}\t{2}", producte.Id, producte, pig);
             //    pigTotal += pig;
             //    totalAny += pig;

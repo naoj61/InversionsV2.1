@@ -21,26 +21,14 @@ namespace Inversions
         {
             get { return "Accions - " + _NomEmpresa; }
         }
-
-
-        /// <summary>
-        /// PiG de totes les accions en una data determinada.
-        /// </summary>
-        /// <param name="dataFi"></param>
-        /// <returns></returns>
-        [System.Obsolete("Mètode obsolet, ", true)]
-        public static double PiG(DateTimeFinalDia dataFi)
-        {
-            return Enumerable.Sum(Program.Sessio.Productes.Where(w => w is ProdAccions), producte => producte.pigValorat(dataFi));
-        }
-
+        
 
         /// <summary>
         /// Valor de les accions en cartera en una data determinada.
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static double Valor(DateTimeFinalDia data)
+        public static double Valor(DateTime data)
         {
             double saldo = 0;
 

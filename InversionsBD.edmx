@@ -424,7 +424,7 @@
           <NavigationProperty Name="Empresa" Relationship="InversionsBD.EmpresaP2" FromRole="Producte" ToRole="Empresa" />
           <Property Name="EmpresaId" Type="Int32" Nullable="false" cg:SetterAccess="Private" />
           <NavigationProperty Name="MovimentsProducte" Relationship="InversionsBD.ProdMov" FromRole="Prod" ToRole="Mov" />
-          <NavigationProperty Name="Valoracions" Relationship="InversionsBD.ProdValoracio" FromRole="Prod" ToRole="Valoracio" />
+          <NavigationProperty Name="ValoracionsProducte" Relationship="InversionsBD.ProdValoracio" FromRole="Prod" ToRole="Valoracio" />
           <NavigationProperty Name="MovimentsTraspas" Relationship="InversionsBD.ProducteMoviment" FromRole="Producte" ToRole="Moviment" />
           <Property Name="OrdreGrid" Type="Int32" />
           <Property Name="Moneda" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />

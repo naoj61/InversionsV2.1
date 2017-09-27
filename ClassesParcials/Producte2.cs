@@ -36,6 +36,16 @@ namespace Inversions
             return data.Date + (hora.HasValue ? hora.Value : DateTime.Now.TimeOfDay);
         }
 
+        /// <summary>
+        /// Poso la hora al final del dia
+        /// </summary>
+        /// <param name="dataFinal"></param>
+        /// <returns></returns>
+        internal static DateTime DataFinalDia(DateTime? dataFinal)
+        {
+            var dFinal = dataFinal.HasValue ? dataFinal.Value : DateTime.MaxValue;
+            return dFinal == DateTime.MaxValue ? dFinal : dFinal.AddDays(1).AddTicks(-1); // 
+        }
 
 
         /// <summary>
@@ -47,7 +57,7 @@ namespace Inversions
         private void afegeigPreuAValoracions(InversionsBDContext connexio, DateTime dataHora, double preuParticipacio)
         {
             // Crea una valoració amb el preu del moviment
-            Valoracio val = Valoracions.SingleOrDefault(a => a.ProdId == this.Id && a.Data.Date == dataHora.Date);
+            Valoracio val = ValoracionsProducte.SingleOrDefault(a => a.Data.Date == dataHora.Date);
             if (val == null)
             {
                 try
@@ -213,19 +223,19 @@ namespace Inversions
         /// <returns></returns>
         private double valorParticipacio(DateTime data)
         {
-            var valoracions = Valoracions.Where(w => w.ProdId == Id && w.Data <= data).OrderBy(o => o.Data).ToList();
+            var valoracions = ValoracionsProducte.Where(w => w.Data <= data).Select(val => new {val.Data, val.PreuParticipacio});
+            
+            var moviments = MovimentsProducte.Where(w => w.Data <= data && (w.TipusMoviment == TipusMoviment.Compra || w.TipusMoviment == TipusMoviment.Venda))
+                .Select(mov => new {mov.Data, mov.PreuParticipacio});
 
-            if (valoracions.Any())
+            var tot = valoracions.Union(moviments).OrderBy(o=>o.Data).ToList();
+
+            if(tot.Any())
             {
-                return valoracions.Last().PreuParticipacio;
+                return tot.Last().PreuParticipacio;
             }
-            else
-            {
-                var movsAnt = MovimentsProducteUsuari.
-                    Where(w => w.ProdId == Id && w.Data <= data && (w.TipusMoviment == TipusMoviment.Compra || w.TipusMoviment == TipusMoviment.Venda)).OrderBy(o => o.Data).
-                    ToList();
-                return movsAnt.Last().PreuParticipacio;
-            }
+
+            throw new ApplicationException("No hi ha cap moviment ni cap valoració disponibles.");
         }
 
 
@@ -269,7 +279,7 @@ namespace Inversions
         /// <param name="dataHoraCompra"></param>
         /// <param name="prodCompra"></param>
         /// <param name="participacionsCompra"></param>
-        internal void traspas(InversionsBDContext connexio, DateTime dataHoraVenda, double participacionsVenda, double preuParticipacioVenda, string descripcio,
+        internal void desaTraspas(InversionsBDContext connexio, DateTime dataHoraVenda, double participacionsVenda, double preuParticipacioVenda, string descripcio,
             DateTime dataHoraCompra, Producte prodCompra, double participacionsCompra)
         {
             dataHoraVenda = Utilitats.ArrodoneixoDataASegons(dataHoraVenda);
@@ -281,8 +291,8 @@ namespace Inversions
 
             double preuParticipacioCompra = Math.Round(preuParticipacioVenda * participacionsVenda / participacionsCompra, 4);
 
-            var venda = this.venda(connexio, dataHoraVenda, participacionsVenda, preuParticipacioVenda, 1, null, descripcio, prodCompra, false, true);
-            var compra = prodCompra.compra(connexio, dataHoraCompra, participacionsCompra, preuParticipacioCompra, 1, null, descripcio, venda, false, true);
+            var venda = this.desaVenda(connexio, dataHoraVenda, participacionsVenda, preuParticipacioVenda, 1, null, descripcio, prodCompra, false, true);
+            var compra = prodCompra.desaCompra(connexio, dataHoraCompra, participacionsCompra, preuParticipacioCompra, 1, null, descripcio, venda, false, true);
         }
 
 
@@ -300,12 +310,12 @@ namespace Inversions
         /// <param name="afegeigPreuAValoracions"></param>
         /// <param name="mostraFinestraAdvertencia"></param>
         /// <returns></returns>
-        internal Moviment compra(InversionsBDContext connexio, DateTime data, TimeSpan hora, double participacions, double preuParticipacio, double canviAplicat,
+        internal Moviment desaCompra(InversionsBDContext connexio, DateTime data, TimeSpan hora, double participacions, double preuParticipacio, double canviAplicat,
             double? despeses, string descripcio, bool afegeigPreuAValoracions = true, bool mostraFinestraAdvertencia = true)
         {
             DateTime dataHora = FormaData(data, hora);
 
-            return compra(connexio, dataHora, participacions, preuParticipacio, canviAplicat, despeses, descripcio, null, afegeigPreuAValoracions, mostraFinestraAdvertencia);
+            return desaCompra(connexio, dataHora, participacions, preuParticipacio, canviAplicat, despeses, descripcio, null, afegeigPreuAValoracions, mostraFinestraAdvertencia);
         }
 
 
@@ -323,7 +333,7 @@ namespace Inversions
         /// <param name="afegeigPreuAValoracions"></param>
         /// <param name="mostraFinestraAdvertencia"></param>
         /// <returns></returns>
-        private Moviment compra(InversionsBDContext connexio, DateTime dataHora, double participacions, double preuParticipacio, double canviAplicat,
+        private Moviment desaCompra(InversionsBDContext connexio, DateTime dataHora, double participacions, double preuParticipacio, double canviAplicat,
             double? despeses, string descripcio, Moviment movimentVendaVinculatTraspas, bool afegeigPreuAValoracions, bool mostraFinestraAdvertencia)
         {
             validacionsCompraVenda(connexio, dataHora, participacions, mostraFinestraAdvertencia);
@@ -371,12 +381,12 @@ namespace Inversions
         /// <param name="afegeigPreuAValoracions"></param>
         /// <param name="mostraFinestraAdvertencia"></param>
         /// <returns></returns>
-        internal Moviment venda(InversionsBDContext connexio, DateTime data, TimeSpan hora, double participacions, double preuParticipacio, double canviAplicat,
+        internal Moviment desaVenda(InversionsBDContext connexio, DateTime data, TimeSpan hora, double participacions, double preuParticipacio, double canviAplicat,
             double? despeses, string descripcio, bool afegeigPreuAValoracions = true, bool mostraFinestraAdvertencia = true)
         {
             DateTime dataHora = FormaData(data, hora);
 
-            return venda(connexio, dataHora, participacions, preuParticipacio, canviAplicat, despeses, descripcio, null, afegeigPreuAValoracions, mostraFinestraAdvertencia);
+            return desaVenda(connexio, dataHora, participacions, preuParticipacio, canviAplicat, despeses, descripcio, null, afegeigPreuAValoracions, mostraFinestraAdvertencia);
         }
 
 
@@ -394,7 +404,7 @@ namespace Inversions
         /// <param name="afegeigPreuAValoracions"></param>
         /// <param name="mostraFinestraAdvertencia"></param>
         /// <returns></returns>
-        private Moviment venda(InversionsBDContext connexio, DateTime dataHora, double participacions, double preuParticipacio, double canviAplicat,
+        private Moviment desaVenda(InversionsBDContext connexio, DateTime dataHora, double participacions, double preuParticipacio, double canviAplicat,
             double? despeses, string descripcio, Producte prodCompraMovimentVinculatTraspas, bool afegeigPreuAValoracions, bool mostraFinestraAdvertencia)
         {
             validacionsCompraVenda(connexio, dataHora, participacions, mostraFinestraAdvertencia);
@@ -424,13 +434,7 @@ namespace Inversions
         }
 
 
-        internal Moviment dividend(InversionsBDContext connexio, DateTime data, TimeSpan hora, double importTotalDividend, double canviAplicat, double? despeses, string descripcio)
-        {
-            DateTime dataHora = FormaData(data, hora);
-            return dividend(connexio, dataHora, importTotalDividend, canviAplicat, despeses, descripcio);
-        }
-
-        internal Moviment dividend(InversionsBDContext connexio, DateTime dataHora, double importTotalDividend, double canviAplicat, double? despeses, string descripcio)
+        internal Moviment desaDividend(InversionsBDContext connexio, DateTime dataHora, double importTotalDividend, double canviAplicat, double? despeses, string descripcio)
         {
             Moviment moviment = connexio.Moviments.Create();
             moviment.IdUsuari = Usuari.Seleccionat.Id;
@@ -484,7 +488,7 @@ namespace Inversions
                     despesesSenseSplit = Math.Round(mov1.Despeses.GetValueOrDefault() / mov1.Participacions * particSenseSplit, 4);
                     
                     // Creo una nova compra amb la part de la compra original que no li afecta el Split
-                    compra(connexio, data1, particSenseSplit, mov1.PreuParticipacio, mov1.CanviAplicat, despesesSenseSplit, descripcio, null, false, false);
+                    desaCompra(connexio, data1, particSenseSplit, mov1.PreuParticipacio, mov1.CanviAplicat, despesesSenseSplit, descripcio, null, false, false);
                 }
 
                 // Calculo el nou preu i les participacions del Split i creo una compra amb les participacions afectades.
@@ -492,7 +496,7 @@ namespace Inversions
                 int participacions = particSplit * factorConversor;
                 double preuParticipacio = Math.Round(mov1.PreuParticipacio / factorConversor, 4);
                 double despesesSplit = Math.Round(mov1.Despeses.GetValueOrDefault() - despesesSenseSplit, 4);
-                compra(connexio, data1, participacions, preuParticipacio, mov1.CanviAplicat, despesesSplit, descripcio, null, false, false);
+                desaCompra(connexio, data1, participacions, preuParticipacio, mov1.CanviAplicat, despesesSplit, descripcio, null, false, false);
             }
 
 
@@ -541,7 +545,7 @@ namespace Inversions
                     despesesSenseContraSplit = Math.Round(mov1.Despeses.GetValueOrDefault() / mov1.Participacions * particSenseContraSplit, 4);
 
                     // Creo una nova compra amb la part de la compra original que no li afecta el ContraSplit
-                    compra(connexio, data1, particSenseContraSplit, mov1.PreuParticipacio, mov1.CanviAplicat, despesesSenseContraSplit, descripcio, null, false, false);
+                    desaCompra(connexio, data1, particSenseContraSplit, mov1.PreuParticipacio, mov1.CanviAplicat, despesesSenseContraSplit, descripcio, null, false, false);
                 }
 
                 if (particContraSplit > 0)
@@ -551,7 +555,7 @@ namespace Inversions
                     int participacions = particContraSplit / factorConversor;
                     var preuParticipacio = Math.Round(mov1.PreuParticipacio * factorConversor, 4); // Calculo el nou preu i les participacions del contraSplit
                     double despesesContraSplit = Math.Round(mov1.Despeses.GetValueOrDefault() - despesesSenseContraSplit, 4);
-                    compra(connexio, data1, participacions, preuParticipacio, mov1.CanviAplicat, despesesContraSplit, descripcio, null, false, false); 
+                    desaCompra(connexio, data1, participacions, preuParticipacio, mov1.CanviAplicat, despesesContraSplit, descripcio, null, false, false); 
                 }
 
 
@@ -559,7 +563,7 @@ namespace Inversions
                 {
                     // Venc les participacions restants.
                     data1 = data1.AddSeconds(1);
-                    var ven = venda(connexio, data1, partRestants, preuOperacio, canviAplicat, 0, descripcio, null, false, false);
+                    var ven = desaVenda(connexio, data1, partRestants, preuOperacio, canviAplicat, 0, descripcio, null, false, false);
                     ven.PreuParticipacioOrigen = mov1.PreuParticipacioOrigen.GetValueOrDefault(); // Modifico el PreuParticipacioOrigen.
                 }
             }
@@ -617,9 +621,9 @@ namespace Inversions
         /// PiG de tots els moviments del producte.
         /// </summary>
         /// <returns></returns>
-        public double pig()
+        internal double pig()
         {
-            return pig(null, null);
+            return pig(DateTime.MinValue, DateTime.MaxValue);
         }
 
         /// <summary>
@@ -629,7 +633,7 @@ namespace Inversions
         /// </summary>
         /// <param name="any">Del 1 de gener al 31 de desembre de l'any.</param>
         /// <returns></returns>
-        public double pig(int any)
+        internal double pig(int any)
         {
             return pig(new DateTime(any, 1, 1), new DateTime(any, 12, 31));
         }
@@ -639,9 +643,9 @@ namespace Inversions
         /// </summary>
         /// <param name="dataFinal"></param>
         /// <returns></returns>
-        public double pig(DateTime dataFinal)
+        internal double pig(DateTime dataFinal)
         {
-            return pig(null, dataFinal);
+            return pig(DateTime.MinValue, dataFinal);
         }
 
         /// <summary>
@@ -652,10 +656,10 @@ namespace Inversions
         /// <param name="dataInici"></param>
         /// <param name="dataFinal"></param>
         /// <returns></returns>
-        private double pig(DateTime? dataInici, DateTime? dataFinal)
+        internal double pig(DateTime dataInici, DateTime dataFinal)
         {
-            var dInici = dataInici == null ? DateTime.MinValue : dataInici.Value.Date; // Poso la d'inici hora a zero.
-            var dFinal = dataFinal == null ? DateTime.MaxValue : dataFinal.Value.Date.AddDays(1).AddTicks(-1); // Poso la hora final a 23:59:59.
+            var dInici = dataInici.Date; // Poso la d'inici hora a zero.
+            var dFinal = DataFinalDia(dataFinal);
 
             var compres = MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w.TipusMoviment == TipusMoviment.Compra).ToList();
             var vendes = MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w.TipusMoviment == TipusMoviment.Venda).ToList();
@@ -702,6 +706,14 @@ namespace Inversions
 
 
 
+        /// <summary>
+        /// PiG de tots els productes en un any. Vendes reals dins el periode.
+        /// Preu compra --> Preu origen.
+        /// Preu venda  --> Preu venda.
+        /// </summary>
+        /// <param name="tipusProducte"></param>
+        /// <param name="any"></param>
+        /// <returns></returns>
         public static double PigTributa(TipusProducte? tipusProducte = null, int? any = null)
         {
             double pig = 0;
@@ -727,6 +739,19 @@ namespace Inversions
             return pig;
         }
 
+
+        /// <summary>
+        /// PiG que tributen. Vendes reals de qualsevol periode.
+        /// Preu compra --> Preu origen.
+        /// Preu venda  --> Preu venda.
+        /// </summary>
+        /// <returns></returns>
+        internal double pigTributa()
+        {
+            return pigTributa(DateTime.MinValue, DateTime.MaxValue);
+        }
+
+
         /// <summary>
         /// PiG que tributen en un periode. Vendes reals dins el periode.
         /// Preu compra --> Preu origen.
@@ -734,7 +759,7 @@ namespace Inversions
         /// </summary>
         /// <param name="any"></param>
         /// <returns></returns>
-        public double pigTributa(int any)
+        internal double pigTributa(int any)
         {
             return pigTributa(new DateTime(any, 1, 1), new DateTime(any, 12, 31));
         }
@@ -747,10 +772,10 @@ namespace Inversions
         /// <param name="dataInici"></param>
         /// <param name="dataFinal"></param>
         /// <returns></returns>
-        public double pigTributa(DateTime? dataInici = null, DateTime? dataFinal = null)
+        private double pigTributa(DateTime dataInici, DateTime dataFinal)
         {
-            var dInici = dataInici == null ? DateTime.MinValue : dataInici.Value.Date; // Poso la d'inici hora a zero.
-            var dFinal = dataFinal == null ? DateTime.MaxValue : dataFinal.Value.Date.AddDays(1).AddTicks(-1); // Poso la hora final a 23:59:59.
+            var dInici = dataInici.Date; // Poso la d'inici hora a zero.
+            var dFinal = DataFinalDia(dataFinal);
 
             var totalVendes = MovimentsProducteUsuari.
                 Where(w => w.Data >= dInici && w.Data <= dFinal && w.TipusMoviment == TipusMoviment.Venda && !w._EsTraspas).
@@ -786,9 +811,9 @@ namespace Inversions
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public double pigEnCartera(DateTime? data = null)
+        public double pigEnCartera(DateTime? dataFinal = null)
         {
-            var dFinal = data.GetValueOrDefault(DateTime.MaxValue);
+            var dFinal = DataFinalDia(dataFinal);
 
             var participacions = numParticipacionsEnData(dFinal);
 
@@ -799,9 +824,27 @@ namespace Inversions
 
             double totalCompres = compresAnt.Sum(compra => compra._ParticipacionsDisponibles * compra._Moviment.PreuParticipacio + compra._Moviment.Despeses.GetValueOrDefault());
 
-            double valorActual = participacions * valorParticipacio(dFinal);
+            //double valorActual = participacions * valorParticipacio(dFinal);
 
-            return valorActual - totalCompres;
+            return valorEnCartera(dFinal) - totalCompres;
+        }
+
+
+        /// <summary>
+        /// Torna el valor de les participacions en cartera en una data determinada.
+        /// </summary>
+        /// <param name="dataFinal"></param>
+        /// <returns></returns>
+        internal double valorEnCartera(DateTime? dataFinal = null)
+        {
+            var dFinal = DataFinalDia(dataFinal);
+
+            var participacions = numParticipacionsEnData(dFinal);
+
+            if (Utilitats.EsZero(participacions))
+                return 0;
+
+            return participacions * valorParticipacio(dFinal);
         }
     }
 }

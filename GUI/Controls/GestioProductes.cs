@@ -145,7 +145,7 @@ namespace Inversions.GUI
                 lbEmpresa.Text = prod._NomEmpresa;
                 lbMoneda.Text = prod.Moneda;
                 tbParticipacions.Valor = prod._Participacions;
-                tbDividends.Valor = prod.dividends(Producte.DateTimeFinalDia.Today);
+                tbDividends.Valor = prod.dividends(DateTime.Today);
                 tbValorActual.Valor = prod._ValorActual;
 
                 //tbPiGActual.Valor = prod.pigValorat(Producte.DateTimeFinalDia.Today);

@@ -9,7 +9,6 @@ namespace Inversions.GUI
     {
         // Todo - Moneda. Les valoracions del valors en dolars els hauria de veure convertits a Euros a partir del l'ultim canvi de moneda introduit.
         // Todo - Afegir pestanya amb simulació venda. Veuria les PiG i l'import a tributar en cas d'una venda.
-        // Todo - La casella PiG actual no l'entenc, hauria de ser el PiG dels valors actualment en cartera.
 
         public MovimentsTab()
         {
@@ -264,24 +263,24 @@ namespace Inversions.GUI
                                 //    tbDespeses._DoubleValue, tbDescripcio.Text);
                                 if (tipusMoviment == TipusMoviment.Compra)
                                 {
-                                    prodOrigen.compra(conn, cData1.Value, DateTime.Now.TimeOfDay, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue,
+                                    prodOrigen.desaCompra(conn, cData1.Value, DateTime.Now.TimeOfDay, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue,
                                         tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
                                 }
                                 else if (tipusMoviment == TipusMoviment.Venda)
                                 {
-                                    prodOrigen.venda(conn, cData1.Value, DateTime.Now.TimeOfDay, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue,
+                                    prodOrigen.desaVenda(conn, cData1.Value, DateTime.Now.TimeOfDay, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue,
                                         tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
                                 }
                                 else if (tipusMoviment == TipusMoviment.Dividends)
                                 {
-                                    prodOrigen.dividend(conn, cData1.Value, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
+                                    prodOrigen.desaDividend(conn, cData1.Value, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
                                 }
                             }
                         }
                         else
                         {
                             var dataDesti = ckActivaDataDesti.Checked ? cDataDesti.Value : cData1.Value;
-                            prodOrigen.traspas(conn, cData1.Value, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, tbDescripcio.Text, dataDesti,
+                            prodOrigen.desaTraspas(conn, cData1.Value, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, tbDescripcio.Text, dataDesti,
                                 prodDesti, tbNumParticipacionsDesti._DoubleValue);
                         }
 

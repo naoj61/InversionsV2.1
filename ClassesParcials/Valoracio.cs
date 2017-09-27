@@ -37,7 +37,7 @@ namespace Inversions
         {
             get
             {
-                return Prod == null ? 0 : Prod.numParticipacionsEnData(new Producte.DateTimeFinalDia(this.Data));
+                return Prod == null ? 0 : Prod.numParticipacionsEnData(Producte.DataFinalDia(this.Data));
             }
         }
 
@@ -83,7 +83,7 @@ namespace Inversions
                 if (Prod == null)
                     return 0;
          
-                return PreuParticipacio * Prod.numParticipacionsEnData(new Producte.DateTimeFinalDia(Data));
+                return PreuParticipacio * Prod.numParticipacionsEnData(Producte.DataFinalDia(Data));
             }
         }
 
