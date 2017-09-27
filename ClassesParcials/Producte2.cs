@@ -12,7 +12,7 @@ namespace Inversions
 {
     public abstract partial class Producte : IComparable<Producte>
     {
-        public struct MovimentCompra
+        private struct MovimentCompra
         {
             public Moviment _Moviment { get; private set; }
             public double _ParticipacionsDisponibles { get; private set; }
@@ -24,29 +24,6 @@ namespace Inversions
             }
 
         }
-
-        /// <summary>
-        /// Forma DateTime a partir dels paràmetres data i hora.
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="hora">Si null, posa la hora actual.</param>
-        /// <returns></returns>
-        private static DateTime FormaData(DateTime data, TimeSpan? hora)
-        {
-            return data.Date + (hora.HasValue ? hora.Value : DateTime.Now.TimeOfDay);
-        }
-
-        /// <summary>
-        /// Poso la hora al final del dia
-        /// </summary>
-        /// <param name="dataFinal"></param>
-        /// <returns></returns>
-        internal static DateTime DataFinalDia(DateTime? dataFinal)
-        {
-            var dFinal = dataFinal.HasValue ? dataFinal.Value : DateTime.MaxValue;
-            return dFinal == DateTime.MaxValue ? dFinal : dFinal.AddDays(1).AddTicks(-1); // 
-        }
-
 
         /// <summary>
         /// Afegeig un preu a la taula "Valoracions"
@@ -153,7 +130,7 @@ namespace Inversions
         /// </summary>
         /// <param name="moviment"></param>
         /// <returns></returns>
-        public double calculaPreuOrigen(Moviment moviment)
+        internal double calculaPreuOrigen(Moviment moviment)
         {
             double valorRetorn;
 
@@ -313,7 +290,7 @@ namespace Inversions
         internal Moviment desaCompra(InversionsBDContext connexio, DateTime data, TimeSpan hora, double participacions, double preuParticipacio, double canviAplicat,
             double? despeses, string descripcio, bool afegeigPreuAValoracions = true, bool mostraFinestraAdvertencia = true)
         {
-            DateTime dataHora = FormaData(data, hora);
+            DateTime dataHora = Utilitats.FormaData(data, hora);
 
             return desaCompra(connexio, dataHora, participacions, preuParticipacio, canviAplicat, despeses, descripcio, null, afegeigPreuAValoracions, mostraFinestraAdvertencia);
         }
@@ -338,7 +315,6 @@ namespace Inversions
         {
             validacionsCompraVenda(connexio, dataHora, participacions, mostraFinestraAdvertencia);
 
-            //Moviment moviment = new Moviment();
             Moviment moviment = connexio.Moviments.Create();
             moviment.IdUsuari = Usuari.Seleccionat.Id;
             moviment.TipusMoviment = TipusMoviment.Compra;
@@ -384,7 +360,7 @@ namespace Inversions
         internal Moviment desaVenda(InversionsBDContext connexio, DateTime data, TimeSpan hora, double participacions, double preuParticipacio, double canviAplicat,
             double? despeses, string descripcio, bool afegeigPreuAValoracions = true, bool mostraFinestraAdvertencia = true)
         {
-            DateTime dataHora = FormaData(data, hora);
+            DateTime dataHora = Utilitats.FormaData(data, hora);
 
             return desaVenda(connexio, dataHora, participacions, preuParticipacio, canviAplicat, despeses, descripcio, null, afegeigPreuAValoracions, mostraFinestraAdvertencia);
         }
@@ -409,7 +385,6 @@ namespace Inversions
         {
             validacionsCompraVenda(connexio, dataHora, participacions, mostraFinestraAdvertencia);
 
-            //Moviment moviment = new Moviment();
             Moviment moviment = connexio.Moviments.Create();
             moviment.IdUsuari = Usuari.Seleccionat.Id;
             moviment.TipusMoviment = TipusMoviment.Venda;
@@ -626,6 +601,7 @@ namespace Inversions
             return pig(DateTime.MinValue, DateTime.MaxValue);
         }
 
+    
         /// <summary>
         /// Quant ha guanyat en un periode. (Vendes o vendesT dins el periode) + (participacions en cartera al final del periode).
         /// Preu compra --> Si s'ha comprat dins el periode, preu compra o compraT, sinò, valoració al inici del periode del les venudes i en cartera.
@@ -638,6 +614,7 @@ namespace Inversions
             return pig(new DateTime(any, 1, 1), new DateTime(any, 12, 31));
         }
 
+
         /// <summary>
         /// PiG dels moviments amb data igual o anterior a dataFinal.
         /// </summary>
@@ -647,6 +624,7 @@ namespace Inversions
         {
             return pig(DateTime.MinValue, dataFinal);
         }
+
 
         /// <summary>
         /// Quant ha guanyat en un periode. (Vendes o vendesT dins el periode) + (participacions en cartera al final del periode).
@@ -659,7 +637,7 @@ namespace Inversions
         internal double pig(DateTime dataInici, DateTime dataFinal)
         {
             var dInici = dataInici.Date; // Poso la d'inici hora a zero.
-            var dFinal = DataFinalDia(dataFinal);
+            var dFinal = Utilitats.DataFinalDia(dataFinal);
 
             var compres = MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w.TipusMoviment == TipusMoviment.Compra).ToList();
             var vendes = MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w.TipusMoviment == TipusMoviment.Venda).ToList();
@@ -703,7 +681,6 @@ namespace Inversions
 
             return importVendes - importCompres + totalDividends - totalDespeses;
         }
-
 
 
         /// <summary>
@@ -764,6 +741,7 @@ namespace Inversions
             return pigTributa(new DateTime(any, 1, 1), new DateTime(any, 12, 31));
         }
 
+
         /// <summary>
         /// PiG que tributen en un periode. Vendes reals dins el periode.
         /// Preu compra --> Preu origen.
@@ -775,7 +753,7 @@ namespace Inversions
         private double pigTributa(DateTime dataInici, DateTime dataFinal)
         {
             var dInici = dataInici.Date; // Poso la d'inici hora a zero.
-            var dFinal = DataFinalDia(dataFinal);
+            var dFinal = Utilitats.DataFinalDia(dataFinal);
 
             var totalVendes = MovimentsProducteUsuari.
                 Where(w => w.Data >= dInici && w.Data <= dFinal && w.TipusMoviment == TipusMoviment.Venda && !w._EsTraspas).
@@ -809,11 +787,11 @@ namespace Inversions
         /// Preu compra --> Preu compra.
         /// Preu venda  --> Valoració actual.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="dataFinal"></param>
         /// <returns></returns>
         public double pigEnCartera(DateTime? dataFinal = null)
         {
-            var dFinal = DataFinalDia(dataFinal);
+            var dFinal = Utilitats.DataFinalDia(dataFinal);
 
             var participacions = numParticipacionsEnData(dFinal);
 
@@ -823,8 +801,6 @@ namespace Inversions
             var compresAnt = compresAnteriors(dFinal, participacions);
 
             double totalCompres = compresAnt.Sum(compra => compra._ParticipacionsDisponibles * compra._Moviment.PreuParticipacio + compra._Moviment.Despeses.GetValueOrDefault());
-
-            //double valorActual = participacions * valorParticipacio(dFinal);
 
             return valorEnCartera(dFinal) - totalCompres;
         }
@@ -837,7 +813,7 @@ namespace Inversions
         /// <returns></returns>
         internal double valorEnCartera(DateTime? dataFinal = null)
         {
-            var dFinal = DataFinalDia(dataFinal);
+            var dFinal = Utilitats.DataFinalDia(dataFinal);
 
             var participacions = numParticipacionsEnData(dFinal);
 

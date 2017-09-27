@@ -90,7 +90,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassesParcials\InversionsBDContext.cs" />
-    <Compile Include="ClassesParcials\Moviment2.cs" />
     <Compile Include="ClassesParcials\Producte2.cs" />
     <Compile Include="ClassesParcials\Usuari.cs" />
     <Compile Include="ClassesParcials\Valoracio.cs" />

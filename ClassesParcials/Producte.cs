@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security;
 using System.Windows.Forms;
+using Comuns;
 
 namespace Inversions
 {
@@ -146,7 +147,7 @@ namespace Inversions
         /// </summary>
         public double _Participacions
         {
-            get { return numParticipacionsEnData(DataFinalDia(DateTime.Today)); }
+            get { return numParticipacionsEnData(Utilitats.DataFinalDia(DateTime.Today)); }
         }
 
 
@@ -161,27 +162,12 @@ namespace Inversions
         #endregion
 
 
-        #region *** Mètodes validats ***
-        
-
-        private static IEnumerable<Producte> ProductesPerTipus(TipusProducte tipusProducte)
-        {
-            var prods = Program.Sessio.Productes.ToList();
-            if (tipusProducte != TipusProducte.Tots)
-                prods = prods.Where(w => w._TipusProducte == tipusProducte).ToList();
-
-            return prods;
-        }
-
         internal double dividends(DateTime dataFi)
         {
-            var dFinal = DataFinalDia(dataFi);
-
-            return MovimentsProducteUsuari.Where(w => w._EsDividents && w.Data < dFinal).Sum(s => s.PreuParticipacio);
+            return MovimentsProducteUsuari.Where(w => w._EsDividents && w.Data < Utilitats.DataFinalDia(dataFi)).Sum(s => s.PreuParticipacio);
         }
 
 
-    
         /// <summary>
         /// Torna les participacions en una data hora determinada. No te en compte els moviments del mateix dia fets en hora posterior.
         /// </summary>
@@ -189,22 +175,10 @@ namespace Inversions
         /// <returns></returns>
         internal double numParticipacionsEnData(DateTime data)
         {
-            List<Moviment> movs = MovimentsProducteUsuari.Where(w => w.Data <= data).ToList();
-
-            double result = 0;
-            if (movs.Any())
-            {
-                var compra = movs.Where(w => w.TipusMoviment == TipusMoviment.Compra).Sum(s => s.Participacions);
-                var venda = movs.Where(w => w.TipusMoviment == TipusMoviment.Venda).Sum(s => s.Participacions);
-
-                result = Math.Round(compra - venda, 6);
-            }
-
-            return result;
+            var particComprades = MovimentsProducteUsuari.Where(w => w.Data <= data && w.TipusMoviment == TipusMoviment.Compra).Sum(s => s.Participacions);
+            var particVenudes = MovimentsProducteUsuari.Where(w => w.Data <= data && w.TipusMoviment == TipusMoviment.Venda).Sum(s => s.Participacions);
+            return particComprades - particVenudes;
         }
-        
-
-        #endregion *** Mètodes validats ***
 
 
         /// <summary>

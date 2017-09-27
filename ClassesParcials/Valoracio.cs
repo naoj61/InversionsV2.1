@@ -5,6 +5,7 @@ using System.Data.Entity.Migrations;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using Comuns;
 using Inversions.GUI;
 
 namespace Inversions
@@ -37,7 +38,7 @@ namespace Inversions
         {
             get
             {
-                return Prod == null ? 0 : Prod.numParticipacionsEnData(Producte.DataFinalDia(this.Data));
+                return Prod == null ? 0 : Prod.numParticipacionsEnData(Utilitats.DataFinalDia(this.Data));
             }
         }
 
@@ -82,8 +83,8 @@ namespace Inversions
             {
                 if (Prod == null)
                     return 0;
-         
-                return PreuParticipacio * Prod.numParticipacionsEnData(Producte.DataFinalDia(Data));
+
+                return PreuParticipacio * Prod.numParticipacionsEnData(Utilitats.DataFinalDia(Data));
             }
         }
 
