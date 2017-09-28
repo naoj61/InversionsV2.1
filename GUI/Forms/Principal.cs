@@ -17,9 +17,7 @@ namespace Inversions.GUI
       
         public Principal()
         {
-
             InitializeComponent();
-
 
             this.Text = "Producte. Ver: " + Application.ProductVersion;
 

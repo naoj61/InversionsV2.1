@@ -592,16 +592,21 @@ namespace Inversions
             return pig;
         }
 
+
         /// <summary>
         /// PiG de tots els moviments del producte.
         /// </summary>
+        /// <param name="dataInici"></param>
+        /// <param name="dataFi"></param>
         /// <returns></returns>
-        internal double pig()
+        internal double pig(DateTime? dataInici = null, DateTime? dataFi = null)
         {
-            return pig(DateTime.MinValue, DateTime.MaxValue);
+            var dataI = dataInici.HasValue ? dataInici.Value : DateTime.MinValue;
+            var dataF = dataFi.HasValue ? dataFi.Value : DateTime.MaxValue;
+            return pig(dataI, dataF);
         }
 
-    
+
         /// <summary>
         /// Quant ha guanyat en un periode. (Vendes o vendesT dins el periode) + (participacions en cartera al final del periode).
         /// Preu compra --> Si s'ha comprat dins el periode, preu compra o compraT, sinò, valoració al inici del periode del les venudes i en cartera.

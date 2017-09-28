@@ -74,6 +74,8 @@ namespace Inversions.GUI
                 actualitzaLlistaPerduesGuanys();
                 colDataTraspas.Visible = gestioProductesTabValoracions._ProducteSeleccionat._TipusProducte != Producte.TipusProducte.Accions;
                 dgvPiGProducte.Visible = true;
+                gbFiltreDates.Enabled = true;
+                tbPigEntreDates.Valor = 0;
             }
         }
 
@@ -109,6 +111,11 @@ namespace Inversions.GUI
                 dgvPiGProductePerAny.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGProductePerAny.Font, FontStyle.Bold);
             }
             dgvPiGProductePerAny.ResumeLayout();
+        }
+
+        private void btFiltreDates_Click(object sender, EventArgs e)
+        {
+            tbPigEntreDates.Valor = gestioProductesTabValoracions._ProducteSeleccionat.pig(dtpFiltreDataInici.Value, dtpFiltreDataFi.Value);
         }
     }
 }
