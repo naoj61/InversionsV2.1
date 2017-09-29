@@ -693,7 +693,6 @@
             // 
             this.gestioProductesTabMoviments._FiltreAnyVisible = true;
             this.gestioProductesTabMoviments._NomesAmbParticipacions = false;
-            this.gestioProductesTabMoviments._ProducteSeleccionat = null;
             this.gestioProductesTabMoviments.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.gestioProductesTabMoviments.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gestioProductesTabMoviments.Location = new System.Drawing.Point(0, 0);

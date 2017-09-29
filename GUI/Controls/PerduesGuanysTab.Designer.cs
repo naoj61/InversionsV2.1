@@ -694,7 +694,6 @@ namespace Inversions.GUI
             // 
             this.gestioProductesTabValoracions._FiltreAnyVisible = false;
             this.gestioProductesTabValoracions._NomesAmbParticipacions = true;
-            this.gestioProductesTabValoracions._ProducteSeleccionat = null;
             this.gestioProductesTabValoracions.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.gestioProductesTabValoracions.Dock = System.Windows.Forms.DockStyle.Top;
             this.gestioProductesTabValoracions.Location = new System.Drawing.Point(0, 0);

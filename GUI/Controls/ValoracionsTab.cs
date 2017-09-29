@@ -169,6 +169,7 @@ namespace Inversions.GUI
                             Valoracio.Nova(conn, gestioProductesTabValoracions._ProducteSeleccionat, cData.Value, tbImport._DoubleValue);
 
                             trans.Commit();
+
                         }
                         else
                         {
@@ -180,6 +181,8 @@ namespace Inversions.GUI
                                 // Carrega el nou valor.
                                 Program.Sessio.Entry(vValoracioSeleccionada).Reload();
                         }
+
+                        gestioProductesTabValoracions.refrescaDadesControl();
                     }
                     catch (Exception ex)
                     {

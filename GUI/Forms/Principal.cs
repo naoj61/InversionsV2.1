@@ -19,6 +19,46 @@ namespace Inversions.GUI
         {
             InitializeComponent();
 
+            //using (var conn = new InversionsBDContext())
+            //{
+            //    //var conn = Program.Sessio;
+
+            //    using (var dbContextTransaction = conn.Database.BeginTransaction())
+            //    {
+            //        try
+            //        {
+            //            //var ges = conn.Gestors.Single(s => s.Id == 1);
+            //            var ges = conn.Gestors.Create();
+            //            ges.Nom = "jlklkh";
+            //            ges.Empresa = conn.Empreses.First();
+
+            //            conn.Gestors.AddOrUpdate(ges);
+            //            conn.SaveChanges();
+                        
+            //            //dbContextTransaction.Rollback();
+            //            //dbContextTransaction.Commit();
+
+            //            conn.Gestors.Remove(ges);
+            //            conn.SaveChanges();
+
+            //            ////dbContextTransaction.Rollback();
+            //            dbContextTransaction.Commit();
+
+
+            //        }
+            //        catch (Exception)
+            //        {
+            //            dbContextTransaction.Rollback();
+            //            throw;
+            //        }
+            //    }
+            //}
+
+            //var cc = Program.Sessio.Gestors.Count();
+            //var gess = Program.Sessio.Gestors.Single(s => s.Id == 1);
+            //Program.Sessio.ChangeTracker.DetectChanges();
+            //var gess2 = Program.Sessio.Gestors.Single(s => s.Id == 1);
+
             this.Text = "Producte. Ver: " + Application.ProductVersion;
 
 #if DEBUG

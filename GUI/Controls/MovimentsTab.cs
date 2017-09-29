@@ -285,8 +285,9 @@ namespace Inversions.GUI
                         }
 
                         dbContextTransaction.Commit();
-
-                        gestioProductesTabMoviments._ProducteSeleccionat = prodOrigen;
+                        Program.Sessio.refrescaTot();
+         
+                        gestioProductesTabMoviments.refrescaDadesControl();
                         ompleTaulaMovimentsProducte(prodDesti ?? prodOrigen);
                     }
                     catch (Exception)
@@ -352,7 +353,8 @@ namespace Inversions.GUI
                 var prodTraspas = (Producte) cDataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
                 if (prodTraspas != null)
                 {
-                    gestioProductesTabMoviments._ProducteSeleccionat = prodTraspas;
+                    gestioProductesTabMoviments.seleccionaProducte(prodTraspas);
+                    //gestioProductesTabMoviments._ProducteSeleccionat = prodTraspas;
                 }
             }
         }

@@ -25,18 +25,19 @@ namespace Inversions.GUI
 
         public event EventHandler ProducteSeleccionat;
 
+
         public Producte _ProducteSeleccionat
         {
             get { return (Producte) lbProductesTab2.SelectedItem; }
-            set
-            {
-                lbProductesTab2.SelectedItem = value;
-                if ((Producte) lbProductesTab2.SelectedItem != value && ckNomesAmbParticipacions.Checked)
-                {
-                    ckNomesAmbParticipacions.Checked = false;
-                    lbProductesTab2.SelectedItem = value;
-                }
-            }
+            //set
+            //{
+            //    lbProductesTab2.SelectedItem = value;
+            //    if ((Producte)lbProductesTab2.SelectedItem != value && ckNomesAmbParticipacions.Checked)
+            //    {
+            //        ckNomesAmbParticipacions.Checked = false;
+            //        lbProductesTab2.SelectedItem = value;
+            //    }
+            //}
         }
 
         public bool _FiltreAnyVisible
@@ -62,6 +63,25 @@ namespace Inversions.GUI
         {
             get { return ckNomesAmbParticipacions.Checked; }
             set { ckNomesAmbParticipacions.Checked = value; }
+        }
+
+
+        /// <summary>
+        /// Refresca les dades que mostra control.
+        /// </summary>
+        public void refrescaDadesControl()
+        {
+            // No entenc perquè, però he de fer-ho així perquè es refresqui.
+            var index = lbProductesTab2.SelectedIndex;
+            lbProductesTab2.SelectedItem = null;
+            lbProductesTab2.SelectedIndex = index;
+            lbProductesTab2.SelectedItem = null;
+            lbProductesTab2.SelectedIndex = index;
+        }
+
+        public void seleccionaProducte(Producte prod)
+        {
+            lbProductesTab2.SelectedItem = prod;
         }
 
         private void cbTipusProducteFiltreTab2_SelectedIndexChanged(object sender, EventArgs e)
