@@ -243,7 +243,7 @@ namespace Inversions.GUI
 
             using (var conn = new InversionsBDContext())
             {
-                using (var dbContextTransaction = conn.Database.BeginTransaction())
+                //using (var dbContextTransaction = conn.Database.BeginTransaction())
                 {
                     try
                     {
@@ -284,19 +284,26 @@ namespace Inversions.GUI
                                 prodDesti, tbNumParticipacionsDesti._DoubleValue);
                         }
 
-                        dbContextTransaction.Commit();
-                        Program.Sessio.refrescaTot();
-         
-                        gestioProductesTabMoviments.refrescaDadesControl();
-                        ompleTaulaMovimentsProducte(prodDesti ?? prodOrigen);
+                        conn.SaveChanges();
+
+                        //dbContextTransaction.Commit();
                     }
                     catch (Exception)
                     {
-                        dbContextTransaction.Rollback();
+                        //dbContextTransaction.Rollback();
                         throw;
                     }
                 }
             }
+
+            Program.Sessio.refrescaTot();
+            //Program.Sessio.refrescaTaula(typeof(Valoracio));
+            //Program.Sessio.refrescaTaula(Moviment);
+            //Program.Sessio.refrescaTaula(Producte);
+
+
+            gestioProductesTabMoviments.refrescaDadesControl();
+            ompleTaulaMovimentsProducte(prodDesti ?? prodOrigen);
         }
 
 

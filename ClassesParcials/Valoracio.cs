@@ -107,7 +107,7 @@ namespace Inversions
                 val.PreuParticipacio = import;
 
                 conn.Valoracions.Add(val);
-                conn.SaveChanges();
+                //conn.SaveChanges();
             }
             catch (DbUpdateException ex2)
             {
@@ -143,13 +143,14 @@ namespace Inversions
             try
             {
                 // Modificacio
-                val = conn.Valoracions.Single(s => s.Id == this.Id);
+                //val = conn.Valoracions.Single(s => s.Id == this.Id);
+                val = conn.Valoracions.Find(Id);
 
                 val.Data = data;
                 val.PreuParticipacio = import;
 
                 conn.Valoracions.AddOrUpdate(val);
-                conn.SaveChanges();
+                //conn.SaveChanges();
             }
             catch (DbUpdateException ex2)
             {

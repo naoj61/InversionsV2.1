@@ -57,9 +57,11 @@ namespace Inversions.GUI
             }
         }
 
-
+        private bool vEsNouValor = false;
         private void btNouValor_Click(object sender, EventArgs e)
         {
+            vEsNouValor = true;
+
             tbImport.Valor = 0;
 
             modeEdicio();
@@ -85,11 +87,10 @@ namespace Inversions.GUI
                 {
                     try
                     {
-                        Valoracio valToRemove = conn.Valoracions.Single(s => s.Id == vValoracioSeleccionada.Id);
+                        //Valoracio valToRemove = conn.Valoracions.Single(s => s.Id == vValoracioSeleccionada.Id);
+                        Valoracio valToRemove = conn.Valoracions.Find(vValoracioSeleccionada.Id);
                         conn.Valoracions.Remove(valToRemove);
                         conn.SaveChanges();
-
-                        actualitzaLlistaValoracionsPerProducte();
                     }
                     catch (DbUpdateException ex2)
                     {
@@ -104,6 +105,9 @@ namespace Inversions.GUI
                         conn.UndoingChangesDbEntityPropertyLevel(vValoracioSeleccionada);
                     }
                 }
+
+                Program.Sessio.refrescaTaula(typeof(Valoracio));
+                actualitzaLlistaValoracionsPerProducte();
             }
         }
 
@@ -158,45 +162,62 @@ namespace Inversions.GUI
 
         private void btDesa_Click(object sender, EventArgs e)
         {
-            using (var conn = new InversionsBDContext())
+            var cursor = this.Cursor;
+            this.Cursor = Cursors.WaitCursor;
+
+            try
             {
-                using (var trans = conn.Database.BeginTransaction())
+                using (var conn = new InversionsBDContext())
                 {
-                    try
+                    //using (var trans = conn.Database.BeginTransaction())
                     {
-                        if (vValoracioSeleccionada == null)
+                        try
                         {
-                            Valoracio.Nova(conn, gestioProductesTabValoracions._ProducteSeleccionat, cData.Value, tbImport._DoubleValue);
+                            if (vEsNouValor)
+                            {
+                                Valoracio.Nova(conn, gestioProductesTabValoracions._ProducteSeleccionat, cData.Value, tbImport._DoubleValue);
 
-                            trans.Commit();
+                                //trans.Commit();
+                            }
+                            else
+                            {
+                                vValoracioSeleccionada.modifica(conn, cData.Value, tbImport._DoubleValue);
 
+                                //trans.Commit();
+
+                                //if (vValoracioSeleccionada != null)
+                                //    // Carrega el nou valor.
+                                //    Program.Sessio.Entry(vValoracioSeleccionada).Reload();
+                            }
+
+                            conn.SaveChanges();
+
+                            vEsNouValor = false;
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            vValoracioSeleccionada.modifica(conn, cData.Value, tbImport._DoubleValue);
-                         
-                            trans.Commit();
-
-                            if (vValoracioSeleccionada != null)
-                                // Carrega el nou valor.
-                                Program.Sessio.Entry(vValoracioSeleccionada).Reload();
+                            MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            //trans.Rollback();
                         }
-
-                        gestioProductesTabValoracions.refrescaDadesControl();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        trans.Rollback();
                     }
                 }
+
+                if (vValoracioSeleccionada != null)
+                    Program.Sessio.Entry(vValoracioSeleccionada).Reload();
+
+                gestioProductesTabValoracions.refrescaDadesControl();
+
+
+                modeConsulta();
+
+                tbImport.Valor = 0;
+
+                actualitzaLlistaValoracionsPerProducte();
             }
-
-            modeConsulta();
-
-            tbImport.Valor = 0;
-
-            actualitzaLlistaValoracionsPerProducte();
+            finally
+            {
+                this.Cursor = cursor;
+            }
         }
 
 

@@ -153,7 +153,6 @@ namespace Inversions
                 double x = 0;
                 double y = 0;
 
-                //Producte prod = moviment.Prod ?? connexio.Productes.Single(s => s.Id == moviment.ProdId);
                 foreach (var compra in compresAnteriors(moviment.Data, moviment.Participacions))
                 {
                     if (compra._Moviment.PreuParticipacioOrigen == null)
@@ -327,14 +326,16 @@ namespace Inversions
             moviment.Descripcio = String.IsNullOrEmpty(descripcio) ? null : descripcio;
             if (movimentVendaVinculatTraspas != null)
             {
-                moviment.ProducteTraspasId = movimentVendaVinculatTraspas.ProdId;
-                moviment.IdRefVenda = movimentVendaVinculatTraspas.Id;
+                //moviment.ProducteTraspasId = movimentVendaVinculatTraspas.ProdId;
+                //moviment.IdRefVenda = movimentVendaVinculatTraspas.Id;
+                moviment.ProducteTraspas = movimentVendaVinculatTraspas.ProducteTraspas;
+                moviment.MovimentRefVenda = movimentVendaVinculatTraspas; // Assigno la instancia, perque amb l'Id dona error de FK al fer el save perque aquí encara és 0.
             }
             connexio.Moviments.Add(moviment); // Carrega les referències. S'ha de fer abans de: calculaPreuOrigen(moviment)
-            
-            moviment.PreuParticipacioOrigen = calculaPreuOrigen(moviment);
 
-            connexio.SaveChanges();
+            moviment.PreuParticipacioOrigen = calculaPreuOrigen(moviment); // Després del Add per tenir les referèmcies creades.
+
+            //connexio.SaveChanges();
 
             if (afegeigPreuAValoracions)
                 this.afegeigPreuAValoracions(connexio, dataHora, preuParticipacio);
@@ -398,9 +399,9 @@ namespace Inversions
             moviment.ProducteTraspasId = prodCompraMovimentVinculatTraspas == null ? (int?) null : prodCompraMovimentVinculatTraspas.Id;
 
             connexio.Moviments.Add(moviment); // Carrega les referències.
-            moviment.PreuParticipacioOrigen = calculaPreuOrigen(moviment);
+            moviment.PreuParticipacioOrigen = calculaPreuOrigen(moviment); // Després del Add per tenir les referèmcies creades.
 
-            connexio.SaveChanges();
+            //connexio.SaveChanges();
 
             if (afegeigPreuAValoracions)
                 this.afegeigPreuAValoracions(connexio, dataHora, preuParticipacio);
@@ -423,7 +424,7 @@ namespace Inversions
             moviment.Descripcio = String.IsNullOrEmpty(descripcio) ? null : descripcio;
 
             connexio.Moviments.Add(moviment);
-            connexio.SaveChanges();
+            //connexio.SaveChanges();
 
             return moviment;
         }
@@ -445,7 +446,7 @@ namespace Inversions
 
             foreach (var movimentCompra in compres)
             {
-                var mov1 = connexio.Moviments.Single(s => s.Id == movimentCompra._Moviment.Id);
+                var mov1 = connexio.Moviments.Find(movimentCompra._Moviment.Id);
 
                 DateTime data1 = mov1.Data; // Deso la data per sumar-li segons.
 
@@ -479,7 +480,7 @@ namespace Inversions
             var dataPrimeraCompra = compres.First()._Moviment.Data;
             modificaValoracions(connexio, TipusMoviment.Split, dataPrimeraCompra.Date, factorConversor);
 
-            connexio.SaveChanges();
+            //connexio.SaveChanges();
         }
 
 
@@ -501,7 +502,7 @@ namespace Inversions
 
             foreach (var movimentCompra in compresAnt)
             {
-                var mov1 = connexio.Moviments.Single(s=>s.Id == movimentCompra._Moviment.Id);
+                var mov1 = connexio.Moviments.Find(movimentCompra._Moviment.Id);
 
                 DateTime data1 = mov1.Data; // Deso la data per sumar-li segons.
 
@@ -547,7 +548,7 @@ namespace Inversions
             var dataPrimeraCompra = compresAnt.First()._Moviment.Data;
             modificaValoracions(connexio, TipusMoviment.ContraSplit, dataPrimeraCompra.Date, factorConversor);
 
-            connexio.SaveChanges();
+            //connexio.SaveChanges();
         }
 
 

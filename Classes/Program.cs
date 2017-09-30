@@ -82,7 +82,8 @@ namespace Inversions
                 // Informa la variable |DataDirectory|, s'utilitza en App.config.
                 AppDomain.CurrentDomain.SetData("DataDirectory", bd);
 
-                Usuari.Seleccionat = Sessio.Usuaris.Single(s => s.Id == idUsuari);
+                //Usuari.Seleccionat = Sessio.Usuaris.Single(s => s.Id == idUsuari);
+                Usuari.Seleccionat = Sessio.Usuaris.Find(idUsuari);
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);

@@ -320,8 +320,10 @@ namespace Inversions.GUI
                 {
                     Producte.TipusProducte tp = (Producte.TipusProducte)cbTipusProducte.SelectedItem;
 
-                    Empresa empresaSeleccionada = conn.Empreses.Single(s => s.Id == ((Empresa)cbEmpresa.SelectedItem).Id);
-                    Producte producteSeleccionat = vProducteNou ? null : conn.Productes.Single(s => s.Id == ((Producte)cbProductesTab1.SelectedItem).Id);
+                    //Empresa empresaSeleccionada = conn.Empreses.Single(s => s.Id == ((Empresa)cbEmpresa.SelectedItem).Id);
+                    Empresa empresaSeleccionada = conn.Empreses.Find(((Empresa)cbEmpresa.SelectedItem).Id);
+                    //Producte producteSeleccionat = vProducteNou ? null : conn.Productes.Single(s => s.Id == ((Producte)cbProductesTab1.SelectedItem).Id);
+                    Producte producteSeleccionat = vProducteNou ? null : conn.Productes.Find(((Producte)cbProductesTab1.SelectedItem).Id);
 
                     if (tp == Producte.TipusProducte.Accions)
                     {

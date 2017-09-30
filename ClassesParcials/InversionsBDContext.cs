@@ -19,6 +19,44 @@ namespace Inversions
 
 
         /// <summary>
+        /// Refresca totes les taules de la BD
+        /// </summary>
+        public void refrescaTot()
+        {
+            var context = ((IObjectContextAdapter)this).ObjectContext;
+
+            var objects = (from entry in context.ObjectStateManager.GetObjectStateEntries(
+                                                       EntityState.Added
+                                                      | EntityState.Deleted
+                                                      | EntityState.Modified
+                                                      | EntityState.Unchanged)
+                           where entry.EntityKey != null
+                           select entry.Entity);
+
+            context.Refresh(RefreshMode.StoreWins, objects);
+        }
+
+
+        /// <summary>
+        /// Refresca només una taula.
+        /// </summary>
+        /// <param name="entityType"></param>
+        public void refrescaTaula(Type entityType)
+        {
+            var refreshableObjects = _Context.ObjectStateManager.GetObjectStateEntries(
+                                                    EntityState.Added
+                                                    | EntityState.Deleted
+                                                    | EntityState.Modified
+                                                    | EntityState.Unchanged)
+                .Where(x => ObjectContext.GetObjectType(x.Entity.GetType()).Name == entityType.Name)
+                .Where(entry => entry.EntityKey != null)
+                .Select(e => e.Entity);
+
+            _Context.Refresh(RefreshMode.StoreWins, refreshableObjects);
+        }
+
+
+        /// <summary>
         /// Desfà els canvis pendents de "entity"
         /// </summary>
         /// <param name="entity"></param>
@@ -86,44 +124,6 @@ namespace Inversions
             else
                 return base.ValidateEntity(entityEntry, items);
         }
-
-
-
-        /// <summary>
-        /// Refresca totes les taules de la BD
-        /// </summary>
-        public void refrescaTot()
-        {
-            var objects = (from entry in _Context.ObjectStateManager.GetObjectStateEntries(
-                                                       EntityState.Added
-                                                      | EntityState.Deleted
-                                                      | EntityState.Modified
-                                                      | EntityState.Unchanged)
-                           where entry.EntityKey != null
-                           select entry.Entity);
-
-            _Context.Refresh(RefreshMode.StoreWins, objects);
-        }
-
-
-        /// <summary>
-        /// Refresca només una taula.
-        /// </summary>
-        /// <param name="entityType"></param>
-        public void refrescaTaula(Type entityType)
-        {
-            var refreshableObjects = _Context.ObjectStateManager.GetObjectStateEntries(
-                                                    EntityState.Added 
-                                                    | EntityState.Deleted 
-                                                    | EntityState.Modified 
-                                                    | EntityState.Unchanged)
-                .Where(x => ObjectContext.GetObjectType(x.Entity.GetType()).Name == entityType.Name)
-                .Where(entry => entry.EntityKey != null)
-                .Select(e => e.Entity);
-
-            _Context.Refresh(RefreshMode.StoreWins, refreshableObjects);
-        }
-
         
 
         public virtual DbSet<ProdFons> ProdFons { get; set; }
