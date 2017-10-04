@@ -40,9 +40,11 @@ namespace Inversions.GUI
                 }
                 int fila = dgvPiGAnualsTotal.Rows.Add("Total", Producte.Pig(tipusProducte));
                 dgvPiGAnualsTotal.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTotal.Font, FontStyle.Bold);
+                dgvPiGAnualsTotal.FirstDisplayedScrollingRowIndex = fila;
 
                 fila = dgvPiGAnualsTributen.Rows.Add("Total", 0, 0, Producte.PigTributa(tipusProducte));
                 dgvPiGAnualsTributen.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTributen.Font, FontStyle.Bold);
+                dgvPiGAnualsTributen.FirstDisplayedScrollingRowIndex = fila;
             }
         }
 
@@ -107,6 +109,7 @@ namespace Inversions.GUI
                 //int fila = dgvPiGProductePerAny.Rows.Add("Total", proSeleccionat.pigValorat(Producte.DateTimeFinalDia.Today));
                 int fila = dgvPiGProductePerAny.Rows.Add("Total", pigTotal);
                 dgvPiGProductePerAny.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGProductePerAny.Font, FontStyle.Bold);
+                dgvPiGProductePerAny.FirstDisplayedScrollingRowIndex = fila;
             }
             dgvPiGProductePerAny.ResumeLayout();
         }

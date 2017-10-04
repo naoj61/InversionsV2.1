@@ -65,6 +65,12 @@ namespace Inversions.GUI
             set { ckNomesAmbParticipacions.Checked = value; }
         }
 
+        public bool _AmbMoviments
+        {
+            get { return ckAmbMoviments.Checked; }
+            set { ckAmbMoviments.Checked = value; }
+        }
+
 
         /// <summary>
         /// Refresca les dades que mostra control.
@@ -123,7 +129,13 @@ namespace Inversions.GUI
                 try
                 {
                     if (ckNomesAmbParticipacions.Checked)
+                        // Filtra els productes amb participacions actualment pel usuari seleccionat.
                         prods = prods.Where(w => w._Participacions > 0);
+
+                    if(ckAmbMoviments.Checked)
+                        // Filtra els productes amb algun moviment en algun moment pel usuari seleccionat.
+                        prods = prods.Where(w => w.MovimentsProducteUsuari.Any());
+
 
                     if (ckFiltreCompresAny.Checked || ckFiltreVendesAny.Checked)
                     {
