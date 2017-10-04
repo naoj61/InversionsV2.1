@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data.Entity.Migrations;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using Comuns;
 
@@ -460,10 +458,10 @@ namespace Inversions
 
                 if (particSenseSplit > 0)
                 {
+                    // Creo una nova compra amb la part de la compra original que no li afecta el Split
                     data1 = data1.AddSeconds(1);
                     despesesSenseSplit = Math.Round(mov1.Despeses.GetValueOrDefault() / mov1.Participacions * particSenseSplit, 4);
                     
-                    // Creo una nova compra amb la part de la compra original que no li afecta el Split
                     desaCompra(connexio, data1, particSenseSplit, mov1.PreuParticipacio, mov1.CanviAplicat, despesesSenseSplit, descripcio, null, false, false);
                 }
 
@@ -640,7 +638,7 @@ namespace Inversions
         /// <param name="dataInici"></param>
         /// <param name="dataFinal"></param>
         /// <returns></returns>
-        internal double pig(DateTime dataInici, DateTime dataFinal)
+        private double pig(DateTime dataInici, DateTime dataFinal)
         {
             var dInici = dataInici.Date; // Poso la d'inici hora a zero.
             var dFinal = Utilitats.DataFinalDia(dataFinal);
@@ -795,7 +793,7 @@ namespace Inversions
         /// </summary>
         /// <param name="dataFinal"></param>
         /// <returns></returns>
-        public double pigEnCartera(DateTime? dataFinal = null)
+        internal double pigEnCartera(DateTime? dataFinal = null)
         {
             var dFinal = Utilitats.DataFinalDia(dataFinal);
 

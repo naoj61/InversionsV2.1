@@ -330,8 +330,8 @@ namespace Inversions.GUI
                         if (cbMercat.SelectedItem == null)
                             throw new ApplicationException("Falta Mercat");
 
-                        //ProdAccions prodAccions = producteSeleccionat == null ? new ProdAccions() : (ProdAccions)producteSeleccionat;
-                        ProdAccions prodAccions = (ProdAccions) producteSeleccionat ?? new ProdAccions();
+                        //ProdAccions prodAccions = (ProdAccions)producteSeleccionat ?? new ProdAccions();
+                        ProdAccions prodAccions = (ProdAccions) producteSeleccionat ?? conn.ProdAccions.Create();
 
 
                         prodAccions.Empresa = empresaSeleccionada;
@@ -352,8 +352,8 @@ namespace Inversions.GUI
                         if (String.IsNullOrEmpty(tbIsin.Text))
                             throw new ApplicationException("Falta ISIN");
 
-                        //ProdFons prodFons = producteSeleccionat == null ? new ProdFons() : (ProdFons)producteSeleccionat;
-                        ProdFons prodFons = (ProdFons)producteSeleccionat ?? new ProdFons();
+                        //ProdFons prodFons = (ProdFons)producteSeleccionat ?? new ProdFons();
+                        ProdFons prodFons = (ProdFons) producteSeleccionat ?? conn.ProdFons.Create();
 
                         prodFons.Empresa = empresaSeleccionada;
                         prodFons.Nom = tbNom.Text;
@@ -398,7 +398,7 @@ namespace Inversions.GUI
         {
             using (var connexio = new InversionsBDContext())
             {
-                using (var dbContextTransaction = connexio.Database.BeginTransaction())
+                //using (var dbContextTransaction = connexio.Database.BeginTransaction())
                 {
                     try
                     {
@@ -412,7 +412,8 @@ namespace Inversions.GUI
                             throw new ApplicationException("Falta el mercat.");
 
 
-                        Empresa emp = new Empresa();
+                        //Empresa emp = new Empresa();
+                        var emp = connexio.Empreses.Create();
                         emp.Nom = tbNomNovaEmpresa.Text;
                         emp.TipusEmpresa = rbCotitzada.Checked ? TipusEmpresa.Accions : TipusEmpresa.GestoraFons;
 
@@ -420,7 +421,8 @@ namespace Inversions.GUI
 
                         if (rbCotitzada.Checked)
                         {
-                            ProdAccions prod = new ProdAccions();
+                            //ProdAccions prod = new ProdAccions();
+                            var prod = connexio.ProdAccions.Create();
                             prod.MercatId = ((Mercat) cbMercat2.SelectedItem).Id;
                             prod.Empresa = emp;
                             prod.OrdreGrid = ntbOrdreGrid._IntValue;
@@ -430,14 +432,14 @@ namespace Inversions.GUI
 
                         connexio.SaveChanges();
 
-                        dbContextTransaction.Commit();
+                        //dbContextTransaction.Commit();
 
                         modeConsulta();
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        dbContextTransaction.Rollback();
+                        //dbContextTransaction.Rollback();
                     }
                 }
             }

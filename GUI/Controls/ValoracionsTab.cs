@@ -279,7 +279,7 @@ namespace Inversions.GUI
 
         private void ValoracionsTab_Load(object sender, EventArgs e)
         {
-            actualitzaLlistaValoracionsTotal();
+            //actualitzaLlistaValoracionsTotal();
         }
 
         private void btActualitzaLlista_Click(object sender, EventArgs e)
@@ -399,7 +399,7 @@ namespace Inversions.GUI
         private void actualitzaLlistaValoracionsPerProducte()
         {
             var valoracionsProducte = Program.Sessio.Valoracions
-                .Where(w => w.Prod.Id == gestioProductesTabValoracions._ProducteSeleccionat.Id).OrderBy(o => o.Data).ToList();
+                .Where(w => w.Prod.Id == gestioProductesTabValoracions._ProducteSeleccionat.Id && w.Data > dtpDataIniciLlista.Value).OrderBy(o => o.Data).ToList();
 
             cDataGridView1.SuspendLayout();
             cDataGridView1.DataSource = valoracionsProducte;

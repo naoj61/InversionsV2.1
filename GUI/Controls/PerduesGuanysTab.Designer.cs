@@ -712,6 +712,7 @@ namespace Inversions.GUI
             this.Controls.Add(this.pnPigRight);
             this.Name = "PerduesGuanysTab";
             this.Size = new System.Drawing.Size(1297, 658);
+            this.Load += new System.EventHandler(this.PerduesGuanysTab_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPiGAnualsTributen)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);

@@ -11,15 +11,6 @@ namespace Inversions.GUI
         public PerduesGuanysTab()
         {
             InitializeComponent();
-
-            dgvPiGProducte.AutoGenerateColumns = false;
-
-            gestioProductesTabValoracions._NomesAmbParticipacions = true;
-
-            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof (Producte.TipusProducte));
-            cbTipusProducteFiltreTab2.SelectedIndex = -1;
-            cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
-            cbTipusProducteFiltreTab2.SelectedIndex = 0;
         }
 
         private void calculaPiG(Producte.TipusProducte tipusProducte)
@@ -27,27 +18,29 @@ namespace Inversions.GUI
             //if (Program.RuntimeMode)
             if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
-                var movsOrdenats = Program.Sessio.MovimentsUsuari.OrderBy(o => o.Data).Where(w => w.TipusMoviment == TipusMoviment.Venda && w.ProducteTraspas == null).ToList();
-                if (movsOrdenats.Count == 0)
-                    return;
+                var primerAny = Program.Sessio.MovimentsUsuari.OrderBy(o => o.Data).First().Data.Year;
+                var ultimAny = DateTime.Today.Year;
 
-                int anyPrimeraVenda = movsOrdenats.First().Data.Year;
-                
                 dgvPiGAnualsTributen.Rows.Clear();
                 dgvPiGAnualsTotal.Rows.Clear();
-                for (int any = anyPrimeraVenda; any <= DateTime.Today.Year; any++)
-                {
-                    //dgvPiGAnualsTributen.Rows.Add(any, 0, 0, Producte.PigReal(any, tipusProducte));
-                    dgvPiGAnualsTributen.Rows.Add(any, 0, 0, Producte.PigTributa(tipusProducte, any));
 
-                    //dgvPiGAnualsTotal.Rows.Add(any, Producte.PigValorat(any, tipusProducte));
-                    dgvPiGAnualsTotal.Rows.Add(any, Producte.Pig(tipusProducte, any));
+                for (int any = primerAny; any <= ultimAny; any++)
+                {
+                    if (Program.Sessio.MovimentsUsuari.All(a => a.Data.Year != any))
+                        // No hi ha moviments en l'any
+                        continue;
+
+                    var pigTributa = Producte.PigTributa(tipusProducte, any);
+                    if (!Comuns.Utilitats.EsZero(pigTributa))
+                        dgvPiGAnualsTributen.Rows.Add(any, 0, 0, pigTributa);
+
+                    var pigAny = Producte.Pig(tipusProducte, any);
+                    if (!Comuns.Utilitats.EsZero(pigAny))
+                        dgvPiGAnualsTotal.Rows.Add(any, pigAny);
                 }
-                //int fila = dgvPiGAnualsTotal.Rows.Add("Total", Producte.PigValorat(tipusProducte));
                 int fila = dgvPiGAnualsTotal.Rows.Add("Total", Producte.Pig(tipusProducte));
                 dgvPiGAnualsTotal.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTotal.Font, FontStyle.Bold);
 
-                //fila = dgvPiGAnualsTributen.Rows.Add("Total", 0, 0, Producte.PigReal(tipusProducte));
                 fila = dgvPiGAnualsTributen.Rows.Add("Total", 0, 0, Producte.PigTributa(tipusProducte));
                 dgvPiGAnualsTributen.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTributen.Font, FontStyle.Bold);
             }
@@ -99,12 +92,17 @@ namespace Inversions.GUI
                 double pigTotal = 0;
                 for (int any = primerMoviment.Data.Year; any <= DateTime.Today.Year; any++)
                 {
+                    if (Program.Sessio.MovimentsUsuari.All(a => a.Data.Year != any))
+                        // No hi ha moviments en l'any
+                        continue;
+
                     //double pig = proSeleccionat.pigValorat(any);
                     double pig = proSeleccionat.pig(any);
                     
                     pigTotal += pig;
 
-                    dgvPiGProductePerAny.Rows.Add(any, pig);
+                    if (!Comuns.Utilitats.EsZero(pig))
+                        dgvPiGProductePerAny.Rows.Add(any, pig);
                 }
                 //int fila = dgvPiGProductePerAny.Rows.Add("Total", proSeleccionat.pigValorat(Producte.DateTimeFinalDia.Today));
                 int fila = dgvPiGProductePerAny.Rows.Add("Total", pigTotal);
@@ -116,6 +114,18 @@ namespace Inversions.GUI
         private void btFiltreDates_Click(object sender, EventArgs e)
         {
             tbPigEntreDates.Valor = gestioProductesTabValoracions._ProducteSeleccionat.pig(dtpFiltreDataInici.Value, dtpFiltreDataFi.Value);
+        }
+
+        private void PerduesGuanysTab_Load(object sender, EventArgs e)
+        {
+            dgvPiGProducte.AutoGenerateColumns = false;
+
+            gestioProductesTabValoracions._NomesAmbParticipacions = true;
+
+            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof(Producte.TipusProducte));
+            cbTipusProducteFiltreTab2.SelectedIndex = -1;
+            cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
+            cbTipusProducteFiltreTab2.SelectedIndex = 0;
         }
     }
 }

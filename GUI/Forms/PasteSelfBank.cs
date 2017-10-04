@@ -68,7 +68,7 @@ namespace Inversions.GUI
                         var val = connexio.Valoracions.SingleOrDefault(w => w.ProdId == prodFons.Id && w.Data == dateTimePicker1.Value);
                         if (val == null)
                         {
-                            val = new Valoracio();
+                            val = connexio.Valoracions.Create();
                             val.ProdId = prodFons.Id;
                             val.Data = dateTimePicker1.Value;
                             connexio.Valoracions.Add(val);

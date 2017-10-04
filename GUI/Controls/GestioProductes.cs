@@ -102,17 +102,19 @@ namespace Inversions.GUI
         {
             IEnumerable<Producte> prods;
 
-            switch ((Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem)
+            if ((Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem == Producte.TipusProducte.Accions)
             {
-                case Producte.TipusProducte.Accions:
-                    prods = new List<Producte>(Program.Sessio.Productes.OfType<ProdAccions>());
-                    break;
-                case Producte.TipusProducte.Fons:
-                    prods = new List<Producte>(Program.Sessio.Productes.OfType<ProdFons>());
-                    break;
-                default:
-                    prods = Program.Sessio.Productes;
-                    break;
+                //prods = new List<Producte>(Program.Sessio.Productes.OfType<ProdAccions>());
+                prods = Program.Sessio.ProdAccions;
+            }
+            else if ((Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem == Producte.TipusProducte.Fons)
+            {
+                //prods = new List<Producte>(Program.Sessio.Productes.OfType<ProdFons>());
+                prods = Program.Sessio.ProdFons;
+            }
+            else
+            {
+                prods = Program.Sessio.Productes;
             }
 
             //if (Program.RuntimeMode)
@@ -164,6 +166,7 @@ namespace Inversions.GUI
             {
                 lbEmpresa.Text = prod._NomEmpresa;
                 lbMoneda.Text = prod.Moneda;
+
                 tbParticipacions.Valor = prod._Participacions;
                 tbDividends.Valor = prod.dividends(DateTime.Today);
                 tbValorActual.Valor = prod._ValorActual;

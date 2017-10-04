@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -243,64 +245,129 @@ namespace Inversions.GUI
 
             using (var conn = new InversionsBDContext())
             {
+                var prodOrigenContext = conn.Productes.Find(prodOrigen.Id);
+                ProdFons prodDestiContext = prodDesti == null ? null : conn.ProdFons.Find(prodDesti.Id);
+
                 //using (var dbContextTransaction = conn.Database.BeginTransaction())
                 {
-                    try
+                    //try
+                    //{
+                    if (prodDestiContext == null)
                     {
-                        if (prodDesti == null)
+                        if (tipusMoviment == TipusMoviment.Split)
                         {
-                            if (tipusMoviment == TipusMoviment.Split)
-                            {
-                                prodOrigen.split(conn, cData1.Value, ntbFactorConversor._IntValue);
-                            }
-                            else if (tipusMoviment == TipusMoviment.ContraSplit)
-                            {
-                                prodOrigen.contraSplit(conn, cData1.Value, ntbFactorConversor._IntValue, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue);
-                            }
-                            else
-                            {
-                                //prodOrigen.compraVenda(conn, tipusMoviment, cData1.Value, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue, 
-                                //    tbDespeses._DoubleValue, tbDescripcio.Text);
-                                if (tipusMoviment == TipusMoviment.Compra)
-                                {
-                                    prodOrigen.desaCompra(conn, cData1.Value, DateTime.Now.TimeOfDay, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue,
-                                        tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
-                                }
-                                else if (tipusMoviment == TipusMoviment.Venda)
-                                {
-                                    prodOrigen.desaVenda(conn, cData1.Value, DateTime.Now.TimeOfDay, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue,
-                                        tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
-                                }
-                                else if (tipusMoviment == TipusMoviment.Dividends)
-                                {
-                                    prodOrigen.desaDividend(conn, cData1.Value, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
-                                }
-                            }
+                            prodOrigenContext.split(conn, cData1.Value, ntbFactorConversor._IntValue);
+                        }
+                        else if (tipusMoviment == TipusMoviment.ContraSplit)
+                        {
+                            prodOrigenContext.contraSplit(conn, cData1.Value, ntbFactorConversor._IntValue, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue);
                         }
                         else
                         {
-                            var dataDesti = ckActivaDataDesti.Checked ? cDataDesti.Value : cData1.Value;
-                            prodOrigen.desaTraspas(conn, cData1.Value, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, tbDescripcio.Text, dataDesti,
-                                prodDesti, tbNumParticipacionsDesti._DoubleValue);
+                            //prodOrigen.compraVenda(conn, tipusMoviment, cData1.Value, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue, 
+                            //    tbDespeses._DoubleValue, tbDescripcio.Text);
+                            if (tipusMoviment == TipusMoviment.Compra)
+                            {
+                                prodOrigenContext.desaCompra(conn, cData1.Value, DateTime.Now.TimeOfDay, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue,
+                                    tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
+                            }
+                            else if (tipusMoviment == TipusMoviment.Venda)
+                            {
+                                prodOrigenContext.desaVenda(conn, cData1.Value, DateTime.Now.TimeOfDay, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue,
+                                    tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
+                            }
+                            else if (tipusMoviment == TipusMoviment.Dividends)
+                            {
+                                prodOrigenContext.desaDividend(conn, cData1.Value, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
+                            }
                         }
-
-                        conn.SaveChanges();
-
-                        //dbContextTransaction.Commit();
                     }
-                    catch (Exception)
+                    else
                     {
-                        //dbContextTransaction.Rollback();
-                        throw;
+                        var dataDesti = ckActivaDataDesti.Checked ? cDataDesti.Value : cData1.Value;
+                        prodOrigenContext.desaTraspas(conn, cData1.Value, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, tbDescripcio.Text, dataDesti,
+                            prodDestiContext, tbNumParticipacionsDesti._DoubleValue);
                     }
+
+                    //var contextConn = ((IObjectContextAdapter)conn).ObjectContext;
+                    //var contextSess = ((IObjectContextAdapter)Program.Sessio).ObjectContext;
+
+                    //var objectsConn = (contextConn.ObjectStateManager.GetObjectStateEntries(
+                    //    EntityState.Added)
+                    //    .Where(entry => entry.EntityKey != null)
+                    //    .Select(entry => entry.Entity)).ToList();
+
+                    //var mov1 = (Moviment)objectsConn.First();
+
+                    //var objectsSess = (contextSess.ObjectStateManager.GetObjectStateEntries(
+                    //    EntityState.Added |
+                    //    EntityState.Deleted |
+                    //    EntityState.Modified |
+                    //    EntityState.Unchanged)
+                    //    .Where(entry => entry.EntityKey != null)
+                    //    .Select(entry => entry.Entity)).ToList();
+
+
+                    conn.SaveChanges();
+
+
+
+                    //Program.Sessio.Moviments.Attach(mov1);
+
+                    //contextConn = ((IObjectContextAdapter)conn).ObjectContext;
+                    //contextSess = ((IObjectContextAdapter)Program.Sessio).ObjectContext;
+
+                    //objectsConn = (contextConn.ObjectStateManager.GetObjectStateEntries(
+                    //    EntityState.Added |
+                    //    EntityState.Deleted |
+                    //    EntityState.Modified |
+                    //    EntityState.Unchanged)
+                    //    .Where(entry => entry.EntityKey != null)
+                    //    .Select(entry => entry.Entity)).ToList();
+
+
+                    //objectsSess = (contextSess.ObjectStateManager.GetObjectStateEntries(
+                    //    EntityState.Added |
+                    //    EntityState.Deleted |
+                    //    EntityState.Modified |
+                    //    EntityState.Unchanged)
+                    //    .Where(entry => entry.EntityKey != null)
+                    //    .Select(entry => entry.Entity)).ToList();
+
+                    //Program.Sessio.refrescaTot();
+
+                    //contextConn = ((IObjectContextAdapter)conn).ObjectContext;
+                    //contextSess = ((IObjectContextAdapter)Program.Sessio).ObjectContext;
+
+                    //objectsConn = (contextConn.ObjectStateManager.GetObjectStateEntries(
+                    //    EntityState.Added |
+                    //    EntityState.Deleted |
+                    //    EntityState.Modified |
+                    //    EntityState.Unchanged)
+                    //    .Where(entry => entry.EntityKey != null)
+                    //    .Select(entry => entry.Entity)).ToList();
+
+
+                    //objectsSess = (contextSess.ObjectStateManager.GetObjectStateEntries(
+                    //    EntityState.Added |
+                    //    EntityState.Deleted |
+                    //    EntityState.Modified |
+                    //    EntityState.Unchanged)
+                    //    .Where(entry => entry.EntityKey != null)
+                    //    .Select(entry => entry.Entity)).ToList();
+
+
+                    //dbContextTransaction.Commit();
+                    //}
+                    //catch (Exception)
+                    //{
+                    //    //dbContextTransaction.Rollback();
+                    //    throw;
+                    //}
                 }
             }
 
             Program.Sessio.refrescaTot();
-            //Program.Sessio.refrescaTaula(typeof(Valoracio));
-            //Program.Sessio.refrescaTaula(Moviment);
-            //Program.Sessio.refrescaTaula(Producte);
-
 
             gestioProductesTabMoviments.refrescaDadesControl();
             ompleTaulaMovimentsProducte(prodDesti ?? prodOrigen);

@@ -38,7 +38,7 @@ namespace Inversions
         {
             get
             {
-                return Prod == null ? 0 : Prod.numParticipacionsEnData(Utilitats.DataFinalDia(this.Data));
+                return Prod == null ? 0 : Prod.numParticipacionsEnData(Utilitats.DataFinalDia(Data));
             }
         }
 

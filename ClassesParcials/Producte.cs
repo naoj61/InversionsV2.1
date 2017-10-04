@@ -124,7 +124,7 @@ namespace Inversions
             }
         }
 
-        public enum TipusProducte : int
+        public enum TipusProducte
         {
             Tots = 0,
             Accions = 1,
@@ -147,7 +147,7 @@ namespace Inversions
         /// </summary>
         public double _Participacions
         {
-            get { return numParticipacionsEnData(Utilitats.DataFinalDia(DateTime.Today)); }
+            get { return numParticipacionsEnData(DateTime.Today); }
         }
 
 
@@ -156,7 +156,7 @@ namespace Inversions
         /// </summary>
         public double _ValorActual
         {
-            get { return valorEnCartera(DateTime.Today); }
+            get { return valorEnCartera(DateTime.MaxValue); }
         }
         
         #endregion

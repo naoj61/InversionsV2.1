@@ -26,7 +26,7 @@ namespace Inversions
         static Program()
         {
             Sessio = new InversionsBDContext();
-            Sessio.Configuration.AutoDetectChangesEnabled = false; // Si poso true, dona error quan inserto una fila i l'esborro en la mateixa sessió.
+            Sessio.Configuration.AutoDetectChangesEnabled = true; // Si poso true, dona error quan inserto una fila i l'esborro en la mateixa sessió.
             Sessio.Configuration.LazyLoadingEnabled = true;
         }
 
