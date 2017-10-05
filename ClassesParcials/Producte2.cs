@@ -324,16 +324,12 @@ namespace Inversions
             moviment.Descripcio = String.IsNullOrEmpty(descripcio) ? null : descripcio;
             if (movimentVendaVinculatTraspas != null)
             {
-                //moviment.ProducteTraspasId = movimentVendaVinculatTraspas.ProdId;
-                //moviment.IdRefVenda = movimentVendaVinculatTraspas.Id;
                 moviment.ProducteTraspas = movimentVendaVinculatTraspas.ProducteTraspas;
-                moviment.MovimentRefVenda = movimentVendaVinculatTraspas; // Assigno la instancia, perque amb l'Id dona error de FK al fer el save perque aquí encara és 0.
+                moviment.MovimentRefVenda = movimentVendaVinculatTraspas; // Assigno la instancia i no l'Id, perque "movimentVendaVinculatTraspas.Id" és 0 i dona error de FK al fer el save.
             }
             connexio.Moviments.Add(moviment); // Carrega les referències. S'ha de fer abans de: calculaPreuOrigen(moviment)
 
             moviment.PreuParticipacioOrigen = calculaPreuOrigen(moviment); // Després del Add per tenir les referèmcies creades.
-
-            //connexio.SaveChanges();
 
             if (afegeigPreuAValoracions)
                 this.afegeigPreuAValoracions(connexio, dataHora, preuParticipacio);
@@ -397,9 +393,8 @@ namespace Inversions
             moviment.ProducteTraspasId = prodCompraMovimentVinculatTraspas == null ? (int?) null : prodCompraMovimentVinculatTraspas.Id;
 
             connexio.Moviments.Add(moviment); // Carrega les referències.
-            moviment.PreuParticipacioOrigen = calculaPreuOrigen(moviment); // Després del Add per tenir les referèmcies creades.
 
-            //connexio.SaveChanges();
+            moviment.PreuParticipacioOrigen = calculaPreuOrigen(moviment); // Després del Add per tenir les referèmcies creades.
 
             if (afegeigPreuAValoracions)
                 this.afegeigPreuAValoracions(connexio, dataHora, preuParticipacio);

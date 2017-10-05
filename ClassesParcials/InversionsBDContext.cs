@@ -14,7 +14,7 @@ namespace Inversions
     {
         private ObjectContext _Context
         {
-            get { return ((IObjectContextAdapter)this).ObjectContext; }
+            get { return ((IObjectContextAdapter) this).ObjectContext; }
         }
 
 
@@ -23,15 +23,15 @@ namespace Inversions
         /// </summary>
         public void refrescaTot()
         {
-            var context = ((IObjectContextAdapter)this).ObjectContext;
+            var context = ((IObjectContextAdapter) this).ObjectContext;
 
-            var objects = (from entry in context.ObjectStateManager.GetObjectStateEntries(
-                                                       EntityState.Added
-                                                      | EntityState.Deleted
-                                                      | EntityState.Modified
-                                                      | EntityState.Unchanged)
-                           where entry.EntityKey != null
-                           select entry.Entity);
+            var objects = (context.ObjectStateManager.GetObjectStateEntries(
+                EntityState.Added |
+                EntityState.Deleted |
+                EntityState.Modified |
+                EntityState.Unchanged)
+                .Where(entry => entry.EntityKey != null)
+                .Select(entry => entry.Entity));
 
             context.Refresh(RefreshMode.StoreWins, objects);
         }
@@ -43,16 +43,17 @@ namespace Inversions
         /// <param name="entityType"></param>
         public void refrescaTaula(Type entityType)
         {
-            var refreshableObjects = _Context.ObjectStateManager.GetObjectStateEntries(
-                                                    EntityState.Added
-                                                    | EntityState.Deleted
-                                                    | EntityState.Modified
-                                                    | EntityState.Unchanged)
-                .Where(x => ObjectContext.GetObjectType(x.Entity.GetType()).Name == entityType.Name)
-                .Where(entry => entry.EntityKey != null)
+            var context = ((IObjectContextAdapter) this).ObjectContext;
+
+            var objects = context.ObjectStateManager.GetObjectStateEntries(
+                EntityState.Added |
+                EntityState.Deleted |
+                EntityState.Modified |
+                EntityState.Unchanged)
+                .Where(x => x.EntityKey != null && ObjectContext.GetObjectType(x.Entity.GetType()) == entityType)
                 .Select(e => e.Entity);
 
-            _Context.Refresh(RefreshMode.StoreWins, refreshableObjects);
+            context.Refresh(RefreshMode.StoreWins, objects);
         }
 
 
@@ -124,12 +125,11 @@ namespace Inversions
             else
                 return base.ValidateEntity(entityEntry, items);
         }
-        
+
 
         public virtual DbSet<ProdFons> ProdFons { get; set; }
         public virtual DbSet<ProdAccions> ProdAccions { get; set; }
         public virtual DbSet<Valoracio> Valoracio { get; set; }
-
         public IEnumerable<Moviment> MovimentsUsuari
         {
             get { return Moviments.Where(w => w.IdUsuari == Usuari.Seleccionat.Id); }
