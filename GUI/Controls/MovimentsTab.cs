@@ -25,7 +25,19 @@ namespace Inversions.GUI
 
         private void gestioProductes1_ProducteSeleccionat(object sender, EventArgs e)
         {
-            if (sender == null)
+            canviProducteSeleccionat();
+        }
+
+
+        /// <summary>
+        /// Canvia les dades del control a les del nou producte
+        /// </summary>
+        /// <param name="prod"></param>
+        private void canviProducteSeleccionat()
+        {
+            Producte prod = gestioProductesTabMoviments._ProducteSeleccionat;
+
+            if (prod == null)
             {
                 cbTipusMoviment.Enabled = false;
                 btCancelaMoviment.Enabled = false;
@@ -34,8 +46,6 @@ namespace Inversions.GUI
             }
             else
             {
-                var prod = (Producte) sender;
-
                 ompleTaulaMovimentsProducte(prod);
 
                 gbTraspas.Visible = false;
@@ -47,7 +57,7 @@ namespace Inversions.GUI
                 btCancelaMoviment.Enabled = false;
                 btDesaMoviment.Enabled = false;
 
-                
+
                 cbTipusMoviment.SuspendLayout();
                 cbTipusMoviment.Items.Clear();
                 cbTipusMoviment.Items.Add(TipusMoviment.Compra);
@@ -66,9 +76,9 @@ namespace Inversions.GUI
 
                 cbTipusMoviment.SelectedItem = null;
                 cbTipusMoviment.ResumeLayout();
-
             }
         }
+
 
         private void ompleTaulaMovimentsProducte(Producte prod)
         {
@@ -229,8 +239,17 @@ namespace Inversions.GUI
         {
             gestioProductesTabMoviments._UsuariSeleccionat = usuari;
             cDataGridView1.DataSource = null;
+            Refresh();
         }
 
+        public override void Refresh()
+        {
+            base.Refresh();
+
+            // Aquí s'haurien de refrescar les dades en pantalla.
+            gestioProductesTabMoviments.refrescaDadesControl();
+            canviProducteSeleccionat();
+        }
 
         /// <summary>
         /// Modifica la tauma "Moviments"

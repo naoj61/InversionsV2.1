@@ -53,6 +53,15 @@ namespace Inversions.GUI
         {
             gestioProductesTabValoracions._UsuariSeleccionat = usuari;
             dgvPiGProducte.DataSource = null;
+            Refresh();
+        }
+
+        public override void Refresh()
+        {
+            base.Refresh();
+            if (cbTipusProducteFiltreTab2.SelectedItem != null)
+                calculaPiG((Producte.TipusProducte)cbTipusProducteFiltreTab2.SelectedItem);
+            gestioProductesTabValoracions.refrescaDadesControl();
         }
 
         private void cbTipusProducteFiltreTab2_SelectedIndexChanged(object sender, EventArgs e)

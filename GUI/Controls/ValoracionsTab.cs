@@ -274,7 +274,18 @@ namespace Inversions.GUI
         {
             gestioProductesTabValoracions._UsuariSeleccionat = usuari;
             cDataGridView1.DataSource = null;
+            Refresh();
         }
+
+
+        public override void Refresh()
+        {
+            base.Refresh();
+
+            actualitzaLlistaValoracionsTotal();
+            gestioProductesTabValoracions.refrescaDadesControl();
+        }
+
 
 
         private void ValoracionsTab_Load(object sender, EventArgs e)

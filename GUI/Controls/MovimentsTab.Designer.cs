@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cDataGridView1 = new System.Windows.Forms.DataGridView();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colProducte = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -60,6 +60,7 @@
             this.pnCompraVenda = new System.Windows.Forms.FlowLayoutPanel();
             this.gbDataMoviment = new System.Windows.Forms.GroupBox();
             this.cData1 = new System.Windows.Forms.DateTimePicker();
+            this.ckActivaDataDesti = new System.Windows.Forms.CheckBox();
             this.gbParticipacions = new System.Windows.Forms.GroupBox();
             this.tbNumParticipacions = new Controls.NumericTextBox2();
             this.gbCanviAplicat = new System.Windows.Forms.GroupBox();
@@ -84,7 +85,6 @@
             this.cbTipusMoviment = new System.Windows.Forms.ComboBox();
             this.pnMovTop = new System.Windows.Forms.Panel();
             this.gestioProductesTabMoviments = new Inversions.GUI.GestioProductes();
-            this.ckActivaDataDesti = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.cDataGridView1)).BeginInit();
             this.gbPreuPartic.SuspendLayout();
             this.gbFactorConversor.SuspendLayout();
@@ -170,10 +170,10 @@
             // 
             this.colData.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colData.DataPropertyName = "Data";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.Format = "d";
-            dataGridViewCellStyle7.NullValue = null;
-            this.colData.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.Format = "d";
+            dataGridViewCellStyle1.NullValue = null;
+            this.colData.DefaultCellStyle = dataGridViewCellStyle1;
             this.colData.HeaderText = "Data";
             this.colData.Name = "colData";
             this.colData.ReadOnly = true;
@@ -183,10 +183,10 @@
             // 
             this.colParticipacions.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colParticipacions.DataPropertyName = "Participacions";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle8.Format = "N4";
-            dataGridViewCellStyle8.NullValue = null;
-            this.colParticipacions.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Format = "N4";
+            dataGridViewCellStyle2.NullValue = null;
+            this.colParticipacions.DefaultCellStyle = dataGridViewCellStyle2;
             this.colParticipacions.HeaderText = "Participacions";
             this.colParticipacions.Name = "colParticipacions";
             this.colParticipacions.ReadOnly = true;
@@ -196,9 +196,9 @@
             // 
             this.colPreuUnitari.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colPreuUnitari.DataPropertyName = "_PreuParticipacio";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle9.Format = "c3";
-            this.colPreuUnitari.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Format = "c3";
+            this.colPreuUnitari.DefaultCellStyle = dataGridViewCellStyle3;
             this.colPreuUnitari.HeaderText = "Preu Unitari";
             this.colPreuUnitari.Name = "colPreuUnitari";
             this.colPreuUnitari.ReadOnly = true;
@@ -208,9 +208,9 @@
             // 
             this.ImportBrut.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.ImportBrut.DataPropertyName = "ImportBrut";
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle10.Format = "C2";
-            this.ImportBrut.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle4.Format = "C2";
+            this.ImportBrut.DefaultCellStyle = dataGridViewCellStyle4;
             this.ImportBrut.HeaderText = "Import Brut";
             this.ImportBrut.Name = "ImportBrut";
             this.ImportBrut.ReadOnly = true;
@@ -220,10 +220,10 @@
             // 
             this.colImport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colImport.DataPropertyName = "ImportNet";
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle11.Format = "C2";
-            dataGridViewCellStyle11.NullValue = null;
-            this.colImport.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Format = "C2";
+            dataGridViewCellStyle5.NullValue = null;
+            this.colImport.DefaultCellStyle = dataGridViewCellStyle5;
             this.colImport.HeaderText = "Import Net";
             this.colImport.Name = "colImport";
             this.colImport.ReadOnly = true;
@@ -240,9 +240,9 @@
             // 
             this.colDespeses.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colDespeses.DataPropertyName = "Despeses";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle12.Format = "c2";
-            this.colDespeses.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle6.Format = "c2";
+            this.colDespeses.DefaultCellStyle = dataGridViewCellStyle6;
             this.colDespeses.HeaderText = "Despeses";
             this.colDespeses.Name = "colDespeses";
             this.colDespeses.ReadOnly = true;
@@ -404,6 +404,19 @@
             this.cData1.Name = "cData1";
             this.cData1.Size = new System.Drawing.Size(95, 22);
             this.cData1.TabIndex = 0;
+            // 
+            // ckActivaDataDesti
+            // 
+            this.ckActivaDataDesti.AutoSize = true;
+            this.ckActivaDataDesti.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ckActivaDataDesti.Location = new System.Drawing.Point(114, 3);
+            this.ckActivaDataDesti.Name = "ckActivaDataDesti";
+            this.ckActivaDataDesti.Padding = new System.Windows.Forms.Padding(0, 1, 0, 0);
+            this.ckActivaDataDesti.Size = new System.Drawing.Size(125, 39);
+            this.ckActivaDataDesti.TabIndex = 5;
+            this.ckActivaDataDesti.Text = "Mostra Data Destí";
+            this.ckActivaDataDesti.UseVisualStyleBackColor = true;
+            this.ckActivaDataDesti.CheckedChanged += new System.EventHandler(this.ckActivaDataDesti_CheckedChanged);
             // 
             // gbParticipacions
             // 
@@ -691,6 +704,7 @@
             // 
             // gestioProductesTabMoviments
             // 
+            this.gestioProductesTabMoviments._AmbMoviments = true;
             this.gestioProductesTabMoviments._FiltreAnyVisible = true;
             this.gestioProductesTabMoviments._NomesAmbParticipacions = false;
             this.gestioProductesTabMoviments.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -701,19 +715,6 @@
             this.gestioProductesTabMoviments.Size = new System.Drawing.Size(1013, 453);
             this.gestioProductesTabMoviments.TabIndex = 0;
             this.gestioProductesTabMoviments.ProducteSeleccionat += new System.EventHandler(this.gestioProductes1_ProducteSeleccionat);
-            // 
-            // ckActivaDataDesti
-            // 
-            this.ckActivaDataDesti.AutoSize = true;
-            this.ckActivaDataDesti.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.ckActivaDataDesti.Location = new System.Drawing.Point(114, 3);
-            this.ckActivaDataDesti.Name = "ckActivaDataDesti";
-            this.ckActivaDataDesti.Padding = new System.Windows.Forms.Padding(0, 1, 0, 0);
-            this.ckActivaDataDesti.Size = new System.Drawing.Size(125, 39);
-            this.ckActivaDataDesti.TabIndex = 5;
-            this.ckActivaDataDesti.Text = "Mostra Data Destí";
-            this.ckActivaDataDesti.UseVisualStyleBackColor = true;
-            this.ckActivaDataDesti.CheckedChanged += new System.EventHandler(this.ckActivaDataDesti_CheckedChanged);
             // 
             // MovimentsTab
             // 

@@ -73,10 +73,10 @@
             this.btEditaProducte = new System.Windows.Forms.Button();
             this.btNovaEmpresa = new System.Windows.Forms.Button();
             this.tabMoviments = new System.Windows.Forms.TabPage();
-            this.movimentsTab1 = new Inversions.GUI.MovimentsTab();
             this.tabValoracions = new System.Windows.Forms.TabPage();
-            this.valoracionsTab1 = new Inversions.GUI.ValoracionsTab();
             this.tabPerduesGuanys = new System.Windows.Forms.TabPage();
+            this.movimentsTab1 = new Inversions.GUI.MovimentsTab();
+            this.valoracionsTab1 = new Inversions.GUI.ValoracionsTab();
             this.perduesGuanysTab1 = new Inversions.GUI.PerduesGuanysTab();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -618,14 +618,6 @@
             this.tabMoviments.Text = "Moviments";
             this.tabMoviments.UseVisualStyleBackColor = true;
             // 
-            // movimentsTab1
-            // 
-            this.movimentsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.movimentsTab1.Location = new System.Drawing.Point(5, 5);
-            this.movimentsTab1.Name = "movimentsTab1";
-            this.movimentsTab1.Size = new System.Drawing.Size(1342, 696);
-            this.movimentsTab1.TabIndex = 0;
-            // 
             // tabValoracions
             // 
             this.tabValoracions.Controls.Add(this.valoracionsTab1);
@@ -635,16 +627,6 @@
             this.tabValoracions.TabIndex = 2;
             this.tabValoracions.Text = "Valoracions";
             this.tabValoracions.UseVisualStyleBackColor = true;
-            // 
-            // valoracionsTab1
-            // 
-            this.valoracionsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.valoracionsTab1.Location = new System.Drawing.Point(0, 0);
-            this.valoracionsTab1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.valoracionsTab1.MinimumSize = new System.Drawing.Size(1301, 655);
-            this.valoracionsTab1.Name = "valoracionsTab1";
-            this.valoracionsTab1.Size = new System.Drawing.Size(1352, 706);
-            this.valoracionsTab1.TabIndex = 0;
             // 
             // tabPerduesGuanys
             // 
@@ -656,6 +638,25 @@
             this.tabPerduesGuanys.TabIndex = 3;
             this.tabPerduesGuanys.Text = "Perdues i Guanys";
             this.tabPerduesGuanys.UseVisualStyleBackColor = true;
+            // 
+            // movimentsTab1
+            // 
+            this.movimentsTab1.CausesValidation = false;
+            this.movimentsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.movimentsTab1.Location = new System.Drawing.Point(5, 5);
+            this.movimentsTab1.Name = "movimentsTab1";
+            this.movimentsTab1.Size = new System.Drawing.Size(1342, 696);
+            this.movimentsTab1.TabIndex = 0;
+            // 
+            // valoracionsTab1
+            // 
+            this.valoracionsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.valoracionsTab1.Location = new System.Drawing.Point(0, 0);
+            this.valoracionsTab1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.valoracionsTab1.MinimumSize = new System.Drawing.Size(1301, 655);
+            this.valoracionsTab1.Name = "valoracionsTab1";
+            this.valoracionsTab1.Size = new System.Drawing.Size(1352, 706);
+            this.valoracionsTab1.TabIndex = 0;
             // 
             // perduesGuanysTab1
             // 
@@ -671,11 +672,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1360, 735);
             this.Controls.Add(this.tabControl1);
+            this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(1355, 620);
             this.Name = "Principal";
             this.Text = "Productes";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Principal_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Principal_KeyDown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.gbNom.ResumeLayout(false);

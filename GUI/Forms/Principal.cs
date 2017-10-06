@@ -563,5 +563,33 @@ namespace Inversions.GUI
             grMercat.Visible = true;
             gbOrdreGrid.Visible = true;
         }
+
+        private void Principal_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.U)
+            {
+                var numUsuaris = cbUsuaris.Items.Count;
+                if(cbUsuaris.SelectedIndex == numUsuaris - 1)
+                {
+                    cbUsuaris.SelectedIndex = 0;
+                }
+                else
+                {
+                    cbUsuaris.SelectedIndex++;
+                }
+
+                MessageBox.Show("Seleccionat usuari: " + ((Usuari) cbUsuaris.SelectedItem).Nom);
+            }
+            else if (e.KeyCode == Keys.F5)
+            {
+                var xx = tabControl1.SelectedTab.Controls[0];
+                xx.Refresh();
+                //if (xx is PerduesGuanysTab)
+                //{
+                //    ((PerduesGuanysTab)xx).refresca();
+                //}
+
+            }
+        }
     }
 }

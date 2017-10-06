@@ -95,11 +95,11 @@ namespace Inversions.GUI
             this.pnPigFill = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.gbSimulacioPig = new System.Windows.Forms.GroupBox();
-            this.gbPreuPartic = new System.Windows.Forms.GroupBox();
-            this.ntbPreuParticipacio = new Controls.NumericTextBox2();
+            this.btSimulacioPiG = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ntbPiG = new Controls.NumericTextBox2();
-            this.btSimulacioPiG = new System.Windows.Forms.Button();
+            this.gbPreuPartic = new System.Windows.Forms.GroupBox();
+            this.ntbPreuParticipacio = new Controls.NumericTextBox2();
             this.gestioProductesTabValoracions = new Inversions.GUI.GestioProductes();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPiGAnualsTributen)).BeginInit();
             this.groupBox5.SuspendLayout();
@@ -112,8 +112,8 @@ namespace Inversions.GUI
             this.pnPigFill.SuspendLayout();
             this.panel1.SuspendLayout();
             this.gbSimulacioPig.SuspendLayout();
-            this.gbPreuPartic.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.gbPreuPartic.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvPiGAnualsTributen
@@ -714,31 +714,15 @@ namespace Inversions.GUI
             this.gbSimulacioPig.TabStop = false;
             this.gbSimulacioPig.Text = "Simulació PiG";
             // 
-            // gbPreuPartic
+            // btSimulacioPiG
             // 
-            this.gbPreuPartic.Controls.Add(this.ntbPreuParticipacio);
-            this.gbPreuPartic.Location = new System.Drawing.Point(7, 21);
-            this.gbPreuPartic.Margin = new System.Windows.Forms.Padding(0);
-            this.gbPreuPartic.Name = "gbPreuPartic";
-            this.gbPreuPartic.Size = new System.Drawing.Size(61, 41);
-            this.gbPreuPartic.TabIndex = 4;
-            this.gbPreuPartic.TabStop = false;
-            this.gbPreuPartic.Text = "Preu";
-            // 
-            // ntbPreuParticipacio
-            // 
-            this.ntbPreuParticipacio._Format = "#,##0.###### €";
-            this.ntbPreuParticipacio._PermetDecimals = true;
-            this.ntbPreuParticipacio._PermetEspais = false;
-            this.ntbPreuParticipacio._PermetNegatius = false;
-            this.ntbPreuParticipacio.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ntbPreuParticipacio.Location = new System.Drawing.Point(3, 18);
-            this.ntbPreuParticipacio.Name = "ntbPreuParticipacio";
-            this.ntbPreuParticipacio.Size = new System.Drawing.Size(55, 22);
-            this.ntbPreuParticipacio.TabIndex = 0;
-            this.ntbPreuParticipacio.Text = "0 €";
-            this.ntbPreuParticipacio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPreuParticipacio.Valor = 0D;
+            this.btSimulacioPiG.Location = new System.Drawing.Point(7, 67);
+            this.btSimulacioPiG.Name = "btSimulacioPiG";
+            this.btSimulacioPiG.Size = new System.Drawing.Size(185, 26);
+            this.btSimulacioPiG.TabIndex = 6;
+            this.btSimulacioPiG.Text = "Calcula";
+            this.btSimulacioPiG.UseVisualStyleBackColor = true;
+            this.btSimulacioPiG.Click += new System.EventHandler(this.btSimulacioPiG_Click);
             // 
             // groupBox1
             // 
@@ -767,15 +751,31 @@ namespace Inversions.GUI
             this.ntbPiG.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbPiG.Valor = 0D;
             // 
-            // btSimulacioPiG
+            // gbPreuPartic
             // 
-            this.btSimulacioPiG.Location = new System.Drawing.Point(7, 67);
-            this.btSimulacioPiG.Name = "btSimulacioPiG";
-            this.btSimulacioPiG.Size = new System.Drawing.Size(185, 26);
-            this.btSimulacioPiG.TabIndex = 6;
-            this.btSimulacioPiG.Text = "Calcula";
-            this.btSimulacioPiG.UseVisualStyleBackColor = true;
-            this.btSimulacioPiG.Click += new System.EventHandler(this.btSimulacioPiG_Click);
+            this.gbPreuPartic.Controls.Add(this.ntbPreuParticipacio);
+            this.gbPreuPartic.Location = new System.Drawing.Point(7, 21);
+            this.gbPreuPartic.Margin = new System.Windows.Forms.Padding(0);
+            this.gbPreuPartic.Name = "gbPreuPartic";
+            this.gbPreuPartic.Size = new System.Drawing.Size(61, 41);
+            this.gbPreuPartic.TabIndex = 4;
+            this.gbPreuPartic.TabStop = false;
+            this.gbPreuPartic.Text = "Preu";
+            // 
+            // ntbPreuParticipacio
+            // 
+            this.ntbPreuParticipacio._Format = "#,##0.###### €";
+            this.ntbPreuParticipacio._PermetDecimals = true;
+            this.ntbPreuParticipacio._PermetEspais = false;
+            this.ntbPreuParticipacio._PermetNegatius = false;
+            this.ntbPreuParticipacio.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbPreuParticipacio.Location = new System.Drawing.Point(3, 18);
+            this.ntbPreuParticipacio.Name = "ntbPreuParticipacio";
+            this.ntbPreuParticipacio.Size = new System.Drawing.Size(55, 22);
+            this.ntbPreuParticipacio.TabIndex = 0;
+            this.ntbPreuParticipacio.Text = "0 €";
+            this.ntbPreuParticipacio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbPreuParticipacio.Valor = 0D;
             // 
             // gestioProductesTabValoracions
             // 
@@ -813,10 +813,10 @@ namespace Inversions.GUI
             this.pnPigFill.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.gbSimulacioPig.ResumeLayout(false);
-            this.gbPreuPartic.ResumeLayout(false);
-            this.gbPreuPartic.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.gbPreuPartic.ResumeLayout(false);
+            this.gbPreuPartic.PerformLayout();
             this.ResumeLayout(false);
 
         }
