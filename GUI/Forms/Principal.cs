@@ -59,7 +59,7 @@ namespace Inversions.GUI
             //Program.Sessio.ChangeTracker.DetectChanges();
             //var gess2 = Program.Sessio.Gestors.Single(s => s.Id == 1);
 
-            this.Text = "Producte. Ver: " + Application.ProductVersion;
+            titolFinestra();
 
 #if DEBUG
             tabControl1.SelectTab(tabMoviments.Name);
@@ -96,6 +96,11 @@ namespace Inversions.GUI
             cbMoneda2.ResumeLayout();
 
             modeConsulta();
+        }
+
+        private void titolFinestra()
+        {
+            this.Text = String.Format("Producte. Ver: {0}. Usuari: {1}", Application.ProductVersion, Usuari.Seleccionat.Nom);
         }
 
         private void OmpleEmpresesCombo()
@@ -578,17 +583,11 @@ namespace Inversions.GUI
                     cbUsuaris.SelectedIndex++;
                 }
 
-                MessageBox.Show("Seleccionat usuari: " + ((Usuari) cbUsuaris.SelectedItem).Nom);
+                titolFinestra();
             }
             else if (e.KeyCode == Keys.F5)
             {
-                var xx = tabControl1.SelectedTab.Controls[0];
-                xx.Refresh();
-                //if (xx is PerduesGuanysTab)
-                //{
-                //    ((PerduesGuanysTab)xx).refresca();
-                //}
-
+                tabControl1.SelectedTab.Controls[0].Refresh();
             }
         }
     }

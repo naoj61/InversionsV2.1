@@ -20,7 +20,7 @@ namespace Inversions
 
         public IEnumerable<Moviment> MovimentsProducteUsuari
         {
-            get { return MovimentsProducte.Where(w => w.IdUsuari == Usuari.Seleccionat.Id); }
+            get { return MovimentsProducte.Where(w => w.UsuariId == Usuari.Seleccionat.Id); }
         }
 
         public struct PiGPerCompra

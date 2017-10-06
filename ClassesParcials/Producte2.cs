@@ -313,7 +313,7 @@ namespace Inversions
             validacionsCompraVenda(connexio, dataHora, participacions, mostraFinestraAdvertencia);
 
             Moviment moviment = connexio.Moviments.Create();
-            moviment.IdUsuari = Usuari.Seleccionat.Id;
+            moviment.UsuariId = Usuari.Seleccionat.Id;
             moviment.TipusMoviment = TipusMoviment.Compra;
             moviment.ProdId = this.Id;
             moviment.Participacions = participacions;
@@ -381,7 +381,7 @@ namespace Inversions
             validacionsCompraVenda(connexio, dataHora, participacions, mostraFinestraAdvertencia);
 
             Moviment moviment = connexio.Moviments.Create();
-            moviment.IdUsuari = Usuari.Seleccionat.Id;
+            moviment.UsuariId = Usuari.Seleccionat.Id;
             moviment.TipusMoviment = TipusMoviment.Venda;
             moviment.ProdId = Id;
             moviment.Participacions = participacions;
@@ -406,7 +406,7 @@ namespace Inversions
         internal Moviment desaDividend(InversionsBDContext connexio, DateTime dataHora, double importTotalDividend, double canviAplicat, double? despeses, string descripcio)
         {
             Moviment moviment = connexio.Moviments.Create();
-            moviment.IdUsuari = Usuari.Seleccionat.Id;
+            moviment.UsuariId = Usuari.Seleccionat.Id;
             moviment.TipusMoviment = TipusMoviment.Dividends;
             moviment.ProdId = this.Id;
             moviment.Participacions = 0;

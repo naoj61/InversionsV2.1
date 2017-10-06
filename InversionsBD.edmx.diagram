@@ -16,17 +16,17 @@
         <AssociationConnector Association="InversionsBD.ProdFonsGestor" />
         <EntityTypeShape EntityType="InversionsBD.ProdAccions" Width="1.5" PointX="5.125" PointY="4.5" />
         <InheritanceConnector EntityType="InversionsBD.ProdAccions" />
-        <EntityTypeShape EntityType="InversionsBD.Mercat" Width="1.5" PointX="8" PointY="5.875" />
+        <EntityTypeShape EntityType="InversionsBD.Mercat" Width="1.5" PointX="7.875" PointY="5.875" />
         <AssociationConnector Association="InversionsBD.MercatProdAccions" />
-        <EntityTypeShape EntityType="InversionsBD.Moviment" Width="2" PointX="10" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="InversionsBD.Moviment" Width="2" PointX="10.25" PointY="1.125" IsExpanded="true" />
         <AssociationConnector Association="InversionsBD.ProdMov" />
         <AssociationConnector Association="InversionsBD.ProdValoracio" />
         <InheritanceConnector EntityType="InversionsBD.ProdAccions" />
         <InheritanceConnector EntityType="InversionsBD.ProdFons" />
         <AssociationConnector Association="InversionsBD.ProducteMoviment" />
-        <AssociationConnector Association="InversionsBD.FK_RefVenda" />
         <EntityTypeShape EntityType="InversionsBD.Usuari" Width="1.5" PointX="12.875" PointY="0.5" />
-        <AssociationConnector Association="InversionsBD.FK_Usuaris" />
+        <AssociationConnector Association="InversionsBD.FK_RefVenda1" />
+        <AssociationConnector Association="InversionsBD.FK_Usuaris1" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

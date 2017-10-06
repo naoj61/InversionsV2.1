@@ -20,11 +20,11 @@ namespace Inversions
         }
     
         public int Id { get; private set; }
-        public int IdUsuari { get; set; }
+        public int UsuariId { get; set; }
         public int ProdId { get; set; }
         public Nullable<int> ProducteTraspasId { get; set; }
         public TipusMoviment TipusMoviment { get; set; }
-        public Nullable<int> IdRefVenda { get; set; }
+        public Nullable<int> MovimentRefVendaId { get; set; }
         public System.DateTime Data { get; set; }
         public double Participacions { get; set; }
         public Nullable<double> PreuParticipacioOrigen { get; set; }
