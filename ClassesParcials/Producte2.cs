@@ -786,9 +786,10 @@ namespace Inversions
         /// Preu compra --> Preu compra.
         /// Preu venda  --> Valoració actual.
         /// </summary>
-        /// <param name="dataFinal"></param>
+        /// <param name="dataFinal">Si null, dataFinal=DateTime.MaxValue.</param>
+        /// <param name="preuParticipacio">Si null, preu de la participació en la data "dataFinal"</param>
         /// <returns></returns>
-        internal double pigEnCartera(DateTime? dataFinal = null)
+        internal double pigEnCartera(DateTime? dataFinal = null, double? preuParticipacio = null)
         {
             var dFinal = Utilitats.DataFinalDia(dataFinal);
 
@@ -801,7 +802,9 @@ namespace Inversions
 
             double totalCompres = compresAnt.Sum(compra => compra._ParticipacionsDisponibles * compra._Moviment.PreuParticipacio + compra._Moviment.Despeses.GetValueOrDefault());
 
-            return valorEnCartera(dFinal) - totalCompres;
+            double valorPartic = preuParticipacio.HasValue ? _Participacions * preuParticipacio.Value : valorEnCartera(dFinal);
+
+            return valorPartic - totalCompres;
         }
 
 

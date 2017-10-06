@@ -94,6 +94,12 @@ namespace Inversions.GUI
             this.pnPigRight = new System.Windows.Forms.Panel();
             this.pnPigFill = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.gbSimulacioPig = new System.Windows.Forms.GroupBox();
+            this.gbPreuPartic = new System.Windows.Forms.GroupBox();
+            this.ntbPreuParticipacio = new Controls.NumericTextBox2();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ntbPiG = new Controls.NumericTextBox2();
+            this.btSimulacioPiG = new System.Windows.Forms.Button();
             this.gestioProductesTabValoracions = new Inversions.GUI.GestioProductes();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPiGAnualsTributen)).BeginInit();
             this.groupBox5.SuspendLayout();
@@ -105,6 +111,9 @@ namespace Inversions.GUI
             this.pnPigRight.SuspendLayout();
             this.pnPigFill.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.gbSimulacioPig.SuspendLayout();
+            this.gbPreuPartic.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvPiGAnualsTributen
@@ -421,7 +430,7 @@ namespace Inversions.GUI
             this.colDataCompra.ReadOnly = true;
             this.colDataCompra.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colDataCompra.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colDataCompra.Width = 87;
+            this.colDataCompra.Width = 97;
             // 
             // colDataVenda
             // 
@@ -435,7 +444,7 @@ namespace Inversions.GUI
             this.colDataVenda.ReadOnly = true;
             this.colDataVenda.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colDataVenda.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colDataVenda.Width = 80;
+            this.colDataVenda.Width = 89;
             // 
             // colDataTraspas
             // 
@@ -449,7 +458,6 @@ namespace Inversions.GUI
             this.colDataTraspas.ReadOnly = true;
             this.colDataTraspas.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colDataTraspas.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colDataTraspas.Width = 90;
             // 
             // colParticipacions
             // 
@@ -614,12 +622,12 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn3,
             this.dataGridViewTextBoxColumn4});
             this.dgvPiGProductePerAny.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvPiGProductePerAny.Location = new System.Drawing.Point(0, 25);
+            this.dgvPiGProductePerAny.Location = new System.Drawing.Point(0, 125);
             this.dgvPiGProductePerAny.Name = "dgvPiGProductePerAny";
             this.dgvPiGProductePerAny.ReadOnly = true;
             this.dgvPiGProductePerAny.RowHeadersVisible = false;
             this.dgvPiGProductePerAny.RowTemplate.Height = 24;
-            this.dgvPiGProductePerAny.Size = new System.Drawing.Size(198, 238);
+            this.dgvPiGProductePerAny.Size = new System.Drawing.Size(198, 138);
             this.dgvPiGProductePerAny.TabIndex = 16;
             // 
             // dataGridViewTextBoxColumn3
@@ -654,7 +662,7 @@ namespace Inversions.GUI
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Location = new System.Drawing.Point(0, 100);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(198, 25);
             this.label1.TabIndex = 17;
@@ -684,14 +692,94 @@ namespace Inversions.GUI
             // 
             this.panel1.Controls.Add(this.dgvPiGProductePerAny);
             this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.gbSimulacioPig);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel1.Location = new System.Drawing.Point(717, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(198, 263);
             this.panel1.TabIndex = 18;
             // 
+            // gbSimulacioPig
+            // 
+            this.gbSimulacioPig.Controls.Add(this.btSimulacioPiG);
+            this.gbSimulacioPig.Controls.Add(this.groupBox1);
+            this.gbSimulacioPig.Controls.Add(this.gbPreuPartic);
+            this.gbSimulacioPig.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gbSimulacioPig.Enabled = false;
+            this.gbSimulacioPig.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbSimulacioPig.Location = new System.Drawing.Point(0, 0);
+            this.gbSimulacioPig.Name = "gbSimulacioPig";
+            this.gbSimulacioPig.Size = new System.Drawing.Size(198, 100);
+            this.gbSimulacioPig.TabIndex = 18;
+            this.gbSimulacioPig.TabStop = false;
+            this.gbSimulacioPig.Text = "Simulació PiG";
+            // 
+            // gbPreuPartic
+            // 
+            this.gbPreuPartic.Controls.Add(this.ntbPreuParticipacio);
+            this.gbPreuPartic.Location = new System.Drawing.Point(7, 21);
+            this.gbPreuPartic.Margin = new System.Windows.Forms.Padding(0);
+            this.gbPreuPartic.Name = "gbPreuPartic";
+            this.gbPreuPartic.Size = new System.Drawing.Size(61, 41);
+            this.gbPreuPartic.TabIndex = 4;
+            this.gbPreuPartic.TabStop = false;
+            this.gbPreuPartic.Text = "Preu";
+            // 
+            // ntbPreuParticipacio
+            // 
+            this.ntbPreuParticipacio._Format = "#,##0.###### €";
+            this.ntbPreuParticipacio._PermetDecimals = true;
+            this.ntbPreuParticipacio._PermetEspais = false;
+            this.ntbPreuParticipacio._PermetNegatius = false;
+            this.ntbPreuParticipacio.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbPreuParticipacio.Location = new System.Drawing.Point(3, 18);
+            this.ntbPreuParticipacio.Name = "ntbPreuParticipacio";
+            this.ntbPreuParticipacio.Size = new System.Drawing.Size(55, 22);
+            this.ntbPreuParticipacio.TabIndex = 0;
+            this.ntbPreuParticipacio.Text = "0 €";
+            this.ntbPreuParticipacio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbPreuParticipacio.Valor = 0D;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.ntbPiG);
+            this.groupBox1.Location = new System.Drawing.Point(72, 21);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(120, 41);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "PiG";
+            // 
+            // ntbPiG
+            // 
+            this.ntbPiG._Format = "#,##0.00 €";
+            this.ntbPiG._PermetDecimals = true;
+            this.ntbPiG._PermetEspais = false;
+            this.ntbPiG._PermetNegatius = true;
+            this.ntbPiG.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbPiG.Enabled = false;
+            this.ntbPiG.Location = new System.Drawing.Point(3, 18);
+            this.ntbPiG.Name = "ntbPiG";
+            this.ntbPiG.Size = new System.Drawing.Size(114, 22);
+            this.ntbPiG.TabIndex = 0;
+            this.ntbPiG.Text = "0,00 €";
+            this.ntbPiG.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbPiG.Valor = 0D;
+            // 
+            // btSimulacioPiG
+            // 
+            this.btSimulacioPiG.Location = new System.Drawing.Point(7, 67);
+            this.btSimulacioPiG.Name = "btSimulacioPiG";
+            this.btSimulacioPiG.Size = new System.Drawing.Size(185, 26);
+            this.btSimulacioPiG.TabIndex = 6;
+            this.btSimulacioPiG.Text = "Calcula";
+            this.btSimulacioPiG.UseVisualStyleBackColor = true;
+            this.btSimulacioPiG.Click += new System.EventHandler(this.btSimulacioPiG_Click);
+            // 
             // gestioProductesTabValoracions
             // 
+            this.gestioProductesTabValoracions._AmbMoviments = true;
             this.gestioProductesTabValoracions._FiltreAnyVisible = false;
             this.gestioProductesTabValoracions._NomesAmbParticipacions = true;
             this.gestioProductesTabValoracions.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -724,6 +812,11 @@ namespace Inversions.GUI
             this.pnPigRight.ResumeLayout(false);
             this.pnPigFill.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.gbSimulacioPig.ResumeLayout(false);
+            this.gbPreuPartic.ResumeLayout(false);
+            this.gbPreuPartic.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -770,5 +863,11 @@ namespace Inversions.GUI
         private Controls.DateTimePickerNullable dtpFiltreDataInici;
         private System.Windows.Forms.Button btFiltreDates;
         private Controls.DateTimePickerNullable dtpFiltreDataFi;
+        private System.Windows.Forms.GroupBox gbSimulacioPig;
+        private System.Windows.Forms.Button btSimulacioPiG;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private Controls.NumericTextBox2 ntbPiG;
+        private System.Windows.Forms.GroupBox gbPreuPartic;
+        private Controls.NumericTextBox2 ntbPreuParticipacio;
     }
 }

@@ -72,6 +72,8 @@ namespace Inversions.GUI
                 gbFiltreDates.Enabled = true;
                 tbPigEntreDates.Valor = 0;
             }
+
+            gbSimulacioPig.Enabled = gestioProductesTabValoracions._ProducteSeleccionat != null;
         }
 
 
@@ -129,6 +131,11 @@ namespace Inversions.GUI
             cbTipusProducteFiltreTab2.SelectedIndex = -1;
             cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
             cbTipusProducteFiltreTab2.SelectedIndex = 0;
+        }
+
+        private void btSimulacioPiG_Click(object sender, EventArgs e)
+        {
+            ntbPiG.Valor = gestioProductesTabValoracions._ProducteSeleccionat.pigEnCartera(preuParticipacio: ntbPreuParticipacio.Valor);
         }
     }
 }
