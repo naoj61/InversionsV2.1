@@ -222,15 +222,22 @@ namespace Inversions.GUI
 
         private void GestioProductes_Load(object sender, EventArgs e)
         {
-            if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
+            //if(!Comuns.Utilitats.IsInDesignMode())
+            //{
+            //    // Aquí només s'executa al entrar en la perstanya.
+            //    for (int any = Program.Sessio.Moviments.OrderBy(o => o.Data).First().Data.Year; any <= DateTime.Today.Year; any++)
+            //    {
+            //        cbFiltreAny.Items.Add(any);
+            //    }
+            //    cbFiltreAny.SelectedItem = DateTime.Today.Year;
+            //}
+
+            // Aquí només s'executa al entrar en la perstanya.
+            for (int any = Program.PrimerAny; any <= DateTime.Today.Year; any++)
             {
-                // Aquí només s'executa al entrar en la perstanya.
-                for (int any = Program.Sessio.Moviments.OrderBy(o => o.Data).First().Data.Year; any <= DateTime.Today.Year; any++)
-                {
-                    cbFiltreAny.Items.Add(any);
-                }
-                cbFiltreAny.SelectedItem = DateTime.Today.Year;
+                cbFiltreAny.Items.Add(any);
             }
+            cbFiltreAny.SelectedItem = DateTime.Today.Year;
         }
 
         private void ckFiltreAny_CheckedChanged(object sender, EventArgs e)

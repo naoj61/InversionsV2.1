@@ -18,13 +18,13 @@ namespace Inversions.GUI
             //if (Program.RuntimeMode)
             if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
-                var primerAny = Program.Sessio.MovimentsUsuari.OrderBy(o => o.Data).First().Data.Year;
+                //var primerAny = Program.Sessio.MovimentsUsuari.OrderBy(o => o.Data).First().Data.Year;
                 var ultimAny = DateTime.Today.Year;
 
                 dgvPiGAnualsTributen.Rows.Clear();
                 dgvPiGAnualsTotal.Rows.Clear();
 
-                for (int any = primerAny; any <= ultimAny; any++)
+                for (int any = Program.PrimerAny; any <= ultimAny; any++)
                 {
                     if (Program.Sessio.MovimentsUsuari.All(a => a.Data.Year != any))
                         // No hi ha moviments en l'any

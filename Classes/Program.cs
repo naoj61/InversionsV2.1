@@ -21,7 +21,7 @@ namespace Inversions
         //internal static Usuari UsuariSeleccionat;
         internal static FileInfo FitxerLog = null;
         internal static readonly Version Versio = Assembly.GetExecutingAssembly().GetName().Version;
-
+        public static int PrimerAny = 2000;
 
         static Program()
         {
@@ -155,12 +155,11 @@ namespace Inversions
 
             if (v1 > v2)
                 return 1;
-            
+
             if (v1 < v2)
                 return -1;
 
             return 0;
         }
-
     }
 }
