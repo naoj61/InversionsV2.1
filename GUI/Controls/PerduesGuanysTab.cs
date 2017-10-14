@@ -146,5 +146,47 @@ namespace Inversions.GUI
         {
             ntbPiG.Valor = gestioProductesTabValoracions._ProducteSeleccionat.pigEnCartera(preuParticipacio: ntbPreuParticipacio.Valor);
         }
+
+        private IButtonControl vAcceptButton = null;
+        private void canviaAcceptButton(IButtonControl boto)
+        {
+            vAcceptButton = ParentForm.AcceptButton;
+            ParentForm.AcceptButton = boto;
+        }
+
+        private void restauraAcceptButton()
+        {
+            ParentForm.AcceptButton = vAcceptButton;
+        }
+
+        private void ntbPreuParticipacio_Enter(object sender, EventArgs e)
+        {
+            canviaAcceptButton(btSimulacioPiG);
+        }
+
+        private void ntbPreuParticipacio_Leave(object sender, EventArgs e)
+        {
+            restauraAcceptButton();
+        }
+
+        private void dtpFiltreDataInici_Enter(object sender, EventArgs e)
+        {
+            canviaAcceptButton(btFiltreDates);
+        }
+
+        private void dtpFiltreDataInici_Leave(object sender, EventArgs e)
+        {
+            restauraAcceptButton();
+        }
+
+        private void dtpFiltreDataFi_Enter(object sender, EventArgs e)
+        {
+            canviaAcceptButton(btFiltreDates);
+        }
+
+        private void dtpFiltreDataFi_Leave(object sender, EventArgs e)
+        {
+            restauraAcceptButton();
+        }
     }
 }
