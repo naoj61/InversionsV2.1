@@ -85,14 +85,14 @@ namespace Inversions
                 var dbSet = this.Empreses;
 
                 if (entity.Nom == "")
-                    list.Add(new DbValidationError("Nom", "Nom is required"));
+                    list.Add(new DbValidationError("Nom", "El Nom és obligatori"));
 
                 //if (entityEntry.State == EntityState.Added
                 //    && dbSet.SingleOrDefault(f => f.Id == entity.Id) != null)
                 //    list.Add(new DbValidationError("Id", "Duplicate key"));
 
-                if (dbSet.SingleOrDefault(f => f.Nom == entity.Nom) != null)
-                    list.Add(new DbValidationError("Nom", "Duplicate key"));
+                if (dbSet.Any(f => f.Nom == entity.Nom && f.Id != entity.Id))
+                    list.Add(new DbValidationError("Nom", "Clau duplicada"));
             }
             else if (entityEntry.Entity is Gestor)
             {
