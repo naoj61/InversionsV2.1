@@ -15,8 +15,12 @@ namespace Inversions
         #region Variables
 
         public abstract TipusProducte _TipusProducte { get; }
-        public abstract string _NomProducte { get; }
+        public abstract string _NomProducte { get; set;}
         public abstract string _TipusNomProducte { get; }
+        public abstract Mercat _Mercat { get; set; }
+        public abstract string _NomMercat { get; }
+        public abstract string _Isin { get; }
+        public abstract string _Descripcio { get; }
 
         public IEnumerable<Moviment> MovimentsProducteUsuari
         {

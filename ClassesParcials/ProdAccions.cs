@@ -15,13 +15,35 @@ namespace Inversions
         public override string _NomProducte
         {
             get { return _NomEmpresa; }
+            set { }
         }
 
         public override string _TipusNomProducte
         {
             get { return "Accions - " + _NomEmpresa; }
         }
-        
+
+        public override Mercat _Mercat
+        {
+            get { return Mercat; }
+            set { Mercat = value; }
+        }
+
+        public override string _NomMercat
+        {
+            get { return Mercat == null ? null :Mercat.Nom; }
+        }
+
+        public override string _Isin
+        {
+            get { return null; }
+        }
+
+        public override string _Descripcio
+        {
+            get { return null; }
+        }
+
 
         /// <summary>
         /// Valor de les accions en cartera en una data determinada.

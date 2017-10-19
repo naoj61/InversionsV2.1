@@ -17,13 +17,34 @@ namespace Inversions
         public override string _NomProducte
         {
             get { return Nom; }
+            set { Nom = value; }
         }
 
         public override string _TipusNomProducte
         {
             get { return "Fons - " + Nom + " - " + _NomEmpresa; }
         }
-        
+
+        public override Mercat _Mercat
+        {
+            get { return null; }
+            set { }
+        }
+
+        public override string _NomMercat
+        {
+            get { return null; }
+        }
+
+        public override string _Isin
+        {
+            get { return ISIN; }
+        }
+
+        public override string _Descripcio
+        {
+            get { return Descripcio; }
+        }
 
         /// <summary>
         /// Valor dels fons en cartera en una data determinada.

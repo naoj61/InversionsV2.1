@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CodeDom;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,6 +11,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using Comuns;
+using Controls;
 
 namespace Inversions.GUI
 {
@@ -69,6 +71,7 @@ namespace Inversions.GUI
 #endif
 
             dgvEmpreses.AutoGenerateColumns = false;
+            dgvProductes.AutoGenerateColumns = false;
 
 
             List<Producte.TipusProducte> tipusProductes = new List<Producte.TipusProducte>(Enum.GetValues(typeof (Producte.TipusProducte)).Cast<Producte.TipusProducte>());
@@ -99,6 +102,18 @@ namespace Inversions.GUI
             cbMoneda2.SelectedItem = null;
             cbMoneda2.ResumeLayout();
 
+
+            cbMercatProducte.SuspendLayout();
+            cbMercatProducte.DisplayMember = "Nom";
+            cbMercatProducte.DataSource = Program.Sessio.Mercats.ToList();
+            cbMercatProducte.SelectedItem = null;
+            cbMercatProducte.ResumeLayout();
+
+            cbMonedaProducte.SuspendLayout();
+            cbMonedaProducte.DataSource = Enum.GetValues(typeof (Comuns.Utilitats.Monedes));
+            cbMonedaProducte.SelectedItem = null;
+            cbMonedaProducte.ResumeLayout();
+
             modeConsulta();
         }
 
@@ -123,12 +138,49 @@ namespace Inversions.GUI
 
 
         private InversionsBDContext vConnEmpreses;
+
         private void carregaGridEmpreses()
         {
-            
             vConnEmpreses = new InversionsBDContext(); // Creo la connexió per si he fet cancel rellegeixi les dades de la taula.
             vConnEmpreses.Empreses.Load();
             dgvEmpreses.DataSource = vConnEmpreses.Empreses.Local.ToBindingList();
+        }
+
+        private InversionsBDContext vConnProductes;
+
+        private void carregaGridProductes(Empresa empresa)
+        {
+            vConnProductes = new InversionsBDContext(); // Creo la connexió per si he fet cancel rellegeixi les dades de la taula.
+
+            if (empresa.TipusEmpresa == TipusEmpresa.Accions)
+            {
+                vConnProductes.ProdAccions.Where(w => w.EmpresaId == empresa.Id).Load();
+                dgvProductes.DataSource = vConnProductes.ProdAccions.Local.ToBindingList();
+            }
+            else if (empresa.TipusEmpresa == TipusEmpresa.GestoraFons)
+            {
+                vConnProductes.ProdFons.Where(w => w.EmpresaId == empresa.Id).Load();
+                dgvProductes.DataSource = vConnProductes.ProdFons.Local.ToBindingList();
+            }
+
+            if (((ICollection) dgvProductes.DataSource).Count == 0)
+            {
+                btCreaProducte.Enabled = true;
+                btEsborraProducte.Enabled = false;
+
+                tbNomProducte.Text = String.Empty;
+                ntbOrdreGridProducte.Valor = 0;
+                cbMercatProducte.SelectedItem = null;
+                cbMonedaProducte.SelectedItem = null;
+                tbIsinProducte.Text = String.Empty;
+                tbDescripcioProducte.Text = String.Empty;
+
+                preparaControlsProducte();
+            }
+            else
+            {
+                btCreaProducte.Enabled = empresa.TipusEmpresa == TipusEmpresa.GestoraFons;
+            }
         }
 
 
@@ -573,8 +625,7 @@ namespace Inversions.GUI
                 vConnEmpreses.SaveChanges();
 
                 Program.Sessio.refrescaTaula(typeof (Empresa));
-                
-                //vFilaModificada = false;
+
                 pnDesaCanvisEmpreses.Enabled = false;
             }
             catch (DbEntityValidationException ex2)
@@ -595,7 +646,6 @@ namespace Inversions.GUI
                 carregaGridEmpreses();
                 dgvEmpreses.Refresh();
 
-                //vFilaModificada = false;
                 pnDesaCanvisEmpreses.Enabled = false;
             }
             catch (DbEntityValidationException ex2)
@@ -617,17 +667,20 @@ namespace Inversions.GUI
             perduesGuanysTab1.canviUsuari(Usuari.Seleccionat);
         }
 
+
         private void rbGestora_CheckedChanged(object sender, EventArgs e)
         {
             grMercat.Visible = false;
             gbOrdreGrid.Visible = false;
         }
 
+
         private void rbCotitzada_CheckedChanged(object sender, EventArgs e)
         {
             grMercat.Visible = true;
             gbOrdreGrid.Visible = true;
         }
+
 
         private void Principal_KeyDown(object sender, KeyEventArgs e)
         {
@@ -649,17 +702,19 @@ namespace Inversions.GUI
             {
                 tabControl1.SelectedTab.Controls[0].Refresh();
             }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                if (ActiveControl.Parent.Parent == pnCampsProductes)
+                    teclaEscapeEdicioProducte();
+            }
         }
 
-
-        //private bool vFilaModificada = false;
 
         private void dgvEmpreses_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
             try
             {
                 var cela = dgvEmpreses[e.ColumnIndex, e.RowIndex];
-                var valorInicial = cela.Value;
                 var valorNou = (string) cela.EditedFormattedValue;
                 if (cela.OwningRow.DataBoundItem != null)
                 {
@@ -668,21 +723,17 @@ namespace Inversions.GUI
                         case "Nom":
                             if (String.IsNullOrWhiteSpace(valorNou))
                                 throw new ApplicationException("El nom no pot ser buit o null");
-
-                            //if (!valorNou.Equals(valorInicial))
-                                //vFilaModificada = true;
                             break;
 
                         case "TipusEmpresa":
+                            var valorInicial = cela.Value;
                             var tipusEmp = (TipusEmpresa) Enum.Parse(typeof (TipusEmpresa), valorNou);
 
                             if ((TipusEmpresa) valorInicial != tipusEmp)
                             {
-                                var empresa = (Empresa)cela.OwningRow.DataBoundItem;
+                                var empresa = (Empresa) cela.OwningRow.DataBoundItem;
                                 if (empresa.Productes.Any())
                                     throw new Exception("No es pot canviar el tipus d'empresa si ja te productes");
-
-                                //vFilaModificada = true;
                             }
                             break;
                     }
@@ -703,55 +754,24 @@ namespace Inversions.GUI
 
         private void dgvEmpreses_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
         {
-            //var fila = dgvEmpreses.Rows[e.RowIndex];
-            //var cela = dgvEmpreses[e.ColumnIndex, e.RowIndex];
-            //var empresa = (Empresa)fila.DataBoundItem;
-            //var isDirty = dgvEmpreses.IsCurrentRowDirty;
-            //EntityState state;
-            //if(empresa != null) 
-            //    state = vConnEmpreses.Entry(empresa).State;
-            //var fila2 = dgvEmpreses.CurrentRow;
-
             if (dgvEmpreses.IsCurrentRowDirty)
             {
                 pnDesaCanvisEmpreses.Enabled = true;
-                //vFilaModificada = false;
             }
         }
 
-        private void dgvEmpreses_RowValidated(object sender, DataGridViewCellEventArgs dataGridViewCellEventArgs)
-        {
-            //var fila = dgvEmpreses.Rows[dataGridViewCellEventArgs.RowIndex];
-            //var cela = dgvEmpreses[dataGridViewCellEventArgs.ColumnIndex, dataGridViewCellEventArgs.RowIndex];
-            //var empresa = (Empresa)fila.DataBoundItem;
-            //var isDirty = dgvEmpreses.IsCurrentRowDirty;
-            //EntityState state;
-            //if (empresa != null)
-            //    state = vConnEmpreses.Entry(empresa).State;
-            //var fila2 = dgvEmpreses.CurrentRow;
-
-            //if (vFilaModificada)
-            //{
-            //    pnDesaCanvisEmpreses.Enabled = true;
-            //    vFilaModificada = false;
-            //}
-        }
-
-        private void dgvEmpreses_CancelRowEdit(object sender, QuestionEventArgs e)
-        {
-            //vFilaModificada = false;
-        }
 
         private void dgvEmpreses_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
         {
             pnDesaCanvisEmpreses.Enabled = true;
         }
 
+
         private void Principal_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (pnDesaCanvisEmpreses.Enabled)
             {
-                if (MessageBox.Show("Hi han canvis pendents de desar en la taula Empreses. \nVols tancar igualment?", "Atenció", 
+                if (MessageBox.Show("Hi han canvis pendents de desar en la taula Empreses. \nVols tancar igualment?", "Atenció",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
                 {
                     e.Cancel = true;
@@ -760,9 +780,187 @@ namespace Inversions.GUI
             }
         }
 
+        private Empresa vEmpresaSeleccionada;
         private void dgvEmpreses_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
-            
+            if (dgvEmpreses.CurrentRow != null && dgvEmpreses.CurrentRow.Index == e.RowIndex)
+                return;
+
+            vEmpresaSeleccionada = (Empresa) dgvEmpreses.Rows[e.RowIndex].DataBoundItem;
+
+            carregaGridProductes(vEmpresaSeleccionada);
+        }
+
+
+        private void btDesaProducte_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                vConnProductes.SaveChanges();
+
+                Program.Sessio.refrescaTaula(typeof (Producte));
+
+                //pnDesaCanvisEmpreses.Enabled = false;
+            }
+            catch (DbEntityValidationException ex2)
+            {
+                Utilitats.EscriuLog(ex2);
+            }
+            catch (Exception ex1)
+            {
+                Utilitats.EscriuLog(ex1);
+            }
+        }
+
+
+        private void dgvProductes_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvProductes.CurrentRow != null && dgvProductes.CurrentRow.Index == e.RowIndex)
+                return;
+
+            Producte producte = (Producte)dgvProductes.Rows[e.RowIndex].DataBoundItem;
+
+            if (producte == null)
+            {
+                cbMercatProducte.SelectedItem = null;
+                cbMonedaProducte.SelectedItem = null;
+
+            }
+            else
+            {
+                btDesaProducte.Enabled = false;
+                btCancelaProducte.Enabled = false;
+
+                btEsborraProducte.Enabled = true;
+
+                ompleCampsProducte(producte);
+            }
+        }
+
+        private void ompleCampsProducte(Producte producte)
+        {
+            if (vEmpresaSeleccionada == null) 
+                return;
+
+            preparaControlsProducte();
+
+            if (producte == null)
+            {
+                tbNomProducte.Text = String.Empty;
+                ntbOrdreGridProducte.Valor = 0;
+                cbMercatProducte.SelectedItem = null;
+                cbMonedaProducte.SelectedItem = null;
+                tbIsinProducte.Text = String.Empty;
+                tbDescripcioProducte.Text = String.Empty;
+            }
+            else
+            {
+                tbNomProducte.Text = producte._NomProducte;
+                ntbOrdreGridProducte.Valor = producte.OrdreGrid.GetValueOrDefault();
+
+                if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.Accions)
+                {
+                    cbMercatProducte.SelectedItem = producte._Mercat;
+                    cbMonedaProducte.SelectedItem = (Utilitats.Monedes) Enum.Parse(typeof (Utilitats.Monedes), producte.Moneda);
+                }
+                else if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.GestoraFons)
+                {
+                    tbIsinProducte.Text = producte._Isin;
+                    tbDescripcioProducte.Text = producte._Descripcio;
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Mostra o amaga els controls en funvio del tipus d'empresa seleccionada.
+        /// </summary>
+        private void preparaControlsProducte()
+        {
+            if (vEmpresaSeleccionada == null)
+                return;
+
+            if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.Accions)
+            {
+                grMercatProducte.Visible = true;
+                grMonedaProducte.Visible = true;
+                grIsinProducte.Visible = false;
+                grDescripcioProducte.Visible = false;
+            }
+            else if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.GestoraFons)
+            {
+                grMercatProducte.Visible = false;
+                grMonedaProducte.Visible = false;
+                grIsinProducte.Visible = true;
+                grDescripcioProducte.Visible = true;
+            }
+        }
+
+
+        private void tbProducte_TextChanged(object sender, EventArgs e)
+        {
+            if (vModeConsultaProducte && ((TextBoxBase)sender).Modified)
+            {
+                modeEdicioProducte();
+            }
+        }
+
+        private void cbProducte_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (((IValorControlRestaurable) sender).Modified)
+            {
+                modeEdicioProducte();
+            }
+        }
+
+        private bool vModeEdicioProducte = false;
+        private bool vModeConsultaProducte = true;
+        private void modeEdicioProducte()
+        {
+            vModeEdicioProducte = true;
+            vModeConsultaProducte = false;
+
+            btDesaProducte.Enabled = true;
+            btCancelaProducte.Enabled = true;
+            grEmpresa.Enabled = false;
+            dgvProductes.Enabled = false;
+            btCreaProducte.Enabled = false;
+            btEsborraProducte.Enabled = false;
+        }
+
+        private void modeConsultaProducte()
+        {
+            vModeEdicioProducte =false ;
+            vModeConsultaProducte = true;
+
+            btDesaProducte.Enabled = false;
+            btCancelaProducte.Enabled = false;
+            grEmpresa.Enabled = true;
+            dgvProductes.Enabled = true;
+            btCreaProducte.Enabled = true;
+            btEsborraProducte.Enabled = true;
+        }
+
+        private void btCancelaProducte_Click(object sender, EventArgs e)
+        {
+            ompleCampsProducte((Producte)(dgvProductes.CurrentRow == null ? null : dgvProductes.CurrentRow.DataBoundItem));
+
+            modeConsultaProducte();
+        }
+
+
+        private void teclaEscapeEdicioProducte()
+        {
+            if (ActiveControl is TextBoxBase)
+            {
+                if (((TextBoxBase)ActiveControl).Modified)
+                    ((TextBoxBase)ActiveControl).Undo();
+            }
+            if (ActiveControl is IValorControlRestaurable)
+            {
+                if (((IValorControlRestaurable)ActiveControl).Modified)
+                    ((IValorControlRestaurable)ActiveControl).Undo();
+            }
         }
     }
 }
