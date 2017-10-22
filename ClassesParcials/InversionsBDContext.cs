@@ -82,7 +82,6 @@ namespace Inversions
             if (entityEntry.Entity is Empresa)
             {
                 Empresa entity = entityEntry.Entity as Empresa;
-                var dbSet = this.Empreses;
 
                 if (entity.Nom == "")
                     list.Add(new DbValidationError("Nom", "El Nom és obligatori"));
@@ -91,23 +90,30 @@ namespace Inversions
                 //    && dbSet.SingleOrDefault(f => f.Id == entity.Id) != null)
                 //    list.Add(new DbValidationError("Id", "Duplicate key"));
 
-                if (dbSet.Any(f => f.Nom == entity.Nom && f.Id != entity.Id))
+                if (Empreses.Any(f => f.Nom == entity.Nom && f.Id != entity.Id))
                     list.Add(new DbValidationError("Nom", "Clau duplicada"));
             }
             else if (entityEntry.Entity is Gestor)
             {
                 Gestor entity = entityEntry.Entity as Gestor;
-                var dbSet = this.Gestors;
 
                 if (entity.Nom == "")
                     list.Add(new DbValidationError("Nom", "Nom is required"));
 
-                if (dbSet.SingleOrDefault(f => f.Nom == entity.Nom) != null)
+                if (Gestors.Any(f => f.Nom == entity.Nom && f.Id != entity.Id))
                     list.Add(new DbValidationError("Nom", "Duplicate key"));
             }
             else if (entityEntry.Entity is ProdFons)
             {
                 ProdFons entity = entityEntry.Entity as ProdFons;
+
+                if (entity.Nom == "")
+                    list.Add(new DbValidationError("Nom", "Nom is required"));
+
+                if (ProdFons.Any(f => f.Nom == entity.Nom && f.Id != entity.Id))
+                    list.Add(new DbValidationError("Nom", "Duplicate key"));
+
+
                 if (entity.Gestors.Count > 0)
                 {
                     // Valida que tots els gestors siguin de la mateixa empresa.

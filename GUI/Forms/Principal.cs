@@ -796,11 +796,29 @@ namespace Inversions.GUI
         {
             try
             {
+                Producte prod = dgvProductes.CurrentRow == null ? vConnProductes.Productes.Create() : (Producte) dgvProductes.CurrentRow.DataBoundItem;
+                
+                prod.OrdreGrid = ntbOrdreGridProducte._IntValue;
+
+                if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.Accions)
+                {
+                    ((ProdAccions) prod).Mercat = vConnProductes.Mercats.Find(((Mercat) cbMercatProducte.SelectedItem).Id);
+                    prod.Moneda = cbMonedaProducte.SelectedItem.ToString();
+                }
+                else if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.GestoraFons)
+                {
+                    ((ProdFons)prod).Nom = tbNomProducte.Text;
+                    ((ProdFons)prod).ISIN = tbIsinProducte.Text;
+                    ((ProdFons) prod).Descripcio = tbDescripcioProducte.Text;
+                }
+
+                vConnProductes.Productes.AddOrUpdate(prod);
+
                 vConnProductes.SaveChanges();
 
                 Program.Sessio.refrescaTaula(typeof (Producte));
 
-                //pnDesaCanvisEmpreses.Enabled = false;
+                modeConsultaProducte();
             }
             catch (DbEntityValidationException ex2)
             {
@@ -882,6 +900,7 @@ namespace Inversions.GUI
 
             if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.Accions)
             {
+                grNomProducte.Enabled = false;
                 grMercatProducte.Visible = true;
                 grMonedaProducte.Visible = true;
                 grIsinProducte.Visible = false;
@@ -889,6 +908,7 @@ namespace Inversions.GUI
             }
             else if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.GestoraFons)
             {
+                grNomProducte.Enabled = true;
                 grMercatProducte.Visible = false;
                 grMonedaProducte.Visible = false;
                 grIsinProducte.Visible = true;
@@ -961,6 +981,16 @@ namespace Inversions.GUI
                 if (((IValorControlRestaurable)ActiveControl).Modified)
                     ((IValorControlRestaurable)ActiveControl).Undo();
             }
+        }
+
+        private void btCreaProducte_Click(object sender, EventArgs e)
+        {
+            // todo Pendent "btCreaProducte_Click".
+        }
+
+        private void btEsborraProducte_Click(object sender, EventArgs e)
+        {
+            // todo Pendent "btEsborraProducte_Click".
         }
     }
 }
