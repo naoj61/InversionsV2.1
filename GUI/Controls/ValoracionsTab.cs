@@ -26,6 +26,8 @@ namespace Inversions.GUI
             cbTipusProducteFiltre.DataSource = Enum.GetValues(typeof (Producte.TipusProducte));
             cbTipusProducteFiltre.SelectedIndex = 0;
             cbTipusProducteFiltre.SelectedIndexChanged += cbTipusProducteFiltre_SelectedIndexChanged;
+
+            dtpDataIniciLlista.Value = DateTime.Now.AddMonths(-6);
         }
 
         public DateTime _Data
@@ -55,9 +57,11 @@ namespace Inversions.GUI
             }
         }
 
-
+        private bool vEsNouValor = false;
         private void btNouValor_Click(object sender, EventArgs e)
         {
+            vEsNouValor = true;
+
             tbImport.Valor = 0;
 
             modeEdicio();
@@ -83,11 +87,10 @@ namespace Inversions.GUI
                 {
                     try
                     {
-                        Valoracio valToRemove = conn.Valoracions.Single(s => s.Id == vValoracioSeleccionada.Id);
+                        //Valoracio valToRemove = conn.Valoracions.Single(s => s.Id == vValoracioSeleccionada.Id);
+                        Valoracio valToRemove = conn.Valoracions.Find(vValoracioSeleccionada.Id);
                         conn.Valoracions.Remove(valToRemove);
                         conn.SaveChanges();
-
-                        actualitzaLlistaValoracionsPerProducte();
                     }
                     catch (DbUpdateException ex2)
                     {
@@ -102,6 +105,9 @@ namespace Inversions.GUI
                         conn.UndoingChangesDbEntityPropertyLevel(vValoracioSeleccionada);
                     }
                 }
+
+                Program.Sessio.refrescaTaula(typeof(Valoracio));
+                actualitzaLlistaValoracionsPerProducte();
             }
         }
 
@@ -156,42 +162,62 @@ namespace Inversions.GUI
 
         private void btDesa_Click(object sender, EventArgs e)
         {
-            using (var conn = new InversionsBDContext())
+            var cursor = this.Cursor;
+            this.Cursor = Cursors.WaitCursor;
+
+            try
             {
-                using (var trans = conn.Database.BeginTransaction())
+                using (var conn = new InversionsBDContext())
                 {
-                    try
+                    //using (var trans = conn.Database.BeginTransaction())
                     {
-                        if (vValoracioSeleccionada == null)
+                        try
                         {
-                            Valoracio.Nova(conn, gestioProductesTabValoracions._ProducteSeleccionat, cData.Value, tbImport._DoubleValue);
+                            if (vEsNouValor)
+                            {
+                                Valoracio.Nova(conn, gestioProductesTabValoracions._ProducteSeleccionat, cData.Value, tbImport._DoubleValue);
 
-                            trans.Commit();
+                                //trans.Commit();
+                            }
+                            else
+                            {
+                                vValoracioSeleccionada.modifica(conn, cData.Value, tbImport._DoubleValue);
+
+                                //trans.Commit();
+
+                                //if (vValoracioSeleccionada != null)
+                                //    // Carrega el nou valor.
+                                //    Program.Sessio.Entry(vValoracioSeleccionada).Reload();
+                            }
+
+                            conn.SaveChanges();
+
+                            vEsNouValor = false;
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            vValoracioSeleccionada.modifica(conn, cData.Value, tbImport._DoubleValue);
-                         
-                            trans.Commit();
-
-                            if (vValoracioSeleccionada != null)
-                                // Carrega el nou valor.
-                                Program.Sessio.Entry(vValoracioSeleccionada).Reload();
+                            MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            //trans.Rollback();
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        trans.Rollback();
                     }
                 }
+
+                if (vValoracioSeleccionada != null)
+                    Program.Sessio.Entry(vValoracioSeleccionada).Reload();
+
+                gestioProductesTabValoracions.refrescaDadesControl();
+
+
+                modeConsulta();
+
+                tbImport.Valor = 0;
+
+                actualitzaLlistaValoracionsPerProducte();
             }
-
-            modeConsulta();
-
-            tbImport.Valor = 0;
-
-            actualitzaLlistaValoracionsPerProducte();
+            finally
+            {
+                this.Cursor = cursor;
+            }
         }
 
 
@@ -248,12 +274,23 @@ namespace Inversions.GUI
         {
             gestioProductesTabValoracions._UsuariSeleccionat = usuari;
             cDataGridView1.DataSource = null;
+            Refresh();
         }
+
+
+        public override void Refresh()
+        {
+            base.Refresh();
+
+            actualitzaLlistaValoracionsTotal();
+            gestioProductesTabValoracions.refrescaDadesControl();
+        }
+
 
 
         private void ValoracionsTab_Load(object sender, EventArgs e)
         {
-            actualitzaLlistaValoracionsTotal();
+            //actualitzaLlistaValoracionsTotal();
         }
 
         private void btActualitzaLlista_Click(object sender, EventArgs e)
@@ -294,8 +331,9 @@ namespace Inversions.GUI
                     break;
             }
 
-            var valMovs = valoracions.Select(s => new {Data = s.Data.Date, PreuParticipacio = s.PreuParticipacio}).
-                Union(moviments.Select(s => new {Data = s.Data.Date, PreuParticipacio = s.PreuParticipacio})).
+
+            var valMovs = valoracions.Where(w => w.Data >= dtpDataIniciLlista.Value).Select(s => new { Data = s.Data.Date, PreuParticipacio = s.PreuParticipacio }).
+                Union(moviments.Where(w => w.Data >= dtpDataIniciLlista.Value).Select(s => new {Data = s.Data.Date, PreuParticipacio = s.PreuParticipacio})).
                 GroupBy(g => g.Data).OrderBy(o => o.Key);
 
             if (!valMovs.Any())
@@ -322,16 +360,19 @@ namespace Inversions.GUI
                 switch (tipusProdFiltre)
                 {
                     case Producte.TipusProducte.Accions:
-                        pigPerData = ProdAccions.PiG(new Producte.DateTimeFinalDia(data));
-                        saldo = ProdAccions.Valor(new Producte.DateTimeFinalDia(data));
+                        //pigPerData = ProdAccions.PiG(new Producte.DateTimeFinalDia(data));
+                        pigPerData = Producte.Pig(Producte.TipusProducte.Accions, data);
+                        saldo = ProdAccions.Valor(data);
                         break;
                     case Producte.TipusProducte.Fons:
-                        pigPerData = ProdFons.PiG(new Producte.DateTimeFinalDia(data));
-                        saldo = ProdFons.Valor(new Producte.DateTimeFinalDia(data));
+                        //pigPerData = ProdFons.PiG(new Producte.DateTimeFinalDia(data));
+                        pigPerData = Producte.Pig(Producte.TipusProducte.Fons, data);
+                        saldo = ProdFons.Valor(data);
                         break;
                     default:
-                        pigPerData = ProdAccions.PiG(new Producte.DateTimeFinalDia(data)) + ProdFons.PiG(new Producte.DateTimeFinalDia(data));
-                        saldo = ProdAccions.Valor(new Producte.DateTimeFinalDia(data)) + ProdFons.Valor(new Producte.DateTimeFinalDia(data));
+                        //pigPerData = ProdAccions.PiG(new Producte.DateTimeFinalDia(data)) + ProdFons.PiG(new Producte.DateTimeFinalDia(data));
+                        pigPerData = Producte.Pig(Producte.TipusProducte.Tots, data);
+                        saldo = ProdAccions.Valor(data) + ProdFons.Valor(data);
                         break;
                 }
 
@@ -369,7 +410,7 @@ namespace Inversions.GUI
         private void actualitzaLlistaValoracionsPerProducte()
         {
             var valoracionsProducte = Program.Sessio.Valoracions
-                .Where(w => w.Prod.Id == gestioProductesTabValoracions._ProducteSeleccionat.Id).OrderBy(o => o.Data).ToList();
+                .Where(w => w.Prod.Id == gestioProductesTabValoracions._ProducteSeleccionat.Id && w.Data > dtpDataIniciLlista.Value).OrderBy(o => o.Data).ToList();
 
             cDataGridView1.SuspendLayout();
             cDataGridView1.DataSource = valoracionsProducte;

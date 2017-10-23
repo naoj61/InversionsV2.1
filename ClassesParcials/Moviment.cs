@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
+using Comuns;
 
 namespace Inversions
 {
@@ -37,6 +41,16 @@ namespace Inversions
                 if (TipusMoviment == TipusMoviment.Dividends)
                 {
                     return TipusMoviment.Dividends.ToString();
+                }
+
+                if (TipusMoviment == TipusMoviment.Split)
+                {
+                    return TipusMoviment.Split.ToString();
+                }
+
+                if (TipusMoviment == TipusMoviment.ContraSplit)
+                {
+                    return TipusMoviment.ContraSplit.ToString();
                 }
                 
                 if (TipusMoviment == TipusMoviment.Compra)
@@ -122,11 +136,6 @@ namespace Inversions
             }
         }
 
-        public double? _ValorCompraOriginalPreuUnitari
-        {
-            get { return ValorCompraOriginal.HasValue ? (double?) ValorCompraOriginal.Value / Participacions : null; }
-        }
-
         /// <summary>
         /// És la referéncia del la venda traspàs sobre la compra.
         /// En la BD és una relació de 0..1-->*, però hauria de ser de 0..1-->1.
@@ -176,6 +185,32 @@ namespace Inversions
             }
         }
 
+        public Moviment Clone()
+        {
+            return (Moviment) MemberwiseClone();
+
+            //Moviment mov = new Moviment();
+
+            //mov.Data = Data;
+            //mov.Descripcio = Descripcio;
+            //mov.Despeses = Despeses;
+            //mov.Id = Id;
+            //mov.IdRefVenda = IdRefVenda;
+            //mov.IdUsuari = IdUsuari;
+            //mov.Usuari = Usuari;
+            //mov.MovimentRefVenda = MovimentRefVenda;
+            //mov.Participacions = Participacions;
+            //mov.PreuParticipacio = PreuParticipacio;
+            //mov.Prod = Prod;
+            //mov.ProdId = ProdId;
+            //mov.ProducteTraspas = ProducteTraspas;
+            //mov.ProducteTraspasId = ProducteTraspasId;
+            //mov.RowVersion = RowVersion;
+            //mov.TipusMoviment = TipusMoviment;
+            //mov.ValorCompraOriginal = ValorCompraOriginal;
+            
+            //return mov;
+        }
 
 
         #region Overrides

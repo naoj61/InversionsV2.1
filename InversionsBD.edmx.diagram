@@ -5,28 +5,28 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="5a71190cc79e4d69bd61006f990390a4" Name="Diagram1" ZoomLevel="82" >
-        <EntityTypeShape EntityType="InversionsBD.Empresa" Width="1.5" PointX="0.75" PointY="0.5" />
-        <EntityTypeShape EntityType="InversionsBD.Gestor" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="InversionsBD.Valoracio" Width="1.5" PointX="7.625" PointY="3.25" />
+        <EntityTypeShape EntityType="InversionsBD.Empresa" Width="1.5" PointX="0.75" PointY="1.25" />
+        <EntityTypeShape EntityType="InversionsBD.Gestor" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="InversionsBD.Valoracio" Width="1.5" PointX="7.5" PointY="0.5" />
         <AssociationConnector Association="InversionsBD.FK_EmpresaGestor" />
-        <EntityTypeShape EntityType="InversionsBD.Producte" Width="2.125" PointX="3.75" PointY="0.75" />
+        <EntityTypeShape EntityType="InversionsBD.Producte" Width="2.125" PointX="3.75" PointY="1.25" />
         <AssociationConnector Association="InversionsBD.EmpresaP2" />
-        <EntityTypeShape EntityType="InversionsBD.ProdFons" Width="1.5" PointX="3.375" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="InversionsBD.ProdFons" Width="1.5" PointX="3.375" PointY="5.25" IsExpanded="true" />
         <InheritanceConnector EntityType="InversionsBD.ProdFons" />
         <AssociationConnector Association="InversionsBD.ProdFonsGestor" />
-        <EntityTypeShape EntityType="InversionsBD.ProdAccions" Width="1.5" PointX="5.125" PointY="4.5" />
+        <EntityTypeShape EntityType="InversionsBD.ProdAccions" Width="1.5" PointX="5.25" PointY="5.25" />
         <InheritanceConnector EntityType="InversionsBD.ProdAccions" />
-        <EntityTypeShape EntityType="InversionsBD.Mercat" Width="1.5" PointX="8" PointY="5.875" />
+        <EntityTypeShape EntityType="InversionsBD.Mercat" Width="1.5" PointX="7.75" PointY="5.25" />
         <AssociationConnector Association="InversionsBD.MercatProdAccions" />
-        <EntityTypeShape EntityType="InversionsBD.Moviment" Width="2" PointX="10" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="InversionsBD.Moviment" Width="2" PointX="10.25" PointY="1.125" IsExpanded="true" />
         <AssociationConnector Association="InversionsBD.ProdMov" />
         <AssociationConnector Association="InversionsBD.ProdValoracio" />
         <InheritanceConnector EntityType="InversionsBD.ProdAccions" />
         <InheritanceConnector EntityType="InversionsBD.ProdFons" />
         <AssociationConnector Association="InversionsBD.ProducteMoviment" />
-        <AssociationConnector Association="InversionsBD.FK_RefVenda" />
-        <EntityTypeShape EntityType="InversionsBD.Usuari" Width="1.5" PointX="12.875" PointY="0.5" />
-        <AssociationConnector Association="InversionsBD.FK_Usuaris" />
+        <EntityTypeShape EntityType="InversionsBD.Usuari" Width="1.5" PointX="13.125" PointY="2.5" />
+        <AssociationConnector Association="InversionsBD.FK_RefVenda1" />
+        <AssociationConnector Association="InversionsBD.FK_Usuaris1" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -51,17 +51,16 @@
             this.colDescripcio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.gbPreuPartic = new System.Windows.Forms.GroupBox();
-            this.tbPreuParticipacio = new Controls.NumericTextBox2();
+            this.ntbPreuParticipacio = new Controls.NumericTextBox2();
+            this.gbFactorConversor = new System.Windows.Forms.GroupBox();
+            this.ntbFactorConversor = new Controls.NumericTextBox2();
             this.btDesaMoviment = new System.Windows.Forms.Button();
-            this.btCompra = new System.Windows.Forms.Button();
-            this.btVenda = new System.Windows.Forms.Button();
-            this.btDividends = new System.Windows.Forms.Button();
+            this.btFes = new System.Windows.Forms.Button();
             this.btCancelaMoviment = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.cbTipusMovimentTab2 = new System.Windows.Forms.ComboBox();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.pnCompraVenda = new System.Windows.Forms.FlowLayoutPanel();
+            this.gbDataMoviment = new System.Windows.Forms.GroupBox();
             this.cData1 = new System.Windows.Forms.DateTimePicker();
+            this.ckActivaDataDesti = new System.Windows.Forms.CheckBox();
             this.gbParticipacions = new System.Windows.Forms.GroupBox();
             this.tbNumParticipacions = new Controls.NumericTextBox2();
             this.gbCanviAplicat = new System.Windows.Forms.GroupBox();
@@ -73,34 +72,37 @@
             this.gbDescripcio = new System.Windows.Forms.GroupBox();
             this.tbDescripcio = new System.Windows.Forms.TextBox();
             this.gbEdicio = new System.Windows.Forms.GroupBox();
-            this.gbNumParticipacionsDesti = new System.Windows.Forms.GroupBox();
-            this.tbNumParticipacionsDesti = new Controls.NumericTextBox2();
-            this.gbDataDesti = new System.Windows.Forms.GroupBox();
-            this.cDataDesti = new System.Windows.Forms.DateTimePicker();
+            this.gbTraspas = new System.Windows.Forms.GroupBox();
             this.gbProducteTraspas = new System.Windows.Forms.GroupBox();
             this.cProducteTraspas = new System.Windows.Forms.ComboBox();
-            this.gbTraspas = new System.Windows.Forms.GroupBox();
+            this.gbDataDesti = new System.Windows.Forms.GroupBox();
+            this.cDataDesti = new System.Windows.Forms.DateTimePicker();
+            this.gbNumParticipacionsDesti = new System.Windows.Forms.GroupBox();
+            this.tbNumParticipacionsDesti = new Controls.NumericTextBox2();
             this.pnMovBotons = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbTipusMoviment = new System.Windows.Forms.ComboBox();
             this.pnMovTop = new System.Windows.Forms.Panel();
             this.gestioProductesTabMoviments = new Inversions.GUI.GestioProductes();
             ((System.ComponentModel.ISupportInitialize)(this.cDataGridView1)).BeginInit();
             this.gbPreuPartic.SuspendLayout();
-            this.panel1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox8.SuspendLayout();
+            this.gbFactorConversor.SuspendLayout();
+            this.pnCompraVenda.SuspendLayout();
+            this.gbDataMoviment.SuspendLayout();
             this.gbParticipacions.SuspendLayout();
             this.gbCanviAplicat.SuspendLayout();
             this.gbDespeses.SuspendLayout();
             this.gbImportTotal.SuspendLayout();
             this.gbDescripcio.SuspendLayout();
             this.gbEdicio.SuspendLayout();
-            this.gbNumParticipacionsDesti.SuspendLayout();
-            this.gbDataDesti.SuspendLayout();
-            this.gbProducteTraspas.SuspendLayout();
             this.gbTraspas.SuspendLayout();
+            this.gbProducteTraspas.SuspendLayout();
+            this.gbDataDesti.SuspendLayout();
+            this.gbNumParticipacionsDesti.SuspendLayout();
             this.pnMovBotons.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.pnMovTop.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -275,8 +277,8 @@
             // 
             // gbPreuPartic
             // 
-            this.gbPreuPartic.Controls.Add(this.tbPreuParticipacio);
-            this.gbPreuPartic.Location = new System.Drawing.Point(376, 3);
+            this.gbPreuPartic.Controls.Add(this.ntbPreuParticipacio);
+            this.gbPreuPartic.Location = new System.Drawing.Point(3, 59);
             this.gbPreuPartic.Name = "gbPreuPartic";
             this.gbPreuPartic.Padding = new System.Windows.Forms.Padding(5);
             this.gbPreuPartic.Size = new System.Drawing.Size(111, 50);
@@ -285,125 +287,114 @@
             this.gbPreuPartic.Text = "Preu Partic.";
             this.toolTip1.SetToolTip(this.gbPreuPartic, "Import brut sense despeses");
             // 
-            // tbPreuParticipacio
+            // ntbPreuParticipacio
             // 
-            this.tbPreuParticipacio._Format = "#,##0.###### €";
-            this.tbPreuParticipacio._PermetDecimals = true;
-            this.tbPreuParticipacio._PermetEspais = false;
-            this.tbPreuParticipacio._PermetNegatius = false;
-            this.tbPreuParticipacio.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbPreuParticipacio.Location = new System.Drawing.Point(5, 20);
-            this.tbPreuParticipacio.Name = "tbPreuParticipacio";
-            this.tbPreuParticipacio.Size = new System.Drawing.Size(101, 22);
-            this.tbPreuParticipacio.TabIndex = 0;
-            this.tbPreuParticipacio.Text = "0 €";
-            this.tbPreuParticipacio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbPreuParticipacio.Valor = 0D;
-            this.tbPreuParticipacio.Leave += new System.EventHandler(this.tbPreuParticipacio_Leave);
+            this.ntbPreuParticipacio._Format = "#,##0.###### €";
+            this.ntbPreuParticipacio._PermetDecimals = true;
+            this.ntbPreuParticipacio._PermetEspais = false;
+            this.ntbPreuParticipacio._PermetNegatius = false;
+            this.ntbPreuParticipacio.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbPreuParticipacio.Location = new System.Drawing.Point(5, 20);
+            this.ntbPreuParticipacio.Name = "ntbPreuParticipacio";
+            this.ntbPreuParticipacio.Size = new System.Drawing.Size(101, 22);
+            this.ntbPreuParticipacio.TabIndex = 0;
+            this.ntbPreuParticipacio.Text = "0 €";
+            this.ntbPreuParticipacio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbPreuParticipacio.Valor = 0D;
+            this.ntbPreuParticipacio.Leave += new System.EventHandler(this.tbPreuParticipacio_Leave);
+            // 
+            // gbFactorConversor
+            // 
+            this.gbFactorConversor.Controls.Add(this.ntbFactorConversor);
+            this.gbFactorConversor.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbFactorConversor.Location = new System.Drawing.Point(362, 3);
+            this.gbFactorConversor.Name = "gbFactorConversor";
+            this.gbFactorConversor.Padding = new System.Windows.Forms.Padding(5);
+            this.gbFactorConversor.Size = new System.Drawing.Size(125, 50);
+            this.gbFactorConversor.TabIndex = 2;
+            this.gbFactorConversor.TabStop = false;
+            this.gbFactorConversor.Text = "Factor Conversor";
+            this.toolTip1.SetToolTip(this.gbFactorConversor, "És el numero pel que les accions se dividiran(Contrasplit) o multiplicaran(Split)" +
+        "");
+            // 
+            // ntbFactorConversor
+            // 
+            this.ntbFactorConversor._Format = "#,##0";
+            this.ntbFactorConversor._PermetDecimals = false;
+            this.ntbFactorConversor._PermetEspais = false;
+            this.ntbFactorConversor._PermetNegatius = false;
+            this.ntbFactorConversor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbFactorConversor.Location = new System.Drawing.Point(5, 19);
+            this.ntbFactorConversor.Name = "ntbFactorConversor";
+            this.ntbFactorConversor.Size = new System.Drawing.Size(115, 21);
+            this.ntbFactorConversor.TabIndex = 0;
+            this.ntbFactorConversor.Text = "0";
+            this.ntbFactorConversor.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbFactorConversor.Valor = 0D;
+            this.ntbFactorConversor.Leave += new System.EventHandler(this.tbNumParticipacions_Leave);
             // 
             // btDesaMoviment
             // 
             this.btDesaMoviment.Enabled = false;
-            this.btDesaMoviment.Location = new System.Drawing.Point(342, 8);
+            this.btDesaMoviment.Location = new System.Drawing.Point(400, 8);
             this.btDesaMoviment.Name = "btDesaMoviment";
-            this.btDesaMoviment.Size = new System.Drawing.Size(101, 50);
+            this.btDesaMoviment.Size = new System.Drawing.Size(79, 50);
             this.btDesaMoviment.TabIndex = 5;
             this.btDesaMoviment.Text = "Desa";
             this.btDesaMoviment.UseVisualStyleBackColor = true;
             this.btDesaMoviment.Click += new System.EventHandler(this.btDesaMoviment_Click);
             // 
-            // btCompra
+            // btFes
             // 
-            this.btCompra.Enabled = false;
-            this.btCompra.Location = new System.Drawing.Point(6, 8);
-            this.btCompra.Name = "btCompra";
-            this.btCompra.Size = new System.Drawing.Size(101, 50);
-            this.btCompra.TabIndex = 2;
-            this.btCompra.Text = "Compra";
-            this.btCompra.UseVisualStyleBackColor = true;
-            this.btCompra.Click += new System.EventHandler(this.btCompra_Click);
-            // 
-            // btVenda
-            // 
-            this.btVenda.Enabled = false;
-            this.btVenda.Location = new System.Drawing.Point(118, 8);
-            this.btVenda.Name = "btVenda";
-            this.btVenda.Size = new System.Drawing.Size(101, 50);
-            this.btVenda.TabIndex = 3;
-            this.btVenda.Text = "Venda";
-            this.btVenda.UseVisualStyleBackColor = true;
-            this.btVenda.Click += new System.EventHandler(this.btVenda_Click);
-            // 
-            // btDividends
-            // 
-            this.btDividends.Enabled = false;
-            this.btDividends.Location = new System.Drawing.Point(230, 8);
-            this.btDividends.Name = "btDividends";
-            this.btDividends.Size = new System.Drawing.Size(101, 50);
-            this.btDividends.TabIndex = 4;
-            this.btDividends.Text = "Dividends";
-            this.btDividends.UseVisualStyleBackColor = true;
-            this.btDividends.Click += new System.EventHandler(this.btDividends_Click);
+            this.btFes.Enabled = false;
+            this.btFes.Location = new System.Drawing.Point(150, 8);
+            this.btFes.Name = "btFes";
+            this.btFes.Size = new System.Drawing.Size(79, 50);
+            this.btFes.TabIndex = 4;
+            this.btFes.Text = "Fes";
+            this.btFes.UseVisualStyleBackColor = true;
+            this.btFes.Click += new System.EventHandler(this.btFes_Click);
             // 
             // btCancelaMoviment
             // 
             this.btCancelaMoviment.Enabled = false;
-            this.btCancelaMoviment.Location = new System.Drawing.Point(454, 8);
+            this.btCancelaMoviment.Location = new System.Drawing.Point(487, 8);
             this.btCancelaMoviment.Name = "btCancelaMoviment";
-            this.btCancelaMoviment.Size = new System.Drawing.Size(101, 50);
+            this.btCancelaMoviment.Size = new System.Drawing.Size(79, 50);
             this.btCancelaMoviment.TabIndex = 6;
             this.btCancelaMoviment.Text = "Cancela";
             this.btCancelaMoviment.UseVisualStyleBackColor = true;
             this.btCancelaMoviment.Click += new System.EventHandler(this.btCancelaMoviment_Click);
             // 
-            // panel1
+            // pnCompraVenda
             // 
-            this.panel1.Controls.Add(this.groupBox2);
-            this.panel1.Controls.Add(this.groupBox8);
-            this.panel1.Controls.Add(this.gbParticipacions);
-            this.panel1.Controls.Add(this.gbPreuPartic);
-            this.panel1.Controls.Add(this.gbCanviAplicat);
-            this.panel1.Controls.Add(this.gbDespeses);
-            this.panel1.Controls.Add(this.gbImportTotal);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(3, 18);
-            this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
-            this.panel1.Size = new System.Drawing.Size(566, 111);
-            this.panel1.TabIndex = 4;
+            this.pnCompraVenda.AutoSize = true;
+            this.pnCompraVenda.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.pnCompraVenda.Controls.Add(this.gbDataMoviment);
+            this.pnCompraVenda.Controls.Add(this.ckActivaDataDesti);
+            this.pnCompraVenda.Controls.Add(this.gbParticipacions);
+            this.pnCompraVenda.Controls.Add(this.gbFactorConversor);
+            this.pnCompraVenda.Controls.Add(this.gbPreuPartic);
+            this.pnCompraVenda.Controls.Add(this.gbCanviAplicat);
+            this.pnCompraVenda.Controls.Add(this.gbDespeses);
+            this.pnCompraVenda.Controls.Add(this.gbImportTotal);
+            this.pnCompraVenda.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnCompraVenda.Location = new System.Drawing.Point(3, 18);
+            this.pnCompraVenda.Name = "pnCompraVenda";
+            this.pnCompraVenda.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.pnCompraVenda.Size = new System.Drawing.Size(566, 117);
+            this.pnCompraVenda.TabIndex = 4;
             // 
-            // groupBox2
+            // gbDataMoviment
             // 
-            this.groupBox2.Controls.Add(this.cbTipusMovimentTab2);
-            this.groupBox2.Location = new System.Drawing.Point(3, 3);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox2.Size = new System.Drawing.Size(139, 46);
-            this.groupBox2.TabIndex = 5;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Tipus Moviment";
-            // 
-            // cbTipusMovimentTab2
-            // 
-            this.cbTipusMovimentTab2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbTipusMovimentTab2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbTipusMovimentTab2.Enabled = false;
-            this.cbTipusMovimentTab2.FormattingEnabled = true;
-            this.cbTipusMovimentTab2.Location = new System.Drawing.Point(5, 20);
-            this.cbTipusMovimentTab2.Name = "cbTipusMovimentTab2";
-            this.cbTipusMovimentTab2.Size = new System.Drawing.Size(129, 24);
-            this.cbTipusMovimentTab2.TabIndex = 0;
-            // 
-            // groupBox8
-            // 
-            this.groupBox8.Controls.Add(this.cData1);
-            this.groupBox8.Location = new System.Drawing.Point(148, 3);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox8.Size = new System.Drawing.Size(105, 50);
-            this.groupBox8.TabIndex = 1;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Data";
+            this.gbDataMoviment.Controls.Add(this.cData1);
+            this.gbDataMoviment.Location = new System.Drawing.Point(3, 3);
+            this.gbDataMoviment.Name = "gbDataMoviment";
+            this.gbDataMoviment.Padding = new System.Windows.Forms.Padding(5);
+            this.gbDataMoviment.Size = new System.Drawing.Size(105, 50);
+            this.gbDataMoviment.TabIndex = 1;
+            this.gbDataMoviment.TabStop = false;
+            this.gbDataMoviment.Text = "Data";
             // 
             // cData1
             // 
@@ -414,10 +405,23 @@
             this.cData1.Size = new System.Drawing.Size(95, 22);
             this.cData1.TabIndex = 0;
             // 
+            // ckActivaDataDesti
+            // 
+            this.ckActivaDataDesti.AutoSize = true;
+            this.ckActivaDataDesti.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ckActivaDataDesti.Location = new System.Drawing.Point(114, 3);
+            this.ckActivaDataDesti.Name = "ckActivaDataDesti";
+            this.ckActivaDataDesti.Padding = new System.Windows.Forms.Padding(0, 1, 0, 0);
+            this.ckActivaDataDesti.Size = new System.Drawing.Size(125, 39);
+            this.ckActivaDataDesti.TabIndex = 5;
+            this.ckActivaDataDesti.Text = "Mostra Data Destí";
+            this.ckActivaDataDesti.UseVisualStyleBackColor = true;
+            this.ckActivaDataDesti.CheckedChanged += new System.EventHandler(this.ckActivaDataDesti_CheckedChanged);
+            // 
             // gbParticipacions
             // 
             this.gbParticipacions.Controls.Add(this.tbNumParticipacions);
-            this.gbParticipacions.Location = new System.Drawing.Point(259, 3);
+            this.gbParticipacions.Location = new System.Drawing.Point(245, 3);
             this.gbParticipacions.Name = "gbParticipacions";
             this.gbParticipacions.Padding = new System.Windows.Forms.Padding(5);
             this.gbParticipacions.Size = new System.Drawing.Size(111, 50);
@@ -444,7 +448,7 @@
             // gbCanviAplicat
             // 
             this.gbCanviAplicat.Controls.Add(this.tbCanviAplicat);
-            this.gbCanviAplicat.Location = new System.Drawing.Point(3, 59);
+            this.gbCanviAplicat.Location = new System.Drawing.Point(120, 59);
             this.gbCanviAplicat.Name = "gbCanviAplicat";
             this.gbCanviAplicat.Padding = new System.Windows.Forms.Padding(5);
             this.gbCanviAplicat.Size = new System.Drawing.Size(111, 50);
@@ -471,7 +475,7 @@
             // gbDespeses
             // 
             this.gbDespeses.Controls.Add(this.tbDespeses);
-            this.gbDespeses.Location = new System.Drawing.Point(120, 59);
+            this.gbDespeses.Location = new System.Drawing.Point(237, 59);
             this.gbDespeses.Name = "gbDespeses";
             this.gbDespeses.Padding = new System.Windows.Forms.Padding(5);
             this.gbDespeses.Size = new System.Drawing.Size(111, 50);
@@ -498,7 +502,7 @@
             // gbImportTotal
             // 
             this.gbImportTotal.Controls.Add(this.tbImportTotal);
-            this.gbImportTotal.Location = new System.Drawing.Point(237, 59);
+            this.gbImportTotal.Location = new System.Drawing.Point(354, 59);
             this.gbImportTotal.Name = "gbImportTotal";
             this.gbImportTotal.Padding = new System.Windows.Forms.Padding(5);
             this.gbImportTotal.Size = new System.Drawing.Size(111, 46);
@@ -526,9 +530,9 @@
             // 
             this.gbDescripcio.Controls.Add(this.tbDescripcio);
             this.gbDescripcio.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbDescripcio.Location = new System.Drawing.Point(3, 129);
+            this.gbDescripcio.Location = new System.Drawing.Point(3, 135);
             this.gbDescripcio.Name = "gbDescripcio";
-            this.gbDescripcio.Size = new System.Drawing.Size(566, 255);
+            this.gbDescripcio.Size = new System.Drawing.Size(566, 171);
             this.gbDescripcio.TabIndex = 0;
             this.gbDescripcio.TabStop = false;
             this.gbDescripcio.Text = "Descripció";
@@ -540,14 +544,15 @@
             this.tbDescripcio.Multiline = true;
             this.tbDescripcio.Name = "tbDescripcio";
             this.tbDescripcio.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.tbDescripcio.Size = new System.Drawing.Size(560, 234);
+            this.tbDescripcio.Size = new System.Drawing.Size(560, 150);
             this.tbDescripcio.TabIndex = 0;
             // 
             // gbEdicio
             // 
             this.gbEdicio.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.gbEdicio.Controls.Add(this.gbDescripcio);
-            this.gbEdicio.Controls.Add(this.panel1);
+            this.gbEdicio.Controls.Add(this.pnCompraVenda);
+            this.gbEdicio.Controls.Add(this.gbTraspas);
             this.gbEdicio.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbEdicio.Location = new System.Drawing.Point(0, 66);
             this.gbEdicio.Name = "gbEdicio";
@@ -556,11 +561,69 @@
             this.gbEdicio.TabStop = false;
             this.gbEdicio.Visible = false;
             // 
+            // gbTraspas
+            // 
+            this.gbTraspas.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.gbTraspas.Controls.Add(this.gbProducteTraspas);
+            this.gbTraspas.Controls.Add(this.gbDataDesti);
+            this.gbTraspas.Controls.Add(this.gbNumParticipacionsDesti);
+            this.gbTraspas.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.gbTraspas.Location = new System.Drawing.Point(3, 306);
+            this.gbTraspas.Name = "gbTraspas";
+            this.gbTraspas.Size = new System.Drawing.Size(566, 78);
+            this.gbTraspas.TabIndex = 9;
+            this.gbTraspas.TabStop = false;
+            this.gbTraspas.Text = "Traspàs";
+            this.gbTraspas.Visible = false;
+            // 
+            // gbProducteTraspas
+            // 
+            this.gbProducteTraspas.Controls.Add(this.cProducteTraspas);
+            this.gbProducteTraspas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbProducteTraspas.Location = new System.Drawing.Point(3, 18);
+            this.gbProducteTraspas.Name = "gbProducteTraspas";
+            this.gbProducteTraspas.Padding = new System.Windows.Forms.Padding(5);
+            this.gbProducteTraspas.Size = new System.Drawing.Size(335, 57);
+            this.gbProducteTraspas.TabIndex = 0;
+            this.gbProducteTraspas.TabStop = false;
+            this.gbProducteTraspas.Text = "Producte Destí";
+            // 
+            // cProducteTraspas
+            // 
+            this.cProducteTraspas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cProducteTraspas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cProducteTraspas.FormattingEnabled = true;
+            this.cProducteTraspas.Location = new System.Drawing.Point(5, 20);
+            this.cProducteTraspas.Name = "cProducteTraspas";
+            this.cProducteTraspas.Size = new System.Drawing.Size(325, 24);
+            this.cProducteTraspas.TabIndex = 0;
+            // 
+            // gbDataDesti
+            // 
+            this.gbDataDesti.Controls.Add(this.cDataDesti);
+            this.gbDataDesti.Dock = System.Windows.Forms.DockStyle.Right;
+            this.gbDataDesti.Location = new System.Drawing.Point(338, 18);
+            this.gbDataDesti.Name = "gbDataDesti";
+            this.gbDataDesti.Padding = new System.Windows.Forms.Padding(5);
+            this.gbDataDesti.Size = new System.Drawing.Size(111, 57);
+            this.gbDataDesti.TabIndex = 1;
+            this.gbDataDesti.TabStop = false;
+            this.gbDataDesti.Text = "Data";
+            // 
+            // cDataDesti
+            // 
+            this.cDataDesti.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cDataDesti.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.cDataDesti.Location = new System.Drawing.Point(5, 20);
+            this.cDataDesti.Name = "cDataDesti";
+            this.cDataDesti.Size = new System.Drawing.Size(101, 22);
+            this.cDataDesti.TabIndex = 0;
+            // 
             // gbNumParticipacionsDesti
             // 
             this.gbNumParticipacionsDesti.Controls.Add(this.tbNumParticipacionsDesti);
             this.gbNumParticipacionsDesti.Dock = System.Windows.Forms.DockStyle.Right;
-            this.gbNumParticipacionsDesti.Location = new System.Drawing.Point(455, 18);
+            this.gbNumParticipacionsDesti.Location = new System.Drawing.Point(449, 18);
             this.gbNumParticipacionsDesti.Name = "gbNumParticipacionsDesti";
             this.gbNumParticipacionsDesti.Padding = new System.Windows.Forms.Padding(5);
             this.gbNumParticipacionsDesti.Size = new System.Drawing.Size(114, 57);
@@ -583,68 +646,8 @@
             this.tbNumParticipacionsDesti.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.tbNumParticipacionsDesti.Valor = 0D;
             // 
-            // gbDataDesti
-            // 
-            this.gbDataDesti.Controls.Add(this.cDataDesti);
-            this.gbDataDesti.Dock = System.Windows.Forms.DockStyle.Right;
-            this.gbDataDesti.Location = new System.Drawing.Point(344, 18);
-            this.gbDataDesti.Name = "gbDataDesti";
-            this.gbDataDesti.Padding = new System.Windows.Forms.Padding(5);
-            this.gbDataDesti.Size = new System.Drawing.Size(111, 57);
-            this.gbDataDesti.TabIndex = 1;
-            this.gbDataDesti.TabStop = false;
-            this.gbDataDesti.Text = "Data";
-            // 
-            // cDataDesti
-            // 
-            this.cDataDesti.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cDataDesti.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.cDataDesti.Location = new System.Drawing.Point(5, 20);
-            this.cDataDesti.Name = "cDataDesti";
-            this.cDataDesti.Size = new System.Drawing.Size(101, 22);
-            this.cDataDesti.TabIndex = 0;
-            // 
-            // gbProducteTraspas
-            // 
-            this.gbProducteTraspas.Controls.Add(this.cProducteTraspas);
-            this.gbProducteTraspas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbProducteTraspas.Location = new System.Drawing.Point(3, 18);
-            this.gbProducteTraspas.Name = "gbProducteTraspas";
-            this.gbProducteTraspas.Padding = new System.Windows.Forms.Padding(5);
-            this.gbProducteTraspas.Size = new System.Drawing.Size(341, 57);
-            this.gbProducteTraspas.TabIndex = 0;
-            this.gbProducteTraspas.TabStop = false;
-            this.gbProducteTraspas.Text = "Producte Destí";
-            // 
-            // cProducteTraspas
-            // 
-            this.cProducteTraspas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cProducteTraspas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cProducteTraspas.FormattingEnabled = true;
-            this.cProducteTraspas.Location = new System.Drawing.Point(5, 20);
-            this.cProducteTraspas.Name = "cProducteTraspas";
-            this.cProducteTraspas.Size = new System.Drawing.Size(331, 24);
-            this.cProducteTraspas.TabIndex = 0;
-            this.cProducteTraspas.SelectedIndexChanged += new System.EventHandler(this.cProducteTraspas_SelectedIndexChanged);
-            // 
-            // gbTraspas
-            // 
-            this.gbTraspas.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.gbTraspas.Controls.Add(this.gbProducteTraspas);
-            this.gbTraspas.Controls.Add(this.gbDataDesti);
-            this.gbTraspas.Controls.Add(this.gbNumParticipacionsDesti);
-            this.gbTraspas.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.gbTraspas.Location = new System.Drawing.Point(0, 375);
-            this.gbTraspas.Name = "gbTraspas";
-            this.gbTraspas.Size = new System.Drawing.Size(572, 78);
-            this.gbTraspas.TabIndex = 8;
-            this.gbTraspas.TabStop = false;
-            this.gbTraspas.Text = "Traspàs";
-            this.gbTraspas.Visible = false;
-            // 
             // pnMovBotons
             // 
-            this.pnMovBotons.Controls.Add(this.gbTraspas);
             this.pnMovBotons.Controls.Add(this.gbEdicio);
             this.pnMovBotons.Controls.Add(this.panel3);
             this.pnMovBotons.Dock = System.Windows.Forms.DockStyle.Right;
@@ -656,16 +659,38 @@
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.btCompra);
-            this.panel3.Controls.Add(this.btDividends);
+            this.panel3.Controls.Add(this.groupBox1);
+            this.panel3.Controls.Add(this.btFes);
             this.panel3.Controls.Add(this.btCancelaMoviment);
             this.panel3.Controls.Add(this.btDesaMoviment);
-            this.panel3.Controls.Add(this.btVenda);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(572, 66);
             this.panel3.TabIndex = 9;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.cbTipusMoviment);
+            this.groupBox1.Location = new System.Drawing.Point(11, 10);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(5);
+            this.groupBox1.Size = new System.Drawing.Size(134, 46);
+            this.groupBox1.TabIndex = 7;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Tipus Moviment";
+            // 
+            // cbTipusMoviment
+            // 
+            this.cbTipusMoviment.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbTipusMoviment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbTipusMoviment.Enabled = false;
+            this.cbTipusMoviment.FormattingEnabled = true;
+            this.cbTipusMoviment.Location = new System.Drawing.Point(5, 20);
+            this.cbTipusMoviment.Name = "cbTipusMoviment";
+            this.cbTipusMoviment.Size = new System.Drawing.Size(124, 24);
+            this.cbTipusMoviment.TabIndex = 0;
+            this.cbTipusMoviment.SelectedIndexChanged += new System.EventHandler(this.cbTipusMoviment_SelectedIndexChanged);
             // 
             // pnMovTop
             // 
@@ -679,9 +704,9 @@
             // 
             // gestioProductesTabMoviments
             // 
+            this.gestioProductesTabMoviments._AmbMoviments = true;
             this.gestioProductesTabMoviments._FiltreAnyVisible = true;
             this.gestioProductesTabMoviments._NomesAmbParticipacions = false;
-            this.gestioProductesTabMoviments._ProducteSeleccionat = null;
             this.gestioProductesTabMoviments.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.gestioProductesTabMoviments.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gestioProductesTabMoviments.Location = new System.Drawing.Point(0, 0);
@@ -702,9 +727,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.cDataGridView1)).EndInit();
             this.gbPreuPartic.ResumeLayout(false);
             this.gbPreuPartic.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox8.ResumeLayout(false);
+            this.gbFactorConversor.ResumeLayout(false);
+            this.gbFactorConversor.PerformLayout();
+            this.pnCompraVenda.ResumeLayout(false);
+            this.pnCompraVenda.PerformLayout();
+            this.gbDataMoviment.ResumeLayout(false);
             this.gbParticipacions.ResumeLayout(false);
             this.gbParticipacions.PerformLayout();
             this.gbCanviAplicat.ResumeLayout(false);
@@ -716,13 +743,15 @@
             this.gbDescripcio.ResumeLayout(false);
             this.gbDescripcio.PerformLayout();
             this.gbEdicio.ResumeLayout(false);
+            this.gbEdicio.PerformLayout();
+            this.gbTraspas.ResumeLayout(false);
+            this.gbProducteTraspas.ResumeLayout(false);
+            this.gbDataDesti.ResumeLayout(false);
             this.gbNumParticipacionsDesti.ResumeLayout(false);
             this.gbNumParticipacionsDesti.PerformLayout();
-            this.gbDataDesti.ResumeLayout(false);
-            this.gbProducteTraspas.ResumeLayout(false);
-            this.gbTraspas.ResumeLayout(false);
             this.pnMovBotons.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.pnMovTop.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -735,37 +764,26 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTraspasOrigenX;
         private System.Windows.Forms.Button btDesaMoviment;
-        private System.Windows.Forms.Button btCompra;
-        private System.Windows.Forms.Button btVenda;
-        private System.Windows.Forms.Button btDividends;
+        private System.Windows.Forms.Button btFes;
         private System.Windows.Forms.Button btCancelaMoviment;
-        private System.Windows.Forms.FlowLayoutPanel panel1;
+        private System.Windows.Forms.FlowLayoutPanel pnCompraVenda;
         private System.Windows.Forms.GroupBox gbImportTotal;
         private Controls.NumericTextBox2 tbImportTotal;
         private System.Windows.Forms.GroupBox gbDespeses;
         private Controls.NumericTextBox2 tbDespeses;
         private System.Windows.Forms.GroupBox gbPreuPartic;
-        private Controls.NumericTextBox2 tbPreuParticipacio;
+        private Controls.NumericTextBox2 ntbPreuParticipacio;
         private System.Windows.Forms.GroupBox gbParticipacions;
         private Controls.NumericTextBox2 tbNumParticipacions;
-        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.GroupBox gbDataMoviment;
         private System.Windows.Forms.DateTimePicker cData1;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.GroupBox gbDescripcio;
         private System.Windows.Forms.TextBox tbDescripcio;
         private System.Windows.Forms.GroupBox gbEdicio;
-        private System.Windows.Forms.GroupBox gbNumParticipacionsDesti;
-        private Controls.NumericTextBox2 tbNumParticipacionsDesti;
-        private System.Windows.Forms.GroupBox gbDataDesti;
-        private System.Windows.Forms.DateTimePicker cDataDesti;
-        private System.Windows.Forms.GroupBox gbProducteTraspas;
-        private System.Windows.Forms.ComboBox cProducteTraspas;
-        private System.Windows.Forms.GroupBox gbTraspas;
         private System.Windows.Forms.Panel pnMovBotons;
         private System.Windows.Forms.Panel pnMovTop;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ComboBox cbTipusMovimentTab2;
         private System.Windows.Forms.GroupBox gbCanviAplicat;
         private Controls.NumericTextBox2 tbCanviAplicat;
         private System.Windows.Forms.DataGridViewTextBoxColumn colId;
@@ -781,5 +799,17 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colTraspasOrigen;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTraspasDesti;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDescripcio;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ComboBox cbTipusMoviment;
+        private System.Windows.Forms.GroupBox gbFactorConversor;
+        private Controls.NumericTextBox2 ntbFactorConversor;
+        private System.Windows.Forms.GroupBox gbTraspas;
+        private System.Windows.Forms.GroupBox gbProducteTraspas;
+        private System.Windows.Forms.ComboBox cProducteTraspas;
+        private System.Windows.Forms.GroupBox gbDataDesti;
+        private System.Windows.Forms.DateTimePicker cDataDesti;
+        private System.Windows.Forms.GroupBox gbNumParticipacionsDesti;
+        private Controls.NumericTextBox2 tbNumParticipacionsDesti;
+        private System.Windows.Forms.CheckBox ckActivaDataDesti;
     }
 }

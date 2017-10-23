@@ -37,17 +37,17 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IdUsuaris" Type="int" Nullable="false" />
+          <Property Name="UsuariId" Type="int" Nullable="false" />
           <Property Name="ProdId" Type="int" Nullable="false" />
           <Property Name="TipusMoviment" Type="int" Nullable="false" />
           <Property Name="ProducteTraspasId" Type="int" />
-          <Property Name="IdRefVenda" Type="int" />
+          <Property Name="MovimentRefVendaId" Type="int" />
           <Property Name="Data" Type="datetime" Nullable="false" />
           <Property Name="Participacions" Type="float" Nullable="false" />
+          <Property Name="PreuParticipacioOrigen" Type="float" />
           <Property Name="PreuParticipacio" Type="float" Nullable="false" />
           <Property Name="CanviAplicat" Type="float" Nullable="false" />
           <Property Name="Despeses" Type="float" />
-          <Property Name="ValorCompraOriginal" Type="float" />
           <Property Name="Descripcio" Type="nvarchar(max)" />
           <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
@@ -234,7 +234,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Moviments1">
-              <PropertyRef Name="IdRefVenda" />
+              <PropertyRef Name="MovimentRefVendaId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -246,7 +246,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Moviments">
-              <PropertyRef Name="IdUsuaris" />
+              <PropertyRef Name="UsuariId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -349,12 +349,12 @@
             <End Role="Producte" EntitySet="Productes" />
             <End Role="Moviment" EntitySet="Moviments" />
           </AssociationSet>
-          <AssociationSet Name="FK_RefVenda" Association="InversionsBD.FK_RefVenda">
-            <End Role="Moviment" EntitySet="Moviments" />
-            <End Role="MovimentRefVenda" EntitySet="Moviments" />
-          </AssociationSet>
           <EntitySet Name="Usuaris" EntityType="InversionsBD.Usuari" />
-          <AssociationSet Name="FK_Usuaris" Association="InversionsBD.FK_Usuaris">
+          <AssociationSet Name="FK_RefVenda" Association="InversionsBD.FK_RefVenda1">
+            <End Role="Moviment" EntitySet="Moviments" />
+            <End Role="Moviment1" EntitySet="Moviments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuaris" Association="InversionsBD.FK_Usuaris1">
             <End Role="Usuari" EntitySet="Usuaris" />
             <End Role="Moviment" EntitySet="Moviments" />
           </AssociationSet>
@@ -392,9 +392,9 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Private" />
           <Property Name="ProdId" Type="Int32" Nullable="false" />
           <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" cg:SetterAccess="Private" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="Prod" Relationship="InversionsBD.ProdValoracio" FromRole="Valoracio" ToRole="Prod" />
           <Property Name="PreuParticipacio" Type="Double" Nullable="false" />
+          <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" cg:SetterAccess="Private" ConcurrencyMode="Fixed" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" />
         </EntityType>
         <Association Name="FK_EmpresaGestor">
           <End Type="InversionsBD.Empresa" Role="Empresa" Multiplicity="1" />
@@ -412,6 +412,9 @@
           <Member Name="Compra" />
           <Member Name="Venda" />
           <Member Name="Dividends" />
+          <Member Name="Traspàs" />
+          <Member Name="Split" />
+          <Member Name="ContraSplit" />
         </EnumType>
         <EntityType Name="Producte" Abstract="true">
           <Key>
@@ -421,11 +424,11 @@
           <NavigationProperty Name="Empresa" Relationship="InversionsBD.EmpresaP2" FromRole="Producte" ToRole="Empresa" />
           <Property Name="EmpresaId" Type="Int32" Nullable="false" cg:SetterAccess="Private" />
           <NavigationProperty Name="MovimentsProducte" Relationship="InversionsBD.ProdMov" FromRole="Prod" ToRole="Mov" />
-          <NavigationProperty Name="Valoracions" Relationship="InversionsBD.ProdValoracio" FromRole="Prod" ToRole="Valoracio" />
+          <NavigationProperty Name="ValoracionsProducte" Relationship="InversionsBD.ProdValoracio" FromRole="Prod" ToRole="Valoracio" />
           <NavigationProperty Name="MovimentsTraspas" Relationship="InversionsBD.ProducteMoviment" FromRole="Producte" ToRole="Moviment" />
-          <Property Name="RowVersion" Type="Binary" Nullable="false" ConcurrencyMode="Fixed" cg:SetterAccess="Private" annotation:StoreGeneratedPattern="Computed" MaxLength="8" FixedLength="true" />
           <Property Name="OrdreGrid" Type="Int32" />
           <Property Name="Moneda" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="RowVersion" Type="Binary" Nullable="false" ConcurrencyMode="Fixed" cg:SetterAccess="Private" annotation:StoreGeneratedPattern="Computed" MaxLength="8" FixedLength="true" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" />
         </EntityType>
         <Association Name="EmpresaP2">
           <End Type="InversionsBD.Empresa" Role="Empresa" Multiplicity="1" />
@@ -479,24 +482,24 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" cg:SetterAccess="Private" />
+          <Property Name="UsuariId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Prod" Relationship="InversionsBD.ProdMov" FromRole="Mov" ToRole="Prod" />
           <Property Name="ProdId" Type="Int32" Nullable="false" />
           <Property Name="ProducteTraspasId" Type="Int32" Nullable="true" />
           <Property Name="TipusMoviment" Type="InversionsBD.TipusMoviment" Nullable="false" />
-          <Property Name="IdRefVenda" Type="Int32" />
+          <Property Name="MovimentRefVendaId" Type="Int32" />
           <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Participacions" Type="Double" Nullable="false" />
+          <Property Name="PreuParticipacioOrigen" Type="Double" />
           <Property Name="PreuParticipacio" Type="Double" Nullable="false" />
           <Property Name="Despeses" Type="Double" Nullable="true" />
-          <Property Name="ValorCompraOriginal" Type="Double" />
           <Property Name="Descripcio" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="ProducteTraspas" Relationship="InversionsBD.ProducteMoviment" FromRole="Moviment" ToRole="Producte" />
-          <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" ConcurrencyMode="Fixed" FixedLength="true" cg:SetterAccess="Private" annotation:StoreGeneratedPattern="Computed" />
-          <NavigationProperty Name="NoUtilitzar1" Relationship="InversionsBD.FK_RefVenda" FromRole="Moviment" ToRole="MovimentRefVenda" />
-          <NavigationProperty Name="MovimentRefVenda" Relationship="InversionsBD.FK_RefVenda" FromRole="MovimentRefVenda" ToRole="Moviment" />
-          <Property Name="IdUsuari" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Usuari" Relationship="InversionsBD.FK_Usuaris" FromRole="Moviment" ToRole="Usuari" />
           <Property Name="CanviAplicat" Type="Double" Nullable="false" />
+          <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" ConcurrencyMode="Fixed" FixedLength="true" cg:SetterAccess="Private" annotation:StoreGeneratedPattern="Computed" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" />
+          <NavigationProperty Name="NoUtilitzar1" Relationship="InversionsBD.FK_RefVenda1" FromRole="Moviment" ToRole="Moviment1" />
+          <NavigationProperty Name="MovimentRefVenda" Relationship="InversionsBD.FK_RefVenda1" FromRole="Moviment1" ToRole="Moviment" />
+          <NavigationProperty Name="Usuari" Relationship="InversionsBD.FK_Usuaris1" FromRole="Moviment" ToRole="Usuari" />
           </EntityType>
         <Association Name="ProdMov">
           <End Type="InversionsBD.Producte" Role="Prod" Multiplicity="1" />
@@ -541,27 +544,27 @@
           <Member Name="GestoraFons" />
           <Member Name="Accions" />
         </EnumType>
-        <Association Name="FK_RefVenda">
-          <End Type="InversionsBD.Moviment" Role="Moviment" Multiplicity="0..1" />
-          <End Type="InversionsBD.Moviment" Role="MovimentRefVenda" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Moviment">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="MovimentRefVenda">
-              <PropertyRef Name="IdRefVenda" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Usuari">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Nom" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Moviments" Relationship="InversionsBD.FK_Usuaris" FromRole="Usuari" ToRole="Moviment" />
+          <NavigationProperty Name="Moviments1" Relationship="InversionsBD.FK_Usuaris1" FromRole="Usuari" ToRole="Moviment" />
         </EntityType>
-        <Association Name="FK_Usuaris">
+        <Association Name="FK_RefVenda1">
+          <End Type="InversionsBD.Moviment" Role="Moviment" Multiplicity="0..1" />
+          <End Type="InversionsBD.Moviment" Role="Moviment1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moviment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Moviment1">
+              <PropertyRef Name="MovimentRefVendaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuaris1">
           <End Type="InversionsBD.Usuari" Role="Usuari" Multiplicity="1" />
           <End Type="InversionsBD.Moviment" Role="Moviment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -569,7 +572,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Moviment">
-              <PropertyRef Name="IdUsuari" />
+              <PropertyRef Name="UsuariId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -648,10 +651,10 @@
     <EntitySetMapping Name="Moviments">
       <EntityTypeMapping TypeName="IsTypeOf(InversionsBD.Moviment)">
         <MappingFragment StoreEntitySet="Moviments">
+                <ScalarProperty Name="MovimentRefVendaId" ColumnName="MovimentRefVendaId" />
+                <ScalarProperty Name="UsuariId" ColumnName="UsuariId" />
+                <ScalarProperty Name="PreuParticipacioOrigen" ColumnName="PreuParticipacioOrigen" />
                 <ScalarProperty Name="CanviAplicat" ColumnName="CanviAplicat" />
-                <ScalarProperty Name="IdUsuari" ColumnName="IdUsuaris" />
-                <ScalarProperty Name="ValorCompraOriginal" ColumnName="ValorCompraOriginal" />
-                <ScalarProperty Name="IdRefVenda" ColumnName="IdRefVenda" />
                 <ScalarProperty Name="PreuParticipacio" ColumnName="PreuParticipacio" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="ProdId" ColumnName="ProdId" />

@@ -15,6 +15,9 @@ namespace Inversions
     {
         Compra = 0,
         Venda = 1,
-        Dividends = 2
+        Dividends = 2,
+        Traspàs = 3,
+        Split = 4,
+        ContraSplit = 5
     }
 }

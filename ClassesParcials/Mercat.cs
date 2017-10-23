@@ -1,25 +1,20 @@
-﻿using System;
-
-namespace Inversions
+﻿namespace Inversions
 {
-    public partial class Usuari
-    {
-        private static Usuari Seleccionat1;
+    using System;
+    using System.Collections.Generic;
 
-        internal static Usuari Seleccionat
-        {
-            get { return Seleccionat1; }
-            set { Seleccionat1 = value; }
-        }
+    public partial class Mercat
+    {
+
 
         #region Overrides
 
         public override int GetHashCode()
         {
-            return Id.GetHashCode();
+            return Id;
         }
 
-        public static bool operator ==(Usuari a, Usuari b)
+        public static bool operator ==(Mercat a, Mercat b)
         {
             // If both are null, or both are same instance, return true.
             if (ReferenceEquals(a, b))
@@ -36,24 +31,25 @@ namespace Inversions
             return a.Id == b.Id;
         }
 
-        public static bool operator !=(Usuari a, Usuari b)
+        public static bool operator !=(Mercat a, Mercat b)
         {
             return !(a == b);
         }
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Usuari))
+            if (!(obj is Mercat))
                 return false;
 
-            return this == (Usuari)obj;
+            return this == (Mercat)obj;
         }
 
         public override string ToString()
         {
-            return String.Format("[{0}] - {1}", Id, Nom);
+            return Nom;
         }
 
         #endregion
+
     }
 }

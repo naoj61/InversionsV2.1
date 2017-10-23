@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Comuns;
 
 namespace Inversions
 {
@@ -12,6 +15,7 @@ namespace Inversions
         public override string _NomProducte
         {
             get { return _NomEmpresa; }
+            set { }
         }
 
         public override string _TipusNomProducte
@@ -19,15 +23,25 @@ namespace Inversions
             get { return "Accions - " + _NomEmpresa; }
         }
 
-
-        /// <summary>
-        /// PiG de totes les accions en una data determinada.
-        /// </summary>
-        /// <param name="dataFi"></param>
-        /// <returns></returns>
-        public static double PiG(DateTimeFinalDia dataFi)
+        public override Mercat _Mercat
         {
-            return Enumerable.Sum(Program.Sessio.Productes.Where(w => w is ProdAccions), producte => producte.pigValorat(dataFi));
+            get { return Mercat; }
+            set { Mercat = value; }
+        }
+
+        public override string _NomMercat
+        {
+            get { return Mercat == null ? null :Mercat.Nom; }
+        }
+
+        public override string _Isin
+        {
+            get { return null; }
+        }
+
+        public override string _Descripcio
+        {
+            get { return null; }
         }
 
 
@@ -36,7 +50,7 @@ namespace Inversions
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static double Valor(DateTimeFinalDia data)
+        public static double Valor(DateTime data)
         {
             double saldo = 0;
 

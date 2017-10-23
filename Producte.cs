@@ -17,19 +17,19 @@ namespace Inversions
         public Producte()
         {
             this.MovimentsProducte = new HashSet<Moviment>();
-            this.Valoracions = new HashSet<Valoracio>();
+            this.ValoracionsProducte = new HashSet<Valoracio>();
             this.MovimentsTraspas = new HashSet<Moviment>();
         }
     
         public int Id { get; private set; }
         public int EmpresaId { get; private set; }
-        public byte[] RowVersion { get; private set; }
         public Nullable<int> OrdreGrid { get; set; }
         public string Moneda { get; set; }
+        public byte[] RowVersion { get; private set; }
     
         public virtual Empresa Empresa { get; set; }
         public virtual ICollection<Moviment> MovimentsProducte { get; set; }
-        public virtual ICollection<Valoracio> Valoracions { get; set; }
+        public virtual ICollection<Valoracio> ValoracionsProducte { get; set; }
         public virtual ICollection<Moviment> MovimentsTraspas { get; set; }
     }
 }

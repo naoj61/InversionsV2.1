@@ -56,8 +56,36 @@
             this.tabUsuari = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.cbUsuaris = new System.Windows.Forms.ComboBox();
+            this.tabEmpreses = new System.Windows.Forms.TabPage();
+            this.grEmpresa = new System.Windows.Forms.GroupBox();
+            this.dgvEmpreses = new System.Windows.Forms.DataGridView();
+            this._Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._Nom = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._TipusEmpresa = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pnDesaCanvisEmpreses = new System.Windows.Forms.Panel();
+            this.btCancelaCanvisEmpreses = new System.Windows.Forms.Button();
+            this.btDesaCanvisEmpreses = new System.Windows.Forms.Button();
+            this.grProductes = new System.Windows.Forms.GroupBox();
+            this.dgvProductes = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._OrdreGrid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pnCampsProductes = new System.Windows.Forms.Panel();
+            this.grOrdreGridProducte = new System.Windows.Forms.GroupBox();
+            this.grNomProducte = new System.Windows.Forms.GroupBox();
+            this.tbNomProducte = new System.Windows.Forms.TextBox();
+            this.grIsinProducte = new System.Windows.Forms.GroupBox();
+            this.tbIsinProducte = new System.Windows.Forms.TextBox();
+            this.grDescripcioProducte = new System.Windows.Forms.GroupBox();
+            this.tbDescripcioProducte = new System.Windows.Forms.TextBox();
+            this.grMercatProducte = new System.Windows.Forms.GroupBox();
+            this.grMonedaProducte = new System.Windows.Forms.GroupBox();
+            this.pnDesaCanvisProductes = new System.Windows.Forms.Panel();
+            this.btCancelaProducte = new System.Windows.Forms.Button();
+            this.btEsborraProducte = new System.Windows.Forms.Button();
+            this.btCreaProducte = new System.Windows.Forms.Button();
+            this.btDesaProducte = new System.Windows.Forms.Button();
             this.tabProductes = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
             this.grAltaEmpresa = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.rbCotitzada = new System.Windows.Forms.RadioButton();
@@ -65,18 +93,22 @@
             this.grMercat = new System.Windows.Forms.GroupBox();
             this.cbMercat2 = new System.Windows.Forms.ComboBox();
             this.gbOrdreGrid = new System.Windows.Forms.GroupBox();
-            this.ntbOrdreGrid = new Controls.NumericTextBox2();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.tbNomNovaEmpresa = new System.Windows.Forms.TextBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.cbMoneda2 = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.btEditaProducte = new System.Windows.Forms.Button();
             this.btNovaEmpresa = new System.Windows.Forms.Button();
             this.tabMoviments = new System.Windows.Forms.TabPage();
-            this.movimentsTab1 = new Inversions.GUI.MovimentsTab();
             this.tabValoracions = new System.Windows.Forms.TabPage();
-            this.valoracionsTab1 = new Inversions.GUI.ValoracionsTab();
             this.tabPerduesGuanys = new System.Windows.Forms.TabPage();
+            this.ntbOrdreGridProducte = new Controls.NumericTextBox2();
+            this.cbMercatProducte = new Controls.ComboBox2();
+            this.cbMonedaProducte = new Controls.ComboBox2();
+            this.ntbOrdreGrid = new Controls.NumericTextBox2();
+            this.movimentsTab1 = new Inversions.GUI.MovimentsTab();
+            this.valoracionsTab1 = new Inversions.GUI.ValoracionsTab();
             this.perduesGuanysTab1 = new Inversions.GUI.PerduesGuanysTab();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -92,6 +124,20 @@
             this.tabControl1.SuspendLayout();
             this.tabUsuari.SuspendLayout();
             this.groupBox6.SuspendLayout();
+            this.tabEmpreses.SuspendLayout();
+            this.grEmpresa.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvEmpreses)).BeginInit();
+            this.pnDesaCanvisEmpreses.SuspendLayout();
+            this.grProductes.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProductes)).BeginInit();
+            this.pnCampsProductes.SuspendLayout();
+            this.grOrdreGridProducte.SuspendLayout();
+            this.grNomProducte.SuspendLayout();
+            this.grIsinProducte.SuspendLayout();
+            this.grDescripcioProducte.SuspendLayout();
+            this.grMercatProducte.SuspendLayout();
+            this.grMonedaProducte.SuspendLayout();
+            this.pnDesaCanvisProductes.SuspendLayout();
             this.tabProductes.SuspendLayout();
             this.grAltaEmpresa.SuspendLayout();
             this.groupBox7.SuspendLayout();
@@ -133,7 +179,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.cbProductesTab1);
-            this.groupBox2.Location = new System.Drawing.Point(201, 10);
+            this.groupBox2.Location = new System.Drawing.Point(200, 210);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(5);
             this.groupBox2.Size = new System.Drawing.Size(569, 53);
@@ -265,7 +311,7 @@
             this.flpDades.Controls.Add(this.gbMoneda);
             this.flpDades.Controls.Add(this.gbIsin);
             this.flpDades.Controls.Add(this.gbDescripcio);
-            this.flpDades.Location = new System.Drawing.Point(20, 83);
+            this.flpDades.Location = new System.Drawing.Point(19, 283);
             this.flpDades.Name = "flpDades";
             this.flpDades.Size = new System.Drawing.Size(1274, 243);
             this.flpDades.TabIndex = 6;
@@ -314,7 +360,7 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.cbTipusProducteFiltreTab1);
-            this.groupBox3.Location = new System.Drawing.Point(20, 10);
+            this.groupBox3.Location = new System.Drawing.Point(19, 210);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(5);
             this.groupBox3.Size = new System.Drawing.Size(141, 53);
@@ -336,7 +382,7 @@
             // btNouProducte
             // 
             this.btNouProducte.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btNouProducte.Location = new System.Drawing.Point(881, 16);
+            this.btNouProducte.Location = new System.Drawing.Point(880, 216);
             this.btNouProducte.Name = "btNouProducte";
             this.btNouProducte.Size = new System.Drawing.Size(101, 50);
             this.btNouProducte.TabIndex = 2;
@@ -348,7 +394,7 @@
             // 
             this.btDesa.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btDesa.Enabled = false;
-            this.btDesa.Location = new System.Drawing.Point(1089, 16);
+            this.btDesa.Location = new System.Drawing.Point(1088, 216);
             this.btDesa.Name = "btDesa";
             this.btDesa.Size = new System.Drawing.Size(101, 50);
             this.btDesa.TabIndex = 4;
@@ -360,7 +406,7 @@
             // 
             this.btCancela.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btCancela.Enabled = false;
-            this.btCancela.Location = new System.Drawing.Point(1193, 16);
+            this.btCancela.Location = new System.Drawing.Point(1192, 216);
             this.btCancela.Name = "btCancela";
             this.btCancela.Size = new System.Drawing.Size(101, 50);
             this.btCancela.TabIndex = 5;
@@ -371,6 +417,7 @@
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabUsuari);
+            this.tabControl1.Controls.Add(this.tabEmpreses);
             this.tabControl1.Controls.Add(this.tabProductes);
             this.tabControl1.Controls.Add(this.tabMoviments);
             this.tabControl1.Controls.Add(this.tabValoracions);
@@ -414,10 +461,336 @@
             this.cbUsuaris.TabIndex = 0;
             this.cbUsuaris.SelectedIndexChanged += new System.EventHandler(this.cbUsuaris_SelectedIndexChanged);
             // 
+            // tabEmpreses
+            // 
+            this.tabEmpreses.Controls.Add(this.grEmpresa);
+            this.tabEmpreses.Controls.Add(this.grProductes);
+            this.tabEmpreses.Location = new System.Drawing.Point(4, 25);
+            this.tabEmpreses.Name = "tabEmpreses";
+            this.tabEmpreses.Size = new System.Drawing.Size(1352, 706);
+            this.tabEmpreses.TabIndex = 5;
+            this.tabEmpreses.Text = "Empreses";
+            this.tabEmpreses.UseVisualStyleBackColor = true;
+            // 
+            // grEmpresa
+            // 
+            this.grEmpresa.Controls.Add(this.dgvEmpreses);
+            this.grEmpresa.Controls.Add(this.pnDesaCanvisEmpreses);
+            this.grEmpresa.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grEmpresa.Location = new System.Drawing.Point(8, 17);
+            this.grEmpresa.Name = "grEmpresa";
+            this.grEmpresa.Size = new System.Drawing.Size(689, 321);
+            this.grEmpresa.TabIndex = 0;
+            this.grEmpresa.TabStop = false;
+            this.grEmpresa.Text = "Empreses";
+            // 
+            // dgvEmpreses
+            // 
+            this.dgvEmpreses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvEmpreses.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this._Id,
+            this._Nom,
+            this._TipusEmpresa});
+            this.dgvEmpreses.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvEmpreses.Location = new System.Drawing.Point(3, 18);
+            this.dgvEmpreses.Name = "dgvEmpreses";
+            this.dgvEmpreses.RowTemplate.Height = 24;
+            this.dgvEmpreses.Size = new System.Drawing.Size(683, 255);
+            this.dgvEmpreses.TabIndex = 0;
+            this.dgvEmpreses.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dgvEmpreses_CellValidating);
+            this.dgvEmpreses.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEmpreses_RowEnter);
+            this.dgvEmpreses.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvEmpreses_RowValidating);
+            this.dgvEmpreses.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dgvEmpreses_UserDeletedRow);
+            // 
+            // _Id
+            // 
+            this._Id.DataPropertyName = "Id";
+            this._Id.HeaderText = "Id";
+            this._Id.Name = "_Id";
+            this._Id.ReadOnly = true;
+            this._Id.Width = 50;
+            // 
+            // _Nom
+            // 
+            this._Nom.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this._Nom.DataPropertyName = "Nom";
+            this._Nom.HeaderText = "Nom";
+            this._Nom.Name = "_Nom";
+            // 
+            // _TipusEmpresa
+            // 
+            this._TipusEmpresa.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this._TipusEmpresa.DataPropertyName = "TipusEmpresa";
+            this._TipusEmpresa.HeaderText = "Tipus";
+            this._TipusEmpresa.Name = "_TipusEmpresa";
+            this._TipusEmpresa.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._TipusEmpresa.Width = 77;
+            // 
+            // pnDesaCanvisEmpreses
+            // 
+            this.pnDesaCanvisEmpreses.Controls.Add(this.btCancelaCanvisEmpreses);
+            this.pnDesaCanvisEmpreses.Controls.Add(this.btDesaCanvisEmpreses);
+            this.pnDesaCanvisEmpreses.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnDesaCanvisEmpreses.Enabled = false;
+            this.pnDesaCanvisEmpreses.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pnDesaCanvisEmpreses.Location = new System.Drawing.Point(3, 273);
+            this.pnDesaCanvisEmpreses.Name = "pnDesaCanvisEmpreses";
+            this.pnDesaCanvisEmpreses.Padding = new System.Windows.Forms.Padding(5);
+            this.pnDesaCanvisEmpreses.Size = new System.Drawing.Size(683, 45);
+            this.pnDesaCanvisEmpreses.TabIndex = 1;
+            this.pnDesaCanvisEmpreses.Text = "Canvis pendents de desar";
+            // 
+            // btCancelaCanvisEmpreses
+            // 
+            this.btCancelaCanvisEmpreses.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btCancelaCanvisEmpreses.Location = new System.Drawing.Point(583, 9);
+            this.btCancelaCanvisEmpreses.Margin = new System.Windows.Forms.Padding(0);
+            this.btCancelaCanvisEmpreses.Name = "btCancelaCanvisEmpreses";
+            this.btCancelaCanvisEmpreses.Size = new System.Drawing.Size(94, 30);
+            this.btCancelaCanvisEmpreses.TabIndex = 1;
+            this.btCancelaCanvisEmpreses.Text = "Cancel·la";
+            this.btCancelaCanvisEmpreses.UseVisualStyleBackColor = true;
+            this.btCancelaCanvisEmpreses.Click += new System.EventHandler(this.btCancelaCanvisEmpreses_Click);
+            // 
+            // btDesaCanvisEmpreses
+            // 
+            this.btDesaCanvisEmpreses.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btDesaCanvisEmpreses.Location = new System.Drawing.Point(480, 9);
+            this.btDesaCanvisEmpreses.Margin = new System.Windows.Forms.Padding(0);
+            this.btDesaCanvisEmpreses.Name = "btDesaCanvisEmpreses";
+            this.btDesaCanvisEmpreses.Size = new System.Drawing.Size(94, 30);
+            this.btDesaCanvisEmpreses.TabIndex = 0;
+            this.btDesaCanvisEmpreses.Text = "Desa";
+            this.btDesaCanvisEmpreses.UseVisualStyleBackColor = true;
+            this.btDesaCanvisEmpreses.Click += new System.EventHandler(this.btDesaCanvisEmpreses_Click);
+            // 
+            // grProductes
+            // 
+            this.grProductes.Controls.Add(this.dgvProductes);
+            this.grProductes.Controls.Add(this.pnCampsProductes);
+            this.grProductes.Controls.Add(this.pnDesaCanvisProductes);
+            this.grProductes.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grProductes.Location = new System.Drawing.Point(703, 17);
+            this.grProductes.Name = "grProductes";
+            this.grProductes.Size = new System.Drawing.Size(641, 616);
+            this.grProductes.TabIndex = 1;
+            this.grProductes.TabStop = false;
+            this.grProductes.Text = "Productes";
+            // 
+            // dgvProductes
+            // 
+            this.dgvProductes.AllowUserToAddRows = false;
+            this.dgvProductes.AllowUserToDeleteRows = false;
+            this.dgvProductes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvProductes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this._OrdreGrid,
+            this.dataGridViewTextBoxColumn2});
+            this.dgvProductes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvProductes.Location = new System.Drawing.Point(3, 18);
+            this.dgvProductes.Name = "dgvProductes";
+            this.dgvProductes.RowTemplate.Height = 24;
+            this.dgvProductes.Size = new System.Drawing.Size(635, 208);
+            this.dgvProductes.TabIndex = 0;
+            this.dgvProductes.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProductes_RowEnter);
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "Id";
+            this.dataGridViewTextBoxColumn1.HeaderText = "Id";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Width = 50;
+            // 
+            // _OrdreGrid
+            // 
+            this._OrdreGrid.DataPropertyName = "OrdreGrid";
+            this._OrdreGrid.HeaderText = "Ordre Grid";
+            this._OrdreGrid.Name = "_OrdreGrid";
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "_NomProducte";
+            this.dataGridViewTextBoxColumn2.HeaderText = "Nom";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            // 
+            // pnCampsProductes
+            // 
+            this.pnCampsProductes.Controls.Add(this.grOrdreGridProducte);
+            this.pnCampsProductes.Controls.Add(this.grNomProducte);
+            this.pnCampsProductes.Controls.Add(this.grIsinProducte);
+            this.pnCampsProductes.Controls.Add(this.grDescripcioProducte);
+            this.pnCampsProductes.Controls.Add(this.grMercatProducte);
+            this.pnCampsProductes.Controls.Add(this.grMonedaProducte);
+            this.pnCampsProductes.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnCampsProductes.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pnCampsProductes.Location = new System.Drawing.Point(3, 226);
+            this.pnCampsProductes.Name = "pnCampsProductes";
+            this.pnCampsProductes.Padding = new System.Windows.Forms.Padding(5);
+            this.pnCampsProductes.Size = new System.Drawing.Size(635, 342);
+            this.pnCampsProductes.TabIndex = 1;
+            this.pnCampsProductes.Text = "Canvis pendents de desar";
+            // 
+            // grOrdreGridProducte
+            // 
+            this.grOrdreGridProducte.Controls.Add(this.ntbOrdreGridProducte);
+            this.grOrdreGridProducte.Location = new System.Drawing.Point(385, 8);
+            this.grOrdreGridProducte.Name = "grOrdreGridProducte";
+            this.grOrdreGridProducte.Padding = new System.Windows.Forms.Padding(5);
+            this.grOrdreGridProducte.Size = new System.Drawing.Size(103, 55);
+            this.grOrdreGridProducte.TabIndex = 1;
+            this.grOrdreGridProducte.TabStop = false;
+            this.grOrdreGridProducte.Text = "Ordre Grid";
+            // 
+            // grNomProducte
+            // 
+            this.grNomProducte.Controls.Add(this.tbNomProducte);
+            this.grNomProducte.Location = new System.Drawing.Point(8, 6);
+            this.grNomProducte.Name = "grNomProducte";
+            this.grNomProducte.Padding = new System.Windows.Forms.Padding(5);
+            this.grNomProducte.Size = new System.Drawing.Size(371, 55);
+            this.grNomProducte.TabIndex = 0;
+            this.grNomProducte.TabStop = false;
+            this.grNomProducte.Text = "Nom";
+            // 
+            // tbNomProducte
+            // 
+            this.tbNomProducte.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbNomProducte.Location = new System.Drawing.Point(5, 20);
+            this.tbNomProducte.Name = "tbNomProducte";
+            this.tbNomProducte.Size = new System.Drawing.Size(361, 22);
+            this.tbNomProducte.TabIndex = 0;
+            this.tbNomProducte.TextChanged += new System.EventHandler(this.tbProducte_TextChanged);
+            // 
+            // grIsinProducte
+            // 
+            this.grIsinProducte.Controls.Add(this.tbIsinProducte);
+            this.grIsinProducte.Location = new System.Drawing.Point(8, 67);
+            this.grIsinProducte.Name = "grIsinProducte";
+            this.grIsinProducte.Padding = new System.Windows.Forms.Padding(5);
+            this.grIsinProducte.Size = new System.Drawing.Size(371, 55);
+            this.grIsinProducte.TabIndex = 2;
+            this.grIsinProducte.TabStop = false;
+            this.grIsinProducte.Text = "ISIN";
+            // 
+            // tbIsinProducte
+            // 
+            this.tbIsinProducte.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbIsinProducte.Location = new System.Drawing.Point(5, 20);
+            this.tbIsinProducte.Name = "tbIsinProducte";
+            this.tbIsinProducte.Size = new System.Drawing.Size(361, 22);
+            this.tbIsinProducte.TabIndex = 0;
+            this.tbIsinProducte.TextChanged += new System.EventHandler(this.tbProducte_TextChanged);
+            // 
+            // grDescripcioProducte
+            // 
+            this.grDescripcioProducte.Controls.Add(this.tbDescripcioProducte);
+            this.grDescripcioProducte.Location = new System.Drawing.Point(8, 181);
+            this.grDescripcioProducte.Name = "grDescripcioProducte";
+            this.grDescripcioProducte.Padding = new System.Windows.Forms.Padding(5);
+            this.grDescripcioProducte.Size = new System.Drawing.Size(619, 153);
+            this.grDescripcioProducte.TabIndex = 5;
+            this.grDescripcioProducte.TabStop = false;
+            this.grDescripcioProducte.Text = "Descripció";
+            // 
+            // tbDescripcioProducte
+            // 
+            this.tbDescripcioProducte.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbDescripcioProducte.Location = new System.Drawing.Point(5, 20);
+            this.tbDescripcioProducte.Multiline = true;
+            this.tbDescripcioProducte.Name = "tbDescripcioProducte";
+            this.tbDescripcioProducte.Size = new System.Drawing.Size(609, 128);
+            this.tbDescripcioProducte.TabIndex = 0;
+            this.tbDescripcioProducte.TextChanged += new System.EventHandler(this.tbProducte_TextChanged);
+            // 
+            // grMercatProducte
+            // 
+            this.grMercatProducte.Controls.Add(this.cbMercatProducte);
+            this.grMercatProducte.Location = new System.Drawing.Point(140, 128);
+            this.grMercatProducte.Name = "grMercatProducte";
+            this.grMercatProducte.Padding = new System.Windows.Forms.Padding(5);
+            this.grMercatProducte.Size = new System.Drawing.Size(112, 47);
+            this.grMercatProducte.TabIndex = 4;
+            this.grMercatProducte.TabStop = false;
+            this.grMercatProducte.Text = "Mercat";
+            // 
+            // grMonedaProducte
+            // 
+            this.grMonedaProducte.Controls.Add(this.cbMonedaProducte);
+            this.grMonedaProducte.Location = new System.Drawing.Point(8, 128);
+            this.grMonedaProducte.Name = "grMonedaProducte";
+            this.grMonedaProducte.Padding = new System.Windows.Forms.Padding(5);
+            this.grMonedaProducte.Size = new System.Drawing.Size(112, 47);
+            this.grMonedaProducte.TabIndex = 3;
+            this.grMonedaProducte.TabStop = false;
+            this.grMonedaProducte.Text = "Moneda";
+            // 
+            // pnDesaCanvisProductes
+            // 
+            this.pnDesaCanvisProductes.Controls.Add(this.btCancelaProducte);
+            this.pnDesaCanvisProductes.Controls.Add(this.btEsborraProducte);
+            this.pnDesaCanvisProductes.Controls.Add(this.btCreaProducte);
+            this.pnDesaCanvisProductes.Controls.Add(this.btDesaProducte);
+            this.pnDesaCanvisProductes.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnDesaCanvisProductes.Location = new System.Drawing.Point(3, 568);
+            this.pnDesaCanvisProductes.Name = "pnDesaCanvisProductes";
+            this.pnDesaCanvisProductes.Size = new System.Drawing.Size(635, 45);
+            this.pnDesaCanvisProductes.TabIndex = 2;
+            // 
+            // btCancelaProducte
+            // 
+            this.btCancelaProducte.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btCancelaProducte.Location = new System.Drawing.Point(533, 9);
+            this.btCancelaProducte.Margin = new System.Windows.Forms.Padding(0);
+            this.btCancelaProducte.Name = "btCancelaProducte";
+            this.btCancelaProducte.Size = new System.Drawing.Size(94, 30);
+            this.btCancelaProducte.TabIndex = 3;
+            this.btCancelaProducte.Text = "Cancel·la";
+            this.btCancelaProducte.UseVisualStyleBackColor = true;
+            this.btCancelaProducte.Click += new System.EventHandler(this.btCancelaProducte_Click);
+            // 
+            // btEsborraProducte
+            // 
+            this.btEsborraProducte.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btEsborraProducte.Location = new System.Drawing.Point(217, 9);
+            this.btEsborraProducte.Margin = new System.Windows.Forms.Padding(0);
+            this.btEsborraProducte.Name = "btEsborraProducte";
+            this.btEsborraProducte.Size = new System.Drawing.Size(94, 30);
+            this.btEsborraProducte.TabIndex = 0;
+            this.btEsborraProducte.Text = "Esborra";
+            this.btEsborraProducte.UseVisualStyleBackColor = true;
+            this.btEsborraProducte.Click += new System.EventHandler(this.btEsborraProducte_Click);
+            // 
+            // btCreaProducte
+            // 
+            this.btCreaProducte.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btCreaProducte.Location = new System.Drawing.Point(321, 9);
+            this.btCreaProducte.Margin = new System.Windows.Forms.Padding(0);
+            this.btCreaProducte.Name = "btCreaProducte";
+            this.btCreaProducte.Size = new System.Drawing.Size(94, 30);
+            this.btCreaProducte.TabIndex = 1;
+            this.btCreaProducte.Text = "Nou";
+            this.btCreaProducte.UseVisualStyleBackColor = true;
+            this.btCreaProducte.Click += new System.EventHandler(this.btCreaProducte_Click);
+            // 
+            // btDesaProducte
+            // 
+            this.btDesaProducte.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btDesaProducte.Location = new System.Drawing.Point(429, 9);
+            this.btDesaProducte.Margin = new System.Windows.Forms.Padding(0);
+            this.btDesaProducte.Name = "btDesaProducte";
+            this.btDesaProducte.Size = new System.Drawing.Size(94, 30);
+            this.btDesaProducte.TabIndex = 2;
+            this.btDesaProducte.Text = "Desa";
+            this.btDesaProducte.UseVisualStyleBackColor = true;
+            this.btDesaProducte.Click += new System.EventHandler(this.btDesaProducte_Click);
+            // 
             // tabProductes
             // 
-            this.tabProductes.Controls.Add(this.label1);
             this.tabProductes.Controls.Add(this.grAltaEmpresa);
+            this.tabProductes.Controls.Add(this.label1);
             this.tabProductes.Controls.Add(this.groupBox3);
             this.tabProductes.Controls.Add(this.btCancela);
             this.tabProductes.Controls.Add(this.groupBox2);
@@ -434,17 +807,6 @@
             this.tabProductes.Text = "Productes";
             this.tabProductes.UseVisualStyleBackColor = true;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(25, 465);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(600, 31);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Per noves accions o ETFs, clicar: \"Nova Empresa\"";
-            // 
             // grAltaEmpresa
             // 
             this.grAltaEmpresa.Controls.Add(this.groupBox7);
@@ -452,13 +814,13 @@
             this.grAltaEmpresa.Controls.Add(this.gbOrdreGrid);
             this.grAltaEmpresa.Controls.Add(this.groupBox9);
             this.grAltaEmpresa.Controls.Add(this.groupBox8);
-            this.grAltaEmpresa.Location = new System.Drawing.Point(20, 344);
+            this.grAltaEmpresa.Enabled = false;
+            this.grAltaEmpresa.Location = new System.Drawing.Point(19, 14);
             this.grAltaEmpresa.Name = "grAltaEmpresa";
-            this.grAltaEmpresa.Size = new System.Drawing.Size(1274, 93);
+            this.grAltaEmpresa.Size = new System.Drawing.Size(1323, 173);
             this.grAltaEmpresa.TabIndex = 7;
             this.grAltaEmpresa.TabStop = false;
-            this.grAltaEmpresa.Text = "Alta empresa";
-            this.grAltaEmpresa.Visible = false;
+            this.grAltaEmpresa.Text = "Alta Producte";
             // 
             // groupBox7
             // 
@@ -499,7 +861,7 @@
             // grMercat
             // 
             this.grMercat.Controls.Add(this.cbMercat2);
-            this.grMercat.Location = new System.Drawing.Point(919, 21);
+            this.grMercat.Location = new System.Drawing.Point(276, 93);
             this.grMercat.Name = "grMercat";
             this.grMercat.Padding = new System.Windows.Forms.Padding(5);
             this.grMercat.Size = new System.Drawing.Size(234, 53);
@@ -521,7 +883,7 @@
             // gbOrdreGrid
             // 
             this.gbOrdreGrid.Controls.Add(this.ntbOrdreGrid);
-            this.gbOrdreGrid.Location = new System.Drawing.Point(792, 20);
+            this.gbOrdreGrid.Location = new System.Drawing.Point(149, 92);
             this.gbOrdreGrid.Name = "gbOrdreGrid";
             this.gbOrdreGrid.Padding = new System.Windows.Forms.Padding(5);
             this.gbOrdreGrid.Size = new System.Drawing.Size(103, 55);
@@ -529,21 +891,6 @@
             this.gbOrdreGrid.TabStop = false;
             this.gbOrdreGrid.Text = "Ordre Grid";
             this.gbOrdreGrid.Visible = false;
-            // 
-            // ntbOrdreGrid
-            // 
-            this.ntbOrdreGrid._Format = "0";
-            this.ntbOrdreGrid._PermetDecimals = true;
-            this.ntbOrdreGrid._PermetEspais = false;
-            this.ntbOrdreGrid._PermetNegatius = true;
-            this.ntbOrdreGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ntbOrdreGrid.Location = new System.Drawing.Point(5, 20);
-            this.ntbOrdreGrid.Name = "ntbOrdreGrid";
-            this.ntbOrdreGrid.Size = new System.Drawing.Size(93, 22);
-            this.ntbOrdreGrid.TabIndex = 0;
-            this.ntbOrdreGrid.Text = "999";
-            this.ntbOrdreGrid.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbOrdreGrid.Valor = 999D;
             // 
             // groupBox9
             // 
@@ -567,7 +914,7 @@
             // groupBox8
             // 
             this.groupBox8.Controls.Add(this.cbMoneda2);
-            this.groupBox8.Location = new System.Drawing.Point(651, 22);
+            this.groupBox8.Location = new System.Drawing.Point(8, 94);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Padding = new System.Windows.Forms.Padding(5);
             this.groupBox8.Size = new System.Drawing.Size(112, 53);
@@ -585,10 +932,21 @@
             this.cbMoneda2.Size = new System.Drawing.Size(102, 24);
             this.cbMoneda2.TabIndex = 0;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(19, 557);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(600, 31);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Per noves accions o ETFs, clicar: \"Nova Empresa\"";
+            // 
             // btEditaProducte
             // 
             this.btEditaProducte.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btEditaProducte.Location = new System.Drawing.Point(985, 16);
+            this.btEditaProducte.Location = new System.Drawing.Point(984, 216);
             this.btEditaProducte.Name = "btEditaProducte";
             this.btEditaProducte.Size = new System.Drawing.Size(101, 50);
             this.btEditaProducte.TabIndex = 3;
@@ -599,7 +957,7 @@
             // btNovaEmpresa
             // 
             this.btNovaEmpresa.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btNovaEmpresa.Location = new System.Drawing.Point(776, 16);
+            this.btNovaEmpresa.Location = new System.Drawing.Point(775, 216);
             this.btNovaEmpresa.Name = "btNovaEmpresa";
             this.btNovaEmpresa.Size = new System.Drawing.Size(101, 50);
             this.btNovaEmpresa.TabIndex = 2;
@@ -618,14 +976,6 @@
             this.tabMoviments.Text = "Moviments";
             this.tabMoviments.UseVisualStyleBackColor = true;
             // 
-            // movimentsTab1
-            // 
-            this.movimentsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.movimentsTab1.Location = new System.Drawing.Point(5, 5);
-            this.movimentsTab1.Name = "movimentsTab1";
-            this.movimentsTab1.Size = new System.Drawing.Size(1342, 696);
-            this.movimentsTab1.TabIndex = 0;
-            // 
             // tabValoracions
             // 
             this.tabValoracions.Controls.Add(this.valoracionsTab1);
@@ -635,16 +985,6 @@
             this.tabValoracions.TabIndex = 2;
             this.tabValoracions.Text = "Valoracions";
             this.tabValoracions.UseVisualStyleBackColor = true;
-            // 
-            // valoracionsTab1
-            // 
-            this.valoracionsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.valoracionsTab1.Location = new System.Drawing.Point(0, 0);
-            this.valoracionsTab1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.valoracionsTab1.MinimumSize = new System.Drawing.Size(1301, 655);
-            this.valoracionsTab1.Name = "valoracionsTab1";
-            this.valoracionsTab1.Size = new System.Drawing.Size(1352, 706);
-            this.valoracionsTab1.TabIndex = 0;
             // 
             // tabPerduesGuanys
             // 
@@ -656,6 +996,80 @@
             this.tabPerduesGuanys.TabIndex = 3;
             this.tabPerduesGuanys.Text = "Perdues i Guanys";
             this.tabPerduesGuanys.UseVisualStyleBackColor = true;
+            // 
+            // ntbOrdreGridProducte
+            // 
+            this.ntbOrdreGridProducte._CapturaEscape = true;
+            this.ntbOrdreGridProducte._Format = "0";
+            this.ntbOrdreGridProducte._PermetDecimals = true;
+            this.ntbOrdreGridProducte._PermetEspais = false;
+            this.ntbOrdreGridProducte._PermetNegatius = true;
+            this.ntbOrdreGridProducte.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbOrdreGridProducte.Location = new System.Drawing.Point(5, 20);
+            this.ntbOrdreGridProducte.Name = "ntbOrdreGridProducte";
+            this.ntbOrdreGridProducte.Size = new System.Drawing.Size(93, 22);
+            this.ntbOrdreGridProducte.TabIndex = 0;
+            this.ntbOrdreGridProducte.Text = "999";
+            this.ntbOrdreGridProducte.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbOrdreGridProducte.Valor = 999D;
+            this.ntbOrdreGridProducte.TextChanged += new System.EventHandler(this.tbProducte_TextChanged);
+            // 
+            // cbMercatProducte
+            // 
+            this.cbMercatProducte.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbMercatProducte.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbMercatProducte.FormattingEnabled = true;
+            this.cbMercatProducte.Location = new System.Drawing.Point(5, 20);
+            this.cbMercatProducte.Name = "cbMercatProducte";
+            this.cbMercatProducte.Size = new System.Drawing.Size(102, 24);
+            this.cbMercatProducte.TabIndex = 0;
+            this.cbMercatProducte.SelectedIndexChanged += new System.EventHandler(this.cbProducte_SelectedIndexChanged);
+            // 
+            // cbMonedaProducte
+            // 
+            this.cbMonedaProducte.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbMonedaProducte.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbMonedaProducte.FormattingEnabled = true;
+            this.cbMonedaProducte.Location = new System.Drawing.Point(5, 20);
+            this.cbMonedaProducte.Name = "cbMonedaProducte";
+            this.cbMonedaProducte.Size = new System.Drawing.Size(102, 24);
+            this.cbMonedaProducte.TabIndex = 0;
+            this.cbMonedaProducte.SelectedIndexChanged += new System.EventHandler(this.cbProducte_SelectedIndexChanged);
+            // 
+            // ntbOrdreGrid
+            // 
+            this.ntbOrdreGrid._CapturaEscape = true;
+            this.ntbOrdreGrid._Format = "0";
+            this.ntbOrdreGrid._PermetDecimals = true;
+            this.ntbOrdreGrid._PermetEspais = false;
+            this.ntbOrdreGrid._PermetNegatius = true;
+            this.ntbOrdreGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbOrdreGrid.Location = new System.Drawing.Point(5, 20);
+            this.ntbOrdreGrid.Name = "ntbOrdreGrid";
+            this.ntbOrdreGrid.Size = new System.Drawing.Size(93, 22);
+            this.ntbOrdreGrid.TabIndex = 0;
+            this.ntbOrdreGrid.Text = "999";
+            this.ntbOrdreGrid.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbOrdreGrid.Valor = 999D;
+            // 
+            // movimentsTab1
+            // 
+            this.movimentsTab1.CausesValidation = false;
+            this.movimentsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.movimentsTab1.Location = new System.Drawing.Point(5, 5);
+            this.movimentsTab1.Name = "movimentsTab1";
+            this.movimentsTab1.Size = new System.Drawing.Size(1342, 696);
+            this.movimentsTab1.TabIndex = 0;
+            // 
+            // valoracionsTab1
+            // 
+            this.valoracionsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.valoracionsTab1.Location = new System.Drawing.Point(0, 0);
+            this.valoracionsTab1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.valoracionsTab1.MinimumSize = new System.Drawing.Size(1301, 655);
+            this.valoracionsTab1.Name = "valoracionsTab1";
+            this.valoracionsTab1.Size = new System.Drawing.Size(1352, 706);
+            this.valoracionsTab1.TabIndex = 0;
             // 
             // perduesGuanysTab1
             // 
@@ -671,11 +1085,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1360, 735);
             this.Controls.Add(this.tabControl1);
+            this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(1355, 620);
             this.Name = "Principal";
             this.Text = "Productes";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Principal_FormClosing);
             this.Load += new System.EventHandler(this.Principal_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Principal_KeyDown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.gbNom.ResumeLayout(false);
@@ -694,6 +1111,24 @@
             this.tabControl1.ResumeLayout(false);
             this.tabUsuari.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
+            this.tabEmpreses.ResumeLayout(false);
+            this.grEmpresa.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvEmpreses)).EndInit();
+            this.pnDesaCanvisEmpreses.ResumeLayout(false);
+            this.grProductes.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProductes)).EndInit();
+            this.pnCampsProductes.ResumeLayout(false);
+            this.grOrdreGridProducte.ResumeLayout(false);
+            this.grOrdreGridProducte.PerformLayout();
+            this.grNomProducte.ResumeLayout(false);
+            this.grNomProducte.PerformLayout();
+            this.grIsinProducte.ResumeLayout(false);
+            this.grIsinProducte.PerformLayout();
+            this.grDescripcioProducte.ResumeLayout(false);
+            this.grDescripcioProducte.PerformLayout();
+            this.grMercatProducte.ResumeLayout(false);
+            this.grMonedaProducte.ResumeLayout(false);
+            this.pnDesaCanvisProductes.ResumeLayout(false);
             this.tabProductes.ResumeLayout(false);
             this.tabProductes.PerformLayout();
             this.grAltaEmpresa.ResumeLayout(false);
@@ -765,5 +1200,37 @@
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.ComboBox cbMoneda2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TabPage tabEmpreses;
+        private System.Windows.Forms.GroupBox grEmpresa;
+        private System.Windows.Forms.DataGridView dgvEmpreses;
+        private System.Windows.Forms.Button btDesaCanvisEmpreses;
+        private System.Windows.Forms.Panel pnDesaCanvisEmpreses;
+        private System.Windows.Forms.Button btCancelaCanvisEmpreses;
+        private System.Windows.Forms.GroupBox grProductes;
+        private System.Windows.Forms.DataGridView dgvProductes;
+        private System.Windows.Forms.Panel pnCampsProductes;
+        private System.Windows.Forms.Button btCancelaProducte;
+        private System.Windows.Forms.Button btDesaProducte;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _Nom;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _TipusEmpresa;
+        private System.Windows.Forms.GroupBox grMercatProducte;
+        private Controls.ComboBox2 cbMercatProducte;
+        private System.Windows.Forms.GroupBox grMonedaProducte;
+        private Controls.ComboBox2 cbMonedaProducte;
+        private System.Windows.Forms.Panel pnDesaCanvisProductes;
+        private System.Windows.Forms.GroupBox grOrdreGridProducte;
+        private Controls.NumericTextBox2 ntbOrdreGridProducte;
+        private System.Windows.Forms.GroupBox grNomProducte;
+        private System.Windows.Forms.TextBox tbNomProducte;
+        private System.Windows.Forms.GroupBox grIsinProducte;
+        private System.Windows.Forms.TextBox tbIsinProducte;
+        private System.Windows.Forms.GroupBox grDescripcioProducte;
+        private System.Windows.Forms.TextBox tbDescripcioProducte;
+        private System.Windows.Forms.Button btEsborraProducte;
+        private System.Windows.Forms.Button btCreaProducte;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _OrdreGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
     }
 }

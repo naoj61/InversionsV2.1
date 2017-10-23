@@ -5,6 +5,7 @@ using System.Data.Entity.Migrations;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using Comuns;
 using Inversions.GUI;
 
 namespace Inversions
@@ -26,7 +27,7 @@ namespace Inversions
         {
             get
             {
-                return p => p.Prod != null && p.Prod.MovimentsProducte.Where(w => w.IdUsuari == Usuari.Seleccionat.Id && w.Data <= p.Data).Sum(s => s.Participacions) > 0;
+                return p => p.Prod != null && p.Prod.MovimentsProducte.Where(w => w.UsuariId == Usuari.Seleccionat.Id && w.Data <= p.Data).Sum(s => s.Participacions) > 0;
             }
         }
 
@@ -37,7 +38,7 @@ namespace Inversions
         {
             get
             {
-                return Prod == null ? 0 : Prod.numParticipacionsEnData(new Producte.DateTimeFinalDia(this.Data));
+                return Prod == null ? 0 : Prod.numParticipacionsEnData(Utilitats.DataFinalDia(Data));
             }
         }
 
@@ -82,8 +83,8 @@ namespace Inversions
             {
                 if (Prod == null)
                     return 0;
-         
-                return PreuParticipacio * Prod.numParticipacionsEnData(new Producte.DateTimeFinalDia(Data));
+
+                return PreuParticipacio * Prod.numParticipacionsEnData(Utilitats.DataFinalDia(Data));
             }
         }
 
@@ -100,13 +101,13 @@ namespace Inversions
             Valoracio val = null;
             try
             {
-                val = new Valoracio();
+                val = conn.Valoracio.Create();
                 val.ProdId = producte.Id;
                 val.Data = data;
                 val.PreuParticipacio = import;
 
                 conn.Valoracions.Add(val);
-                conn.SaveChanges();
+                //conn.SaveChanges();
             }
             catch (DbUpdateException ex2)
             {
@@ -142,13 +143,14 @@ namespace Inversions
             try
             {
                 // Modificacio
-                val = conn.Valoracions.Single(s => s.Id == this.Id);
+                //val = conn.Valoracions.Single(s => s.Id == this.Id);
+                val = conn.Valoracions.Find(Id);
 
                 val.Data = data;
                 val.PreuParticipacio = import;
 
                 conn.Valoracions.AddOrUpdate(val);
-                conn.SaveChanges();
+                //conn.SaveChanges();
             }
             catch (DbUpdateException ex2)
             {

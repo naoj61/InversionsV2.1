@@ -12,10 +12,48 @@ namespace Inversions
 {
     public partial class InversionsBDContext
     {
-
-        public ObjectContext _Context
+        private ObjectContext _Context
         {
-            get { return ((IObjectContextAdapter)this).ObjectContext; }
+            get { return ((IObjectContextAdapter) this).ObjectContext; }
+        }
+
+
+        /// <summary>
+        /// Refresca totes les taules de la BD
+        /// </summary>
+        public void refrescaTot()
+        {
+            var context = ((IObjectContextAdapter) this).ObjectContext;
+
+            var objects = (context.ObjectStateManager.GetObjectStateEntries(
+                EntityState.Added |
+                EntityState.Deleted |
+                EntityState.Modified |
+                EntityState.Unchanged)
+                .Where(entry => entry.EntityKey != null)
+                .Select(entry => entry.Entity));
+
+            context.Refresh(RefreshMode.StoreWins, objects);
+        }
+
+
+        /// <summary>
+        /// Refresca només una taula.
+        /// </summary>
+        /// <param name="entityType"></param>
+        public void refrescaTaula(Type entityType)
+        {
+            var context = ((IObjectContextAdapter) this).ObjectContext;
+
+            var objects = context.ObjectStateManager.GetObjectStateEntries(
+                EntityState.Added |
+                EntityState.Deleted |
+                EntityState.Modified |
+                EntityState.Unchanged)
+                .Where(x => x.EntityKey != null && ObjectContext.GetObjectType(x.Entity.GetType()) == entityType)
+                .Select(e => e.Entity);
+
+            context.Refresh(RefreshMode.StoreWins, objects);
         }
 
 
@@ -44,32 +82,38 @@ namespace Inversions
             if (entityEntry.Entity is Empresa)
             {
                 Empresa entity = entityEntry.Entity as Empresa;
-                var dbSet = this.Empreses;
 
                 if (entity.Nom == "")
-                    list.Add(new DbValidationError("Nom", "Nom is required"));
+                    list.Add(new DbValidationError("Nom", "El Nom és obligatori"));
 
                 //if (entityEntry.State == EntityState.Added
                 //    && dbSet.SingleOrDefault(f => f.Id == entity.Id) != null)
                 //    list.Add(new DbValidationError("Id", "Duplicate key"));
 
-                if (dbSet.SingleOrDefault(f => f.Nom == entity.Nom) != null)
-                    list.Add(new DbValidationError("Nom", "Duplicate key"));
+                if (Empreses.Any(f => f.Nom == entity.Nom && f.Id != entity.Id))
+                    list.Add(new DbValidationError("Nom", "Clau duplicada"));
             }
             else if (entityEntry.Entity is Gestor)
             {
                 Gestor entity = entityEntry.Entity as Gestor;
-                var dbSet = this.Gestors;
 
                 if (entity.Nom == "")
                     list.Add(new DbValidationError("Nom", "Nom is required"));
 
-                if (dbSet.SingleOrDefault(f => f.Nom == entity.Nom) != null)
+                if (Gestors.Any(f => f.Nom == entity.Nom && f.Id != entity.Id))
                     list.Add(new DbValidationError("Nom", "Duplicate key"));
             }
             else if (entityEntry.Entity is ProdFons)
             {
                 ProdFons entity = entityEntry.Entity as ProdFons;
+
+                if (entity.Nom == "")
+                    list.Add(new DbValidationError("Nom", "Nom is required"));
+
+                if (ProdFons.Any(f => f.Nom == entity.Nom && f.Id != entity.Id))
+                    list.Add(new DbValidationError("Nom", "Duplicate key"));
+
+
                 if (entity.Gestors.Count > 0)
                 {
                     // Valida que tots els gestors siguin de la mateixa empresa.
@@ -89,51 +133,12 @@ namespace Inversions
         }
 
 
-
-        /// <summary>
-        /// Refresca totes les taules de la BD
-        /// </summary>
-        public void refrescaTot()
-        {
-            var objects = (from entry in _Context.ObjectStateManager.GetObjectStateEntries(
-                                                       EntityState.Added
-                                                      | EntityState.Deleted
-                                                      | EntityState.Modified
-                                                      | EntityState.Unchanged)
-                           where entry.EntityKey != null
-                           select entry.Entity);
-
-            _Context.Refresh(RefreshMode.StoreWins, objects);
-        }
-
-
-        /// <summary>
-        /// Refresca només una taula.
-        /// </summary>
-        /// <param name="entityType"></param>
-        public void refrescaTaula(Type entityType)
-        {
-            var refreshableObjects = _Context.ObjectStateManager.GetObjectStateEntries(
-                                                    EntityState.Added 
-                                                    | EntityState.Deleted 
-                                                    | EntityState.Modified 
-                                                    | EntityState.Unchanged)
-                .Where(x => ObjectContext.GetObjectType(x.Entity.GetType()).Name == entityType.Name)
-                .Where(entry => entry.EntityKey != null)
-                .Select(e => e.Entity);
-
-            _Context.Refresh(RefreshMode.StoreWins, refreshableObjects);
-        }
-
-        
-
         public virtual DbSet<ProdFons> ProdFons { get; set; }
         public virtual DbSet<ProdAccions> ProdAccions { get; set; }
         public virtual DbSet<Valoracio> Valoracio { get; set; }
-
         public IEnumerable<Moviment> MovimentsUsuari
         {
-            get { return Moviments.Where(w => w.IdUsuari == Usuari.Seleccionat.Id); }
+            get { return Moviments.Where(w => w.UsuariId == Usuari.Seleccionat.Id); }
         }
 
     }

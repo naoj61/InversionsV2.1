@@ -8,6 +8,8 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
+using Comuns;
 using Inversions.GUI;
 
 namespace Inversions
@@ -19,12 +21,12 @@ namespace Inversions
         //internal static Usuari UsuariSeleccionat;
         internal static FileInfo FitxerLog = null;
         internal static readonly Version Versio = Assembly.GetExecutingAssembly().GetName().Version;
-
+        public static int PrimerAny = 2000;
 
         static Program()
         {
             Sessio = new InversionsBDContext();
-            Sessio.Configuration.AutoDetectChangesEnabled = false; // Si poso true, dona error quan inserto una fila i l'esborro en la mateixa sessió.
+            Sessio.Configuration.AutoDetectChangesEnabled = true; // Si poso true, dona error quan inserto una fila i l'esborro en la mateixa sessió.
             Sessio.Configuration.LazyLoadingEnabled = true;
         }
 
@@ -80,7 +82,8 @@ namespace Inversions
                 // Informa la variable |DataDirectory|, s'utilitza en App.config.
                 AppDomain.CurrentDomain.SetData("DataDirectory", bd);
 
-                Usuari.Seleccionat = Sessio.Usuaris.Single(s => s.Id == idUsuari);
+                //Usuari.Seleccionat = Sessio.Usuaris.Single(s => s.Id == idUsuari);
+                Usuari.Seleccionat = Sessio.Usuaris.Find(idUsuari);
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
@@ -152,12 +155,11 @@ namespace Inversions
 
             if (v1 > v2)
                 return 1;
-            
+
             if (v1 < v2)
                 return -1;
 
             return 0;
         }
-
     }
 }

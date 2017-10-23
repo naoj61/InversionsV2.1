@@ -12,16 +12,6 @@ namespace Inversions.GUI
         {
             InitializeComponent();
 
-            if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
-            {
-                for (int any = Program.Sessio.Moviments.OrderBy(o => o.Data).First().Data.Year; any <= DateTime.Today.Year; any++)
-                {
-                    cbFiltreAny.Items.Add(any);
-                }
-                cbFiltreAny.SelectedItem = DateTime.Today.Year;
-                
-            }
-
             tbIsin.Dock = DockStyle.Fill;
             tbMercat.Dock = DockStyle.Fill;
 
@@ -35,18 +25,19 @@ namespace Inversions.GUI
 
         public event EventHandler ProducteSeleccionat;
 
+
         public Producte _ProducteSeleccionat
         {
             get { return (Producte) lbProductesTab2.SelectedItem; }
-            set
-            {
-                lbProductesTab2.SelectedItem = value;
-                if ((Producte) lbProductesTab2.SelectedItem != value && ckNomesAmbParticipacions.Checked)
-                {
-                    ckNomesAmbParticipacions.Checked = false;
-                    lbProductesTab2.SelectedItem = value;
-                }
-            }
+            //set
+            //{
+            //    lbProductesTab2.SelectedItem = value;
+            //    if ((Producte)lbProductesTab2.SelectedItem != value && ckNomesAmbParticipacions.Checked)
+            //    {
+            //        ckNomesAmbParticipacions.Checked = false;
+            //        lbProductesTab2.SelectedItem = value;
+            //    }
+            //}
         }
 
         public bool _FiltreAnyVisible
@@ -74,6 +65,31 @@ namespace Inversions.GUI
             set { ckNomesAmbParticipacions.Checked = value; }
         }
 
+        public bool _AmbMoviments
+        {
+            get { return ckAmbMoviments.Checked; }
+            set { ckAmbMoviments.Checked = value; }
+        }
+
+
+        /// <summary>
+        /// Refresca les dades que mostra control.
+        /// </summary>
+        public void refrescaDadesControl()
+        {
+            // No entenc perquè, però he de fer-ho així perquè es refresqui.
+            var index = lbProductesTab2.SelectedIndex;
+            lbProductesTab2.SelectedItem = null;
+            lbProductesTab2.SelectedIndex = index;
+            lbProductesTab2.SelectedItem = null;
+            lbProductesTab2.SelectedIndex = index;
+        }
+
+        public void seleccionaProducte(Producte prod)
+        {
+            lbProductesTab2.SelectedItem = prod;
+        }
+
         private void cbTipusProducteFiltreTab2_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbTipusProducteFiltreTab2.SelectedIndex >= 0)
@@ -92,17 +108,19 @@ namespace Inversions.GUI
         {
             IEnumerable<Producte> prods;
 
-            switch ((Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem)
+            if ((Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem == Producte.TipusProducte.Accions)
             {
-                case Producte.TipusProducte.Accions:
-                    prods = new List<Producte>(Program.Sessio.Productes.OfType<ProdAccions>());
-                    break;
-                case Producte.TipusProducte.Fons:
-                    prods = new List<Producte>(Program.Sessio.Productes.OfType<ProdFons>());
-                    break;
-                default:
-                    prods = Program.Sessio.Productes;
-                    break;
+                //prods = new List<Producte>(Program.Sessio.Productes.OfType<ProdAccions>());
+                prods = Program.Sessio.ProdAccions;
+            }
+            else if ((Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem == Producte.TipusProducte.Fons)
+            {
+                //prods = new List<Producte>(Program.Sessio.Productes.OfType<ProdFons>());
+                prods = Program.Sessio.ProdFons;
+            }
+            else
+            {
+                prods = Program.Sessio.Productes;
             }
 
             //if (Program.RuntimeMode)
@@ -111,7 +129,13 @@ namespace Inversions.GUI
                 try
                 {
                     if (ckNomesAmbParticipacions.Checked)
+                        // Filtra els productes amb participacions actualment pel usuari seleccionat.
                         prods = prods.Where(w => w._Participacions > 0);
+
+                    if(ckAmbMoviments.Checked)
+                        // Filtra els productes amb algun moviment en algun moment pel usuari seleccionat.
+                        prods = prods.Where(w => w.MovimentsProducteUsuari.Any());
+
 
                     if (ckFiltreCompresAny.Checked || ckFiltreVendesAny.Checked)
                     {
@@ -154,12 +178,16 @@ namespace Inversions.GUI
             {
                 lbEmpresa.Text = prod._NomEmpresa;
                 lbMoneda.Text = prod.Moneda;
+
                 tbParticipacions.Valor = prod._Participacions;
-                tbDividends.Valor = prod.dividends(Producte.DateTimeFinalDia.Today);
+                tbDividends.Valor = prod.dividends(DateTime.Today);
                 tbValorActual.Valor = prod._ValorActual;
 
-                tbPiGActual.Valor = prod.pigValorat(Producte.DateTimeFinalDia.Today);
-                tbPiGReal.Valor = prod.pigReal(Producte.DateTimeFinalDia.Today);
+                //tbPiGActual.Valor = prod.pigValorat(Producte.DateTimeFinalDia.Today);
+                tbPiGActual.Valor = prod.pigEnCartera();
+
+                //tbPiGReal.Valor = prod.pigReal(Producte.DateTimeFinalDia.Today);
+                tbPiGReal.Valor = prod.pig();
 
                 if (prod is ProdFons)
                 {
@@ -194,15 +222,22 @@ namespace Inversions.GUI
 
         private void GestioProductes_Load(object sender, EventArgs e)
         {
-            //if (Program.RuntimeMode)
-            if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
-            {
-                // Aquí només s'executa al entrar en la perstanya.
+            //if(!Comuns.Utilitats.IsInDesignMode())
+            //{
+            //    // Aquí només s'executa al entrar en la perstanya.
+            //    for (int any = Program.Sessio.Moviments.OrderBy(o => o.Data).First().Data.Year; any <= DateTime.Today.Year; any++)
+            //    {
+            //        cbFiltreAny.Items.Add(any);
+            //    }
+            //    cbFiltreAny.SelectedItem = DateTime.Today.Year;
+            //}
 
-                //cbUsuaris.DisplayMember = "Nom";
-                //cbUsuaris.DataSource = Program.Sessio.Usuaris.ToList();
-                //cbUsuaris.SelectedItem = Program.UsuariSeleccionat;
+            // Aquí només s'executa al entrar en la perstanya.
+            for (int any = Program.PrimerAny; any <= DateTime.Today.Year; any++)
+            {
+                cbFiltreAny.Items.Add(any);
             }
+            cbFiltreAny.SelectedItem = DateTime.Today.Year;
         }
 
         private void ckFiltreAny_CheckedChanged(object sender, EventArgs e)

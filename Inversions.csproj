@@ -90,6 +90,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassesParcials\InversionsBDContext.cs" />
+    <Compile Include="ClassesParcials\Mercat.cs" />
+    <Compile Include="ClassesParcials\Producte2.cs" />
     <Compile Include="ClassesParcials\Usuari.cs" />
     <Compile Include="ClassesParcials\Valoracio.cs" />
     <Compile Include="ClassesParcials\ProdFons.cs" />
@@ -279,11 +281,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Ngloba\_Aplicacions\Comuns\Comuns\Comuns.csproj">
+    <ProjectReference Include="..\..\Llibreries\Comuns\Comuns.csproj">
       <Project>{83fff275-a1a1-4df4-a669-591cb12dcbb4}</Project>
       <Name>Comuns</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Ngloba\_Aplicacions\Comuns\Controls\Controls.csproj">
+    <ProjectReference Include="..\..\Llibreries\Controls\Controls.csproj">
       <Project>{7103983b-f402-4b13-890a-2747374fb115}</Project>
       <Name>Controls</Name>
     </ProjectReference>
