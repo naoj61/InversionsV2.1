@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
@@ -786,6 +787,7 @@ namespace Inversions.GUI
             if (dgvEmpreses.CurrentRow != null && dgvEmpreses.CurrentRow.Index == e.RowIndex)
                 return;
 
+            vProducteSeleccionat = null;
             vEmpresaSeleccionada = (Empresa) dgvEmpreses.Rows[e.RowIndex].DataBoundItem;
 
             carregaGridProductes(vEmpresaSeleccionada);
@@ -796,27 +798,34 @@ namespace Inversions.GUI
         {
             try
             {
-                Producte prod = dgvProductes.CurrentRow == null ? vConnProductes.Productes.Create() : (Producte) dgvProductes.CurrentRow.DataBoundItem;
-                
-                prod.OrdreGrid = ntbOrdreGridProducte._IntValue;
+                bool esProdNou = vProducteSeleccionat.Id == 0;
+                vProducteSeleccionat.OrdreGrid = ntbOrdreGridProducte._IntValue;
 
                 if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.Accions)
                 {
-                    ((ProdAccions) prod).Mercat = vConnProductes.Mercats.Find(((Mercat) cbMercatProducte.SelectedItem).Id);
-                    prod.Moneda = cbMonedaProducte.SelectedItem.ToString();
+                    ((ProdAccions) vProducteSeleccionat).Mercat = vConnProductes.Mercats.Find(((Mercat) cbMercatProducte.SelectedItem).Id);
+                    vProducteSeleccionat.Moneda = cbMonedaProducte.SelectedItem.ToString();
                 }
                 else if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.GestoraFons)
                 {
-                    ((ProdFons)prod).Nom = tbNomProducte.Text;
-                    ((ProdFons)prod).ISIN = tbIsinProducte.Text;
-                    ((ProdFons) prod).Descripcio = tbDescripcioProducte.Text;
+                    ((ProdFons)vProducteSeleccionat).Nom = tbNomProducte.Text;
+                    ((ProdFons)vProducteSeleccionat).ISIN = tbIsinProducte.Text;
+                    ((ProdFons) vProducteSeleccionat).Descripcio = tbDescripcioProducte.Text;
                 }
 
-                vConnProductes.Productes.AddOrUpdate(prod);
+                vConnProductes.Productes.AddOrUpdate(vProducteSeleccionat);
 
                 vConnProductes.SaveChanges();
 
-                Program.Sessio.refrescaTaula(typeof (Producte));
+                Program.Sessio.refrescaTaula(typeof(Producte));
+                Program.Sessio.refrescaTaula(typeof(ProdAccions));
+                Program.Sessio.refrescaTaula(typeof(ProdFons));
+
+                if (esProdNou)
+                {
+                    // Selecciona la nova fila.
+                    dgvProductes.CurrentCell = dgvProductes.Rows[dgvProductes.Rows.GetLastRow(DataGridViewElementStates.Visible)].Cells[0];
+                }
 
                 modeConsultaProducte();
             }
@@ -830,15 +839,15 @@ namespace Inversions.GUI
             }
         }
 
-
+        private Producte vProducteSeleccionat = null;
         private void dgvProductes_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (dgvProductes.CurrentRow != null && dgvProductes.CurrentRow.Index == e.RowIndex)
                 return;
 
-            Producte producte = (Producte)dgvProductes.Rows[e.RowIndex].DataBoundItem;
+            vProducteSeleccionat = (Producte)dgvProductes.Rows[e.RowIndex].DataBoundItem;
 
-            if (producte == null)
+            if (vProducteSeleccionat == null)
             {
                 cbMercatProducte.SelectedItem = null;
                 cbMonedaProducte.SelectedItem = null;
@@ -851,7 +860,7 @@ namespace Inversions.GUI
 
                 btEsborraProducte.Enabled = true;
 
-                ompleCampsProducte(producte);
+                ompleCampsProducte(vProducteSeleccionat);
             }
         }
 
@@ -973,24 +982,64 @@ namespace Inversions.GUI
         {
             if (ActiveControl is TextBoxBase)
             {
-                if (((TextBoxBase)ActiveControl).Modified)
-                    ((TextBoxBase)ActiveControl).Undo();
+                var control = (TextBoxBase)ActiveControl;
+                if (control.Modified)
+                    control.Undo();
             }
             if (ActiveControl is IValorControlRestaurable)
             {
-                if (((IValorControlRestaurable)ActiveControl).Modified)
-                    ((IValorControlRestaurable)ActiveControl).Undo();
+                var control = (IValorControlRestaurable)ActiveControl;
+                if (control.Modified)
+                    control.Undo();
             }
         }
 
         private void btCreaProducte_Click(object sender, EventArgs e)
         {
-            // todo Pendent "btCreaProducte_Click".
+            if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.Accions)
+            {
+                vProducteSeleccionat = vConnProductes.ProdAccions.Create();
+            }
+            else if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.GestoraFons)
+            {
+                vProducteSeleccionat = vConnProductes.ProdFons.Create();
+            }
+            else
+            {
+                vProducteSeleccionat = null;                
+            }
+
+            vProducteSeleccionat.Empresa = vConnProductes.Empreses.Find(vEmpresaSeleccionada.Id);
+            vProducteSeleccionat.Moneda = Utilitats.Monedes.EUR.ToString();
+
+            ompleCampsProducte(vProducteSeleccionat);
+            modeEdicio();
         }
 
         private void btEsborraProducte_Click(object sender, EventArgs e)
         {
-            // todo Pendent "btEsborraProducte_Click".
+            try
+            {
+                if (Program.Sessio.Moviments.Any(a => a.ProdId == vProducteSeleccionat.Id))
+                    throw new ApplicationException("No es pot esborrar el producte perquè té moviments");
+
+                var prod = vProducteSeleccionat;
+
+                vConnProductes.Valoracions.RemoveRange(vConnProductes.Valoracions.Where(w => w.ProdId == prod.Id));
+
+                vConnProductes.Productes.Remove(prod);
+
+                vConnProductes.SaveChanges();
+
+                Program.Sessio.refrescaTaula(typeof(Valoracio));
+                Program.Sessio.refrescaTaula(typeof(Producte));
+                Program.Sessio.refrescaTaula(typeof(ProdAccions));
+                Program.Sessio.refrescaTaula(typeof(ProdFons));
+            }
+            catch (Exception ex1)
+            {
+                Utilitats.EscriuLog(ex1);
+            }
         }
     }
 }

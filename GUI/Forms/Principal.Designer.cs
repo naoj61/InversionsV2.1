@@ -72,6 +72,7 @@
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnCampsProductes = new System.Windows.Forms.Panel();
             this.grOrdreGridProducte = new System.Windows.Forms.GroupBox();
+            this.ntbOrdreGridProducte = new Controls.NumericTextBox2();
             this.grNomProducte = new System.Windows.Forms.GroupBox();
             this.tbNomProducte = new System.Windows.Forms.TextBox();
             this.grIsinProducte = new System.Windows.Forms.GroupBox();
@@ -79,7 +80,9 @@
             this.grDescripcioProducte = new System.Windows.Forms.GroupBox();
             this.tbDescripcioProducte = new System.Windows.Forms.TextBox();
             this.grMercatProducte = new System.Windows.Forms.GroupBox();
+            this.cbMercatProducte = new Controls.ComboBox2();
             this.grMonedaProducte = new System.Windows.Forms.GroupBox();
+            this.cbMonedaProducte = new Controls.ComboBox2();
             this.pnDesaCanvisProductes = new System.Windows.Forms.Panel();
             this.btCancelaProducte = new System.Windows.Forms.Button();
             this.btEsborraProducte = new System.Windows.Forms.Button();
@@ -93,6 +96,7 @@
             this.grMercat = new System.Windows.Forms.GroupBox();
             this.cbMercat2 = new System.Windows.Forms.ComboBox();
             this.gbOrdreGrid = new System.Windows.Forms.GroupBox();
+            this.ntbOrdreGrid = new Controls.NumericTextBox2();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.tbNomNovaEmpresa = new System.Windows.Forms.TextBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
@@ -101,14 +105,10 @@
             this.btEditaProducte = new System.Windows.Forms.Button();
             this.btNovaEmpresa = new System.Windows.Forms.Button();
             this.tabMoviments = new System.Windows.Forms.TabPage();
-            this.tabValoracions = new System.Windows.Forms.TabPage();
-            this.tabPerduesGuanys = new System.Windows.Forms.TabPage();
-            this.ntbOrdreGridProducte = new Controls.NumericTextBox2();
-            this.cbMercatProducte = new Controls.ComboBox2();
-            this.cbMonedaProducte = new Controls.ComboBox2();
-            this.ntbOrdreGrid = new Controls.NumericTextBox2();
             this.movimentsTab1 = new Inversions.GUI.MovimentsTab();
+            this.tabValoracions = new System.Windows.Forms.TabPage();
             this.valoracionsTab1 = new Inversions.GUI.ValoracionsTab();
+            this.tabPerduesGuanys = new System.Windows.Forms.TabPage();
             this.perduesGuanysTab1 = new Inversions.GUI.PerduesGuanysTab();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -587,6 +587,7 @@
             this._OrdreGrid,
             this.dataGridViewTextBoxColumn2});
             this.dgvProductes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvProductes.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvProductes.Location = new System.Drawing.Point(3, 18);
             this.dgvProductes.Name = "dgvProductes";
             this.dgvProductes.RowTemplate.Height = 24;
@@ -643,6 +644,23 @@
             this.grOrdreGridProducte.TabIndex = 1;
             this.grOrdreGridProducte.TabStop = false;
             this.grOrdreGridProducte.Text = "Ordre Grid";
+            // 
+            // ntbOrdreGridProducte
+            // 
+            this.ntbOrdreGridProducte._CapturaEscape = true;
+            this.ntbOrdreGridProducte._Format = "0";
+            this.ntbOrdreGridProducte._PermetDecimals = true;
+            this.ntbOrdreGridProducte._PermetEspais = false;
+            this.ntbOrdreGridProducte._PermetNegatius = true;
+            this.ntbOrdreGridProducte.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbOrdreGridProducte.Location = new System.Drawing.Point(5, 20);
+            this.ntbOrdreGridProducte.Name = "ntbOrdreGridProducte";
+            this.ntbOrdreGridProducte.Size = new System.Drawing.Size(93, 22);
+            this.ntbOrdreGridProducte.TabIndex = 0;
+            this.ntbOrdreGridProducte.Text = "999";
+            this.ntbOrdreGridProducte.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbOrdreGridProducte.Valor = 999D;
+            this.ntbOrdreGridProducte.TextChanged += new System.EventHandler(this.tbProducte_TextChanged);
             // 
             // grNomProducte
             // 
@@ -716,6 +734,17 @@
             this.grMercatProducte.TabStop = false;
             this.grMercatProducte.Text = "Mercat";
             // 
+            // cbMercatProducte
+            // 
+            this.cbMercatProducte.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbMercatProducte.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbMercatProducte.FormattingEnabled = true;
+            this.cbMercatProducte.Location = new System.Drawing.Point(5, 20);
+            this.cbMercatProducte.Name = "cbMercatProducte";
+            this.cbMercatProducte.Size = new System.Drawing.Size(102, 24);
+            this.cbMercatProducte.TabIndex = 0;
+            this.cbMercatProducte.SelectedIndexChanged += new System.EventHandler(this.cbProducte_SelectedIndexChanged);
+            // 
             // grMonedaProducte
             // 
             this.grMonedaProducte.Controls.Add(this.cbMonedaProducte);
@@ -726,6 +755,17 @@
             this.grMonedaProducte.TabIndex = 3;
             this.grMonedaProducte.TabStop = false;
             this.grMonedaProducte.Text = "Moneda";
+            // 
+            // cbMonedaProducte
+            // 
+            this.cbMonedaProducte.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbMonedaProducte.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbMonedaProducte.FormattingEnabled = true;
+            this.cbMonedaProducte.Location = new System.Drawing.Point(5, 20);
+            this.cbMonedaProducte.Name = "cbMonedaProducte";
+            this.cbMonedaProducte.Size = new System.Drawing.Size(102, 24);
+            this.cbMonedaProducte.TabIndex = 0;
+            this.cbMonedaProducte.SelectedIndexChanged += new System.EventHandler(this.cbProducte_SelectedIndexChanged);
             // 
             // pnDesaCanvisProductes
             // 
@@ -892,6 +932,22 @@
             this.gbOrdreGrid.Text = "Ordre Grid";
             this.gbOrdreGrid.Visible = false;
             // 
+            // ntbOrdreGrid
+            // 
+            this.ntbOrdreGrid._CapturaEscape = true;
+            this.ntbOrdreGrid._Format = "0";
+            this.ntbOrdreGrid._PermetDecimals = true;
+            this.ntbOrdreGrid._PermetEspais = false;
+            this.ntbOrdreGrid._PermetNegatius = true;
+            this.ntbOrdreGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbOrdreGrid.Location = new System.Drawing.Point(5, 20);
+            this.ntbOrdreGrid.Name = "ntbOrdreGrid";
+            this.ntbOrdreGrid.Size = new System.Drawing.Size(93, 22);
+            this.ntbOrdreGrid.TabIndex = 0;
+            this.ntbOrdreGrid.Text = "999";
+            this.ntbOrdreGrid.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbOrdreGrid.Valor = 999D;
+            // 
             // groupBox9
             // 
             this.groupBox9.Controls.Add(this.tbNomNovaEmpresa);
@@ -976,6 +1032,15 @@
             this.tabMoviments.Text = "Moviments";
             this.tabMoviments.UseVisualStyleBackColor = true;
             // 
+            // movimentsTab1
+            // 
+            this.movimentsTab1.CausesValidation = false;
+            this.movimentsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.movimentsTab1.Location = new System.Drawing.Point(5, 5);
+            this.movimentsTab1.Name = "movimentsTab1";
+            this.movimentsTab1.Size = new System.Drawing.Size(1342, 696);
+            this.movimentsTab1.TabIndex = 0;
+            // 
             // tabValoracions
             // 
             this.tabValoracions.Controls.Add(this.valoracionsTab1);
@@ -985,6 +1050,16 @@
             this.tabValoracions.TabIndex = 2;
             this.tabValoracions.Text = "Valoracions";
             this.tabValoracions.UseVisualStyleBackColor = true;
+            // 
+            // valoracionsTab1
+            // 
+            this.valoracionsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.valoracionsTab1.Location = new System.Drawing.Point(0, 0);
+            this.valoracionsTab1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.valoracionsTab1.MinimumSize = new System.Drawing.Size(1301, 655);
+            this.valoracionsTab1.Name = "valoracionsTab1";
+            this.valoracionsTab1.Size = new System.Drawing.Size(1352, 706);
+            this.valoracionsTab1.TabIndex = 0;
             // 
             // tabPerduesGuanys
             // 
@@ -996,80 +1071,6 @@
             this.tabPerduesGuanys.TabIndex = 3;
             this.tabPerduesGuanys.Text = "Perdues i Guanys";
             this.tabPerduesGuanys.UseVisualStyleBackColor = true;
-            // 
-            // ntbOrdreGridProducte
-            // 
-            this.ntbOrdreGridProducte._CapturaEscape = true;
-            this.ntbOrdreGridProducte._Format = "0";
-            this.ntbOrdreGridProducte._PermetDecimals = true;
-            this.ntbOrdreGridProducte._PermetEspais = false;
-            this.ntbOrdreGridProducte._PermetNegatius = true;
-            this.ntbOrdreGridProducte.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ntbOrdreGridProducte.Location = new System.Drawing.Point(5, 20);
-            this.ntbOrdreGridProducte.Name = "ntbOrdreGridProducte";
-            this.ntbOrdreGridProducte.Size = new System.Drawing.Size(93, 22);
-            this.ntbOrdreGridProducte.TabIndex = 0;
-            this.ntbOrdreGridProducte.Text = "999";
-            this.ntbOrdreGridProducte.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbOrdreGridProducte.Valor = 999D;
-            this.ntbOrdreGridProducte.TextChanged += new System.EventHandler(this.tbProducte_TextChanged);
-            // 
-            // cbMercatProducte
-            // 
-            this.cbMercatProducte.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbMercatProducte.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbMercatProducte.FormattingEnabled = true;
-            this.cbMercatProducte.Location = new System.Drawing.Point(5, 20);
-            this.cbMercatProducte.Name = "cbMercatProducte";
-            this.cbMercatProducte.Size = new System.Drawing.Size(102, 24);
-            this.cbMercatProducte.TabIndex = 0;
-            this.cbMercatProducte.SelectedIndexChanged += new System.EventHandler(this.cbProducte_SelectedIndexChanged);
-            // 
-            // cbMonedaProducte
-            // 
-            this.cbMonedaProducte.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbMonedaProducte.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbMonedaProducte.FormattingEnabled = true;
-            this.cbMonedaProducte.Location = new System.Drawing.Point(5, 20);
-            this.cbMonedaProducte.Name = "cbMonedaProducte";
-            this.cbMonedaProducte.Size = new System.Drawing.Size(102, 24);
-            this.cbMonedaProducte.TabIndex = 0;
-            this.cbMonedaProducte.SelectedIndexChanged += new System.EventHandler(this.cbProducte_SelectedIndexChanged);
-            // 
-            // ntbOrdreGrid
-            // 
-            this.ntbOrdreGrid._CapturaEscape = true;
-            this.ntbOrdreGrid._Format = "0";
-            this.ntbOrdreGrid._PermetDecimals = true;
-            this.ntbOrdreGrid._PermetEspais = false;
-            this.ntbOrdreGrid._PermetNegatius = true;
-            this.ntbOrdreGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ntbOrdreGrid.Location = new System.Drawing.Point(5, 20);
-            this.ntbOrdreGrid.Name = "ntbOrdreGrid";
-            this.ntbOrdreGrid.Size = new System.Drawing.Size(93, 22);
-            this.ntbOrdreGrid.TabIndex = 0;
-            this.ntbOrdreGrid.Text = "999";
-            this.ntbOrdreGrid.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbOrdreGrid.Valor = 999D;
-            // 
-            // movimentsTab1
-            // 
-            this.movimentsTab1.CausesValidation = false;
-            this.movimentsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.movimentsTab1.Location = new System.Drawing.Point(5, 5);
-            this.movimentsTab1.Name = "movimentsTab1";
-            this.movimentsTab1.Size = new System.Drawing.Size(1342, 696);
-            this.movimentsTab1.TabIndex = 0;
-            // 
-            // valoracionsTab1
-            // 
-            this.valoracionsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.valoracionsTab1.Location = new System.Drawing.Point(0, 0);
-            this.valoracionsTab1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.valoracionsTab1.MinimumSize = new System.Drawing.Size(1301, 655);
-            this.valoracionsTab1.Name = "valoracionsTab1";
-            this.valoracionsTab1.Size = new System.Drawing.Size(1352, 706);
-            this.valoracionsTab1.TabIndex = 0;
             // 
             // perduesGuanysTab1
             // 
