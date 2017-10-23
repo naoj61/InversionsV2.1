@@ -56,21 +56,23 @@ namespace Inversions.GUI
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.lbProductesTab2 = new System.Windows.Forms.ListBox();
             this.gbFiltres = new System.Windows.Forms.GroupBox();
-            this.btFiltra = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.ckNomesAmbParticipacions = new System.Windows.Forms.CheckBox();
-            this.ckAmbMoviments = new System.Windows.Forms.CheckBox();
             this.pnFiltreAny = new System.Windows.Forms.Panel();
             this.gbFiltreAny = new System.Windows.Forms.GroupBox();
             this.cbFiltreAny = new System.Windows.Forms.ComboBox();
             this.ckFiltreVendesAny = new System.Windows.Forms.CheckBox();
             this.ckFiltreCompresAny = new System.Windows.Forms.CheckBox();
+            this.ckAmbMoviments = new System.Windows.Forms.CheckBox();
+            this.ckNomesAmbParticipacions = new System.Windows.Forms.CheckBox();
+            this.btFiltra = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cbTipusProducteFiltreTab2 = new System.Windows.Forms.ComboBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.lbEmpresa = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ntbPreuPartActual = new Controls.NumericTextBox2();
             this.panel1.SuspendLayout();
             this.gbMoneda.SuspendLayout();
             this.gbUsuari.SuspendLayout();
@@ -90,6 +92,7 @@ namespace Inversions.GUI
             this.panel3.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox11.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -102,6 +105,7 @@ namespace Inversions.GUI
             this.panel1.Controls.Add(this.gbDescripcio);
             this.panel1.Controls.Add(this.groupBox4);
             this.panel1.Controls.Add(this.groupBox15);
+            this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.groupBox13);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel1.Location = new System.Drawing.Point(539, 0);
@@ -112,11 +116,11 @@ namespace Inversions.GUI
             // gbMoneda
             // 
             this.gbMoneda.Controls.Add(this.lbMoneda);
-            this.gbMoneda.Location = new System.Drawing.Point(8, 173);
+            this.gbMoneda.Location = new System.Drawing.Point(248, 52);
             this.gbMoneda.Margin = new System.Windows.Forms.Padding(3, 3, 9, 3);
             this.gbMoneda.Name = "gbMoneda";
             this.gbMoneda.Padding = new System.Windows.Forms.Padding(9, 3, 9, 3);
-            this.gbMoneda.Size = new System.Drawing.Size(74, 38);
+            this.gbMoneda.Size = new System.Drawing.Size(74, 46);
             this.gbMoneda.TabIndex = 8;
             this.gbMoneda.TabStop = false;
             this.gbMoneda.Text = "Moneda";
@@ -127,18 +131,17 @@ namespace Inversions.GUI
             this.lbMoneda.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbMoneda.Location = new System.Drawing.Point(9, 18);
             this.lbMoneda.Name = "lbMoneda";
-            this.lbMoneda.Size = new System.Drawing.Size(56, 17);
+            this.lbMoneda.Size = new System.Drawing.Size(56, 25);
             this.lbMoneda.TabIndex = 0;
             // 
             // gbUsuari
             // 
             this.gbUsuari.Controls.Add(this.lbUsuari);
-            this.gbUsuari.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbUsuari.Location = new System.Drawing.Point(0, 46);
+            this.gbUsuari.Location = new System.Drawing.Point(7, 52);
             this.gbUsuari.Margin = new System.Windows.Forms.Padding(3, 3, 9, 3);
             this.gbUsuari.Name = "gbUsuari";
             this.gbUsuari.Padding = new System.Windows.Forms.Padding(9, 3, 9, 3);
-            this.gbUsuari.Size = new System.Drawing.Size(336, 46);
+            this.gbUsuari.Size = new System.Drawing.Size(231, 46);
             this.gbUsuari.TabIndex = 7;
             this.gbUsuari.TabStop = false;
             this.gbUsuari.Text = "Usuari";
@@ -149,7 +152,7 @@ namespace Inversions.GUI
             this.lbUsuari.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbUsuari.Location = new System.Drawing.Point(9, 18);
             this.lbUsuari.Name = "lbUsuari";
-            this.lbUsuari.Size = new System.Drawing.Size(318, 25);
+            this.lbUsuari.Size = new System.Drawing.Size(213, 25);
             this.lbUsuari.TabIndex = 0;
             this.lbUsuari.Text = "Usuari";
             // 
@@ -194,7 +197,7 @@ namespace Inversions.GUI
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.tbPiGReal);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(171, 224);
+            this.groupBox2.Location = new System.Drawing.Point(171, 222);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.groupBox2.Size = new System.Drawing.Size(156, 50);
@@ -205,6 +208,7 @@ namespace Inversions.GUI
             // 
             // tbPiGReal
             // 
+            this.tbPiGReal._CapturaEscape = true;
             this.tbPiGReal._Format = "#,#0.00 €";
             this.tbPiGReal._PermetDecimals = true;
             this.tbPiGReal._PermetEspais = false;
@@ -225,7 +229,7 @@ namespace Inversions.GUI
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.tbDividends);
-            this.groupBox3.Location = new System.Drawing.Point(171, 167);
+            this.groupBox3.Location = new System.Drawing.Point(171, 164);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.groupBox3.Size = new System.Drawing.Size(156, 50);
@@ -236,6 +240,7 @@ namespace Inversions.GUI
             // 
             // tbDividends
             // 
+            this.tbDividends._CapturaEscape = true;
             this.tbDividends._Format = "#,#0.00 €";
             this.tbDividends._PermetDecimals = true;
             this.tbDividends._PermetEspais = false;
@@ -279,7 +284,7 @@ namespace Inversions.GUI
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this.tbPiGActual);
-            this.groupBox4.Location = new System.Drawing.Point(7, 224);
+            this.groupBox4.Location = new System.Drawing.Point(7, 222);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.groupBox4.Size = new System.Drawing.Size(156, 50);
@@ -290,6 +295,7 @@ namespace Inversions.GUI
             // 
             // tbPiGActual
             // 
+            this.tbPiGActual._CapturaEscape = true;
             this.tbPiGActual._Format = "#,#0.00 €";
             this.tbPiGActual._PermetDecimals = true;
             this.tbPiGActual._PermetEspais = false;
@@ -310,7 +316,7 @@ namespace Inversions.GUI
             // 
             this.groupBox15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox15.Controls.Add(this.tbValorActual);
-            this.groupBox15.Location = new System.Drawing.Point(7, 111);
+            this.groupBox15.Location = new System.Drawing.Point(7, 164);
             this.groupBox15.Name = "groupBox15";
             this.groupBox15.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.groupBox15.Size = new System.Drawing.Size(156, 50);
@@ -321,6 +327,7 @@ namespace Inversions.GUI
             // 
             // tbValorActual
             // 
+            this.tbValorActual._CapturaEscape = true;
             this.tbValorActual._Format = "#,#0.00 €";
             this.tbValorActual._PermetDecimals = true;
             this.tbValorActual._PermetEspais = false;
@@ -341,7 +348,7 @@ namespace Inversions.GUI
             // 
             this.groupBox13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox13.Controls.Add(this.tbParticipacions);
-            this.groupBox13.Location = new System.Drawing.Point(171, 111);
+            this.groupBox13.Location = new System.Drawing.Point(7, 106);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.groupBox13.Size = new System.Drawing.Size(156, 50);
@@ -352,6 +359,7 @@ namespace Inversions.GUI
             // 
             // tbParticipacions
             // 
+            this.tbParticipacions._CapturaEscape = true;
             this.tbParticipacions._Format = "#,#0.00";
             this.tbParticipacions._PermetDecimals = true;
             this.tbParticipacions._PermetEspais = false;
@@ -415,17 +423,6 @@ namespace Inversions.GUI
             this.gbFiltres.TabStop = false;
             this.gbFiltres.Text = "Filtres";
             // 
-            // btFiltra
-            // 
-            this.btFiltra.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btFiltra.Location = new System.Drawing.Point(3, 80);
-            this.btFiltra.Name = "btFiltra";
-            this.btFiltra.Size = new System.Drawing.Size(533, 31);
-            this.btFiltra.TabIndex = 4;
-            this.btFiltra.Text = "Filtra";
-            this.btFiltra.UseVisualStyleBackColor = true;
-            this.btFiltra.Click += new System.EventHandler(this.btFiltra_Click);
-            // 
             // panel4
             // 
             this.panel4.Controls.Add(this.pnFiltreAny);
@@ -437,39 +434,6 @@ namespace Inversions.GUI
             this.panel4.Padding = new System.Windows.Forms.Padding(3);
             this.panel4.Size = new System.Drawing.Size(533, 65);
             this.panel4.TabIndex = 1;
-            // 
-            // ckNomesAmbParticipacions
-            // 
-            this.ckNomesAmbParticipacions.AutoSize = true;
-            this.ckNomesAmbParticipacions.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.ckNomesAmbParticipacions.Checked = true;
-            this.ckNomesAmbParticipacions.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ckNomesAmbParticipacions.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ckNomesAmbParticipacions.Location = new System.Drawing.Point(3, 3);
-            this.ckNomesAmbParticipacions.Margin = new System.Windows.Forms.Padding(0);
-            this.ckNomesAmbParticipacions.Name = "ckNomesAmbParticipacions";
-            this.ckNomesAmbParticipacions.Size = new System.Drawing.Size(100, 59);
-            this.ckNomesAmbParticipacions.TabIndex = 0;
-            this.ckNomesAmbParticipacions.Text = "Amb\r\nParticipacions";
-            this.ckNomesAmbParticipacions.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.ckNomesAmbParticipacions.UseVisualStyleBackColor = true;
-            // 
-            // ckAmbMoviments
-            // 
-            this.ckAmbMoviments.AutoSize = true;
-            this.ckAmbMoviments.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.ckAmbMoviments.Checked = true;
-            this.ckAmbMoviments.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ckAmbMoviments.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ckAmbMoviments.Location = new System.Drawing.Point(103, 3);
-            this.ckAmbMoviments.Margin = new System.Windows.Forms.Padding(0);
-            this.ckAmbMoviments.Name = "ckAmbMoviments";
-            this.ckAmbMoviments.Size = new System.Drawing.Size(79, 59);
-            this.ckAmbMoviments.TabIndex = 7;
-            this.ckAmbMoviments.Text = "Amb\r\nMoviments";
-            this.ckAmbMoviments.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip1.SetToolTip(this.ckAmbMoviments, "Filtre productes que no han tingut moviments pel usuari.");
-            this.ckAmbMoviments.UseVisualStyleBackColor = true;
             // 
             // pnFiltreAny
             // 
@@ -532,6 +496,50 @@ namespace Inversions.GUI
             this.ckFiltreCompresAny.UseVisualStyleBackColor = true;
             this.ckFiltreCompresAny.CheckedChanged += new System.EventHandler(this.ckFiltreAny_CheckedChanged);
             // 
+            // ckAmbMoviments
+            // 
+            this.ckAmbMoviments.AutoSize = true;
+            this.ckAmbMoviments.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ckAmbMoviments.Checked = true;
+            this.ckAmbMoviments.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ckAmbMoviments.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ckAmbMoviments.Location = new System.Drawing.Point(103, 3);
+            this.ckAmbMoviments.Margin = new System.Windows.Forms.Padding(0);
+            this.ckAmbMoviments.Name = "ckAmbMoviments";
+            this.ckAmbMoviments.Size = new System.Drawing.Size(79, 59);
+            this.ckAmbMoviments.TabIndex = 7;
+            this.ckAmbMoviments.Text = "Amb\r\nMoviments";
+            this.ckAmbMoviments.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip1.SetToolTip(this.ckAmbMoviments, "Filtre productes que no han tingut moviments pel usuari.");
+            this.ckAmbMoviments.UseVisualStyleBackColor = true;
+            // 
+            // ckNomesAmbParticipacions
+            // 
+            this.ckNomesAmbParticipacions.AutoSize = true;
+            this.ckNomesAmbParticipacions.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ckNomesAmbParticipacions.Checked = true;
+            this.ckNomesAmbParticipacions.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ckNomesAmbParticipacions.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ckNomesAmbParticipacions.Location = new System.Drawing.Point(3, 3);
+            this.ckNomesAmbParticipacions.Margin = new System.Windows.Forms.Padding(0);
+            this.ckNomesAmbParticipacions.Name = "ckNomesAmbParticipacions";
+            this.ckNomesAmbParticipacions.Size = new System.Drawing.Size(100, 59);
+            this.ckNomesAmbParticipacions.TabIndex = 0;
+            this.ckNomesAmbParticipacions.Text = "Amb\r\nParticipacions";
+            this.ckNomesAmbParticipacions.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ckNomesAmbParticipacions.UseVisualStyleBackColor = true;
+            // 
+            // btFiltra
+            // 
+            this.btFiltra.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btFiltra.Location = new System.Drawing.Point(3, 80);
+            this.btFiltra.Name = "btFiltra";
+            this.btFiltra.Size = new System.Drawing.Size(533, 31);
+            this.btFiltra.TabIndex = 4;
+            this.btFiltra.Text = "Filtra";
+            this.btFiltra.UseVisualStyleBackColor = true;
+            this.btFiltra.Click += new System.EventHandler(this.btFiltra_Click);
+            // 
             // panel3
             // 
             this.panel3.Controls.Add(this.groupBox5);
@@ -586,6 +594,36 @@ namespace Inversions.GUI
             this.lbEmpresa.TabIndex = 0;
             this.lbEmpresa.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.ntbPreuPartActual);
+            this.groupBox1.Location = new System.Drawing.Point(171, 106);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            this.groupBox1.Size = new System.Drawing.Size(156, 50);
+            this.groupBox1.TabIndex = 2;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Preu Part. Actual";
+            // 
+            // ntbPreuPartActual
+            // 
+            this.ntbPreuPartActual._CapturaEscape = true;
+            this.ntbPreuPartActual._Format = "#,#0.00";
+            this.ntbPreuPartActual._PermetDecimals = true;
+            this.ntbPreuPartActual._PermetEspais = false;
+            this.ntbPreuPartActual._PermetNegatius = true;
+            this.ntbPreuPartActual.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbPreuPartActual.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPreuPartActual.Location = new System.Drawing.Point(5, 18);
+            this.ntbPreuPartActual.Name = "ntbPreuPartActual";
+            this.ntbPreuPartActual.ReadOnly = true;
+            this.ntbPreuPartActual.Size = new System.Drawing.Size(146, 22);
+            this.ntbPreuPartActual.TabIndex = 0;
+            this.ntbPreuPartActual.Text = "0,00";
+            this.ntbPreuPartActual.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbPreuPartActual.Valor = 0D;
+            // 
             // GestioProductes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -624,6 +662,8 @@ namespace Inversions.GUI
             this.panel3.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox11.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -669,5 +709,7 @@ namespace Inversions.GUI
         private GroupBox gbFiltreAny;
         private Panel pnFiltreAny;
         private CheckBox ckAmbMoviments;
+        private GroupBox groupBox1;
+        private NumericTextBox2 ntbPreuPartActual;
     }
 }

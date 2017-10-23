@@ -96,6 +96,7 @@ namespace Inversions.GUI
             {
                 lbEmpresa.Text = "";
                 tbParticipacions.Text = "";
+                ntbPreuPartActual.Text = "";
                 tbValorActual.Text = "";
                 tbPiGReal.Text = "";
                 tbIsin.Text = "";
@@ -180,6 +181,7 @@ namespace Inversions.GUI
                 lbMoneda.Text = prod.Moneda;
 
                 tbParticipacions.Valor = prod._Participacions;
+                ntbPreuPartActual.Valor = prod.valorParticipacio();
                 tbDividends.Valor = prod.dividends(DateTime.Today);
                 tbValorActual.Valor = prod._ValorActual;
 

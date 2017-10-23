@@ -193,10 +193,12 @@ namespace Inversions
         /// <summary>
         /// Torna el valor de l'accio inmediatament anterior a la data.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="dataVal"></param>
         /// <returns></returns>
-        private double valorParticipacio(DateTime data)
+        internal double valorParticipacio(DateTime? dataVal = null)
         {
+            DateTime data = dataVal.GetValueOrDefault(DateTime.Now);
+
             var valoracions = ValoracionsProducte.Where(w => w.Data <= data).Select(val => new {val.Data, val.PreuParticipacio});
             
             var moviments = MovimentsProducte.Where(w => w.Data <= data && (w.TipusMoviment == TipusMoviment.Compra || w.TipusMoviment == TipusMoviment.Venda))

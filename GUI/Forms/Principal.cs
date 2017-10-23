@@ -71,7 +71,7 @@ namespace Inversions.GUI
             titolFinestra();
 
 #if DEBUG
-            tabControl1.SelectTab(tabEmpreses.Name);
+            tabControl1.SelectTab(tabValoracions.Name);
 #else
             tabControl1.SelectTab(tabValoracions.Name);
 #endif
@@ -264,12 +264,12 @@ namespace Inversions.GUI
                 cbUsuaris.DisplayMember = "Nom";
                 cbUsuaris.DataSource = Program.Sessio.Usuaris.ToList();
                 cbUsuaris.SelectedItem = null;
-                cbUsuaris.SelectedIndexChanged += cbUsuaris_SelectedIndexChanged;
                 ResumeLayout();
                 if (Usuari.Seleccionat == null)
                     Usuari.Seleccionat = Program.Sessio.Usuaris.First();
 
                 cbUsuaris.SelectedItem = Usuari.Seleccionat;
+                cbUsuaris.SelectedIndexChanged += cbUsuaris_SelectedIndexChanged;
 
                 carregaGridEmpreses();
             }

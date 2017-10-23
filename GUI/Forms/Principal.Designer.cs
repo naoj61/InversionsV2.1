@@ -136,7 +136,6 @@
             this.cbUsuaris.Name = "cbUsuaris";
             this.cbUsuaris.Size = new System.Drawing.Size(220, 24);
             this.cbUsuaris.TabIndex = 0;
-            this.cbUsuaris.SelectedIndexChanged += new System.EventHandler(this.cbUsuaris_SelectedIndexChanged);
             // 
             // tabEmpreses
             // 

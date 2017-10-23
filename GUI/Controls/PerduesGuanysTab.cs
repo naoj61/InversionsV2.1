@@ -144,7 +144,10 @@ namespace Inversions.GUI
 
         private void btSimulacioPiG_Click(object sender, EventArgs e)
         {
-            ntbPiG.Valor = gestioProductesTabValoracions._ProducteSeleccionat.pigEnCartera(preuParticipacio: ntbPreuParticipacio.Valor);
+            var pigActual = gestioProductesTabValoracions._ProducteSeleccionat.pigEnCartera();
+            var pigCalculat = gestioProductesTabValoracions._ProducteSeleccionat.pigEnCartera(preuParticipacio: ntbPreuParticipacio.Valor);
+            ntbPiG.Valor = pigCalculat;
+            ntbDiferencia.Valor = pigCalculat - pigActual;
         }
 
         private IButtonControl vAcceptButton = null;
