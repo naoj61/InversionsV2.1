@@ -71,7 +71,7 @@ namespace Inversions.GUI
             titolFinestra();
 
 #if DEBUG
-            tabControl1.SelectTab(tabValoracions.Name);
+            tabControl1.SelectTab(tabMoviments.Name);
 #else
             tabControl1.SelectTab(tabValoracions.Name);
 #endif
@@ -113,6 +113,12 @@ namespace Inversions.GUI
 
         private void carregaGridProductes(Empresa empresa)
         {
+            if (empresa == null)
+            {
+                dgvProductes.Rows.Clear();
+                return;
+            }
+
             vConnProductes = new InversionsBDContext(); // Creo la connexió per si he fet cancel rellegeixi les dades de la taula.
 
             if (empresa.TipusEmpresa == TipusEmpresa.Accions)
@@ -128,8 +134,8 @@ namespace Inversions.GUI
 
             if (((ICollection)dgvProductes.DataSource).Count == 0)
             {
-                btNouProducte.Enabled = true;
-                btEsborraProducte.Enabled = false;
+                //btNouProducte.Enabled = true;
+                //btEsborraProducte.Enabled = false;
 
                 tbNomProducte.Text = String.Empty;
                 ntbOrdreGridProducte.Valor = 0;
@@ -137,7 +143,9 @@ namespace Inversions.GUI
                 cbMonedaProducte.SelectedItem = null;
                 tbIsinProducte.Text = String.Empty;
                 tbDescripcioProducte.Text = String.Empty;
-
+                
+                modeConsultaProducte();
+                
                 preparaControlsProducte();
             }
             else
@@ -197,6 +205,8 @@ namespace Inversions.GUI
                 grMonedaProducte.Visible = true;
                 grIsinProducte.Visible = false;
                 grDescripcioProducte.Visible = false;
+
+                ntbOrdreGridProducte.Focus();
             }
             else if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.GestoraFons)
             {
@@ -205,6 +215,8 @@ namespace Inversions.GUI
                 grMonedaProducte.Visible = false;
                 grIsinProducte.Visible = true;
                 grDescripcioProducte.Visible = true;
+
+                tbNomProducte.Focus();
             }
         }
 
@@ -215,10 +227,11 @@ namespace Inversions.GUI
 
             btDesaProducte.Enabled = true;
             btCancelaProducte.Enabled = true;
-            grEmpresa.Enabled = false;
-            dgvProductes.Enabled = false;
             btNouProducte.Enabled = false;
             btEsborraProducte.Enabled = false;
+            grEmpresa.Enabled = false;
+            dgvProductes.Enabled = false;
+            pnCampsProductes.Enabled = true;
         }
 
 
@@ -228,10 +241,11 @@ namespace Inversions.GUI
 
             btDesaProducte.Enabled = false;
             btCancelaProducte.Enabled = false;
+            btNouProducte.Enabled = true;
+            btEsborraProducte.Enabled = vProducteSeleccionat != null;
             grEmpresa.Enabled = true;
             dgvProductes.Enabled = true;
-            btNouProducte.Enabled = true;
-            btEsborraProducte.Enabled = true;
+            pnCampsProductes.Enabled = false;
         }
 
 
@@ -441,6 +455,7 @@ namespace Inversions.GUI
             try
             {
                 bool esProdNou = vProducteSeleccionat.Id == 0;
+                
                 vProducteSeleccionat.OrdreGrid = ntbOrdreGridProducte._IntValue;
 
                 if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.Accions)

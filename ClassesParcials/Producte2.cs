@@ -216,7 +216,8 @@ namespace Inversions
                 return tot.Last().PreuParticipacio;
             }
 
-            throw new ApplicationException("No hi ha cap moviment ni cap valoració disponibles.");
+            //throw new ApplicationException("No hi ha cap moviment ni cap valoració disponibles.");
+            return 0;
         }
 
 
