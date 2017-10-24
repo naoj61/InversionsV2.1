@@ -63,28 +63,27 @@ namespace Inversions
             return compresAnteriors(venda.Data, venda.Participacions);
         }
 
+
         /// <summary>
-        /// Torma una llista amb les Compres o "Traspassos compres" anteriors a la data hora fins que cobreixin el número de participacions.
+        /// Torma una llista amb les Compres o "Traspassos compres" anteriors a la data hora, fins que cobreixin el número de participacions.
         /// </summary>
         /// <param name="dataHora">Data hora a partir de la que es buscaran els moviments de compravenda.</param>
         /// <param name="numParticipacions">Numero de participacions que es volen vendre.</param>
         /// <returns></returns>
-        private IEnumerable<MovimentCompra> compresAnteriors(DateTime? dataHora = null, double? numParticipacions = null)
+        private IEnumerable<MovimentCompra> compresAnteriors(DateTime dataHora, double? numParticipacions = null)
         {
-            DateTime dataH = dataHora.HasValue ? dataHora.Value : DateTime.Now;
-
-            double participacions = numParticipacions.HasValue ? numParticipacions.Value : numParticipacionsEnData(dataH);
+            double participacions = numParticipacions.HasValue ? numParticipacions.Value : numParticipacionsEnData(dataHora);
             List<MovimentCompra> compresAmbParticipacio = new List<MovimentCompra>();
             
             if (participacions <= 0)
                 return compresAmbParticipacio;
 
             // Troba suma participacions venudes anteriors a aquesta venda.
-            var participVenudesAbans = MovimentsProducteUsuari.Where(w => w.Data < dataH && w.TipusMoviment == TipusMoviment.Venda).Sum(s => (double?)s.Participacions) ?? 0;
+            var participVenudesAbans = MovimentsProducteUsuari.Where(w => w.Data < dataHora && w.TipusMoviment == TipusMoviment.Venda).Sum(s => (double?)s.Participacions) ?? 0;
             var trobadaPrimeraCompra = false;
 
             // Llegeix compres anteriors a la venda del producte ordenades per data creixent i vaig restant les participacions venudes anteriorment.
-            var xx = MovimentsProducteUsuari.Where(w => w.Data < dataH && w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data).ToList();
+            var xx = MovimentsProducteUsuari.Where(w => w.Data < dataHora && w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data).ToList();
             foreach (var compra in xx)
             {
                 if (!trobadaPrimeraCompra)
@@ -117,7 +116,7 @@ namespace Inversions
             }
 
             if (participacions > 0.0000001)
-                throw new ApplicationException("No hi ha prou participacions disponibles en cartera en aquesta data: " + dataH.ToShortDateString() + " " + dataH.ToShortTimeString());
+                throw new ApplicationException("No hi ha prou participacions disponibles en cartera en aquesta data: " + dataHora.ToShortDateString() + " " + dataHora.ToShortTimeString());
 
             return compresAmbParticipacio;
         }
@@ -189,16 +188,22 @@ namespace Inversions
             }
         }
 
+        /// <summary>
+        /// Torna el valor de l'accio inmediatament anterior a la data hora actual.
+        /// </summary>
+        /// <returns></returns>
+        internal double valorParticipacio()
+        {
+            return valorParticipacio(DateTime.Now);
+        }
 
         /// <summary>
         /// Torna el valor de l'accio inmediatament anterior a la data.
         /// </summary>
-        /// <param name="dataVal"></param>
+        /// <param name="data"></param>
         /// <returns></returns>
-        internal double valorParticipacio(DateTime? dataVal = null)
+        private double valorParticipacio(DateTime data)
         {
-            DateTime data = dataVal.GetValueOrDefault(DateTime.Now);
-
             var valoracions = ValoracionsProducte.Where(w => w.Data <= data).Select(val => new {val.Data, val.PreuParticipacio});
             
             var moviments = MovimentsProducte.Where(w => w.Data <= data && (w.TipusMoviment == TipusMoviment.Compra || w.TipusMoviment == TipusMoviment.Venda))
@@ -597,9 +602,7 @@ namespace Inversions
         /// <returns></returns>
         internal double pig(DateTime? dataInici = null, DateTime? dataFi = null)
         {
-            var dataI = dataInici.HasValue ? dataInici.Value : DateTime.MinValue;
-            var dataF = dataFi.HasValue ? dataFi.Value : DateTime.MaxValue;
-            return pig(dataI, dataF);
+            return pig(dataInici.GetValueOrDefault(DateTime.MinValue), dataFi.GetValueOrDefault(DateTime.MaxValue));
         }
 
 

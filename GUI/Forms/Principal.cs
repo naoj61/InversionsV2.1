@@ -259,16 +259,15 @@ namespace Inversions.GUI
         {
             if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
-                SuspendLayout();
-                cbUsuaris.SelectedIndexChanged -= cbUsuaris_SelectedIndexChanged;
-                cbUsuaris.DisplayMember = "Nom";
-                cbUsuaris.DataSource = Program.Sessio.Usuaris.ToList();
-                cbUsuaris.SelectedItem = null;
-                ResumeLayout();
                 if (Usuari.Seleccionat == null)
                     Usuari.Seleccionat = Program.Sessio.Usuaris.First();
 
+                SuspendLayout();
+                cbUsuaris.DisplayMember = "Nom";
+                cbUsuaris.DataSource = Program.Sessio.Usuaris.ToList();
                 cbUsuaris.SelectedItem = Usuari.Seleccionat;
+                ResumeLayout();
+
                 cbUsuaris.SelectedIndexChanged += cbUsuaris_SelectedIndexChanged;
 
                 carregaGridEmpreses();
