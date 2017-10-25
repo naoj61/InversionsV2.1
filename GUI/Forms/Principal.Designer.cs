@@ -70,6 +70,7 @@
             this.valoracionsTab1 = new Inversions.GUI.ValoracionsTab();
             this.tabPerduesGuanys = new System.Windows.Forms.TabPage();
             this.perduesGuanysTab1 = new Inversions.GUI.PerduesGuanysTab();
+            this.btEditaProducte = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabUsuari.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -447,6 +448,7 @@
             // 
             this.pnDesaCanvisProductes.Controls.Add(this.btCancelaProducte);
             this.pnDesaCanvisProductes.Controls.Add(this.btEsborraProducte);
+            this.pnDesaCanvisProductes.Controls.Add(this.btEditaProducte);
             this.pnDesaCanvisProductes.Controls.Add(this.btNouProducte);
             this.pnDesaCanvisProductes.Controls.Add(this.btDesaProducte);
             this.pnDesaCanvisProductes.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -458,7 +460,7 @@
             // btCancelaProducte
             // 
             this.btCancelaProducte.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btCancelaProducte.Location = new System.Drawing.Point(533, 9);
+            this.btCancelaProducte.Location = new System.Drawing.Point(531, 9);
             this.btCancelaProducte.Margin = new System.Windows.Forms.Padding(0);
             this.btCancelaProducte.Name = "btCancelaProducte";
             this.btCancelaProducte.Size = new System.Drawing.Size(94, 30);
@@ -470,7 +472,7 @@
             // btEsborraProducte
             // 
             this.btEsborraProducte.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btEsborraProducte.Location = new System.Drawing.Point(217, 9);
+            this.btEsborraProducte.Location = new System.Drawing.Point(113, 9);
             this.btEsborraProducte.Margin = new System.Windows.Forms.Padding(0);
             this.btEsborraProducte.Name = "btEsborraProducte";
             this.btEsborraProducte.Size = new System.Drawing.Size(94, 30);
@@ -482,7 +484,7 @@
             // btNouProducte
             // 
             this.btNouProducte.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btNouProducte.Location = new System.Drawing.Point(321, 9);
+            this.btNouProducte.Location = new System.Drawing.Point(8, 9);
             this.btNouProducte.Margin = new System.Windows.Forms.Padding(0);
             this.btNouProducte.Name = "btNouProducte";
             this.btNouProducte.Size = new System.Drawing.Size(94, 30);
@@ -494,7 +496,7 @@
             // btDesaProducte
             // 
             this.btDesaProducte.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btDesaProducte.Location = new System.Drawing.Point(429, 9);
+            this.btDesaProducte.Location = new System.Drawing.Point(426, 9);
             this.btDesaProducte.Margin = new System.Windows.Forms.Padding(0);
             this.btDesaProducte.Name = "btDesaProducte";
             this.btDesaProducte.Size = new System.Drawing.Size(94, 30);
@@ -561,6 +563,18 @@
             this.perduesGuanysTab1.Name = "perduesGuanysTab1";
             this.perduesGuanysTab1.Size = new System.Drawing.Size(1346, 700);
             this.perduesGuanysTab1.TabIndex = 0;
+            // 
+            // btEditaProducte
+            // 
+            this.btEditaProducte.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btEditaProducte.Location = new System.Drawing.Point(218, 9);
+            this.btEditaProducte.Margin = new System.Windows.Forms.Padding(0);
+            this.btEditaProducte.Name = "btEditaProducte";
+            this.btEditaProducte.Size = new System.Drawing.Size(94, 30);
+            this.btEditaProducte.TabIndex = 1;
+            this.btEditaProducte.Text = "Edita";
+            this.btEditaProducte.UseVisualStyleBackColor = true;
+            this.btEditaProducte.Click += new System.EventHandler(this.btEditaProducte_Click);
             // 
             // Principal
             // 
@@ -649,5 +663,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn _OrdreGrid;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.Button btEditaProducte;
     }
 }

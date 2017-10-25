@@ -134,9 +134,6 @@ namespace Inversions.GUI
 
             if (((ICollection)dgvProductes.DataSource).Count == 0)
             {
-                //btNouProducte.Enabled = true;
-                //btEsborraProducte.Enabled = false;
-
                 tbNomProducte.Text = String.Empty;
                 ntbOrdreGridProducte.Valor = 0;
                 cbMercatProducte.SelectedItem = null;
@@ -227,8 +224,8 @@ namespace Inversions.GUI
 
             btDesaProducte.Enabled = true;
             btCancelaProducte.Enabled = true;
-            btNouProducte.Enabled = false;
             btEsborraProducte.Enabled = false;
+            btEditaProducte.Enabled = false;
             grEmpresa.Enabled = false;
             dgvProductes.Enabled = false;
             pnCampsProductes.Enabled = true;
@@ -241,8 +238,8 @@ namespace Inversions.GUI
 
             btDesaProducte.Enabled = false;
             btCancelaProducte.Enabled = false;
-            btNouProducte.Enabled = true;
             btEsborraProducte.Enabled = vProducteSeleccionat != null;
+            btEditaProducte.Enabled = vProducteSeleccionat != null;
             grEmpresa.Enabled = true;
             dgvProductes.Enabled = true;
             pnCampsProductes.Enabled = false;
@@ -516,6 +513,7 @@ namespace Inversions.GUI
                 btCancelaProducte.Enabled = false;
 
                 btEsborraProducte.Enabled = true;
+                btEditaProducte.Enabled = true;
 
                 ompleCampsProducte(vProducteSeleccionat);
             }
@@ -595,6 +593,11 @@ namespace Inversions.GUI
             {
                 Utilitats.EscriuLog(ex1);
             }
+        }
+
+        private void btEditaProducte_Click(object sender, EventArgs e)
+        {
+            modeEdicioProducte();
         }
 
         #endregion *** Events ***
