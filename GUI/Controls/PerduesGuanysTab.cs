@@ -13,11 +13,13 @@ namespace Inversions.GUI
             InitializeComponent();
         }
 
-        private void calculaPiG(Producte.TipusProducte tipusProducte)
+        private void calculaPiG()
         {
             //if (Program.RuntimeMode)
             if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
+                Producte.TipusProducte tipusProducte = (Producte.TipusProducte)cbTipusProducteFiltreTab2.SelectedItem;
+
                 //var primerAny = Program.Sessio.MovimentsUsuari.OrderBy(o => o.Data).First().Data.Year;
                 var ultimAny = DateTime.Today.Year;
 
@@ -35,6 +37,10 @@ namespace Inversions.GUI
                         dgvPiGAnualsTributen.Rows.Add(any, 0, 0, pigTributa);
 
                     var pigAny = Producte.Pig(tipusProducte, any);
+
+                    if (any == DateTime.Today.Year)
+                        pigAny += ntbDiferencia.Valor;
+
                     if (!Comuns.Utilitats.EsZero(pigAny))
                         dgvPiGAnualsTotal.Rows.Add(any, pigAny);
                 }
@@ -60,14 +66,14 @@ namespace Inversions.GUI
         {
             base.Refresh();
             if (cbTipusProducteFiltreTab2.SelectedItem != null)
-                calculaPiG((Producte.TipusProducte)cbTipusProducteFiltreTab2.SelectedItem);
+                calculaPiG();
             gestioProductesTabValoracions.refrescaDadesControl();
         }
 
         private void cbTipusProducteFiltreTab2_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbTipusProducteFiltreTab2.SelectedItem != null)
-                calculaPiG((Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem);
+                calculaPiG();
         }
 
 
@@ -144,10 +150,19 @@ namespace Inversions.GUI
 
         private void btSimulacioPiG_Click(object sender, EventArgs e)
         {
-            var pigActual = gestioProductesTabValoracions._ProducteSeleccionat.pigEnCartera();
-            var pigCalculat = gestioProductesTabValoracions._ProducteSeleccionat.pigEnCartera(preuParticipacio: ntbPreuParticipacio.Valor);
-            ntbPiG.Valor = pigCalculat;
-            ntbDiferencia.Valor = pigCalculat - pigActual;
+            if (ntbPreuParticipacio.Valor == 0)
+            {
+                ntbPiG.Valor = 0;
+                ntbDiferencia.Valor = 0;
+            }
+            else
+            {
+                var pigActual = gestioProductesTabValoracions._ProducteSeleccionat.pigEnCartera();
+                var pigCalculat = gestioProductesTabValoracions._ProducteSeleccionat.pigEnCartera(preuParticipacio: ntbPreuParticipacio.Valor);
+                ntbPiG.Valor = pigCalculat;
+                ntbDiferencia.Valor = pigCalculat - pigActual;
+            }
+            calculaPiG();
         }
 
         private IButtonControl vAcceptButton = null;
