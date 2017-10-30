@@ -25,7 +25,7 @@ namespace Inversions.GUI
 
                 dgvPiGAnualsTributen.Rows.Clear();
                 dgvPiGAnualsTotal.Rows.Clear();
-
+                double pigTotal = 0;
                 for (int any = Program.PrimerAny; any <= ultimAny; any++)
                 {
                     if (Program.Sessio.MovimentsUsuari.All(a => a.Data.Year != any))
@@ -38,13 +38,17 @@ namespace Inversions.GUI
 
                     var pigAny = Producte.Pig(tipusProducte, any);
 
-                    if (any == DateTime.Today.Year)
-                        pigAny += ntbDiferencia.Valor;
-
                     if (!Comuns.Utilitats.EsZero(pigAny))
+                    {
+                        if (any == DateTime.Today.Year)
+                            pigAny += ntbDiferencia.Valor;
+
                         dgvPiGAnualsTotal.Rows.Add(any, pigAny);
+
+                        pigTotal += pigAny;
+                    }
                 }
-                int fila = dgvPiGAnualsTotal.Rows.Add("Total", Producte.Pig(tipusProducte));
+                int fila = dgvPiGAnualsTotal.Rows.Add("Total", pigTotal);
                 dgvPiGAnualsTotal.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTotal.Font, FontStyle.Bold);
                 dgvPiGAnualsTotal.FirstDisplayedScrollingRowIndex = fila;
 
@@ -81,7 +85,14 @@ namespace Inversions.GUI
         {
             if (gestioProductesTabValoracions._ProducteSeleccionat != null)
             {
-                actualitzaLlistaPerduesGuanys();
+                if (ntbPreuParticipacio.Valor != 0)
+                {
+                    // Si cambio de producte i el PiP Simulat té valor, el poso a 0.
+                    ntbPreuParticipacio.Valor = 0;
+                    calculaPigSimulat();
+                }
+                else
+                    actualitzaLlistaPerduesGuanys();
                 colDataTraspas.Visible = gestioProductesTabValoracions._ProducteSeleccionat._TipusProducte != Producte.TipusProducte.Accions;
                 dgvPiGProducte.Visible = true;
                 gbFiltreDates.Enabled = true;
@@ -117,13 +128,17 @@ namespace Inversions.GUI
 
                     //double pig = proSeleccionat.pigValorat(any);
                     double pig = proSeleccionat.pig(any);
-                    
-                    pigTotal += pig;
 
                     if (!Comuns.Utilitats.EsZero(pig))
+                    {
+                        if (any == DateTime.Today.Year)
+                            pig += ntbDiferencia.Valor;
+
                         dgvPiGProductePerAny.Rows.Add(any, pig);
+
+                        pigTotal += pig;
+                    }
                 }
-                //int fila = dgvPiGProductePerAny.Rows.Add("Total", proSeleccionat.pigValorat(Producte.DateTimeFinalDia.Today));
                 int fila = dgvPiGProductePerAny.Rows.Add("Total", pigTotal);
                 dgvPiGProductePerAny.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGProductePerAny.Font, FontStyle.Bold);
                 dgvPiGProductePerAny.FirstDisplayedScrollingRowIndex = fila;
@@ -150,6 +165,11 @@ namespace Inversions.GUI
 
         private void btSimulacioPiG_Click(object sender, EventArgs e)
         {
+            calculaPigSimulat();
+        }
+
+        private void calculaPigSimulat()
+        {
             if (ntbPreuParticipacio.Valor == 0)
             {
                 ntbPiG.Valor = 0;
@@ -162,6 +182,7 @@ namespace Inversions.GUI
                 ntbPiG.Valor = pigCalculat;
                 ntbDiferencia.Valor = pigCalculat - pigActual;
             }
+            actualitzaLlistaPerduesGuanys();
             calculaPiG();
         }
 
