@@ -71,7 +71,7 @@ namespace Inversions.GUI
             titolFinestra();
 
 #if DEBUG
-            tabControl1.SelectTab(tabMoviments.Name);
+            tabControl1.SelectTab(tabValoracions.Name);
 #else
             tabControl1.SelectTab(tabValoracions.Name);
 #endif

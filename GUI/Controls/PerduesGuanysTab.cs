@@ -95,9 +95,11 @@ namespace Inversions.GUI
                     actualitzaLlistaPerduesGuanys();
                 colDataTraspas.Visible = gestioProductesTabValoracions._ProducteSeleccionat._TipusProducte != Producte.TipusProducte.Accions;
                 dgvPiGProducte.Visible = true;
-                gbFiltreDates.Enabled = true;
+                ckPiGEntreDatesNomesProdSel.Enabled = true;
                 tbPigEntreDates.Valor = 0;
             }
+            else
+                ckPiGEntreDatesNomesProdSel.Enabled = false;
 
             gbSimulacioPig.Enabled = gestioProductesTabValoracions._ProducteSeleccionat != null;
         }
@@ -148,7 +150,12 @@ namespace Inversions.GUI
 
         private void btFiltreDates_Click(object sender, EventArgs e)
         {
-            tbPigEntreDates.Valor = gestioProductesTabValoracions._ProducteSeleccionat.pig(dtpFiltreDataInici.Value, dtpFiltreDataFi.Value);
+            if (ckPiGEntreDatesNomesProdSel.Checked)
+                tbPigEntreDates.Valor = gestioProductesTabValoracions._ProducteSeleccionat.pig(dtpFiltreDataInici.Value, dtpFiltreDataFi.Value);
+            else
+            {
+                tbPigEntreDates.Valor = Producte.Pig(dtpFiltreDataInici.Value, dtpFiltreDataFi.Value);
+            }
         }
 
         private void PerduesGuanysTab_Load(object sender, EventArgs e)

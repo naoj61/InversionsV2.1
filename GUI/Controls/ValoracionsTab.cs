@@ -73,6 +73,8 @@ namespace Inversions.GUI
 
         private void btModifica_Click(object sender, EventArgs e)
         {
+            vEsNouValor = false;
+
             modeEdicio();
 
             tbImport.Focus();
@@ -81,6 +83,8 @@ namespace Inversions.GUI
 
         private void btEsborra_Click(object sender, EventArgs e)
         {
+            vEsNouValor = false;
+
             if (MessageBox.Show(String.Format("S'esborrarà: {0}-{1}", vValoracioSeleccionada.Prod.Empresa.Nom, vValoracioSeleccionada.Data.ToShortDateString()), "", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 using (var conn = new InversionsBDContext())
@@ -176,7 +180,6 @@ namespace Inversions.GUI
                             if (vEsNouValor)
                             {
                                 Valoracio.Nova(conn, gestioProductesTabValoracions._ProducteSeleccionat, cData.Value, tbImport._DoubleValue);
-
                                 //trans.Commit();
                             }
                             else
@@ -191,8 +194,6 @@ namespace Inversions.GUI
                             }
 
                             conn.SaveChanges();
-
-                            vEsNouValor = false;
                         }
                         catch (Exception ex)
                         {

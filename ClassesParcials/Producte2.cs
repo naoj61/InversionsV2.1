@@ -553,18 +553,29 @@ namespace Inversions
         }
 
 
+        internal static double Pig(DateTime? dataInici = null, DateTime? dataFinal = null)
+        {
+            return Pig(TipusProducte.Tots, dataInici.GetValueOrDefault(DateTime.MinValue), dataFinal.GetValueOrDefault(DateTime.MaxValue));
+        }
+
         internal static double Pig(TipusProducte tipusProducte, DateTime dataFinal)
+        {
+            return Pig(tipusProducte, DateTime.MinValue, dataFinal);
+        }
+
+
+        internal static double Pig(TipusProducte tipusProducte, DateTime dataInici, DateTime dataFinal)
         {
             double pig = 0;
 
             if (tipusProducte == TipusProducte.Accions || tipusProducte == TipusProducte.Tots)
             {
-                pig += Enumerable.Sum(Program.Sessio.ProdAccions, prodAccio => prodAccio.pig(dataFinal));
+                pig += Enumerable.Sum(Program.Sessio.ProdAccions, prodAccio => prodAccio.pig(dataInici, dataFinal));
             }
 
             if (tipusProducte == TipusProducte.Fons || tipusProducte == TipusProducte.Tots)
             {
-                pig += Enumerable.Sum(Program.Sessio.ProdFons, prodAccio => prodAccio.pig(dataFinal));
+                pig += Enumerable.Sum(Program.Sessio.ProdFons, prodAccio => prodAccio.pig(dataInici, dataFinal));
             }
 
             return pig;
