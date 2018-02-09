@@ -28,13 +28,14 @@ namespace Inversions.GUI
                 double pigTotal = 0;
                 for (int any = Program.PrimerAny; any <= ultimAny; any++)
                 {
-                    if (Program.Sessio.MovimentsUsuari.All(a => a.Data.Year != any))
-                        // No hi ha moviments en l'any
-                        continue;
+                    if (Program.Sessio.MovimentsUsuari.Any(a => a._EsVendaReal && a.Data.Year == any))
+                    {
+                        // Hi ha vendes en l'any.
+                        var pigTributa = Producte.PigTributa(tipusProducte, any);
 
-                    var pigTributa = Producte.PigTributa(tipusProducte, any);
-                    if (!Comuns.Utilitats.EsZero(pigTributa))
-                        dgvPiGAnualsTributen.Rows.Add(any, 0, 0, pigTributa);
+                        if (!Comuns.Utilitats.EsZero(pigTributa))
+                            dgvPiGAnualsTributen.Rows.Add(any, 0, 0, pigTributa);
+                    }
 
                     var pigAny = Producte.Pig(tipusProducte, any);
 
