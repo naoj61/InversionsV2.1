@@ -125,10 +125,6 @@ namespace Inversions.GUI
                 double pigTotal = 0;
                 for (int any = primerMoviment.Data.Year; any <= DateTime.Today.Year; any++)
                 {
-                    if (Program.Sessio.MovimentsUsuari.All(a => a.Data.Year != any))
-                        // No hi ha moviments en l'any
-                        continue;
-
                     //double pig = proSeleccionat.pigValorat(any);
                     double pig = proSeleccionat.pig(any);
 
