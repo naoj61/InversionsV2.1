@@ -12,6 +12,8 @@ namespace Inversions.GUI
         {
             InitializeComponent();
 
+            //lbProductesTab2.Dock = DockStyle.Fill;
+
             tbIsin.Dock = DockStyle.Fill;
             tbMercat.Dock = DockStyle.Fill;
 
