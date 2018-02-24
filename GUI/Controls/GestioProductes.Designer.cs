@@ -66,7 +66,6 @@ namespace Inversions.GUI
             this.ckFiltreVendesAny = new System.Windows.Forms.CheckBox();
             this.ckFiltreCompresAny = new System.Windows.Forms.CheckBox();
             this.pnSelDeselChecksProds = new System.Windows.Forms.Panel();
-            this.btRefrescaGrafica = new System.Windows.Forms.Button();
             this.btDeseleccionaTot = new System.Windows.Forms.Button();
             this.btSeleccionaTot = new System.Windows.Forms.Button();
             this.btFiltra = new System.Windows.Forms.Button();
@@ -575,35 +574,22 @@ namespace Inversions.GUI
             // pnSelDeselChecksProds
             // 
             this.pnSelDeselChecksProds.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnSelDeselChecksProds.AutoSize = true;
+            this.pnSelDeselChecksProds.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.pnSelDeselChecksProds.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnSelDeselChecksProds.Controls.Add(this.btRefrescaGrafica);
             this.pnSelDeselChecksProds.Controls.Add(this.btDeseleccionaTot);
             this.pnSelDeselChecksProds.Controls.Add(this.btSeleccionaTot);
-            this.pnSelDeselChecksProds.Location = new System.Drawing.Point(434, 3);
+            this.pnSelDeselChecksProds.Location = new System.Drawing.Point(449, 3);
             this.pnSelDeselChecksProds.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.pnSelDeselChecksProds.Name = "pnSelDeselChecksProds";
-            this.pnSelDeselChecksProds.Padding = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.pnSelDeselChecksProds.Size = new System.Drawing.Size(259, 72);
+            this.pnSelDeselChecksProds.Padding = new System.Windows.Forms.Padding(3);
+            this.pnSelDeselChecksProds.Size = new System.Drawing.Size(171, 73);
             this.pnSelDeselChecksProds.TabIndex = 8;
             this.pnSelDeselChecksProds.Visible = false;
             // 
-            // btRefrescaGrafica
-            // 
-            this.btRefrescaGrafica.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btRefrescaGrafica.Enabled = false;
-            this.btRefrescaGrafica.Location = new System.Drawing.Point(167, 5);
-            this.btRefrescaGrafica.Margin = new System.Windows.Forms.Padding(9, 3, 3, 3);
-            this.btRefrescaGrafica.Name = "btRefrescaGrafica";
-            this.btRefrescaGrafica.Size = new System.Drawing.Size(87, 60);
-            this.btRefrescaGrafica.TabIndex = 0;
-            this.btRefrescaGrafica.Text = "Refresca\r\nGràfica";
-            this.btRefrescaGrafica.UseVisualStyleBackColor = true;
-            this.btRefrescaGrafica.Click += new System.EventHandler(this.btActualitzaGrafica_Click);
-            // 
             // btDeseleccionaTot
             // 
-            this.btDeseleccionaTot.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btDeseleccionaTot.Location = new System.Drawing.Point(78, 5);
+            this.btDeseleccionaTot.Location = new System.Drawing.Point(88, 5);
             this.btDeseleccionaTot.Name = "btDeseleccionaTot";
             this.btDeseleccionaTot.Size = new System.Drawing.Size(75, 60);
             this.btDeseleccionaTot.TabIndex = 0;
@@ -613,8 +599,7 @@ namespace Inversions.GUI
             // 
             // btSeleccionaTot
             // 
-            this.btSeleccionaTot.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btSeleccionaTot.Location = new System.Drawing.Point(3, 5);
+            this.btSeleccionaTot.Location = new System.Drawing.Point(5, 5);
             this.btSeleccionaTot.Name = "btSeleccionaTot";
             this.btSeleccionaTot.Size = new System.Drawing.Size(75, 60);
             this.btSeleccionaTot.TabIndex = 0;
@@ -782,6 +767,5 @@ namespace Inversions.GUI
         private Panel pnSelDeselChecksProds;
         private Button btDeseleccionaTot;
         private Button btSeleccionaTot;
-        private Button btRefrescaGrafica;
     }
 }

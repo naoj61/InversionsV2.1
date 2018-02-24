@@ -9,9 +9,6 @@ namespace Inversions.GUI
 {
     public partial class GestioProductes : UserControl
     {
-        private ListBox lbProductesTab2;
-        private bool vMostraLlistaAmbChecks;
-
         public GestioProductes()
         {
             InitializeComponent();
@@ -27,12 +24,15 @@ namespace Inversions.GUI
 
         }
 
+        private ListBox vLbProductes;
+        private bool vMostraLlistaAmbChecks;
         public event EventHandler ProducteSeleccionat;
+        public event ItemCheckEventHandler ItemCheck;
 
 
         public Producte _ProducteSeleccionat
         {
-            get { return (Producte) lbProductesTab2.SelectedItem; }
+            get { return (Producte) vLbProductes.SelectedItem; }
         }
 
         public bool _FiltreAnyVisible
@@ -69,22 +69,27 @@ namespace Inversions.GUI
         }
 
 
+        public IEnumerable<Producte> productesSeleccionats()
+        {
+            return vMostraLlistaAmbChecks ? ((CheckedListBox) vLbProductes).CheckedItems.OfType<Producte>() : null;
+        }
+
         /// <summary>
         /// Refresca les dades que mostra control.
         /// </summary>
         public void refrescaDadesControl()
         {
             // No entenc perquè, però he de fer-ho així perquè es refresqui.
-            var index = lbProductesTab2.SelectedIndex;
-            lbProductesTab2.SelectedItem = null;
-            lbProductesTab2.SelectedIndex = index;
-            lbProductesTab2.SelectedItem = null;
-            lbProductesTab2.SelectedIndex = index;
+            var index = vLbProductes.SelectedIndex;
+            vLbProductes.SelectedItem = null;
+            vLbProductes.SelectedIndex = index;
+            vLbProductes.SelectedItem = null;
+            vLbProductes.SelectedIndex = index;
         }
 
         public void seleccionaProducte(Producte prod)
         {
-            lbProductesTab2.SelectedItem = prod;
+            vLbProductes.SelectedItem = prod;
         }
 
         private void cbTipusProducteFiltreTab2_SelectedIndexChanged(object sender, EventArgs e)
@@ -142,14 +147,14 @@ namespace Inversions.GUI
                 var llistaProds = prods.OrderBy(o => o.OrdreGrid).ToList();
                 if (_MostraLlistaAmbChecks)
                 {
-                    lbProductesTab2.DataSource = llistaProds;
+                    vLbProductes.DataSource = llistaProds;
                 }
                 else
                 {
-                    lbProductesTab2.SelectedIndexChanged -= lbProductesTab2_SelectedIndexChanged;
-                    lbProductesTab2.DataSource = llistaProds;
-                    lbProductesTab2.SelectedIndexChanged += lbProductesTab2_SelectedIndexChanged;
-                    lbProductesTab2.SelectedItem = null;
+                    vLbProductes.SelectedIndexChanged -= lbProductesTab2_SelectedIndexChanged;
+                    vLbProductes.DataSource = llistaProds;
+                    vLbProductes.SelectedIndexChanged += lbProductesTab2_SelectedIndexChanged;
+                    vLbProductes.SelectedItem = null;
                 }
             }
         }
@@ -244,18 +249,21 @@ namespace Inversions.GUI
             carregaLbProductesTab2();
         }
 
-
-        private void preparaLlistaProductes(bool mostraLlistaAmbChecks )
+        /// <summary>
+        /// En funció de la propietat "_MostraLlistaAmbChecks", converteix la llista de productes en un Listbox o un CheckedListBox.
+        /// </summary>
+        /// <param name="seraCheckedListBox"></param>
+        private void preparaLlistaProductes(bool seraCheckedListBox)
         {
-            if (mostraLlistaAmbChecks)
+            if (seraCheckedListBox)
             {
                 pnDadesProducte.Visible = false;
                 gbEmpresa.Visible = false;
                 pnSelDeselChecksProds.Visible = true;
 
-                lbProductesTab2 = new CheckedListBox();
-                ((CheckedListBox) lbProductesTab2).CheckOnClick = true;
-                ((CheckedListBox) lbProductesTab2).ItemCheck += lbProductesTab2_ItemCheck;
+                vLbProductes = new CheckedListBox();
+                ((CheckedListBox) vLbProductes).CheckOnClick = true;
+                ((CheckedListBox) vLbProductes).ItemCheck += lbProductesTab2_ItemCheck;
             }
             else
             {
@@ -263,26 +271,27 @@ namespace Inversions.GUI
                 gbEmpresa.Visible = true;
                 pnSelDeselChecksProds.Visible = false;
 
-                lbProductesTab2 = new ListBox();
+                vLbProductes = new ListBox();
             }
 
-            lbProductesTab2.SuspendLayout();
-            groupBox6.Controls.Add(lbProductesTab2);
-            lbProductesTab2.Dock = DockStyle.Fill;
-            lbProductesTab2.DisplayMember = "_TipusNomProducte";
-            lbProductesTab2.FormattingEnabled = true;
-            lbProductesTab2.Margin = new Padding(3, 4, 3, 4);
+            vLbProductes.SuspendLayout();
+            groupBox6.Controls.Add(vLbProductes);
+            vLbProductes.Dock = DockStyle.Fill;
+            vLbProductes.DisplayMember = "_TipusNomProducte";
+            vLbProductes.FormattingEnabled = true;
+            vLbProductes.Margin = new Padding(3, 4, 3, 4);
             //lbProductesTab2.ItemHeight = 20;
             //lbProductesTab2.Location = new System.Drawing.Point(6, 25);
             //lbProductesTab2.Name = "lbProductesTab2";
             //lbProductesTab2.Size = new System.Drawing.Size(594, 528);
             //lbProductesTab2.TabIndex = 0;
-            lbProductesTab2.ResumeLayout();
+            vLbProductes.ResumeLayout();
         }
 
         void lbProductesTab2_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            btRefrescaGrafica.Enabled = true;
+            if (ItemCheck != null)
+                ItemCheck(sender, e);
         }
 
         private void btSeleccionaTot_Click(object sender, EventArgs e)
@@ -299,29 +308,15 @@ namespace Inversions.GUI
 
         private void selDeselTot(bool selecciona)
         {
-            bool hiHaCanvis = false;
-
-            CheckedListBox chLb = (CheckedListBox) lbProductesTab2;
+            CheckedListBox chLb = (CheckedListBox) vLbProductes;
 
             for (int i = 0; i < chLb.Items.Count; i++)
             {
                 if (chLb.GetItemChecked(i) != selecciona)
                 {
-                    hiHaCanvis = true;
                     chLb.SetItemChecked(i, selecciona);
                 }
             }
-
-            if (hiHaCanvis)
-                btRefrescaGrafica.Enabled = true;
         }
-
-
-        private void btActualitzaGrafica_Click(object sender, EventArgs e)
-        {
-
-        }
-        
-
     }
 }

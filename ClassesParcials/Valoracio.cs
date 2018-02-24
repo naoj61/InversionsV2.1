@@ -12,7 +12,21 @@ namespace Inversions
 {
     public partial class Valoracio : IComparable<Valoracio>
     {
-        
+        internal static Dictionary<Valoracio, double> ValoracionsProductePonderada(Producte producte, double ponderacio = 100)
+        {
+            var valsPerData = Program.Sessio.Valoracions.Where(w => w.Prod.Id == producte.Id).OrderBy(o => o.Data);
+
+            Dictionary<Valoracio, double> vals = new Dictionary<Valoracio, double>(valsPerData.Count());
+
+            double valorPonderacio = ponderacio / valsPerData.First().PreuParticipacio;
+
+            foreach (var valoracio in valsPerData)
+            {
+                vals.Add(valoracio, valoracio.PreuParticipacio * valorPonderacio);
+            }
+
+            return vals;
+        }
 
         internal static IEnumerable<Valoracio> ValoracionsProducte(Producte producte)
         {

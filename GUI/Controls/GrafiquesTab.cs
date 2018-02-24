@@ -9,31 +9,49 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Inversions.GUI
 {
-    public partial class GrafiquesTab : UserControl, ITabs
+    public partial class GrafiquesTab : UserControl
     {
         public GrafiquesTab()
         {
-
             InitializeComponent();
-
+            chart1.ChartAreas[0].AxisX.LabelStyle.Angle = 45;
         }
 
 
-
-
-        private Valoracio vValoracioSeleccionada = null;
-
-        private bool vModeEdicio = false;
-
-
-        public void canviUsuari(Usuari usuari)
+        private void gestioProductesTabValoracions_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            throw new NotImplementedException();
+            btgActualitzaGrafiques.Enabled = true;
         }
 
-        private void gestioProductesTabValoracions_ProducteSeleccionat(object sender, EventArgs e)
+        private void btgActualitzaGrafiques_Click(object sender, EventArgs e)
         {
+            btgActualitzaGrafiques.Enabled = false;
 
+            chart1.Series.Clear();
+
+            foreach (var productesSeleccionat in gestioProductesTabValoracions.productesSeleccionats())
+            {
+                afegeixProducte(Valoracio.ValoracionsProductePonderada(productesSeleccionat));
+            }
+        }
+
+        private void afegeixProducte(Dictionary<Valoracio, double> producte)
+        {
+            Series series1 = new Series();
+            series1.XValueType = ChartValueType.DateTime;
+            series1.ChartType = SeriesChartType.Line;
+            series1.Name = producte.First().Key.Prod._NomProducte;
+
+            //series1.ChartArea = "ChartArea1";
+            //series1.Legend = "Legend1";
+
+
+            foreach (var val in producte)
+            {
+                series1.Points.AddXY(val.Key.Data, val.Value);
+            }
+
+            chart1.Series.Add(series1);
         }
     }
 }
