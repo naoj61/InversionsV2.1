@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace Inversions.GUI
 {
     public partial class GestioProductes : UserControl
     {
+        private ListBox lbProductesTab2;
+        private bool vMostraLlistaAmbChecks;
+
         public GestioProductes()
         {
             InitializeComponent();
-
-            //lbProductesTab2.Dock = DockStyle.Fill;
 
             tbIsin.Dock = DockStyle.Fill;
             tbMercat.Dock = DockStyle.Fill;
@@ -31,34 +33,17 @@ namespace Inversions.GUI
         public Producte _ProducteSeleccionat
         {
             get { return (Producte) lbProductesTab2.SelectedItem; }
-            //set
-            //{
-            //    lbProductesTab2.SelectedItem = value;
-            //    if ((Producte)lbProductesTab2.SelectedItem != value && ckNomesAmbParticipacions.Checked)
-            //    {
-            //        ckNomesAmbParticipacions.Checked = false;
-            //        lbProductesTab2.SelectedItem = value;
-            //    }
-            //}
         }
 
         public bool _FiltreAnyVisible
         {
             get { return pnFiltreAny.Visible; }
-            set
-            {
-                pnFiltreAny.Visible = value;
-            }
+            set { pnFiltreAny.Visible = value; }
         }
 
         public Usuari _UsuariSeleccionat
         {
-            //get { return (Usuari) cbUsuaris.SelectedItem; }
-            //set { cbUsuaris.SelectedItem = value; }
-            set
-            {
-                lbUsuari.Text = value.Nom;
-            }
+            set { lbUsuari.Text = value.Nom; }
         }
 
         public bool _NomesAmbParticipacions
@@ -71,6 +56,16 @@ namespace Inversions.GUI
         {
             get { return ckAmbMoviments.Checked; }
             set { ckAmbMoviments.Checked = value; }
+        }
+
+        public bool _MostraLlistaAmbChecks
+        {
+            get { return vMostraLlistaAmbChecks; }
+            set
+            {
+                vMostraLlistaAmbChecks = value;
+                preparaLlistaProductes(value);
+            }
         }
 
 
@@ -113,12 +108,10 @@ namespace Inversions.GUI
 
             if ((Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem == Producte.TipusProducte.Accions)
             {
-                //prods = new List<Producte>(Program.Sessio.Productes.OfType<ProdAccions>());
                 prods = Program.Sessio.ProdAccions;
             }
             else if ((Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem == Producte.TipusProducte.Fons)
             {
-                //prods = new List<Producte>(Program.Sessio.Productes.OfType<ProdFons>());
                 prods = Program.Sessio.ProdFons;
             }
             else
@@ -129,37 +122,34 @@ namespace Inversions.GUI
             //if (Program.RuntimeMode)
             if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
-                try
+                if (ckNomesAmbParticipacions.Checked)
+                    // Filtra els productes amb participacions actualment pel usuari seleccionat.
+                    prods = prods.Where(w => w._Participacions > 0);
+
+                if (ckAmbMoviments.Checked)
+                    // Filtra els productes amb algun moviment en algun moment pel usuari seleccionat.
+                    prods = prods.Where(w => w.MovimentsProducteUsuari.Any());
+
+
+                if (ckFiltreCompresAny.Checked || ckFiltreVendesAny.Checked)
                 {
-                    if (ckNomesAmbParticipacions.Checked)
-                        // Filtra els productes amb participacions actualment pel usuari seleccionat.
-                        prods = prods.Where(w => w._Participacions > 0);
+                    var movs = Program.Sessio.MovimentsUsuari.Where(w => w.Data.Year == (int) cbFiltreAny.SelectedItem
+                                                                         && ((ckFiltreCompresAny.Checked && w.TipusMoviment == TipusMoviment.Compra) || (ckFiltreVendesAny.Checked && w.TipusMoviment == TipusMoviment.Venda)));
 
-                    if(ckAmbMoviments.Checked)
-                        // Filtra els productes amb algun moviment en algun moment pel usuari seleccionat.
-                        prods = prods.Where(w => w.MovimentsProducteUsuari.Any());
+                    prods = prods.Where(prod => movs.Any(mov => mov.ProdId == prod.Id));
+                }
 
-
-                    if (ckFiltreCompresAny.Checked || ckFiltreVendesAny.Checked)
-                    {
-                        var movs = Program.Sessio.MovimentsUsuari.Where(w => w.Data.Year == (int)cbFiltreAny.SelectedItem 
-                            && ((ckFiltreCompresAny.Checked && w.TipusMoviment == TipusMoviment.Compra) || (ckFiltreVendesAny.Checked && w.TipusMoviment == TipusMoviment.Venda)));
-
-                        prods = prods.Where(prod => movs.Any(mov => mov.ProdId == prod.Id));
-                    }
-
-                    lbProductesTab2.SuspendLayout();
+                var llistaProds = prods.OrderBy(o => o.OrdreGrid).ToList();
+                if (_MostraLlistaAmbChecks)
+                {
+                    lbProductesTab2.DataSource = llistaProds;
+                }
+                else
+                {
                     lbProductesTab2.SelectedIndexChanged -= lbProductesTab2_SelectedIndexChanged;
-                    lbProductesTab2.DisplayMember = "_TipusNomProducte";
-                    lbProductesTab2.DataSource = prods.OrderBy(o => o.OrdreGrid).ToList();
+                    lbProductesTab2.DataSource = llistaProds;
                     lbProductesTab2.SelectedIndexChanged += lbProductesTab2_SelectedIndexChanged;
                     lbProductesTab2.SelectedItem = null;
-                    lbProductesTab2.ResumeLayout();
-                }
-                catch (Exception)
-                {
-                    
-                    throw;
                 }
             }
         }
@@ -253,5 +243,85 @@ namespace Inversions.GUI
         {
             carregaLbProductesTab2();
         }
+
+
+        private void preparaLlistaProductes(bool mostraLlistaAmbChecks )
+        {
+            if (mostraLlistaAmbChecks)
+            {
+                pnDadesProducte.Visible = false;
+                gbEmpresa.Visible = false;
+                pnSelDeselChecksProds.Visible = true;
+
+                lbProductesTab2 = new CheckedListBox();
+                ((CheckedListBox) lbProductesTab2).CheckOnClick = true;
+                ((CheckedListBox) lbProductesTab2).ItemCheck += lbProductesTab2_ItemCheck;
+            }
+            else
+            {
+                pnDadesProducte.Visible = true;
+                gbEmpresa.Visible = true;
+                pnSelDeselChecksProds.Visible = false;
+
+                lbProductesTab2 = new ListBox();
+            }
+
+            lbProductesTab2.SuspendLayout();
+            groupBox6.Controls.Add(lbProductesTab2);
+            lbProductesTab2.Dock = DockStyle.Fill;
+            lbProductesTab2.DisplayMember = "_TipusNomProducte";
+            lbProductesTab2.FormattingEnabled = true;
+            lbProductesTab2.Margin = new Padding(3, 4, 3, 4);
+            //lbProductesTab2.ItemHeight = 20;
+            //lbProductesTab2.Location = new System.Drawing.Point(6, 25);
+            //lbProductesTab2.Name = "lbProductesTab2";
+            //lbProductesTab2.Size = new System.Drawing.Size(594, 528);
+            //lbProductesTab2.TabIndex = 0;
+            lbProductesTab2.ResumeLayout();
+        }
+
+        void lbProductesTab2_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            btRefrescaGrafica.Enabled = true;
+        }
+
+        private void btSeleccionaTot_Click(object sender, EventArgs e)
+        {
+            // Selecciona tots els productes de la llista.
+            selDeselTot(true);         
+        }
+
+        private void btDeseleccionaTot_Click(object sender, EventArgs e)
+        {
+            // Deselecciona tots els productes de la llista.
+            selDeselTot(false);         
+        }
+
+        private void selDeselTot(bool selecciona)
+        {
+            bool hiHaCanvis = false;
+
+            CheckedListBox chLb = (CheckedListBox) lbProductesTab2;
+
+            for (int i = 0; i < chLb.Items.Count; i++)
+            {
+                if (chLb.GetItemChecked(i) != selecciona)
+                {
+                    hiHaCanvis = true;
+                    chLb.SetItemChecked(i, selecciona);
+                }
+            }
+
+            if (hiHaCanvis)
+                btRefrescaGrafica.Enabled = true;
+        }
+
+
+        private void btActualitzaGrafica_Click(object sender, EventArgs e)
+        {
+
+        }
+        
+
     }
 }

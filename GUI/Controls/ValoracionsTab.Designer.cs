@@ -81,9 +81,9 @@ namespace Inversions.GUI
             this.btEsborra = new System.Windows.Forms.Button();
             this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.gestioProductesTabValoracions = new Inversions.GUI.GestioProductes();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btCopiaValorsDelPaste = new System.Windows.Forms.Button();
-            this.gestioProductesTabValoracions = new Inversions.GUI.GestioProductes();
             this.gbData.SuspendLayout();
             this.groupBox10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cDataGridView1)).BeginInit();
@@ -100,10 +100,11 @@ namespace Inversions.GUI
             // 
             this.gbData.Controls.Add(this.cData);
             this.gbData.Dock = System.Windows.Forms.DockStyle.Left;
-            this.gbData.Location = new System.Drawing.Point(3, 5);
+            this.gbData.Location = new System.Drawing.Point(3, 6);
+            this.gbData.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbData.Name = "gbData";
-            this.gbData.Padding = new System.Windows.Forms.Padding(5);
-            this.gbData.Size = new System.Drawing.Size(131, 53);
+            this.gbData.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.gbData.Size = new System.Drawing.Size(147, 66);
             this.gbData.TabIndex = 0;
             this.gbData.TabStop = false;
             this.gbData.Text = "Data";
@@ -113,21 +114,21 @@ namespace Inversions.GUI
             this.cData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cData.Enabled = false;
             this.cData.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.cData.Location = new System.Drawing.Point(5, 20);
+            this.cData.Location = new System.Drawing.Point(6, 25);
             this.cData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cData.Name = "cData";
-            this.cData.Size = new System.Drawing.Size(121, 22);
+            this.cData.Size = new System.Drawing.Size(135, 26);
             this.cData.TabIndex = 0;
             // 
             // groupBox10
             // 
             this.groupBox10.Controls.Add(this.tbImport);
             this.groupBox10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox10.Location = new System.Drawing.Point(134, 5);
+            this.groupBox10.Location = new System.Drawing.Point(150, 6);
             this.groupBox10.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox10.Size = new System.Drawing.Size(121, 53);
+            this.groupBox10.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBox10.Size = new System.Drawing.Size(137, 66);
             this.groupBox10.TabIndex = 1;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Import";
@@ -141,10 +142,10 @@ namespace Inversions.GUI
             this.tbImport._PermetNegatius = false;
             this.tbImport.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbImport.Enabled = false;
-            this.tbImport.Location = new System.Drawing.Point(5, 20);
+            this.tbImport.Location = new System.Drawing.Point(6, 25);
             this.tbImport.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbImport.Name = "tbImport";
-            this.tbImport.Size = new System.Drawing.Size(111, 22);
+            this.tbImport.Size = new System.Drawing.Size(125, 26);
             this.tbImport.TabIndex = 0;
             this.tbImport.Text = "0,0 €";
             this.tbImport.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -155,10 +156,10 @@ namespace Inversions.GUI
             this.btCancela.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btCancela.Enabled = false;
             this.btCancela.ForeColor = System.Drawing.Color.Red;
-            this.btCancela.Location = new System.Drawing.Point(446, 49);
+            this.btCancela.Location = new System.Drawing.Point(501, 61);
             this.btCancela.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btCancela.Name = "btCancela";
-            this.btCancela.Size = new System.Drawing.Size(133, 36);
+            this.btCancela.Size = new System.Drawing.Size(150, 45);
             this.btCancela.TabIndex = 6;
             this.btCancela.Text = "Cancela";
             this.btCancela.UseVisualStyleBackColor = true;
@@ -168,10 +169,10 @@ namespace Inversions.GUI
             // 
             this.btNouValor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btNouValor.Enabled = false;
-            this.btNouValor.Location = new System.Drawing.Point(216, 7);
+            this.btNouValor.Location = new System.Drawing.Point(242, 9);
             this.btNouValor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btNouValor.Name = "btNouValor";
-            this.btNouValor.Size = new System.Drawing.Size(98, 36);
+            this.btNouValor.Size = new System.Drawing.Size(110, 45);
             this.btNouValor.TabIndex = 1;
             this.btNouValor.Text = "Nou Valor";
             this.btNouValor.UseVisualStyleBackColor = true;
@@ -182,10 +183,10 @@ namespace Inversions.GUI
             this.btDesa.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btDesa.Enabled = false;
             this.btDesa.ForeColor = System.Drawing.Color.Green;
-            this.btDesa.Location = new System.Drawing.Point(320, 49);
+            this.btDesa.Location = new System.Drawing.Point(359, 61);
             this.btDesa.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btDesa.Name = "btDesa";
-            this.btDesa.Size = new System.Drawing.Size(110, 36);
+            this.btDesa.Size = new System.Drawing.Size(124, 45);
             this.btDesa.TabIndex = 5;
             this.btDesa.Text = "Desa";
             this.btDesa.UseVisualStyleBackColor = true;
@@ -215,14 +216,14 @@ namespace Inversions.GUI
             this.colVariacioPercent,
             this.colVariacioEuros});
             this.cDataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cDataGridView1.Location = new System.Drawing.Point(3, 398);
+            this.cDataGridView1.Location = new System.Drawing.Point(3, 498);
             this.cDataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cDataGridView1.MinimumSize = new System.Drawing.Size(0, 110);
+            this.cDataGridView1.MinimumSize = new System.Drawing.Size(0, 138);
             this.cDataGridView1.Name = "cDataGridView1";
             this.cDataGridView1.ReadOnly = true;
             this.cDataGridView1.RowTemplate.Height = 24;
             this.cDataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.cDataGridView1.Size = new System.Drawing.Size(865, 124);
+            this.cDataGridView1.Size = new System.Drawing.Size(974, 155);
             this.cDataGridView1.TabIndex = 5;
             this.cDataGridView1.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.cDataGridView1_RowEnter);
             // 
@@ -235,7 +236,7 @@ namespace Inversions.GUI
             this.colId.ReadOnly = true;
             this.colId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colId.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colId.Width = 25;
+            this.colId.Width = 29;
             // 
             // colProducte
             // 
@@ -247,7 +248,6 @@ namespace Inversions.GUI
             this.colProducte.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colProducte.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.colProducte.Visible = false;
-            this.colProducte.Width = 71;
             // 
             // colData
             // 
@@ -262,7 +262,7 @@ namespace Inversions.GUI
             this.colData.ReadOnly = true;
             this.colData.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colData.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colData.Width = 44;
+            this.colData.Width = 50;
             // 
             // NumPart
             // 
@@ -277,7 +277,7 @@ namespace Inversions.GUI
             this.NumPart.ReadOnly = true;
             this.NumPart.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.NumPart.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.NumPart.Width = 81;
+            this.NumPart.Width = 89;
             // 
             // colImport
             // 
@@ -292,7 +292,7 @@ namespace Inversions.GUI
             this.colImport.ReadOnly = true;
             this.colImport.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colImport.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colImport.Width = 99;
+            this.colImport.Width = 125;
             // 
             // colValor
             // 
@@ -307,7 +307,7 @@ namespace Inversions.GUI
             this.colValor.ReadOnly = true;
             this.colValor.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colValor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.colValor.Width = 98;
+            this.colValor.Width = 121;
             // 
             // colVariacioPercent
             // 
@@ -322,7 +322,7 @@ namespace Inversions.GUI
             this.colVariacioPercent.ReadOnly = true;
             this.colVariacioPercent.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colVariacioPercent.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colVariacioPercent.Width = 73;
+            this.colVariacioPercent.Width = 90;
             // 
             // colVariacioEuros
             // 
@@ -336,18 +336,18 @@ namespace Inversions.GUI
             this.colVariacioEuros.ReadOnly = true;
             this.colVariacioEuros.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colVariacioEuros.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colVariacioEuros.Width = 69;
+            this.colVariacioEuros.Width = 85;
             // 
             // pnEdicio
             // 
             this.pnEdicio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pnEdicio.Controls.Add(this.groupBox10);
             this.pnEdicio.Controls.Add(this.gbData);
-            this.pnEdicio.Location = new System.Drawing.Point(322, 95);
+            this.pnEdicio.Location = new System.Drawing.Point(361, 119);
             this.pnEdicio.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnEdicio.Name = "pnEdicio";
-            this.pnEdicio.Padding = new System.Windows.Forms.Padding(3, 5, 3, 3);
-            this.pnEdicio.Size = new System.Drawing.Size(258, 61);
+            this.pnEdicio.Padding = new System.Windows.Forms.Padding(3, 6, 3, 4);
+            this.pnEdicio.Size = new System.Drawing.Size(290, 76);
             this.pnEdicio.TabIndex = 7;
             this.pnEdicio.Visible = false;
             // 
@@ -355,10 +355,10 @@ namespace Inversions.GUI
             // 
             this.btModifica.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btModifica.Enabled = false;
-            this.btModifica.Location = new System.Drawing.Point(320, 7);
+            this.btModifica.Location = new System.Drawing.Point(359, 9);
             this.btModifica.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btModifica.Name = "btModifica";
-            this.btModifica.Size = new System.Drawing.Size(110, 36);
+            this.btModifica.Size = new System.Drawing.Size(124, 45);
             this.btModifica.TabIndex = 2;
             this.btModifica.Text = "Modifica";
             this.btModifica.UseVisualStyleBackColor = true;
@@ -385,13 +385,13 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn6,
             this.Column1});
             this.dgvValoracionsPerData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvValoracionsPerData.Location = new System.Drawing.Point(871, 166);
+            this.dgvValoracionsPerData.Location = new System.Drawing.Point(980, 208);
             this.dgvValoracionsPerData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dgvValoracionsPerData.MultiSelect = false;
             this.dgvValoracionsPerData.Name = "dgvValoracionsPerData";
             this.dgvValoracionsPerData.ReadOnly = true;
             this.dgvValoracionsPerData.RowTemplate.Height = 24;
-            this.dgvValoracionsPerData.Size = new System.Drawing.Size(589, 277);
+            this.dgvValoracionsPerData.Size = new System.Drawing.Size(662, 346);
             this.dgvValoracionsPerData.TabIndex = 6;
             // 
             // dataGridViewTextBoxColumn3
@@ -407,7 +407,7 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
             this.dataGridViewTextBoxColumn3.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn3.Width = 44;
+            this.dataGridViewTextBoxColumn3.Width = 50;
             // 
             // dataGridViewTextBoxColumn4
             // 
@@ -422,7 +422,7 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn4.ReadOnly = true;
             this.dataGridViewTextBoxColumn4.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn4.Width = 37;
+            this.dataGridViewTextBoxColumn4.Width = 41;
             // 
             // dataGridViewTextBoxColumn5
             // 
@@ -437,7 +437,7 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn5.ReadOnly = true;
             this.dataGridViewTextBoxColumn5.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn5.Width = 81;
+            this.dataGridViewTextBoxColumn5.Width = 90;
             // 
             // dataGridViewTextBoxColumn6
             // 
@@ -451,7 +451,7 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn6.ReadOnly = true;
             this.dataGridViewTextBoxColumn6.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn6.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn6.Width = 77;
+            this.dataGridViewTextBoxColumn6.Width = 85;
             // 
             // Column1
             // 
@@ -464,15 +464,15 @@ namespace Inversions.GUI
             this.Column1.ReadOnly = true;
             this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column1.Width = 78;
+            this.Column1.Width = 87;
             // 
             // btActualitzaLlista
             // 
             this.btActualitzaLlista.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btActualitzaLlista.Location = new System.Drawing.Point(5, 54);
+            this.btActualitzaLlista.Location = new System.Drawing.Point(6, 68);
             this.btActualitzaLlista.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btActualitzaLlista.Name = "btActualitzaLlista";
-            this.btActualitzaLlista.Size = new System.Drawing.Size(197, 36);
+            this.btActualitzaLlista.Size = new System.Drawing.Size(221, 45);
             this.btActualitzaLlista.TabIndex = 1;
             this.btActualitzaLlista.Text = "Actualitza";
             this.btActualitzaLlista.UseVisualStyleBackColor = true;
@@ -484,11 +484,11 @@ namespace Inversions.GUI
             this.gbFiltreTipusProducte.Controls.Add(this.dtpDataIniciLlista);
             this.gbFiltreTipusProducte.Controls.Add(this.cbTipusProducteFiltre);
             this.gbFiltreTipusProducte.Controls.Add(this.btActualitzaLlista);
-            this.gbFiltreTipusProducte.Location = new System.Drawing.Point(109, 61);
+            this.gbFiltreTipusProducte.Location = new System.Drawing.Point(122, 76);
             this.gbFiltreTipusProducte.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gbFiltreTipusProducte.Name = "gbFiltreTipusProducte";
-            this.gbFiltreTipusProducte.Padding = new System.Windows.Forms.Padding(5);
-            this.gbFiltreTipusProducte.Size = new System.Drawing.Size(207, 95);
+            this.gbFiltreTipusProducte.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.gbFiltreTipusProducte.Size = new System.Drawing.Size(233, 119);
             this.gbFiltreTipusProducte.TabIndex = 4;
             this.gbFiltreTipusProducte.TabStop = false;
             this.gbFiltreTipusProducte.Text = "Tipus Prod.      Data Inici Llista";
@@ -497,9 +497,10 @@ namespace Inversions.GUI
             // 
             this.dtpDataIniciLlista.Dock = System.Windows.Forms.DockStyle.Right;
             this.dtpDataIniciLlista.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDataIniciLlista.Location = new System.Drawing.Point(99, 20);
+            this.dtpDataIniciLlista.Location = new System.Drawing.Point(112, 25);
+            this.dtpDataIniciLlista.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dtpDataIniciLlista.Name = "dtpDataIniciLlista";
-            this.dtpDataIniciLlista.Size = new System.Drawing.Size(103, 22);
+            this.dtpDataIniciLlista.Size = new System.Drawing.Size(115, 26);
             this.dtpDataIniciLlista.TabIndex = 2;
             // 
             // cbTipusProducteFiltre
@@ -507,10 +508,10 @@ namespace Inversions.GUI
             this.cbTipusProducteFiltre.Dock = System.Windows.Forms.DockStyle.Left;
             this.cbTipusProducteFiltre.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbTipusProducteFiltre.FormattingEnabled = true;
-            this.cbTipusProducteFiltre.Location = new System.Drawing.Point(5, 20);
+            this.cbTipusProducteFiltre.Location = new System.Drawing.Point(6, 25);
             this.cbTipusProducteFiltre.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbTipusProducteFiltre.Name = "cbTipusProducteFiltre";
-            this.cbTipusProducteFiltre.Size = new System.Drawing.Size(88, 24);
+            this.cbTipusProducteFiltre.Size = new System.Drawing.Size(98, 28);
             this.cbTipusProducteFiltre.TabIndex = 0;
             this.cbTipusProducteFiltre.SelectedIndexChanged += new System.EventHandler(this.cbTipusProducteFiltre_SelectedIndexChanged);
             // 
@@ -521,7 +522,7 @@ namespace Inversions.GUI
             this.chart1.Dock = System.Windows.Forms.DockStyle.Bottom;
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(3, 522);
+            this.chart1.Location = new System.Drawing.Point(3, 653);
             this.chart1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chart1.Name = "chart1";
             series1.BorderWidth = 2;
@@ -535,7 +536,7 @@ namespace Inversions.GUI
             series1.YValueMembers = "PreuParticipacio";
             series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(865, 130);
+            this.chart1.Size = new System.Drawing.Size(974, 162);
             this.chart1.TabIndex = 8;
             this.chart1.Text = "chart1";
             // 
@@ -543,10 +544,10 @@ namespace Inversions.GUI
             // 
             this.btEsborra.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btEsborra.Enabled = false;
-            this.btEsborra.Location = new System.Drawing.Point(446, 7);
+            this.btEsborra.Location = new System.Drawing.Point(501, 9);
             this.btEsborra.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btEsborra.Name = "btEsborra";
-            this.btEsborra.Size = new System.Drawing.Size(133, 36);
+            this.btEsborra.Size = new System.Drawing.Size(150, 45);
             this.btEsborra.TabIndex = 3;
             this.btEsborra.Text = "Esborra";
             this.btEsborra.UseVisualStyleBackColor = true;
@@ -561,7 +562,7 @@ namespace Inversions.GUI
             this.chart2.Dock = System.Windows.Forms.DockStyle.Bottom;
             legend2.Name = "Legend1";
             this.chart2.Legends.Add(legend2);
-            this.chart2.Location = new System.Drawing.Point(871, 443);
+            this.chart2.Location = new System.Drawing.Point(980, 554);
             this.chart2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chart2.Name = "chart2";
             series2.BorderWidth = 2;
@@ -573,7 +574,7 @@ namespace Inversions.GUI
             series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             this.chart2.Series.Add(series2);
-            this.chart2.Size = new System.Drawing.Size(589, 212);
+            this.chart2.Size = new System.Drawing.Size(662, 265);
             this.chart2.TabIndex = 8;
             this.chart2.Text = "chart1";
             // 
@@ -586,9 +587,24 @@ namespace Inversions.GUI
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(3);
-            this.panel1.Size = new System.Drawing.Size(871, 655);
+            this.panel1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panel1.Size = new System.Drawing.Size(980, 819);
             this.panel1.TabIndex = 9;
+            // 
+            // gestioProductesTabValoracions
+            // 
+            this.gestioProductesTabValoracions._AmbMoviments = true;
+            this.gestioProductesTabValoracions._FiltreAnyVisible = false;
+            this.gestioProductesTabValoracions._MostraLlistaAmbChecks = false;
+            this.gestioProductesTabValoracions._NomesAmbParticipacions = true;
+            this.gestioProductesTabValoracions.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gestioProductesTabValoracions.Location = new System.Drawing.Point(3, 4);
+            this.gestioProductesTabValoracions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.gestioProductesTabValoracions.MinimumSize = new System.Drawing.Size(825, 494);
+            this.gestioProductesTabValoracions.Name = "gestioProductesTabValoracions";
+            this.gestioProductesTabValoracions.Size = new System.Drawing.Size(974, 494);
+            this.gestioProductesTabValoracions.TabIndex = 9;
+            this.gestioProductesTabValoracions.ProducteSeleccionat += new System.EventHandler(this.gestioProductesTabValoracions_ProducteSeleccionat);
             // 
             // panel2
             // 
@@ -601,50 +617,37 @@ namespace Inversions.GUI
             this.panel2.Controls.Add(this.btCancela);
             this.panel2.Controls.Add(this.pnEdicio);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(871, 0);
+            this.panel2.Location = new System.Drawing.Point(980, 0);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(589, 166);
+            this.panel2.Size = new System.Drawing.Size(662, 208);
             this.panel2.TabIndex = 0;
             // 
             // btCopiaValorsDelPaste
             // 
             this.btCopiaValorsDelPaste.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btCopiaValorsDelPaste.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.btCopiaValorsDelPaste.Location = new System.Drawing.Point(109, 4);
+            this.btCopiaValorsDelPaste.Location = new System.Drawing.Point(122, 5);
+            this.btCopiaValorsDelPaste.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btCopiaValorsDelPaste.Name = "btCopiaValorsDelPaste";
-            this.btCopiaValorsDelPaste.Size = new System.Drawing.Size(101, 43);
+            this.btCopiaValorsDelPaste.Size = new System.Drawing.Size(114, 54);
             this.btCopiaValorsDelPaste.TabIndex = 0;
             this.btCopiaValorsDelPaste.Text = "Còpia des d\'un Paste";
             this.btCopiaValorsDelPaste.UseVisualStyleBackColor = false;
             this.btCopiaValorsDelPaste.Click += new System.EventHandler(this.btCopiaValorsDelPaste_Click);
             // 
-            // gestioProductesTabValoracions
-            // 
-            this.gestioProductesTabValoracions._AmbMoviments = true;
-            this.gestioProductesTabValoracions._FiltreAnyVisible = false;
-            this.gestioProductesTabValoracions._NomesAmbParticipacions = true;
-            this.gestioProductesTabValoracions.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gestioProductesTabValoracions.Location = new System.Drawing.Point(3, 3);
-            this.gestioProductesTabValoracions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.gestioProductesTabValoracions.MinimumSize = new System.Drawing.Size(733, 395);
-            this.gestioProductesTabValoracions.Name = "gestioProductesTabValoracions";
-            this.gestioProductesTabValoracions.Size = new System.Drawing.Size(865, 395);
-            this.gestioProductesTabValoracions.TabIndex = 9;
-            this.gestioProductesTabValoracions.ProducteSeleccionat += new System.EventHandler(this.gestioProductesTabValoracions_ProducteSeleccionat);
-            // 
             // ValoracionsTab
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dgvValoracionsPerData);
             this.Controls.Add(this.chart2);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.MinimumSize = new System.Drawing.Size(1301, 655);
+            this.MinimumSize = new System.Drawing.Size(1464, 819);
             this.Name = "ValoracionsTab";
-            this.Size = new System.Drawing.Size(1460, 655);
+            this.Size = new System.Drawing.Size(1642, 819);
             this.Load += new System.EventHandler(this.ValoracionsTab_Load);
             this.gbData.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);

@@ -30,5 +30,10 @@ namespace Inversions.GUI
         {
             throw new NotImplementedException();
         }
+
+        private void gestioProductesTabValoracions_ProducteSeleccionat(object sender, EventArgs e)
+        {
+
+        }
     }
 }

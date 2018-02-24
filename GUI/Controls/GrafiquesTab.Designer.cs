@@ -43,20 +43,20 @@ namespace Inversions.GUI
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.panel1.Size = new System.Drawing.Size(980, 819);
+            this.panel1.Size = new System.Drawing.Size(495, 819);
             this.panel1.TabIndex = 9;
             // 
             // gestioProductesTabValoracions
             // 
             this.gestioProductesTabValoracions._AmbMoviments = true;
             this.gestioProductesTabValoracions._FiltreAnyVisible = false;
+            this.gestioProductesTabValoracions._MostraLlistaAmbChecks = true;
             this.gestioProductesTabValoracions._NomesAmbParticipacions = true;
             this.gestioProductesTabValoracions.Dock = System.Windows.Forms.DockStyle.Top;
             this.gestioProductesTabValoracions.Location = new System.Drawing.Point(3, 4);
             this.gestioProductesTabValoracions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.gestioProductesTabValoracions.MinimumSize = new System.Drawing.Size(825, 494);
             this.gestioProductesTabValoracions.Name = "gestioProductesTabValoracions";
-            this.gestioProductesTabValoracions.Size = new System.Drawing.Size(974, 494);
+            this.gestioProductesTabValoracions.Size = new System.Drawing.Size(489, 494);
             this.gestioProductesTabValoracions.TabIndex = 9;
             // 
             // GrafiquesTab
