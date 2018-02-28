@@ -32,7 +32,6 @@ namespace Inversions.GUI
         /// <summary>
         /// Canvia les dades del control a les del nou producte
         /// </summary>
-        /// <param name="prod"></param>
         private void canviProducteSeleccionat()
         {
             Producte prod = gestioProductesTabMoviments._ProducteSeleccionat;
@@ -241,6 +240,14 @@ namespace Inversions.GUI
             cDataGridView1.DataSource = null;
             Refresh();
         }
+
+        
+
+        public bool enModeEdicio
+        {
+            get { return gbEdicio.Visible; }
+        }
+ 
 
         public override void Refresh()
         {
@@ -545,5 +552,5 @@ namespace Inversions.GUI
         {
             gbDataDesti.Visible = ckActivaDataDesti.Checked;
         }
-    }
+   }
 }

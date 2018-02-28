@@ -1,27 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Inversions.GUI
 {
-    public partial class GrafiquesTab : UserControl
+    public partial class GrafiquesTab : UserControl, ITabs
     {
         public GrafiquesTab()
         {
             InitializeComponent();
-            chart1.ChartAreas[0].AxisX.LabelStyle.Angle = 45;
+
+            dtpFinal.Value = DateTime.Now;
+
+            var chartArea = chart1.ChartAreas[0];
+            chartArea.AxisX.LabelStyle.Angle = 45;
+            chartArea.AxisX.IntervalType = DateTimeIntervalType.Months;
+            chartArea.AxisX.IsStartedFromZero = false;
+            chartArea.AxisX.Interval = 1;
+            chartArea.AxisY.IsStartedFromZero = false;
+
+            gestioProductesTabValoracions.aplicaFiltre();
         }
 
 
         private void gestioProductesTabValoracions_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            btgActualitzaGrafiques.Enabled = true;
+            activaBotoGrafiques(true);
         }
+
 
         private void btgActualitzaGrafiques_Click(object sender, EventArgs e)
         {
@@ -31,27 +39,66 @@ namespace Inversions.GUI
 
             foreach (var productesSeleccionat in gestioProductesTabValoracions.productesSeleccionats())
             {
-                afegeixProducte(Valoracio.ValoracionsProductePonderada(productesSeleccionat));
+                creaGraficaDelProducte(productesSeleccionat);
             }
         }
 
-        private void afegeixProducte(Dictionary<Valoracio, double> producte)
+
+        private void creaGraficaDelProducte(Producte producte)
         {
-            Series series1 = new Series();
-            series1.XValueType = ChartValueType.DateTime;
-            series1.ChartType = SeriesChartType.Line;
-            series1.Name = producte.First().Key.Prod._NomProducte;
+            Dictionary<Valoracio, double> valoracions = null;
 
-            //series1.ChartArea = "ChartArea1";
-            //series1.Legend = "Legend1";
+            if (ckPonderat.Checked)
+                valoracions = Valoracio.ValoracionsProductePonderades(producte, dtpInici.Value, dtpFinal.Value);
+            else
+                valoracions = Valoracio.ValoracionsProducte(producte, dtpInici.Value, dtpFinal.Value).ToDictionary(x => x, x => x.PreuParticipacio);
 
-
-            foreach (var val in producte)
+            if (!valoracions.Any())
             {
-                series1.Points.AddXY(val.Key.Data, val.Value);
+                MessageBox.Show("No hi ha cap valoració pel producte: " + producte._NomProducte, "Atenció", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
 
-            chart1.Series.Add(series1);
+            chart1.DataBindTable(valoracions.Select(x => new { x.Key.Data, x.Value }).ToList(), "Data");
+
+            Series series1 = chart1.Series.Last();
+            series1.XValueType = ChartValueType.Date;
+            series1.ChartType = SeriesChartType.Line;
+            series1.Name = producte._NomProducte;
+            //series1.Legend = "Legend1";
         }
+
+        private void ckPonderat_CheckedChanged(object sender, EventArgs e)
+        {
+            activaBotoGrafiques();
+        }
+
+        private void dtpInici_ValueChanged(object sender, EventArgs e)
+        {
+            activaBotoGrafiques();
+        }
+
+        private void activaBotoGrafiques(bool forçaActivacio = false)
+        {
+            if (forçaActivacio || gestioProductesTabValoracions.productesSeleccionats().Any())
+            {
+                btgActualitzaGrafiques.Enabled = true;
+
+                if (ParentForm != null) 
+                    ParentForm.AcceptButton = btgActualitzaGrafiques;
+            }
+        }
+
+
+        #region Implementació d'ITabs
+        
+        public void canviUsuari(Usuari usuari) { }
+
+        public bool enModeEdicio
+        {
+            get { return false; }
+        } 
+
+        #endregion
     }
 }

@@ -69,9 +69,25 @@ namespace Inversions.GUI
         }
 
 
+        /// <summary>
+        /// Torna tots els productes amb Check si és un CheckedListBox o el producte seleccionat si és un ListBox.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Producte> productesSeleccionats()
         {
-            return vMostraLlistaAmbChecks ? ((CheckedListBox) vLbProductes).CheckedItems.OfType<Producte>() : null;
+            IEnumerable<Producte> prodSel;
+
+            if(vMostraLlistaAmbChecks)
+            {
+                prodSel = ((CheckedListBox)vLbProductes).CheckedItems.OfType<Producte>();
+            }
+            else
+            {
+                prodSel = new List<Producte>(1);
+                if (vLbProductes.SelectedItem != null)
+                    ((List<Producte>) prodSel).Add((Producte) vLbProductes.SelectedItem);
+            }
+            return prodSel;
         }
 
         /// <summary>
@@ -107,7 +123,10 @@ namespace Inversions.GUI
             }
         }
 
-        private void carregaLbProductesTab2()
+        /// <summary>
+        /// Aplica el filtre i omple el ListBox amb els productes.
+        /// </summary>
+        internal void aplicaFiltre()
         {
             IEnumerable<Producte> prods;
 
@@ -246,7 +265,7 @@ namespace Inversions.GUI
 
         private void btFiltra_Click(object sender, EventArgs e)
         {
-            carregaLbProductesTab2();
+            aplicaFiltre();
         }
 
         /// <summary>

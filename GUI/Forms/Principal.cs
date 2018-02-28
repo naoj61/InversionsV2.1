@@ -600,6 +600,15 @@ namespace Inversions.GUI
             modeEdicioProducte();
         }
 
+
+        private void tabControl1_Deselecting(object sender, TabControlCancelEventArgs e)
+        {
+            ITabs tab = e.TabPage.Controls.OfType<ITabs>().FirstOrDefault();
+
+            if (tab != null && tab.enModeEdicio)
+                e.Cancel = true;
+        }
+        
         #endregion *** Events ***
     }
 }

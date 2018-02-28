@@ -12,26 +12,45 @@ namespace Inversions
 {
     public partial class Valoracio : IComparable<Valoracio>
     {
-        internal static Dictionary<Valoracio, double> ValoracionsProductePonderada(Producte producte, double ponderacio = 100)
+        /// <summary>
+        /// Torna les valoracions d'un producte ponderades.
+        /// </summary>
+        /// <param name="producte"></param>
+        /// <param name="dataInici"></param>
+        /// <param name="dataFinal"></param>
+        /// <param name="ponderacio"></param>
+        /// <returns></returns>
+        internal static Dictionary<Valoracio, double> ValoracionsProductePonderades(Producte producte,
+            DateTime? dataInici = null, DateTime? dataFinal = null, double ponderacio = 100)
         {
-            var valsPerData = Program.Sessio.Valoracions.Where(w => w.Prod.Id == producte.Id).OrderBy(o => o.Data);
+            var valsProd = ValoracionsProducte(producte, dataInici, dataFinal).ToList();
 
-            Dictionary<Valoracio, double> vals = new Dictionary<Valoracio, double>(valsPerData.Count());
-
-            double valorPonderacio = ponderacio / valsPerData.First().PreuParticipacio;
-
-            foreach (var valoracio in valsPerData)
+            if (valsProd.Any())
             {
-                vals.Add(valoracio, valoracio.PreuParticipacio * valorPonderacio);
+                double valorPonderacio = ponderacio / valsProd.First().PreuParticipacio;
+
+                return valsProd.ToDictionary(x => x, x => x.PreuParticipacio * valorPonderacio);
             }
 
-            return vals;
+            return new Dictionary<Valoracio, double>(0);
         }
 
-        internal static IEnumerable<Valoracio> ValoracionsProducte(Producte producte)
+        /// <summary>
+        /// Torna les valoracions d'un producte.
+        /// </summary>
+        /// <param name="producte"></param>
+        /// <param name="dataInici"></param>
+        /// <param name="dataFinal"></param>
+        /// <returns></returns>
+        internal static IEnumerable<Valoracio> ValoracionsProducte(Producte producte, DateTime? dataInici = null, DateTime? dataFinal = null)
         {
-            return Program.Sessio.Valoracions.Where(w => w.Prod.Id == producte.Id).Where(valoracio => valoracio._NumParticipacions > 0);
+            DateTime dataIni = dataInici.GetValueOrDefault(DateTime.MinValue).Date;
+            DateTime dataFi = Utilitats.DataFinalDia(dataFinal);
+
+            return Program.Sessio.Valoracions.
+                Where(w => w.Prod.Id == producte.Id && w.Data >= dataIni && w.Data <= dataFi).OrderBy(o => o.Data);
         }
+
 
 
         /// <summary>

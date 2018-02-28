@@ -8,6 +8,8 @@ namespace Inversions
 {
     interface ITabs
     {
+        bool enModeEdicio { get; }
+
         void canviUsuari(Usuari usuari);
     }
 }
