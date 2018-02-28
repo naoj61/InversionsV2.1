@@ -67,6 +67,11 @@ namespace Inversions.GUI
             Refresh();
         }
 
+        public bool enModeEdicio
+        {
+            get { return false; }
+        }
+
         public override void Refresh()
         {
             base.Refresh();

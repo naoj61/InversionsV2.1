@@ -30,31 +30,31 @@ namespace Inversions.GUI
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle41 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle42 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle43 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle44 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle45 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle46 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle47 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle48 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle49 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle50 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvPiGProducte = new System.Windows.Forms.DataGridView();
             this.colDataCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDataVenda = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -131,14 +131,14 @@ namespace Inversions.GUI
             this.dgvPiGProducte.AllowUserToOrderColumns = true;
             this.dgvPiGProducte.AllowUserToResizeRows = false;
             this.dgvPiGProducte.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle26.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle26.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle26.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle26.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle26.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle26.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvPiGProducte.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvPiGProducte.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvPiGProducte.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPiGProducte.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colDataCompra,
@@ -156,10 +156,11 @@ namespace Inversions.GUI
             this.colTermini});
             this.dgvPiGProducte.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvPiGProducte.Location = new System.Drawing.Point(0, 0);
+            this.dgvPiGProducte.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgvPiGProducte.Name = "dgvPiGProducte";
             this.dgvPiGProducte.ReadOnly = true;
             this.dgvPiGProducte.RowTemplate.Height = 24;
-            this.dgvPiGProducte.Size = new System.Drawing.Size(717, 263);
+            this.dgvPiGProducte.Size = new System.Drawing.Size(806, 329);
             this.dgvPiGProducte.TabIndex = 5;
             this.dgvPiGProducte.Visible = false;
             // 
@@ -167,181 +168,180 @@ namespace Inversions.GUI
             // 
             this.colDataCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colDataCompra.DataPropertyName = "_DataCompra";
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle27.Format = "d";
-            dataGridViewCellStyle27.NullValue = null;
-            this.colDataCompra.DefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.Format = "d";
+            dataGridViewCellStyle2.NullValue = null;
+            this.colDataCompra.DefaultCellStyle = dataGridViewCellStyle2;
             this.colDataCompra.HeaderText = "Data Compra";
             this.colDataCompra.Name = "colDataCompra";
             this.colDataCompra.ReadOnly = true;
             this.colDataCompra.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colDataCompra.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colDataCompra.Width = 87;
+            this.colDataCompra.Width = 99;
             // 
             // colDataVenda
             // 
             this.colDataVenda.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colDataVenda.DataPropertyName = "_DataVendaReal";
-            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle28.Format = "d";
-            this.colDataVenda.DefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.Format = "d";
+            this.colDataVenda.DefaultCellStyle = dataGridViewCellStyle3;
             this.colDataVenda.HeaderText = "Data Venda";
             this.colDataVenda.Name = "colDataVenda";
             this.colDataVenda.ReadOnly = true;
             this.colDataVenda.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colDataVenda.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colDataVenda.Width = 80;
+            this.colDataVenda.Width = 91;
             // 
             // colDataTraspas
             // 
             this.colDataTraspas.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colDataTraspas.DataPropertyName = "_DataTraspas";
-            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle29.Format = "d";
-            this.colDataTraspas.DefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.Format = "d";
+            this.colDataTraspas.DefaultCellStyle = dataGridViewCellStyle4;
             this.colDataTraspas.HeaderText = "Data Traspàs";
             this.colDataTraspas.Name = "colDataTraspas";
             this.colDataTraspas.ReadOnly = true;
             this.colDataTraspas.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colDataTraspas.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colDataTraspas.Width = 90;
             // 
             // colParticipacions
             // 
             this.colParticipacions.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colParticipacions.DataPropertyName = "_Participacions";
-            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle30.Format = "N3";
-            dataGridViewCellStyle30.NullValue = null;
-            this.colParticipacions.DefaultCellStyle = dataGridViewCellStyle30;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Format = "N3";
+            dataGridViewCellStyle5.NullValue = null;
+            this.colParticipacions.DefaultCellStyle = dataGridViewCellStyle5;
             this.colParticipacions.HeaderText = "Participacions";
             this.colParticipacions.Name = "colParticipacions";
             this.colParticipacions.ReadOnly = true;
             this.colParticipacions.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colParticipacions.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colParticipacions.Width = 102;
+            this.colParticipacions.Width = 113;
             // 
             // colPreuUnitariCompra
             // 
             this.colPreuUnitariCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colPreuUnitariCompra.DataPropertyName = "_PreuUnitariCompra";
-            dataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle31.Format = "C3";
-            this.colPreuUnitariCompra.DefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle6.Format = "C3";
+            this.colPreuUnitariCompra.DefaultCellStyle = dataGridViewCellStyle6;
             this.colPreuUnitariCompra.HeaderText = "Preu unit Compra";
             this.colPreuUnitariCompra.Name = "colPreuUnitariCompra";
             this.colPreuUnitariCompra.ReadOnly = true;
             this.colPreuUnitariCompra.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colPreuUnitariCompra.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colPreuUnitariCompra.Width = 112;
+            this.colPreuUnitariCompra.Width = 124;
             // 
             // colPreuUnitariVenda
             // 
             this.colPreuUnitariVenda.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colPreuUnitariVenda.DataPropertyName = "_PreuUnitariVenda";
-            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle32.Format = "C3";
-            this.colPreuUnitariVenda.DefaultCellStyle = dataGridViewCellStyle32;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle7.Format = "C3";
+            this.colPreuUnitariVenda.DefaultCellStyle = dataGridViewCellStyle7;
             this.colPreuUnitariVenda.HeaderText = "Preu unit Venda";
             this.colPreuUnitariVenda.Name = "colPreuUnitariVenda";
             this.colPreuUnitariVenda.ReadOnly = true;
             this.colPreuUnitariVenda.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colPreuUnitariVenda.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colPreuUnitariVenda.Width = 104;
+            this.colPreuUnitariVenda.Width = 116;
             // 
             // colPreuCompra
             // 
             this.colPreuCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colPreuCompra.DataPropertyName = "_PreuCompra";
-            dataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle33.Format = "C2";
-            dataGridViewCellStyle33.NullValue = null;
-            this.colPreuCompra.DefaultCellStyle = dataGridViewCellStyle33;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle8.Format = "C2";
+            dataGridViewCellStyle8.NullValue = null;
+            this.colPreuCompra.DefaultCellStyle = dataGridViewCellStyle8;
             this.colPreuCompra.HeaderText = "Preu Compra";
             this.colPreuCompra.Name = "colPreuCompra";
             this.colPreuCompra.ReadOnly = true;
             this.colPreuCompra.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colPreuCompra.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colPreuCompra.Width = 87;
+            this.colPreuCompra.Width = 97;
             // 
             // colPreuVenda
             // 
             this.colPreuVenda.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colPreuVenda.DataPropertyName = "_PreuVenda";
-            dataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle34.Format = "C2";
-            dataGridViewCellStyle34.NullValue = null;
-            this.colPreuVenda.DefaultCellStyle = dataGridViewCellStyle34;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle9.Format = "C2";
+            dataGridViewCellStyle9.NullValue = null;
+            this.colPreuVenda.DefaultCellStyle = dataGridViewCellStyle9;
             this.colPreuVenda.HeaderText = "Preu Venda";
             this.colPreuVenda.Name = "colPreuVenda";
             this.colPreuVenda.ReadOnly = true;
             this.colPreuVenda.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colPreuVenda.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colPreuVenda.Width = 80;
+            this.colPreuVenda.Width = 89;
             // 
             // colDespesesC
             // 
             this.colDespesesC.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colDespesesC.DataPropertyName = "_DespesesC";
-            dataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle35.Format = "c2";
-            this.colDespesesC.DefaultCellStyle = dataGridViewCellStyle35;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle10.Format = "c2";
+            this.colDespesesC.DefaultCellStyle = dataGridViewCellStyle10;
             this.colDespesesC.HeaderText = "Desp. Compra";
             this.colDespesesC.Name = "colDespesesC";
             this.colDespesesC.ReadOnly = true;
             this.colDespesesC.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colDespesesC.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colDespesesC.Width = 94;
+            this.colDespesesC.Width = 105;
             // 
             // colDespesesV
             // 
             this.colDespesesV.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colDespesesV.DataPropertyName = "_DespesesV";
-            dataGridViewCellStyle36.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle36.Format = "c2";
-            this.colDespesesV.DefaultCellStyle = dataGridViewCellStyle36;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle11.Format = "c2";
+            this.colDespesesV.DefaultCellStyle = dataGridViewCellStyle11;
             this.colDespesesV.HeaderText = "Desp. Venda";
             this.colDespesesV.Name = "colDespesesV";
             this.colDespesesV.ReadOnly = true;
             this.colDespesesV.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colDespesesV.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colDespesesV.Width = 86;
+            this.colDespesesV.Width = 97;
             // 
             // colImport
             // 
             this.colImport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colImport.DataPropertyName = "_PiG";
-            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle37.Format = "c2";
-            dataGridViewCellStyle37.NullValue = null;
-            this.colImport.DefaultCellStyle = dataGridViewCellStyle37;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle12.Format = "c2";
+            dataGridViewCellStyle12.NullValue = null;
+            this.colImport.DefaultCellStyle = dataGridViewCellStyle12;
             this.colImport.HeaderText = "P i G\nActius venuts";
             this.colImport.Name = "colImport";
             this.colImport.ReadOnly = true;
             this.colImport.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colImport.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colImport.Width = 98;
+            this.colImport.Width = 110;
             // 
             // colImportAcumulat
             // 
             this.colImportAcumulat.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colImportAcumulat.DataPropertyName = "_PiGActual";
-            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle38.Format = "c2";
-            this.colImportAcumulat.DefaultCellStyle = dataGridViewCellStyle38;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle13.Format = "c2";
+            this.colImportAcumulat.DefaultCellStyle = dataGridViewCellStyle13;
             this.colImportAcumulat.HeaderText = "P i G Actual";
             this.colImportAcumulat.Name = "colImportAcumulat";
             this.colImportAcumulat.ReadOnly = true;
             this.colImportAcumulat.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colImportAcumulat.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colImportAcumulat.Width = 79;
+            this.colImportAcumulat.Width = 88;
             // 
             // colTermini
             // 
             this.colTermini.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.colTermini.DataPropertyName = "_Termini";
-            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colTermini.DefaultCellStyle = dataGridViewCellStyle39;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colTermini.DefaultCellStyle = dataGridViewCellStyle14;
             this.colTermini.HeaderText = "Termini";
             this.colTermini.MinimumWidth = 100;
             this.colTermini.Name = "colTermini";
@@ -356,34 +356,35 @@ namespace Inversions.GUI
             this.dgvPiGProductePerAny.AllowUserToOrderColumns = true;
             this.dgvPiGProductePerAny.AllowUserToResizeRows = false;
             this.dgvPiGProductePerAny.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle40.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle40.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle40.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle40.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle40.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle40.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvPiGProductePerAny.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle40;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvPiGProductePerAny.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle15;
             this.dgvPiGProductePerAny.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPiGProductePerAny.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn3,
             this.dataGridViewTextBoxColumn4});
             this.dgvPiGProductePerAny.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvPiGProductePerAny.Location = new System.Drawing.Point(0, 25);
+            this.dgvPiGProductePerAny.Location = new System.Drawing.Point(0, 31);
+            this.dgvPiGProductePerAny.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgvPiGProductePerAny.Name = "dgvPiGProductePerAny";
             this.dgvPiGProductePerAny.ReadOnly = true;
             this.dgvPiGProductePerAny.RowHeadersVisible = false;
             this.dgvPiGProductePerAny.RowTemplate.Height = 24;
-            this.dgvPiGProductePerAny.Size = new System.Drawing.Size(198, 238);
+            this.dgvPiGProductePerAny.Size = new System.Drawing.Size(223, 298);
             this.dgvPiGProductePerAny.TabIndex = 16;
             // 
             // dataGridViewTextBoxColumn3
             // 
             this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle41.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle41.Format = "0000";
-            dataGridViewCellStyle41.NullValue = null;
-            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle41;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle16.Format = "0000";
+            dataGridViewCellStyle16.NullValue = null;
+            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle16;
             this.dataGridViewTextBoxColumn3.HeaderText = "Any";
             this.dataGridViewTextBoxColumn3.MinimumWidth = 50;
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
@@ -395,9 +396,9 @@ namespace Inversions.GUI
             // dataGridViewTextBoxColumn4
             // 
             this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle42.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle42.Format = "c2";
-            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle42;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle17.Format = "c2";
+            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle17;
             this.dataGridViewTextBoxColumn4.HeaderText = "P i G Total";
             this.dataGridViewTextBoxColumn4.MinimumWidth = 100;
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
@@ -411,7 +412,7 @@ namespace Inversions.GUI
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(198, 25);
+            this.label1.Size = new System.Drawing.Size(223, 31);
             this.label1.TabIndex = 17;
             this.label1.Text = "PiG Producte per any";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -420,9 +421,10 @@ namespace Inversions.GUI
             // 
             this.pnPigRight.Controls.Add(this.tableLayoutPanel1);
             this.pnPigRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnPigRight.Location = new System.Drawing.Point(915, 0);
+            this.pnPigRight.Location = new System.Drawing.Point(1029, 0);
+            this.pnPigRight.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnPigRight.Name = "pnPigRight";
-            this.pnPigRight.Size = new System.Drawing.Size(382, 658);
+            this.pnPigRight.Size = new System.Drawing.Size(430, 822);
             this.pnPigRight.TabIndex = 18;
             // 
             // tableLayoutPanel1
@@ -435,17 +437,18 @@ namespace Inversions.GUI
             this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.panel3, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 5;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 62F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 78F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.00001F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 92F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 76F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 115F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 95F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(379, 658);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(426, 822);
             this.tableLayoutPanel1.TabIndex = 14;
             // 
             // gbFiltreDates
@@ -457,9 +460,11 @@ namespace Inversions.GUI
             this.gbFiltreDates.Controls.Add(this.dtpFiltreDataFi);
             this.gbFiltreDates.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbFiltreDates.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbFiltreDates.Location = new System.Drawing.Point(3, 279);
+            this.gbFiltreDates.Location = new System.Drawing.Point(3, 349);
+            this.gbFiltreDates.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbFiltreDates.Name = "gbFiltreDates";
-            this.gbFiltreDates.Size = new System.Drawing.Size(373, 86);
+            this.gbFiltreDates.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gbFiltreDates.Size = new System.Drawing.Size(420, 107);
             this.gbFiltreDates.TabIndex = 19;
             this.gbFiltreDates.TabStop = false;
             this.gbFiltreDates.Text = "PiG entre dates";
@@ -468,9 +473,10 @@ namespace Inversions.GUI
             // 
             this.ckPiGEntreDatesNomesProdSel.AutoSize = true;
             this.ckPiGEntreDatesNomesProdSel.Enabled = false;
-            this.ckPiGEntreDatesNomesProdSel.Location = new System.Drawing.Point(18, 59);
+            this.ckPiGEntreDatesNomesProdSel.Location = new System.Drawing.Point(20, 74);
+            this.ckPiGEntreDatesNomesProdSel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ckPiGEntreDatesNomesProdSel.Name = "ckPiGEntreDatesNomesProdSel";
-            this.ckPiGEntreDatesNomesProdSel.Size = new System.Drawing.Size(156, 21);
+            this.ckPiGEntreDatesNomesProdSel.Size = new System.Drawing.Size(173, 24);
             this.ckPiGEntreDatesNomesProdSel.TabIndex = 3;
             this.ckPiGEntreDatesNomesProdSel.Text = "Només Prod. Sel.";
             this.ckPiGEntreDatesNomesProdSel.UseVisualStyleBackColor = true;
@@ -484,10 +490,11 @@ namespace Inversions.GUI
             this.tbPigEntreDates._PermetEspais = false;
             this.tbPigEntreDates._PermetNegatius = true;
             this.tbPigEntreDates.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbPigEntreDates.Location = new System.Drawing.Point(244, 57);
+            this.tbPigEntreDates.Location = new System.Drawing.Point(274, 71);
+            this.tbPigEntreDates.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tbPigEntreDates.Name = "tbPigEntreDates";
             this.tbPigEntreDates.ReadOnly = true;
-            this.tbPigEntreDates.Size = new System.Drawing.Size(106, 22);
+            this.tbPigEntreDates.Size = new System.Drawing.Size(119, 25);
             this.tbPigEntreDates.TabIndex = 2;
             this.tbPigEntreDates.Text = "0,00 €";
             this.tbPigEntreDates.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -497,9 +504,10 @@ namespace Inversions.GUI
             // 
             this.dtpFiltreDataInici.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpFiltreDataInici.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFiltreDataInici.Location = new System.Drawing.Point(18, 23);
+            this.dtpFiltreDataInici.Location = new System.Drawing.Point(20, 29);
+            this.dtpFiltreDataInici.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dtpFiltreDataInici.Name = "dtpFiltreDataInici";
-            this.dtpFiltreDataInici.Size = new System.Drawing.Size(99, 22);
+            this.dtpFiltreDataInici.Size = new System.Drawing.Size(111, 25);
             this.dtpFiltreDataInici.TabIndex = 0;
             this.dtpFiltreDataInici.Value = null;
             this.dtpFiltreDataInici.Enter += new System.EventHandler(this.dtpFiltreDataInici_Enter);
@@ -507,9 +515,10 @@ namespace Inversions.GUI
             // 
             // btFiltreDates
             // 
-            this.btFiltreDates.Location = new System.Drawing.Point(248, 19);
+            this.btFiltreDates.Location = new System.Drawing.Point(279, 24);
+            this.btFiltreDates.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btFiltreDates.Name = "btFiltreDates";
-            this.btFiltreDates.Size = new System.Drawing.Size(102, 30);
+            this.btFiltreDates.Size = new System.Drawing.Size(115, 38);
             this.btFiltreDates.TabIndex = 1;
             this.btFiltreDates.Text = "Calcula";
             this.btFiltreDates.UseVisualStyleBackColor = true;
@@ -519,9 +528,10 @@ namespace Inversions.GUI
             // 
             this.dtpFiltreDataFi.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpFiltreDataFi.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFiltreDataFi.Location = new System.Drawing.Point(133, 23);
+            this.dtpFiltreDataFi.Location = new System.Drawing.Point(150, 29);
+            this.dtpFiltreDataFi.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dtpFiltreDataFi.Name = "dtpFiltreDataFi";
-            this.dtpFiltreDataFi.Size = new System.Drawing.Size(99, 22);
+            this.dtpFiltreDataFi.Size = new System.Drawing.Size(111, 25);
             this.dtpFiltreDataFi.TabIndex = 0;
             this.dtpFiltreDataFi.Value = null;
             this.dtpFiltreDataFi.Enter += new System.EventHandler(this.dtpFiltreDataFi_Enter);
@@ -532,10 +542,11 @@ namespace Inversions.GUI
             this.groupBox5.Controls.Add(this.cbTipusProducteFiltreTab2);
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox5.Location = new System.Drawing.Point(3, 3);
+            this.groupBox5.Location = new System.Drawing.Point(3, 4);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox5.Size = new System.Drawing.Size(373, 56);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBox5.Size = new System.Drawing.Size(420, 70);
             this.groupBox5.TabIndex = 12;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Tipus Producte";
@@ -546,9 +557,10 @@ namespace Inversions.GUI
             this.cbTipusProducteFiltreTab2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbTipusProducteFiltreTab2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbTipusProducteFiltreTab2.FormattingEnabled = true;
-            this.cbTipusProducteFiltreTab2.Location = new System.Drawing.Point(5, 20);
+            this.cbTipusProducteFiltreTab2.Location = new System.Drawing.Point(6, 24);
+            this.cbTipusProducteFiltreTab2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cbTipusProducteFiltreTab2.Name = "cbTipusProducteFiltreTab2";
-            this.cbTipusProducteFiltreTab2.Size = new System.Drawing.Size(363, 30);
+            this.cbTipusProducteFiltreTab2.Size = new System.Drawing.Size(408, 34);
             this.cbTipusProducteFiltreTab2.TabIndex = 0;
             // 
             // gbSimulacioPig
@@ -560,18 +572,21 @@ namespace Inversions.GUI
             this.gbSimulacioPig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbSimulacioPig.Enabled = false;
             this.gbSimulacioPig.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbSimulacioPig.Location = new System.Drawing.Point(3, 371);
+            this.gbSimulacioPig.Location = new System.Drawing.Point(3, 464);
+            this.gbSimulacioPig.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbSimulacioPig.Name = "gbSimulacioPig";
-            this.gbSimulacioPig.Size = new System.Drawing.Size(373, 70);
+            this.gbSimulacioPig.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gbSimulacioPig.Size = new System.Drawing.Size(420, 87);
             this.gbSimulacioPig.TabIndex = 18;
             this.gbSimulacioPig.TabStop = false;
             this.gbSimulacioPig.Text = "Simulació PiG";
             // 
             // btSimulacioPiG
             // 
-            this.btSimulacioPiG.Location = new System.Drawing.Point(282, 19);
+            this.btSimulacioPiG.Location = new System.Drawing.Point(317, 24);
+            this.btSimulacioPiG.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btSimulacioPiG.Name = "btSimulacioPiG";
-            this.btSimulacioPiG.Size = new System.Drawing.Size(83, 45);
+            this.btSimulacioPiG.Size = new System.Drawing.Size(93, 56);
             this.btSimulacioPiG.TabIndex = 6;
             this.btSimulacioPiG.Text = "Calcula";
             this.btSimulacioPiG.UseVisualStyleBackColor = true;
@@ -581,11 +596,11 @@ namespace Inversions.GUI
             // 
             this.groupBox2.Controls.Add(this.ntbDiferencia);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(179, 21);
+            this.groupBox2.Location = new System.Drawing.Point(201, 26);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 5, 3, 3);
-            this.groupBox2.Size = new System.Drawing.Size(95, 41);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 6, 3, 4);
+            this.groupBox2.Size = new System.Drawing.Size(107, 51);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Dif.PiG Act.";
@@ -600,9 +615,10 @@ namespace Inversions.GUI
             this.ntbDiferencia.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbDiferencia.Enabled = false;
             this.ntbDiferencia.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbDiferencia.Location = new System.Drawing.Point(3, 17);
+            this.ntbDiferencia.Location = new System.Drawing.Point(3, 20);
+            this.ntbDiferencia.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ntbDiferencia.Name = "ntbDiferencia";
-            this.ntbDiferencia.Size = new System.Drawing.Size(89, 22);
+            this.ntbDiferencia.Size = new System.Drawing.Size(101, 25);
             this.ntbDiferencia.TabIndex = 0;
             this.ntbDiferencia.Text = "0,00 €";
             this.ntbDiferencia.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -611,10 +627,11 @@ namespace Inversions.GUI
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.ntbPiG);
-            this.groupBox1.Location = new System.Drawing.Point(76, 21);
+            this.groupBox1.Location = new System.Drawing.Point(86, 26);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(95, 41);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox1.Size = new System.Drawing.Size(107, 51);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "PiG";
@@ -628,9 +645,10 @@ namespace Inversions.GUI
             this.ntbPiG._PermetNegatius = true;
             this.ntbPiG.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPiG.Enabled = false;
-            this.ntbPiG.Location = new System.Drawing.Point(3, 18);
+            this.ntbPiG.Location = new System.Drawing.Point(3, 22);
+            this.ntbPiG.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ntbPiG.Name = "ntbPiG";
-            this.ntbPiG.Size = new System.Drawing.Size(89, 22);
+            this.ntbPiG.Size = new System.Drawing.Size(101, 25);
             this.ntbPiG.TabIndex = 0;
             this.ntbPiG.Text = "0,00 €";
             this.ntbPiG.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -639,10 +657,11 @@ namespace Inversions.GUI
             // gbPreuPartic
             // 
             this.gbPreuPartic.Controls.Add(this.ntbPreuParticipacio);
-            this.gbPreuPartic.Location = new System.Drawing.Point(7, 21);
+            this.gbPreuPartic.Location = new System.Drawing.Point(8, 26);
             this.gbPreuPartic.Margin = new System.Windows.Forms.Padding(0);
             this.gbPreuPartic.Name = "gbPreuPartic";
-            this.gbPreuPartic.Size = new System.Drawing.Size(61, 41);
+            this.gbPreuPartic.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gbPreuPartic.Size = new System.Drawing.Size(69, 51);
             this.gbPreuPartic.TabIndex = 4;
             this.gbPreuPartic.TabStop = false;
             this.gbPreuPartic.Text = "Preu";
@@ -655,9 +674,10 @@ namespace Inversions.GUI
             this.ntbPreuParticipacio._PermetEspais = false;
             this.ntbPreuParticipacio._PermetNegatius = false;
             this.ntbPreuParticipacio.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ntbPreuParticipacio.Location = new System.Drawing.Point(3, 18);
+            this.ntbPreuParticipacio.Location = new System.Drawing.Point(3, 22);
+            this.ntbPreuParticipacio.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ntbPreuParticipacio.Name = "ntbPreuParticipacio";
-            this.ntbPreuParticipacio.Size = new System.Drawing.Size(55, 22);
+            this.ntbPreuParticipacio.Size = new System.Drawing.Size(63, 25);
             this.ntbPreuParticipacio.TabIndex = 0;
             this.ntbPreuParticipacio.Text = "0 €";
             this.ntbPreuParticipacio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -670,9 +690,10 @@ namespace Inversions.GUI
             this.panel2.Controls.Add(this.dgvPiGAnualsTotal);
             this.panel2.Controls.Add(this.label3);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(3, 447);
+            this.panel2.Location = new System.Drawing.Point(3, 559);
+            this.panel2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(373, 208);
+            this.panel2.Size = new System.Drawing.Size(420, 259);
             this.panel2.TabIndex = 20;
             // 
             // dgvPiGAnualsTotal
@@ -682,34 +703,35 @@ namespace Inversions.GUI
             this.dgvPiGAnualsTotal.AllowUserToOrderColumns = true;
             this.dgvPiGAnualsTotal.AllowUserToResizeRows = false;
             this.dgvPiGAnualsTotal.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle43.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle43.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle43.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle43.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle43.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle43.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvPiGAnualsTotal.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle43;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvPiGAnualsTotal.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle18;
             this.dgvPiGAnualsTotal.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPiGAnualsTotal.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn7});
             this.dgvPiGAnualsTotal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvPiGAnualsTotal.Location = new System.Drawing.Point(0, 25);
+            this.dgvPiGAnualsTotal.Location = new System.Drawing.Point(0, 31);
+            this.dgvPiGAnualsTotal.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgvPiGAnualsTotal.Name = "dgvPiGAnualsTotal";
             this.dgvPiGAnualsTotal.ReadOnly = true;
             this.dgvPiGAnualsTotal.RowHeadersVisible = false;
             this.dgvPiGAnualsTotal.RowTemplate.Height = 24;
-            this.dgvPiGAnualsTotal.Size = new System.Drawing.Size(373, 183);
+            this.dgvPiGAnualsTotal.Size = new System.Drawing.Size(420, 228);
             this.dgvPiGAnualsTotal.TabIndex = 16;
             // 
             // dataGridViewTextBoxColumn2
             // 
             this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle44.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle44.Format = "0000";
-            dataGridViewCellStyle44.NullValue = null;
-            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle44;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle19.Format = "0000";
+            dataGridViewCellStyle19.NullValue = null;
+            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle19;
             this.dataGridViewTextBoxColumn2.HeaderText = "Any";
             this.dataGridViewTextBoxColumn2.MinimumWidth = 50;
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
@@ -721,9 +743,9 @@ namespace Inversions.GUI
             // dataGridViewTextBoxColumn7
             // 
             this.dataGridViewTextBoxColumn7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle45.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle45.Format = "c2";
-            this.dataGridViewTextBoxColumn7.DefaultCellStyle = dataGridViewCellStyle45;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle20.Format = "c2";
+            this.dataGridViewTextBoxColumn7.DefaultCellStyle = dataGridViewCellStyle20;
             this.dataGridViewTextBoxColumn7.HeaderText = "P i G Total";
             this.dataGridViewTextBoxColumn7.MinimumWidth = 100;
             this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
@@ -737,7 +759,7 @@ namespace Inversions.GUI
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(0, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(373, 25);
+            this.label3.Size = new System.Drawing.Size(420, 31);
             this.label3.TabIndex = 17;
             this.label3.Text = "P i G Total";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -747,9 +769,10 @@ namespace Inversions.GUI
             this.panel3.Controls.Add(this.dgvPiGAnualsTributen);
             this.panel3.Controls.Add(this.label2);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(3, 65);
+            this.panel3.Location = new System.Drawing.Point(3, 82);
+            this.panel3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(373, 208);
+            this.panel3.Size = new System.Drawing.Size(420, 259);
             this.panel3.TabIndex = 21;
             // 
             // dgvPiGAnualsTributen
@@ -759,14 +782,14 @@ namespace Inversions.GUI
             this.dgvPiGAnualsTributen.AllowUserToOrderColumns = true;
             this.dgvPiGAnualsTributen.AllowUserToResizeRows = false;
             this.dgvPiGAnualsTributen.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridViewCellStyle46.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle46.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle46.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle46.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle46.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle46.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle46.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvPiGAnualsTributen.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle46;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle21.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle21.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle21.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle21.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle21.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvPiGAnualsTributen.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle21;
             this.dgvPiGAnualsTributen.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPiGAnualsTributen.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
@@ -774,58 +797,59 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn5,
             this.Column1});
             this.dgvPiGAnualsTributen.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvPiGAnualsTributen.Location = new System.Drawing.Point(0, 25);
+            this.dgvPiGAnualsTributen.Location = new System.Drawing.Point(0, 31);
+            this.dgvPiGAnualsTributen.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgvPiGAnualsTributen.Name = "dgvPiGAnualsTributen";
             this.dgvPiGAnualsTributen.ReadOnly = true;
             this.dgvPiGAnualsTributen.RowHeadersVisible = false;
             this.dgvPiGAnualsTributen.RowTemplate.Height = 24;
-            this.dgvPiGAnualsTributen.Size = new System.Drawing.Size(373, 183);
+            this.dgvPiGAnualsTributen.Size = new System.Drawing.Size(420, 228);
             this.dgvPiGAnualsTributen.TabIndex = 8;
             // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle47.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle47.Format = "0000";
-            dataGridViewCellStyle47.NullValue = null;
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle47;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle22.Format = "0000";
+            dataGridViewCellStyle22.NullValue = null;
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle22;
             this.dataGridViewTextBoxColumn1.HeaderText = "Any";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 61;
+            this.dataGridViewTextBoxColumn1.Width = 72;
             // 
             // dataGridViewTextBoxColumn6
             // 
             this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle48.Format = "c2";
-            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle48;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle23.Format = "c2";
+            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle23;
             this.dataGridViewTextBoxColumn6.HeaderText = "P i G Curt";
             this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
             this.dataGridViewTextBoxColumn6.ReadOnly = true;
-            this.dataGridViewTextBoxColumn6.Width = 98;
+            this.dataGridViewTextBoxColumn6.Width = 113;
             // 
             // dataGridViewTextBoxColumn5
             // 
             this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle49.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle49.Format = "c2";
-            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle49;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle24.Format = "c2";
+            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle24;
             this.dataGridViewTextBoxColumn5.HeaderText = "P i G Llarg";
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             this.dataGridViewTextBoxColumn5.ReadOnly = true;
-            this.dataGridViewTextBoxColumn5.Width = 104;
+            this.dataGridViewTextBoxColumn5.Width = 118;
             // 
             // Column1
             // 
             this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle50.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle50.Format = "c2";
-            this.Column1.DefaultCellStyle = dataGridViewCellStyle50;
+            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle25.Format = "c2";
+            this.Column1.DefaultCellStyle = dataGridViewCellStyle25;
             this.Column1.HeaderText = "P i G Total";
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
-            this.Column1.Width = 104;
+            this.Column1.Width = 118;
             // 
             // label2
             // 
@@ -834,7 +858,7 @@ namespace Inversions.GUI
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(373, 25);
+            this.label2.Size = new System.Drawing.Size(420, 31);
             this.label2.TabIndex = 14;
             this.label2.Text = "P i G que tributen";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -844,9 +868,10 @@ namespace Inversions.GUI
             this.pnPigFill.Controls.Add(this.dgvPiGProducte);
             this.pnPigFill.Controls.Add(this.panel1);
             this.pnPigFill.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnPigFill.Location = new System.Drawing.Point(0, 395);
+            this.pnPigFill.Location = new System.Drawing.Point(0, 493);
+            this.pnPigFill.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnPigFill.Name = "pnPigFill";
-            this.pnPigFill.Size = new System.Drawing.Size(915, 263);
+            this.pnPigFill.Size = new System.Drawing.Size(1029, 329);
             this.pnPigFill.TabIndex = 19;
             // 
             // panel1
@@ -854,34 +879,38 @@ namespace Inversions.GUI
             this.panel1.Controls.Add(this.dgvPiGProductePerAny);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(717, 0);
+            this.panel1.Location = new System.Drawing.Point(806, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(198, 263);
+            this.panel1.Size = new System.Drawing.Size(223, 329);
             this.panel1.TabIndex = 18;
             // 
             // gestioProductesTabValoracions
             // 
             this.gestioProductesTabValoracions._AmbMoviments = true;
             this.gestioProductesTabValoracions._FiltreAnyVisible = false;
+            this.gestioProductesTabValoracions._MostraLlistaAmbChecks = false;
             this.gestioProductesTabValoracions._NomesAmbParticipacions = true;
             this.gestioProductesTabValoracions.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.gestioProductesTabValoracions.Dock = System.Windows.Forms.DockStyle.Top;
             this.gestioProductesTabValoracions.Location = new System.Drawing.Point(0, 0);
-            this.gestioProductesTabValoracions.MinimumSize = new System.Drawing.Size(733, 395);
+            this.gestioProductesTabValoracions.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.gestioProductesTabValoracions.MinimumSize = new System.Drawing.Size(824, 493);
             this.gestioProductesTabValoracions.Name = "gestioProductesTabValoracions";
-            this.gestioProductesTabValoracions.Size = new System.Drawing.Size(915, 395);
+            this.gestioProductesTabValoracions.Size = new System.Drawing.Size(1029, 493);
             this.gestioProductesTabValoracions.TabIndex = 0;
             this.gestioProductesTabValoracions.ProducteSeleccionat += new System.EventHandler(this.gestioProductesTabValoracions_ProducteSeleccionat);
             // 
             // PerduesGuanysTab
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.pnPigFill);
             this.Controls.Add(this.gestioProductesTabValoracions);
             this.Controls.Add(this.pnPigRight);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "PerduesGuanysTab";
-            this.Size = new System.Drawing.Size(1297, 658);
+            this.Size = new System.Drawing.Size(1459, 822);
             this.Load += new System.EventHandler(this.PerduesGuanysTab_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPiGProducte)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPiGProductePerAny)).EndInit();

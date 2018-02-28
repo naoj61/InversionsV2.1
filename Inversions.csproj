@@ -123,6 +123,12 @@
     <Compile Include="GUI\Controls\PerduesGuanysTab.Designer.cs">
       <DependentUpon>PerduesGuanysTab.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\GrafiquesTab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\GrafiquesTab.Designer.cs">
+      <DependentUpon>GrafiquesTab.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Controls\ValoracionsTab.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -197,6 +203,9 @@
     <EmbeddedResource Include="GUI\Controls\PerduesGuanysTab.resx">
       <DependentUpon>PerduesGuanysTab.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\GrafiquesTab.resx">
+      <DependentUpon>GrafiquesTab.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\ValoracionsTab.resx">
       <DependentUpon>ValoracionsTab.cs</DependentUpon>
     </EmbeddedResource>
@@ -262,6 +271,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\DataSources\" />
+    <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

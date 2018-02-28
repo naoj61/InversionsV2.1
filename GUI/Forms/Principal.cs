@@ -71,7 +71,7 @@ namespace Inversions.GUI
             titolFinestra();
 
 #if DEBUG
-            tabControl1.SelectTab(tabValoracions.Name);
+            tabControl1.SelectTab(tabGrafiques.Name);
 #else
             tabControl1.SelectTab(tabValoracions.Name);
 #endif
@@ -600,6 +600,15 @@ namespace Inversions.GUI
             modeEdicioProducte();
         }
 
+
+        private void tabControl1_Deselecting(object sender, TabControlCancelEventArgs e)
+        {
+            ITabs tab = e.TabPage.Controls.OfType<ITabs>().FirstOrDefault();
+
+            if (tab != null && tab.enModeEdicio)
+                e.Cancel = true;
+        }
+        
         #endregion *** Events ***
     }
 }

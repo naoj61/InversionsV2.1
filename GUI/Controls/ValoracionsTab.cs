@@ -278,6 +278,8 @@ namespace Inversions.GUI
             Refresh();
         }
 
+        public bool enModeEdicio { get { return vModeEdicio; } }
+
 
         public override void Refresh()
         {
