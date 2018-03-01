@@ -35,13 +35,13 @@ namespace Inversions.GUI
         {
             btgActualitzaGrafiques.Enabled = false;
 
-
+            // Troba la data d'inici de les gràfiques.
             DateTime dataInici = dtpInici.Value.GetValueOrDefault(DateTime.MinValue);
             if (ckDataIniciComu.Checked)
             {
                 foreach (var producteSeleccionat in gestioProductesTabValoracions.productesSeleccionats())
                 {
-                    DateTime minDataVal = Program.Sessio.Valoracions.Where(w => w.ProdId == producteSeleccionat.Id).Min(m => m.Data);
+                    DateTime minDataVal = producteSeleccionat.ValoracionsProducte.Min(m => m.Data);
                     if (minDataVal > dataInici)
                         dataInici = minDataVal;
                 }
@@ -55,16 +55,11 @@ namespace Inversions.GUI
             }
         }
 
-        private void creaGraficaDelProducte(Producte producte, DateTime dataInici, DateTime? dataFinal)
+        private void creaGraficaDelProducte(Producte producte, DateTime dataInici, DateTime dataFinal)
         {
-            Dictionary<Valoracio, double> valoracions = null;
-
-            if (ckPonderat.Checked)
-                valoracions = Valoracio.ValoracionsProductePonderades(producte, dataInici, dataFinal);
-            else
-                valoracions = Valoracio.ValoracionsProducte(producte, dataInici, dataFinal).ToDictionary(x => x, x => x.PreuParticipacio);
-
-            if (!valoracions.Any())
+            Dictionary<Valoracio, double> valoracions = producte.valoracionsPonderades(ckPonderat.Checked, dataInici, dataFinal);
+            
+            if (valoracions == null)
             {
                 MessageBox.Show(String.Format("No hi ha cap valoració pel producte: {0} amb data d'inici: {1}", producte._NomProducte, dataInici.ToShortDateString()), 
                     "Atenció", MessageBoxButtons.OK, MessageBoxIcon.Warning);

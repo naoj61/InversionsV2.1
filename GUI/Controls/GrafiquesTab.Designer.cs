@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace Inversions.GUI
 {
@@ -36,7 +37,7 @@ namespace Inversions.GUI
             this.gestioProductesTabValoracions = new Inversions.GUI.GestioProductes();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.GroupBox();
-            this.dtpFinal = new Controls.DateTimePickerNullable();
+            this.dtpFinal = new System.Windows.Forms.DateTimePicker();
             this.dtpInici = new Controls.DateTimePickerNullable();
             this.ckPonderat = new System.Windows.Forms.CheckBox();
             this.btgActualitzaGrafiques = new System.Windows.Forms.Button();
@@ -196,7 +197,7 @@ namespace Inversions.GUI
         private System.Windows.Forms.Button btgActualitzaGrafiques;
         private System.Windows.Forms.CheckBox ckPonderat;
         private System.Windows.Forms.GroupBox panel3;
-        private Controls.DateTimePickerNullable dtpFinal;
+        private System.Windows.Forms.DateTimePicker dtpFinal;
         private Controls.DateTimePickerNullable dtpInici;
         private System.Windows.Forms.CheckBox ckDataIniciComu;
     }
