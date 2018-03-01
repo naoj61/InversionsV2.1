@@ -41,6 +41,7 @@ namespace Inversions.GUI
             this.ckPonderat = new System.Windows.Forms.CheckBox();
             this.btgActualitzaGrafiques = new System.Windows.Forms.Button();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.ckDataIniciComu = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -56,7 +57,7 @@ namespace Inversions.GUI
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.panel1.Size = new System.Drawing.Size(495, 819);
+            this.panel1.Size = new System.Drawing.Size(481, 819);
             this.panel1.TabIndex = 0;
             // 
             // gestioProductesTabValoracions
@@ -69,19 +70,20 @@ namespace Inversions.GUI
             this.gestioProductesTabValoracions.Location = new System.Drawing.Point(3, 132);
             this.gestioProductesTabValoracions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gestioProductesTabValoracions.Name = "gestioProductesTabValoracions";
-            this.gestioProductesTabValoracions.Size = new System.Drawing.Size(489, 494);
+            this.gestioProductesTabValoracions.Size = new System.Drawing.Size(475, 494);
             this.gestioProductesTabValoracions.TabIndex = 1;
             this.gestioProductesTabValoracions.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.gestioProductesTabValoracions_ItemCheck);
             // 
             // panel2
             // 
             this.panel2.Controls.Add(this.panel3);
+            this.panel2.Controls.Add(this.ckDataIniciComu);
             this.panel2.Controls.Add(this.ckPonderat);
             this.panel2.Controls.Add(this.btgActualitzaGrafiques);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(3, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(489, 128);
+            this.panel2.Size = new System.Drawing.Size(475, 128);
             this.panel2.TabIndex = 0;
             // 
             // panel3
@@ -100,7 +102,7 @@ namespace Inversions.GUI
             this.dtpFinal.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpFinal.Location = new System.Drawing.Point(150, 25);
             this.dtpFinal.Name = "dtpFinal";
-            this.dtpFinal.Size = new System.Drawing.Size(138, 26);
+            this.dtpFinal.Size = new System.Drawing.Size(135, 26);
             this.dtpFinal.TabIndex = 1;
             this.dtpFinal.Value = new System.DateTime(2018, 2, 26, 19, 57, 11, 47);
             this.dtpFinal.ValueChanged += new System.EventHandler(this.dtpInici_ValueChanged);
@@ -110,7 +112,7 @@ namespace Inversions.GUI
             this.dtpInici.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpInici.Location = new System.Drawing.Point(6, 25);
             this.dtpInici.Name = "dtpInici";
-            this.dtpInici.Size = new System.Drawing.Size(138, 26);
+            this.dtpInici.Size = new System.Drawing.Size(135, 26);
             this.dtpInici.TabIndex = 0;
             this.dtpInici.Value = null;
             this.dtpInici.ValueChanged += new System.EventHandler(this.dtpInici_ValueChanged);
@@ -118,23 +120,22 @@ namespace Inversions.GUI
             // ckPonderat
             // 
             this.ckPonderat.AutoSize = true;
-            this.ckPonderat.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.ckPonderat.Checked = true;
             this.ckPonderat.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ckPonderat.Location = new System.Drawing.Point(329, 59);
+            this.ckPonderat.Location = new System.Drawing.Point(313, 66);
             this.ckPonderat.Name = "ckPonderat";
-            this.ckPonderat.Size = new System.Drawing.Size(78, 45);
+            this.ckPonderat.Size = new System.Drawing.Size(157, 24);
             this.ckPonderat.TabIndex = 2;
-            this.ckPonderat.Text = "Ponderat";
+            this.ckPonderat.Text = "Valors Ponderats";
             this.ckPonderat.UseVisualStyleBackColor = true;
-            this.ckPonderat.CheckedChanged += new System.EventHandler(this.ckPonderat_CheckedChanged);
+            this.ckPonderat.CheckedChanged += new System.EventHandler(this.ck_CheckedChanged);
             // 
             // btgActualitzaGrafiques
             // 
             this.btgActualitzaGrafiques.Enabled = false;
-            this.btgActualitzaGrafiques.Location = new System.Drawing.Point(8, 3);
+            this.btgActualitzaGrafiques.Location = new System.Drawing.Point(8, 4);
             this.btgActualitzaGrafiques.Name = "btgActualitzaGrafiques";
-            this.btgActualitzaGrafiques.Size = new System.Drawing.Size(474, 50);
+            this.btgActualitzaGrafiques.Size = new System.Drawing.Size(459, 50);
             this.btgActualitzaGrafiques.TabIndex = 0;
             this.btgActualitzaGrafiques.Text = "Actualitza Gràfiques";
             this.btgActualitzaGrafiques.UseVisualStyleBackColor = true;
@@ -148,11 +149,24 @@ namespace Inversions.GUI
             legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(495, 0);
+            this.chart1.Location = new System.Drawing.Point(481, 0);
             this.chart1.Name = "chart1";
-            this.chart1.Size = new System.Drawing.Size(1147, 819);
+            this.chart1.Size = new System.Drawing.Size(1161, 819);
             this.chart1.TabIndex = 1;
             this.chart1.Text = "chart1";
+            // 
+            // ckDataIniciComu
+            // 
+            this.ckDataIniciComu.AutoSize = true;
+            this.ckDataIniciComu.Checked = true;
+            this.ckDataIniciComu.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ckDataIniciComu.Location = new System.Drawing.Point(313, 97);
+            this.ckDataIniciComu.Name = "ckDataIniciComu";
+            this.ckDataIniciComu.Size = new System.Drawing.Size(148, 24);
+            this.ckDataIniciComu.TabIndex = 3;
+            this.ckDataIniciComu.Text = "Data Inici Comú";
+            this.ckDataIniciComu.UseVisualStyleBackColor = true;
+            this.ckDataIniciComu.CheckedChanged += new System.EventHandler(this.ck_CheckedChanged);
             // 
             // GrafiquesTab
             // 
@@ -184,5 +198,6 @@ namespace Inversions.GUI
         private System.Windows.Forms.GroupBox panel3;
         private Controls.DateTimePickerNullable dtpFinal;
         private Controls.DateTimePickerNullable dtpInici;
+        private System.Windows.Forms.CheckBox ckDataIniciComu;
     }
 }

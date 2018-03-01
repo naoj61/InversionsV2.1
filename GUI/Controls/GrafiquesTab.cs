@@ -35,40 +35,52 @@ namespace Inversions.GUI
         {
             btgActualitzaGrafiques.Enabled = false;
 
+
+            DateTime dataInici = dtpInici.Value.GetValueOrDefault(DateTime.MinValue);
+            if (ckDataIniciComu.Checked)
+            {
+                foreach (var producteSeleccionat in gestioProductesTabValoracions.productesSeleccionats())
+                {
+                    DateTime minDataVal = Program.Sessio.Valoracions.Where(w => w.ProdId == producteSeleccionat.Id).Min(m => m.Data);
+                    if (minDataVal > dataInici)
+                        dataInici = minDataVal;
+                }
+            }
+
             chart1.Series.Clear();
 
-            foreach (var productesSeleccionat in gestioProductesTabValoracions.productesSeleccionats())
+            foreach (var producteSeleccionat in gestioProductesTabValoracions.productesSeleccionats())
             {
-                creaGraficaDelProducte(productesSeleccionat);
+                creaGraficaDelProducte(producteSeleccionat, dataInici, dtpFinal.Value);
             }
         }
 
-
-        private void creaGraficaDelProducte(Producte producte)
+        private void creaGraficaDelProducte(Producte producte, DateTime dataInici, DateTime? dataFinal)
         {
             Dictionary<Valoracio, double> valoracions = null;
 
             if (ckPonderat.Checked)
-                valoracions = Valoracio.ValoracionsProductePonderades(producte, dtpInici.Value, dtpFinal.Value);
+                valoracions = Valoracio.ValoracionsProductePonderades(producte, dataInici, dataFinal);
             else
-                valoracions = Valoracio.ValoracionsProducte(producte, dtpInici.Value, dtpFinal.Value).ToDictionary(x => x, x => x.PreuParticipacio);
+                valoracions = Valoracio.ValoracionsProducte(producte, dataInici, dataFinal).ToDictionary(x => x, x => x.PreuParticipacio);
 
             if (!valoracions.Any())
             {
-                MessageBox.Show("No hi ha cap valoració pel producte: " + producte._NomProducte, "Atenció", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(String.Format("No hi ha cap valoració pel producte: {0} amb data d'inici: {1}", producte._NomProducte, dataInici.ToShortDateString()), 
+                    "Atenció", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            chart1.DataBindTable(valoracions.Select(x => new { x.Key.Data, x.Value }).ToList(), "Data");
+            chart1.DataBindTable(valoracions.Select(x => new { x.Value, x.Key.Data }).ToList(), "Data");
 
-            Series series1 = chart1.Series.Last();
+            Series series1 = chart1.Series["Value"]; // És el nom de la variable del eix X.
             series1.XValueType = ChartValueType.Date;
             series1.ChartType = SeriesChartType.Line;
             series1.Name = producte._NomProducte;
             //series1.Legend = "Legend1";
         }
 
-        private void ckPonderat_CheckedChanged(object sender, EventArgs e)
+        private void ck_CheckedChanged(object sender, EventArgs e)
         {
             activaBotoGrafiques();
         }
@@ -84,11 +96,13 @@ namespace Inversions.GUI
             {
                 btgActualitzaGrafiques.Enabled = true;
 
-                if (ParentForm != null) 
+                if (ParentForm != null)
+                {
                     ParentForm.AcceptButton = btgActualitzaGrafiques;
+                    panel2.Focus();
+                }
             }
         }
-
 
         #region Implementació d'ITabs
         
