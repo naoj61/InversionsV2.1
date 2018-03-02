@@ -574,24 +574,23 @@ namespace Inversions.GUI
             // pnSelDeselChecksProds
             // 
             this.pnSelDeselChecksProds.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnSelDeselChecksProds.AutoSize = true;
             this.pnSelDeselChecksProds.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.pnSelDeselChecksProds.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnSelDeselChecksProds.Controls.Add(this.btDeseleccionaTot);
             this.pnSelDeselChecksProds.Controls.Add(this.btSeleccionaTot);
-            this.pnSelDeselChecksProds.Location = new System.Drawing.Point(449, 3);
+            this.pnSelDeselChecksProds.Location = new System.Drawing.Point(434, 3);
             this.pnSelDeselChecksProds.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.pnSelDeselChecksProds.Name = "pnSelDeselChecksProds";
             this.pnSelDeselChecksProds.Padding = new System.Windows.Forms.Padding(3);
-            this.pnSelDeselChecksProds.Size = new System.Drawing.Size(171, 73);
+            this.pnSelDeselChecksProds.Size = new System.Drawing.Size(208, 72);
             this.pnSelDeselChecksProds.TabIndex = 8;
             this.pnSelDeselChecksProds.Visible = false;
             // 
             // btDeseleccionaTot
             // 
-            this.btDeseleccionaTot.Location = new System.Drawing.Point(88, 5);
+            this.btDeseleccionaTot.Location = new System.Drawing.Point(106, 5);
             this.btDeseleccionaTot.Name = "btDeseleccionaTot";
-            this.btDeseleccionaTot.Size = new System.Drawing.Size(75, 60);
+            this.btDeseleccionaTot.Size = new System.Drawing.Size(93, 60);
             this.btDeseleccionaTot.TabIndex = 0;
             this.btDeseleccionaTot.Text = "Deselec\r\nTot";
             this.btDeseleccionaTot.UseVisualStyleBackColor = true;
@@ -599,9 +598,9 @@ namespace Inversions.GUI
             // 
             // btSeleccionaTot
             // 
-            this.btSeleccionaTot.Location = new System.Drawing.Point(5, 5);
+            this.btSeleccionaTot.Location = new System.Drawing.Point(6, 5);
             this.btSeleccionaTot.Name = "btSeleccionaTot";
-            this.btSeleccionaTot.Size = new System.Drawing.Size(75, 60);
+            this.btSeleccionaTot.Size = new System.Drawing.Size(93, 60);
             this.btSeleccionaTot.TabIndex = 0;
             this.btSeleccionaTot.Text = "Selec\r\nTot";
             this.btSeleccionaTot.UseVisualStyleBackColor = true;

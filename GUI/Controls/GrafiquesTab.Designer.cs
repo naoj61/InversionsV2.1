@@ -39,14 +39,17 @@ namespace Inversions.GUI
             this.panel3 = new System.Windows.Forms.GroupBox();
             this.dtpFinal = new System.Windows.Forms.DateTimePicker();
             this.dtpInici = new Controls.DateTimePickerNullable();
+            this.ckDataIniciComu = new System.Windows.Forms.CheckBox();
             this.ckPonderat = new System.Windows.Forms.CheckBox();
             this.btgActualitzaGrafiques = new System.Windows.Forms.Button();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.ckDataIniciComu = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ntbIntervalEixY = new Controls.NumericTextBox2();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -77,6 +80,7 @@ namespace Inversions.GUI
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.groupBox1);
             this.panel2.Controls.Add(this.panel3);
             this.panel2.Controls.Add(this.ckDataIniciComu);
             this.panel2.Controls.Add(this.ckPonderat);
@@ -118,12 +122,25 @@ namespace Inversions.GUI
             this.dtpInici.Value = null;
             this.dtpInici.ValueChanged += new System.EventHandler(this.dtpInici_ValueChanged);
             // 
+            // ckDataIniciComu
+            // 
+            this.ckDataIniciComu.AutoSize = true;
+            this.ckDataIniciComu.Checked = true;
+            this.ckDataIniciComu.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ckDataIniciComu.Location = new System.Drawing.Point(299, 35);
+            this.ckDataIniciComu.Name = "ckDataIniciComu";
+            this.ckDataIniciComu.Size = new System.Drawing.Size(148, 24);
+            this.ckDataIniciComu.TabIndex = 3;
+            this.ckDataIniciComu.Text = "Data Inici Comú";
+            this.ckDataIniciComu.UseVisualStyleBackColor = true;
+            this.ckDataIniciComu.CheckedChanged += new System.EventHandler(this.ck_CheckedChanged);
+            // 
             // ckPonderat
             // 
             this.ckPonderat.AutoSize = true;
             this.ckPonderat.Checked = true;
             this.ckPonderat.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ckPonderat.Location = new System.Drawing.Point(313, 66);
+            this.ckPonderat.Location = new System.Drawing.Point(299, 4);
             this.ckPonderat.Name = "ckPonderat";
             this.ckPonderat.Size = new System.Drawing.Size(157, 24);
             this.ckPonderat.TabIndex = 2;
@@ -136,7 +153,7 @@ namespace Inversions.GUI
             this.btgActualitzaGrafiques.Enabled = false;
             this.btgActualitzaGrafiques.Location = new System.Drawing.Point(8, 4);
             this.btgActualitzaGrafiques.Name = "btgActualitzaGrafiques";
-            this.btgActualitzaGrafiques.Size = new System.Drawing.Size(459, 50);
+            this.btgActualitzaGrafiques.Size = new System.Drawing.Size(285, 50);
             this.btgActualitzaGrafiques.TabIndex = 0;
             this.btgActualitzaGrafiques.Text = "Actualitza Gràfiques";
             this.btgActualitzaGrafiques.UseVisualStyleBackColor = true;
@@ -156,18 +173,31 @@ namespace Inversions.GUI
             this.chart1.TabIndex = 1;
             this.chart1.Text = "chart1";
             // 
-            // ckDataIniciComu
+            // groupBox1
             // 
-            this.ckDataIniciComu.AutoSize = true;
-            this.ckDataIniciComu.Checked = true;
-            this.ckDataIniciComu.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ckDataIniciComu.Location = new System.Drawing.Point(313, 97);
-            this.ckDataIniciComu.Name = "ckDataIniciComu";
-            this.ckDataIniciComu.Size = new System.Drawing.Size(148, 24);
-            this.ckDataIniciComu.TabIndex = 3;
-            this.ckDataIniciComu.Text = "Data Inici Comú";
-            this.ckDataIniciComu.UseVisualStyleBackColor = true;
-            this.ckDataIniciComu.CheckedChanged += new System.EventHandler(this.ck_CheckedChanged);
+            this.groupBox1.Controls.Add(this.ntbIntervalEixY);
+            this.groupBox1.Location = new System.Drawing.Point(311, 65);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(90, 55);
+            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Interval Y";
+            // 
+            // ntbIntervalEixY
+            // 
+            this.ntbIntervalEixY._CapturaEscape = true;
+            this.ntbIntervalEixY._Format = "0";
+            this.ntbIntervalEixY._PermetDecimals = true;
+            this.ntbIntervalEixY._PermetEspais = false;
+            this.ntbIntervalEixY._PermetNegatius = true;
+            this.ntbIntervalEixY.Location = new System.Drawing.Point(1, 25);
+            this.ntbIntervalEixY.Name = "ntbIntervalEixY";
+            this.ntbIntervalEixY.Size = new System.Drawing.Size(85, 26);
+            this.ntbIntervalEixY.TabIndex = 0;
+            this.ntbIntervalEixY.Text = "1";
+            this.ntbIntervalEixY.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbIntervalEixY.Valor = 1D;
+            this.ntbIntervalEixY.TextChanged += new System.EventHandler(this.ntbIntervalEixY_TextChanged);
             // 
             // GrafiquesTab
             // 
@@ -184,6 +214,8 @@ namespace Inversions.GUI
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -200,5 +232,7 @@ namespace Inversions.GUI
         private System.Windows.Forms.DateTimePicker dtpFinal;
         private Controls.DateTimePickerNullable dtpInici;
         private System.Windows.Forms.CheckBox ckDataIniciComu;
+        private GroupBox groupBox1;
+        private Controls.NumericTextBox2 ntbIntervalEixY;
     }
 }

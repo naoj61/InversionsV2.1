@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using Comuns;
 
 namespace Inversions.GUI
 {
@@ -14,17 +15,17 @@ namespace Inversions.GUI
 
             dtpFinal.Value = DateTime.Now;
 
-            var chartArea = chart1.ChartAreas[0];
-            chartArea.AxisX.LabelStyle.Angle = 45;
-            chartArea.AxisX.IntervalType = DateTimeIntervalType.Months;
-            chartArea.AxisX.IsStartedFromZero = false;
-            chartArea.AxisX.Interval = 1;
-            chartArea.AxisY.IsStartedFromZero = false;
-            chartArea.AxisY.Interval = 1;
+            vChartArea = chart1.ChartAreas[0];
+            vChartArea.AxisX.LabelStyle.Angle = 45;
+            vChartArea.AxisX.IntervalType = DateTimeIntervalType.Months;
+            vChartArea.AxisX.IsStartedFromZero = false;
+            vChartArea.AxisX.Interval = 1;
+            vChartArea.AxisY.IsStartedFromZero = false;
 
             gestioProductesTabValoracions.aplicaFiltre();
         }
 
+        private readonly ChartArea vChartArea;
 
         private void gestioProductesTabValoracions_ItemCheck(object sender, ItemCheckEventArgs e)
         {
@@ -35,6 +36,8 @@ namespace Inversions.GUI
         private void btgActualitzaGrafiques_Click(object sender, EventArgs e)
         {
             btgActualitzaGrafiques.Enabled = false;
+
+            vChartArea.AxisY.Interval = ntbIntervalEixY.Valor;
 
             // Troba la data d'inici de les gràfiques.
             DateTime dataInici = dtpInici.Value.GetValueOrDefault(DateTime.MinValue);
@@ -86,6 +89,11 @@ namespace Inversions.GUI
             activaBotoGrafiques();
         }
 
+        private void ntbIntervalEixY_TextChanged(object sender, EventArgs e)
+        {
+            activaBotoGrafiques();
+        }
+
         private void activaBotoGrafiques(bool forçaActivacio = false)
         {
             if (forçaActivacio || gestioProductesTabValoracions.productesSeleccionats().Any())
@@ -95,10 +103,12 @@ namespace Inversions.GUI
                 if (ParentForm != null)
                 {
                     ParentForm.AcceptButton = btgActualitzaGrafiques;
-                    panel2.Focus();
+                    if(Utilitats.TeFocus(gestioProductesTabValoracions))
+                        panel2.Focus();
                 }
             }
         }
+
 
         #region Implementació d'ITabs
         
