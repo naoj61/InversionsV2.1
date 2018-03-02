@@ -20,6 +20,7 @@ namespace Inversions.GUI
             chartArea.AxisX.IsStartedFromZero = false;
             chartArea.AxisX.Interval = 1;
             chartArea.AxisY.IsStartedFromZero = false;
+            chartArea.AxisY.Interval = 1;
 
             gestioProductesTabValoracions.aplicaFiltre();
         }
@@ -58,10 +59,10 @@ namespace Inversions.GUI
         private void creaGraficaDelProducte(Producte producte, DateTime dataInici, DateTime dataFinal)
         {
             Dictionary<Valoracio, double> valoracions = producte.valoracionsPonderades(ckPonderat.Checked, dataInici, dataFinal);
-            
+
             if (valoracions == null)
             {
-                MessageBox.Show(String.Format("No hi ha cap valoració pel producte: {0} amb data d'inici: {1}", producte._NomProducte, dataInici.ToShortDateString()), 
+                MessageBox.Show(String.Format("No hi ha cap valoració pel producte: {0} amb data d'inici: {1}", producte._NomProducte, dataInici.ToShortDateString()),
                     "Atenció", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }

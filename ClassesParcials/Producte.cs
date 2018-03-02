@@ -1168,14 +1168,14 @@ namespace Inversions
                 if (!ponderar)
                     // Sense ponderar.
                     return valsProd.ToDictionary(x => x, x => x.PreuParticipacio);
-
-                double valorPonderacio = 1 / valsProd.First().PreuParticipacio;
-                return valsProd.ToDictionary(x => x, x => (x.PreuParticipacio * valorPonderacio) - 1);
+                const double pond = 10;
+                double valorPonderacio = pond / valsProd.First().PreuParticipacio;
+                return valsProd.ToDictionary(x => x, x => (x.PreuParticipacio * valorPonderacio) - pond);
             }
 
             return null;
         }
-
+        
 
         #region Overrides
 
