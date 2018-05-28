@@ -63,7 +63,6 @@ namespace Inversions.GUI.Forms
 
         public void carregaDades(int any)
         {
-        
             List<Tributs> tributs = Program.Sessio.Productes.AsEnumerable().Where(producte => producte.tributaAquestAny(any))
                 .Select(prod => new Tributs(any, prod)).ToList();
 
