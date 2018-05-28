@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Inversions.GUI.Forms;
 
 namespace Inversions.GUI
 {
@@ -18,7 +20,7 @@ namespace Inversions.GUI
             //if (Program.RuntimeMode)
             if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
-                Producte.TipusProducte tipusProducte = (Producte.TipusProducte)cbTipusProducteFiltreTab2.SelectedItem;
+                Producte.TipusProducte tipusProducte = (Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem;
 
                 //var primerAny = Program.Sessio.MovimentsUsuari.OrderBy(o => o.Data).First().Data.Year;
                 var ultimAny = DateTime.Today.Year;
@@ -28,7 +30,7 @@ namespace Inversions.GUI
                 double pigTotal = 0;
                 for (int any = Program.PrimerAny; any <= ultimAny; any++)
                 {
-                    if (Program.Sessio.MovimentsUsuari.Any(a => a._EsVendaReal && a.Data.Year == any))
+                    if (Program.Sessio.Productes.AsEnumerable().Any(producte => producte.tributaAquestAny(any)))
                     {
                         // Hi ha vendes en l'any.
                         var pigTributa = Producte.PigTributa(tipusProducte, any);
@@ -166,7 +168,7 @@ namespace Inversions.GUI
 
             gestioProductesTabValoracions._NomesAmbParticipacions = true;
 
-            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof(Producte.TipusProducte));
+            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof (Producte.TipusProducte));
             cbTipusProducteFiltreTab2.SelectedIndex = -1;
             cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
             cbTipusProducteFiltreTab2.SelectedIndex = 0;
@@ -196,6 +198,7 @@ namespace Inversions.GUI
         }
 
         private IButtonControl vAcceptButton = null;
+
         private void canviaAcceptButton(IButtonControl boto)
         {
             vAcceptButton = ParentForm.AcceptButton;
@@ -235,6 +238,19 @@ namespace Inversions.GUI
         private void dtpFiltreDataFi_Leave(object sender, EventArgs e)
         {
             restauraAcceptButton();
+        }
+
+
+        private void dgvPiGAnualsTributen_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex == dgvPiGAnualsTributen.Rows.Count - 1)
+                return;
+
+            var any = (int) dgvPiGAnualsTributen[0, e.RowIndex].Value;
+
+            Tributacions trib = new Tributacions();
+            trib.carregaDades(any);
+            trib.ShowDialog(this);
         }
     }
 }

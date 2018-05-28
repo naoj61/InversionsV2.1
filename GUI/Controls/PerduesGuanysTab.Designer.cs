@@ -545,7 +545,7 @@ namespace Inversions.GUI
             this.groupBox5.Location = new System.Drawing.Point(3, 4);
             this.groupBox5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(6);
             this.groupBox5.Size = new System.Drawing.Size(420, 70);
             this.groupBox5.TabIndex = 12;
             this.groupBox5.TabStop = false;
@@ -805,6 +805,7 @@ namespace Inversions.GUI
             this.dgvPiGAnualsTributen.RowTemplate.Height = 24;
             this.dgvPiGAnualsTributen.Size = new System.Drawing.Size(420, 228);
             this.dgvPiGAnualsTributen.TabIndex = 8;
+            this.dgvPiGAnualsTributen.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPiGAnualsTributen_CellDoubleClick);
             // 
             // dataGridViewTextBoxColumn1
             // 

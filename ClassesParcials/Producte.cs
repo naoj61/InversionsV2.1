@@ -1077,30 +1077,110 @@ namespace Inversions
             var dInici = dataInici.Date; // Poso la d'inici hora a zero.
             var dFinal = Utilitats.DataFinalDia(dataFinal);
 
-            var totalVendes = MovimentsProducteUsuari.
-                Where(w => w.Data >= dInici && w.Data <= dFinal && w.TipusMoviment == TipusMoviment.Venda && !w._EsTraspas).
-                Sum(s => s.Participacions * (s.PreuParticipacio - s.PreuParticipacioOrigen.GetValueOrDefault()));
+            var totalCompraVenda = importCompraVenda(dInici, dFinal);
 
             double totalDividends = 0;
             double totalDespeses = 0;
             if (this is ProdAccions)
             {
-                var vendes = MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w.TipusMoviment == TipusMoviment.Venda && !w._EsTraspas).ToList();
-                foreach (var venda in vendes)
-                {
-                    totalDespeses += venda.Despeses.GetValueOrDefault();
-                    var compresAnt = compresAnteriors(venda);
-                    foreach (MovimentCompra movimentCompra in compresAnt)
-                    {
-                        totalDespeses += movimentCompra._Moviment.Despeses.GetValueOrDefault() * movimentCompra._ParticipacionsDisponibles / movimentCompra._Moviment.Participacions;
-                    }
-                }
+                totalDespeses = calculaDespeses(dInici, dFinal);
 
-                totalDividends = MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w.TipusMoviment == TipusMoviment.Dividends).Sum(s => s.PreuParticipacio);
+                totalDividends = calculaDividents(dInici, dFinal);
             }
 
+            return Math.Round(totalCompraVenda + totalDividends - totalDespeses, 3);
+        }
 
-            return Math.Round(totalVendes + totalDividends - totalDespeses, 3);
+        /// <summary>
+        /// Calcula la diferencia de compra/venda en l'any.
+        /// </summary>
+        /// <param name="any"></param>
+        /// <returns></returns>
+        internal double importCompraVenda(int any)
+        {
+            return importCompraVenda(new DateTime(any, 1, 1), Utilitats.DataFinalDia(new DateTime(any, 12, 31)));
+        }
+
+        /// <summary>
+        /// Calcula la diferencia de compra/venda en el periode.
+        /// </summary>
+        /// <param name="dInici"></param>
+        /// <param name="dFinal"></param>
+        /// <returns></returns>
+        private double importCompraVenda(DateTime dInici, DateTime dFinal)
+        {
+            return MovimentsProducteUsuari.
+                Where(w => w.Data >= dInici && w.Data <= dFinal && w._EsVendaReal).
+                Sum(s => s.Participacions * (s.PreuParticipacio - s.PreuParticipacioOrigen.GetValueOrDefault()));
+        }
+
+
+        /// <summary>
+        /// Calcula les despeses per compra/venda en l'any.
+        /// </summary>
+        /// <param name="any"></param>
+        /// <returns></returns>
+        internal double calculaDespeses(int any)
+        {
+            return calculaDespeses(new DateTime(any, 1, 1), Utilitats.DataFinalDia(new DateTime(any, 12, 31)));
+        }
+
+
+        /// <summary>
+        /// Calcula les despeses per compra/venda en el periode.
+        /// </summary>
+        /// <param name="dInici"></param>
+        /// <param name="dFinal"></param>
+        /// <returns></returns>
+        private double calculaDespeses(DateTime dInici, DateTime dFinal)
+        {
+            // Calcula despeses i dividents.
+            double totalDespeses = 0;
+            
+            foreach (var venda in MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w._EsVendaReal).ToList())
+            {
+                // Despeses de la venda.
+                totalDespeses += venda.Despeses.GetValueOrDefault(); 
+                
+                // Despeses de la compra.
+                totalDespeses += compresAnteriors(venda)
+                    .Sum(movCompra => movCompra._Moviment.Despeses.GetValueOrDefault() * movCompra._ParticipacionsDisponibles / movCompra._Moviment.Participacions);
+            }
+
+            return totalDespeses;
+        }
+
+
+        /// <summary>
+        /// Calcula els dividents en l'any.
+        /// </summary>
+        /// <param name="any"></param>
+        /// <returns></returns>
+        internal double calculaDividents(int any)
+        {
+            return calculaDividents(new DateTime(any, 1, 1), Utilitats.DataFinalDia(new DateTime(any, 12, 31)));
+        }
+
+        /// <summary>
+        /// Calcula els dividents en el periode.
+        /// </summary>
+        /// <param name="dInici"></param>
+        /// <param name="dFinal"></param>
+        /// <returns></returns>
+        private double calculaDividents(DateTime dInici, DateTime dFinal)
+        {
+            return MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w._EsDividents).Sum(s => s.PreuParticipacio);
+        }
+
+
+        /// <summary>
+        /// Indica si un producte ha de tributar en un any deterninat.
+        /// </summary>
+        /// <param name="any"></param>
+        /// <returns></returns>
+        internal bool tributaAquestAny(int any)
+        {
+            return MovimentsProducteUsuari.Any(w => w.Data.Year == any && (w._EsVendaReal || w._EsDividents));
         }
 
 

@@ -146,6 +146,12 @@
     <Compile Include="GUI\Forms\Principal.Designer.cs">
       <DependentUpon>Principal.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Forms\Tributacions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Forms\Tributacions.Designer.cs">
+      <DependentUpon>Tributacions.cs</DependentUpon>
+    </Compile>
     <Compile Include="InversionsBD.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -213,6 +219,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Forms\Principal.resx">
       <DependentUpon>Principal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Forms\Tributacions.resx">
+      <DependentUpon>Tributacions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
