@@ -28,7 +28,8 @@ namespace Inversions.GUI.Forms
                 vProd = prod;
                 vImportCompra = prod.importCompra(any);
                 vImportVenda = prod.importVenda(any);
-                vDespeses = prod.calculaDespeses(any);
+                vDespesesCompra = prod.calculaDespesesCompra(any);
+                vDespesesVenda = prod.calculaDespesesVenda(any);
                 vDividents = prod.calculaDividents(any);
             }
 
@@ -36,7 +37,8 @@ namespace Inversions.GUI.Forms
             private Producte vProd;
             private double vImportCompra;
             private double vImportVenda;
-            private double vDespeses;
+            private double vDespesesCompra;
+            private double vDespesesVenda;
             private double vDividents;
 
             public int _Any
@@ -59,14 +61,34 @@ namespace Inversions.GUI.Forms
                 get { return vImportVenda; }
             }
 
-            public double _Despeses
+            public double _DespesesCompra
             {
-                get { return vDespeses; }
+                get { return vDespesesCompra; }
+            }
+
+            public double _DespesesVenda
+            {
+                get { return vDespesesVenda; }
             }
 
             public double _Dividents
             {
                 get { return vDividents; }
+            }
+
+            public double _CompresNet
+            {
+                get { return vImportCompra + _DespesesCompra; }
+            }
+
+            public double _VendesNet
+            {
+                get { return vImportVenda - _DespesesVenda; }
+            }
+
+            public double _TotalNet
+            {
+                get { return _VendesNet - _CompresNet; }
             }
         }
 
@@ -82,7 +104,7 @@ namespace Inversions.GUI.Forms
             dataGridView2.DataSource = tributs.Where(w=>w._Dividents > 0).ToList();
 
             tbAny.Valor = any;
-            tbTotal.Valor = tributs.Sum(t => t._ImportVenda - t._ImportCompra - t._Despeses + t._Dividents);
+            tbTotal.Valor = tributs.Sum(t => t._ImportVenda - t._ImportCompra - t._DespesesCompra - t._DespesesVenda + t._Dividents);
         }
     }
 }

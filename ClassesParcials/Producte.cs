@@ -1083,7 +1083,7 @@ namespace Inversions
             double totalDespeses = 0;
             if (this is ProdAccions)
             {
-                totalDespeses = calculaDespeses(dInici, dFinal);
+                totalDespeses = calculaDespesesCompra(dInici, dFinal) + calculaDespesesVenda(dInici, dFinal);
 
                 totalDividends = calculaDividents(dInici, dFinal);
             }
@@ -1145,28 +1145,25 @@ namespace Inversions
         /// </summary>
         /// <param name="any"></param>
         /// <returns></returns>
-        internal double calculaDespeses(int any)
+        internal double calculaDespesesCompra(int any)
         {
-            return calculaDespeses(new DateTime(any, 1, 1), Utilitats.DataFinalDia(new DateTime(any, 12, 31)));
+            return calculaDespesesCompra(new DateTime(any, 1, 1), Utilitats.DataFinalDia(new DateTime(any, 12, 31)));
         }
 
 
         /// <summary>
-        /// Calcula les despeses per compra/venda en el periode.
+        /// Calcula les despeses per compra en el periode.
         /// </summary>
         /// <param name="dInici"></param>
         /// <param name="dFinal"></param>
         /// <returns></returns>
-        private double calculaDespeses(DateTime dInici, DateTime dFinal)
+        private double calculaDespesesCompra(DateTime dInici, DateTime dFinal)
         {
             // Calcula despeses i dividents.
             double totalDespeses = 0;
             
             foreach (var venda in MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w._EsVendaReal).ToList())
-            {
-                // Despeses de la venda.
-                totalDespeses += venda.Despeses.GetValueOrDefault(); 
-                
+            {              
                 // Despeses de la compra.
                 totalDespeses += compresAnteriors(venda)
                     .Sum(movCompra => movCompra._Moviment.Despeses.GetValueOrDefault() * movCompra._ParticipacionsDisponibles / movCompra._Moviment.Participacions);
@@ -1175,6 +1172,38 @@ namespace Inversions
             return totalDespeses;
         }
 
+
+
+        /// <summary>
+        /// Calcula les despeses per compra/venda en l'any.
+        /// </summary>
+        /// <param name="any"></param>
+        /// <returns></returns>
+        internal double calculaDespesesVenda(int any)
+        {
+            return calculaDespesesVenda(new DateTime(any, 1, 1), Utilitats.DataFinalDia(new DateTime(any, 12, 31)));
+        }
+
+
+        /// <summary>
+        /// Calcula les despeses per venda en el periode.
+        /// </summary>
+        /// <param name="dInici"></param>
+        /// <param name="dFinal"></param>
+        /// <returns></returns>
+        private double calculaDespesesVenda(DateTime dInici, DateTime dFinal)
+        {
+            // Calcula despeses i dividents.
+            double totalDespeses = 0;
+
+            foreach (var venda in MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w._EsVendaReal).ToList())
+            {
+                // Despeses de la venda.
+                totalDespeses += venda.Despeses.GetValueOrDefault();
+            }
+
+            return totalDespeses;
+        }
 
         /// <summary>
         /// Calcula els dividents en l'any.
