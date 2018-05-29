@@ -1077,7 +1077,7 @@ namespace Inversions
             var dInici = dataInici.Date; // Poso la d'inici hora a zero.
             var dFinal = Utilitats.DataFinalDia(dataFinal);
 
-            var totalCompraVenda = importCompraVenda(dInici, dFinal);
+            var totalCompraVenda = importVenda(dInici, dFinal) - importCompra(dInici, dFinal);
 
             double totalDividends = 0;
             double totalDespeses = 0;
@@ -1096,9 +1096,9 @@ namespace Inversions
         /// </summary>
         /// <param name="any"></param>
         /// <returns></returns>
-        internal double importCompraVenda(int any)
+        internal double importCompra(int any)
         {
-            return importCompraVenda(new DateTime(any, 1, 1), Utilitats.DataFinalDia(new DateTime(any, 12, 31)));
+            return importCompra(new DateTime(any, 1, 1), Utilitats.DataFinalDia(new DateTime(any, 12, 31)));
         }
 
         /// <summary>
@@ -1107,11 +1107,36 @@ namespace Inversions
         /// <param name="dInici"></param>
         /// <param name="dFinal"></param>
         /// <returns></returns>
-        private double importCompraVenda(DateTime dInici, DateTime dFinal)
+        private double importCompra(DateTime dInici, DateTime dFinal)
         {
             return MovimentsProducteUsuari.
                 Where(w => w.Data >= dInici && w.Data <= dFinal && w._EsVendaReal).
-                Sum(s => s.Participacions * (s.PreuParticipacio - s.PreuParticipacioOrigen.GetValueOrDefault()));
+                Sum(s => s.Participacions * s.PreuParticipacioOrigen.GetValueOrDefault());
+        }
+
+
+        /// <summary>
+        /// Calcula la diferencia de compra/venda en l'any.
+        /// </summary>
+        /// <param name="any"></param>
+        /// <returns></returns>
+        internal double importVenda(int any)
+        {
+            return importVenda(new DateTime(any, 1, 1), Utilitats.DataFinalDia(new DateTime(any, 12, 31)));
+        }
+
+
+        /// <summary>
+        /// Calcula la diferencia de compra/venda en el periode.
+        /// </summary>
+        /// <param name="dInici"></param>
+        /// <param name="dFinal"></param>
+        /// <returns></returns>
+        private double importVenda(DateTime dInici, DateTime dFinal)
+        {
+            return MovimentsProducteUsuari.
+                Where(w => w.Data >= dInici && w.Data <= dFinal && w._EsVendaReal).
+                Sum(s => s.Participacions * s.PreuParticipacio);
         }
 
 

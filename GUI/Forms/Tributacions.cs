@@ -15,6 +15,9 @@ namespace Inversions.GUI.Forms
         public Tributacions()
         {
             InitializeComponent();
+
+            dataGridView1.AutoGenerateColumns = false;
+            dataGridView2.AutoGenerateColumns = false;
         }
 
         struct Tributs
@@ -23,14 +26,16 @@ namespace Inversions.GUI.Forms
             {
                 vAny = any;
                 vProd = prod;
-                vImportCompraVenda = prod.importCompraVenda(any);
+                vImportCompra = prod.importCompra(any);
+                vImportVenda = prod.importVenda(any);
                 vDespeses = prod.calculaDespeses(any);
                 vDividents = prod.calculaDividents(any);
             }
 
             private int vAny;
             private Producte vProd;
-            private double vImportCompraVenda;
+            private double vImportCompra;
+            private double vImportVenda;
             private double vDespeses;
             private double vDividents;
 
@@ -44,9 +49,14 @@ namespace Inversions.GUI.Forms
                 get { return vProd; }
             }
 
-            public double _ImportCompraVenda
+            public double _ImportCompra
             {
-                get { return vImportCompraVenda; }
+                get { return vImportCompra; }
+            }
+
+            public double _ImportVenda
+            {
+                get { return vImportVenda; }
             }
 
             public double _Despeses
@@ -63,12 +73,16 @@ namespace Inversions.GUI.Forms
 
         public void carregaDades(int any)
         {
-            List<Tributs> tributs = Program.Sessio.Productes.AsEnumerable().Where(producte => producte.tributaAquestAny(any))
+            //Valor de transmisión, Valor de adquisición 
+
+            var tributs = Program.Sessio.Productes.AsEnumerable().Where(producte => producte.tributaAquestAny(any))
                 .Select(prod => new Tributs(any, prod)).ToList();
 
-            dataGridView1.DataSource = tributs;
+            dataGridView1.DataSource = tributs.Where(w=>w._ImportVenda > 0).ToList();
+            dataGridView2.DataSource = tributs.Where(w=>w._Dividents > 0).ToList();
 
-            tbTotal.Valor = tributs.Sum(t => t._ImportCompraVenda - t._Despeses + t._Dividents);
+            tbAny.Valor = any;
+            tbTotal.Valor = tributs.Sum(t => t._ImportVenda - t._ImportCompra - t._Despeses + t._Dividents);
         }
     }
 }
