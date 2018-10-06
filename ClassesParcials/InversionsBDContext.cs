@@ -58,6 +58,29 @@ namespace Inversions
 
 
         /// <summary>
+        /// Desfà els canvis pendent en una taula.
+        /// </summary>
+        /// <param name="entityType"></param>
+        internal void desfaCanvisPendentsEnTaula(Type entityType)
+        {
+            var context = ((IObjectContextAdapter)this).ObjectContext;
+
+            var objects = context.ObjectStateManager.GetObjectStateEntries(
+                EntityState.Added |
+                EntityState.Deleted |
+                EntityState.Modified |
+                EntityState.Unchanged)
+                .Where(x => x.EntityKey != null && ObjectContext.GetObjectType(x.Entity.GetType()) == entityType)
+                .Select(e => e.Entity);
+
+            foreach (var ss in objects.Select(Entry).Where(ss => ss.State != EntityState.Unchanged))
+            {
+                ss.State = EntityState.Unchanged;
+            }
+        }
+
+
+        /// <summary>
         /// Desfà els canvis pendents de "entity"
         /// </summary>
         /// <param name="entity"></param>

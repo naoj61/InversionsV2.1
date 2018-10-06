@@ -372,14 +372,14 @@ namespace Inversions
         /// Torma una llista amb les Compres o "Traspassos compres" anteriors a la data hora, fins que cobreixin el número de participacions.
         /// </summary>
         /// <param name="dataHora">Data hora a partir de la que es buscaran els moviments de compravenda.</param>
-        /// <param name="numParticipacions">Numero de participacions que es volen vendre.</param>
+        /// <param name="numParticipacions">Numero de participacions que es volen vendre. Si null, totes.</param>
         /// <returns></returns>
         private IEnumerable<MovimentCompra> compresAnteriors(DateTime dataHora, double? numParticipacions = null)
         {
-            double participacions = numParticipacions.HasValue ? numParticipacions.Value : numParticipacionsEnData(dataHora);
+            double particAVendre = numParticipacions.HasValue ? numParticipacions.Value : numParticipacionsEnData(dataHora);
             List<MovimentCompra> compresAmbParticipacio = new List<MovimentCompra>();
 
-            if (participacions <= 0)
+            if (particAVendre <= 0)
                 return compresAmbParticipacio;
 
             // Troba suma participacions venudes anteriors a aquesta venda.
@@ -387,44 +387,43 @@ namespace Inversions
             var trobadaPrimeraCompra = false;
 
             // Llegeix compres anteriors a la venda del producte ordenades per data creixent i vaig restant les participacions venudes anteriorment.
-            var xx = MovimentsProducteUsuari.Where(w => w.Data < dataHora && w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data).ToList();
-            foreach (var compra in xx)
+            var compresAnt = MovimentsProducteUsuari.Where(w => w.Data < dataHora && w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data).ToList();
+            foreach (var compra in compresAnt)
             {
                 if (!trobadaPrimeraCompra)
                 {
                     if (participVenudesAbans >= compra.Participacions)
                     {
                         // Son les participacions que ja estan venude per una venda anterior.
-                        participVenudesAbans -= compra.Participacions;
+                        participVenudesAbans = Math.Round(participVenudesAbans - compra.Participacions, 5);
                     }
                     else
                     {
                         var part = compra.Participacions - participVenudesAbans;
-                        if (part > participacions)
-                            part = participacions;
+                        if (part > particAVendre)
+                            part = particAVendre;
                         compresAmbParticipacio.Add(new MovimentCompra(compra, part));
-                        participacions -= part;
+                        particAVendre -= part;
                         trobadaPrimeraCompra = true;
                     }
                 }
                 else
                 {
                     //double part = participacions > compra.Participacions ? participacions - compra.Participacions : participacions;
-                    double part = participacions > compra.Participacions ? compra.Participacions : participacions;
+                    double part = particAVendre > compra.Participacions ? compra.Participacions : particAVendre;
                     compresAmbParticipacio.Add(new MovimentCompra(compra, part));
-                    participacions -= part;
+                    particAVendre -= part;
                 }
 
-                if (Utilitats.EsZero(participacions))
+                if (Utilitats.EsZero(particAVendre))
                     break;
             }
 
-            if (participacions > 0.0000001)
+            if (particAVendre > 0.0000001)
                 throw new ApplicationException("No hi ha prou participacions disponibles en cartera en aquesta data: " + dataHora.ToShortDateString() + " " + dataHora.ToShortTimeString());
 
             return compresAmbParticipacio;
         }
-
 
         /// <summary>
         /// Calcula el preu de compra origen d'un moviment de compra, venda, traspàs.
