@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml;
 
 namespace Inversions.GUI.Forms
 {
@@ -21,7 +20,7 @@ namespace Inversions.GUI.Forms
             dataGridView2.AutoGenerateColumns = false;
         }
 
-        private struct Tributs
+        struct Tributs
         {
             internal Tributs(int any, Producte prod)
             {
@@ -101,8 +100,8 @@ namespace Inversions.GUI.Forms
             var tributs = Program.Sessio.Productes.AsEnumerable().Where(producte => producte.tributaAquestAny(any))
                 .Select(prod => new Tributs(any, prod)).ToList();
 
-            dataGridView1.DataSource = tributs.Where(w => w._ImportVenda > 0).ToList();
-            dataGridView2.DataSource = tributs.Where(w => w._Dividents > 0).ToList();
+            dataGridView1.DataSource = tributs.Where(w=>w._ImportVenda > 0).ToList();
+            dataGridView2.DataSource = tributs.Where(w=>w._Dividents > 0).ToList();
 
             tbAny.Valor = any;
             tbTotal.Valor = tributs.Sum(t => t._ImportVenda - t._ImportCompra - t._DespesesCompra - t._DespesesVenda + t._Dividents);

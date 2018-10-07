@@ -26,18 +26,6 @@ namespace Inversions.GUI
 
         public Principal()
         {
-
-#if DEBUG
-            // TODO Eliminar
-            var venda = Program.Sessio.Moviments.Single(s => s.Id == 91);
-            var aa = venda.trobaCompresReals();
-
-            foreach (Moviment.MovimentCompra compra in aa)
-            {
-                Debug.WriteLine("Id: {0}\tPart: {1}", compra._Moviment.Id, compra._ParticipacionsDisponibles);
-            } 
-#endif
-
             InitializeComponent();
 
             //using (var conn = new InversionsBDContext())
