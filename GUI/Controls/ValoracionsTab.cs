@@ -6,6 +6,7 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using Comuns;
 
 namespace Inversions.GUI
 {
@@ -58,6 +59,7 @@ namespace Inversions.GUI
         }
 
         private bool vEsNouValor = false;
+
         private void btNouValor_Click(object sender, EventArgs e)
         {
             vEsNouValor = true;
@@ -110,7 +112,7 @@ namespace Inversions.GUI
                     }
                 }
 
-                Program.Sessio.refrescaTaula(typeof(Valoracio));
+                Program.Sessio.refrescaTaula(typeof (Valoracio));
                 actualitzaLlistaValoracionsPerProducte();
             }
         }
@@ -173,32 +175,28 @@ namespace Inversions.GUI
             {
                 using (var conn = new InversionsBDContext())
                 {
-                    //using (var trans = conn.Database.BeginTransaction())
                     {
                         try
                         {
                             if (vEsNouValor)
                             {
                                 Valoracio.Nova(conn, gestioProductesTabValoracions._ProducteSeleccionat, cData.Value, tbImport._DoubleValue);
-                                //trans.Commit();
                             }
                             else
                             {
                                 vValoracioSeleccionada.modifica(conn, cData.Value, tbImport._DoubleValue);
-
-                                //trans.Commit();
-
-                                //if (vValoracioSeleccionada != null)
-                                //    // Carrega el nou valor.
-                                //    Program.Sessio.Entry(vValoracioSeleccionada).Reload();
                             }
 
                             conn.SaveChanges();
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            //trans.Rollback();
+                            var xx = Utilitats.ExtreuInnerException(ex);
+
+                            if (xx is System.Data.SqlClient.SqlException && ((System.Data.SqlClient.SqlException) xx).Number == 2627)
+                                MessageBox.Show("Valorració ja existeix", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            else
+                                MessageBox.Show(xx.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
@@ -278,7 +276,10 @@ namespace Inversions.GUI
             Refresh();
         }
 
-        public bool enModeEdicio { get { return vModeEdicio; } }
+        public bool enModeEdicio
+        {
+            get { return vModeEdicio; }
+        }
 
 
         public override void Refresh()
@@ -335,7 +336,7 @@ namespace Inversions.GUI
             }
 
 
-            var valMovs = valoracions.Where(w => w.Data >= dtpDataIniciLlista.Value).Select(s => new { Data = s.Data.Date, PreuParticipacio = s.PreuParticipacio }).
+            var valMovs = valoracions.Where(w => w.Data >= dtpDataIniciLlista.Value).Select(s => new {Data = s.Data.Date, PreuParticipacio = s.PreuParticipacio}).
                 Union(moviments.Where(w => w.Data >= dtpDataIniciLlista.Value).Select(s => new {Data = s.Data.Date, PreuParticipacio = s.PreuParticipacio})).
                 GroupBy(g => g.Data).OrderBy(o => o.Key);
 

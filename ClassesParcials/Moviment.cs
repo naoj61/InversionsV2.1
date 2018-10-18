@@ -201,58 +201,6 @@ namespace Inversions
         }
 
 
-#if DEBUG
-
-        //public IEnumerable<MovimentCompra> __CompresOriginalsAnteriors(Producte prod, DateTime dataHora, double? numParticipacions = null)
-        //{
-
-        //}
-
-    
-        public IEnumerable<MovimentCompra> __CompresOriginalsAnteriors(double ratiPartUtilitzades = 1)
-        {
-            if (TipusMoviment != TipusMoviment.Venda)
-                throw new ArgumentException("El moviment ha de ser una venda.", "venda");
-
-            double partProrratejades = Participacions * ratiPartUtilitzades;
-            List<MovimentCompra> compresOriginalsAnt = new List<MovimentCompra>();
-            var compresAnt = Prod.compresAnteriors(Data, partProrratejades).ToList();
-
-            double numPart = partProrratejades;
-            double numPartDisp = compresAnt.Sum(movimentCompra => movimentCompra._Moviment.Participacions);
-            double nouRati = Math.Round(numPart / numPartDisp, 4);
-
-
-            foreach (var movimentCompra in compresAnt)
-            {
-                if (movimentCompra._EsTraspas)
-                {
-                    compresOriginalsAnt.AddRange(movimentCompra._MovimentRefVenda.__CompresOriginalsAnteriors(nouRati));
-                }
-                else
-                {
-                    compresOriginalsAnt.Add(movimentCompra);
-                }
-            }
-
-            //var compresAntTrasp = compresAnt.Where(w=>w._Moviment._EsTraspas).ToList();
-
-            //// PartCompra * PreuPartCompra / PartVenda = PreuPartVenda
-
-            //foreach (var movimentCompra in compresAntTrasp)
-            //{
-            //    var venda = Program.Sessio.Moviments.Single(s => s.Id == movimentCompra._Moviment.MovimentRefVendaId);
-            //    var compresAntVenda = venda.compresAnteriors();
-            //    var compresAntVendaTrasp = venda.compresAnteriors().Where(w=>w._Moviment._EsTraspas).ToList();
-            //    var preuPartVendaMovimentCompra = venda.PreuParticipacio;
-            //}
-
-            return compresOriginalsAnt;
-        } 
-
-#endif
-
-
         /// <summary>
         /// Calcula el preu de compra origen d'un moviment de; Compra, venda o traspàs.
         /// </summary>
