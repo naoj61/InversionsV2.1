@@ -194,7 +194,7 @@ namespace Inversions.GUI
                             var xx = Utilitats.ExtreuInnerException(ex);
 
                             if (xx is System.Data.SqlClient.SqlException && ((System.Data.SqlClient.SqlException) xx).Number == 2627)
-                                MessageBox.Show("Valorració ja existeix", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("Valoració ja existeix", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             else
                                 MessageBox.Show(xx.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
