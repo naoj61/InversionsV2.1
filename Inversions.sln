@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controls", "..\..\Llibrerie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comuns", "..\..\Llibreries\Comuns\Comuns.csproj", "{83FFF275-A1A1-4DF4-A669-591CB12DCBB4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestInversions", "..\UnitTestInversions\UnitTestInversions.csproj", "{D667449D-42EA-4604-877C-15F7E9D72DBD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{83FFF275-A1A1-4DF4-A669-591CB12DCBB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83FFF275-A1A1-4DF4-A669-591CB12DCBB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83FFF275-A1A1-4DF4-A669-591CB12DCBB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D667449D-42EA-4604-877C-15F7E9D72DBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D667449D-42EA-4604-877C-15F7E9D72DBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D667449D-42EA-4604-877C-15F7E9D72DBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D667449D-42EA-4604-877C-15F7E9D72DBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

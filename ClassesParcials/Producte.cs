@@ -15,20 +15,6 @@ namespace Inversions
     {
         #region Variables
 
-        private struct MovimentCompra
-        {
-            public Moviment _Moviment { get; private set; }
-            public double _ParticipacionsDisponibles { get; private set; }
-
-            public MovimentCompra(Moviment moviment, double participacionsDisponibles)
-                : this()
-            {
-                _Moviment = moviment;
-                _ParticipacionsDisponibles = participacionsDisponibles;
-            }
-
-        }
-
         public abstract TipusProducte _TipusProducte { get; }
         public abstract string _NomProducte { get; set;}
         public abstract string _TipusNomProducte { get; }
@@ -354,121 +340,6 @@ namespace Inversions
         }
 
 
-        /// <summary>
-        /// Torma una llista amb les Compres o "Traspassos compres" de la venda del paràmetre.
-        /// </summary>
-        /// <param name="venda"></param>
-        /// <returns></returns>
-        private IEnumerable<MovimentCompra> compresAnteriors(Moviment venda)
-        {
-            if (venda.TipusMoviment != TipusMoviment.Venda)
-                throw new ArgumentException("El moviment ha de ser una venda.", "venda");
-
-            return compresAnteriors(venda.Data, venda.Participacions);
-        }
-
-
-        /// <summary>
-        /// Torma una llista amb les Compres o "Traspassos compres" anteriors a la data hora, fins que cobreixin el número de participacions.
-        /// </summary>
-        /// <param name="dataHora">Data hora a partir de la que es buscaran els moviments de compravenda.</param>
-        /// <param name="numParticipacions">Numero de participacions que es volen vendre.</param>
-        /// <returns></returns>
-        private IEnumerable<MovimentCompra> compresAnteriors(DateTime dataHora, double? numParticipacions = null)
-        {
-            double participacions = numParticipacions.HasValue ? numParticipacions.Value : numParticipacionsEnData(dataHora);
-            List<MovimentCompra> compresAmbParticipacio = new List<MovimentCompra>();
-
-            if (participacions <= 0)
-                return compresAmbParticipacio;
-
-            // Troba suma participacions venudes anteriors a aquesta venda.
-            var participVenudesAbans = MovimentsProducteUsuari.Where(w => w.Data < dataHora && w.TipusMoviment == TipusMoviment.Venda).Sum(s => (double?)s.Participacions) ?? 0;
-            var trobadaPrimeraCompra = false;
-
-            // Llegeix compres anteriors a la venda del producte ordenades per data creixent i vaig restant les participacions venudes anteriorment.
-            var xx = MovimentsProducteUsuari.Where(w => w.Data < dataHora && w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data).ToList();
-            foreach (var compra in xx)
-            {
-                if (!trobadaPrimeraCompra)
-                {
-                    if (participVenudesAbans >= compra.Participacions)
-                    {
-                        // Son les participacions que ja estan venude per una venda anterior.
-                        participVenudesAbans -= compra.Participacions;
-                    }
-                    else
-                    {
-                        var part = compra.Participacions - participVenudesAbans;
-                        if (part > participacions)
-                            part = participacions;
-                        compresAmbParticipacio.Add(new MovimentCompra(compra, part));
-                        participacions -= part;
-                        trobadaPrimeraCompra = true;
-                    }
-                }
-                else
-                {
-                    //double part = participacions > compra.Participacions ? participacions - compra.Participacions : participacions;
-                    double part = participacions > compra.Participacions ? compra.Participacions : participacions;
-                    compresAmbParticipacio.Add(new MovimentCompra(compra, part));
-                    participacions -= part;
-                }
-
-                if (Utilitats.EsZero(participacions))
-                    break;
-            }
-
-            if (participacions > 0.0000001)
-                throw new ApplicationException("No hi ha prou participacions disponibles en cartera en aquesta data: " + dataHora.ToShortDateString() + " " + dataHora.ToShortTimeString());
-
-            return compresAmbParticipacio;
-        }
-
-
-        /// <summary>
-        /// Calcula el preu de compra origen d'un moviment de compra, venda, traspàs.
-        /// </summary>
-        /// <param name="moviment"></param>
-        /// <returns></returns>
-        internal double calculaPreuOrigen(Moviment moviment)
-        {
-            double valorRetorn;
-
-            if (moviment.TipusMoviment == TipusMoviment.Compra)
-            {
-                if (moviment.MovimentRefVenda == null)
-                {
-                    valorRetorn = moviment.PreuParticipacio;
-                }
-                else
-                {
-                    if (moviment.MovimentRefVenda.PreuParticipacioOrigen == null)
-                        throw new NullReferenceException("El 'movimentVendaVinculatCompra' és NULL i hauria de tenir algún valor.");
-
-                    valorRetorn = moviment.MovimentRefVenda.PreuParticipacioOrigen.Value * moviment.MovimentRefVenda.Participacions / moviment.Participacions;
-                }
-            }
-            else
-            {
-                double x = 0;
-                double y = 0;
-
-                foreach (var compra in compresAnteriors(moviment.Data, moviment.Participacions))
-                {
-                    if (compra._Moviment.PreuParticipacioOrigen == null)
-                        throw new NullReferenceException("El 'compra._Moviment.PreuParticipacioOrigen' és NULL i hauria de tenir algún valor. Id moviment: " + compra._Moviment.Id);
-
-                    x += compra._ParticipacionsDisponibles * compra._Moviment.PreuParticipacioOrigen.Value;
-                    y += compra._ParticipacionsDisponibles;
-                }
-                valorRetorn = x / y;
-            }
-
-            return Math.Round(valorRetorn, 4);
-        }
-
-
 
         /// <summary>
         /// Modifica les valoracions al fer Split o ContraSplit
@@ -643,7 +514,7 @@ namespace Inversions
             }
             connexio.Moviments.Add(moviment); // Carrega les referències. S'ha de fer abans de: calculaPreuOrigen(moviment)
 
-            moviment.PreuParticipacioOrigen = calculaPreuOrigen(moviment); // Després del Add per tenir les referèmcies creades.
+            moviment.PreuParticipacioOrigen = moviment.calculaPreuOrigen(); // Després del Add per tenir les referèmcies creades.
 
             if (afegeigPreuAValoracions)
                 this.afegeigPreuAValoracions(connexio, dataHora, preuParticipacio);
@@ -708,7 +579,7 @@ namespace Inversions
 
             connexio.Moviments.Add(moviment); // Carrega les referències.
 
-            moviment.PreuParticipacioOrigen = calculaPreuOrigen(moviment); // Després del Add per tenir les referèmcies creades.
+            moviment.PreuParticipacioOrigen = moviment.calculaPreuOrigen(); // Després del Add per tenir les referèmcies creades.
 
             if (afegeigPreuAValoracions)
                 this.afegeigPreuAValoracions(connexio, dataHora, preuParticipacio);
@@ -859,6 +730,65 @@ namespace Inversions
         }
 
 
+        /// <summary>
+        /// Torma una llista amb les Compres o "Traspassos compres" anteriors a la data hora, fins que cobreixin el número de participacions.
+        /// </summary>
+        /// <param name="dataHora">Data hora a partir de la que es buscaran els moviments de compravenda.</param>
+        /// <param name="numParticipacions">Numero de participacions que es volen vendre.</param>
+        /// <returns></returns>
+        internal IEnumerable<MovimentCompra> compresAnteriors(DateTime dataHora, double? numParticipacions = null)
+        {
+            double participacions = numParticipacions.HasValue ? numParticipacions.Value : numParticipacionsEnData(dataHora);
+            List<MovimentCompra> compresAmbParticipacio = new List<MovimentCompra>();
+
+            if (participacions <= 0)
+                return compresAmbParticipacio;
+
+            // Troba suma participacions venudes anteriors a aquesta venda.
+            var participVenudesAbans = MovimentsProducteUsuari
+                .Where(w => w.Data < dataHora && w.TipusMoviment == TipusMoviment.Venda).Sum(s => (double?)s.Participacions) ?? 0;
+            var trobadaPrimeraCompra = false;
+
+            // Llegeix compres anteriors a la venda del producte ordenades per data creixent i vaig restant les participacions venudes anteriorment.
+            var xx = MovimentsProducteUsuari.Where(w => w.Data < dataHora && w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data).ToList();
+            foreach (var compra in xx)
+            {
+                if (!trobadaPrimeraCompra)
+                {
+                    if (participVenudesAbans >= compra.Participacions)
+                    {
+                        // Son les participacions que ja estan venude per una venda anterior.
+                        participVenudesAbans -= compra.Participacions;
+                    }
+                    else
+                    {
+                        var part = compra.Participacions - participVenudesAbans;
+                        if (part > participacions)
+                            part = participacions;
+                        compresAmbParticipacio.Add(new MovimentCompra(compra, part));
+                        participacions -= part;
+                        trobadaPrimeraCompra = true;
+                    }
+                }
+                else
+                {
+                    //double part = participacions > compra.Participacions ? participacions - compra.Participacions : participacions;
+                    double part = participacions > compra.Participacions ? compra.Participacions : participacions;
+                    compresAmbParticipacio.Add(new MovimentCompra(compra, part));
+                    participacions -= part;
+                }
+
+                if (Utilitats.EsZero(participacions))
+                    break;
+            }
+
+            if (participacions > 0.0000001)
+                throw new ApplicationException("No hi ha prou participacions disponibles en cartera en aquesta data: " + dataHora.ToShortDateString() + " " + dataHora.ToShortTimeString());
+
+            return compresAmbParticipacio;
+        }
+
+
         internal static double Pig(DateTime? dataInici = null, DateTime? dataFinal = null)
         {
             return Pig(TipusProducte.Tots, dataInici.GetValueOrDefault(DateTime.MinValue), dataFinal.GetValueOrDefault(DateTime.MaxValue));
@@ -971,7 +901,7 @@ namespace Inversions
                 foreach (var venda in vendes)
                 {
                     totalDespeses += venda.Despeses.GetValueOrDefault();
-                    var compresAnt = compresAnteriors(venda);
+                    var compresAnt = venda.compresAnteriors();
                     foreach (MovimentCompra movimentCompra in compresAnt)
                     {
                         totalDespeses += movimentCompra._Moviment.Despeses.GetValueOrDefault() * movimentCompra._ParticipacionsDisponibles / movimentCompra._Moviment.Participacions;
@@ -1165,7 +1095,7 @@ namespace Inversions
             foreach (var venda in MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w._EsVendaReal).ToList())
             {              
                 // Despeses de la compra.
-                totalDespeses += compresAnteriors(venda)
+                totalDespeses += venda.compresAnteriors()
                     .Sum(movCompra => movCompra._Moviment.Despeses.GetValueOrDefault() * movCompra._ParticipacionsDisponibles / movCompra._Moviment.Participacions);
             }
 

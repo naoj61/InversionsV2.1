@@ -8,8 +8,48 @@ using Comuns;
 
 namespace Inversions
 {
+
+    /// <summary>
+    /// El moviment de compra lligadas a una venda pot ser que no utilitzi totes les participacions.
+    /// </summary>
+    public struct MovimentCompra
+    {
+        public double _ParticipacionsDisponibles { get; private set; }
+        public Moviment _Moviment { get; private set; }
+        public Moviment _MovimentRefVenda {
+            get { return _Moviment.MovimentRefVenda; }
+        }
+
+        public double _PreuParticipacioOrigen
+        {
+            get { return _Moviment.PreuParticipacioOrigen.GetValueOrDefault(_Moviment.PreuParticipacio); }
+        }
+
+        public bool _EsTraspas
+        {
+            get { return _Moviment._EsTraspas; }
+        }
+
+        public MovimentCompra(Moviment moviment, double participacionsDisponibles)
+            : this()
+        {
+            if(!moviment._EsCompra)
+                throw new ArgumentException("El moviment ha de ser una compra.", "moviment");
+
+            _Moviment = moviment;
+            _ParticipacionsDisponibles = participacionsDisponibles;
+        }
+
+        public override string ToString()
+        {
+            return _Moviment.Id.ToString();
+        }
+    }
+
     public partial class Moviment
     {
+        #region *** Atributs ***
+        
         public string _NomProducteTraspasOrigen
         {
             get { return _ProducteTraspasOrigen != null ? _ProducteTraspasOrigen._NomProducte : null; }
@@ -24,7 +64,6 @@ namespace Inversions
         {
             get { return TipusMoviment == TipusMoviment.Compra ? ProducteTraspas : null; }
         }
-
 
         public Producte _ProducteTraspasDesti
         {
@@ -52,21 +91,20 @@ namespace Inversions
                 {
                     return TipusMoviment.ContraSplit.ToString();
                 }
-                
+
                 if (TipusMoviment == TipusMoviment.Compra)
                 {
                     return _EsTraspas ? "Traspàs C" : TipusMoviment.Compra.ToString();
                 }
-                
+
                 if (TipusMoviment == TipusMoviment.Venda)
                 {
                     return _EsTraspas ? "Traspàs V" : TipusMoviment.Venda.ToString();
                 }
-                
+
                 throw new Exception("No hauria d'arribar aquí");
             }
         }
-
 
         public bool _EsTraspas
         {
@@ -146,6 +184,120 @@ namespace Inversions
             get { return NoUtilitzar1.FirstOrDefault(); }
         }
 
+        #endregion *** Atributs ***
+
+        #region *** Mètodes ***
+
+        /// <summary>
+        /// Torma una llista amb les Compres o "Traspassos compres" de la venda del paràmetre.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<MovimentCompra> compresAnteriors()
+        {
+            if (TipusMoviment != TipusMoviment.Venda)
+                throw new ArgumentException("El moviment ha de ser una venda.", "venda");
+
+            return Prod.compresAnteriors(Data, Participacions);
+        }
+
+
+#if DEBUG
+
+        //public IEnumerable<MovimentCompra> __CompresOriginalsAnteriors(Producte prod, DateTime dataHora, double? numParticipacions = null)
+        //{
+
+        //}
+
+    
+        public IEnumerable<MovimentCompra> __CompresOriginalsAnteriors(double ratiPartUtilitzades = 1)
+        {
+            if (TipusMoviment != TipusMoviment.Venda)
+                throw new ArgumentException("El moviment ha de ser una venda.", "venda");
+
+            double partProrratejades = Participacions * ratiPartUtilitzades;
+            List<MovimentCompra> compresOriginalsAnt = new List<MovimentCompra>();
+            var compresAnt = Prod.compresAnteriors(Data, partProrratejades).ToList();
+
+            double numPart = partProrratejades;
+            double numPartDisp = compresAnt.Sum(movimentCompra => movimentCompra._Moviment.Participacions);
+            double nouRati = Math.Round(numPart / numPartDisp, 4);
+
+
+            foreach (var movimentCompra in compresAnt)
+            {
+                if (movimentCompra._EsTraspas)
+                {
+                    compresOriginalsAnt.AddRange(movimentCompra._MovimentRefVenda.__CompresOriginalsAnteriors(nouRati));
+                }
+                else
+                {
+                    compresOriginalsAnt.Add(movimentCompra);
+                }
+            }
+
+            //var compresAntTrasp = compresAnt.Where(w=>w._Moviment._EsTraspas).ToList();
+
+            //// PartCompra * PreuPartCompra / PartVenda = PreuPartVenda
+
+            //foreach (var movimentCompra in compresAntTrasp)
+            //{
+            //    var venda = Program.Sessio.Moviments.Single(s => s.Id == movimentCompra._Moviment.MovimentRefVendaId);
+            //    var compresAntVenda = venda.compresAnteriors();
+            //    var compresAntVendaTrasp = venda.compresAnteriors().Where(w=>w._Moviment._EsTraspas).ToList();
+            //    var preuPartVendaMovimentCompra = venda.PreuParticipacio;
+            //}
+
+            return compresOriginalsAnt;
+        } 
+
+#endif
+
+
+        /// <summary>
+        /// Calcula el preu de compra origen d'un moviment de; Compra, venda o traspàs.
+        /// </summary>
+        /// <returns></returns>
+        internal double calculaPreuOrigen()
+        {
+            double valorRetorn;
+
+            if (TipusMoviment == TipusMoviment.Compra)
+            {
+                if (MovimentRefVenda == null)
+                {
+                    valorRetorn = PreuParticipacio;
+                }
+                else
+                {
+                    if (MovimentRefVenda.PreuParticipacioOrigen == null)
+                        throw new NullReferenceException("El 'movimentVendaVinculatCompra' és NULL i hauria de tenir algún valor.");
+
+                    valorRetorn = MovimentRefVenda.PreuParticipacioOrigen.Value * MovimentRefVenda.Participacions / Participacions;
+                }
+            }
+            else if (TipusMoviment == TipusMoviment.Venda || TipusMoviment == TipusMoviment.Traspàs)
+            {
+                double x = 0;
+                double y = 0;
+
+                foreach (var compra in compresAnteriors())
+                {
+                    if (compra._Moviment.PreuParticipacioOrigen == null)
+                        throw new NullReferenceException("El 'compra._Moviment.PreuParticipacioOrigen' és NULL i hauria de tenir algún valor. Id moviment: " + compra._Moviment.Id);
+
+                    x += compra._ParticipacionsDisponibles * compra._Moviment.PreuParticipacioOrigen.Value;
+                    y += compra._ParticipacionsDisponibles;
+                }
+                valorRetorn = x / y;
+            }
+            else
+            {
+                throw new ApplicationException("El moviment ha de ser: Compra, venda o traspàs.");
+            }
+
+            return Math.Round(valorRetorn, 4);
+        }
+
         public double ImportBrut
         {
             get
@@ -187,7 +339,7 @@ namespace Inversions
 
         public Moviment Clone()
         {
-            return (Moviment) MemberwiseClone();
+            return (Moviment)MemberwiseClone();
 
             //Moviment mov = new Moviment();
 
@@ -208,10 +360,11 @@ namespace Inversions
             //mov.RowVersion = RowVersion;
             //mov.TipusMoviment = TipusMoviment;
             //mov.ValorCompraOriginal = ValorCompraOriginal;
-            
+
             //return mov;
         }
 
+        #endregion *** Mètodes ***
 
         #region Overrides
 
@@ -256,6 +409,5 @@ namespace Inversions
         }
 
         #endregion
-
     }
 }

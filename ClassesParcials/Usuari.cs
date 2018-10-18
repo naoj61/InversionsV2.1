@@ -4,9 +4,15 @@ namespace Inversions
 {
     public partial class Usuari
     {
+        public enum Usuaris
+        {
+            Joan = 1,
+            Carme = 2
+        }
+
         private static Usuari Seleccionat1;
 
-        internal static Usuari Seleccionat
+        public static Usuari Seleccionat
         {
             get { return Seleccionat1; }
             set { Seleccionat1 = value; }
