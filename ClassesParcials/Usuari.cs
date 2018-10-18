@@ -4,6 +4,12 @@ namespace Inversions
 {
     public partial class Usuari
     {
+        public enum Usuaris
+        {
+            Joan = 1,
+            Carme = 2
+        }
+
         private static Usuari Seleccionat1;
 
         public static Usuari Seleccionat
