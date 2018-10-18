@@ -450,11 +450,13 @@ namespace Inversions.GUI
         {
             if (e.Button == MouseButtons.Left)
             {
-                var prodTraspas = (Producte) cDataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-                if (prodTraspas != null)
+                if (e.ColumnIndex ==  10 || e.ColumnIndex == 11)
                 {
-                    gestioProductesTabMoviments.seleccionaProducte(prodTraspas);
-                    //gestioProductesTabMoviments._ProducteSeleccionat = prodTraspas;
+                    var prodTraspas = (Producte)cDataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                    if (prodTraspas != null)
+                    {
+                        gestioProductesTabMoviments.seleccionaProducte(prodTraspas);
+                    } 
                 }
             }
         }
