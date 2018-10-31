@@ -5,6 +5,17 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="InversionsBD.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DesglosCompres">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RefCompraId" Type="int" Nullable="false" />
+          <Property Name="RefCompraOrigId" Type="int" Nullable="false" />
+          <Property Name="Participacions" Type="float" Nullable="false" />
+          <Property Name="ParticipacionsOrig" Type="float" Nullable="false" />
+          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
         <EntityType Name="Empreses">
           <Key>
             <PropertyRef Name="Id" />
@@ -138,6 +149,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MovCompra">
+          <End Role="Moviments" Type="Self.Moviments" Multiplicity="1" />
+          <End Role="DesglosCompres" Type="Self.DesglosCompres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moviments">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DesglosCompres">
+              <PropertyRef Name="RefCompraId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovCompraOrig">
+          <End Role="Moviments" Type="Self.Moviments" Multiplicity="1" />
+          <End Role="DesglosCompres" Type="Self.DesglosCompres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moviments">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DesglosCompres">
+              <PropertyRef Name="RefCompraOrigId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ProdAccions_inherits_Producte">
           <End Role="Productes" Type="Self.Productes" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -251,6 +286,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="InversionsBDStoreContainer">
+          <EntitySet Name="DesglosCompres" EntityType="Self.DesglosCompres" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empreses" EntityType="Self.Empreses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gestors" EntityType="Self.Gestors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Mercats" EntityType="Self.Mercats" Schema="dbo" store:Type="Tables" />
@@ -272,6 +308,14 @@
           <AssociationSet Name="FK_MercatProdAccions" Association="Self.FK_MercatProdAccions">
             <End Role="Mercats" EntitySet="Mercats" />
             <End Role="Productes_ProdAccions" EntitySet="Productes_ProdAccions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovCompra" Association="Self.FK_MovCompra">
+            <End Role="Moviments" EntitySet="Moviments" />
+            <End Role="DesglosCompres" EntitySet="DesglosCompres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovCompraOrig" Association="Self.FK_MovCompraOrig">
+            <End Role="Moviments" EntitySet="Moviments" />
+            <End Role="DesglosCompres" EntitySet="DesglosCompres" />
           </AssociationSet>
           <AssociationSet Name="FK_ProdAccions_inherits_Producte" Association="Self.FK_ProdAccions_inherits_Producte">
             <End Role="Productes" EntitySet="Productes" />
@@ -357,6 +401,15 @@
           <AssociationSet Name="FK_Usuaris" Association="InversionsBD.FK_Usuaris1">
             <End Role="Usuari" EntitySet="Usuaris" />
             <End Role="Moviment" EntitySet="Moviments" />
+          </AssociationSet>
+          <EntitySet Name="DesglosCompras" EntityType="InversionsBD.DesglosCompra" />
+          <AssociationSet Name="FK_MovCompra" Association="InversionsBD.FK_MovCompra">
+            <End Role="Moviment" EntitySet="Moviments" />
+            <End Role="DesglosCompre" EntitySet="DesglosCompras" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovCompraOrig" Association="InversionsBD.FK_MovCompraOrig">
+            <End Role="Moviment" EntitySet="Moviments" />
+            <End Role="DesglosCompre" EntitySet="DesglosCompras" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Empresa">
@@ -500,6 +553,8 @@
           <NavigationProperty Name="NoUtilitzar1" Relationship="InversionsBD.FK_RefVenda1" FromRole="Moviment" ToRole="Moviment1" />
           <NavigationProperty Name="MovimentRefVenda" Relationship="InversionsBD.FK_RefVenda1" FromRole="Moviment1" ToRole="Moviment" />
           <NavigationProperty Name="Usuari" Relationship="InversionsBD.FK_Usuaris1" FromRole="Moviment" ToRole="Usuari" />
+          <NavigationProperty Name="DesglosCompres" Relationship="InversionsBD.FK_MovCompra" FromRole="Moviment" ToRole="DesglosCompre" />
+          <NavigationProperty Name="DesglosCompresOrig" Relationship="InversionsBD.FK_MovCompraOrig" FromRole="Moviment" ToRole="DesglosCompre" />
           </EntityType>
         <Association Name="ProdMov">
           <End Type="InversionsBD.Producte" Role="Prod" Multiplicity="1" />
@@ -573,6 +628,43 @@
             </Principal>
             <Dependent Role="Moviment">
               <PropertyRef Name="UsuariId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DesglosCompra">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefCompraId" Type="Int32" Nullable="false" />
+          <Property Name="RefCompraOrigId" Type="Int32" Nullable="false" />
+          <Property Name="Participacions" Type="Double" Nullable="false" />
+          <Property Name="ParticipacionsOrig" Type="Double" Nullable="false" />
+          <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Moviment" Relationship="InversionsBD.FK_MovCompra" FromRole="DesglosCompre" ToRole="Moviment" />
+          <NavigationProperty Name="MovimentOrig" Relationship="InversionsBD.FK_MovCompraOrig" FromRole="DesglosCompre" ToRole="Moviment" />
+        </EntityType>
+        <Association Name="FK_MovCompra">
+          <End Type="InversionsBD.Moviment" Role="Moviment" Multiplicity="1" />
+          <End Type="InversionsBD.DesglosCompra" Role="DesglosCompre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moviment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DesglosCompre">
+              <PropertyRef Name="RefCompraId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovCompraOrig">
+          <End Type="InversionsBD.Moviment" Role="Moviment" Multiplicity="1" />
+          <End Type="InversionsBD.DesglosCompra" Role="DesglosCompre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moviment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DesglosCompre">
+              <PropertyRef Name="RefCompraOrigId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -680,6 +772,18 @@
             <EntityTypeMapping TypeName="InversionsBD.Usuari">
               <MappingFragment StoreEntitySet="Usuaris">
                 <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DesglosCompras">
+            <EntityTypeMapping TypeName="InversionsBD.DesglosCompra">
+              <MappingFragment StoreEntitySet="DesglosCompres">
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+                <ScalarProperty Name="ParticipacionsOrig" ColumnName="ParticipacionsOrig" />
+                <ScalarProperty Name="Participacions" ColumnName="Participacions" />
+                <ScalarProperty Name="RefCompraOrigId" ColumnName="RefCompraOrigId" />
+                <ScalarProperty Name="RefCompraId" ColumnName="RefCompraId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

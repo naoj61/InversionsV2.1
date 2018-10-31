@@ -17,6 +17,8 @@ namespace Inversions
         public Moviment()
         {
             this.NoUtilitzar1 = new HashSet<Moviment>();
+            this.DesglosCompres = new HashSet<DesglosCompra>();
+            this.DesglosCompresOrig = new HashSet<DesglosCompra>();
         }
     
         public int Id { get; private set; }
@@ -39,5 +41,7 @@ namespace Inversions
         public virtual ICollection<Moviment> NoUtilitzar1 { get; set; }
         public virtual Moviment MovimentRefVenda { get; set; }
         public virtual Usuari Usuari { get; set; }
+        public virtual ICollection<DesglosCompra> DesglosCompres { get; set; }
+        public virtual ICollection<DesglosCompra> DesglosCompresOrig { get; set; }
     }
 }
