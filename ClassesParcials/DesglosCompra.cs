@@ -20,9 +20,20 @@ namespace Inversions
             get { return Moviment.PreuParticipacio; }
         }
 
+        public DateTime _DataMovimentOrig
+        {
+            get { return MovimentOrig.Data; }
+        }
+
+        public DateTime _DataMoviment
+        {
+            get { return Moviment.Data; }
+        }
+
         #endregion *** Atributs ***
 
         #region *** Mètodes ***
+
         #endregion *** Mètodes ***
 
         #region Overrides
@@ -59,12 +70,13 @@ namespace Inversions
             if (!(obj is DesglosCompra))
                 return false;
 
-            return this == (DesglosCompra)obj;
+            return this == (DesglosCompra) obj;
         }
+
 
         public override string ToString()
         {
-            return Id.ToString(CultureInfo.InvariantCulture);
+            return String.Format("Id={0}. MovId={1}. MovOrigId={2}", Id, Moviment.Id, MovimentOrig.Id);
         }
 
         #endregion

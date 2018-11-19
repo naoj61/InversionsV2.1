@@ -631,7 +631,7 @@ namespace Inversions
                 mov1.TipusMoviment = TipusMoviment.Split; // Modifico el tipus de moviment de la compra.
                 mov1.Descripcio += descripcio;
 
-                int particSplit = (int)movimentCompra._ParticipacionsDisponibles;
+                int particSplit = (int)movimentCompra._ParticipacionsUtilitzades;
                 int particSenseSplit = (int)mov1.Participacions - particSplit;
 
                 double despesesSenseSplit = 0;
@@ -687,8 +687,8 @@ namespace Inversions
                 mov1.TipusMoviment = TipusMoviment.ContraSplit; // Modifico el tipus de moviment de la compra.
                 mov1.Descripcio += descripcio;
 
-                int partRestants = (int)movimentCompra._ParticipacionsDisponibles % factorConversor; // Calculo el número de participacions que sobren i s'hauran de vendre.
-                int particContraSplit = (int)movimentCompra._ParticipacionsDisponibles - partRestants;
+                int partRestants = (int)movimentCompra._ParticipacionsUtilitzades % factorConversor; // Calculo el número de participacions que sobren i s'hauran de vendre.
+                int particContraSplit = (int)movimentCompra._ParticipacionsUtilitzades - partRestants;
                 int particSenseContraSplit = (int)mov1.Participacions - particContraSplit;
 
                 double despesesSenseContraSplit = 0;
@@ -904,7 +904,7 @@ namespace Inversions
                     var compresAnt = venda.compresAnteriors();
                     foreach (MovimentCompra movimentCompra in compresAnt)
                     {
-                        totalDespeses += movimentCompra._Moviment.Despeses.GetValueOrDefault() * movimentCompra._ParticipacionsDisponibles / movimentCompra._Moviment.Participacions;
+                        totalDespeses += movimentCompra._Moviment.Despeses.GetValueOrDefault() * movimentCompra._ParticipacionsUtilitzades / movimentCompra._Moviment.Participacions;
                     }
                 }
 
@@ -1096,7 +1096,7 @@ namespace Inversions
             {              
                 // Despeses de la compra.
                 totalDespeses += venda.compresAnteriors()
-                    .Sum(movCompra => movCompra._Moviment.Despeses.GetValueOrDefault() * movCompra._ParticipacionsDisponibles / movCompra._Moviment.Participacions);
+                    .Sum(movCompra => movCompra._Moviment.Despeses.GetValueOrDefault() * movCompra._ParticipacionsUtilitzades / movCompra._Moviment.Participacions);
             }
 
             return totalDespeses;
@@ -1187,7 +1187,7 @@ namespace Inversions
 
             var compresAnt = compresAnteriors(dFinal, participacions);
 
-            double totalCompres = compresAnt.Sum(compra => compra._ParticipacionsDisponibles * compra._Moviment.PreuParticipacio + compra._Moviment.Despeses.GetValueOrDefault());
+            double totalCompres = compresAnt.Sum(compra => compra._ParticipacionsUtilitzades * compra._Moviment.PreuParticipacio + compra._Moviment.Despeses.GetValueOrDefault());
 
             double valorPartic = preuParticipacio.HasValue ? _Participacions * preuParticipacio.Value : valorEnCartera(dFinal);
 

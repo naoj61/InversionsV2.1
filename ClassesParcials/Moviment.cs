@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Windows.Forms;
 using Comuns;
 
 namespace Inversions
@@ -14,9 +16,24 @@ namespace Inversions
     /// </summary>
     public struct MovimentCompra
     {
-        public double _ParticipacionsDisponibles { get; private set; }
+        public MovimentCompra(Moviment moviment, double participacionsDisponibles)
+            : this()
+        {
+            if (!moviment._EsCompra)
+                throw new ArgumentException("El moviment ha de ser una compra.", "moviment");
+
+            _Moviment = moviment;
+            _ParticipacionsUtilitzades = participacionsDisponibles;
+        }
+
+        /// <summary>
+        /// Son les participacions que s'estan venent del total.
+        /// </summary>
+        public double _ParticipacionsUtilitzades { get; private set; }
         public Moviment _Moviment { get; private set; }
-        public Moviment _MovimentRefVenda {
+
+        public Moviment _MovimentRefVenda
+        {
             get { return _Moviment.MovimentRefVenda; }
         }
 
@@ -30,26 +47,24 @@ namespace Inversions
             get { return _Moviment._EsTraspas; }
         }
 
-        public MovimentCompra(Moviment moviment, double participacionsDisponibles)
-            : this()
+        /// <summary>
+        /// Indica que estem venent totes les participacions d'aquesta compra.
+        /// </summary>
+        public bool _EsVendaTotal
         {
-            if(!moviment._EsCompra)
-                throw new ArgumentException("El moviment ha de ser una compra.", "moviment");
-
-            _Moviment = moviment;
-            _ParticipacionsDisponibles = participacionsDisponibles;
+            get { return Utilitats.SonIguals(_ParticipacionsUtilitzades, _Moviment.Participacions); }
         }
 
         public override string ToString()
         {
-            return _Moviment.Id.ToString();
+            return _Moviment.Id.ToString(CultureInfo.InvariantCulture);
         }
     }
 
     public partial class Moviment
     {
         #region *** Atributs ***
-        
+
         public string _NomProducteTraspasOrigen
         {
             get { return _ProducteTraspasOrigen != null ? _ProducteTraspasOrigen._NomProducte : null; }
@@ -108,10 +123,7 @@ namespace Inversions
 
         public bool _EsTraspas
         {
-            get
-            {
-                return ProducteTraspas != null;
-            }
+            get { return ProducteTraspas != null; }
         }
 
         /// <summary>
@@ -119,10 +131,7 @@ namespace Inversions
         /// </summary>
         public bool _EsCompra
         {
-            get
-            {
-                return TipusMoviment == TipusMoviment.Compra;
-            }
+            get { return TipusMoviment == TipusMoviment.Compra; }
         }
 
         /// <summary>
@@ -130,10 +139,7 @@ namespace Inversions
         /// </summary>
         public bool _EsCompraReal
         {
-            get
-            {
-                return _EsCompra && !_EsTraspas;
-            }
+            get { return _EsCompra && !_EsTraspas; }
         }
 
         /// <summary>
@@ -141,10 +147,7 @@ namespace Inversions
         /// </summary>
         public bool _EsVenda
         {
-            get
-            {
-                return TipusMoviment == TipusMoviment.Venda;
-            }
+            get { return TipusMoviment == TipusMoviment.Venda; }
         }
 
         /// <summary>
@@ -152,26 +155,17 @@ namespace Inversions
         /// </summary>
         public bool _EsVendaReal
         {
-            get
-            {
-                return _EsVenda && !_EsTraspas;
-            }
+            get { return _EsVenda && !_EsTraspas; }
         }
 
         public bool _EsDividents
         {
-            get
-            {
-                return TipusMoviment == TipusMoviment.Dividends;
-            }
+            get { return TipusMoviment == TipusMoviment.Dividends; }
         }
 
         public double _PreuParticipacio
         {
-            get
-            {
-                return PreuParticipacio;
-            }
+            get { return PreuParticipacio; }
         }
 
         /// <summary>
@@ -203,16 +197,264 @@ namespace Inversions
 
 #if DEBUG
 
+        private struct MovimentDesglosCompra
+        {
+            public DesglosCompra _DesglosCompra { get; private set; }
+            public double _ParticipacionsDelMoviment { get; private set; }
+            public DateTime _DataOrig { get; private set; }
+
+            public MovimentDesglosCompra(DesglosCompra desglosCompra, double participacionsDelMoviment)
+                : this()
+            {
+                _DesglosCompra = desglosCompra;
+                _ParticipacionsDelMoviment = participacionsDelMoviment;
+                _DataOrig = desglosCompra.MovimentOrig.Data;
+            }
+
+            public override string ToString()
+            {
+                return String.Format("Id={0}. MovId={1}. MovOrigId={2}", _DesglosCompra.Id, _DesglosCompra.Moviment.Id, _DesglosCompra.MovimentOrig.Id);
+            }
+        }
+
         //public IEnumerable<MovimentCompra> __CompresOriginalsAnteriors(Producte prod, DateTime dataHora, double? numParticipacions = null)
         //{
 
         //}
 
-    
+        public void __DesgloçarCompra(InversionsBDContext connexio)
+        {
+            if (TipusMoviment != TipusMoviment.Compra)
+                throw new ArgumentException(String.Format("El moviment ha de ser una compra. Id={0}", Id));
+
+
+            System.Diagnostics.Debug.WriteLine("\nId={0}", Id);
+
+            if (_EsCompraReal)
+            {
+                DesglosCompra desglosCompra = connexio.DesglosCompras.Create();
+                desglosCompra.RefCompraId = this.Id;
+                desglosCompra.RefCompraOrigId = this.Id;
+                desglosCompra.Participacions = this.Participacions;
+                desglosCompra.ParticipacionsOrig = this.Participacions;
+
+                System.Diagnostics.Debug.WriteLine("\tRefCompraOrigId={0}", desglosCompra.RefCompraOrigId);
+
+                connexio.DesglosCompras.Add(desglosCompra); // Carrega les referències.
+
+                connexio.SaveChanges();
+            }
+            else
+            {
+                // És un traspàs.
+                //var compresAnt = MovimentRefVenda.compresDeLaVenda().ToList();
+                var compresAnt = MovimentRefVenda.compresDeLaVenda(connexio).OrderBy(o => o._DataOrig).ToList();
+                //List<MovimentDesglosCompra> xxx = new List<MovimentDesglosCompra>();
+
+                var xx = compresAnt.GroupBy(g => g._DesglosCompra.RefCompraOrigId).ToList();
+
+                foreach (var VARIABLE in xx)
+                {
+                    double totalParticipacionsDelMovimen = VARIABLE.Sum(movimentDesglosComprax => movimentDesglosComprax._ParticipacionsDelMoviment);
+                    var movimentDesglosCompra = VARIABLE.First();
+
+                    var p1 = Participacions;
+                    var p2 = MovimentRefVenda.Participacions;
+                    var p3 = movimentDesglosCompra._ParticipacionsDelMoviment;
+
+
+                    DesglosCompra desglosCompra = connexio.DesglosCompras.Create();
+                    desglosCompra.RefCompraId = this.Id;
+                    desglosCompra.RefCompraOrigId = movimentDesglosCompra._DesglosCompra.RefCompraOrigId;
+
+                    desglosCompra.Participacions = Participacions / MovimentRefVenda.Participacions * totalParticipacionsDelMovimen;
+                    desglosCompra.ParticipacionsOrig = movimentDesglosCompra._DesglosCompra.ParticipacionsOrig / movimentDesglosCompra._DesglosCompra.Participacions * movimentDesglosCompra._ParticipacionsDelMoviment;
+
+                    var breakPoint = compresAnt.Count > 1
+                                     && Math.Abs(movimentDesglosCompra._DesglosCompra.Participacions - totalParticipacionsDelMovimen) > 0.001;
+
+                    System.Diagnostics.Debug.WriteLine("\tRefCompraOrigId={0}", desglosCompra.RefCompraOrigId);
+
+                    connexio.DesglosCompras.Add(desglosCompra); // Carrega les referències.
+                }
+
+                //foreach (var movimentDesglosCompra in compresAnt)
+                //{
+                //    DesglosCompra desglosCompra = connexio.DesglosCompras.Create();
+                //    desglosCompra.RefCompraId = this.Id;
+                //    desglosCompra.RefCompraOrigId = movimentDesglosCompra._DesglosCompra.RefCompraOrigId;
+
+                //    desglosCompra.Participacions = Participacions / MovimentRefVenda.Participacions * movimentDesglosCompra._ParticipacionsDelMoviment;
+                //    desglosCompra.ParticipacionsOrig = movimentDesglosCompra._DesglosCompra.ParticipacionsOrig / movimentDesglosCompra._DesglosCompra.Participacions * movimentDesglosCompra._ParticipacionsDelMoviment;
+
+                //    var breakPoint = compresAnt.Count > 1
+                //                     && Math.Abs(movimentDesglosCompra._DesglosCompra.Participacions - movimentDesglosCompra._ParticipacionsDelMoviment) > 0.001;
+
+                //    System.Diagnostics.Debug.WriteLine("\tRefCompraOrigId={0}", desglosCompra.RefCompraOrigId);
+
+                //    connexio.DesglosCompras.Add(desglosCompra); // Carrega les referències.
+                //}
+
+                connexio.SaveChanges();
+            }
+        }
+
+        private IEnumerable<MovimentDesglosCompra> compresDeLaVenda(InversionsBDContext connexio)
+        {
+            if (TipusMoviment != TipusMoviment.Venda)
+                throw new ArgumentException(String.Format("El moviment ha de ser una venda. Id={0}", Id));
+
+            // ** Troba el num de participacions venudes per les vendes anteriors.
+            var vendesAnt = new List<Moviment>(connexio.Moviments
+                .Where(w => w.ProdId == ProdId && w.TipusMoviment == TipusMoviment.Venda && w.Data < Data)
+                .OrderBy(o => o.Data));
+
+            Queue<DesglosCompra> compresDesgAnt = new Queue<DesglosCompra>(connexio.DesglosCompras
+                .Where(w => w.Moviment.ProdId == ProdId && w.Moviment.Data < Data)
+                .OrderBy(o => o.Moviment.Data).ThenBy(o=>o.MovimentOrig.Data));
+
+            double partsQuedenDeLaUltimaCompra = 0;
+            DesglosCompra ultimaCompra = null;
+            double partsQuedenDeLaVenda;
+
+            foreach (var venda in vendesAnt)
+            {
+                partsQuedenDeLaVenda = venda.Participacions;
+
+                while (compresDesgAnt.Count > 0 && partsQuedenDeLaVenda > 0)
+                {
+                    ultimaCompra = compresDesgAnt.Dequeue();
+
+                    if (partsQuedenDeLaVenda >= ultimaCompra.Participacions)
+                    {
+                        partsQuedenDeLaVenda -= ultimaCompra.Participacions;
+                    }
+                    else
+                    {
+                        partsQuedenDeLaUltimaCompra = ultimaCompra.Participacions - partsQuedenDeLaVenda;
+                        partsQuedenDeLaVenda = 0;
+                    }
+                }
+            }
+
+            List<MovimentDesglosCompra> compresDeLaVendaDesgX = new List<MovimentDesglosCompra>();
+
+            if (ultimaCompra != null)
+                compresDeLaVendaDesgX.Add(new MovimentDesglosCompra(ultimaCompra, partsQuedenDeLaUltimaCompra));
+
+            compresDesgAnt = new Queue<DesglosCompra>(compresDesgAnt.OrderBy(o => o.MovimentOrig.Data));
+
+            partsQuedenDeLaVenda = Participacions - partsQuedenDeLaUltimaCompra;
+            while (compresDesgAnt.Count > 0 && partsQuedenDeLaVenda > 0)
+            {
+                ultimaCompra = compresDesgAnt.Dequeue();
+
+                if (partsQuedenDeLaVenda >= ultimaCompra.Participacions)
+                {
+                    partsQuedenDeLaVenda -= ultimaCompra.Participacions;
+                    compresDeLaVendaDesgX.Add(new MovimentDesglosCompra(ultimaCompra, ultimaCompra.Participacions));
+                }
+                else
+                {
+                    compresDeLaVendaDesgX.Add(new MovimentDesglosCompra(ultimaCompra, partsQuedenDeLaVenda));
+                    partsQuedenDeLaVenda = 0;
+                }
+            }
+
+            var xx = compresDeLaVendaDesgX.GroupBy(g => g._DesglosCompra.MovimentOrig.Id).Select(s => new {Id = s, Total = s.Sum(x => x._ParticipacionsDelMoviment)});
+
+            List<MovimentCompra> compres = new List<MovimentCompra>();
+            foreach (var VARIABLE in xx)
+            {
+                System.Diagnostics.Debug.WriteLine(VARIABLE);
+
+                var compraOrig = VARIABLE.Id.ElementAt(0)._DesglosCompra.MovimentOrig;
+                var part = VARIABLE.Total;
+                compres.Add(new MovimentCompra(compraOrig, part));
+            }
+
+            compres = compres.OrderBy(o => o._Moviment.Data).ToList();
+
+            double partsVenudesAnteriorment = vendesAnt.Sum(venda => venda.Participacions);
+
+            // ** Agrupa les compres desgloçades anteriors a la venda i les ordena.
+            List<MovimentDesglosCompra> compresDeLaVendaDesg = new List<MovimentDesglosCompra>();
+
+            var desgCompres = connexio.DesglosCompras.Where(w => w.Moviment.ProdId == ProdId && w.Moviment.Data < Data)
+                .OrderBy(o => o.MovimentOrig.Data).ToList();
+            var participacionsVendaQueRestan = Participacions;
+
+            foreach (var desglosCompra in desgCompres)
+            {
+                if (partsVenudesAnteriorment >= desglosCompra.Participacions)
+                {
+                    partsVenudesAnteriorment -= desglosCompra.Participacions;
+                    continue;
+                }
+                else
+                {
+                    var participacionsDelMoviment = desglosCompra.Participacions - partsVenudesAnteriorment;
+                    partsVenudesAnteriorment = 0;
+                    if (participacionsDelMoviment > participacionsVendaQueRestan)
+                    {
+                        participacionsDelMoviment = participacionsVendaQueRestan;
+                    }
+                    compresDeLaVendaDesg.Add(new MovimentDesglosCompra(desglosCompra, participacionsDelMoviment));
+                    participacionsVendaQueRestan -= participacionsDelMoviment;
+
+                    if (Utilitats.EsZero(participacionsVendaQueRestan))
+                        // ** Ja no queden participacions de la venda.
+                        break;
+                }
+            }
+
+            
+
+            //List<DesglosCompra> desgCompresAnt = new List<DesglosCompra>();
+            //var compresAnt = connexio.Moviments.Where(w => w.ProdId == ProdId && w.TipusMoviment == TipusMoviment.Compra && w.Data < Data).ToList();
+            //foreach (var compra in compresAnt)
+            //{
+            //    var xx = compra.DesglosCompres;
+            //    desgCompresAnt.AddRange(xx);
+            //}
+            //desgCompresAnt = desgCompresAnt.OrderBy(o => o._DataMovimentOrig).ToList();
+
+
+            //// ** Troba les compres que corresponen a aquesta venda i el num participacions que li corresponen.
+            //var participacionsVendaQueRestan = Participacions;
+            //List<MovimentDesglosCompra> compresDeLaVenda = new List<MovimentDesglosCompra>();
+            //foreach (var desglosCompra in desgCompresAnt)
+            //{
+            //    if (partsVenudesAnteriorment >= desglosCompra.Participacions)
+            //    {
+            //        partsVenudesAnteriorment -= desglosCompra.Participacions;
+            //        continue;
+            //    }
+            //    else
+            //    {
+            //        var participacionsDelMoviment = desglosCompra.Participacions - partsVenudesAnteriorment;
+            //        if (participacionsDelMoviment > participacionsVendaQueRestan)
+            //        {
+            //            participacionsDelMoviment = participacionsVendaQueRestan;
+            //        }
+            //        compresDeLaVenda.Add(new MovimentDesglosCompra(desglosCompra, participacionsDelMoviment));
+            //        participacionsVendaQueRestan -= participacionsDelMoviment;
+            //        partsVenudesAnteriorment = 0;
+
+            //        if (Utilitats.EsZero(participacionsVendaQueRestan))
+            //            // ** Ja no queden participacions de la venda.
+            //            break;
+            //    }
+            //}
+
+            return compresDeLaVendaDesg;
+        }
+
+
         public IEnumerable<MovimentCompra> __CompresOriginalsAnteriors(double ratiPartUtilitzades = 1)
         {
             if (TipusMoviment != TipusMoviment.Venda)
-                throw new ArgumentException("El moviment ha de ser una venda.", "venda");
+                throw new ArgumentException("El moviment ha de ser una venda.");
 
             double partProrratejades = Participacions * ratiPartUtilitzades;
             List<MovimentCompra> compresOriginalsAnt = new List<MovimentCompra>();
@@ -248,7 +490,7 @@ namespace Inversions
             //}
 
             return compresOriginalsAnt;
-        } 
+        }
 
 #endif
 
@@ -285,8 +527,8 @@ namespace Inversions
                     if (compra._Moviment.PreuParticipacioOrigen == null)
                         throw new NullReferenceException("El 'compra._Moviment.PreuParticipacioOrigen' és NULL i hauria de tenir algún valor. Id moviment: " + compra._Moviment.Id);
 
-                    x += compra._ParticipacionsDisponibles * compra._Moviment.PreuParticipacioOrigen.Value;
-                    y += compra._ParticipacionsDisponibles;
+                    x += compra._ParticipacionsUtilitzades * compra._Moviment.PreuParticipacioOrigen.Value;
+                    y += compra._ParticipacionsUtilitzades;
                 }
                 valorRetorn = x / y;
             }
@@ -339,7 +581,7 @@ namespace Inversions
 
         public Moviment Clone()
         {
-            return (Moviment)MemberwiseClone();
+            return (Moviment) MemberwiseClone();
 
             //Moviment mov = new Moviment();
 
