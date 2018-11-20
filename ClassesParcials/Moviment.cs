@@ -23,13 +23,13 @@ namespace Inversions
                 throw new ArgumentException("El moviment ha de ser una compra.", "moviment");
 
             _Moviment = moviment;
-            _ParticipacionsUtilitzades = participacionsDisponibles;
+            _ParticipacionsDisponibles = participacionsDisponibles;
         }
 
         /// <summary>
         /// Son les participacions que s'estan venent del total.
         /// </summary>
-        public double _ParticipacionsUtilitzades { get; private set; }
+        public double _ParticipacionsDisponibles { get; private set; }
 
         public Moviment _Moviment { get; private set; }
 
@@ -53,7 +53,7 @@ namespace Inversions
         /// </summary>
         public bool _EsVendaTotal
         {
-            get { return Utilitats.SonIguals(_ParticipacionsUtilitzades, _Moviment.Participacions); }
+            get { return Utilitats.SonIguals(_ParticipacionsDisponibles, _Moviment.Participacions); }
         }
 
         public override string ToString()
@@ -448,8 +448,8 @@ namespace Inversions
                     if (compra._Moviment.PreuParticipacioOrigen == null)
                         throw new NullReferenceException("El 'compra._Moviment.PreuParticipacioOrigen' és NULL i hauria de tenir algún valor. Id moviment: " + compra._Moviment.Id);
 
-                    x += compra._ParticipacionsUtilitzades * compra._Moviment.PreuParticipacioOrigen.Value;
-                    y += compra._ParticipacionsUtilitzades;
+                    x += compra._ParticipacionsDisponibles * compra._Moviment.PreuParticipacioOrigen.Value;
+                    y += compra._ParticipacionsDisponibles;
                 }
                 valorRetorn = x / y;
             }
