@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
+using System.Xml;
 using Comuns;
 
 namespace Inversions
@@ -198,7 +199,7 @@ namespace Inversions
 
 #if DEBUG
 
-        private struct MovimentDesglosCompra
+        public struct MovimentDesglosCompra
         {
             public DesglosCompra _DesglosCompra { get; private set; }
             public double _ParticipacionsDelMoviment { get; private set; }
@@ -245,8 +246,8 @@ namespace Inversions
                 DesglosCompra desglosCompra = connexio.DesglosCompras.Create();
                 desglosCompra.RefCompraId = this.Id;
                 desglosCompra.RefCompraOrigId = this.Id;
-                desglosCompra.Participacions = this.Participacions;
-                desglosCompra.ParticipacionsOrig = this.Participacions;
+                desglosCompra.Participacions = Math.Round(this.Participacions, 4);
+                desglosCompra.ParticipacionsOrig = Math.Round(this.Participacions, 4);
 
                 System.Diagnostics.Debug.WriteLine("\tRefCompraOrigId={0}", desglosCompra.RefCompraOrigId);
 
@@ -256,12 +257,12 @@ namespace Inversions
             }
             else
             {
-                // És un traspàs.
+                // ** És un traspàs.
 
-                // Troba les compres de la venda lligada al traspàs.
+                // ** Troba les compres de la venda lligada al traspàs.
                 var compresAnt = MovimentRefVenda.compresDeLaVenda(connexio).OrderBy(o => o._DataOrig).ToList();
                 
-                // Agrupa les compres pel id orig.
+                // ** Agrupa les compres pel id orig.
                 var agrupatPerIdOrig = compresAnt.GroupBy(g => g._DesglosCompra.MovimentOrig.Id)
                     .Select(s => new
                     {
@@ -277,8 +278,8 @@ namespace Inversions
                     desglosCompra.RefCompraId = this.Id;
                     desglosCompra.RefCompraOrigId = compraOrig.RefCompraOrigId;
 
-                    desglosCompra.Participacions = Participacions / MovimentRefVenda.Participacions * grup.partDelMoviment;
-                    desglosCompra.ParticipacionsOrig = grup.partDelMovimentOrig;
+                    desglosCompra.Participacions = Math.Round(Participacions / MovimentRefVenda.Participacions * grup.partDelMoviment, 4);
+                    desglosCompra.ParticipacionsOrig = Math.Round(grup.partDelMovimentOrig, 4);
 
                     System.Diagnostics.Debug.WriteLine("\tRefCompraOrigId={0}", desglosCompra.RefCompraOrigId);
 
@@ -289,6 +290,10 @@ namespace Inversions
             }
         }
 
+        public IEnumerable<MovimentDesglosCompra> TestCompresDeLaVenda(InversionsBDContext connexio)
+        {
+            return compresDeLaVenda(connexio);
+        }
 
         /// <summary>
         /// Troba les compres i les participacions afectades per la venda.
