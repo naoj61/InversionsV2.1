@@ -274,7 +274,7 @@ namespace Inversions.GUI
                 var prodOrigenContext = conn.Productes.Find(prodOrigen.Id);
                 ProdFons prodDestiContext = prodDesti == null ? null : conn.ProdFons.Find(prodDesti.Id);
 
-                //using (var dbContextTransaction = conn.Database.BeginTransaction())
+                using (var dbContextTransaction = conn.Database.BeginTransaction())
                 {
                     //try
                     //{
@@ -383,7 +383,7 @@ namespace Inversions.GUI
                     //    .Select(entry => entry.Entity)).ToList();
 
 
-                    //dbContextTransaction.Commit();
+                    dbContextTransaction.Commit();
                     //}
                     //catch (Exception)
                     //{
