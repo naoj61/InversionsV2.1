@@ -182,6 +182,16 @@ namespace Inversions
 
         #endregion *** Atributs ***
 
+        #region *** Test ***
+
+        public IEnumerable<MovimentDesglosCompra> TestCompresDeLaVenda(InversionsBDContext connexio)
+        {
+            return compresDeLaVenda(connexio);
+        }
+
+        #endregion *** Test ***
+
+
         #region *** Mètodes ***
 
         /// <summary>
@@ -290,13 +300,9 @@ namespace Inversions
             }
         }
 
-        public IEnumerable<MovimentDesglosCompra> TestCompresDeLaVenda(InversionsBDContext connexio)
-        {
-            return compresDeLaVenda(connexio);
-        }
 
         /// <summary>
-        /// Troba les compres i les participacions afectades per la venda.
+        /// Troba les compres i les participacions afectades per la venda. Inclou les participacions originals.
         /// </summary>
         /// <param name="connexio"></param>
         /// <returns></returns>
@@ -330,15 +336,20 @@ namespace Inversions
 
                 while (compresDesgAnt.Count > 0 && partsQuedenDeLaVenda > 0)
                 {
-                    ultimaCompra = compresDesgAnt.Dequeue();
-
-                    if (partsQuedenDeLaVenda >= ultimaCompra.Participacions)
+                    if (Utilitats.EsZero(partsQuedenDeLaUltimaCompra))
                     {
-                        partsQuedenDeLaVenda -= ultimaCompra.Participacions;
+                        ultimaCompra = compresDesgAnt.Dequeue();
+                        partsQuedenDeLaUltimaCompra = ultimaCompra.Participacions;
+                    }
+
+                    if (partsQuedenDeLaVenda >= partsQuedenDeLaUltimaCompra)
+                    {
+                        partsQuedenDeLaVenda -= partsQuedenDeLaUltimaCompra;
+                        partsQuedenDeLaUltimaCompra = 0;
                     }
                     else
                     {
-                        partsQuedenDeLaUltimaCompra = ultimaCompra.Participacions - partsQuedenDeLaVenda;
+                        partsQuedenDeLaUltimaCompra -= partsQuedenDeLaVenda;
                         partsQuedenDeLaVenda = 0;
                     }
                 }
@@ -374,48 +385,6 @@ namespace Inversions
             }
 
             return compresDeLaVendaDesg;
-        }
-
-
-        public IEnumerable<MovimentCompra> __CompresOriginalsAnteriors(double ratiPartUtilitzades = 1)
-        {
-            if (TipusMoviment != TipusMoviment.Venda)
-                throw new ArgumentException("El moviment ha de ser una venda.");
-
-            double partProrratejades = Participacions * ratiPartUtilitzades;
-            List<MovimentCompra> compresOriginalsAnt = new List<MovimentCompra>();
-            var compresAnt = Prod.compresAnteriors(Data, partProrratejades).ToList();
-
-            double numPart = partProrratejades;
-            double numPartDisp = compresAnt.Sum(movimentCompra => movimentCompra._Moviment.Participacions);
-            double nouRati = Math.Round(numPart / numPartDisp, 4);
-
-
-            foreach (var movimentCompra in compresAnt)
-            {
-                if (movimentCompra._EsTraspas)
-                {
-                    compresOriginalsAnt.AddRange(movimentCompra._MovimentRefVenda.__CompresOriginalsAnteriors(nouRati));
-                }
-                else
-                {
-                    compresOriginalsAnt.Add(movimentCompra);
-                }
-            }
-
-            //var compresAntTrasp = compresAnt.Where(w=>w._Moviment._EsTraspas).ToList();
-
-            //// PartCompra * PreuPartCompra / PartVenda = PreuPartVenda
-
-            //foreach (var movimentCompra in compresAntTrasp)
-            //{
-            //    var venda = Program.Sessio.Moviments.Single(s => s.Id == movimentCompra._Moviment.MovimentRefVendaId);
-            //    var compresAntVenda = venda.compresAnteriors();
-            //    var compresAntVendaTrasp = venda.compresAnteriors().Where(w=>w._Moviment._EsTraspas).ToList();
-            //    var preuPartVendaMovimentCompra = venda.PreuParticipacio;
-            //}
-
-            return compresOriginalsAnt;
         }
 
 #endif

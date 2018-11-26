@@ -438,7 +438,7 @@ namespace Inversions
         /// <param name="dataHoraCompra"></param>
         /// <param name="prodCompra"></param>
         /// <param name="participacionsCompra"></param>
-        internal void desaTraspas(InversionsBDContext connexio, DateTime dataHoraVenda, double participacionsVenda, double preuParticipacioVenda, string descripcio,
+        public void desaTraspas(InversionsBDContext connexio, DateTime dataHoraVenda, double participacionsVenda, double preuParticipacioVenda, string descripcio,
             DateTime dataHoraCompra, Producte prodCompra, double participacionsCompra)
         {
             dataHoraVenda = Utilitats.ArrodoneixoDataASegons(dataHoraVenda);
@@ -509,7 +509,8 @@ namespace Inversions
             moviment.Descripcio = String.IsNullOrEmpty(descripcio) ? null : descripcio;
             if (movimentVendaVinculatTraspas != null)
             {
-                moviment.ProducteTraspas = movimentVendaVinculatTraspas.ProducteTraspas;
+                //moviment.ProducteTraspas = movimentVendaVinculatTraspas.ProducteTraspas;
+                moviment.ProducteTraspasId = movimentVendaVinculatTraspas.ProducteTraspasId;
                 moviment.MovimentRefVenda = movimentVendaVinculatTraspas; // Assigno la instancia i no l'Id, perque "movimentVendaVinculatTraspas.Id" és 0 i dona error de FK al fer el save.
             }
             connexio.Moviments.Add(moviment); // Carrega les referències. S'ha de fer abans de: calculaPreuOrigen(moviment)

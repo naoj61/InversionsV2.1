@@ -64,7 +64,7 @@ namespace Inversions
 
         public override string ToString()
         {
-            return Id.ToString(CultureInfo.InvariantCulture);
+            return String.Format("Id={0}. MovId={1}. MovOrigId={2}", Id, Moviment.Id, MovimentOrig.Id);
         }
 
         #endregion
