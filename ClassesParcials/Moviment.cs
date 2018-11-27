@@ -63,6 +63,38 @@ namespace Inversions
         }
     }
 
+
+    /// <summary>
+    /// El desgloç del moviment de compra lligadas a una venda pot ser que no utilitzi totes les participacions.
+    /// </summary>
+    public struct MovimentDesglosCompra
+    {
+        public DesglosCompra _DesglosCompra { get; private set; }
+        public double _ParticipacionsDelMoviment { get; private set; }
+        public double _ParticipacionsDelMovimentOrigen { get; private set; }
+        public DateTime _DataOrig { get; private set; }
+
+        public MovimentDesglosCompra(DesglosCompra desglosCompra, double participacionsDelMoviment, double participacionsDelMovimentOrig)
+            : this()
+        {
+            _DesglosCompra = desglosCompra;
+            _DataOrig = desglosCompra.MovimentOrig.Data;
+            _ParticipacionsDelMoviment = participacionsDelMoviment;
+            _ParticipacionsDelMovimentOrigen = participacionsDelMovimentOrig;
+        }
+
+        public MovimentDesglosCompra(DesglosCompra desglosCompra, double participacionsDelMoviment)
+            : this(desglosCompra, participacionsDelMoviment
+                , participacionsDelMoviment / desglosCompra.Participacions * desglosCompra.ParticipacionsOrig)
+        {}
+
+        public override string ToString()
+        {
+            return String.Format("Id={0}. MovId={1}. MovOrigId={2}", _DesglosCompra.Id, _DesglosCompra.Moviment.Id, _DesglosCompra.MovimentOrig.Id);
+        }
+    }
+
+
     public partial class Moviment
     {
         #region *** Atributs ***
@@ -207,37 +239,6 @@ namespace Inversions
         }
 
 
-#if DEBUG
-
-        public struct MovimentDesglosCompra
-        {
-            public DesglosCompra _DesglosCompra { get; private set; }
-            public double _ParticipacionsDelMoviment { get; private set; }
-            public double _ParticipacionsDelMovimentOrigen { get; private set; }
-            public DateTime _DataOrig { get; private set; }
-
-            public MovimentDesglosCompra(DesglosCompra desglosCompra, double participacionsDelMoviment, double participacionsDelMovimentOrig)
-                : this()
-            {
-                _DesglosCompra = desglosCompra;
-                _DataOrig = desglosCompra.MovimentOrig.Data;
-                _ParticipacionsDelMoviment = participacionsDelMoviment;
-                _ParticipacionsDelMovimentOrigen = participacionsDelMovimentOrig;
-            }
-
-            public MovimentDesglosCompra(DesglosCompra desglosCompra, double participacionsDelMoviment)
-                : this(desglosCompra, participacionsDelMoviment
-                    , participacionsDelMoviment / desglosCompra.Participacions * desglosCompra.ParticipacionsOrig)
-            {
-            }
-
-            public override string ToString()
-            {
-                return String.Format("Id={0}. MovId={1}. MovOrigId={2}", _DesglosCompra.Id, _DesglosCompra.Moviment.Id, _DesglosCompra.MovimentOrig.Id);
-            }
-        }
-
-
         /// <summary>
         /// Al crear una nova compra, s'ha de crear el desgloç de les compres originals que li corresponen.
         /// </summary>
@@ -313,7 +314,7 @@ namespace Inversions
 
             // ** Troba les vendes anteriors.
             var vendesAnt = new List<Moviment>(connexio.Moviments
-                .Where(w => w.ProdId == ProdId && w.TipusMoviment == TipusMoviment.Venda && w.Data < Data)
+                .Where(w => w.UsuariId == UsuariId && w.ProdId == ProdId && w.TipusMoviment == TipusMoviment.Venda && w.Data < Data)
                 .OrderBy(o => o.Data));
 
             // ** Troba les compres desgloçades anteriors i les ordena per data moviment i data origen.
@@ -323,7 +324,7 @@ namespace Inversions
              * s'ordenaran per data origen.
              */
             Queue<DesglosCompra> compresDesgAnt = new Queue<DesglosCompra>(connexio.DesglosCompras
-                .Where(w => w.Moviment.ProdId == ProdId && w.Moviment.Data < Data)
+                .Where(w => w.Moviment.UsuariId == UsuariId &&  w.Moviment.ProdId == ProdId && w.Moviment.Data < Data)
                 .OrderBy(o => o.Moviment.Data).ThenBy(o => o.MovimentOrig.Data));
 
             double partsQuedenDeLaUltimaCompra = 0;
@@ -386,8 +387,6 @@ namespace Inversions
 
             return compresDeLaVendaDesg;
         }
-
-#endif
 
 
         /// <summary>
