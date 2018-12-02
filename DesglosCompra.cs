@@ -21,7 +21,7 @@ namespace Inversions
         public double ParticipacionsOrig { get; set; }
         public byte[] RowVersion { get; set; }
     
-        public virtual Moviment Moviment { get; set; }
-        public virtual Moviment MovimentOrig { get; set; }
+        public virtual Moviment RefCompra { get; set; }
+        public virtual Moviment RefCompraOrig { get; set; }
     }
 }

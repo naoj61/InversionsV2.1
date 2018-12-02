@@ -78,7 +78,7 @@ namespace Inversions
             : this()
         {
             _DesglosCompra = desglosCompra;
-            _DataOrig = desglosCompra.MovimentOrig.Data;
+            _DataOrig = desglosCompra.RefCompraOrig.Data;
             _ParticipacionsDelMoviment = participacionsDelMoviment;
             _ParticipacionsDelMovimentOrigen = participacionsDelMovimentOrig;
         }
@@ -90,7 +90,7 @@ namespace Inversions
 
         public override string ToString()
         {
-            return String.Format("Id={0}. MovId={1}. MovOrigId={2}", _DesglosCompra.Id, _DesglosCompra.Moviment.Id, _DesglosCompra.MovimentOrig.Id);
+            return String.Format("Id={0}. MovId={1}. MovOrigId={2}", _DesglosCompra.Id, _DesglosCompra.RefCompra.Id, _DesglosCompra.RefCompraOrigId);
         }
     }
 
@@ -274,7 +274,7 @@ namespace Inversions
                 var compresAnt = MovimentRefVenda.compresDeLaVenda(connexio).OrderBy(o => o._DataOrig).ToList();
                 
                 // ** Agrupa les compres pel id orig.
-                var agrupatPerIdOrig = compresAnt.GroupBy(g => g._DesglosCompra.MovimentOrig.Id)
+                var agrupatPerIdOrig = compresAnt.GroupBy(g => g._DesglosCompra.RefCompraOrigId)
                     .Select(s => new
                     {
                         Id = s, partDelMoviment = s.Sum(x => x._ParticipacionsDelMoviment)
@@ -286,18 +286,18 @@ namespace Inversions
                     var compraOrig = grup.Id.ElementAt(0)._DesglosCompra;
 
                     DesglosCompra desglosCompra = connexio.DesglosCompras.Create();
+
                     desglosCompra.RefCompraId = this.Id;
-                    desglosCompra.RefCompraOrigId = compraOrig.RefCompraOrigId;
+                    desglosCompra.RefCompraOrig = compraOrig.RefCompraOrig;
 
                     desglosCompra.Participacions = Math.Round(Participacions / MovimentRefVenda.Participacions * grup.partDelMoviment, 4);
                     desglosCompra.ParticipacionsOrig = Math.Round(grup.partDelMovimentOrig, 4);
 
-                    System.Diagnostics.Debug.WriteLine("\tRefCompraOrigId={0}", desglosCompra.RefCompraOrigId);
+                    //this.DesglosCompres.Add(desglosCompra);
+                    connexio.DesglosCompras.Add(desglosCompra);
 
-                    connexio.DesglosCompras.Add(desglosCompra); // Carrega les referències.
-                }
-                
-                connexio.SaveChanges();
+                    connexio.SaveChanges();
+                }                
             }
         }
 
@@ -324,8 +324,8 @@ namespace Inversions
              * s'ordenaran per data origen.
              */
             Queue<DesglosCompra> compresDesgAnt = new Queue<DesglosCompra>(connexio.DesglosCompras
-                .Where(w => w.Moviment.UsuariId == UsuariId &&  w.Moviment.ProdId == ProdId && w.Moviment.Data < Data)
-                .OrderBy(o => o.Moviment.Data).ThenBy(o => o.MovimentOrig.Data));
+                .Where(w => w.RefCompra.UsuariId == UsuariId && w.RefCompra.ProdId == ProdId && w.RefCompra.Data < Data)
+                .OrderBy(o => o.RefCompra.Data).ThenBy(o => o.RefCompraOrig.Data));
 
             double partsQuedenDeLaUltimaCompra = 0;
             DesglosCompra ultimaCompra = null;
@@ -366,7 +366,7 @@ namespace Inversions
                 compresDeLaVendaDesg.Add(new MovimentDesglosCompra(ultimaCompra, partsQuedenDeLaUltimaCompra));
 
             // ** Ordeno les compres restants per data Origen.
-            compresDesgAnt = new Queue<DesglosCompra>(compresDesgAnt.OrderBy(o => o.MovimentOrig.Data));
+            compresDesgAnt = new Queue<DesglosCompra>(compresDesgAnt.OrderBy(o => o.RefCompraOrig.Data));
 
             double partsQuedenDeLaVenda2 = Participacions - partsQuedenDeLaUltimaCompra;
             while (compresDesgAnt.Count > 0 && partsQuedenDeLaVenda2 > 0)

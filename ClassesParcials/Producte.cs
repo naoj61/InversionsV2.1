@@ -510,7 +510,7 @@ namespace Inversions
             if (movimentVendaVinculatTraspas != null)
             {
                 //moviment.ProducteTraspas = movimentVendaVinculatTraspas.ProducteTraspas;
-                moviment.ProducteTraspasId = movimentVendaVinculatTraspas.ProducteTraspasId;
+                moviment.ProducteTraspasId = movimentVendaVinculatTraspas.ProdId;
                 moviment.MovimentRefVenda = movimentVendaVinculatTraspas; // Assigno la instancia i no l'Id, perque "movimentVendaVinculatTraspas.Id" és 0 i dona error de FK al fer el save.
             }
             connexio.Moviments.Add(moviment); // Carrega les referències. S'ha de fer abans de: calculaPreuOrigen(moviment)

@@ -12,12 +12,12 @@ namespace Inversions
 
         public double _PreuPartOrig
         {
-            get { return MovimentOrig.PreuParticipacio; }
+            get { return RefCompraOrig.PreuParticipacio; }
         }
 
         public double _PreuParticipacio
         {
-            get { return Moviment.PreuParticipacio; }
+            get { return RefCompra.PreuParticipacio; }
         }
 
         #endregion *** Atributs ***
@@ -64,7 +64,7 @@ namespace Inversions
 
         public override string ToString()
         {
-            return String.Format("Id={0}. MovId={1}. MovOrigId={2}", Id, Moviment.Id, MovimentOrig.Id);
+            return String.Format("Id={0}. MovId={1}. MovOrigId={2}", Id, RefCompraId, RefCompraOrigId);
         }
 
         #endregion
