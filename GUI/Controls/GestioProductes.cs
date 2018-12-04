@@ -199,7 +199,7 @@ namespace Inversions.GUI
                 tbParticipacions.Valor = prod._Participacions;
                 ntbPreuPartActual.Valor = prod.valorParticipacio();
                 tbDividends.Valor = prod.dividends(DateTime.Today);
-                tbValorActual.Valor = prod._ValorActual;
+                tbValorActual.Valor = prod._ValorActualEnCartera;
 
                 //tbPiGActual.Valor = prod.pigValorat(Producte.DateTimeFinalDia.Today);
                 tbPiGActual.Valor = prod.pigEnCartera();

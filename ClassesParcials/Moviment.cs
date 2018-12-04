@@ -249,8 +249,6 @@ namespace Inversions
                 throw new ArgumentException(String.Format("El moviment ha de ser una compra. Id={0}", Id));
 
 
-            System.Diagnostics.Debug.WriteLine("\nId={0}", Id);
-
             if (_EsCompraReal)
             {
                 // ** El desgloç és una fila lligada al propi moviment.

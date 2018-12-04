@@ -159,7 +159,7 @@ namespace Inversions
         /// <summary>
         /// És el valor de les participacions avui.
         /// </summary>
-        public double _ValorActual
+        public double _ValorActualEnCartera
         {
             get { return valorEnCartera(DateTime.MaxValue); }
         }
@@ -180,6 +180,7 @@ namespace Inversions
         /// <returns></returns>
         internal double numParticipacionsEnData(DateTime data)
         {
+            data = Utilitats.DataFinalDia(data);
             var particComprades = MovimentsProducteUsuari.Where(w => w.Data <= data && w.TipusMoviment == TipusMoviment.Compra).Sum(s => s.Participacions);
             var particVenudes = MovimentsProducteUsuari.Where(w => w.Data <= data && w.TipusMoviment == TipusMoviment.Venda).Sum(s => s.Participacions);
             return particComprades - particVenudes;
@@ -1217,6 +1218,76 @@ namespace Inversions
                 return 0;
 
             return participacions * valorParticipacio(dFinal);
+        }
+
+        [Obsolete("Obsolet. Utilitzar 'costEnCartera'")]
+        public double costEnCarteraMetodeAntic(DateTime? dataFinal = null)
+        {
+            var dFinal = Utilitats.DataFinalDia(dataFinal);
+
+            var participacions = numParticipacionsEnData(dFinal);
+
+            var compresAnt = new Stack<Moviment>(Program.Sessio.MovimentsUsuari
+                .Where(w => w.ProdId == Id && w.TipusMoviment == TipusMoviment.Compra && w.Data < dFinal)
+                .OrderBy(o => o.Data));
+
+            double costAntic = 0;
+            while (compresAnt.Count > 0 && participacions > 0)
+            {
+                var desg = compresAnt.Pop();
+                double partOrig = 0;
+
+                if (participacions > desg.Participacions)
+                {
+                    partOrig = desg.Participacions;
+                    participacions -= desg.Participacions;
+                }
+                else
+                {
+                    partOrig = participacions;
+                    participacions = 0;
+                }
+                costAntic += (partOrig * desg.PreuParticipacioOrigen.GetValueOrDefault());
+            }
+
+            return costAntic;
+        }
+
+        /// <summary>
+        /// Calcula el cost de les participacions en cartera
+        /// </summary>
+        /// <param name="data">Si null calcula les participacions avui, sinò les que hi havia a la data.</param>
+        /// <returns></returns>
+        public double costEnCartera(DateTime? data = null)
+        {
+            var dFinal = Utilitats.DataFinalDia(data);
+
+            var participacions = numParticipacionsEnData(dFinal);
+
+            var compresDesgAnt = new Stack<DesglosCompra>(Program.Sessio.DesglosCompras
+                .Where(w => w.RefCompra.UsuariId == Usuari.Seleccionat.Id && w.RefCompra.ProdId == Id && w.RefCompra.Data < dFinal)
+                .OrderBy(o => o.RefCompra.Data).ThenBy(o => o.RefCompraOrig.Data));
+            
+            double cost = 0;
+            while (compresDesgAnt.Count > 0 && participacions > 0)
+            {
+                var desg = compresDesgAnt.Pop();
+                double partOrig = 0;
+                
+                if(participacions > desg.Participacions)
+                {
+                    partOrig = desg.ParticipacionsOrig;
+                    participacions -= desg.Participacions;
+                }
+                else
+                {
+                    partOrig = participacions / desg.Participacions * desg.ParticipacionsOrig;
+                    participacions = 0;
+                }
+                cost += (partOrig * desg._PreuPartOrig);
+            }
+
+            return cost;
         }
 
 
