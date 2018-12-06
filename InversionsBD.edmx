@@ -554,7 +554,7 @@
           <NavigationProperty Name="MovimentRefVenda" Relationship="InversionsBD.FK_RefVenda1" FromRole="Moviment1" ToRole="Moviment" />
           <NavigationProperty Name="Usuari" Relationship="InversionsBD.FK_Usuaris1" FromRole="Moviment" ToRole="Usuari" />
           <NavigationProperty Name="DesglosCompres" Relationship="InversionsBD.FK_MovCompra" FromRole="Moviment" ToRole="DesglosCompre" />
-          <NavigationProperty Name="DesglosCompres1" Relationship="InversionsBD.FK_MovCompraOrig" FromRole="Moviment" ToRole="DesglosCompre" />
+          <NavigationProperty Name="DesglosCompresOrig" Relationship="InversionsBD.FK_MovCompraOrig" FromRole="Moviment" ToRole="DesglosCompre" />
           </EntityType>
         <Association Name="ProdMov">
           <End Type="InversionsBD.Producte" Role="Prod" Multiplicity="1" />

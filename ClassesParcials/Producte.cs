@@ -411,6 +411,11 @@ namespace Inversions
             if (connexio == null)
                 throw new ArgumentNullException("connexio");
 
+            // Valida que s'hagi creat una transacció abans de començar el procés.
+            if(connexio.Database.CurrentTransaction== null)
+                throw new ArgumentNullException("No s'ha creat cap transacció. És obligatori per aquest procés.");
+
+
             if (MovimentsProducteUsuari.Any())
             {
                 var ultimaData = MovimentsProducteUsuari.Max(m => m.Data);
@@ -470,7 +475,7 @@ namespace Inversions
         /// <param name="afegeigPreuAValoracions"></param>
         /// <param name="mostraFinestraAdvertencia"></param>
         /// <returns></returns>
-        internal Moviment desaCompra(InversionsBDContext connexio, DateTime data, TimeSpan hora, double participacions, double preuParticipacio, double canviAplicat,
+        public Moviment desaCompra(InversionsBDContext connexio, DateTime data, TimeSpan hora, double participacions, double preuParticipacio, double canviAplicat,
             double? despeses, string descripcio, bool afegeigPreuAValoracions = true, bool mostraFinestraAdvertencia = true)
         {
             DateTime dataHora = Utilitats.FormaData(data, hora);
@@ -499,9 +504,8 @@ namespace Inversions
             validacionsCompraVenda(connexio, dataHora, participacions, mostraFinestraAdvertencia);
 
             Moviment moviment = connexio.Moviments.Create();
-            moviment.UsuariId = Usuari.Seleccionat.Id;
+            moviment.UsuariId = Usuari.Seleccionat.Id; // Utilitzo Id perquè "Usuari.Seleccionat" està en un context diferent.
             moviment.TipusMoviment = TipusMoviment.Compra;
-            moviment.ProdId = this.Id;
             moviment.Participacions = participacions;
             moviment.PreuParticipacio = preuParticipacio;
             moviment.CanviAplicat = canviAplicat;
@@ -514,7 +518,9 @@ namespace Inversions
                 moviment.ProducteTraspasId = movimentVendaVinculatTraspas.ProdId;
                 moviment.MovimentRefVenda = movimentVendaVinculatTraspas; // Assigno la instancia i no l'Id, perque "movimentVendaVinculatTraspas.Id" és 0 i dona error de FK al fer el save.
             }
-            connexio.Moviments.Add(moviment); // Carrega les referències. S'ha de fer abans de: calculaPreuOrigen(moviment)
+            //connexio.Moviments.Add(moviment); // Carrega les referències. S'ha de fer abans de: calculaPreuOrigen(moviment)
+            this.MovimentsProducte.Add(moviment); // Carrega les referències.
+            connexio.Entry(moviment).Reference(c => c.Prod).Load();
 
             moviment.PreuParticipacioOrigen = moviment.calculaPreuOrigen(); // Després del Add per tenir les referèmcies creades.
 
@@ -572,9 +578,8 @@ namespace Inversions
             validacionsCompraVenda(connexio, dataHora, participacions, mostraFinestraAdvertencia);
 
             Moviment moviment = connexio.Moviments.Create();
-            moviment.UsuariId = Usuari.Seleccionat.Id;
+            moviment.UsuariId = Usuari.Seleccionat.Id; // Utilitzo Id perquè "Usuari.Seleccionat" està en un context diferent.
             moviment.TipusMoviment = TipusMoviment.Venda;
-            moviment.ProdId = Id;
             moviment.Participacions = participacions;
             moviment.PreuParticipacio = preuParticipacio;
             moviment.CanviAplicat = canviAplicat;
@@ -583,9 +588,11 @@ namespace Inversions
             moviment.Descripcio = String.IsNullOrEmpty(descripcio) ? null : descripcio;
             moviment.ProducteTraspasId = prodCompraMovimentVinculatTraspas == null ? (int?)null : prodCompraMovimentVinculatTraspas.Id;
 
-            connexio.Moviments.Add(moviment); // Carrega les referències.
+            //connexio.Moviments.Add(moviment); // Carrega les referències.
+            this.MovimentsProducte.Add(moviment);
+            connexio.Entry(moviment).Reference(c => c.Prod).Load(); // Carrega les referències.
 
-            moviment.PreuParticipacioOrigen = moviment.calculaPreuOrigen(); // Després del Add per tenir les referèmcies creades.
+            moviment.PreuParticipacioOrigen = moviment.calculaPreuOrigen(); // Després del Add per tenir les referències creades.
 
             if (afegeigPreuAValoracions)
                 this.afegeigPreuAValoracions(connexio, dataHora, preuParticipacio);

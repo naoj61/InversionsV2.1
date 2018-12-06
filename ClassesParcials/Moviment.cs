@@ -253,14 +253,14 @@ namespace Inversions
             {
                 // ** El desgloç és una fila lligada al propi moviment.
                 DesglosCompra desglosCompra = connexio.DesglosCompras.Create();
-                desglosCompra.RefCompraId = this.Id;
-                desglosCompra.RefCompraOrigId = this.Id;
+                //desglosCompra.RefCompraId = this.Id;
+                //desglosCompra.RefCompraOrigId = this.Id;
+                
                 desglosCompra.Participacions = Math.Round(this.Participacions, 4);
                 desglosCompra.ParticipacionsOrig = Math.Round(this.Participacions, 4);
 
-                System.Diagnostics.Debug.WriteLine("\tRefCompraOrigId={0}", desglosCompra.RefCompraOrigId);
-
-                connexio.DesglosCompras.Add(desglosCompra); // Carrega les referències.
+                this.DesglosCompres.Add(desglosCompra);
+                this.DesglosCompresOrig.Add(desglosCompra);
 
                 connexio.SaveChanges();
             }
@@ -281,18 +281,17 @@ namespace Inversions
 
                 foreach (var grup in agrupatPerIdOrig)
                 {
-                    var compraOrig = grup.Id.ElementAt(0)._DesglosCompra;
+                    var movOrig = grup.Id.ElementAt(0)._DesglosCompra.RefCompraOrig;
 
                     DesglosCompra desglosCompra = connexio.DesglosCompras.Create();
-
-                    desglosCompra.RefCompraId = this.Id;
-                    desglosCompra.RefCompraOrig = compraOrig.RefCompraOrig;
 
                     desglosCompra.Participacions = Math.Round(Participacions / MovimentRefVenda.Participacions * grup.partDelMoviment, 4);
                     desglosCompra.ParticipacionsOrig = Math.Round(grup.partDelMovimentOrig, 4);
 
-                    //this.DesglosCompres.Add(desglosCompra);
-                    connexio.DesglosCompras.Add(desglosCompra);
+                    //desglosCompra.RefCompraId = this.Id;
+                    //desglosCompra.RefCompraOrigId = compraOrig.RefCompraOrigId;
+                    this.DesglosCompres.Add(desglosCompra);
+                    movOrig.DesglosCompresOrig.Add(desglosCompra);
 
                     connexio.SaveChanges();
                 }                
