@@ -456,7 +456,7 @@ namespace Inversions
 
             double preuParticipacioCompra = Math.Round(preuParticipacioVenda * participacionsVenda / participacionsCompra, 4);
 
-            var venda = this.desaVenda(connexio, dataHoraVenda, participacionsVenda, preuParticipacioVenda, 1, null, descripcio, prodCompra, false, true);
+            var venda = this.desaVenda(connexio, dataHoraVenda, participacionsVenda, preuParticipacioVenda, 1, null, descripcio, false, true);
             var compra = prodCompra.desaCompra(connexio, dataHoraCompra, participacionsCompra, preuParticipacioCompra, 1, null, descripcio, venda, false, true);
         }
 
@@ -514,11 +514,19 @@ namespace Inversions
             moviment.Descripcio = String.IsNullOrEmpty(descripcio) ? null : descripcio;
             if (movimentVendaVinculatTraspas != null)
             {
-                //moviment.ProducteTraspas = movimentVendaVinculatTraspas.ProducteTraspas;
-                moviment.ProducteTraspasId = movimentVendaVinculatTraspas.ProdId;
-                moviment.MovimentRefVenda = movimentVendaVinculatTraspas; // Assigno la instancia i no l'Id, perque "movimentVendaVinculatTraspas.Id" és 0 i dona error de FK al fer el save.
+                // Asigno valor a "ProducteTraspasId" en la venda.
+                this.MovimentsTraspas.Add(movimentVendaVinculatTraspas);
+
+                // Asigno valor a "ProducteTraspasId" en la compra.
+                movimentVendaVinculatTraspas.Prod.MovimentsTraspas.Add(moviment);
+
+                // Asigno valor a "MovimentRefVendaId" en la venda.
+                moviment.MovimentRefVenda1.Add(movimentVendaVinculatTraspas);
+
+                // Asigno valor a "MovimentRefVendaId" en la compra.
+                movimentVendaVinculatTraspas.MovimentRefVenda1.Add(moviment);
             }
-            //connexio.Moviments.Add(moviment); // Carrega les referències. S'ha de fer abans de: calculaPreuOrigen(moviment)
+        
             this.MovimentsProducte.Add(moviment); // Carrega les referències.
             connexio.Entry(moviment).Reference(c => c.Prod).Load();
 
@@ -549,12 +557,13 @@ namespace Inversions
         /// <param name="afegeigPreuAValoracions"></param>
         /// <param name="mostraFinestraAdvertencia"></param>
         /// <returns></returns>
-        internal Moviment desaVenda(InversionsBDContext connexio, DateTime data, TimeSpan hora, double participacions, double preuParticipacio, double canviAplicat,
-            double? despeses, string descripcio, bool afegeigPreuAValoracions = true, bool mostraFinestraAdvertencia = true)
+        internal Moviment desaVenda(InversionsBDContext connexio, DateTime data, TimeSpan hora, double participacions, double preuParticipacio
+            , double canviAplicat, double? despeses, string descripcio, bool afegeigPreuAValoracions = true, bool mostraFinestraAdvertencia = true)
         {
             DateTime dataHora = Utilitats.FormaData(data, hora);
 
-            return desaVenda(connexio, dataHora, participacions, preuParticipacio, canviAplicat, despeses, descripcio, null, afegeigPreuAValoracions, mostraFinestraAdvertencia);
+            return desaVenda(connexio, dataHora, participacions, preuParticipacio, canviAplicat, despeses, descripcio, afegeigPreuAValoracions
+                , mostraFinestraAdvertencia);
         }
 
 
@@ -568,12 +577,11 @@ namespace Inversions
         /// <param name="canviAplicat"></param>
         /// <param name="despeses"></param>
         /// <param name="descripcio"></param>
-        /// <param name="prodCompraMovimentVinculatTraspas">Si != NULL, és un traspàs.</param>
         /// <param name="afegeigPreuAValoracions"></param>
         /// <param name="mostraFinestraAdvertencia"></param>
         /// <returns></returns>
         private Moviment desaVenda(InversionsBDContext connexio, DateTime dataHora, double participacions, double preuParticipacio, double canviAplicat,
-            double? despeses, string descripcio, Producte prodCompraMovimentVinculatTraspas, bool afegeigPreuAValoracions, bool mostraFinestraAdvertencia)
+            double? despeses, string descripcio, bool afegeigPreuAValoracions, bool mostraFinestraAdvertencia)
         {
             validacionsCompraVenda(connexio, dataHora, participacions, mostraFinestraAdvertencia);
 
@@ -586,9 +594,7 @@ namespace Inversions
             moviment.Despeses = despeses;
             moviment.Data = dataHora;
             moviment.Descripcio = String.IsNullOrEmpty(descripcio) ? null : descripcio;
-            moviment.ProducteTraspasId = prodCompraMovimentVinculatTraspas == null ? (int?)null : prodCompraMovimentVinculatTraspas.Id;
 
-            //connexio.Moviments.Add(moviment); // Carrega les referències.
             this.MovimentsProducte.Add(moviment);
             connexio.Entry(moviment).Reference(c => c.Prod).Load(); // Carrega les referències.
 
@@ -732,7 +738,7 @@ namespace Inversions
                 {
                     // Venc les participacions restants.
                     data1 = data1.AddSeconds(1);
-                    var ven = desaVenda(connexio, data1, partRestants, preuOperacio, canviAplicat, 0, descripcio, null, false, false);
+                    var ven = desaVenda(connexio, data1, partRestants, preuOperacio, canviAplicat, 0, descripcio, false, false);
                     ven.PreuParticipacioOrigen = mov1.PreuParticipacioOrigen.GetValueOrDefault(); // Modifico el PreuParticipacioOrigen.
                 }
             }

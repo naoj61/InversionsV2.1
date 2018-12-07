@@ -36,7 +36,7 @@ namespace Inversions
 
         public Moviment _MovimentRefVenda
         {
-            get { return _Moviment.MovimentRefVenda; }
+            get { return _Moviment.MovimentRefVendaN; }
         }
 
         public double _PreuParticipacioOrigen
@@ -209,7 +209,7 @@ namespace Inversions
         /// </summary>
         public Moviment _MovimentRefCompra
         {
-            get { return NoUtilitzar1.FirstOrDefault(); }
+            get { return MovimentRefVenda1.FirstOrDefault(); }
         }
 
         #endregion *** Atributs ***
@@ -248,17 +248,16 @@ namespace Inversions
             if (TipusMoviment != TipusMoviment.Compra)
                 throw new ArgumentException(String.Format("El moviment ha de ser una compra. Id={0}", Id));
 
-
             if (_EsCompraReal)
             {
                 // ** El desgloç és una fila lligada al propi moviment.
                 DesglosCompra desglosCompra = connexio.DesglosCompras.Create();
-                //desglosCompra.RefCompraId = this.Id;
-                //desglosCompra.RefCompraOrigId = this.Id;
                 
                 desglosCompra.Participacions = Math.Round(this.Participacions, 4);
                 desglosCompra.ParticipacionsOrig = Math.Round(this.Participacions, 4);
 
+                //desglosCompra.RefCompraId = this.Id;
+                //desglosCompra.RefCompraOrigId = this.Id;
                 this.DesglosCompres.Add(desglosCompra);
                 this.DesglosCompresOrig.Add(desglosCompra);
 
@@ -269,7 +268,7 @@ namespace Inversions
                 // ** És un traspàs.
 
                 // ** Troba les compres de la venda lligada al traspàs.
-                var compresAnt = MovimentRefVenda.compresDeLaVenda(connexio).OrderBy(o => o._DataOrig).ToList();
+                var compresAnt = MovimentRefVendaN.compresDeLaVenda(connexio).OrderBy(o => o._DataOrig).ToList();
                 
                 // ** Agrupa les compres pel id orig.
                 var agrupatPerIdOrig = compresAnt.GroupBy(g => g._DesglosCompra.RefCompraOrigId)
@@ -285,7 +284,7 @@ namespace Inversions
 
                     DesglosCompra desglosCompra = connexio.DesglosCompras.Create();
 
-                    desglosCompra.Participacions = Math.Round(Participacions / MovimentRefVenda.Participacions * grup.partDelMoviment, 4);
+                    desglosCompra.Participacions = Math.Round(Participacions / MovimentRefVendaN.Participacions * grup.partDelMoviment, 4);
                     desglosCompra.ParticipacionsOrig = Math.Round(grup.partDelMovimentOrig, 4);
 
                     //desglosCompra.RefCompraId = this.Id;
@@ -396,16 +395,16 @@ namespace Inversions
 
             if (TipusMoviment == TipusMoviment.Compra)
             {
-                if (MovimentRefVenda == null)
+                if (MovimentRefVendaN == null)
                 {
                     valorRetorn = PreuParticipacio;
                 }
                 else
                 {
-                    if (MovimentRefVenda.PreuParticipacioOrigen == null)
+                    if (MovimentRefVendaN.PreuParticipacioOrigen == null)
                         throw new NullReferenceException("El 'movimentVendaVinculatCompra' és NULL i hauria de tenir algún valor.");
 
-                    valorRetorn = MovimentRefVenda.PreuParticipacioOrigen.Value * MovimentRefVenda.Participacions / Participacions;
+                    valorRetorn = MovimentRefVendaN.PreuParticipacioOrigen.Value * MovimentRefVendaN.Participacions / Participacions;
                 }
             }
             else if (TipusMoviment == TipusMoviment.Venda || TipusMoviment == TipusMoviment.Traspàs)
