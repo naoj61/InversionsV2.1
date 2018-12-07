@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Windows.Forms;
-using System.Xml;
 using Comuns;
 
 namespace Inversions
@@ -111,12 +106,17 @@ namespace Inversions
 
         public Producte _ProducteTraspasOrigen
         {
-            get { return TipusMoviment == TipusMoviment.Compra ? ProducteTraspas : null; }
+            get { return TipusMoviment == TipusMoviment.Compra ? _ProducteTraspas : null; }
         }
 
         public Producte _ProducteTraspasDesti
         {
-            get { return TipusMoviment == TipusMoviment.Venda ? ProducteTraspas : null; }
+            get { return TipusMoviment == TipusMoviment.Venda ? _ProducteTraspas : null; }
+        }
+
+        public Producte _ProducteTraspas
+        {
+            get { return MovimentRefVendaN != null ? MovimentRefVendaN.Prod : null; }
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Inversions
 
         public bool _EsTraspas
         {
-            get { return ProducteTraspas != null; }
+            get { return MovimentRefVenda1.Any(); }
         }
 
         /// <summary>
