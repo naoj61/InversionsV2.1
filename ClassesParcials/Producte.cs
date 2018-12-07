@@ -25,7 +25,7 @@ namespace Inversions
 
         public IEnumerable<Moviment> MovimentsProducteUsuari
         {
-            get { return MovimentsProducte.Where(w => w.UsuariId == Usuari.Seleccionat.Id); }
+            get { return this.Moviments.Where(w => w.UsuariId == Usuari.Seleccionat.Id); }
         }
 
         public struct PiGPerCompra
@@ -384,7 +384,7 @@ namespace Inversions
         {
             var valoracions = ValoracionsProducte.Where(w => w.Data <= data).Select(val => new { val.Data, val.PreuParticipacio });
 
-            var moviments = MovimentsProducte.Where(w => w.Data <= data && (w.TipusMoviment == TipusMoviment.Compra || w.TipusMoviment == TipusMoviment.Venda))
+            var moviments = this.Moviments.Where(w => w.Data <= data && (w.TipusMoviment == TipusMoviment.Compra || w.TipusMoviment == TipusMoviment.Venda))
                 .Select(mov => new { mov.Data, mov.PreuParticipacio });
 
             var tot = valoracions.Union(moviments).OrderBy(o => o.Data).ToList();
@@ -514,11 +514,11 @@ namespace Inversions
             moviment.Descripcio = String.IsNullOrEmpty(descripcio) ? null : descripcio;
             if (movimentVendaVinculatTraspas != null)
             {
-                // Asigno valor a "ProducteTraspasId" en la venda.
-                this.MovimentsTraspas.Add(movimentVendaVinculatTraspas);
+                //// Asigno valor a "ProducteTraspasId" en la venda.
+                //this.MovimentsTraspas.Add(movimentVendaVinculatTraspas);
 
-                // Asigno valor a "ProducteTraspasId" en la compra.
-                movimentVendaVinculatTraspas.Prod.MovimentsTraspas.Add(moviment);
+                //// Asigno valor a "ProducteTraspasId" en la compra.
+                //movimentVendaVinculatTraspas.Prod.MovimentsTraspas.Add(moviment);
 
                 // Asigno valor a "MovimentRefVendaId" en la venda.
                 moviment.MovimentRefVenda1.Add(movimentVendaVinculatTraspas);
@@ -527,7 +527,7 @@ namespace Inversions
                 movimentVendaVinculatTraspas.MovimentRefVenda1.Add(moviment);
             }
         
-            this.MovimentsProducte.Add(moviment); // Carrega les referències.
+            this.Moviments.Add(moviment); // Carrega les referències.
             connexio.Entry(moviment).Reference(c => c.Prod).Load();
 
             moviment.PreuParticipacioOrigen = moviment.calculaPreuOrigen(); // Després del Add per tenir les referèmcies creades.
@@ -595,7 +595,7 @@ namespace Inversions
             moviment.Data = dataHora;
             moviment.Descripcio = String.IsNullOrEmpty(descripcio) ? null : descripcio;
 
-            this.MovimentsProducte.Add(moviment);
+            this.Moviments.Add(moviment);
             connexio.Entry(moviment).Reference(c => c.Prod).Load(); // Carrega les referències.
 
             moviment.PreuParticipacioOrigen = moviment.calculaPreuOrigen(); // Després del Add per tenir les referències creades.

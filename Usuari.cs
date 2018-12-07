@@ -16,12 +16,12 @@ namespace Inversions
     {
         public Usuari()
         {
-            this.Moviments1 = new HashSet<Moviment>();
+            this.Moviments = new HashSet<Moviment>();
         }
     
         public int Id { get; set; }
         public string Nom { get; set; }
     
-        public virtual ICollection<Moviment> Moviments1 { get; set; }
+        public virtual ICollection<Moviment> Moviments { get; set; }
     }
 }
