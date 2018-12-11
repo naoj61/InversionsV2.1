@@ -47,19 +47,19 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="UsuariId" Nullable="false" Type="int" />
-          <Property Name="ProdId" Nullable="false" Type="int" />
-          <Property Name="TipusMoviment" Nullable="false" Type="int" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UsuariId" Type="int" Nullable="false" />
+          <Property Name="ProdId" Type="int" Nullable="false" />
+          <Property Name="TipusMoviment" Type="int" Nullable="false" />
           <Property Name="MovimentRefVendaId" Type="int" />
-          <Property Name="Data" Nullable="false" Type="datetime" />
-          <Property Name="Participacions" Nullable="false" Type="float" />
+          <Property Name="Data" Type="datetime" Nullable="false" />
+          <Property Name="Participacions" Type="float" Nullable="false" />
           <Property Name="PreuParticipacioOrigen" Type="float" />
-          <Property Name="PreuParticipacio" Nullable="false" Type="float" />
-          <Property Name="CanviAplicat" Nullable="false" Type="float" />
+          <Property Name="PreuParticipacio" Type="float" Nullable="false" />
+          <Property Name="CanviAplicat" Type="float" Nullable="false" />
           <Property Name="Despeses" Type="float" />
           <Property Name="Descripcio" Type="nvarchar(max)" />
-          <Property Name="RowVersion" Nullable="false" StoreGeneratedPattern="Computed" Type="timestamp" />
+          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
         <EntityType Name="ProdFonsGestor">
           <Key>
@@ -112,6 +112,10 @@
           <Property Name="PreuParticipacio" Type="float" Nullable="false" />
           <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJECTS\MEUS\INVERSIONSV2\BD\INVERSIONSBD.MDF.dbo.Compres' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJECTS\MEUS\INVERSIONSV2\BD\INVERSIONSBD.MDF.dbo.Vendes' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <Association Name="FK_EmpresaGestor">
           <End Role="Empreses" Type="Self.Empreses" Multiplicity="1" />
           <End Role="Gestors" Type="Self.Gestors" Multiplicity="*" />
@@ -149,8 +153,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MovCompra">
-          <End Type="Self.Moviments" Multiplicity="1" Role="Moviments" />
-          <End Type="Self.DesglosCompres" Multiplicity="*" Role="DesglosCompres" />
+          <End Role="Moviments" Type="Self.Moviments" Multiplicity="1" />
+          <End Role="DesglosCompres" Type="Self.DesglosCompres" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Moviments">
               <PropertyRef Name="Id" />
@@ -161,8 +165,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MovCompraOrig">
-          <End Type="Self.Moviments" Multiplicity="1" Role="Moviments" />
-          <End Type="Self.DesglosCompres" Multiplicity="*" Role="DesglosCompres" />
+          <End Role="Moviments" Type="Self.Moviments" Multiplicity="1" />
+          <End Role="DesglosCompres" Type="Self.DesglosCompres" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Moviments">
               <PropertyRef Name="Id" />
@@ -225,8 +229,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ProdMov">
-          <End Type="Self.Productes" Multiplicity="1" Role="Productes" />
-          <End Type="Self.Moviments" Multiplicity="*" Role="Moviments" />
+          <End Role="Productes" Type="Self.Productes" Multiplicity="1" />
+          <End Role="Moviments" Type="Self.Moviments" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Productes">
               <PropertyRef Name="Id" />
@@ -249,8 +253,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_RefVenda">
-          <End Type="Self.Moviments" Multiplicity="0..1" Role="Moviments" />
-          <End Type="Self.Moviments" Multiplicity="*" Role="Moviments1" />
+          <End Role="Moviments" Type="Self.Moviments" Multiplicity="0..1" />
+          <End Role="Moviments1" Type="Self.Moviments" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Moviments">
               <PropertyRef Name="Id" />
@@ -261,8 +265,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Usuaris">
-          <End Type="Self.Usuaris" Multiplicity="1" Role="Usuaris" />
-          <End Type="Self.Moviments" Multiplicity="*" Role="Moviments" />
+          <End Role="Usuaris" Type="Self.Usuaris" Multiplicity="1" />
+          <End Role="Moviments" Type="Self.Moviments" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuaris">
               <PropertyRef Name="Id" />
@@ -297,12 +301,12 @@
             <End Role="Productes_ProdAccions" EntitySet="Productes_ProdAccions" />
           </AssociationSet>
           <AssociationSet Name="FK_MovCompra" Association="Self.FK_MovCompra">
-            <End EntitySet="Moviments" Role="Moviments" />
-            <End EntitySet="DesglosCompres" Role="DesglosCompres" />
+            <End Role="Moviments" EntitySet="Moviments" />
+            <End Role="DesglosCompres" EntitySet="DesglosCompres" />
           </AssociationSet>
           <AssociationSet Name="FK_MovCompraOrig" Association="Self.FK_MovCompraOrig">
-            <End EntitySet="Moviments" Role="Moviments" />
-            <End EntitySet="DesglosCompres" Role="DesglosCompres" />
+            <End Role="Moviments" EntitySet="Moviments" />
+            <End Role="DesglosCompres" EntitySet="DesglosCompres" />
           </AssociationSet>
           <AssociationSet Name="FK_ProdAccions_inherits_Producte" Association="Self.FK_ProdAccions_inherits_Producte">
             <End Role="Productes" EntitySet="Productes" />
@@ -321,20 +325,20 @@
             <End Role="ProdFonsGestor" EntitySet="ProdFonsGestor" />
           </AssociationSet>
           <AssociationSet Name="FK_ProdMov" Association="Self.FK_ProdMov">
-            <End EntitySet="Productes" Role="Productes" />
-            <End EntitySet="Moviments" Role="Moviments" />
+            <End Role="Productes" EntitySet="Productes" />
+            <End Role="Moviments" EntitySet="Moviments" />
           </AssociationSet>
           <AssociationSet Name="FK_ProdValoracio" Association="Self.FK_ProdValoracio">
             <End Role="Productes" EntitySet="Productes" />
             <End Role="Valoracions" EntitySet="Valoracions" />
           </AssociationSet>
           <AssociationSet Name="FK_RefVenda" Association="Self.FK_RefVenda">
-            <End EntitySet="Moviments" Role="Moviments" />
-            <End EntitySet="Moviments" Role="Moviments1" />
+            <End Role="Moviments" EntitySet="Moviments" />
+            <End Role="Moviments1" EntitySet="Moviments" />
           </AssociationSet>
           <AssociationSet Name="FK_Usuaris" Association="Self.FK_Usuaris">
-            <End EntitySet="Usuaris" Role="Usuaris" />
-            <End EntitySet="Moviments" Role="Moviments" />
+            <End Role="Usuaris" EntitySet="Usuaris" />
+            <End Role="Moviments" EntitySet="Moviments" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>

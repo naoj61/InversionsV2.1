@@ -34,6 +34,7 @@ namespace Inversions
             get { return _Moviment.MovimentRefVendaN; }
         }
 
+        [Obsolete("Obsolet. No utilitzar el camp 'PreuParticipacioOrigen'")]
         public double _PreuParticipacioOrigen
         {
             get { return _Moviment.PreuParticipacioOrigen.GetValueOrDefault(_Moviment.PreuParticipacio); }
@@ -67,13 +68,11 @@ namespace Inversions
         public DesglosCompra _DesglosCompra { get; private set; }
         public double _ParticipacionsDelMoviment { get; private set; }
         public double _ParticipacionsDelMovimentOrigen { get; private set; }
-        public DateTime _DataOrig { get; private set; }
 
         public MovimentDesglosCompra(DesglosCompra desglosCompra, double participacionsDelMoviment, double participacionsDelMovimentOrig)
             : this()
         {
             _DesglosCompra = desglosCompra;
-            _DataOrig = desglosCompra.RefCompraOrig.Data;
             _ParticipacionsDelMoviment = participacionsDelMoviment;
             _ParticipacionsDelMovimentOrigen = participacionsDelMovimentOrig;
         }
@@ -82,6 +81,18 @@ namespace Inversions
             : this(desglosCompra, participacionsDelMoviment
                 , participacionsDelMoviment / desglosCompra.Participacions * desglosCompra.ParticipacionsOrig)
         {}
+
+
+        public DateTime _DataOrig
+        {
+            get { return _DesglosCompra.RefCompraOrig.Data; }
+        }
+
+        public double _PreuParticipacioOrig
+        {
+            get { return _DesglosCompra._PreuPartOrig; }
+        }
+
 
         public override string ToString()
         {
@@ -93,16 +104,16 @@ namespace Inversions
     public partial class Moviment
     {
         #region *** Atributs ***
+                     
+        //public string _NomProducteTraspasOrigen
+        //{
+        //    get { return _ProducteTraspasOrigen != null ? _ProducteTraspasOrigen._NomProducte : null; }
+        //}
 
-        public string _NomProducteTraspasOrigen
-        {
-            get { return _ProducteTraspasOrigen != null ? _ProducteTraspasOrigen._NomProducte : null; }
-        }
-
-        public string _NomProducteTraspasDesti
-        {
-            get { return _ProducteTraspasDesti != null ? _ProducteTraspasDesti._NomProducte : null; }
-        }
+        //public string _NomProducteTraspasDesti
+        //{
+        //    get { return _ProducteTraspasDesti != null ? _ProducteTraspasDesti._NomProducte : null; }
+        //}
 
         public Producte _ProducteTraspasOrigen
         {
@@ -214,6 +225,7 @@ namespace Inversions
 
         #endregion *** Atributs ***
 
+
         #region *** Test ***
 
         public IEnumerable<MovimentDesglosCompra> TestCompresDeLaVenda(InversionsBDContext connexio)
@@ -303,7 +315,7 @@ namespace Inversions
         /// </summary>
         /// <param name="connexio"></param>
         /// <returns></returns>
-        private IEnumerable<MovimentDesglosCompra> compresDeLaVenda(InversionsBDContext connexio)
+        internal IEnumerable<MovimentDesglosCompra> compresDeLaVenda(InversionsBDContext connexio)
         {
             if (TipusMoviment != TipusMoviment.Venda)
                 throw new ArgumentException(String.Format("El moviment ha de ser una venda. Id={0}", Id));
@@ -389,6 +401,7 @@ namespace Inversions
         /// Calcula el preu de compra origen d'un moviment de; Compra, venda o traspàs.
         /// </summary>
         /// <returns></returns>
+        [ObsoleteAttribute("Obsolet. El manting perquè encara desa el camp 'PreuParticipacioOrigen' malgrat no l'utilitzo")]
         internal double calculaPreuOrigen()
         {
             double valorRetorn;
@@ -497,6 +510,7 @@ namespace Inversions
         }
 
         #endregion *** Mètodes ***
+
 
         #region Overrides
 

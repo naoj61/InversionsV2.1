@@ -92,6 +92,7 @@
     <Compile Include="ClassesParcials\InversionsBDContext.cs" />
     <Compile Include="ClassesParcials\Mercat.cs" />
     <Compile Include="ClassesParcials\DesglosCompra.cs" />
+    <Compile Include="ClassesParcials\Producte2.cs" />
     <Compile Include="ClassesParcials\Usuari.cs" />
     <Compile Include="ClassesParcials\Valoracio.cs" />
     <Compile Include="ClassesParcials\ProdFons.cs" />
