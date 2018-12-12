@@ -168,7 +168,7 @@ namespace Inversions
 
         public bool _EsTraspas
         {
-            get { return MovimentRefVenda1.Any(); }
+            get { return MovimentRefVendaN != null; }
         }
 
         /// <summary>

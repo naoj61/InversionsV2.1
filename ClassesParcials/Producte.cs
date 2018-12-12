@@ -491,39 +491,21 @@ namespace Inversions
         /// <returns></returns>
         public static double PigTributa(TipusProducte? tipusProducte = null, int? any = null)
         {
-            double pig = 0;
-
             tipusProducte = tipusProducte.HasValue ? tipusProducte : TipusProducte.Tots;
+
+            double pig = 0;
 
             if (tipusProducte == TipusProducte.Accions || tipusProducte == TipusProducte.Tots)
             {
-                if (any.HasValue)
-                    pig += Enumerable.Sum(Program.Sessio.ProdAccions, prodAccio => prodAccio.pigTributa(any.Value));
-                else
-                    pig += Enumerable.Sum(Program.Sessio.ProdAccions, prodAccio => prodAccio.pigTributa());
+                pig += Enumerable.Sum(Program.Sessio.ProdAccions, prodAccio => prodAccio.pigTributa(any));
             }
 
             if (tipusProducte == TipusProducte.Fons || tipusProducte == TipusProducte.Tots)
             {
-                if (any.HasValue)
-                    pig += Enumerable.Sum(Program.Sessio.ProdFons, prodAccio => prodAccio.pigTributa(any.Value));
-                else
-                    pig += Enumerable.Sum(Program.Sessio.ProdFons, prodAccio => prodAccio.pigTributa());
+                pig += Enumerable.Sum(Program.Sessio.ProdFons, prodFons => prodFons.pigTributa(any));
             }
 
             return pig;
-        }
-
-
-        /// <summary>
-        /// PiG que tributen. Vendes reals de qualsevol periode.
-        /// Preu compra --> Preu origen.
-        /// Preu venda  --> Preu venda.
-        /// </summary>
-        /// <returns></returns>
-        internal double pigTributa()
-        {
-            return pigTributa(DateTime.MinValue, DateTime.MaxValue);
         }
 
 
@@ -534,9 +516,11 @@ namespace Inversions
         /// </summary>
         /// <param name="any"></param>
         /// <returns></returns>
-        internal double pigTributa(int any)
+        public double pigTributa(int? any = null)
         {
-            return pigTributa(new DateTime(any, 1, 1), new DateTime(any, 12, 31));
+            return any.HasValue 
+                ? pigTributa(new DateTime(any.Value, 1, 1), new DateTime(any.Value, 12, 31)) 
+                : pigTributa(DateTime.MinValue, DateTime.MaxValue);
         }
 
 
@@ -553,7 +537,8 @@ namespace Inversions
             var dInici = dataInici.Date; // Poso la d'inici hora a zero.
             var dFinal = Utilitats.DataFinalDia(dataFinal);
 
-            var totalCompraVenda = importVenda(dInici, dFinal) - importCompra(dInici, dFinal);
+            var totalCompra = importCompra(dInici, dFinal);
+            var totalVenda = importVenda(dInici, dFinal);
 
             double totalDividends = 0;
             double totalDespeses = 0;
@@ -564,7 +549,7 @@ namespace Inversions
                 totalDividends = calculaDividents(dInici, dFinal);
             }
 
-            return Math.Round(totalCompraVenda + totalDividends - totalDespeses, 3);
+            return Math.Round((totalVenda - totalCompra ) + totalDividends - totalDespeses, 3);
         }
 
         /// <summary>

@@ -572,7 +572,7 @@ namespace Inversions
         private double importCompra(DateTime dInici, DateTime dFinal)
         {
             // Troba les vendes reals entre les dates inici i fi.
-            var vendesReals = MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w._EsVendaReal);
+            var vendesReals = MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w._EsVendaReal).ToList();
             
             double importCompresOrig = 0;
             foreach (Moviment vendaReal in vendesReals)
