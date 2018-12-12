@@ -601,7 +601,7 @@ namespace Inversions
         /// <returns></returns>
         private double pig(DateTime dataInici, DateTime dataFinal)
         {
-            var dInici = dataInici.Date; // Poso la d'inici hora a zero.
+            var dInici = dataInici.Date; // Poso la hora a zero.
             var dFinal = Utilitats.DataFinalDia(dataFinal);
 
             var compres = MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w.TipusMoviment == TipusMoviment.Compra).ToList();
