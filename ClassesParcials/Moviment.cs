@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using Comuns;
@@ -115,11 +116,13 @@ namespace Inversions
         //    get { return _ProducteTraspasDesti != null ? _ProducteTraspasDesti._NomProducte : null; }
         //}
 
+        [Description("S'utilitza en un DataGrid")]
         public Producte _ProducteTraspasOrigen
         {
             get { return TipusMoviment == TipusMoviment.Compra ? _ProducteTraspas : null; }
         }
 
+        [Description("S'utilitza en un DataGrid")]
         public Producte _ProducteTraspasDesti
         {
             get { return TipusMoviment == TipusMoviment.Venda ? _ProducteTraspas : null; }
@@ -401,7 +404,8 @@ namespace Inversions
         /// Calcula el preu de compra origen d'un moviment de; Compra, venda o traspàs.
         /// </summary>
         /// <returns></returns>
-        [ObsoleteAttribute("Obsolet. El manting perquè encara desa el camp 'PreuParticipacioOrigen' malgrat no l'utilitzo")]
+        [ObsoleteAttribute("Obsolet.", false)]
+        [Description("El mantinc perquè encara desa el camp 'PreuParticipacioOrigen' malgrat no l'utilitzo")]
         internal double calculaPreuOrigen()
         {
             double valorRetorn;

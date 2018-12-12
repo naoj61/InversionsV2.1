@@ -72,9 +72,15 @@ namespace Inversions.GUI
             this.panel3 = new System.Windows.Forms.Panel();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cbTipusProducteFiltreTab2 = new System.Windows.Forms.ComboBox();
-            this.gbEmpresa = new System.Windows.Forms.GroupBox();
             this.lbEmpresa = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.gbEmpresa = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.gbFons = new System.Windows.Forms.Panel();
+            this.lbFons = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.tbCostOrigPartActual = new Controls.NumericTextBox2();
             this.pnDadesProducte.SuspendLayout();
             this.gbMoneda.SuspendLayout();
             this.gbUsuari.SuspendLayout();
@@ -95,6 +101,8 @@ namespace Inversions.GUI
             this.panel3.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.gbEmpresa.SuspendLayout();
+            this.gbFons.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnDadesProducte
@@ -105,6 +113,7 @@ namespace Inversions.GUI
             this.pnDadesProducte.Controls.Add(this.groupBox2);
             this.pnDadesProducte.Controls.Add(this.groupBox3);
             this.pnDadesProducte.Controls.Add(this.gbDescripcio);
+            this.pnDadesProducte.Controls.Add(this.groupBox7);
             this.pnDadesProducte.Controls.Add(this.groupBox4);
             this.pnDadesProducte.Controls.Add(this.groupBox15);
             this.pnDadesProducte.Controls.Add(this.groupBox1);
@@ -236,7 +245,7 @@ namespace Inversions.GUI
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.tbDividends);
-            this.groupBox3.Location = new System.Drawing.Point(192, 205);
+            this.groupBox3.Location = new System.Drawing.Point(8, 351);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
@@ -271,11 +280,11 @@ namespace Inversions.GUI
             this.gbDescripcio.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbDescripcio.Controls.Add(this.tbDescripcio);
-            this.gbDescripcio.Location = new System.Drawing.Point(7, 350);
+            this.gbDescripcio.Location = new System.Drawing.Point(7, 424);
             this.gbDescripcio.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbDescripcio.Name = "gbDescripcio";
             this.gbDescripcio.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbDescripcio.Size = new System.Drawing.Size(359, 421);
+            this.gbDescripcio.Size = new System.Drawing.Size(359, 347);
             this.gbDescripcio.TabIndex = 6;
             this.gbDescripcio.TabStop = false;
             this.gbDescripcio.Text = "Descripció";
@@ -289,7 +298,7 @@ namespace Inversions.GUI
             this.tbDescripcio.Name = "tbDescripcio";
             this.tbDescripcio.ReadOnly = true;
             this.tbDescripcio.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbDescripcio.Size = new System.Drawing.Size(353, 394);
+            this.tbDescripcio.Size = new System.Drawing.Size(353, 320);
             this.tbDescripcio.TabIndex = 0;
             // 
             // groupBox4
@@ -620,8 +629,9 @@ namespace Inversions.GUI
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.groupBox5);
+            this.panel3.Controls.Add(this.gbFons);
             this.panel3.Controls.Add(this.gbEmpresa);
+            this.panel3.Controls.Add(this.groupBox5);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -632,11 +642,12 @@ namespace Inversions.GUI
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.cbTipusProducteFiltreTab2);
-            this.groupBox5.Location = new System.Drawing.Point(10, 4);
+            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBox5.Location = new System.Drawing.Point(0, 0);
             this.groupBox5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(6);
-            this.groupBox5.Size = new System.Drawing.Size(159, 66);
+            this.groupBox5.Size = new System.Drawing.Size(159, 80);
             this.groupBox5.TabIndex = 0;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Tipus Producte";
@@ -653,29 +664,102 @@ namespace Inversions.GUI
             this.cbTipusProducteFiltreTab2.TabIndex = 0;
             this.cbTipusProducteFiltreTab2.SelectedIndexChanged += new System.EventHandler(this.cbTipusProducteFiltreTab2_SelectedIndexChanged);
             // 
-            // gbEmpresa
-            // 
-            this.gbEmpresa.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbEmpresa.Controls.Add(this.lbEmpresa);
-            this.gbEmpresa.Location = new System.Drawing.Point(194, 9);
-            this.gbEmpresa.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbEmpresa.Name = "gbEmpresa";
-            this.gbEmpresa.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbEmpresa.Size = new System.Drawing.Size(507, 62);
-            this.gbEmpresa.TabIndex = 1;
-            this.gbEmpresa.TabStop = false;
-            this.gbEmpresa.Text = "Empresa";
-            // 
             // lbEmpresa
             // 
+            this.lbEmpresa.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lbEmpresa.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbEmpresa.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbEmpresa.Location = new System.Drawing.Point(3, 23);
+            this.lbEmpresa.Location = new System.Drawing.Point(78, 3);
             this.lbEmpresa.Name = "lbEmpresa";
-            this.lbEmpresa.Size = new System.Drawing.Size(501, 35);
+            this.lbEmpresa.Size = new System.Drawing.Size(462, 29);
             this.lbEmpresa.TabIndex = 0;
             this.lbEmpresa.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // gbEmpresa
+            // 
+            this.gbEmpresa.Controls.Add(this.lbEmpresa);
+            this.gbEmpresa.Controls.Add(this.label1);
+            this.gbEmpresa.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gbEmpresa.Location = new System.Drawing.Point(159, 0);
+            this.gbEmpresa.Name = "gbEmpresa";
+            this.gbEmpresa.Padding = new System.Windows.Forms.Padding(3);
+            this.gbEmpresa.Size = new System.Drawing.Size(543, 35);
+            this.gbEmpresa.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label1.Location = new System.Drawing.Point(3, 3);
+            this.label1.Name = "label1";
+            this.label1.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            this.label1.Size = new System.Drawing.Size(75, 29);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Empresa";
+            // 
+            // gbFons
+            // 
+            this.gbFons.Controls.Add(this.lbFons);
+            this.gbFons.Controls.Add(this.label3);
+            this.gbFons.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gbFons.Location = new System.Drawing.Point(159, 35);
+            this.gbFons.Name = "gbFons";
+            this.gbFons.Padding = new System.Windows.Forms.Padding(3);
+            this.gbFons.Size = new System.Drawing.Size(543, 35);
+            this.gbFons.TabIndex = 2;
+            // 
+            // lbFons
+            // 
+            this.lbFons.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lbFons.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbFons.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbFons.Location = new System.Drawing.Point(78, 3);
+            this.lbFons.Name = "lbFons";
+            this.lbFons.Size = new System.Drawing.Size(462, 29);
+            this.lbFons.TabIndex = 0;
+            this.lbFons.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label3
+            // 
+            this.label3.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label3.Location = new System.Drawing.Point(3, 3);
+            this.label3.Name = "label3";
+            this.label3.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            this.label3.Size = new System.Drawing.Size(75, 29);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Fons";
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox7.Controls.Add(this.tbCostOrigPartActual);
+            this.groupBox7.Location = new System.Drawing.Point(192, 205);
+            this.groupBox7.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
+            this.groupBox7.Size = new System.Drawing.Size(176, 62);
+            this.groupBox7.TabIndex = 4;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Cost Orig Particip";
+            // 
+            // tbCostOrigPartActual
+            // 
+            this.tbCostOrigPartActual._CapturaEscape = true;
+            this.tbCostOrigPartActual._Format = "#,#0.00 €";
+            this.tbCostOrigPartActual._PermetDecimals = true;
+            this.tbCostOrigPartActual._PermetEspais = false;
+            this.tbCostOrigPartActual._PermetNegatius = true;
+            this.tbCostOrigPartActual.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbCostOrigPartActual.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbCostOrigPartActual.Location = new System.Drawing.Point(6, 23);
+            this.tbCostOrigPartActual.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tbCostOrigPartActual.Name = "tbCostOrigPartActual";
+            this.tbCostOrigPartActual.ReadOnly = true;
+            this.tbCostOrigPartActual.Size = new System.Drawing.Size(164, 25);
+            this.tbCostOrigPartActual.TabIndex = 0;
+            this.tbCostOrigPartActual.Text = "0,00 €";
+            this.tbCostOrigPartActual.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.tbCostOrigPartActual, "Cost original total de les participacions actualment en cartera");
+            this.tbCostOrigPartActual.Valor = 0D;
             // 
             // GestioProductes
             // 
@@ -717,6 +801,9 @@ namespace Inversions.GUI
             this.panel3.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.gbEmpresa.ResumeLayout(false);
+            this.gbFons.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -743,7 +830,6 @@ namespace Inversions.GUI
         private Panel panel3;
         private GroupBox groupBox5;
         private ComboBox cbTipusProducteFiltreTab2;
-        private GroupBox gbEmpresa;
         private Label lbEmpresa;
         private GroupBox gbIsinMercat;
         private TextBox tbMercat;
@@ -766,5 +852,12 @@ namespace Inversions.GUI
         private Panel pnSelDeselChecksProds;
         private Button btDeseleccionaTot;
         private Button btSeleccionaTot;
+        private Panel gbEmpresa;
+        private Label label1;
+        private Panel gbFons;
+        private Label lbFons;
+        private Label label3;
+        private GroupBox groupBox7;
+        private NumericTextBox2 tbCostOrigPartActual;
     }
 }

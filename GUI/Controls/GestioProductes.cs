@@ -113,6 +113,7 @@ namespace Inversions.GUI
             if (cbTipusProducteFiltreTab2.SelectedIndex >= 0)
             {
                 lbEmpresa.Text = "";
+                lbFons.Text = "";
                 tbParticipacions.Text = "";
                 ntbPreuPartActual.Text = "";
                 tbValorActual.Text = "";
@@ -207,6 +208,8 @@ namespace Inversions.GUI
                 //tbPiGReal.Valor = prod.pigReal(Producte.DateTimeFinalDia.Today);
                 tbPiGReal.Valor = prod.pig();
 
+                tbCostOrigPartActual.Valor = prod.costOriginalEnCartera();
+
                 if (prod is ProdFons)
                 {
                     var prodFons = (ProdFons) prod;
@@ -219,6 +222,9 @@ namespace Inversions.GUI
                     //lbMercat.Visible = false;
                     gbIsinMercat.Text = "ISIN";
                     tbIsin.BringToFront();
+
+                    gbFons.Visible = true;
+                    lbFons.Text = String.Format("{0}-{1}", prod.Id, prod._NomProducte);
                 }
                 else if (prod is ProdAccions)
                 {
@@ -230,6 +236,8 @@ namespace Inversions.GUI
                     //lbMercat.Visible = true;
                     gbIsinMercat.Text = "Mercat";
                     tbMercat.BringToFront();
+                    
+                    gbFons.Visible = false;
                 }
             }
 
@@ -278,6 +286,7 @@ namespace Inversions.GUI
             {
                 pnDadesProducte.Visible = false;
                 gbEmpresa.Visible = false;
+                gbFons.Visible = false;
                 pnSelDeselChecksProds.Visible = true;
 
                 vLbProductes = new CheckedListBox();
@@ -288,6 +297,7 @@ namespace Inversions.GUI
             {
                 pnDadesProducte.Visible = true;
                 gbEmpresa.Visible = true;
+                gbFons.Visible = false;
                 pnSelDeselChecksProds.Visible = false;
 
                 vLbProductes = new ListBox();
