@@ -484,8 +484,8 @@ namespace Inversions
             var participacions = numParticipacionsEnData(dFinal);
 
             var compresDesgAnt = new Stack<DesglosCompra>(Program.Sessio.DesglosCompras
-                .Where(w => w.RefCompra.UsuariId == Usuari.Seleccionat.Id && w.RefCompra.ProdId == Id && w.RefCompra.Data < dFinal)
-                .OrderBy(o => o.RefCompra.Data).ThenBy(o => o.RefCompraOrig.Data));
+                .Where(w => w.MovCompra.UsuariId == Usuari.Seleccionat.Id && w.MovCompra.ProdId == Id && w.MovCompra.Data < dFinal)
+                .OrderBy(o => o.MovCompra.Data).ThenBy(o => o.MovCompraOrig.Data));
 
             double cost = 0;
             while (compresDesgAnt.Count > 0 && participacions > 0)

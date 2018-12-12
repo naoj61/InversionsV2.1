@@ -10,8 +10,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="RefCompraId" Type="int" Nullable="false" />
-          <Property Name="RefCompraOrigId" Type="int" Nullable="false" />
+          <Property Name="MovCompraId" Type="int" Nullable="false" />
+          <Property Name="MovCompraOrigId" Type="int" Nullable="false" />
           <Property Name="Participacions" Type="float" Nullable="false" />
           <Property Name="ParticipacionsOrig" Type="float" Nullable="false" />
           <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
@@ -112,10 +112,6 @@
           <Property Name="PreuParticipacio" Type="float" Nullable="false" />
           <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJECTS\MEUS\INVERSIONSV2\BD\INVERSIONSBD.MDF.dbo.Compres' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJECTS\MEUS\INVERSIONSV2\BD\INVERSIONSBD.MDF.dbo.Vendes' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <Association Name="FK_EmpresaGestor">
           <End Role="Empreses" Type="Self.Empreses" Multiplicity="1" />
           <End Role="Gestors" Type="Self.Gestors" Multiplicity="*" />
@@ -160,7 +156,7 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="DesglosCompres">
-              <PropertyRef Name="RefCompraId" />
+              <PropertyRef Name="MovCompraId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -172,7 +168,7 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="DesglosCompres">
-              <PropertyRef Name="RefCompraOrigId" />
+              <PropertyRef Name="MovCompraOrigId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -372,16 +368,7 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
             <End Role="Valoracio" EntitySet="Valoracions" />
           </AssociationSet>
           <EntitySet Name="Usuaris" EntityType="InversionsBD.Usuari" />
-          <EntitySet Name="DesglosCompras" EntityType="InversionsBD.DesglosCompra" />
           <EntitySet Name="Moviments" EntityType="InversionsBD.Moviment" />
-          <AssociationSet Name="FK_MovCompra" Association="InversionsBD.FK_MovCompra">
-            <End EntitySet="Moviments" Role="Moviment" />
-            <End EntitySet="DesglosCompras" Role="DesglosCompra" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MovCompraOrig" Association="InversionsBD.FK_MovCompraOrig">
-            <End EntitySet="Moviments" Role="Moviment" />
-            <End EntitySet="DesglosCompras" Role="DesglosCompra" />
-          </AssociationSet>
           <AssociationSet Name="FK_ProdMov" Association="InversionsBD.FK_ProdMov">
             <End EntitySet="Productes" Role="Producte" />
             <End EntitySet="Moviments" Role="Moviment" />
@@ -393,6 +380,15 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
           <AssociationSet Name="FK_Usuaris" Association="InversionsBD.FK_Usuaris">
             <End EntitySet="Usuaris" Role="Usuari" />
             <End EntitySet="Moviments" Role="Moviment" />
+          </AssociationSet>
+          <EntitySet Name="DesglosCompras" EntityType="InversionsBD.DesglosCompra" />
+          <AssociationSet Name="FK_MovCompra" Association="InversionsBD.FK_MovCompra">
+            <End Role="Moviment" EntitySet="Moviments" />
+            <End Role="DesglosCompre" EntitySet="DesglosCompras" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovCompraOrig" Association="InversionsBD.FK_MovCompraOrig">
+            <End Role="Moviment" EntitySet="Moviments" />
+            <End Role="DesglosCompre" EntitySet="DesglosCompras" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Empresa">
@@ -539,19 +535,6 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
           <Property Name="Nom" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Moviments" Relationship="InversionsBD.FK_Usuaris" FromRole="Usuari" ToRole="Moviment" />
         </EntityType>
-        <EntityType Name="DesglosCompra">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RefCompraId" Type="Int32" Nullable="false" />
-          <Property Name="RefCompraOrigId" Type="Int32" Nullable="false" />
-          <Property Name="Participacions" Type="Double" Nullable="false" />
-          <Property Name="ParticipacionsOrig" Type="Double" Nullable="false" />
-          <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
-          <NavigationProperty Name="RefCompra" Relationship="InversionsBD.FK_MovCompra" FromRole="DesglosCompra" ToRole="Moviment" />
-          <NavigationProperty Name="RefCompraOrig" Relationship="InversionsBD.FK_MovCompraOrig" FromRole="DesglosCompra" ToRole="Moviment" />
-          </EntityType>
         <EntityType Name="Moviment">
           <Key>
             <PropertyRef Name="Id" />
@@ -569,37 +552,13 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
           <Property Name="Despeses" Type="Double" />
           <Property Name="Descripcio" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
           <Property Name="RowVersion" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" Type="Binary" />
-          <NavigationProperty Name="DesglosCompres" Relationship="InversionsBD.FK_MovCompra" FromRole="Moviment" ToRole="DesglosCompra" />
-          <NavigationProperty Name="DesglosCompresOrig" Relationship="InversionsBD.FK_MovCompraOrig" FromRole="Moviment" ToRole="DesglosCompra" />
           <NavigationProperty Name="Prod" Relationship="InversionsBD.FK_ProdMov" FromRole="Moviment" ToRole="Producte" />
           <NavigationProperty Name="MovimentRefVenda1" Relationship="InversionsBD.FK_RefVenda" FromRole="Moviment" ToRole="MovimentRefVendaN" />
           <NavigationProperty Name="MovimentRefVendaN" Relationship="InversionsBD.FK_RefVenda" FromRole="MovimentRefVendaN" ToRole="Moviment" />
           <NavigationProperty Name="Usuari" Relationship="InversionsBD.FK_Usuaris" FromRole="Moviment" ToRole="Usuari" />
+          <NavigationProperty Name="DesglosCompres" Relationship="InversionsBD.FK_MovCompra" FromRole="Moviment" ToRole="DesglosCompre" />
+          <NavigationProperty Name="DesglosCompresOrig" Relationship="InversionsBD.FK_MovCompraOrig" FromRole="Moviment" ToRole="DesglosCompre" />
         </EntityType>
-        <Association Name="FK_MovCompra">
-          <End Type="InversionsBD.Moviment" Multiplicity="1" Role="Moviment" />
-          <End Type="InversionsBD.DesglosCompra" Multiplicity="*" Role="DesglosCompra" />
-          <ReferentialConstraint>
-            <Principal Role="Moviment">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DesglosCompra">
-              <PropertyRef Name="RefCompraId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MovCompraOrig">
-          <End Type="InversionsBD.Moviment" Multiplicity="1" Role="Moviment" />
-          <End Type="InversionsBD.DesglosCompra" Multiplicity="*" Role="DesglosCompra" />
-          <ReferentialConstraint>
-            <Principal Role="Moviment">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DesglosCompra">
-              <PropertyRef Name="RefCompraOrigId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ProdMov">
           <End Type="InversionsBD.Producte" Multiplicity="1" Role="Producte" />
           <End Type="InversionsBD.Moviment" Multiplicity="*" Role="Moviment" />
@@ -633,6 +592,43 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
             </Principal>
             <Dependent Role="Moviment">
               <PropertyRef Name="UsuariId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DesglosCompra">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MovCompraId" Type="Int32" Nullable="false" />
+          <Property Name="MovCompraOrigId" Type="Int32" Nullable="false" />
+          <Property Name="Participacions" Type="Double" Nullable="false" />
+          <Property Name="ParticipacionsOrig" Type="Double" Nullable="false" />
+          <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="MovCompra" Relationship="InversionsBD.FK_MovCompra" FromRole="DesglosCompre" ToRole="Moviment" />
+          <NavigationProperty Name="MovCompraOrig" Relationship="InversionsBD.FK_MovCompraOrig" FromRole="DesglosCompre" ToRole="Moviment" />
+        </EntityType>
+        <Association Name="FK_MovCompra">
+          <End Type="InversionsBD.Moviment" Role="Moviment" Multiplicity="1" />
+          <End Type="InversionsBD.DesglosCompra" Role="DesglosCompre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moviment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DesglosCompre">
+              <PropertyRef Name="MovCompraId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovCompraOrig">
+          <End Type="InversionsBD.Moviment" Role="Moviment" Multiplicity="1" />
+          <End Type="InversionsBD.DesglosCompra" Role="DesglosCompre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moviment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DesglosCompre">
+              <PropertyRef Name="MovCompraOrigId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -724,18 +720,6 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="DesglosCompras">
-            <EntityTypeMapping TypeName="InversionsBD.DesglosCompra">
-              <MappingFragment StoreEntitySet="DesglosCompres">
-                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
-                <ScalarProperty Name="ParticipacionsOrig" ColumnName="ParticipacionsOrig" />
-                <ScalarProperty Name="Participacions" ColumnName="Participacions" />
-                <ScalarProperty Name="RefCompraOrigId" ColumnName="RefCompraOrigId" />
-                <ScalarProperty Name="RefCompraId" ColumnName="RefCompraId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Moviments">
             <EntityTypeMapping TypeName="InversionsBD.Moviment">
               <MappingFragment StoreEntitySet="Moviments">
@@ -751,6 +735,18 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
                 <ScalarProperty Name="TipusMoviment" ColumnName="TipusMoviment" />
                 <ScalarProperty Name="ProdId" ColumnName="ProdId" />
                 <ScalarProperty Name="UsuariId" ColumnName="UsuariId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DesglosCompras">
+            <EntityTypeMapping TypeName="InversionsBD.DesglosCompra">
+              <MappingFragment StoreEntitySet="DesglosCompres">
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+                <ScalarProperty Name="ParticipacionsOrig" ColumnName="ParticipacionsOrig" />
+                <ScalarProperty Name="Participacions" ColumnName="Participacions" />
+                <ScalarProperty Name="MovCompraOrigId" ColumnName="MovCompraOrigId" />
+                <ScalarProperty Name="MovCompraId" ColumnName="MovCompraId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
