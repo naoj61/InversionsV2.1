@@ -16,9 +16,8 @@ namespace Inversions
     {
         public Producte()
         {
-            this.MovimentsProducte = new HashSet<Moviment>();
             this.ValoracionsProducte = new HashSet<Valoracio>();
-            this.MovimentsTraspas = new HashSet<Moviment>();
+            this.Moviments = new HashSet<Moviment>();
         }
     
         public int Id { get; private set; }
@@ -28,8 +27,7 @@ namespace Inversions
         public byte[] RowVersion { get; private set; }
     
         public virtual Empresa Empresa { get; set; }
-        public virtual ICollection<Moviment> MovimentsProducte { get; set; }
         public virtual ICollection<Valoracio> ValoracionsProducte { get; set; }
-        public virtual ICollection<Moviment> MovimentsTraspas { get; set; }
+        public virtual ICollection<Moviment> Moviments { get; set; }
     }
 }

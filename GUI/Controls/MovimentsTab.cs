@@ -278,40 +278,44 @@ namespace Inversions.GUI
                 {
                     //try
                     //{
+
+                    // Conserva la data però li posa l'hora actual.
+                    DateTime data1 = cData1.Value.Date + DateTime.Now.TimeOfDay;
+
                     if (prodDestiContext == null)
                     {
                         if (tipusMoviment == TipusMoviment.Split)
                         {
-                            prodOrigenContext.split(conn, cData1.Value, ntbFactorConversor._IntValue);
+                            prodOrigenContext.split(conn, data1, ntbFactorConversor._IntValue);
                         }
                         else if (tipusMoviment == TipusMoviment.ContraSplit)
                         {
-                            prodOrigenContext.contraSplit(conn, cData1.Value, ntbFactorConversor._IntValue, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue);
+                            prodOrigenContext.contraSplit(conn, data1, ntbFactorConversor._IntValue, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue);
                         }
                         else
                         {
-                            //prodOrigen.compraVenda(conn, tipusMoviment, cData1.Value, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue, 
+                            //prodOrigen.compraVenda(conn, tipusMoviment, data1, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue, 
                             //    tbDespeses._DoubleValue, tbDescripcio.Text);
                             if (tipusMoviment == TipusMoviment.Compra)
                             {
-                                prodOrigenContext.desaCompra(conn, cData1.Value, DateTime.Now.TimeOfDay, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue,
+                                prodOrigenContext.desaCompra(conn, data1, DateTime.Now.TimeOfDay, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue,
                                     tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
                             }
                             else if (tipusMoviment == TipusMoviment.Venda)
                             {
-                                prodOrigenContext.desaVenda(conn, cData1.Value, DateTime.Now.TimeOfDay, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue,
+                                prodOrigenContext.desaVenda(conn, data1, DateTime.Now.TimeOfDay, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue,
                                     tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
                             }
                             else if (tipusMoviment == TipusMoviment.Dividends)
                             {
-                                prodOrigenContext.desaDividend(conn, cData1.Value, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
+                                prodOrigenContext.desaDividend(conn, data1, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
                             }
                         }
                     }
                     else
                     {
-                        var dataDesti = ckActivaDataDesti.Checked ? cDataDesti.Value : cData1.Value;
-                        prodOrigenContext.desaTraspas(conn, cData1.Value, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, tbDescripcio.Text, dataDesti,
+                        var dataDesti = ckActivaDataDesti.Checked ? cDataDesti.Value : data1;
+                        prodOrigenContext.desaTraspas(conn, data1, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, tbDescripcio.Text, dataDesti,
                             prodDestiContext, tbNumParticipacionsDesti._DoubleValue);
                     }
 

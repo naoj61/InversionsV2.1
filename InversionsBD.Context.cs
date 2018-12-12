@@ -30,7 +30,8 @@ namespace Inversions
         public virtual DbSet<Valoracio> Valoracions { get; set; }
         public virtual DbSet<Producte> Productes { get; set; }
         public virtual DbSet<Mercat> Mercats { get; set; }
-        public virtual DbSet<Moviment> Moviments { get; set; }
         public virtual DbSet<Usuari> Usuaris { get; set; }
+        public virtual DbSet<Moviment> Moviments { get; set; }
+        public virtual DbSet<DesglosCompra> DesglosCompras { get; set; }
     }
 }

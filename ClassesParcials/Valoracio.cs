@@ -19,7 +19,7 @@ namespace Inversions
         {
             get
             {
-                return p => p.Prod != null && p.Prod.MovimentsProducte.Where(w => w.UsuariId == Usuari.Seleccionat.Id && w.Data <= p.Data).Sum(s => s.Participacions) > 0;
+                return p => p.Prod != null && p.Prod.Moviments.Where(w => w.UsuariId == Usuari.Seleccionat.Id && w.Data <= p.Data).Sum(s => s.Participacions) > 0;
             }
         }
 
