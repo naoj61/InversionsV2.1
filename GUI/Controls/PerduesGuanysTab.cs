@@ -122,34 +122,63 @@ namespace Inversions.GUI
             dgvPiGProducte.ClearSelection();
             dgvPiGProducte.ResumeLayout();
 
-            dgvPiGProductePerAny.SuspendLayout();
-
-            dgvPiGProductePerAny.Rows.Clear();
-
-            var primerMoviment = proSeleccionat.MovimentsProducteUsuari.OrderBy(o => o.Data).FirstOrDefault();
-            if (primerMoviment != null)
             {
-                double pigTotal = 0;
-                for (int any = primerMoviment.Data.Year; any <= DateTime.Today.Year; any++)
+                dgvPiGProductePerAny.SuspendLayout();
+                dgvPiGProductePerAny.Rows.Clear();
+                var primerMoviment = proSeleccionat.MovimentsProducteUsuari.OrderBy(o => o.Data).FirstOrDefault();
+                if (primerMoviment != null)
                 {
-                    //double pig = proSeleccionat.pigValorat(any);
-                    double pig = proSeleccionat.pig(any);
-
-                    if (!Comuns.Utilitats.EsZero(pig))
+                    double pigTotal = 0;
+                    for (int any = primerMoviment.Data.Year; any <= DateTime.Today.Year; any++)
                     {
-                        if (any == DateTime.Today.Year)
-                            pig += ntbDiferencia.Valor;
+                        //double pig = proSeleccionat.pigValorat(any);
+                        double pig = proSeleccionat.pig(any);
 
-                        dgvPiGProductePerAny.Rows.Add(any, pig);
+                        if (!Comuns.Utilitats.EsZero(pig))
+                        {
+                            if (any == DateTime.Today.Year)
+                                pig += ntbDiferencia.Valor;
 
-                        pigTotal += pig;
+                            dgvPiGProductePerAny.Rows.Add(any, pig);
+
+                            pigTotal += pig;
+                        }
                     }
+                    int fila = dgvPiGProductePerAny.Rows.Add("Total", pigTotal);
+                    dgvPiGProductePerAny.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGProductePerAny.Font, FontStyle.Bold);
+                    dgvPiGProductePerAny.FirstDisplayedScrollingRowIndex = fila;
                 }
-                int fila = dgvPiGProductePerAny.Rows.Add("Total", pigTotal);
-                dgvPiGProductePerAny.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGProductePerAny.Font, FontStyle.Bold);
-                dgvPiGProductePerAny.FirstDisplayedScrollingRowIndex = fila;
+                dgvPiGProductePerAny.ResumeLayout();
             }
-            dgvPiGProductePerAny.ResumeLayout();
+
+            {
+                dgvPiGProducteTributaPerAny.SuspendLayout();
+                dgvPiGProducteTributaPerAny.Rows.Clear();
+                var primerMoviment = proSeleccionat.MovimentsProducteUsuari.OrderBy(o => o.Data).FirstOrDefault();
+                if (primerMoviment != null)
+                {
+                    double pigTotal = 0;
+                    for (int any = primerMoviment.Data.Year; any <= DateTime.Today.Year; any++)
+                    {
+                        //double pig = proSeleccionat.pigValorat(any);
+                        double pig = proSeleccionat.pigTributa(any);
+
+                        if (!Comuns.Utilitats.EsZero(pig))
+                        {
+                            if (any == DateTime.Today.Year)
+                                pig += ntbDiferencia.Valor;
+
+                            dgvPiGProducteTributaPerAny.Rows.Add(any, pig);
+
+                            pigTotal += pig;
+                        }
+                    }
+                    int fila = dgvPiGProducteTributaPerAny.Rows.Add("Total", pigTotal);
+                    dgvPiGProducteTributaPerAny.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGProducteTributaPerAny.Font, FontStyle.Bold);
+                    dgvPiGProducteTributaPerAny.FirstDisplayedScrollingRowIndex = fila;
+                }
+                dgvPiGProducteTributaPerAny.ResumeLayout();
+            }
         }
 
         private void btFiltreDates_Click(object sender, EventArgs e)
