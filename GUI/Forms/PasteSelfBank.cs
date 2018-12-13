@@ -17,7 +17,7 @@ namespace Inversions.GUI
         {
             InitializeComponent();
 
-            dateTimePicker1.Value = Program.AnteriorDiaLaborable(DateTime.Today);
+            dateTimePicker1.Value = Utilitats.AnteriorDiaLaborable(DateTime.Today);
         }
 
         private void btCapturaValors_Click(object sender, EventArgs e)

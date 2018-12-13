@@ -68,7 +68,7 @@ namespace Inversions.GUI
 
             modeEdicio();
 
-            cData.Value = Program.AnteriorDiaLaborable(DateTime.Today);
+            cData.Value = Utilitats.AnteriorDiaLaborable(DateTime.Today);
             tbImport.Focus();
         }
 

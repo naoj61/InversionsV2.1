@@ -452,7 +452,7 @@ namespace Inversions
             get
             {
                 double result;
-                if (Program.EsZero(Participacions))
+                if (Utilitats.EsZero(Participacions))
                 {
                     result = PreuParticipacio;
                 }
@@ -469,7 +469,7 @@ namespace Inversions
             get
             {
                 double result;
-                if (Program.EsZero(Participacions))
+                if (Utilitats.EsZero(Participacions))
                 {
                     result = PreuParticipacio;
                 }

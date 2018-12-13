@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace Inversions
 {
@@ -10,13 +11,7 @@ namespace Inversions
             Carme = 2
         }
 
-        private static Usuari Seleccionat1;
-
-        public static Usuari Seleccionat
-        {
-            get { return Seleccionat1; }
-            set { Seleccionat1 = value; }
-        }
+        public static Usuari Seleccionat { get; set; }
 
         #region Overrides
 

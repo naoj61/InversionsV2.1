@@ -610,5 +610,6 @@ namespace Inversions.GUI
         }
         
         #endregion *** Events ***
+
     }
 }
