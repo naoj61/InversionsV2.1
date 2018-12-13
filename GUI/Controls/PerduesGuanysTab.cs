@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Comuns;
 using Inversions.GUI.Forms;
 
 namespace Inversions.GUI
@@ -13,6 +14,8 @@ namespace Inversions.GUI
         public PerduesGuanysTab()
         {
             InitializeComponent();
+
+            splitContainer1.SplitterDistance = splitContainer1.Height / 2;
         }
 
         private void calculaPiG()
@@ -93,7 +96,8 @@ namespace Inversions.GUI
         {
             if (gestioProductesTabValoracions._ProducteSeleccionat != null)
             {
-                if (ntbPreuParticipacio.Valor != 0)
+                dgvPiGProducteTributaPerAny.ResumeLayout();
+                if (Utilitats.EsZero(ntbPreuParticipacio.Valor))
                 {
                     // Si cambio de producte i el PiP Simulat té valor, el poso a 0.
                     ntbPreuParticipacio.Valor = 0;
@@ -101,6 +105,7 @@ namespace Inversions.GUI
                 }
                 else
                     actualitzaLlistaPerduesGuanys();
+
                 colDataTraspas.Visible = gestioProductesTabValoracions._ProducteSeleccionat._TipusProducte != Producte.TipusProducte.Accions;
                 dgvPiGProducte.Visible = true;
                 ckPiGEntreDatesNomesProdSel.Enabled = true;
@@ -113,73 +118,93 @@ namespace Inversions.GUI
         }
 
 
+        /// <summary>
+        /// Actualitza grids
+        /// </summary>
         private void actualitzaLlistaPerduesGuanys()
         {
             var proSeleccionat = gestioProductesTabValoracions._ProducteSeleccionat;
+
+            SuspendLayout();
 
             dgvPiGProducte.SuspendLayout();
             dgvPiGProducte.DataSource = proSeleccionat.pigPerCompra();
             dgvPiGProducte.ClearSelection();
             dgvPiGProducte.ResumeLayout();
 
-            {
-                dgvPiGProductePerAny.SuspendLayout();
-                dgvPiGProductePerAny.Rows.Clear();
-                var primerMoviment = proSeleccionat.MovimentsProducteUsuari.OrderBy(o => o.Data).FirstOrDefault();
-                if (primerMoviment != null)
-                {
-                    double pigTotal = 0;
-                    for (int any = primerMoviment.Data.Year; any <= DateTime.Today.Year; any++)
-                    {
-                        //double pig = proSeleccionat.pigValorat(any);
-                        double pig = proSeleccionat.pig(any);
-
-                        if (!Comuns.Utilitats.EsZero(pig))
-                        {
-                            if (any == DateTime.Today.Year)
-                                pig += ntbDiferencia.Valor;
-
-                            dgvPiGProductePerAny.Rows.Add(any, pig);
-
-                            pigTotal += pig;
-                        }
-                    }
-                    int fila = dgvPiGProductePerAny.Rows.Add("Total", pigTotal);
-                    dgvPiGProductePerAny.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGProductePerAny.Font, FontStyle.Bold);
-                    dgvPiGProductePerAny.FirstDisplayedScrollingRowIndex = fila;
-                }
-                dgvPiGProductePerAny.ResumeLayout();
-            }
-
+            var primerMovimentX = proSeleccionat.MovimentsProducteUsuari.OrderBy(o => o.Data).FirstOrDefault();
+            if (primerMovimentX != null)
             {
                 dgvPiGProducteTributaPerAny.SuspendLayout();
-                dgvPiGProducteTributaPerAny.Rows.Clear();
-                var primerMoviment = proSeleccionat.MovimentsProducteUsuari.OrderBy(o => o.Data).FirstOrDefault();
-                if (primerMoviment != null)
+                dgvPiGProductePerAny.SuspendLayout();
+                splitContainer1.SuspendLayout();
+
+                Dictionary<int, double> anysPig = new Dictionary<int, double>();
+                Dictionary<int, double> anysPigTributa = new Dictionary<int, double>();
+                double pigTotal;
+                int fila;
+
+                for (int any = primerMovimentX.Data.Year; any <= DateTime.Today.Year; any++)
                 {
-                    double pigTotal = 0;
-                    for (int any = primerMoviment.Data.Year; any <= DateTime.Today.Year; any++)
+                    anysPig[any] = proSeleccionat.pig(any);
+                    anysPigTributa[any] = proSeleccionat.pigTributa(any);
+                }
+
+                // Grid PiG Tributa del producte.
+                if (anysPigTributa.Any(w => !Utilitats.EsZero(w.Value)))
+                {
+                    dgvPiGProducteTributaPerAny.Rows.Clear();
+                    pigTotal = 0;
+
+                    foreach (var anyPig in anysPigTributa.Where(w => !Utilitats.EsZero(w.Value)))
                     {
-                        //double pig = proSeleccionat.pigValorat(any);
-                        double pig = proSeleccionat.pigTributa(any);
+                        double pig = anyPig.Value;
+                        if (anyPig.Key == DateTime.Today.Year)
+                            pig += ntbDiferencia.Valor;
 
-                        if (!Comuns.Utilitats.EsZero(pig))
-                        {
-                            if (any == DateTime.Today.Year)
-                                pig += ntbDiferencia.Valor;
+                        dgvPiGProducteTributaPerAny.Rows.Add(anyPig.Key, pig);
 
-                            dgvPiGProducteTributaPerAny.Rows.Add(any, pig);
-
-                            pigTotal += pig;
-                        }
+                        pigTotal += pig;
                     }
-                    int fila = dgvPiGProducteTributaPerAny.Rows.Add("Total", pigTotal);
+                    fila = dgvPiGProducteTributaPerAny.Rows.Add("Total", pigTotal);
                     dgvPiGProducteTributaPerAny.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGProducteTributaPerAny.Font, FontStyle.Bold);
                     dgvPiGProducteTributaPerAny.FirstDisplayedScrollingRowIndex = fila;
+                    splitContainer1.Panel1Collapsed = false;
                 }
+                else
+                {
+                    splitContainer1.Panel1Collapsed = true;
+                }
+
+                // Grid PiG Tributa del producte.
+                dgvPiGProductePerAny.Rows.Clear();
+                pigTotal = 0;
+
+                foreach (var anyPig in anysPig.Where(w => !Utilitats.EsZero(w.Value)))
+                {
+                    double pig = anyPig.Value;
+                    if (anyPig.Key == DateTime.Today.Year)
+                        pig += ntbDiferencia.Valor;
+
+                    dgvPiGProductePerAny.Rows.Add(anyPig.Key, pig);
+
+                    pigTotal += pig;
+                }
+                fila = dgvPiGProductePerAny.Rows.Add("Total", pigTotal);
+                dgvPiGProductePerAny.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGProductePerAny.Font, FontStyle.Bold);
+                dgvPiGProductePerAny.FirstDisplayedScrollingRowIndex = fila;
+
+
+                splitContainer1.Panel1Collapsed = !anysPigTributa.Any(w => !Utilitats.EsZero(w.Value));
+
+
                 dgvPiGProducteTributaPerAny.ResumeLayout();
+                dgvPiGProductePerAny.ResumeLayout();
+                splitContainer1.ResumeLayout();
             }
+            ResumeLayout();
         }
+
 
         private void btFiltreDates_Click(object sender, EventArgs e)
         {
@@ -190,6 +215,7 @@ namespace Inversions.GUI
                 tbPigEntreDates.Valor = Producte.Pig(dtpFiltreDataInici.Value, dtpFiltreDataFi.Value);
             }
         }
+
 
         private void PerduesGuanysTab_Load(object sender, EventArgs e)
         {
@@ -202,6 +228,7 @@ namespace Inversions.GUI
             cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
             cbTipusProducteFiltreTab2.SelectedIndex = 0;
         }
+
 
         private void btSimulacioPiG_Click(object sender, EventArgs e)
         {
