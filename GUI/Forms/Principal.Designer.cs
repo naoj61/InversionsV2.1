@@ -66,12 +66,12 @@
             this.btNouProducte = new System.Windows.Forms.Button();
             this.btDesaProducte = new System.Windows.Forms.Button();
             this.tabMoviments = new System.Windows.Forms.TabPage();
-            this.tabValoracions = new System.Windows.Forms.TabPage();
-            this.tabPerduesGuanys = new System.Windows.Forms.TabPage();
-            this.tabGrafiques = new System.Windows.Forms.TabPage();
             this.movimentsTab1 = new Inversions.GUI.MovimentsTab();
+            this.tabValoracions = new System.Windows.Forms.TabPage();
             this.valoracionsTab1 = new Inversions.GUI.ValoracionsTab();
+            this.tabPerduesGuanys = new System.Windows.Forms.TabPage();
             this.perduesGuanysTab1 = new Inversions.GUI.PerduesGuanysTab();
+            this.tabGrafiques = new System.Windows.Forms.TabPage();
             this.grafiquesTab1 = new Inversions.GUI.GrafiquesTab();
             this.tabControl1.SuspendLayout();
             this.tabUsuari.SuspendLayout();
@@ -560,6 +560,16 @@
             this.tabMoviments.Text = "Moviments";
             this.tabMoviments.UseVisualStyleBackColor = true;
             // 
+            // movimentsTab1
+            // 
+            this.movimentsTab1.CausesValidation = false;
+            this.movimentsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.movimentsTab1.Location = new System.Drawing.Point(6, 6);
+            this.movimentsTab1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.movimentsTab1.Name = "movimentsTab1";
+            this.movimentsTab1.Size = new System.Drawing.Size(1510, 874);
+            this.movimentsTab1.TabIndex = 0;
+            // 
             // tabValoracions
             // 
             this.tabValoracions.Controls.Add(this.valoracionsTab1);
@@ -570,6 +580,16 @@
             this.tabValoracions.TabIndex = 2;
             this.tabValoracions.Text = "Valoracions";
             this.tabValoracions.UseVisualStyleBackColor = true;
+            // 
+            // valoracionsTab1
+            // 
+            this.valoracionsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.valoracionsTab1.Location = new System.Drawing.Point(0, 0);
+            this.valoracionsTab1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.valoracionsTab1.MinimumSize = new System.Drawing.Size(1464, 819);
+            this.valoracionsTab1.Name = "valoracionsTab1";
+            this.valoracionsTab1.Size = new System.Drawing.Size(1522, 886);
+            this.valoracionsTab1.TabIndex = 0;
             // 
             // tabPerduesGuanys
             // 
@@ -583,6 +603,15 @@
             this.tabPerduesGuanys.Text = "Perdues i Guanys";
             this.tabPerduesGuanys.UseVisualStyleBackColor = true;
             // 
+            // perduesGuanysTab1
+            // 
+            this.perduesGuanysTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.perduesGuanysTab1.Location = new System.Drawing.Point(3, 4);
+            this.perduesGuanysTab1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.perduesGuanysTab1.Name = "perduesGuanysTab1";
+            this.perduesGuanysTab1.Size = new System.Drawing.Size(1516, 878);
+            this.perduesGuanysTab1.TabIndex = 0;
+            // 
             // tabGrafiques
             // 
             this.tabGrafiques.Controls.Add(this.grafiquesTab1);
@@ -594,35 +623,6 @@
             this.tabGrafiques.TabIndex = 6;
             this.tabGrafiques.Text = "Gràfiques";
             this.tabGrafiques.UseVisualStyleBackColor = true;
-            // 
-            // movimentsTab1
-            // 
-            this.movimentsTab1.CausesValidation = false;
-            this.movimentsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.movimentsTab1.Location = new System.Drawing.Point(6, 6);
-            this.movimentsTab1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.movimentsTab1.Name = "movimentsTab1";
-            this.movimentsTab1.Size = new System.Drawing.Size(1510, 874);
-            this.movimentsTab1.TabIndex = 0;
-            // 
-            // valoracionsTab1
-            // 
-            this.valoracionsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.valoracionsTab1.Location = new System.Drawing.Point(0, 0);
-            this.valoracionsTab1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.valoracionsTab1.MinimumSize = new System.Drawing.Size(1464, 819);
-            this.valoracionsTab1.Name = "valoracionsTab1";
-            this.valoracionsTab1.Size = new System.Drawing.Size(1522, 886);
-            this.valoracionsTab1.TabIndex = 0;
-            // 
-            // perduesGuanysTab1
-            // 
-            this.perduesGuanysTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.perduesGuanysTab1.Location = new System.Drawing.Point(3, 4);
-            this.perduesGuanysTab1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.perduesGuanysTab1.Name = "perduesGuanysTab1";
-            this.perduesGuanysTab1.Size = new System.Drawing.Size(1516, 878);
-            this.perduesGuanysTab1.TabIndex = 0;
             // 
             // grafiquesTab1
             // 
@@ -646,6 +646,7 @@
             this.Name = "Principal";
             this.Text = "Productes";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Activated += new System.EventHandler(this.Principal_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Principal_FormClosing);
             this.Load += new System.EventHandler(this.Principal_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Principal_KeyDown);

@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using Comuns;
 using Inversions.GUI;
+using Microsoft.Win32;
 
 namespace Inversions
 {
@@ -39,6 +40,10 @@ namespace Inversions
         private static extern bool SetForegroundWindow(IntPtr hWnd);
 
         public static Usuari UsuariSeleccionat;
+        internal static string Claureg;
+        internal const string NomVarReg = "UsuariId";
+        private const string ArgUsuari = "IdUsuari:";
+        private const string ArgBd = "Bd:";
 
         /// <summary>
         /// The main entry point for the application.
@@ -46,68 +51,82 @@ namespace Inversions
         [STAThread]
         private static void Main(string[] args)
         {
-
-            bool createdNew = true;
-            using (Mutex mutex = new Mutex(true, "Inversions", out createdNew))
+            try
             {
-                if (createdNew)
-                {
-                    FitxerLog = Utilitats.LlegeixFitxerLog();
-                    try
-                    {
-                        string bd = null;
-                        int? idUsuari = null;
+                // *** Crea la clau per gravar el registre de Windows. ***
+                Claureg = Utilitats.CreaClauRegistre();
 
-                        foreach (var arg in args)
+                int? idUsuari = null;
+
+                bool createdNew = true;
+                using (Mutex mutex = new Mutex(true, "Inversions", out createdNew))
+                {
+                    if (createdNew)
+                    {
+                        FitxerLog = Utilitats.LlegeixFitxerLog();
+              
+                        var argUsu = args.FirstOrDefault(arg => arg.StartsWith(ArgUsuari, StringComparison.CurrentCultureIgnoreCase));
+                        if (argUsu != null)
                         {
-                            if (arg.StartsWith("Bd:", StringComparison.CurrentCultureIgnoreCase))
-                                if (bd == null)
-                                    bd = arg.Remove(0, 3);
-                                else
-                                    throw new ArgumentException("Hi ha més d'un paràmetre 'Bd'");
-                            else if (arg.StartsWith("IdUsuari:", StringComparison.CurrentCultureIgnoreCase))
-                                if (idUsuari == null)
-                                    idUsuari = Convert.ToInt32(arg.Remove(0, 9));
-                                else
-                                    throw new ArgumentException("Hi ha més d'un paràmetre 'idUsuari'");
-                            else
-                                throw new ArgumentException("Hi ha un paràmetre desconegut '" + arg + "'");
+                            var idUsuString = argUsu.Remove(0, ArgUsuari.Length);
+                            if(!Utilitats.EsNumeric(idUsuString))
+                                throw new ArgumentException(String.Format("El paràmetre no és numèric"), ArgUsuari);
+
+                            idUsuari = Convert.ToInt32(idUsuString);
                         }
 
-                        if (bd == null)
-                            throw new ArgumentException("Falta el paràmetre 'Bd:'");
-
                         if (idUsuari == null)
-                            throw new ArgumentException("Falta el paràmetre 'idUsuari:'");
-                        //}
+                            throw new ArgumentException("Falta el paràmetre", ArgUsuari);
+
+                        // *** Deso l'id del usuari en el registre.
+                        Utilitats.GravaVariableRegistre(Registry.CurrentUser, Claureg, NomVarReg, idUsuari.Value);
+
+                        string bd = null;
+                        var argBd = args.FirstOrDefault(arg => arg.StartsWith(ArgBd, StringComparison.CurrentCultureIgnoreCase));
+                        if (argBd != null) 
+                            bd = argBd.Remove(0, ArgBd.Length);
+
+                        if (bd == null)
+                            throw new ArgumentException("Falta el paràmetre", argBd);
 
                         // Informa la variable |DataDirectory|, s'utilitza en App.config.
                         AppDomain.CurrentDomain.SetData("DataDirectory", bd);
 
-                        //Usuari.Seleccionat = Sessio.Usuaris.Single(s => s.Id == idUsuari);
-                        Usuari.Seleccionat = Sessio.Usuaris.Find(idUsuari);
+                        // Ha d'anar despres de "AppDomain.CurrentDomain"
+                        Usuari.Seleccionat = Sessio.Usuaris.Find(idUsuari.Value);
 
                         Application.EnableVisualStyles();
                         Application.SetCompatibleTextRenderingDefault(false);
                         Application.Run(new Principal());
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        Utilitats.EscriuLog(ex, FitxerLog, Versio);
-                    }
-                }
-                else
-                {
-                    Process current = Process.GetCurrentProcess();
-                    foreach (Process process in Process.GetProcessesByName(current.ProcessName))
-                    {
-                        if (process.Id != current.Id)
+                        // *** El procés ja s'està executant.
+
+                        var argUsu = args.FirstOrDefault(arg => arg.StartsWith(ArgUsuari, StringComparison.CurrentCultureIgnoreCase));
+                        if (argUsu != null)
                         {
-                            SetForegroundWindow(process.MainWindowHandle);
-                            break;
+                            idUsuari = Convert.ToInt32(argUsu.Remove(0, ArgUsuari.Length));
+
+                            // *** Deso l'id del usuari en el registre per que es canviï al activar la finestra Principal.
+                            Utilitats.GravaVariableRegistre(Registry.CurrentUser, Claureg, NomVarReg, idUsuari);
+                        }
+
+                        Process current = Process.GetCurrentProcess();
+                        foreach (Process process in Process.GetProcessesByName(current.ProcessName))
+                        {
+                            if (process.Id != current.Id)
+                            {
+                                SetForegroundWindow(process.MainWindowHandle);
+                                break;
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Utilitats.EscriuLog(ex, FitxerLog, Versio);
             }
         }
     }

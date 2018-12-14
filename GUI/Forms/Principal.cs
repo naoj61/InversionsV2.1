@@ -13,6 +13,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Comuns;
 using Controls;
+using Microsoft.Win32;
 
 namespace Inversions.GUI
 {
@@ -340,17 +341,7 @@ namespace Inversions.GUI
         {
             if (e.Control && e.KeyCode == Keys.U)
             {
-                var numUsuaris = cbUsuaris.Items.Count;
-                if (cbUsuaris.SelectedIndex == numUsuaris - 1)
-                {
-                    cbUsuaris.SelectedIndex = 0;
-                }
-                else
-                {
-                    cbUsuaris.SelectedIndex++;
-                }
-
-                titolFinestra();
+                canviUsuari();
             }
             else if (e.KeyCode == Keys.F5)
             {
@@ -362,6 +353,39 @@ namespace Inversions.GUI
                     teclaEscapeEdicioProducte();
             }
         }
+
+        private void canviUsuari(Usuari usuari = null)
+        {
+            var cursor = this.Cursor;
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+
+                if (usuari == null)
+                {
+                    var numUsuaris = cbUsuaris.Items.Count;
+                    if (cbUsuaris.SelectedIndex == numUsuaris - 1)
+                    {
+                        cbUsuaris.SelectedIndex = 0;
+                    }
+                    else
+                    {
+                        cbUsuaris.SelectedIndex++;
+                    }
+                }
+                else
+                {
+                    cbUsuaris.SelectedItem = usuari;
+                }
+
+                titolFinestra();
+            }
+            finally
+            {
+                this.Cursor = cursor;
+            }
+        }
+
 
 
         private void dgvEmpreses_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
@@ -611,5 +635,18 @@ namespace Inversions.GUI
         
         #endregion *** Events ***
 
+        private void Principal_Activated(object sender, EventArgs e)
+        {
+            // *** Canvia d'usuari si s'ha intentat arrancar de nou el procés amb un usuari diferent.
+            var usuariId = Convert.ToInt32(Utilitats.LlegeixVariableRegistre(Registry.CurrentUser, Program.Claureg, Program.NomVarReg));
+            if (usuariId != Usuari.Seleccionat.Id)
+            {
+                var usuari = Program.Sessio.Usuaris.Find(usuariId);
+                if (usuari != null)
+                {
+                    canviUsuari(usuari);
+                }
+            }
+        }
     }
 }
