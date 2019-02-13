@@ -117,7 +117,7 @@ namespace Inversions.GUI
                 tbParticipacions.Text = "";
                 ntbPreuPartActual.Text = "";
                 tbValorActual.Text = "";
-                tbPiGReal.Text = "";
+                tbPiGHistoric.Text = "";
                 tbIsin.Text = "";
                 tbDescripcio.Text = "";
                 tbMercat.Text = "";
@@ -194,6 +194,8 @@ namespace Inversions.GUI
             }
             else
             {
+                gbDividents.Visible = prod is ProdAccions;
+
                 lbEmpresa.Text = prod._NomEmpresa;
                 lbMoneda.Text = prod.Moneda;
 
@@ -206,7 +208,9 @@ namespace Inversions.GUI
                 tbPiGActual.Valor = prod.pigEnCartera();
 
                 //tbPiGReal.Valor = prod.pigReal(Producte.DateTimeFinalDia.Today);
-                tbPiGReal.Valor = prod.pig();
+                tbPiGHistoric.Valor = prod.pig();
+
+                tbPigTributa.Valor = prod._ValorActualEnCartera - prod.costOriginalEnCartera();
 
                 tbCostOrigPartActual.Valor = prod.costOriginalEnCartera();
 
