@@ -183,7 +183,7 @@ namespace Inversions
             data = Utilitats.DataFinalDia(data);
             var particComprades = MovimentsProducteUsuari.Where(w => w.Data <= data && w.TipusMoviment == TipusMoviment.Compra).Sum(s => s.Participacions);
             var particVenudes = MovimentsProducteUsuari.Where(w => w.Data <= data && w.TipusMoviment == TipusMoviment.Venda).Sum(s => s.Participacions);
-            return particComprades - particVenudes;
+            return Math.Round(particComprades - particVenudes, 5);
         }
 
 
