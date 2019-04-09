@@ -152,6 +152,7 @@ namespace Inversions.GUI
 
 
         private string vDesaToolTipGbPreuPartic = null;
+
         private void split()
         {
             gbPreuPartic.Text = "Preu operació";
@@ -241,13 +242,13 @@ namespace Inversions.GUI
             Refresh();
         }
 
-        
+
 
         public bool enModeEdicio
         {
             get { return gbEdicio.Visible; }
         }
- 
+
 
         public override void Refresh()
         {
@@ -268,7 +269,7 @@ namespace Inversions.GUI
         {
             if (prodDesti != null && tipusMoviment != TipusMoviment.Traspàs)
                 throw new ArgumentException("L'argument només pot estar informat si és un traspàs.", "prodDesti");
-
+            double x1 = 0;
             using (var conn = new InversionsBDContext())
             {
                 var prodOrigenContext = conn.Productes.Find(prodOrigen.Id);
@@ -278,7 +279,6 @@ namespace Inversions.GUI
                 {
                     //try
                     //{
-
                     // Conserva la data però li posa l'hora actual.
                     DateTime data1 = cData1.Value.Date + DateTime.Now.TimeOfDay;
 
@@ -391,13 +391,13 @@ namespace Inversions.GUI
                     //}
                     //catch (Exception)
                     //{
-                    //    //dbContextTransaction.Rollback();
+                    //    dbContextTransaction.Rollback();
                     //    throw;
                     //}
                 }
             }
 
-            Program.Sessio.refrescaTot();
+            Program.ConnectaSessio(); // Per refrescar les dades modificades.
 
             gestioProductesTabMoviments.refrescaDadesControl();
             ompleTaulaMovimentsProducte(prodDesti ?? prodOrigen);
@@ -454,13 +454,13 @@ namespace Inversions.GUI
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (e.ColumnIndex ==  10 || e.ColumnIndex == 11)
+                if (e.ColumnIndex == 10 || e.ColumnIndex == 11)
                 {
-                    var prodTraspas = (Producte)cDataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                    var prodTraspas = (Producte) cDataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
                     if (prodTraspas != null)
                     {
                         gestioProductesTabMoviments.seleccionaProducte(prodTraspas);
-                    } 
+                    }
                 }
             }
         }
@@ -504,12 +504,12 @@ namespace Inversions.GUI
         private void preparaPantallaConsulta()
         {
             gbEdicio.Visible = false;
-            
+
             cbTipusMoviment.Enabled = true;
             btCancelaMoviment.Enabled = false;
             btDesaMoviment.Enabled = false;
             gestioProductesTabMoviments.Enabled = true;
-            
+
             gbPreuPartic.Text = "Preu Partic.";
             if (vDesaToolTipGbPreuPartic != null)
             {
@@ -537,7 +537,8 @@ namespace Inversions.GUI
             btCancelaMoviment.Enabled = true;
             btDesaMoviment.Enabled = true;
 
-            gbDataMoviment.Visible = true;;
+            gbDataMoviment.Visible = true;
+
             gbParticipacions.Visible = tipusMov == TipusMoviment.Compra || tipusMov == TipusMoviment.Venda || tipusMov == TipusMoviment.Traspàs;
             gbFactorConversor.Visible = tipusMov == TipusMoviment.Split || tipusMov == TipusMoviment.ContraSplit;
             gbPreuPartic.Visible = tipusMov != TipusMoviment.Split;
@@ -558,5 +559,5 @@ namespace Inversions.GUI
         {
             gbDataDesti.Visible = ckActivaDataDesti.Checked;
         }
-   }
+    }
 }

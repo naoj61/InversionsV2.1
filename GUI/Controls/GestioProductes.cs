@@ -91,15 +91,12 @@ namespace Inversions.GUI
         }
 
         /// <summary>
-        /// Refresca les dades que mostra control.
+        /// Refresca les dades que mostra el control.
         /// </summary>
         public void refrescaDadesControl()
         {
-            // No entenc perquè, però he de fer-ho així perquè es refresqui.
             var index = vLbProductes.SelectedIndex;
-            vLbProductes.SelectedItem = null;
-            vLbProductes.SelectedIndex = index;
-            vLbProductes.SelectedItem = null;
+            aplicaFiltre();
             vLbProductes.SelectedIndex = index;
         }
 

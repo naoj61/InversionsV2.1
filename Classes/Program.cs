@@ -29,11 +29,16 @@ namespace Inversions
 
         static Program()
         {
+            ConnectaSessio();
+        }
+
+        public static void ConnectaSessio()
+        {
+            //Sessio = null;
             Sessio = new InversionsBDContext();
             Sessio.Configuration.AutoDetectChangesEnabled = true; // Si poso true, dona error quan inserto una fila i l'esborro en la mateixa sessió.
             Sessio.Configuration.LazyLoadingEnabled = true;
         }
-
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
