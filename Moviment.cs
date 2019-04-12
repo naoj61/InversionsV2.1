@@ -27,7 +27,6 @@ namespace Inversions
         public TipusMoviment TipusMoviment { get; set; }
         public Nullable<int> MovimentRefVendaId { get; set; }
         public System.DateTime Data { get; set; }
-        public Nullable<System.DateTime> DataValor { get; set; }
         public double Participacions { get; set; }
         public Nullable<double> PreuParticipacioOrigen { get; set; }
         public double PreuParticipacio { get; set; }
