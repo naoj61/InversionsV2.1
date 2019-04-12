@@ -834,9 +834,9 @@ namespace Inversions
             if (this is ProdAccions)
             {
                 totalDespeses = calculaDespesesCompra(dInici, dFinal) + calculaDespesesVenda(dInici, dFinal);
-
-                totalDividends = calculaDividents(dInici, dFinal);
             }
+
+            totalDividends = calculaDividents(dInici, dFinal);
 
             return Math.Round(totalVenda - totalCompra + totalDividends - totalDespeses, 3);
         }
