@@ -63,9 +63,9 @@ namespace Inversions.GUI
                 if (prod._Participacions > 0)
                 {
                     cbTipusMoviment.Items.Add(TipusMoviment.Venda);
+                    cbTipusMoviment.Items.Add(TipusMoviment.Dividends);
                     if (prod._TipusProducte == Producte.TipusProducte.Accions)
                     {
-                        cbTipusMoviment.Items.Add(TipusMoviment.Dividends);
                         cbTipusMoviment.Items.Add(TipusMoviment.Split);
                         cbTipusMoviment.Items.Add(TipusMoviment.ContraSplit);
                     }
