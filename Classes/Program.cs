@@ -84,7 +84,7 @@ namespace Inversions
                             throw new ArgumentException("Falta el paràmetre", ArgUsuari);
 
                         // *** Deso l'id del usuari en el registre.
-                        Utilitats.GravaVariableRegistre(Registry.CurrentUser, Claureg, NomVarReg, idUsuari.Value);
+                        DesaIdUsuariEnRegistreWindows(idUsuari.Value);
 
                         string bd = null;
                         var argBd = args.FirstOrDefault(arg => arg.StartsWith(ArgBd, StringComparison.CurrentCultureIgnoreCase));
@@ -133,6 +133,11 @@ namespace Inversions
             {
                 Utilitats.EscriuLog(ex, FitxerLog, Versio);
             }
+        }
+
+        public static void DesaIdUsuariEnRegistreWindows(int idUsuari)
+        {
+            Utilitats.GravaVariableRegistre(Registry.CurrentUser, Claureg, NomVarReg, idUsuari);
         }
     }
 }

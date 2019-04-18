@@ -378,6 +378,11 @@ namespace Inversions.GUI
                     cbUsuaris.SelectedItem = usuari;
                 }
 
+                if (cbUsuaris.SelectedItem != null)
+                {
+                    Program.DesaIdUsuariEnRegistreWindows(((Usuari) cbUsuaris.SelectedItem).Id);
+                }
+
                 titolFinestra();
             }
             finally

@@ -6,8 +6,5 @@ bin/
 obj/
 packages/
 *.orig
-BD/InversionsBD.mdf
-BD/InversionsBD_log.ldf
+BD/
 *.DotSettings.user
-BD/* - Copy.?df
-BD/* - copia.?df
