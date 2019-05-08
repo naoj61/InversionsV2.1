@@ -540,7 +540,7 @@ namespace Inversions
         public static double Pig(TipusProducte tipusProducte, int any)
         {
             DateTime dataInici = new DateTime(any, 1, 1);
-            DateTime dataFinal = new DateTime(any, 12, 31);
+            DateTime dataFinal = Utilitats.DataFinalDia(new DateTime(any, 12, 31));
 
             return Pig(tipusProducte, dataInici, dataFinal);
         }
@@ -568,7 +568,7 @@ namespace Inversions
         /// <param name="dataInici"></param>
         /// <param name="dataFi"></param>
         /// <returns></returns>
-        internal double pig(DateTime? dataInici = null, DateTime? dataFi = null)
+        public double pig(DateTime? dataInici = null, DateTime? dataFi = null)
         {
             return pig(dataInici.GetValueOrDefault(DateTime.MinValue), dataFi.GetValueOrDefault(DateTime.MaxValue));
         }
@@ -580,9 +580,9 @@ namespace Inversions
         /// </summary>
         /// <param name="any">Del 1 de gener al 31 de desembre de l'any.</param>
         /// <returns></returns>
-        internal double pig(int any)
+        public double pig(int any)
         {
-            return pig(new DateTime(any, 1, 1), new DateTime(any, 12, 31));
+            return pig(new DateTime(any, 1, 1), Utilitats.DataHoraFinalDia(new DateTime(any, 12, 31)));
         }
 
         /// <summary>

@@ -18,7 +18,7 @@ using Microsoft.Win32;
 
 namespace Inversions
 {
-    internal static class Program
+    public static class Program
     {
         internal static InversionsBDContext Sessio;
         internal static readonly bool RuntimeMode = LicenseManager.UsageMode == LicenseUsageMode.Runtime;
@@ -83,9 +83,6 @@ namespace Inversions
                         if (idUsuari == null)
                             throw new ArgumentException("Falta el paràmetre", ArgUsuari);
 
-                        // *** Deso l'id del usuari en el registre.
-                        DesaIdUsuariEnRegistreWindows(idUsuari.Value);
-
                         string bd = null;
                         var argBd = args.FirstOrDefault(arg => arg.StartsWith(ArgBd, StringComparison.CurrentCultureIgnoreCase));
                         if (argBd != null) 
@@ -97,8 +94,12 @@ namespace Inversions
                         // Informa la variable |DataDirectory|, s'utilitza en App.config.
                         AppDomain.CurrentDomain.SetData("DataDirectory", bd);
 
-                        // Ha d'anar despres de "AppDomain.CurrentDomain"
-                        Usuari.Seleccionat = Sessio.Usuaris.Find(idUsuari.Value);
+
+                        //// *** Deso l'id del usuari en el registre.
+                        //DesaIdUsuariEnRegistreWindows(idUsuari.Value);
+                        //// Ha d'anar despres de "AppDomain.CurrentDomain"
+                        //Usuari.Seleccionat = Sessio.Usuaris.Find(idUsuari.Value);
+                        CanviUsuari(Sessio.Usuaris.Find(idUsuari.Value));
 
                         Application.EnableVisualStyles();
                         Application.SetCompatibleTextRenderingDefault(false);
@@ -135,9 +136,18 @@ namespace Inversions
             }
         }
 
-        public static void DesaIdUsuariEnRegistreWindows(int idUsuari)
+        private static void DesaIdUsuariEnRegistreWindows(Usuari usuari)
         {
-            Utilitats.GravaVariableRegistre(Registry.CurrentUser, Claureg, NomVarReg, idUsuari);
+            if(usuari == null)
+                throw new ArgumentNullException("usuari", "No es pot canviar a un uduari Null");
+
+            Utilitats.GravaVariableRegistre(Registry.CurrentUser, Claureg, NomVarReg, usuari.Id);
+        }
+
+        internal static void CanviUsuari(Usuari usuari)
+        {
+            DesaIdUsuariEnRegistreWindows(usuari);
+            Usuari.Seleccionat = usuari;
         }
     }
 }

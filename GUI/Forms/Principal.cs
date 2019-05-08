@@ -272,7 +272,7 @@ namespace Inversions.GUI
             if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
                 if (Usuari.Seleccionat == null)
-                    Usuari.Seleccionat = Program.Sessio.Usuaris.First();
+                    Program.CanviUsuari(Program.Sessio.Usuaris.First());
 
                 SuspendLayout();
                 cbUsuaris.DisplayMember = "Nom";
@@ -330,7 +330,7 @@ namespace Inversions.GUI
 
         private void cbUsuaris_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Usuari.Seleccionat = (Usuari) cbUsuaris.SelectedItem;
+            Program.CanviUsuari((Usuari) cbUsuaris.SelectedItem);
             movimentsTab1.canviUsuari(Usuari.Seleccionat);
             valoracionsTab1.canviUsuari(Usuari.Seleccionat);
             perduesGuanysTab1.canviUsuari(Usuari.Seleccionat);
@@ -380,7 +380,7 @@ namespace Inversions.GUI
 
                 if (cbUsuaris.SelectedItem != null)
                 {
-                    Program.DesaIdUsuariEnRegistreWindows(((Usuari) cbUsuaris.SelectedItem).Id);
+                    Program.CanviUsuari(((Usuari) cbUsuaris.SelectedItem));
                 }
 
                 titolFinestra();
