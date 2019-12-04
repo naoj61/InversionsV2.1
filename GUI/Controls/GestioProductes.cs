@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
@@ -28,6 +30,7 @@ namespace Inversions.GUI
         private bool vMostraLlistaAmbChecks;
         public event EventHandler ProducteSeleccionat;
         public event ItemCheckEventHandler ItemCheck;
+        private string vDescripcioFons;
 
 
         public Producte _ProducteSeleccionat
@@ -116,7 +119,6 @@ namespace Inversions.GUI
                 tbValorActual.Text = "";
                 tbPiGHistoric.Text = "";
                 tbIsin.Text = "";
-                tbDescripcio.Text = "";
                 tbMercat.Text = "";
             }
         }
@@ -186,8 +188,6 @@ namespace Inversions.GUI
                 //lbMercat.Visible = false;
                 gbIsinMercat.Text = "ISIN";
                 tbIsin.BringToFront();
-
-                gbDescripcio.Visible = false;
             }
             else
             {
@@ -215,9 +215,7 @@ namespace Inversions.GUI
                 {
                     var prodFons = (ProdFons) prod;
                     tbIsin.Text = prodFons.ISIN;
-                    tbDescripcio.Text = prodFons.Descripcio;
-
-                    gbDescripcio.Visible = true;
+                    vDescripcioFons = prodFons.Descripcio;
 
                     //lbIsin.Visible = true;
                     //lbMercat.Visible = false;
@@ -226,19 +224,18 @@ namespace Inversions.GUI
 
                     gbFons.Visible = true;
                     lbFons.Text = String.Format("{0}-{1}", prod.Id, prod._NomProducte);
+                    pnDescripcioFons.Visible = true;
                 }
                 else if (prod is ProdAccions)
                 {
                     var prodAccions = (ProdAccions) prod;
                     tbMercat.Text = prodAccions.Mercat.Nom;
 
-                    gbDescripcio.Visible = false;
-                    //lbIsin.Visible = false;
-                    //lbMercat.Visible = true;
                     gbIsinMercat.Text = "Mercat";
                     tbMercat.BringToFront();
                     
                     gbFons.Visible = false;
+                    pnDescripcioFons.Visible = false;
                 }
             }
 
@@ -347,6 +344,11 @@ namespace Inversions.GUI
                     chLb.SetItemChecked(i, selecciona);
                 }
             }
+        }
+
+        private void btDescripcioFons_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(this, vDescripcioFons, "Descripció fons", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

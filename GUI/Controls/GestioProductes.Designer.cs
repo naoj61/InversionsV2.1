@@ -33,6 +33,11 @@ namespace Inversions.GUI
         {
             this.components = new System.ComponentModel.Container();
             this.pnDadesProducte = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.pnDescripcioFons = new System.Windows.Forms.Panel();
+            this.btDescripcioFons = new System.Windows.Forms.Button();
+            this.gbDividents = new System.Windows.Forms.GroupBox();
+            this.tbDividends = new Controls.NumericTextBox2();
             this.gbMoneda = new System.Windows.Forms.GroupBox();
             this.lbMoneda = new System.Windows.Forms.Label();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
@@ -44,10 +49,6 @@ namespace Inversions.GUI
             this.tbIsin = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tbPiGHistoric = new Controls.NumericTextBox2();
-            this.gbDividents = new System.Windows.Forms.GroupBox();
-            this.tbDividends = new Controls.NumericTextBox2();
-            this.gbDescripcio = new System.Windows.Forms.GroupBox();
-            this.tbDescripcio = new System.Windows.Forms.TextBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.tbCostOrigPartActual = new Controls.NumericTextBox2();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -84,13 +85,14 @@ namespace Inversions.GUI
             this.cbTipusProducteFiltreTab2 = new System.Windows.Forms.ComboBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.pnDadesProducte.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.pnDescripcioFons.SuspendLayout();
+            this.gbDividents.SuspendLayout();
             this.gbMoneda.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.gbUsuari.SuspendLayout();
             this.gbIsinMercat.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.gbDividents.SuspendLayout();
-            this.gbDescripcio.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox15.SuspendLayout();
@@ -110,13 +112,12 @@ namespace Inversions.GUI
             // 
             // pnDadesProducte
             // 
+            this.pnDadesProducte.Controls.Add(this.panel1);
             this.pnDadesProducte.Controls.Add(this.gbMoneda);
             this.pnDadesProducte.Controls.Add(this.groupBox8);
             this.pnDadesProducte.Controls.Add(this.gbUsuari);
             this.pnDadesProducte.Controls.Add(this.gbIsinMercat);
             this.pnDadesProducte.Controls.Add(this.groupBox2);
-            this.pnDadesProducte.Controls.Add(this.gbDividents);
-            this.pnDadesProducte.Controls.Add(this.gbDescripcio);
             this.pnDadesProducte.Controls.Add(this.groupBox7);
             this.pnDadesProducte.Controls.Add(this.groupBox4);
             this.pnDadesProducte.Controls.Add(this.groupBox15);
@@ -128,6 +129,75 @@ namespace Inversions.GUI
             this.pnDadesProducte.Name = "pnDadesProducte";
             this.pnDadesProducte.Size = new System.Drawing.Size(378, 781);
             this.pnDadesProducte.TabIndex = 11;
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.pnDescripcioFons);
+            this.panel1.Controls.Add(this.gbDividents);
+            this.panel1.Location = new System.Drawing.Point(192, 351);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(176, 223);
+            this.panel1.TabIndex = 12;
+            // 
+            // pnDescripcioFons
+            // 
+            this.pnDescripcioFons.Controls.Add(this.btDescripcioFons);
+            this.pnDescripcioFons.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnDescripcioFons.Location = new System.Drawing.Point(0, 62);
+            this.pnDescripcioFons.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pnDescripcioFons.Name = "pnDescripcioFons";
+            this.pnDescripcioFons.Padding = new System.Windows.Forms.Padding(6, 11, 6, 6);
+            this.pnDescripcioFons.Size = new System.Drawing.Size(176, 61);
+            this.pnDescripcioFons.TabIndex = 12;
+            this.pnDescripcioFons.Visible = false;
+            // 
+            // btDescripcioFons
+            // 
+            this.btDescripcioFons.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btDescripcioFons.Location = new System.Drawing.Point(6, 11);
+            this.btDescripcioFons.Name = "btDescripcioFons";
+            this.btDescripcioFons.Size = new System.Drawing.Size(164, 44);
+            this.btDescripcioFons.TabIndex = 12;
+            this.btDescripcioFons.Text = "Descripció";
+            this.btDescripcioFons.UseVisualStyleBackColor = true;
+            this.btDescripcioFons.Click += new System.EventHandler(this.btDescripcioFons_Click);
+            // 
+            // gbDividents
+            // 
+            this.gbDividents.Controls.Add(this.tbDividends);
+            this.gbDividents.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gbDividents.Location = new System.Drawing.Point(0, 0);
+            this.gbDividents.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gbDividents.Name = "gbDividents";
+            this.gbDividents.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
+            this.gbDividents.Size = new System.Drawing.Size(176, 62);
+            this.gbDividents.TabIndex = 9;
+            this.gbDividents.TabStop = false;
+            this.gbDividents.Text = "Dividends";
+            this.toolTip1.SetToolTip(this.gbDividents, "Dividends historics");
+            this.gbDividents.Visible = false;
+            // 
+            // tbDividends
+            // 
+            this.tbDividends._CapturaEscape = true;
+            this.tbDividends._Format = "#,#0.00 €";
+            this.tbDividends._PermetDecimals = true;
+            this.tbDividends._PermetEspais = false;
+            this.tbDividends._PermetNegatius = true;
+            this.tbDividends.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbDividends.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbDividends.Location = new System.Drawing.Point(6, 23);
+            this.tbDividends.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tbDividends.Name = "tbDividends";
+            this.tbDividends.ReadOnly = true;
+            this.tbDividends.Size = new System.Drawing.Size(164, 25);
+            this.tbDividends.TabIndex = 0;
+            this.tbDividends.Text = "0,00 €";
+            this.tbDividends.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.tbDividends, "Dividends historics");
+            this.tbDividends.Valor = 0D;
             // 
             // gbMoneda
             // 
@@ -279,66 +349,6 @@ namespace Inversions.GUI
             this.tbPiGHistoric.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.toolTip1.SetToolTip(this.tbPiGHistoric, "PiG històric. No inclou dividends");
             this.tbPiGHistoric.Valor = 0D;
-            // 
-            // gbDividents
-            // 
-            this.gbDividents.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbDividents.Controls.Add(this.tbDividends);
-            this.gbDividents.Location = new System.Drawing.Point(192, 351);
-            this.gbDividents.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbDividents.Name = "gbDividents";
-            this.gbDividents.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
-            this.gbDividents.Size = new System.Drawing.Size(176, 62);
-            this.gbDividents.TabIndex = 9;
-            this.gbDividents.TabStop = false;
-            this.gbDividents.Text = "Dividends";
-            this.toolTip1.SetToolTip(this.gbDividents, "Dividends historics");
-            // 
-            // tbDividends
-            // 
-            this.tbDividends._CapturaEscape = true;
-            this.tbDividends._Format = "#,#0.00 €";
-            this.tbDividends._PermetDecimals = true;
-            this.tbDividends._PermetEspais = false;
-            this.tbDividends._PermetNegatius = true;
-            this.tbDividends.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbDividends.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbDividends.Location = new System.Drawing.Point(6, 23);
-            this.tbDividends.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tbDividends.Name = "tbDividends";
-            this.tbDividends.ReadOnly = true;
-            this.tbDividends.Size = new System.Drawing.Size(164, 25);
-            this.tbDividends.TabIndex = 0;
-            this.tbDividends.Text = "0,00 €";
-            this.tbDividends.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.toolTip1.SetToolTip(this.tbDividends, "Dividends historics");
-            this.tbDividends.Valor = 0D;
-            // 
-            // gbDescripcio
-            // 
-            this.gbDescripcio.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbDescripcio.Controls.Add(this.tbDescripcio);
-            this.gbDescripcio.Location = new System.Drawing.Point(7, 424);
-            this.gbDescripcio.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbDescripcio.Name = "gbDescripcio";
-            this.gbDescripcio.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbDescripcio.Size = new System.Drawing.Size(359, 347);
-            this.gbDescripcio.TabIndex = 10;
-            this.gbDescripcio.TabStop = false;
-            this.gbDescripcio.Text = "Descripció";
-            // 
-            // tbDescripcio
-            // 
-            this.tbDescripcio.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbDescripcio.Location = new System.Drawing.Point(3, 23);
-            this.tbDescripcio.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tbDescripcio.Multiline = true;
-            this.tbDescripcio.Name = "tbDescripcio";
-            this.tbDescripcio.ReadOnly = true;
-            this.tbDescripcio.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbDescripcio.Size = new System.Drawing.Size(353, 320);
-            this.tbDescripcio.TabIndex = 0;
             // 
             // groupBox7
             // 
@@ -811,6 +821,10 @@ namespace Inversions.GUI
             this.Size = new System.Drawing.Size(1080, 781);
             this.Load += new System.EventHandler(this.GestioProductes_Load);
             this.pnDadesProducte.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.pnDescripcioFons.ResumeLayout(false);
+            this.gbDividents.ResumeLayout(false);
+            this.gbDividents.PerformLayout();
             this.gbMoneda.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
@@ -819,10 +833,6 @@ namespace Inversions.GUI
             this.gbIsinMercat.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.gbDividents.ResumeLayout(false);
-            this.gbDividents.PerformLayout();
-            this.gbDescripcio.ResumeLayout(false);
-            this.gbDescripcio.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             this.groupBox4.ResumeLayout(false);
@@ -852,8 +862,6 @@ namespace Inversions.GUI
         #endregion
 
         private Panel pnDadesProducte;
-        private GroupBox gbDescripcio;
-        private TextBox tbDescripcio;
         private GroupBox groupBox2;
         private NumericTextBox2 tbPiGHistoric;
         private GroupBox groupBox4;
@@ -902,5 +910,8 @@ namespace Inversions.GUI
         private NumericTextBox2 tbCostOrigPartActual;
         private GroupBox groupBox8;
         private NumericTextBox2 tbPigTributa;
+        private Panel panel1;
+        private Panel pnDescripcioFons;
+        private Button btDescripcioFons;
     }
 }
