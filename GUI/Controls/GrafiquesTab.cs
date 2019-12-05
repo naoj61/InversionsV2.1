@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -46,10 +47,12 @@ namespace Inversions.GUI
                 foreach (var producteSeleccionat in gestioProductesTabValoracions.productesSeleccionats())
                 {
                     DateTime minDataVal = producteSeleccionat.ValoracionsProducte.Min(m => m.Data);
-                    if (minDataVal > dataInici)
+                    if (minDataVal > dataInici && minDataVal <= dtpFinal.Value)
+                        // Modifica la dataInici a la data més petita del producte sempre que aquesta no sigui més gran a la data final.
                         dataInici = minDataVal;
                 }
             }
+
 
             chart1.Series.Clear();
 
@@ -76,6 +79,7 @@ namespace Inversions.GUI
             series1.XValueType = ChartValueType.Date;
             series1.ChartType = SeriesChartType.Line;
             series1.Name = producte._NomProducte;
+            series1.Tag = producte;
             //series1.Legend = "Legend1";
         }
 
@@ -109,6 +113,43 @@ namespace Inversions.GUI
             }
         }
 
+
+        readonly int vNumElem = Enum.GetValues(typeof(ChartColorPalette)).Length;
+
+        private void chart1_DoubleClick(object sender, EventArgs e)
+        {
+            
+            var posElem = (int)chart1.Palette + 1;
+
+            if (posElem == vNumElem)
+                posElem = 1;
+
+            chart1.Palette = (ChartColorPalette)(posElem);
+        }
+
+        private void chart1_GetToolTipText(object sender, ToolTipEventArgs e)
+        {
+            if (e.HitTestResult.ChartElementType == ChartElementType.DataPoint)
+            {
+                var producte = (Producte)e.HitTestResult.Series.Tag;
+                if (producte == null) return;
+
+                lbNomProducte.Text = e.HitTestResult.Series.Name;
+                lbValorActual.Text = producte.valorEnCartera().ToString("#,##0.00€");
+
+                var vals =producte.valoracionsPonderades(false, dtpInici.Value.GetValueOrDefault(DateTime.MinValue), dtpFinal.Value);
+                var valIni = vals.First().Value;
+                var valMax = vals.Last().Value;
+                lbVariacio.Text = (valMax / valIni - 1).ToString("#0.00%");
+
+            }
+            else
+            { 
+                lbNomProducte.Text = String.Empty;
+                lbValorActual.Text = String.Empty;
+                lbVariacio.Text = String.Empty;
+            }
+        }
 
         #region Implementació d'ITabs
         

@@ -72,7 +72,7 @@ namespace Inversions.GUI
             titolFinestra();
 
 #if DEBUG
-            tabControl1.SelectTab(tabPerduesGuanys.Name);
+            tabControl1.SelectTab(tabGrafiques.Name);
 #else
             tabControl1.SelectTab(tabValoracions.Name);
 #endif
