@@ -30,7 +30,7 @@ namespace Inversions
         {
             get
             {
-                return Prod == null ? 0 : Prod.numParticipacionsEnData(Utilitats.DataFinalDia(Data));
+                return Prod == null ? 0 : Prod.numParticipacionsEnData(Utilitats.PosoHora(Data));
             }
         }
 
@@ -76,7 +76,7 @@ namespace Inversions
                 if (Prod == null)
                     return 0;
 
-                return PreuParticipacio * Prod.numParticipacionsEnData(Utilitats.DataFinalDia(Data));
+                return PreuParticipacio * Prod.numParticipacionsEnData(Utilitats.PosoHora(Data));
             }
         }
 

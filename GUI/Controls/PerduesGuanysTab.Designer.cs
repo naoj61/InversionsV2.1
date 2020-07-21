@@ -58,6 +58,7 @@ namespace Inversions.GUI
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvPiGProducte = new System.Windows.Forms.DataGridView();
             this.colDataCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDataVenda = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -113,6 +114,7 @@ namespace Inversions.GUI
             this.dgvPiGProductePerAny = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Percentatge = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.gestioProductesTabValoracions = new Inversions.GUI.GestioProductes();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPiGProducte)).BeginInit();
@@ -175,7 +177,7 @@ namespace Inversions.GUI
             this.dgvPiGProducte.Name = "dgvPiGProducte";
             this.dgvPiGProducte.ReadOnly = true;
             this.dgvPiGProducte.RowTemplate.Height = 24;
-            this.dgvPiGProducte.Size = new System.Drawing.Size(1029, 329);
+            this.dgvPiGProducte.Size = new System.Drawing.Size(811, 329);
             this.dgvPiGProducte.TabIndex = 5;
             // 
             // colDataCompra
@@ -812,8 +814,8 @@ namespace Inversions.GUI
             // 
             // pnPigFill
             // 
-            this.pnPigFill.Controls.Add(this.splitContainer1);
             this.pnPigFill.Controls.Add(this.dgvPiGProducte);
+            this.pnPigFill.Controls.Add(this.splitContainer1);
             this.pnPigFill.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnPigFill.Location = new System.Drawing.Point(0, 493);
             this.pnPigFill.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -948,7 +950,8 @@ namespace Inversions.GUI
             this.dgvPiGProductePerAny.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPiGProductePerAny.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn3,
-            this.dataGridViewTextBoxColumn4});
+            this.dataGridViewTextBoxColumn4,
+            this.Percentatge});
             this.dgvPiGProductePerAny.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvPiGProductePerAny.Location = new System.Drawing.Point(0, 29);
             this.dgvPiGProductePerAny.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -985,6 +988,18 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.ReadOnly = true;
             this.dataGridViewTextBoxColumn4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Percentatge
+            // 
+            this.Percentatge.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle29.Format = "#,##0.00";
+            dataGridViewCellStyle29.NullValue = null;
+            this.Percentatge.DefaultCellStyle = dataGridViewCellStyle29;
+            this.Percentatge.HeaderText = "%";
+            this.Percentatge.Name = "Percentatge";
+            this.Percentatge.ReadOnly = true;
+            this.Percentatge.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Percentatge.Width = 50;
             // 
             // label1
             // 
@@ -1113,6 +1128,7 @@ namespace Inversions.GUI
         private System.Windows.Forms.DataGridView dgvPiGProductePerAny;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Percentatge;
         private System.Windows.Forms.Label label1;
     }
 }

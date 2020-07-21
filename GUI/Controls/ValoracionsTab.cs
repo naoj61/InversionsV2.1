@@ -31,6 +31,11 @@ namespace Inversions.GUI
             dtpDataIniciLlista.Value = DateTime.Now.AddMonths(-6);
         }
 
+        public Button AcceptButton
+        {
+            get { return btActualitzaLlista; }
+        }
+
         public DateTime _Data
         {
             get { return cData.Value; }

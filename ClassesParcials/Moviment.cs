@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using Comuns;
 
 namespace Inversions
@@ -59,7 +60,7 @@ namespace Inversions
             return _Moviment.Id.ToString(CultureInfo.InvariantCulture);
         }
     }
-
+    
 
     /// <summary>
     /// El desgloç del moviment de compra lligadas a una venda pot ser que no utilitzi totes les participacions.
@@ -426,18 +427,19 @@ namespace Inversions
             }
             else if (TipusMoviment == TipusMoviment.Venda || TipusMoviment == TipusMoviment.Traspàs)
             {
-                double x = 0;
-                double y = 0;
+                double importCompraPartDisponibles = 0;
+                double numPartDisponibles = 0;
 
                 foreach (var compra in compresAnteriors())
                 {
                     if (compra._Moviment.PreuParticipacioOrigen == null)
                         throw new NullReferenceException("El 'compra._Moviment.PreuParticipacioOrigen' és NULL i hauria de tenir algún valor. Id moviment: " + compra._Moviment.Id);
 
-                    x += compra._ParticipacionsDisponibles * compra._Moviment.PreuParticipacioOrigen.Value;
-                    y += compra._ParticipacionsDisponibles;
+                    var despeses = compra._Moviment.Despeses.GetValueOrDefault() / compra._Moviment.Participacions * compra._ParticipacionsDisponibles;
+                    importCompraPartDisponibles += compra._ParticipacionsDisponibles * compra._Moviment.PreuParticipacioOrigen.Value + despeses;
+                    numPartDisponibles += compra._ParticipacionsDisponibles;
                 }
-                valorRetorn = x / y;
+                valorRetorn = importCompraPartDisponibles / numPartDisponibles;
             }
             else
             {
@@ -486,7 +488,12 @@ namespace Inversions
             }
         }
 
-        public Moviment Clone()
+
+        /// <summary>
+        /// Crea una còpia superficial creant un objecte nou.
+        /// </summary>
+        /// <returns></returns>
+        public Moviment ClonaCreaNouObjecte()
         {
             return (Moviment) MemberwiseClone();
 

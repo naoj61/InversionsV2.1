@@ -18,6 +18,11 @@ namespace Inversions.GUI
             splitContainer1.SplitterDistance = splitContainer1.Height / 2;
         }
 
+        public Button AcceptButton
+        {
+            get { return null; }
+        }
+
         private void calculaPiG()
         {
             //if (Program.RuntimeMode)

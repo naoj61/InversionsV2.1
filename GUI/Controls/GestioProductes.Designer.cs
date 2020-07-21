@@ -742,6 +742,7 @@ namespace Inversions.GUI
             this.lbFons.Size = new System.Drawing.Size(462, 29);
             this.lbFons.TabIndex = 1;
             this.lbFons.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbFons.DoubleClick += new System.EventHandler(this.lbFons_DoubleClick);
             // 
             // label3
             // 
@@ -774,6 +775,7 @@ namespace Inversions.GUI
             this.lbEmpresa.Size = new System.Drawing.Size(462, 29);
             this.lbEmpresa.TabIndex = 1;
             this.lbEmpresa.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbEmpresa.DoubleClick += new System.EventHandler(this.lbEmpresa_DoubleClick);
             // 
             // label1
             // 

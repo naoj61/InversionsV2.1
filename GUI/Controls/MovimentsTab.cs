@@ -23,6 +23,11 @@ namespace Inversions.GUI
             }
         }
 
+        public Button AcceptButton
+        {
+            get { return null; }
+        }
+
         private void gestioProductes1_ProducteSeleccionat(object sender, EventArgs e)
         {
             canviProducteSeleccionat();

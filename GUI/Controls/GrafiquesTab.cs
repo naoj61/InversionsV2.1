@@ -26,6 +26,11 @@ namespace Inversions.GUI
             gestioProductesTabValoracions.aplicaFiltre();
         }
 
+        public Button AcceptButton
+        {
+            get { return null; }
+        }
+
         private readonly ChartArea vChartArea;
 
         private void gestioProductesTabValoracions_ItemCheck(object sender, ItemCheckEventArgs e)

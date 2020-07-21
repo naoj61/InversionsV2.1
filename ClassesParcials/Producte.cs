@@ -5,6 +5,7 @@ using System.Data.Entity.Migrations;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Security;
 using System.Windows.Forms;
 using Comuns;
@@ -16,7 +17,7 @@ namespace Inversions
         #region Variables
 
         public abstract TipusProducte _TipusProducte { get; }
-        public abstract string _NomProducte { get; set;}
+        public abstract string _NomProducte { get; set; }
         public abstract string _TipusNomProducte { get; }
         public abstract Mercat _Mercat { get; set; }
         public abstract string _NomMercat { get; }
@@ -45,7 +46,7 @@ namespace Inversions
                 }
                 else
                 {
-                    _DataVenda = venda == null ? (DateTime?)null : venda.Data;
+                    _DataVenda = venda == null ? (DateTime?) null : venda.Data;
                     _Participacions = participacions;
                     _PreuUnitariCompra = compra._PreuParticipacio;
                     _PreuUnitariVenda = venda == null ? 0 : venda._PreuParticipacio;
@@ -161,15 +162,15 @@ namespace Inversions
         /// </summary>
         public double _ValorActualEnCartera
         {
-            get { return valorEnCartera(DateTime.MaxValue); }
+            get { return valorEnCartera(); }
         }
-        
+
         #endregion
 
 
         internal double dividends(DateTime dataFi)
         {
-            return MovimentsProducteUsuari.Where(w => w._EsDividents && w.Data < Utilitats.DataFinalDia(dataFi)).Sum(s => s.PreuParticipacio);
+            return MovimentsProducteUsuari.Where(w => w._EsDividents && w.Data < Utilitats.PosoHora(dataFi)).Sum(s => s.PreuParticipacio);
         }
 
 
@@ -178,9 +179,13 @@ namespace Inversions
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        internal double numParticipacionsEnData(DateTime data)
+        public double numParticipacionsEnData(DateTime data)
         {
-            data = Utilitats.DataFinalDia(data);
+            /* *** No modifico data a final del dia perquè no em permet trovar les participacions que hi havia abans del moviment 
+             * si hi ha més d'un moviment en un dia. 
+             */
+            //data = Utilitats.DataFinalDia(data);
+
             var particComprades = MovimentsProducteUsuari.Where(w => w.Data <= data && w.TipusMoviment == TipusMoviment.Compra).Sum(s => s.Participacions);
             var particVenudes = MovimentsProducteUsuari.Where(w => w.Data <= data && w.TipusMoviment == TipusMoviment.Venda).Sum(s => s.Participacions);
             return Math.Round(particComprades - particVenudes, 5);
@@ -204,10 +209,10 @@ namespace Inversions
         /// <returns></returns>
         private double valorParticipacio(DateTime data)
         {
-            var valoracions = ValoracionsProducte.Where(w => w.Data <= data).Select(val => new { val.Data, val.PreuParticipacio });
+            var valoracions = ValoracionsProducte.Where(w => w.Data <= data).Select(val => new {val.Data, val.PreuParticipacio});
 
             var moviments = this.Moviments.Where(w => w.Data <= data && (w.TipusMoviment == TipusMoviment.Compra || w.TipusMoviment == TipusMoviment.Venda))
-                .Select(mov => new { mov.Data, mov.PreuParticipacio });
+                .Select(mov => new {mov.Data, mov.PreuParticipacio});
 
             var tot = valoracions.Union(moviments).OrderBy(o => o.Data).ToList();
 
@@ -227,7 +232,7 @@ namespace Inversions
         /// <param name="dataHora">Data hora a partir de la que es buscaran els moviments de compravenda.</param>
         /// <param name="numParticipacions">Numero de participacions que es volen vendre.</param>
         /// <returns></returns>
-        internal IEnumerable<MovimentCompra> compresAnteriors(DateTime dataHora, double? numParticipacions = null)
+        public IEnumerable<MovimentCompra> compresAnteriors(DateTime dataHora, double? numParticipacions = null)
         {
             double participacions = numParticipacions.HasValue ? numParticipacions.Value : numParticipacionsEnData(dataHora);
             List<MovimentCompra> compresAmbParticipacio = new List<MovimentCompra>();
@@ -237,12 +242,12 @@ namespace Inversions
 
             // Troba suma participacions venudes anteriors a aquesta venda.
             var participVenudesAbans = MovimentsProducteUsuari
-                .Where(w => w.Data < dataHora && w.TipusMoviment == TipusMoviment.Venda).Sum(s => (double?)s.Participacions) ?? 0;
+                .Where(w => w.Data < dataHora && w.TipusMoviment == TipusMoviment.Venda).Sum(s => (double?) s.Participacions) ?? 0;
             var trobadaPrimeraCompra = false;
 
             // Llegeix compres anteriors a la venda del producte ordenades per data creixent i vaig restant les participacions venudes anteriorment.
-            var xx = MovimentsProducteUsuari.Where(w => w.Data < dataHora && w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data).ToList();
-            foreach (var compra in xx)
+            var compresAnt = MovimentsProducteUsuari.Where(w => w.Data < dataHora && w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data).ToList();
+            foreach (var compra in compresAnt)
             {
                 if (!trobadaPrimeraCompra)
                 {
@@ -287,7 +292,7 @@ namespace Inversions
         /// <returns></returns>
         internal double importCompra(int any)
         {
-            return importCompra(new DateTime(any, 1, 1), Utilitats.DataFinalDia(new DateTime(any, 12, 31)));
+            return importCompra(new DateTime(any, 1, 1), Utilitats.PosoHora(new DateTime(any, 12, 31)));
         }
 
         /// <summary>
@@ -324,7 +329,7 @@ namespace Inversions
         /// <returns></returns>
         internal double importVenda(int any)
         {
-            return importVenda(new DateTime(any, 1, 1), Utilitats.DataFinalDia(new DateTime(any, 12, 31)));
+            return importVenda(new DateTime(any, 1, 1), Utilitats.PosoHora(new DateTime(any, 12, 31)));
         }
 
 
@@ -349,7 +354,7 @@ namespace Inversions
         /// <returns></returns>
         internal double calculaDespesesCompra(int any)
         {
-            return calculaDespesesCompra(new DateTime(any, 1, 1), Utilitats.DataFinalDia(new DateTime(any, 12, 31)));
+            return calculaDespesesCompra(new DateTime(any, 1, 1), Utilitats.PosoHora(new DateTime(any, 12, 31)));
         }
 
 
@@ -363,9 +368,9 @@ namespace Inversions
         {
             // Calcula despeses i dividents.
             double totalDespeses = 0;
-            
+
             foreach (var venda in MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w._EsVendaReal).ToList())
-            {              
+            {
                 // Despeses de la compra.
                 totalDespeses += venda.compresAnteriors()
                     .Sum(movCompra => movCompra._Moviment.Despeses.GetValueOrDefault() * movCompra._ParticipacionsDisponibles / movCompra._Moviment.Participacions);
@@ -382,7 +387,7 @@ namespace Inversions
         /// <returns></returns>
         internal double calculaDespesesVenda(int any)
         {
-            return calculaDespesesVenda(new DateTime(any, 1, 1), Utilitats.DataFinalDia(new DateTime(any, 12, 31)));
+            return calculaDespesesVenda(new DateTime(any, 1, 1), Utilitats.PosoHora(new DateTime(any, 12, 31)));
         }
 
 
@@ -414,7 +419,7 @@ namespace Inversions
         /// <returns></returns>
         internal double calculaDividents(int any)
         {
-            return calculaDividents(new DateTime(any, 1, 1), Utilitats.DataFinalDia(new DateTime(any, 12, 31)));
+            return calculaDividents(new DateTime(any, 1, 1), Utilitats.PosoHora(new DateTime(any, 12, 31)));
         }
 
 
@@ -444,13 +449,20 @@ namespace Inversions
         /// <summary>
         /// Torna el valor de les participacions en cartera en una data determinada.
         /// </summary>
-        /// <param name="dataFinal"></param>
+        /// <param name="data"></param>
+        /// <param name="numPartsMax">Limita el cost a num de participacions</param>
         /// <returns></returns>
-        internal double valorEnCartera(DateTime? dataFinal = null)
+        public double valorEnCartera(DateTime? data = null, double? numPartsMax = null)
         {
-            var dFinal = Utilitats.DataFinalDia(dataFinal);
+            var dFinal = Utilitats.PosoHora(data);
 
             var participacions = numParticipacionsEnData(dFinal);
+
+            if (numPartsMax.HasValue)
+                if (numPartsMax.Value > participacions && numPartsMax.Value < 0)
+                    throw new ArgumentException("El numero de participacions del parèmetre supera les participacions en cartera o és negatiu", "numPartsMax");
+                else
+                    participacions = numPartsMax.Value;
 
             if (Utilitats.EsZero(participacions))
                 return 0;
@@ -463,16 +475,27 @@ namespace Inversions
         /// Calcula el cost original de les participacions en cartera.
         /// </summary>
         /// <param name="data">Si null calcula les participacions avui, sinò les que hi havia a la data.</param>
+        /// <param name="numPartsMax">Limita el cost a num de participacions</param>
         /// <returns></returns>
-        public double costOriginalEnCartera(DateTime? data = null)
+        public double costOriginalEnCartera(DateTime? data = null, double? numPartsMax = null)
         {
-            var dFinal = Utilitats.DataFinalDia(data);
-
+            var dFinal = Utilitats.PosoHora(data);
+            
             var participacions = numParticipacionsEnData(dFinal);
 
-            var compresDesgAnt = new Stack<DesglosCompra>(Program.Sessio.DesglosCompras
-                .Where(w => w.MovCompra.UsuariId == Usuari.Seleccionat.Id && w.MovCompra.ProdId == Id && w.MovCompra.Data < dFinal)
-                .OrderBy(o => o.MovCompra.Data).ThenBy(o => o.MovCompraOrig.Data));
+            if (numPartsMax.HasValue)
+                if (numPartsMax.Value > participacions && numPartsMax.Value < 0)
+                    throw new ArgumentException("El numero de participacions del parèmetre supera les participacions en cartera o és negatiu", "numPartsMax");
+                else
+                    participacions = numPartsMax.Value;
+
+
+
+            // *** Creo una pila amb el desgloç de les compres anteriors a la data. *****
+            var compresAnt = compresAnteriors(dFinal).OrderBy(o => o._Moviment.Data);
+            var compresDesgAnt = new Stack<DesglosCompra>(compresAnt.SelectMany(compAnt => compAnt._Moviment.DesglosCompres.
+                OrderBy(o => o.MovCompraOrig.Data)));
+
 
             double cost = 0;
             while (compresDesgAnt.Count > 0 && participacions > 0)
@@ -540,12 +563,12 @@ namespace Inversions
         public static double Pig(TipusProducte tipusProducte, int any)
         {
             DateTime dataInici = new DateTime(any, 1, 1);
-            DateTime dataFinal = Utilitats.DataFinalDia(new DateTime(any, 12, 31));
+            DateTime dataFinal = Utilitats.PosoHora(new DateTime(any, 12, 31));
 
             return Pig(tipusProducte, dataInici, dataFinal);
         }
 
-        public static double Pig(TipusProducte tipusProducte, DateTime? dataInici = null, DateTime? dataFinal = null)
+        private static double Pig(TipusProducte tipusProducte, DateTime? dataInici = null, DateTime? dataFinal = null)
         {
             double pig = 0;
 
@@ -639,7 +662,7 @@ namespace Inversions
         private double pig(DateTime dataInici, DateTime dataFinal)
         {
             var dInici = dataInici.Date; // Poso la hora a zero.
-            var dFinal = Utilitats.DataFinalDia(dataFinal);
+            var dFinal = Utilitats.PosoHora(dataFinal);
 
             var compres = MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w.TipusMoviment == TipusMoviment.Compra).ToList();
             var vendes = MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w.TipusMoviment == TipusMoviment.Venda).ToList();
@@ -824,7 +847,7 @@ namespace Inversions
         private double pigTributa(DateTime dataInici, DateTime dataFinal)
         {
             var dInici = dataInici.Date; // Poso la d'inici hora a zero.
-            var dFinal = Utilitats.DataFinalDia(dataFinal);
+            var dFinal = Utilitats.PosoHora(dataFinal);
 
             var totalCompra = importCompra(dInici, dFinal);
             var totalVenda = importVenda(dInici, dFinal);
@@ -852,7 +875,7 @@ namespace Inversions
         /// <returns></returns>
         public double pigEnCartera(DateTime? dataFinal = null, double? preuParticipacio = null)
         {
-            var dFinal = Utilitats.DataFinalDia(dataFinal);
+            var dFinal = Utilitats.PosoHora(dataFinal);
 
             var participacions = numParticipacionsEnData(dFinal);
 
@@ -866,6 +889,12 @@ namespace Inversions
             double valorPartic = preuParticipacio.HasValue ? _Participacions * preuParticipacio.Value : valorEnCartera(dFinal);
 
             return valorPartic - totalCompres;
+        }
+
+
+        public double preuCostDesgloçTest()
+        {
+            return costOriginalEnCartera(DateTime.Now);
         }
 
         #endregion *** PiG ***

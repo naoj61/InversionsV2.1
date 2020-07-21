@@ -72,7 +72,7 @@ namespace Inversions.GUI
             titolFinestra();
 
 #if DEBUG
-            tabControl1.SelectTab(tabGrafiques.Name);
+            tabControl1.SelectTab(tabSimulacióVenda.Name);
 #else
             tabControl1.SelectTab(tabValoracions.Name);
 #endif
@@ -652,6 +652,12 @@ namespace Inversions.GUI
                     canviUsuari(usuari);
                 }
             }
+        }
+
+        private void tabControl1_Selected(object sender, TabControlEventArgs e)
+        {
+            ITabs tab = e.TabPage.Controls.OfType<ITabs>().FirstOrDefault();
+            AcceptButton = tab == null ? null : tab.AcceptButton;
         }
     }
 }

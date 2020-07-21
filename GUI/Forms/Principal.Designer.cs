@@ -66,13 +66,15 @@
             this.btNouProducte = new System.Windows.Forms.Button();
             this.btDesaProducte = new System.Windows.Forms.Button();
             this.tabMoviments = new System.Windows.Forms.TabPage();
-            this.movimentsTab1 = new Inversions.GUI.MovimentsTab();
             this.tabValoracions = new System.Windows.Forms.TabPage();
-            this.valoracionsTab1 = new Inversions.GUI.ValoracionsTab();
             this.tabPerduesGuanys = new System.Windows.Forms.TabPage();
-            this.perduesGuanysTab1 = new Inversions.GUI.PerduesGuanysTab();
             this.tabGrafiques = new System.Windows.Forms.TabPage();
+            this.tabSimulacióVenda = new System.Windows.Forms.TabPage();
+            this.movimentsTab1 = new Inversions.GUI.MovimentsTab();
+            this.valoracionsTab1 = new Inversions.GUI.ValoracionsTab();
+            this.perduesGuanysTab1 = new Inversions.GUI.PerduesGuanysTab();
             this.grafiquesTab1 = new Inversions.GUI.GrafiquesTab();
+            this.simulacióVendaTab1 = new Inversions.GUI.SimulacióVendaTab();
             this.tabControl1.SuspendLayout();
             this.tabUsuari.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -94,6 +96,7 @@
             this.tabValoracions.SuspendLayout();
             this.tabPerduesGuanys.SuspendLayout();
             this.tabGrafiques.SuspendLayout();
+            this.tabSimulacióVenda.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -104,6 +107,7 @@
             this.tabControl1.Controls.Add(this.tabValoracions);
             this.tabControl1.Controls.Add(this.tabPerduesGuanys);
             this.tabControl1.Controls.Add(this.tabGrafiques);
+            this.tabControl1.Controls.Add(this.tabSimulacióVenda);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -111,6 +115,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1530, 919);
             this.tabControl1.TabIndex = 0;
+            this.tabControl1.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl1_Selected);
             this.tabControl1.Deselecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl1_Deselecting);
             // 
             // tabUsuari
@@ -560,16 +565,6 @@
             this.tabMoviments.Text = "Moviments";
             this.tabMoviments.UseVisualStyleBackColor = true;
             // 
-            // movimentsTab1
-            // 
-            this.movimentsTab1.CausesValidation = false;
-            this.movimentsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.movimentsTab1.Location = new System.Drawing.Point(6, 6);
-            this.movimentsTab1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.movimentsTab1.Name = "movimentsTab1";
-            this.movimentsTab1.Size = new System.Drawing.Size(1510, 874);
-            this.movimentsTab1.TabIndex = 0;
-            // 
             // tabValoracions
             // 
             this.tabValoracions.Controls.Add(this.valoracionsTab1);
@@ -580,16 +575,6 @@
             this.tabValoracions.TabIndex = 2;
             this.tabValoracions.Text = "Valoracions";
             this.tabValoracions.UseVisualStyleBackColor = true;
-            // 
-            // valoracionsTab1
-            // 
-            this.valoracionsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.valoracionsTab1.Location = new System.Drawing.Point(0, 0);
-            this.valoracionsTab1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.valoracionsTab1.MinimumSize = new System.Drawing.Size(1464, 819);
-            this.valoracionsTab1.Name = "valoracionsTab1";
-            this.valoracionsTab1.Size = new System.Drawing.Size(1522, 886);
-            this.valoracionsTab1.TabIndex = 0;
             // 
             // tabPerduesGuanys
             // 
@@ -603,15 +588,6 @@
             this.tabPerduesGuanys.Text = "Perdues i Guanys";
             this.tabPerduesGuanys.UseVisualStyleBackColor = true;
             // 
-            // perduesGuanysTab1
-            // 
-            this.perduesGuanysTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.perduesGuanysTab1.Location = new System.Drawing.Point(3, 4);
-            this.perduesGuanysTab1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.perduesGuanysTab1.Name = "perduesGuanysTab1";
-            this.perduesGuanysTab1.Size = new System.Drawing.Size(1516, 878);
-            this.perduesGuanysTab1.TabIndex = 0;
-            // 
             // tabGrafiques
             // 
             this.tabGrafiques.Controls.Add(this.grafiquesTab1);
@@ -624,6 +600,46 @@
             this.tabGrafiques.Text = "Gràfiques";
             this.tabGrafiques.UseVisualStyleBackColor = true;
             // 
+            // tabSimulacióVenda
+            // 
+            this.tabSimulacióVenda.Controls.Add(this.simulacióVendaTab1);
+            this.tabSimulacióVenda.Location = new System.Drawing.Point(4, 29);
+            this.tabSimulacióVenda.Name = "tabSimulacióVenda";
+            this.tabSimulacióVenda.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSimulacióVenda.Size = new System.Drawing.Size(1522, 886);
+            this.tabSimulacióVenda.TabIndex = 7;
+            this.tabSimulacióVenda.Text = "Simulació Venda";
+            this.tabSimulacióVenda.UseVisualStyleBackColor = true;
+            // 
+            // movimentsTab1
+            // 
+            this.movimentsTab1.CausesValidation = false;
+            this.movimentsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.movimentsTab1.Location = new System.Drawing.Point(6, 6);
+            this.movimentsTab1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.movimentsTab1.Name = "movimentsTab1";
+            this.movimentsTab1.Size = new System.Drawing.Size(1510, 874);
+            this.movimentsTab1.TabIndex = 0;
+            // 
+            // valoracionsTab1
+            // 
+            this.valoracionsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.valoracionsTab1.Location = new System.Drawing.Point(0, 0);
+            this.valoracionsTab1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.valoracionsTab1.MinimumSize = new System.Drawing.Size(1464, 819);
+            this.valoracionsTab1.Name = "valoracionsTab1";
+            this.valoracionsTab1.Size = new System.Drawing.Size(1522, 886);
+            this.valoracionsTab1.TabIndex = 0;
+            // 
+            // perduesGuanysTab1
+            // 
+            this.perduesGuanysTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.perduesGuanysTab1.Location = new System.Drawing.Point(3, 4);
+            this.perduesGuanysTab1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.perduesGuanysTab1.Name = "perduesGuanysTab1";
+            this.perduesGuanysTab1.Size = new System.Drawing.Size(1516, 878);
+            this.perduesGuanysTab1.TabIndex = 0;
+            // 
             // grafiquesTab1
             // 
             this.grafiquesTab1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -633,6 +649,15 @@
             this.grafiquesTab1.Name = "grafiquesTab1";
             this.grafiquesTab1.Size = new System.Drawing.Size(1516, 878);
             this.grafiquesTab1.TabIndex = 0;
+            // 
+            // simulacióVendaTab1
+            // 
+            this.simulacióVendaTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.simulacióVendaTab1.Location = new System.Drawing.Point(3, 3);
+            this.simulacióVendaTab1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.simulacióVendaTab1.Name = "simulacióVendaTab1";
+            this.simulacióVendaTab1.Size = new System.Drawing.Size(1516, 880);
+            this.simulacióVendaTab1.TabIndex = 0;
             // 
             // Principal
             // 
@@ -675,6 +700,7 @@
             this.tabValoracions.ResumeLayout(false);
             this.tabPerduesGuanys.ResumeLayout(false);
             this.tabGrafiques.ResumeLayout(false);
+            this.tabSimulacióVenda.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -727,5 +753,7 @@
         private System.Windows.Forms.Button btEditaProducte;
         private System.Windows.Forms.TabPage tabGrafiques;
         private GrafiquesTab grafiquesTab1;
+        private System.Windows.Forms.TabPage tabSimulacióVenda;
+        private SimulacióVendaTab simulacióVendaTab1;
     }
 }

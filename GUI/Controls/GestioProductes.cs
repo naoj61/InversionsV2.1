@@ -350,5 +350,17 @@ namespace Inversions.GUI
         {
             MessageBox.Show(this, vDescripcioFons, "Descripció fons", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        private void lbEmpresa_DoubleClick(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(lbEmpresa.Text))
+                Clipboard.SetText(lbEmpresa.Text);
+        }
+
+        private void lbFons_DoubleClick(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(lbFons.Text))
+                Clipboard.SetText(lbFons.Text);
+        }
     }
 }
