@@ -34,7 +34,7 @@ namespace Inversions.GUI
 
                 dgvPiGAnualsTributen.Rows.Clear();
                 dgvPiGAnualsTotal.Rows.Clear();
-                double pigAnt = 0;
+                double pigAnyAnt = 0;
                 for (int any = Program.PrimerAny; any <= ultimAny; any++)
                 {
                     if (Program.Sessio.Productes.AsEnumerable().Any(producte => producte.tributaAquestAny(any)))
@@ -54,9 +54,9 @@ namespace Inversions.GUI
                         if (any == DateTime.Today.Year)
                             pigAny += ntbDiferencia.Valor;
 
-                        dgvPiGAnualsTotal.Rows.Add(any, pigAny - pigAnt);
+                        dgvPiGAnualsTotal.Rows.Add(any, pigAny - pigAnyAnt);
 
-                        pigAnt = pigAny;
+                        pigAnyAnt = pigAny;
                     }
                 }
 

@@ -30,6 +30,7 @@ namespace Inversions.GUI
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -111,6 +112,7 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label4 = new System.Windows.Forms.Label();
             this.gestioProductesTabValoracions = new Inversions.GUI.GestioProductes();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPiGProducte)).BeginInit();
             this.pnPigRight.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -677,6 +679,7 @@ namespace Inversions.GUI
             this.dgvPiGAnualsTotal.RowTemplate.Height = 24;
             this.dgvPiGAnualsTotal.Size = new System.Drawing.Size(420, 227);
             this.dgvPiGAnualsTotal.TabIndex = 16;
+            this.toolTip1.SetToolTip(this.dgvPiGAnualsTotal, "Inclou la cartera a final de cada any");
             // 
             // dataGridViewTextBoxColumn2
             // 
@@ -716,6 +719,7 @@ namespace Inversions.GUI
             this.label3.TabIndex = 17;
             this.label3.Text = "P i G Total";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip1.SetToolTip(this.label3, "Inclou la cartera a final de cada any");
             // 
             // panel3
             // 
@@ -766,6 +770,7 @@ namespace Inversions.GUI
             this.dgvPiGAnualsTributen.RowTemplate.Height = 24;
             this.dgvPiGAnualsTributen.Size = new System.Drawing.Size(420, 228);
             this.dgvPiGAnualsTributen.TabIndex = 8;
+            this.toolTip1.SetToolTip(this.dgvPiGAnualsTributen, "Només vendes reals.");
             this.dgvPiGAnualsTributen.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPiGAnualsTributen_CellDoubleClick);
             // 
             // dataGridViewTextBoxColumn1
@@ -790,7 +795,6 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
             this.dataGridViewTextBoxColumn6.ReadOnly = true;
             this.dataGridViewTextBoxColumn6.Visible = false;
-            this.dataGridViewTextBoxColumn6.Width = 113;
             // 
             // dataGridViewTextBoxColumn5
             // 
@@ -802,7 +806,6 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             this.dataGridViewTextBoxColumn5.ReadOnly = true;
             this.dataGridViewTextBoxColumn5.Visible = false;
-            this.dataGridViewTextBoxColumn5.Width = 118;
             // 
             // Column1
             // 
@@ -825,6 +828,7 @@ namespace Inversions.GUI
             this.label2.TabIndex = 14;
             this.label2.Text = "P i G que tributen";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip1.SetToolTip(this.label2, "Només vendes reals.");
             // 
             // pnPigFill
             // 
@@ -1028,5 +1032,6 @@ namespace Inversions.GUI
         private Controls.DateTimePickerNullable dtpFiltreDataInici;
         private System.Windows.Forms.Button btFiltreDates;
         private Controls.DateTimePickerNullable dtpFiltreDataFi;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
