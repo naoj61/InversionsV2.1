@@ -114,10 +114,6 @@ namespace Inversions
                 get { return _DataVenda.HasValue && _DataCompra.AddYears(1) <= _DataVenda.Value; }
             }
 
-            //public double _PiGActual
-            //{
-            //    get { return _Compra.Prod.pigValorat(DateTimeFinalDia.Today); }
-            //}
 
             public string _Termini
             {
@@ -167,28 +163,18 @@ namespace Inversions
 
         #endregion
 
+        #region Mètodes
 
         internal double dividends(DateTime dataFi)
         {
-            return MovimentsProducteUsuari.Where(w => w._EsDividents && w.Data < Utilitats.PosoHora(dataFi)).Sum(s => s.PreuParticipacio);
+            return dividends(DateTime.MinValue, dataFi);
         }
 
-
-        /// <summary>
-        /// Torna les participacions en una data hora determinada. No te en compte els moviments del mateix dia fets en hora posterior.
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public double numParticipacionsEnData(DateTime data)
+        private double dividends(DateTime dataInici, DateTime dataFi)
         {
-            /* *** No modifico data a final del dia perquè no em permet trovar les participacions que hi havia abans del moviment 
-             * si hi ha més d'un moviment en un dia. 
-             */
-            //data = Utilitats.DataFinalDia(data);
-
-            var particComprades = MovimentsProducteUsuari.Where(w => w.Data <= data && w.TipusMoviment == TipusMoviment.Compra).Sum(s => s.Participacions);
-            var particVenudes = MovimentsProducteUsuari.Where(w => w.Data <= data && w.TipusMoviment == TipusMoviment.Venda).Sum(s => s.Participacions);
-            return Math.Round(particComprades - particVenudes, 5);
+            return MovimentsProducteUsuari
+                .Where(w => w._EsDividents && w.Data >= dataInici && w.Data <= dataFi)
+                .Sum(s => s.PreuParticipacio);
         }
 
 
@@ -209,10 +195,10 @@ namespace Inversions
         /// <returns></returns>
         private double valorParticipacio(DateTime data)
         {
-            var valoracions = ValoracionsProducte.Where(w => w.Data <= data).Select(val => new {val.Data, val.PreuParticipacio});
+            var valoracions = ValoracionsProducte.Where(w => w.Data <= data).Select(val => new { val.Data, val.PreuParticipacio }).ToList();
 
             var moviments = this.Moviments.Where(w => w.Data <= data && (w.TipusMoviment == TipusMoviment.Compra || w.TipusMoviment == TipusMoviment.Venda))
-                .Select(mov => new {mov.Data, mov.PreuParticipacio});
+                .Select(mov => new { mov.Data, mov.PreuParticipacio });
 
             var tot = valoracions.Union(moviments).OrderBy(o => o.Data).ToList();
 
@@ -232,6 +218,7 @@ namespace Inversions
         /// <param name="dataHora">Data hora a partir de la que es buscaran els moviments de compravenda.</param>
         /// <param name="numParticipacions">Numero de participacions que es volen vendre.</param>
         /// <returns></returns>
+        [Obsolete("Obsolet. No funciona bé Utilitzar compresAnteriors2")]
         public IEnumerable<MovimentCompra> compresAnteriors(DateTime dataHora, double? numParticipacions = null)
         {
             double participacions = numParticipacions.HasValue ? numParticipacions.Value : numParticipacionsEnData(dataHora);
@@ -242,7 +229,7 @@ namespace Inversions
 
             // Troba suma participacions venudes anteriors a aquesta venda.
             var participVenudesAbans = MovimentsProducteUsuari
-                .Where(w => w.Data < dataHora && w.TipusMoviment == TipusMoviment.Venda).Sum(s => (double?) s.Participacions) ?? 0;
+                .Where(w => w.Data < dataHora && w.TipusMoviment == TipusMoviment.Venda).Sum(s => (double?)s.Participacions) ?? 0;
             var trobadaPrimeraCompra = false;
 
             // Llegeix compres anteriors a la venda del producte ordenades per data creixent i vaig restant les participacions venudes anteriorment.
@@ -283,7 +270,6 @@ namespace Inversions
 
             return compresAmbParticipacio;
         }
-
 
         /// <summary>
         /// Calcula la diferencia de compra/venda en l'any.
@@ -477,10 +463,11 @@ namespace Inversions
         /// <param name="data">Si null calcula les participacions avui, sinò les que hi havia a la data.</param>
         /// <param name="numPartsMax">Limita el cost a num de participacions</param>
         /// <returns></returns>
-        public double costOriginalEnCartera(DateTime? data = null, double? numPartsMax = null)
+        [Obsolete("Obsolet. No funciona bé Utilitzar costOriginalEnCartera2")]
+        public double costOriginalEnCarteraX(DateTime? data = null, double? numPartsMax = null)
         {
-            var dFinal = Utilitats.PosoHora(data);
-            
+            var dFinal = data.GetValueOrDefault(Utilitats.PosoHora(data));
+
             var participacions = numParticipacionsEnData(dFinal);
 
             if (numPartsMax.HasValue)
@@ -492,7 +479,7 @@ namespace Inversions
 
 
             // *** Creo una pila amb el desgloç de les compres anteriors a la data. *****
-            var compresAnt = compresAnteriors(dFinal).OrderBy(o => o._Moviment.Data);
+            var compresAnt = compresAnteriors(dFinal, participacions).OrderBy(o => o._Moviment.Data);
             var compresDesgAnt = new Stack<DesglosCompra>(compresAnt.SelectMany(compAnt => compAnt._Moviment.DesglosCompres.
                 OrderBy(o => o.MovCompraOrig.Data)));
 
@@ -547,165 +534,10 @@ namespace Inversions
             return null;
         }
 
+        #endregion
+
 
         #region *** PiG ***
-
-        internal static double Pig(DateTime? dataInici = null, DateTime? dataFinal = null)
-        {
-            return Pig(TipusProducte.Tots, dataInici.GetValueOrDefault(DateTime.MinValue), dataFinal.GetValueOrDefault(DateTime.MaxValue));
-        }
-
-        internal static double Pig(TipusProducte tipusProducte, DateTime dataFinal)
-        {
-            return Pig(tipusProducte, DateTime.MinValue, dataFinal);
-        }
-
-        public static double Pig(TipusProducte tipusProducte, int any)
-        {
-            DateTime dataInici = new DateTime(any, 1, 1);
-            DateTime dataFinal = Utilitats.PosoHora(new DateTime(any, 12, 31));
-
-            return Pig(tipusProducte, dataInici, dataFinal);
-        }
-
-        private static double Pig(TipusProducte tipusProducte, DateTime? dataInici = null, DateTime? dataFinal = null)
-        {
-            double pig = 0;
-
-            if (tipusProducte == TipusProducte.Accions || tipusProducte == TipusProducte.Tots)
-            {
-                pig += Enumerable.Sum(Program.Sessio.ProdAccions, prodAccio => prodAccio.pig(dataInici, dataFinal));
-            }
-
-            if (tipusProducte == TipusProducte.Fons || tipusProducte == TipusProducte.Tots)
-            {
-                pig += Enumerable.Sum(Program.Sessio.ProdFons, prodAccio => prodAccio.pig(dataInici, dataFinal));
-            }
-
-            return pig;
-        }
-
-        /// <summary>
-        /// PiG de tots els moviments del producte.
-        /// </summary>
-        /// <param name="dataInici"></param>
-        /// <param name="dataFi"></param>
-        /// <returns></returns>
-        public double pig(DateTime? dataInici = null, DateTime? dataFi = null)
-        {
-            return pig(dataInici.GetValueOrDefault(DateTime.MinValue), dataFi.GetValueOrDefault(DateTime.MaxValue));
-        }
-
-        /// <summary>
-        /// Quant ha guanyat en un periode. (Vendes o vendesT dins el periode) + (participacions en cartera al final del periode).
-        /// Preu compra --> Si s'ha comprat dins el periode, preu compra o compraT, sinò, valoració al inici del periode del les venudes i en cartera.
-        /// Preu venda  --> Si s'ha venut dins el periode, preu venda o vendaT, sinò, valoració al final del periode.
-        /// </summary>
-        /// <param name="any">Del 1 de gener al 31 de desembre de l'any.</param>
-        /// <returns></returns>
-        public double pig(int any)
-        {
-            return pig(new DateTime(any, 1, 1), Utilitats.DataHoraFinalDia(new DateTime(any, 12, 31)));
-        }
-
-        /// <summary>
-        /// PiG de tots els productes en un any. Vendes reals dins el periode.
-        /// Preu compra --> Preu origen.
-        /// Preu venda  --> Preu venda.
-        /// </summary>
-        /// <param name="tipusProducte"></param>
-        /// <param name="any"></param>
-        /// <returns></returns>
-        public static double PigTributa(TipusProducte? tipusProducte = null, int? any = null)
-        {
-            tipusProducte = tipusProducte.HasValue ? tipusProducte : TipusProducte.Tots;
-
-            double pig = 0;
-
-            if (tipusProducte == TipusProducte.Accions || tipusProducte == TipusProducte.Tots)
-            {
-                pig += Enumerable.Sum(Program.Sessio.ProdAccions, prodAccio => prodAccio.pigTributa(any));
-            }
-
-            if (tipusProducte == TipusProducte.Fons || tipusProducte == TipusProducte.Tots)
-            {
-                pig += Enumerable.Sum(Program.Sessio.ProdFons, prodFons => prodFons.pigTributa(any));
-            }
-
-            return pig;
-        }
-
-        /// <summary>
-        /// PiG que tributen en un periode. Vendes reals dins el periode.
-        /// Preu compra --> Preu origen.
-        /// Preu venda  --> Preu venda.
-        /// </summary>
-        /// <param name="any"></param>
-        /// <returns></returns>
-        public double pigTributa(int? any = null)
-        {
-            return any.HasValue
-                ? pigTributa(new DateTime(any.Value, 1, 1), new DateTime(any.Value, 12, 31))
-                : pigTributa(DateTime.MinValue, DateTime.MaxValue);
-        }
-
-
-
-        /// <summary>
-        /// Quant ha guanyat en un periode. (Vendes o vendesT dins el periode) + (participacions en cartera al final del periode).
-        /// Preu compra --> Si s'ha comprat dins el periode, preu compra o compraT, sinò, valoració al inici del periode del les venudes i en cartera.
-        /// Preu venda  --> Si s'ha venut dins el periode, preu venda o vendaT, sinò, valoració al final del periode.
-        /// </summary>
-        /// <param name="dataInici"></param>
-        /// <param name="dataFinal"></param>
-        /// <returns></returns>
-        private double pig(DateTime dataInici, DateTime dataFinal)
-        {
-            var dInici = dataInici.Date; // Poso la hora a zero.
-            var dFinal = Utilitats.PosoHora(dataFinal);
-
-            var compres = MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w.TipusMoviment == TipusMoviment.Compra).ToList();
-            var vendes = MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w.TipusMoviment == TipusMoviment.Venda).ToList();
-
-            double totalDividends = 0;
-            double totalDespeses = 0;
-            if (this is ProdAccions)
-            {
-                foreach (var venda in vendes)
-                {
-                    totalDespeses += venda.Despeses.GetValueOrDefault();
-                    var compresAnt = venda.compresAnteriors();
-                    foreach (MovimentCompra movimentCompra in compresAnt)
-                    {
-                        totalDespeses += movimentCompra._Moviment.Despeses.GetValueOrDefault() * movimentCompra._ParticipacionsDisponibles / movimentCompra._Moviment.Participacions;
-                    }
-                }
-            }
-
-            totalDividends = MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w.TipusMoviment == TipusMoviment.Dividends).Sum(s => s.PreuParticipacio);
-
-            // Calcula total compres mes valor en cartera a l'inici.
-            // Preu compra --> Si s'ha comprat dins el periode, preu compra o compraT, sinò, valoració al inici del periode del les venudes i en cartera.
-            var particEnCarteraInicial = numParticipacionsEnData(dInici);
-            double valorInicialParticEnCartera = 0;
-            if (particEnCarteraInicial > 0)
-            {
-                var dataValoracio = dInici == DateTime.MinValue ? dInici : dInici.AddTicks(-1); // Necessito la valoració anterior a la data dinici.
-                valorInicialParticEnCartera = valorParticipacio(dataValoracio) * particEnCarteraInicial;
-            }
-
-            var importCompres = compres.Sum(s => s.Participacions * s.PreuParticipacio) + valorInicialParticEnCartera;
-
-            // Calcula total vendes mes valor en cartera al final.
-            // Preu venda  --> Si s'ha venut dins el periode, preu venda o vendaT, sinò, valoració al final del periode.
-            var particEnCarteraFinal = numParticipacionsEnData(dFinal);
-            double valorFinalParticEnCartera = 0;
-            if (particEnCarteraFinal > 0)
-                valorFinalParticEnCartera = valorParticipacio(dFinal) * particEnCarteraFinal;
-            var importVendes = vendes.Sum(s => s.Participacions * s.PreuParticipacio) + valorFinalParticEnCartera;
-
-            return importVendes - importCompres + totalDividends - totalDespeses;
-        }
 
 
         /// <summary>
@@ -833,68 +665,6 @@ namespace Inversions
             }
 
             return piG2;
-        }
-
-
-        /// <summary>
-        /// PiG que tributen en un periode. Vendes reals dins el periode.
-        /// Preu compra --> Preu origen.
-        /// Preu venda  --> Preu venda.
-        /// </summary>
-        /// <param name="dataInici"></param>
-        /// <param name="dataFinal"></param>
-        /// <returns></returns>
-        private double pigTributa(DateTime dataInici, DateTime dataFinal)
-        {
-            var dInici = dataInici.Date; // Poso la d'inici hora a zero.
-            var dFinal = Utilitats.PosoHora(dataFinal);
-
-            var totalCompra = importCompra(dInici, dFinal);
-            var totalVenda = importVenda(dInici, dFinal);
-
-            double totalDividends = 0;
-            double totalDespeses = 0;
-            if (this is ProdAccions)
-            {
-                totalDespeses = calculaDespesesCompra(dInici, dFinal) + calculaDespesesVenda(dInici, dFinal);
-            }
-
-            totalDividends = calculaDividents(dInici, dFinal);
-
-            return Math.Round(totalVenda - totalCompra + totalDividends - totalDespeses, 3);
-        }
-
-
-        /// <summary>
-        /// PiG de les perticipacions en cartera a la data. Vendes reals dins el periode.
-        /// Preu compra --> Preu compra.
-        /// Preu venda  --> Valoració actual.
-        /// </summary>
-        /// <param name="dataFinal">Si null, dataFinal=DateTime.MaxValue.</param>
-        /// <param name="preuParticipacio">Si null, preu de la participació en la data "dataFinal"</param>
-        /// <returns></returns>
-        public double pigEnCartera(DateTime? dataFinal = null, double? preuParticipacio = null)
-        {
-            var dFinal = Utilitats.PosoHora(dataFinal);
-
-            var participacions = numParticipacionsEnData(dFinal);
-
-            if (Utilitats.EsZero(participacions))
-                return 0;
-
-            var compresAnt = compresAnteriors(dFinal, participacions);
-
-            double totalCompres = compresAnt.Sum(compra => compra._ParticipacionsDisponibles * compra._Moviment.PreuParticipacio + compra._Moviment.Despeses.GetValueOrDefault());
-
-            double valorPartic = preuParticipacio.HasValue ? _Participacions * preuParticipacio.Value : valorEnCartera(dFinal);
-
-            return valorPartic - totalCompres;
-        }
-
-
-        public double preuCostDesgloçTest()
-        {
-            return costOriginalEnCartera(DateTime.Now);
         }
 
         #endregion *** PiG ***
@@ -1357,5 +1127,7 @@ namespace Inversions
         }
 
         #endregion
+
+
     }
 }

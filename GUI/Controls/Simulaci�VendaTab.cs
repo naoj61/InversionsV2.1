@@ -64,7 +64,7 @@ namespace Inversions.GUI
                 MessageBox.Show("Num. participacions massa gran");
                 return;
             }
-            var costParts = vProducteSeleccionat.costOriginalEnCartera(numPartsMax: ntbNumParticipacions.Valor);
+            var costParts = vProducteSeleccionat.costOriginalEnCartera2(numPartsMax: ntbNumParticipacions.Valor);
             var valorPartsEnData = vProducteSeleccionat.valorEnCartera(numPartsMax: ntbNumParticipacions.Valor);
             ntbPig.Valor = valorPartsEnData - costParts;
         }

@@ -32,11 +32,11 @@ namespace Inversions.GUI
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.ntbPig = new Controls.NumericTextBox2();
             this.btSimulacio = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.ntbPig = new Controls.NumericTextBox2();
             this.ntbPreuParticipacio = new Controls.NumericTextBox2();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ntbNumParticipacions = new Controls.NumericTextBox2();
             this.productes = new Inversions.GUI.GestioProductes();
             this.panel1.SuspendLayout();
@@ -67,6 +67,23 @@ namespace Inversions.GUI
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "P i G";
             // 
+            // ntbPig
+            // 
+            this.ntbPig._CapturaEscape = true;
+            this.ntbPig._Format = "#,###.#€";
+            this.ntbPig._PermetDecimals = true;
+            this.ntbPig._PermetEspais = false;
+            this.ntbPig._PermetNegatius = true;
+            this.ntbPig.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbPig.Location = new System.Drawing.Point(3, 22);
+            this.ntbPig.Name = "ntbPig";
+            this.ntbPig.ReadOnly = true;
+            this.ntbPig.Size = new System.Drawing.Size(183, 26);
+            this.ntbPig.TabIndex = 4;
+            this.ntbPig.Text = "€";
+            this.ntbPig.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbPig.Valor = 0D;
+            // 
             // btSimulacio
             // 
             this.btSimulacio.Enabled = false;
@@ -88,6 +105,23 @@ namespace Inversions.GUI
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Preu Partic.";
             // 
+            // ntbPreuParticipacio
+            // 
+            this.ntbPreuParticipacio._CapturaEscape = true;
+            this.ntbPreuParticipacio._Format = "#,##0.######";
+            this.ntbPreuParticipacio._PermetDecimals = true;
+            this.ntbPreuParticipacio._PermetEspais = false;
+            this.ntbPreuParticipacio._PermetNegatius = true;
+            this.ntbPreuParticipacio.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbPreuParticipacio.Location = new System.Drawing.Point(3, 22);
+            this.ntbPreuParticipacio.Name = "ntbPreuParticipacio";
+            this.ntbPreuParticipacio.ReadOnly = true;
+            this.ntbPreuParticipacio.Size = new System.Drawing.Size(105, 26);
+            this.ntbPreuParticipacio.TabIndex = 3;
+            this.ntbPreuParticipacio.Text = "0";
+            this.ntbPreuParticipacio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbPreuParticipacio.Valor = 0D;
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.ntbNumParticipacions);
@@ -97,40 +131,6 @@ namespace Inversions.GUI
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Num, Partic.";
-            // 
-            // ntbPig
-            // 
-            this.ntbPig._CapturaEscape = true;
-            this.ntbPig._Format = "#,###.#€";
-            this.ntbPig._PermetDecimals = true;
-            this.ntbPig._PermetEspais = false;
-            this.ntbPig._PermetNegatius = true;
-            this.ntbPig.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ntbPig.Enabled = false;
-            this.ntbPig.Location = new System.Drawing.Point(3, 22);
-            this.ntbPig.Name = "ntbPig";
-            this.ntbPig.Size = new System.Drawing.Size(183, 26);
-            this.ntbPig.TabIndex = 4;
-            this.ntbPig.Text = "€";
-            this.ntbPig.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPig.Valor = 0D;
-            // 
-            // ntbPreuParticipacio
-            // 
-            this.ntbPreuParticipacio._CapturaEscape = true;
-            this.ntbPreuParticipacio._Format = "#,##0.######";
-            this.ntbPreuParticipacio._PermetDecimals = true;
-            this.ntbPreuParticipacio._PermetEspais = false;
-            this.ntbPreuParticipacio._PermetNegatius = true;
-            this.ntbPreuParticipacio.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ntbPreuParticipacio.Enabled = false;
-            this.ntbPreuParticipacio.Location = new System.Drawing.Point(3, 22);
-            this.ntbPreuParticipacio.Name = "ntbPreuParticipacio";
-            this.ntbPreuParticipacio.Size = new System.Drawing.Size(105, 26);
-            this.ntbPreuParticipacio.TabIndex = 3;
-            this.ntbPreuParticipacio.Text = "0";
-            this.ntbPreuParticipacio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPreuParticipacio.Valor = 0D;
             // 
             // ntbNumParticipacions
             // 

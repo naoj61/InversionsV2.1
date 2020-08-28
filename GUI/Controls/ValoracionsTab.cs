@@ -370,17 +370,17 @@ namespace Inversions.GUI
                 {
                     case Producte.TipusProducte.Accions:
                         //pigPerData = ProdAccions.PiG(new Producte.DateTimeFinalDia(data));
-                        pigPerData = Producte.Pig(Producte.TipusProducte.Accions, data);
+                        pigPerData = Producte.Pig2(Producte.TipusProducte.Accions, DateTime.MinValue, data, true);
                         saldo = ProdAccions.Valor(data);
                         break;
                     case Producte.TipusProducte.Fons:
                         //pigPerData = ProdFons.PiG(new Producte.DateTimeFinalDia(data));
-                        pigPerData = Producte.Pig(Producte.TipusProducte.Fons, data);
+                        pigPerData = Producte.Pig2(Producte.TipusProducte.Fons, DateTime.MinValue, data, true);
                         saldo = ProdFons.Valor(data);
                         break;
                     default:
                         //pigPerData = ProdAccions.PiG(new Producte.DateTimeFinalDia(data)) + ProdFons.PiG(new Producte.DateTimeFinalDia(data));
-                        pigPerData = Producte.Pig(Producte.TipusProducte.Tots, data);
+                        pigPerData = Producte.Pig2(Producte.TipusProducte.Tots, DateTime.MinValue, data, true);
                         saldo = ProdAccions.Valor(data) + ProdFons.Valor(data);
                         break;
                 }

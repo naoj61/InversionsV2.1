@@ -117,7 +117,7 @@ namespace Inversions.GUI
                 tbParticipacions.Text = "";
                 ntbPreuPartActual.Text = "";
                 tbValorActual.Text = "";
-                tbPiGHistoric.Text = "";
+                tbPigProducte.Text = "";
                 tbIsin.Text = "";
                 tbMercat.Text = "";
             }
@@ -155,10 +155,12 @@ namespace Inversions.GUI
                     prods = prods.Where(w => w.MovimentsProducteUsuari.Any());
 
 
-                if (ckFiltreCompresAny.Checked || ckFiltreVendesAny.Checked)
+                if (ckFiltreCompresAny.Checked || ckFiltreVendesAny.Checked || ckFiltreDivAny.Checked)
                 {
-                    var movs = Program.Sessio.MovimentsUsuari.Where(w => w.Data.Year == (int) cbFiltreAny.SelectedItem
-                                                                         && ((ckFiltreCompresAny.Checked && w.TipusMoviment == TipusMoviment.Compra) || (ckFiltreVendesAny.Checked && w.TipusMoviment == TipusMoviment.Venda)));
+                    var movs = Program.Sessio.MovimentsUsuari.Where(w => w.Data.Year == (int) cbFiltreAny.SelectedItem                                                                         
+                        && ((ckFiltreCompresAny.Checked && w.TipusMoviment == TipusMoviment.Compra) 
+                        || (ckFiltreVendesAny.Checked && w.TipusMoviment == TipusMoviment.Venda)
+                        || (ckFiltreDivAny.Checked && w.TipusMoviment == TipusMoviment.Dividends)));
 
                     prods = prods.Where(prod => movs.Any(mov => mov.ProdId == prod.Id));
                 }
@@ -201,15 +203,16 @@ namespace Inversions.GUI
                 tbDividends.Valor = prod.dividends(DateTime.Today);
                 tbValorActual.Valor = prod._ValorActualEnCartera;
 
+                tbCostOrigPartActual.Valor = prod.costOriginalEnCartera2();
+
                 //tbPiGActual.Valor = prod.pigValorat(Producte.DateTimeFinalDia.Today);
-                tbPiGActual.Valor = prod.pigEnCartera();
-
                 //tbPiGReal.Valor = prod.pigReal(Producte.DateTimeFinalDia.Today);
-                tbPiGHistoric.Valor = prod.pig();
+                
+                tbPigProducte.Valor = prod.pig2Producte(); // PiG cartera + vendes reals + vendesT + dividents - despeses, sense tenir en compte el preu original en cas de traspàs.
+                tbPigReal.Valor = prod.pig2Total();        // PiG cartera + vendes reals + dividents - despeses, tenint en compte el preu original.
+                tbPiGActual.Valor = prod.pig2EnCartera();  // PiG participacions en cartera tenint en compte el preu original.
 
-                tbPigTributa.Valor = prod._ValorActualEnCartera - prod.costOriginalEnCartera();
-
-                tbCostOrigPartActual.Valor = prod.costOriginalEnCartera();
+                gbPigProducte.Visible = prod is ProdFons;
 
                 if (prod is ProdFons)
                 {
@@ -266,7 +269,7 @@ namespace Inversions.GUI
 
         private void ckFiltreAny_CheckedChanged(object sender, EventArgs e)
         {
-            cbFiltreAny.Enabled = ckFiltreCompresAny.Checked || ckFiltreVendesAny.Checked;
+            cbFiltreAny.Enabled = ckFiltreCompresAny.Checked || ckFiltreVendesAny.Checked || ckFiltreDivAny.Checked;
         }
 
         private void btFiltra_Click(object sender, EventArgs e)

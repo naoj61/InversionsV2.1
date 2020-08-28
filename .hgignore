@@ -8,3 +8,4 @@ packages/
 *.orig
 BD/
 *.DotSettings.user
+Thumbs.db

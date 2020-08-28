@@ -22,6 +22,7 @@ namespace Inversions
 
             _Moviment = moviment;
             _ParticipacionsDisponibles = participacionsDisponibles;
+            moviment._ParticipacionsDisponibles = participacionsDisponibles;
         }
 
         /// <summary>
@@ -31,35 +32,19 @@ namespace Inversions
 
         public Moviment _Moviment { get; private set; }
 
-        public Moviment _MovimentRefVenda
-        {
-            get { return _Moviment.MovimentRefVendaN; }
-        }
-
         [Obsolete("Obsolet. No utilitzar el camp 'PreuParticipacioOrigen'")]
-        public double _PreuParticipacioOrigen
+        public double _PreuParticipacioOrigenTest
         {
             get { return _Moviment.PreuParticipacioOrigen.GetValueOrDefault(_Moviment.PreuParticipacio); }
         }
-
-        public bool _EsTraspas
-        {
-            get { return _Moviment._EsTraspas; }
-        }
-
-        /// <summary>
-        /// Indica que estem venent totes les participacions d'aquesta compra.
-        /// </summary>
-        public bool _EsVendaTotal
-        {
-            get { return Utilitats.SonIguals(_ParticipacionsDisponibles, _Moviment.Participacions); }
-        }
+        
 
         public override string ToString()
         {
             return _Moviment.Id.ToString(CultureInfo.InvariantCulture);
         }
     }
+
     
 
     /// <summary>
@@ -103,10 +88,11 @@ namespace Inversions
     }
 
 
+
     public partial class Moviment
     {
         #region *** Atributs ***
-                     
+
         //public string _NomProducteTraspasOrigen
         //{
         //    get { return _ProducteTraspasOrigen != null ? _ProducteTraspasOrigen._NomProducte : null; }
@@ -217,6 +203,22 @@ namespace Inversions
             get { return PreuParticipacio; }
         }
 
+        private double? vParticipacionsDisponibles;
+        /// <summary>
+        /// L'utilitzo per saber les participacions disponibles que poden no ser les mateixes que les del moviment.
+        /// </summary>
+        public double _ParticipacionsDisponibles
+        {
+            get { return vParticipacionsDisponibles.GetValueOrDefault(Participacions); }
+            set
+            {
+                if (value > Participacions)
+                    throw new Exception("El valor no pot ser superior a 'Participacions'");
+                vParticipacionsDisponibles = value;
+            }
+        }
+
+
         /// <summary>
         /// És la referéncia del la venda traspàs sobre la compra.
         /// En la BD és una relació de 0..1-->*, però hauria de ser de 0..1-->1.
@@ -243,17 +245,29 @@ namespace Inversions
         #region *** Mètodes ***
 
         /// <summary>
-        /// Torma una llista amb les Compres o "Traspassos compres" de la venda del paràmetre.
+        /// Torma una llista amb les Compres o "Traspassos compres" de la venda.
         /// </summary>
         /// <returns></returns>
+        //public IEnumerable<MovimentCompra> compresAnteriors()
+        //{
+        //    if (TipusMoviment != TipusMoviment.Venda)
+        //        throw new Exception("El moviment ha de ser una venda.");
+
+        //    return Prod.compresAnteriors(Data, Participacions);
+        //}
+
+        /// <summary>
+        /// Torma una llista amb les Compres o "Traspassos compres" de la venda.
+        /// </summary>
+        /// <returns></returns>
+        [Obsolete("Obsolet. No funciona bé Utilitzar compresAnteriors2")]
         public IEnumerable<MovimentCompra> compresAnteriors()
         {
             if (TipusMoviment != TipusMoviment.Venda)
-                throw new ArgumentException("El moviment ha de ser una venda.", "venda");
+                throw new Exception("El moviment ha de ser una venda.");
 
-            return Prod.compresAnteriors(Data, Participacions);
+            return Prod.compresAnteriors(Data);
         }
-
 
         /// <summary>
         /// Al crear una nova compra, s'ha de crear el desgloç de les compres originals que li corresponen.
@@ -489,6 +503,61 @@ namespace Inversions
         }
 
 
+        public double preuCompraOriginalTest(double? participacionsPerCalcular = null)
+        {
+            return preuCompraOriginal(participacionsPerCalcular);
+        }
+
+        internal double preuCompraOriginal(double? participacionsPerCalcular = null)
+        {
+            if (!_EsCompra)
+                throw new Exception("El moviment no és una compra");
+
+            double participacionsConsumides = Participacions - participacionsPerCalcular.GetValueOrDefault(Participacions);
+            var partsMov = participacionsPerCalcular.GetValueOrDefault(Participacions);
+
+            double preuCompra = 0;
+            foreach (DesglosCompra desglosCompra in DesglosCompres.OrderBy(o=>o.MovCompraId))
+            {
+                if (Utilitats.ComparaNumeros(participacionsConsumides, desglosCompra.Participacions) >= 0) // participacionsConsumides >= desglosCompra.Participacions
+                {
+                    participacionsConsumides -= desglosCompra.Participacions;
+                    continue;
+                }
+                else
+                {
+                    if (Utilitats.ComparaNumeros(partsMov, desglosCompra.Participacions - participacionsConsumides) <= 0) // partsMov <= 
+                    {
+                    }
+                    //var partsCalcul = 
+                    //var partsOrig = 
+                    preuCompra += desglosCompra.ParticipacionsOrig * desglosCompra._PreuPartOrig;
+
+                    participacionsConsumides = 0;
+                }
+
+                //if (Utilitats.EsZero(participacionsConsumides))
+                //{
+                //    preuCompra += desglosCompra.ParticipacionsOrig * desglosCompra._PreuPartOrig;
+                //}
+                //else
+                //{
+                //    if (participacionsConsumides > desglosCompra.Participacions)
+                //    {
+                //        partsMov -= desglosCompra.Participacions;
+                //    }
+                //    else
+                //    {
+                //        preuCompra += desglosCompra.ParticipacionsOrig * (desglosCompra._PreuPartOrig - partsMov);
+                //        partsMov = 0;
+                //    }
+                //}
+            }
+
+            return preuCompra;
+        }
+
+
         /// <summary>
         /// Crea una còpia superficial creant un objecte nou.
         /// </summary>
@@ -566,5 +635,6 @@ namespace Inversions
         }
 
         #endregion
+
     }
 }
