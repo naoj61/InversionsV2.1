@@ -98,9 +98,7 @@ namespace Inversions.GUI
         /// </summary>
         public void refrescaDadesControl()
         {
-            var index = vLbProductes.SelectedIndex;
             aplicaFiltre();
-            vLbProductes.SelectedIndex = index;
         }
 
         public void seleccionaProducte(Producte prod)
