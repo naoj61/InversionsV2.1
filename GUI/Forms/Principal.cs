@@ -19,6 +19,7 @@ namespace Inversions.GUI
 {
     public partial class Principal : Form
     {
+        static internal bool SestaCanviantLusuari = false;
         private InversionsBDContext vConnEmpreses;
         private InversionsBDContext vConnProductes;
         private bool vModeConsultaProducte = true;
@@ -72,7 +73,7 @@ namespace Inversions.GUI
             titolFinestra();
 
 #if DEBUG
-            tabControl1.SelectTab(tabSimulacióVenda.Name);
+            tabControl1.SelectTab(tabPerduesGuanys.Name);
 #else
             tabControl1.SelectTab(tabValoracions.Name);
 #endif
@@ -327,13 +328,21 @@ namespace Inversions.GUI
             }
         }
 
-
         private void cbUsuaris_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Program.CanviUsuari((Usuari) cbUsuaris.SelectedItem);
-            movimentsTab1.canviUsuari(Usuari.Seleccionat);
-            valoracionsTab1.canviUsuari(Usuari.Seleccionat);
-            perduesGuanysTab1.canviUsuari(Usuari.Seleccionat);
+            try
+            {
+                SestaCanviantLusuari = true;
+
+                Program.CanviUsuari((Usuari)cbUsuaris.SelectedItem);
+                movimentsTab1.canviUsuari(Usuari.Seleccionat);
+                valoracionsTab1.canviUsuari(Usuari.Seleccionat);
+                perduesGuanysTab1.canviUsuari(Usuari.Seleccionat);
+            }
+            finally
+            {
+                SestaCanviantLusuari = false;
+            }
         }
 
 

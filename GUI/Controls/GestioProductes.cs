@@ -98,7 +98,20 @@ namespace Inversions.GUI
         /// </summary>
         public void refrescaDadesControl()
         {
+            var index = vLbProductes.SelectedIndex;
             aplicaFiltre();
+            if (!Principal.SestaCanviantLusuari)
+            {
+                // Si s'està canviant l'usuari el producte seleccionat es descarta.
+                try
+                {
+                    vLbProductes.SelectedIndex = index;
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    vLbProductes.SelectedItem = null;
+                } 
+            }
         }
 
         public void seleccionaProducte(Producte prod)
