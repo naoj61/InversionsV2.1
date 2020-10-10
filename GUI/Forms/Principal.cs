@@ -19,6 +19,7 @@ namespace Inversions.GUI
 {
     public partial class Principal : Form
     {
+        const string NomVarReg = "UltimaPestanyaSeleccionada";
         static internal bool SestaCanviantLusuari = false;
         private InversionsBDContext vConnEmpreses;
         private InversionsBDContext vConnProductes;
@@ -72,10 +73,19 @@ namespace Inversions.GUI
 
             titolFinestra();
 
-#if DEBUG
-            tabControl1.SelectTab(tabPerduesGuanys.Name);
-#else
-            tabControl1.SelectTab(tabValoracions.Name);
+            // Selecciona l'ultima pestanya seleccionada al tancar l'últim cop.
+            var ultimaPestanyaSeleccionada = Program.LlegeigVariableEnRegistreWindows(NomVarReg, true);
+            try
+            {
+                tabControl1.SelectTab(ultimaPestanyaSeleccionada);
+            }
+            catch (ArgumentNullException)
+            {
+                tabControl1.SelectTab(tabValoracions.Name);
+            }
+
+#if DEBUG           
+            //tabControl1.SelectTab(tabPerduesGuanys.Name);
 #endif
 
             dgvEmpreses.AutoGenerateColumns = false;
@@ -667,6 +677,8 @@ namespace Inversions.GUI
         {
             ITabs tab = e.TabPage.Controls.OfType<ITabs>().FirstOrDefault();
             AcceptButton = tab == null ? null : tab.AcceptButton;
+
+            Program.DesaVariableEnRegistreWindows(NomVarReg, e.TabPage.Name, true);
         }
     }
 }

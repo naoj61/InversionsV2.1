@@ -150,22 +150,26 @@ namespace Inversions
             Usuari.Seleccionat = usuari;
         }
 
+        static string ClauRegistre(bool ambUsuari)
+        {
+            return Claureg + (ambUsuari ? "\\" + Usuari.Seleccionat.Nom : String.Empty);
+        }
 
         internal static string LlegeigVariableEnRegistreWindows(string nomVarReg)
         {
             if (nomVarReg == null)
                 throw new ArgumentNullException("nomVarReg", "El nom variable no pot ser null");
 
-            return Utilitats.LlegeixVariableRegistre(Registry.CurrentUser, Claureg, nomVarReg);
+            return Utilitats.LlegeixVariableRegistre(Registry.CurrentUser, ClauRegistre(llegeigDelUsuari), nomVarReg);
         }
 
 
-        internal static void DesaVariableEnRegistreWindows(string nomVarReg, string valor)
+        internal static void DesaVariableEnRegistreWindows(string nomVarReg, string valor, bool escriuAlUsuari)
         {
             if (nomVarReg == null)
                 throw new ArgumentNullException("nomVarReg", "El nom variable no pot ser null");
 
-            Utilitats.GravaVariableRegistre(Registry.CurrentUser, Claureg, nomVarReg, valor);
+            Utilitats.GravaVariableRegistre(Registry.CurrentUser, ClauRegistre(escriuAlUsuari), nomVarReg, valor);
         }
 
     }

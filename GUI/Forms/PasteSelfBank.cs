@@ -20,8 +20,7 @@ namespace Inversions.GUI
 
             dateTimePicker1.Value = Utilitats.AnteriorDiaLaborable(DateTime.Today);
 
-            string xx = Program.LlegeigVariableEnRegistreWindows(NomVarReg);
-            vPasteSelfBankTancaAlDesar = Convert.ToBoolean(xx);
+            vPasteSelfBankTancaAlDesar = Convert.ToBoolean(Program.LlegeigVariableEnRegistreWindows(NomVarReg, true));
             ckTancaAlDesar.Checked = vPasteSelfBankTancaAlDesar;
             ckTancaAlDesar.CheckedChanged += ckTancaAlDesar_CheckedChanged;
         }
@@ -113,7 +112,7 @@ namespace Inversions.GUI
 
         private void ckTancaAlDesar_CheckedChanged(object sender, EventArgs e)
         {
-            Program.DesaVariableEnRegistreWindows(NomVarReg, ckTancaAlDesar.Checked.ToString());
+            Program.DesaVariableEnRegistreWindows(NomVarReg, ckTancaAlDesar.Checked.ToString(), true);
         }
     }
 }
