@@ -31,13 +31,13 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.ckTancaAlDesar = new System.Windows.Forms.CheckBox();
             this.btDesa = new System.Windows.Forms.Button();
             this.btCapturaValors = new System.Windows.Forms.Button();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.colNomFons = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colValor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ckTancaAlDesar = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -64,9 +64,22 @@
             this.panel1.Location = new System.Drawing.Point(0, 726);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.panel1.Padding = new System.Windows.Forms.Padding(6);
             this.panel1.Size = new System.Drawing.Size(1261, 75);
             this.panel1.TabIndex = 1;
+            // 
+            // ckTancaAlDesar
+            // 
+            this.ckTancaAlDesar.AutoSize = true;
+            this.ckTancaAlDesar.Checked = true;
+            this.ckTancaAlDesar.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ckTancaAlDesar.Location = new System.Drawing.Point(1107, 26);
+            this.ckTancaAlDesar.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
+            this.ckTancaAlDesar.Name = "ckTancaAlDesar";
+            this.ckTancaAlDesar.Size = new System.Drawing.Size(139, 24);
+            this.ckTancaAlDesar.TabIndex = 2;
+            this.ckTancaAlDesar.Text = "Tanca al desar";
+            this.ckTancaAlDesar.UseVisualStyleBackColor = true;
             // 
             // btDesa
             // 
@@ -136,19 +149,6 @@
             this.colValor.Name = "colValor";
             this.colValor.ReadOnly = true;
             this.colValor.Width = 82;
-            // 
-            // ckTancaAlDesar
-            // 
-            this.ckTancaAlDesar.AutoSize = true;
-            this.ckTancaAlDesar.Checked = true;
-            this.ckTancaAlDesar.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ckTancaAlDesar.Location = new System.Drawing.Point(1107, 26);
-            this.ckTancaAlDesar.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
-            this.ckTancaAlDesar.Name = "ckTancaAlDesar";
-            this.ckTancaAlDesar.Size = new System.Drawing.Size(139, 24);
-            this.ckTancaAlDesar.TabIndex = 2;
-            this.ckTancaAlDesar.Text = "Tanca al desar";
-            this.ckTancaAlDesar.UseVisualStyleBackColor = true;
             // 
             // PasteSelfBank
             // 

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Comuns;
+using Microsoft.Win32;
 
 namespace Inversions.GUI
 {
@@ -18,7 +19,15 @@ namespace Inversions.GUI
             InitializeComponent();
 
             dateTimePicker1.Value = Utilitats.AnteriorDiaLaborable(DateTime.Today);
+
+            string xx = Program.LlegeigVariableEnRegistreWindows(NomVarReg);
+            vPasteSelfBankTancaAlDesar = Convert.ToBoolean(xx);
+            ckTancaAlDesar.Checked = vPasteSelfBankTancaAlDesar;
+            ckTancaAlDesar.CheckedChanged += ckTancaAlDesar_CheckedChanged;
         }
+
+        private const string NomVarReg = "PasteSelfBankTancaAlDesar";
+        private bool vPasteSelfBankTancaAlDesar;
 
         private void btCapturaValors_Click(object sender, EventArgs e)
         {
@@ -100,6 +109,11 @@ namespace Inversions.GUI
                     Utilitats.EscriuLog(ex, Program.FitxerLog, Program.Versio);
                 }
             }
+        }
+
+        private void ckTancaAlDesar_CheckedChanged(object sender, EventArgs e)
+        {
+            Program.DesaVariableEnRegistreWindows(NomVarReg, ckTancaAlDesar.Checked.ToString());
         }
     }
 }
