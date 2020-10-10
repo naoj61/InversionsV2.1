@@ -88,7 +88,9 @@ namespace Inversions.GUI
 
                     btDesa.Enabled = false;
 
-                    if (MessageBox.Show("Fet!" + Environment.NewLine + "Vols tancar la finestra?", "Fet", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    if (ckTancaAlDesar.Checked || 
+                        MessageBox.Show("Fet!" + Environment.NewLine + "Vols tancar la finestra?", "Fet", 
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         this.Close();
                     }
