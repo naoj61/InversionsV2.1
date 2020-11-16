@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using Comuns;
 using Microsoft.Win32;
 
@@ -20,45 +21,64 @@ namespace Inversions.GUI
 
             dateTimePicker1.Value = Utilitats.AnteriorDiaLaborable(DateTime.Today);
 
-            vPasteSelfBankTancaAlDesar = Convert.ToBoolean(Program.LlegeigVariableEnRegistreWindows(NomVarReg, true));
-            ckTancaAlDesar.Checked = vPasteSelfBankTancaAlDesar;
+            bool pasteSelfBankTancaAlDesar = Convert.ToBoolean(Program.LlegeigVariableEnRegistreWindows(NomVarRegTancaAlDesar, true));
+            ckTancaAlDesar.Checked = pasteSelfBankTancaAlDesar;
             ckTancaAlDesar.CheckedChanged += ckTancaAlDesar_CheckedChanged;
+
+            bool pasteSelfBankCapturaAutomaticament = Convert.ToBoolean(Program.LlegeigVariableEnRegistreWindows(NomVarRegCapturaAutomaticament, true));
+            ckCapturaAutomaticament.Checked = pasteSelfBankCapturaAutomaticament;
+            ckCapturaAutomaticament_CheckedChanged(ckCapturaAutomaticament, new EventArgs());
         }
 
-        private const string NomVarReg = "PasteSelfBankTancaAlDesar";
-        private bool vPasteSelfBankTancaAlDesar;
+        private const string NomVarRegTancaAlDesar = "PasteSelfBankTancaAlDesar";
+        private const string NomVarRegCapturaAutomaticament = "PasteSelfBankCapturaAutomaticament";
+
+
+        private void capturaValorsPaste()
+        {
+            var cursor = Cursor;
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                dataGridView1.Rows.Clear();
+
+                var text1 = textBox1.Text.Replace(Environment.NewLine, "\t");
+                var items = text1.Split(new char[] { '\t', }, StringSplitOptions.RemoveEmptyEntries);
+                ProdFons prod = null;
+                int conta = 0;
+                string valor;
+                foreach (var item in items)
+                {
+                    if (conta == 0)
+                    {
+                        prod = Program.Sessio.ProdFons.SingleOrDefault(w => w.ISIN == item);
+                        if (prod != null)
+                            conta++;
+                    }
+                    else if (conta < 4)
+                    {
+                        conta++;
+                    }
+                    else
+                    {
+                        conta = 0;
+
+                        dataGridView1.Rows.Add(new object[] { prod, Convert.ToDouble(item.Replace("€", "")) });
+
+                    }
+                }
+
+                btDesa.Enabled = dataGridView1.Rows.Count > 0;
+            }
+            finally
+            {
+                Cursor = cursor;
+            }
+        }
 
         private void btCapturaValors_Click(object sender, EventArgs e)
         {
-            dataGridView1.Rows.Clear();
-
-            var text1 = textBox1.Text.Replace(Environment.NewLine, "\t");
-            var items = text1.Split(new char[] {'\t',}, StringSplitOptions.RemoveEmptyEntries);
-            ProdFons prod = null;
-            int conta = 0;
-            string valor;
-            foreach (var item in items)
-            {
-                if (conta == 0)
-                {
-                    prod = Program.Sessio.ProdFons.SingleOrDefault(w => w.ISIN == item);
-                    if (prod != null)
-                        conta++;
-                }
-                else if (conta < 4)
-                {
-                    conta ++;
-                }
-                else
-                {
-                    conta = 0;
-
-                    dataGridView1.Rows.Add(new object[] {prod, Convert.ToDouble(item.Replace("€", ""))});
-
-                }
-            }
-
-            btDesa.Enabled = dataGridView1.Rows.Count > 0;
+            capturaValorsPaste();
         }
 
 
@@ -112,7 +132,19 @@ namespace Inversions.GUI
 
         private void ckTancaAlDesar_CheckedChanged(object sender, EventArgs e)
         {
-            Program.DesaVariableEnRegistreWindows(NomVarReg, ckTancaAlDesar.Checked.ToString(), true);
+            Program.DesaVariableEnRegistreWindows(NomVarRegTancaAlDesar, ckTancaAlDesar.Checked.ToString(), true);
+        }
+
+        private void ckCapturaAutomaticament_CheckedChanged(object sender, EventArgs e)
+        {
+            Program.DesaVariableEnRegistreWindows(NomVarRegCapturaAutomaticament, ckCapturaAutomaticament.Checked.ToString(), true);
+            btCapturaValors.Enabled = !ckCapturaAutomaticament.Checked;
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (ckCapturaAutomaticament.Checked)
+                capturaValorsPaste();
         }
     }
 }

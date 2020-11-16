@@ -155,7 +155,7 @@ namespace Inversions
             return Claureg + (ambUsuari ? "\\" + Usuari.Seleccionat.Nom : String.Empty);
         }
 
-        internal static string LlegeigVariableEnRegistreWindows(string nomVarReg)
+        internal static string LlegeigVariableEnRegistreWindows(string nomVarReg, bool llegeigDelUsuari)
         {
             if (nomVarReg == null)
                 throw new ArgumentNullException("nomVarReg", "El nom variable no pot ser null");

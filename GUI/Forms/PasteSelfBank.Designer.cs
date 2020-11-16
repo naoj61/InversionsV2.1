@@ -28,11 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.ckTancaAlDesar = new System.Windows.Forms.CheckBox();
             this.btDesa = new System.Windows.Forms.Button();
+            this.ckCapturaAutomaticament = new System.Windows.Forms.CheckBox();
             this.btCapturaValors = new System.Windows.Forms.Button();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -51,12 +52,14 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(826, 726);
             this.textBox1.TabIndex = 0;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // panel1
             // 
             this.panel1.AutoSize = true;
             this.panel1.Controls.Add(this.ckTancaAlDesar);
             this.panel1.Controls.Add(this.btDesa);
+            this.panel1.Controls.Add(this.ckCapturaAutomaticament);
             this.panel1.Controls.Add(this.btCapturaValors);
             this.panel1.Controls.Add(this.dateTimePicker1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -93,9 +96,23 @@
             this.btDesa.UseVisualStyleBackColor = true;
             this.btDesa.Click += new System.EventHandler(this.btDesa_Click);
             // 
+            // ckCapturaAutomaticament
+            // 
+            this.ckCapturaAutomaticament.AutoSize = true;
+            this.ckCapturaAutomaticament.Checked = true;
+            this.ckCapturaAutomaticament.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ckCapturaAutomaticament.Location = new System.Drawing.Point(810, 26);
+            this.ckCapturaAutomaticament.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
+            this.ckCapturaAutomaticament.Name = "ckCapturaAutomaticament";
+            this.ckCapturaAutomaticament.Size = new System.Drawing.Size(176, 24);
+            this.ckCapturaAutomaticament.TabIndex = 2;
+            this.ckCapturaAutomaticament.Text = "Captura al fer Paste";
+            this.ckCapturaAutomaticament.UseVisualStyleBackColor = true;
+            this.ckCapturaAutomaticament.CheckedChanged += new System.EventHandler(this.ckCapturaAutomaticament_CheckedChanged);
+            // 
             // btCapturaValors
             // 
-            this.btCapturaValors.Location = new System.Drawing.Point(877, 10);
+            this.btCapturaValors.Location = new System.Drawing.Point(695, 10);
             this.btCapturaValors.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btCapturaValors.Name = "btCapturaValors";
             this.btCapturaValors.Size = new System.Drawing.Size(109, 55);
@@ -107,7 +124,7 @@
             // dateTimePicker1
             // 
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker1.Location = new System.Drawing.Point(723, 10);
+            this.dateTimePicker1.Location = new System.Drawing.Point(541, 10);
             this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(3, 4, 22, 4);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(129, 26);
@@ -141,10 +158,10 @@
             // colValor
             // 
             this.colValor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle1.Format = "C4";
-            dataGridViewCellStyle1.NullValue = "0";
-            this.colValor.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Format = "C4";
+            dataGridViewCellStyle2.NullValue = "0";
+            this.colValor.DefaultCellStyle = dataGridViewCellStyle2;
             this.colValor.HeaderText = "Valor";
             this.colValor.Name = "colValor";
             this.colValor.ReadOnly = true;
@@ -182,5 +199,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colNomFons;
         private System.Windows.Forms.DataGridViewTextBoxColumn colValor;
         private System.Windows.Forms.CheckBox ckTancaAlDesar;
+        private System.Windows.Forms.CheckBox ckCapturaAutomaticament;
     }
 }
