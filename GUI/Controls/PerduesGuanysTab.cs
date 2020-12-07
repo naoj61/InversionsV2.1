@@ -14,7 +14,6 @@ namespace Inversions.GUI
         public PerduesGuanysTab()
         {
             InitializeComponent();
-
         }
 
         public Button AcceptButton
@@ -146,7 +145,7 @@ namespace Inversions.GUI
                 dgvPiGProductePerAny.SuspendLayout();
 
                 Dictionary<int, double> anysPigTributa = new Dictionary<int, double>();
-                double pigTotal;
+                double pigTotal = 0;
                 int fila;
 
                 for (int any = primerMovimentX.Data.Year; any <= DateTime.Today.Year; any++)
@@ -155,9 +154,9 @@ namespace Inversions.GUI
                 }
 
                 // Grid PiG Tributa del producte.
+                dgvPiGProductePerAny.Rows.Clear();
                 if (anysPigTributa.Any(w => !Utilitats.EsZero(w.Value)))
                 {
-                    dgvPiGProductePerAny.Rows.Clear();
                     pigTotal = 0;
 
                     foreach (var anyPig in anysPigTributa.Where(w => !Utilitats.EsZero(w.Value)))
@@ -171,18 +170,17 @@ namespace Inversions.GUI
                         pigTotal += pig;
                     }
 
-                    var enCartera = proSeleccionat.pig2EnCartera();
-
-                    dgvPiGProductePerAny.Rows.Add("Cartera", enCartera);
-
-                    fila = dgvPiGProductePerAny.Rows.Add("Total", pigTotal);
+                    fila = dgvPiGProductePerAny.Rows.Add("SubTotal", pigTotal);
                     dgvPiGProductePerAny.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGProductePerAny.Font, FontStyle.Bold);
-
-                    fila = dgvPiGProductePerAny.Rows.Add("Trib+Cart", pigTotal + enCartera);
-                    dgvPiGProductePerAny.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGProductePerAny.Font, FontStyle.Bold);
-                    dgvPiGProductePerAny.FirstDisplayedScrollingRowIndex = fila;
                 }
-               
+
+
+                var enCartera = proSeleccionat.pig2EnCartera();
+                dgvPiGProductePerAny.Rows.Add("Cartera", enCartera);
+
+                fila = dgvPiGProductePerAny.Rows.Add("Total", pigTotal + enCartera);
+                dgvPiGProductePerAny.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGProductePerAny.Font, FontStyle.Bold);
+                dgvPiGProductePerAny.FirstDisplayedScrollingRowIndex = fila;
 
                 dgvPiGProductePerAny.ResumeLayout();
             }

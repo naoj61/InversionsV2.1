@@ -1,2 +1,5 @@
 ﻿- Fer una comparativa entre gràfiques.
 - Llegir valors dels fons d'inversió fent Copy/Paste de la pàgina de fons.'
+- PiG d'una compra, a partir d'una compra o des de una data
+- PiG Producte tributa no es mou.
+- PiG En la llista de moviments d'un producte, posar PiG de la cartera actual

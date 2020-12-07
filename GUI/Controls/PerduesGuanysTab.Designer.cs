@@ -175,7 +175,7 @@ namespace Inversions.GUI
             this.dgvPiGProducte.Name = "dgvPiGProducte";
             this.dgvPiGProducte.ReadOnly = true;
             this.dgvPiGProducte.RowTemplate.Height = 24;
-            this.dgvPiGProducte.Size = new System.Drawing.Size(824, 329);
+            this.dgvPiGProducte.Size = new System.Drawing.Size(781, 329);
             this.dgvPiGProducte.TabIndex = 5;
             // 
             // colDataCompra
@@ -846,10 +846,10 @@ namespace Inversions.GUI
             this.panel1.Controls.Add(this.dgvPiGProductePerAny);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(824, 0);
+            this.panel1.Location = new System.Drawing.Point(781, 0);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.panel1.Size = new System.Drawing.Size(205, 329);
+            this.panel1.Size = new System.Drawing.Size(248, 329);
             this.panel1.TabIndex = 20;
             // 
             // dgvPiGProductePerAny
@@ -886,7 +886,7 @@ namespace Inversions.GUI
             this.dgvPiGProductePerAny.ReadOnly = true;
             this.dgvPiGProductePerAny.RowHeadersVisible = false;
             this.dgvPiGProductePerAny.RowTemplate.Height = 24;
-            this.dgvPiGProductePerAny.Size = new System.Drawing.Size(200, 300);
+            this.dgvPiGProductePerAny.Size = new System.Drawing.Size(243, 300);
             this.dgvPiGProductePerAny.TabIndex = 20;
             // 
             // dataGridViewTextBoxColumn8
@@ -923,7 +923,7 @@ namespace Inversions.GUI
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(5, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(200, 29);
+            this.label4.Size = new System.Drawing.Size(243, 29);
             this.label4.TabIndex = 21;
             this.label4.Text = "PiG Producte Tributa";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
