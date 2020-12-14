@@ -149,7 +149,11 @@ namespace Inversions
         /// </summary>
         public double _Participacions
         {
-            get { return numParticipacionsEnData(DateTime.Today); }
+            get
+            {
+                // Utilitzo Now perqué amb Today, al fer un moviment, aquest no el compta fins el dia següent.
+                return numParticipacionsEnData(DateTime.Now);
+            }
         }
 
 

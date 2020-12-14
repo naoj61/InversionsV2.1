@@ -326,7 +326,7 @@ namespace Inversions
         /// <returns></returns>
         private double numParticipacionsEnData(DateTime data)
         {
-            /* *** No modifico data a final del dia perquè no em permet disriminar les participacions que hi havia abans del moviment 
+            /* *** No modifico data a final del dia perquè no em permet discriminar les participacions que hi havia abans del moviment 
              * si hi ha més d'un moviment en un dia. 
              */
             //data = Utilitats.DataFinalDia(data);

@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Windows.Forms;
+using Comuns;
 
 namespace Inversions.GUI
 {
@@ -227,7 +228,7 @@ namespace Inversions.GUI
             }
             catch (Exception ex1)
             {
-                MessageBox.Show(ex1.Message);
+                var log = Utilitats.EscriuLog(ex1, true, true);
                 return;
             }
 

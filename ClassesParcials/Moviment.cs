@@ -266,7 +266,8 @@ namespace Inversions
             if (TipusMoviment != TipusMoviment.Venda)
                 throw new Exception("El moviment ha de ser una venda.");
 
-            return Prod.compresAnteriors(Data);
+            // return Prod.compresAnteriors(Data);
+            return Prod.compresAnteriors2(this);
         }
 
         /// <summary>
@@ -421,9 +422,9 @@ namespace Inversions
         /// <returns></returns>
         [ObsoleteAttribute("Obsolet.", false)]
         [Description("El mantinc perquè encara desa el camp 'PreuParticipacioOrigen' malgrat no l'utilitzo")]
-        internal double calculaPreuOrigen()
+        internal double? calculaPreuOrigen()
         {
-            double valorRetorn;
+            double? valorRetorn = null;
 
             if (TipusMoviment == TipusMoviment.Compra)
             {
@@ -444,23 +445,26 @@ namespace Inversions
                 double importCompraPartDisponibles = 0;
                 double numPartDisponibles = 0;
 
-                foreach (var compra in compresAnteriors())
+                if (compresAnteriors().Any())
                 {
-                    if (compra._Moviment.PreuParticipacioOrigen == null)
-                        throw new NullReferenceException("El 'compra._Moviment.PreuParticipacioOrigen' és NULL i hauria de tenir algún valor. Id moviment: " + compra._Moviment.Id);
+                    foreach (var compra in compresAnteriors())
+                    {
+                        if (compra._Moviment.PreuParticipacioOrigen == null)
+                            throw new NullReferenceException("El 'compra._Moviment.PreuParticipacioOrigen' és NULL i hauria de tenir algún valor. Id moviment: " + compra._Moviment.Id);
 
-                    var despeses = compra._Moviment.Despeses.GetValueOrDefault() / compra._Moviment.Participacions * compra._ParticipacionsDisponibles;
-                    importCompraPartDisponibles += compra._ParticipacionsDisponibles * compra._Moviment.PreuParticipacioOrigen.Value + despeses;
-                    numPartDisponibles += compra._ParticipacionsDisponibles;
+                        var despeses = compra._Moviment.Despeses.GetValueOrDefault() / compra._Moviment.Participacions * compra._ParticipacionsDisponibles;
+                        importCompraPartDisponibles += compra._ParticipacionsDisponibles * compra._Moviment.PreuParticipacioOrigen.Value + despeses;
+                        numPartDisponibles += compra._ParticipacionsDisponibles;
+                    }
+                    valorRetorn = importCompraPartDisponibles / numPartDisponibles;
                 }
-                valorRetorn = importCompraPartDisponibles / numPartDisponibles;
             }
             else
             {
                 throw new ApplicationException("El moviment ha de ser: Compra, venda o traspàs.");
             }
 
-            return Math.Round(valorRetorn, 4);
+            return valorRetorn.HasValue ? Math.Round(valorRetorn.Value, 4) : (double?) null;
         }
 
         public double ImportBrut
