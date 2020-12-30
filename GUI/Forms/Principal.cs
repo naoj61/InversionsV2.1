@@ -362,7 +362,7 @@ namespace Inversions.GUI
             {
                 canviUsuari();
             }
-            else if (e.KeyCode == Keys.F5)
+            else if (e.KeyCode == Keys.F5 || (e.Control && e.KeyCode == Keys.R))
             {
                 tabControl1.SelectedTab.Controls[0].Refresh();
             }

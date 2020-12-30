@@ -45,8 +45,7 @@ namespace Inversions.GUI
                             dgvPiGAnualsTributen.Rows.Add(any, 0, 0, pigTributa);
                     }
 
-
-                    var pigAny = Producte.Pig2(tipusProducte, DateTime.MinValue, new DateTime(any + 1, 1, 1).AddMilliseconds(-1), true);
+                    var pigAny = Producte.Pig2(tipusProducte, DateTime.MinValue, Utilitats.DataHoraFinalAny(any), true);
 
                     if (!Utilitats.EsZero(pigAny))
                     {
