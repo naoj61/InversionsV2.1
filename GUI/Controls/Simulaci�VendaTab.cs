@@ -16,6 +16,13 @@ namespace Inversions.GUI
             InitializeComponent();
         }
 
+
+        public void refresca()
+        {
+            Refresh();
+        }
+
+
         public void canviUsuari(Usuari usuari)
         {
             productes._UsuariSeleccionat = usuari;
@@ -28,10 +35,19 @@ namespace Inversions.GUI
             get { return false; }
         }
 
+        public bool activaRefresca { get; set; }
+
 
         public Button AcceptButton
         {
             get { return btSimulacio; }
+        }
+
+        public override void Refresh()
+        {
+            base.Refresh();
+            productes.refrescaDadesControl();
+            activaRefresca = false;
         }
 
         Producte vProducteSeleccionat = null;

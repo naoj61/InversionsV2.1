@@ -241,6 +241,11 @@ namespace Inversions.GUI
             preparaPantallaConsulta();
         }
 
+        public void refresca()
+        {
+            Refresh();
+        }
+
         public void canviUsuari(Usuari usuari)
         {
             gestioProductesTabMoviments._UsuariSeleccionat = usuari;
@@ -248,12 +253,12 @@ namespace Inversions.GUI
             Refresh();
         }
 
-
-
         public bool enModeEdicio
         {
             get { return gbEdicio.Visible; }
         }
+
+        public bool activaRefresca { get; set; }
 
 
         public override void Refresh()
@@ -263,6 +268,7 @@ namespace Inversions.GUI
             // Aquí s'haurien de refrescar les dades en pantalla.
             gestioProductesTabMoviments.refrescaDadesControl();
             canviProducteSeleccionat();
+            activaRefresca = false;
         }
 
         /// <summary>

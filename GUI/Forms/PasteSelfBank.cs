@@ -120,6 +120,7 @@ namespace Inversions.GUI
                         MessageBox.Show("Fet!" + Environment.NewLine + "Vols tancar la finestra?", "Fet", 
                         MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
+                        this.DialogResult = DialogResult.OK;
                         this.Close();
                     }
                 }

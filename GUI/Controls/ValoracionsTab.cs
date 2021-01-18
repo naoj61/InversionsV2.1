@@ -211,6 +211,7 @@ namespace Inversions.GUI
 
                 gestioProductesTabValoracions.refrescaDadesControl();
 
+                Principal.ActivaRefresca(this);
 
                 modeConsulta();
 
@@ -274,6 +275,13 @@ namespace Inversions.GUI
         }
 
 
+
+        public void refresca()
+        {
+            Refresh();
+        }
+
+
         public void canviUsuari(Usuari usuari)
         {
             gestioProductesTabValoracions._UsuariSeleccionat = usuari;
@@ -286,21 +294,17 @@ namespace Inversions.GUI
             get { return vModeEdicio; }
         }
 
+        public bool activaRefresca { get; set; }
+
 
         public override void Refresh()
         {
             base.Refresh();
-
             actualitzaLlistaValoracionsTotal();
             gestioProductesTabValoracions.refrescaDadesControl();
+            activaRefresca = false;
         }
 
-
-
-        private void ValoracionsTab_Load(object sender, EventArgs e)
-        {
-            //actualitzaLlistaValoracionsTotal();
-        }
 
         private void btActualitzaLlista_Click(object sender, EventArgs e)
         {
@@ -458,7 +462,10 @@ namespace Inversions.GUI
         private void btCopiaValorsDelPaste_Click(object sender, EventArgs e)
         {
             PasteSelfBank pSelf = new PasteSelfBank();
-            pSelf.ShowDialog(this);
+            if( pSelf.ShowDialog(this)== DialogResult.OK)
+            {
+                Principal.ActivaRefresca(this);
+            }
         }
     }
 }

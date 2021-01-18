@@ -643,7 +643,6 @@ namespace Inversions.GUI
             this.MinimumSize = new System.Drawing.Size(1464, 819);
             this.Name = "ValoracionsTab";
             this.Size = new System.Drawing.Size(1642, 819);
-            this.Load += new System.EventHandler(this.ValoracionsTab_Load);
             this.gbData.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();

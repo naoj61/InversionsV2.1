@@ -21,6 +21,7 @@ namespace Inversions.GUI
     {
         const string NomVarReg = "UltimaPestanyaSeleccionada";
         static internal bool SestaCanviantLusuari = false;
+        private static TabControl Tc;
         private InversionsBDContext vConnEmpreses;
         private InversionsBDContext vConnProductes;
         private bool vModeConsultaProducte = true;
@@ -30,6 +31,8 @@ namespace Inversions.GUI
         public Principal()
         {
             InitializeComponent();
+
+            Tc = tabControl1;
 
             //using (var conn = new InversionsBDContext())
             //{
@@ -106,6 +109,10 @@ namespace Inversions.GUI
             modeConsultaProducte();
         }
 
+        public static TabControl _Tc
+        {
+            get { return Tc; }
+        }
 
         #region *** Mètodes ***
 
@@ -676,9 +683,32 @@ namespace Inversions.GUI
         private void tabControl1_Selected(object sender, TabControlEventArgs e)
         {
             ITabs tab = e.TabPage.Controls.OfType<ITabs>().FirstOrDefault();
-            AcceptButton = tab == null ? null : tab.AcceptButton;
+
+            if (tab == null)
+                AcceptButton = null;
+            else
+            {
+                AcceptButton = tab.AcceptButton;
+                if (tab.activaRefresca)
+                    tab.refresca();
+            }
 
             Program.DesaVariableEnRegistreWindows(NomVarReg, e.TabPage.Name, true);
+        }
+
+        /// <summary>
+        /// Activa l'indicador per refrescar al entrar en la pestanya.
+        /// </summary>
+        /// <param name="tabX"></param>
+        internal static void ActivaRefresca(ITabs tabX)
+        {
+            foreach (TabPage tabPage in Tc.TabPages)
+            {
+                ITabs tab = tabPage.Controls.OfType<ITabs>().FirstOrDefault();
+
+                if (tab != null)
+                    tab.activaRefresca = tab != tabX;
+            }
         }
     }
 }

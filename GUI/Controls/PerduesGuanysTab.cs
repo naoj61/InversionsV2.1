@@ -63,13 +63,18 @@ namespace Inversions.GUI
                 dgvPiGAnualsTributen.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTributen.Font, FontStyle.Bold);
                 dgvPiGAnualsTributen.FirstDisplayedScrollingRowIndex = fila;
 
-                
+
                 fila = dgvPiGAnualsTotal.Rows.Add("Total", Producte.Pig2(tipusProducte, DateTime.MinValue, DateTime.MaxValue, true));
                 dgvPiGAnualsTotal.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTotal.Font, FontStyle.Bold);
                 dgvPiGAnualsTotal.FirstDisplayedScrollingRowIndex = fila;
             }
         }
 
+
+        public void refresca()
+        {
+            Refresh();
+        }
 
         public void canviUsuari(Usuari usuari)
         {
@@ -83,18 +88,20 @@ namespace Inversions.GUI
             get { return false; }
         }
 
+        public bool activaRefresca { get; set; }
+
         public override void Refresh()
         {
             base.Refresh();
             if (cbTipusProducteFiltreTab2.SelectedItem != null)
                 calculaPiG();
             gestioProductesTabValoracions.refrescaDadesControl();
+            activaRefresca = false;
         }
 
         private void cbTipusProducteFiltreTab2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbTipusProducteFiltreTab2.SelectedItem != null)
-                calculaPiG();
+            Refresh();
         }
 
 

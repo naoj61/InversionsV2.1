@@ -157,13 +157,20 @@ namespace Inversions.GUI
         }
 
         #region Implementació d'ITabs
-        
+
+        public void refresca()
+        {
+            activaRefresca = false;
+        }
+
         public void canviUsuari(Usuari usuari) { }
 
         public bool enModeEdicio
         {
             get { return false; }
-        } 
+        }
+
+        public bool activaRefresca { get; set; }
 
         #endregion
     }
