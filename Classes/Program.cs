@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CodeDom;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Diagnostics;
@@ -58,48 +59,48 @@ namespace Inversions
         {
             try
             {
+                // Com que aquí encara no tinc fitxer log, si hi ha error el mostro per pantalla i acabo l'execució.
+                FitxerLog = Utilitats.LlegeixFitxerLog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+                return;
+            }
+
+            try
+            {
                 // *** Crea la clau per gravar el registre de Windows. ***
                 Claureg = Utilitats.CreaClauRegistre();
 
-                int? idUsuari = null;
+                // ***** Llegeix els arguments passats per paràmetres. Tenen preferència sobre els de "app.config".
+                int? idUsuari;
+                string bd;
+                LlegeixParametres(args, out idUsuari, out bd);
 
-                bool createdNew = true;
-                using (Mutex mutex = new Mutex(true, "Inversions", out createdNew))
+                var nomProces = Utilitats.NomProcesActual();
+
+                bool createdNew;
+                using (new Mutex(true, nomProces, out createdNew))
                 {
                     if (createdNew)
                     {
-                        FitxerLog = Utilitats.LlegeixFitxerLog();
-              
-                        var argUsu = args.FirstOrDefault(arg => arg.StartsWith(ArgUsuari, StringComparison.CurrentCultureIgnoreCase));
-                        if (argUsu != null)
-                        {
-                            var idUsuString = argUsu.Remove(0, ArgUsuari.Length);
-                            if(!Utilitats.EsNumeric(idUsuString))
-                                throw new ArgumentException(String.Format("El paràmetre no és numèric"), ArgUsuari);
+                        if (bd == null || !Directory.Exists(bd))
+                            // No hi ha directori de la BD per paràmetre, utilitzo el directori de app.config.
+                            bd = Utilitats.ConverteixVariablesEntornDeCadena(Utilitats.LlegeixConfig("DirBd"));
 
-                            idUsuari = Convert.ToInt32(idUsuString);
-                        }
+                        if (!Directory.Exists(bd))
+                            throw new ArgumentException(String.Format("El directori de la Bd: \"{0}\". no existeix", bd));
 
-                        if (idUsuari == null)
-                            throw new ArgumentException("Falta el paràmetre", ArgUsuari);
-
-                        string bd = null;
-                        var argBd = args.FirstOrDefault(arg => arg.StartsWith(ArgBd, StringComparison.CurrentCultureIgnoreCase));
-                        if (argBd != null) 
-                            bd = argBd.Remove(0, ArgBd.Length);
-
-                        if (bd == null)
-                            throw new ArgumentException("Falta el paràmetre", argBd);
 
                         // Informa la variable |DataDirectory|, s'utilitza en App.config.
+                        // ***** A partir d'aquí, ja es pot accedir a la Bd *****
                         AppDomain.CurrentDomain.SetData("DataDirectory", bd);
 
+                        Usuari usuari = Sessio.Usuaris.Find(idUsuari.HasValue ? (idUsuari.Value) : 1);
 
-                        //// *** Deso l'id del usuari en el registre.
-                        //DesaIdUsuariEnRegistreWindows(idUsuari.Value);
-                        //// Ha d'anar despres de "AppDomain.CurrentDomain"
-                        //Usuari.Seleccionat = Sessio.Usuaris.Find(idUsuari.Value);
-                        CanviUsuari(Sessio.Usuaris.Find(idUsuari.Value));
+                        CanviUsuari(usuari);
+
 
                         Application.EnableVisualStyles();
                         Application.SetCompatibleTextRenderingDefault(false);
@@ -107,26 +108,12 @@ namespace Inversions
                     }
                     else
                     {
-                        // *** El procés ja s'està executant.
+                        if (idUsuari.HasValue)
+                            // *** El procés ja s'està executant.
+                            // ***** Modifico l'usuari en el registre, aquí encara no tinc accés s la Bd *****
+                            Utilitats.GravaVariableRegistre(Registry.CurrentUser, Claureg, NomVarReg, idUsuari.Value);
 
-                        var argUsu = args.FirstOrDefault(arg => arg.StartsWith(ArgUsuari, StringComparison.CurrentCultureIgnoreCase));
-                        if (argUsu != null)
-                        {
-                            idUsuari = Convert.ToInt32(argUsu.Remove(0, ArgUsuari.Length));
-
-                            // *** Deso l'id del usuari en el registre per que es canviï al activar la finestra Principal.
-                            Utilitats.GravaVariableRegistre(Registry.CurrentUser, Claureg, NomVarReg, idUsuari);
-                        }
-
-                        Process current = Process.GetCurrentProcess();
-                        foreach (Process process in Process.GetProcessesByName(current.ProcessName))
-                        {
-                            if (process.Id != current.Id)
-                            {
-                                SetForegroundWindow(process.MainWindowHandle);
-                                break;
-                            }
-                        }
+                        Utilitats.ActivaInstanciaEnMarxa(Process.GetCurrentProcess());
                     }
                 }
             }
@@ -136,9 +123,45 @@ namespace Inversions
             }
         }
 
+
+        /// <summary>
+        /// Llegeix els parèmetres que arriven de l'execució de l'app
+        /// </summary>
+        /// <param name="args"></param>
+        /// <param name="idUsuari"></param>
+        /// <param name="bd"></param>
+        private static void LlegeixParametres(IEnumerable<string> args, out int? idUsuari, out string bd)
+        {
+            idUsuari = null;
+            bd = null;
+
+            foreach (var arg in args)
+            {
+                var argu = arg.Substring(0, arg.IndexOf(':') + 1);
+
+                if (argu.Equals(ArgUsuari, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    var idUsuString = arg.Remove(0, ArgUsuari.Length);
+                    if (!Utilitats.EsNumeric(idUsuString))
+                        throw new ArgumentException(String.Format("El paràmetre no és numèric"), ArgUsuari);
+
+                    idUsuari = Convert.ToInt32(idUsuString);
+                }
+                else if (argu.Equals(ArgBd, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    bd = arg.Remove(0, ArgBd.Length);
+                }
+                else
+                {
+                    throw new ArgumentException(String.Format("Argument: {0} Invalid.", arg));
+                }
+            }
+        }
+
+
         private static void DesaIdUsuariEnRegistreWindows(Usuari usuari)
         {
-            if(usuari == null)
+            if (usuari == null)
                 throw new ArgumentNullException("usuari", "No es pot canviar a un uduari Null");
 
             Utilitats.GravaVariableRegistre(Registry.CurrentUser, Claureg, NomVarReg, usuari.Id);
@@ -150,7 +173,7 @@ namespace Inversions
             Usuari.Seleccionat = usuari;
         }
 
-        static string ClauRegistre(bool ambUsuari)
+        private static string ClauRegistre(bool ambUsuari)
         {
             return Claureg + (ambUsuari ? "\\" + Usuari.Seleccionat.Nom : String.Empty);
         }

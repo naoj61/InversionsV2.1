@@ -118,7 +118,7 @@ namespace Inversions.GUI
 
         private void titolFinestra()
         {
-            this.Text = String.Format("Producte. Ver: {0}. Usuari: {1}", Application.ProductVersion, Usuari.Seleccionat.Nom);
+            this.Text = String.Format("Inversions. Ver: {0}. Usuari: {1}", Application.ProductVersion, Usuari.Seleccionat.Nom);
         }
 
 

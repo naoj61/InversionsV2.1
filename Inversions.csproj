@@ -201,6 +201,11 @@
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="TipusEmpresa.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
@@ -242,14 +247,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EntityDeploy Include="InversionsBD.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>InversionsBD.Designer.cs</LastGenOutput>
@@ -290,13 +290,14 @@
     <Content Include="Fitxers\BaseDades.txt" />
     <Content Include="Fitxers\ProvesAmbEntityFramework.txt" />
     <Content Include="InversionsBD.edmx.sql" />
+    <None Include="Resources\InversionsIco.ico" />
+    <None Include="Resources\Icon1.ico" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\DataSources\" />
-    <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
