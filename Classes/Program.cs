@@ -78,6 +78,18 @@ namespace Inversions
                 string bd;
                 LlegeixParametres(args, out idUsuari, out bd);
 
+                if (!idUsuari.HasValue)
+                {
+                    // Si no hi ha usuari, l'agafa del registre;
+                    var xx = Utilitats.LlegeixVariableRegistre(Registry.CurrentUser, Claureg, NomVarReg);
+                    if (Utilitats.EsNumeric(xx)) 
+                        idUsuari = Int32.Parse(xx);
+
+                    // Si tampoc hi és al registre, usuari 1 per defecte.
+                    if (!idUsuari.HasValue)
+                        idUsuari = 1;
+                }
+
                 var nomProces = Utilitats.NomProcesActual();
 
                 bool createdNew;
@@ -97,7 +109,10 @@ namespace Inversions
                         // ***** A partir d'aquí, ja es pot accedir a la Bd *****
                         AppDomain.CurrentDomain.SetData("DataDirectory", bd);
 
-                        Usuari usuari = Sessio.Usuaris.Find(idUsuari.HasValue ? (idUsuari.Value) : 1);
+                        Usuari usuari = Sessio.Usuaris.Find(idUsuari.Value);
+
+                        if(usuari == null)
+                            throw new Exception(String.Format("L'usuari: {0} no existeix", idUsuari.Value));
 
                         CanviUsuari(usuari);
 
