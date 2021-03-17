@@ -81,9 +81,9 @@ namespace Inversions
                 if (!idUsuari.HasValue)
                 {
                     // Si no hi ha usuari, l'agafa del registre;
-                    var xx = Utilitats.LlegeixVariableRegistre(Registry.CurrentUser, Claureg, NomVarReg);
-                    if (Utilitats.EsNumeric(xx)) 
-                        idUsuari = Int32.Parse(xx);
+                    var usuRegistreWindows = Utilitats.LlegeixVariableRegistre(Registry.CurrentUser, Claureg, NomVarReg);
+                    if (Utilitats.EsNumeric(usuRegistreWindows)) 
+                        idUsuari = Int32.Parse(usuRegistreWindows);
 
                     // Si tampoc hi és al registre, usuari 1 per defecte.
                     if (!idUsuari.HasValue)
