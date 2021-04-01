@@ -203,7 +203,7 @@ namespace Inversions
             get { return PreuParticipacio; }
         }
 
-        private double? vParticipacionsDisponibles;
+        
         /// <summary>
         /// L'utilitzo per saber les participacions disponibles que poden no ser les mateixes que les del moviment.
         /// </summary>
@@ -217,6 +217,7 @@ namespace Inversions
                 vParticipacionsDisponibles = value;
             }
         }
+        private double? vParticipacionsDisponibles;
 
 
         /// <summary>
@@ -243,6 +244,87 @@ namespace Inversions
 
 
         #region *** Mètodes ***
+
+        public double pigDeLaCompraTest(double? preuPartsEnCartera = null, bool inclouParticsEnCartera = true)
+        {
+            return pigDeLaCompra(preuPartsEnCartera, inclouParticsEnCartera);
+        }
+
+        public double _PigDeLaCompra
+        {
+            get { return pigDeLaCompra(); }
+        }
+
+        /// <summary>
+        /// PiG d'una compra.
+        /// </summary>
+        /// <param name="preuPartsEnCartera">És el preu unitari per calcular el valor de les participacions en cartera. Si null utilitza el preu actual.</param>
+        /// <param name="inclouParticsEnCartera">Indica si es calcularà el valor de les participacions en cartera.</param>
+        /// <returns></returns>
+        internal double pigDeLaCompra(double? preuPartsEnCartera = null, bool inclouParticsEnCartera = true)
+        {
+            if(!_EsCompra)
+                throw new Exception(String.Format("Aquest moviment. Id:{0} no és una compra", Id));
+
+            double participEnCartera;
+
+            var vendesCompra = vendesDeLaCompra(out participEnCartera);
+
+            double valorEnCartera = 0;
+            if (inclouParticsEnCartera)
+                valorEnCartera = participEnCartera * preuPartsEnCartera.GetValueOrDefault(Prod.valorParticipacio());
+
+            var valorVendes = vendesCompra.Sum(s => s._ParticipacionsDisponibles * s.PreuParticipacioOrigen.GetValueOrDefault());
+
+            var piG = -ImportBrut + valorEnCartera + valorVendes;
+
+            return Math.Round(piG, 3);
+        }
+
+        void resetParticipacionsDisponibles()
+        {
+            vParticipacionsDisponibles = null;
+        }
+
+        /// <summary>
+        /// Torna la llista de les vendes que utulitzen les participacions d'aquesta compra
+        /// </summary>
+        /// <param name="participEnCartera">Son les participacions de l'última venda que no son d'aquesta compra.</param>
+        /// <returns></returns>
+        private IEnumerable<Moviment> vendesDeLaCompra(out double participEnCartera)
+        {
+            participEnCartera = Participacions;
+            var vendes1 = Prod.MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data >= Data).OrderBy(o => o.Data).ToList();
+
+            // *** Reinicia _ParticipacionsDisponibles ***
+            foreach (var moviment in vendes1)
+            {
+                moviment.resetParticipacionsDisponibles();
+            }
+
+            var enCarteraAbansCompra = Prod.numParticipacionsEnData(Data.AddMilliseconds(-1));
+            var vendesCompra = new List<Moviment>();
+            foreach (var venda in vendes1)
+            {
+                if (enCarteraAbansCompra > 0)
+                {
+                    venda._ParticipacionsDisponibles -= enCarteraAbansCompra;
+                    enCarteraAbansCompra -= venda.Participacions;
+                    if (venda._ParticipacionsDisponibles <= 0)
+                        continue;
+                }
+
+                if (participEnCartera < venda._ParticipacionsDisponibles)
+                    venda._ParticipacionsDisponibles = participEnCartera;
+
+                vendesCompra.Add(venda);
+                participEnCartera -= venda._ParticipacionsDisponibles;
+                if (participEnCartera <= 0)
+                    break;
+            }
+            return vendesCompra;
+        }
+
 
         /// <summary>
         /// Torma una llista amb les Compres o "Traspassos compres" de la venda.
@@ -506,59 +588,12 @@ namespace Inversions
             }
         }
 
-
-        public double preuCompraOriginalTest(double? participacionsPerCalcular = null)
+        /// <summary>
+        /// S'utilitza en dgvCompresProducte.
+        /// </summary>
+        public double _ImportBrutOrigen
         {
-            return preuCompraOriginal(participacionsPerCalcular);
-        }
-
-        internal double preuCompraOriginal(double? participacionsPerCalcular = null)
-        {
-            if (!_EsCompra)
-                throw new Exception("El moviment no és una compra");
-
-            double participacionsConsumides = Participacions - participacionsPerCalcular.GetValueOrDefault(Participacions);
-            var partsMov = participacionsPerCalcular.GetValueOrDefault(Participacions);
-
-            double preuCompra = 0;
-            foreach (DesglosCompra desglosCompra in DesglosCompres.OrderBy(o=>o.MovCompraId))
-            {
-                if (Utilitats.ComparaNumeros(participacionsConsumides, desglosCompra.Participacions) >= 0) // participacionsConsumides >= desglosCompra.Participacions
-                {
-                    participacionsConsumides -= desglosCompra.Participacions;
-                    continue;
-                }
-                else
-                {
-                    if (Utilitats.ComparaNumeros(partsMov, desglosCompra.Participacions - participacionsConsumides) <= 0) // partsMov <= 
-                    {
-                    }
-                    //var partsCalcul = 
-                    //var partsOrig = 
-                    preuCompra += desglosCompra.ParticipacionsOrig * desglosCompra._PreuPartOrig;
-
-                    participacionsConsumides = 0;
-                }
-
-                //if (Utilitats.EsZero(participacionsConsumides))
-                //{
-                //    preuCompra += desglosCompra.ParticipacionsOrig * desglosCompra._PreuPartOrig;
-                //}
-                //else
-                //{
-                //    if (participacionsConsumides > desglosCompra.Participacions)
-                //    {
-                //        partsMov -= desglosCompra.Participacions;
-                //    }
-                //    else
-                //    {
-                //        preuCompra += desglosCompra.ParticipacionsOrig * (desglosCompra._PreuPartOrig - partsMov);
-                //        partsMov = 0;
-                //    }
-                //}
-            }
-
-            return preuCompra;
+            get { return Participacions * PreuParticipacioOrigen.GetValueOrDefault(PreuParticipacio); }
         }
 
 

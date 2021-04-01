@@ -192,8 +192,14 @@ namespace Inversions.GUI
         }
 
 
+        private Producte vProducteSeleccioatAnt;
         private void lbProductesTab2_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (vProducteSeleccioatAnt == _ProducteSeleccionat)
+                return; // No ha canviat el producte seleccionat.
+
+            vProducteSeleccioatAnt = _ProducteSeleccionat;
+
             Producte prod = _ProducteSeleccionat;
             if (prod == null)
             {

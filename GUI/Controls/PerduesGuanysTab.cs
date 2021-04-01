@@ -14,6 +14,8 @@ namespace Inversions.GUI
         public PerduesGuanysTab()
         {
             InitializeComponent();
+
+            dgvCompresProducte.AutoGenerateColumns = false;
         }
 
         public Button AcceptButton
@@ -107,6 +109,8 @@ namespace Inversions.GUI
 
         private void gestioProductesTabValoracions_ProducteSeleccionat(object sender, EventArgs e)
         {
+            ompleLlistaCompres(gestioProductesTabValoracions._ProducteSeleccionat);
+
             if (gestioProductesTabValoracions._ProducteSeleccionat != null)
             {
                 dgvPiGProductePerAny.ResumeLayout();
@@ -128,6 +132,43 @@ namespace Inversions.GUI
                 ckPiGEntreDatesNomesProdSel.Enabled = false;
 
             gbSimulacioPig.Enabled = gestioProductesTabValoracions._ProducteSeleccionat != null;
+        }
+
+
+        private void ompleLlistaCompres(Producte prodSeleccionat)
+        {
+            if (prodSeleccionat == null)
+            {
+                dgvCompresProducte.ClearSelection();
+                dgvCompresProducte.DataSource = null;
+                return;
+            }
+
+            //if(prodSeleccionat is ProdAccions)
+            //{
+            //    dgvCompresProducte.Columns["Despeses"].Visible = true;
+            //    dgvCompresProducte.Columns["ImportBrutOrigen"].Visible = false;
+            //    dgvCompresProducte.Columns["PreuParticipacioOrigen"].Visible = false;
+            //}
+            //else
+            //{
+            //    dgvCompresProducte.Columns["Despeses"].Visible = false;
+            //    dgvCompresProducte.Columns["ImportBrutOrigen"].Visible = true;
+            //    dgvCompresProducte.Columns["PreuParticipacioOrigen"].Visible = true;
+            //}
+
+            var compres = prodSeleccionat.MovimentsProducteUsuari.Where(w => w._EsCompra).ToList();
+
+            SuspendLayout();
+            dgvCompresProducte.SuspendLayout();
+            dgvCompresProducte.SelectionChanged -= dgvCompresProducte_SelectionChanged;
+            dgvCompresProducte.ClearSelection();
+            dgvCompresProducte.DataSource = compres;
+            dgvCompresProducte.ClearSelection();
+            dgvCompresProducte.SelectionChanged += dgvCompresProducte_SelectionChanged;
+            dgvCompresProducte.ResumeLayout();
+            ResumeLayout();
+            
         }
 
 
@@ -296,6 +337,16 @@ namespace Inversions.GUI
             Tributacions trib = new Tributacions();
             trib.carregaDades(any);
             trib.ShowDialog(this);
+        }
+
+        private void dgvCompresProducte_SelectionChanged(object sender, EventArgs e)
+        {
+            double pig = 0;
+            foreach (DataGridViewRow selectedRow in dgvCompresProducte.SelectedRows)
+            {
+                pig += ((Moviment)selectedRow.DataBoundItem).pigDeLaCompra();
+            }
+            ntbPigCompra.Valor = Math.Round(pig, 2); 
         }
     }
 }
