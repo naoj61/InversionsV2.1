@@ -1,0 +1,19 @@
+﻿- Preu part i Preu part Origen, ha de sortir de desgloç compra.
+- Modificar moviments.
+- Revisar mida text.
+- Fet. Refrescar PiG al introduir noves valoracions.
+- Fet. Fer una comparativa entre gràfiques.
+- Fet. Llegir valors dels fons d'inversió fent Copy/Paste de la pàgina de fons.'
+- PiG d'una compra, a partir d'una compra o des de una data
+
+
+1.11.4.0
+- PiG Producte tributa no es mou.
+
+
+15-Templeton Emerging Mkts Sm Cos N Acc $
+3-Asian Smaller Companies Fund
+4-Thailand A-USD
+5-Deutschland
+
+
