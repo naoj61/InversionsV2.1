@@ -81,7 +81,6 @@ namespace Inversions.GUI
         public void canviUsuari(Usuari usuari)
         {
             gestioProductesTabValoracions._UsuariSeleccionat = usuari;
-            dgvPiGProducte.DataSource = null;
             Refresh();
         }
 
@@ -123,8 +122,6 @@ namespace Inversions.GUI
                 else
                     actualitzaLlistaPerduesGuanys();
 
-                colDataTraspas.Visible = gestioProductesTabValoracions._ProducteSeleccionat._TipusProducte != Producte.TipusProducte.Accions;
-                dgvPiGProducte.Visible = true;
                 ckPiGEntreDatesNomesProdSel.Enabled = true;
                 tbPigEntreDates.Valor = 0;
             }
@@ -158,7 +155,7 @@ namespace Inversions.GUI
             //}
 
             var compres = prodSeleccionat.MovimentsProducteUsuari.Where(w => w._EsCompra).ToList();
-
+            
             SuspendLayout();
             dgvCompresProducte.SuspendLayout();
             dgvCompresProducte.SelectionChanged -= dgvCompresProducte_SelectionChanged;
@@ -179,12 +176,6 @@ namespace Inversions.GUI
         {
             var proSeleccionat = gestioProductesTabValoracions._ProducteSeleccionat;
 
-            SuspendLayout();
-
-            dgvPiGProducte.SuspendLayout();
-            dgvPiGProducte.DataSource = proSeleccionat.pigPerCompra();
-            dgvPiGProducte.ClearSelection();
-            dgvPiGProducte.ResumeLayout();
 
             var primerMovimentX = proSeleccionat.MovimentsProducteUsuari.OrderBy(o => o.Data).FirstOrDefault();
             if (primerMovimentX != null)
@@ -255,8 +246,6 @@ namespace Inversions.GUI
 
         private void PerduesGuanysTab_Load(object sender, EventArgs e)
         {
-            dgvPiGProducte.AutoGenerateColumns = false;
-
             gestioProductesTabValoracions._NomesAmbParticipacions = true;
 
             cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof (Producte.TipusProducte));

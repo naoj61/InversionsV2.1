@@ -35,7 +35,7 @@ namespace Inversions
         [Obsolete("Obsolet. No utilitzar el camp 'PreuParticipacioOrigen'")]
         public double _PreuParticipacioOrigenTest
         {
-            get { return _Moviment.PreuParticipacioOrigen.GetValueOrDefault(_Moviment.PreuParticipacio); }
+            get { return _Moviment._PreuParticipacioOrigen.GetValueOrDefault(_Moviment.PreuParticipacio); }
         }
         
 
@@ -92,6 +92,39 @@ namespace Inversions
     public partial class Moviment
     {
         #region *** Atributs ***
+
+        [Obsolete("Obsolet. El camp 'Moviment.PreuParticipacioOrigen' està pendent d'eliminar. Utilitzar '_PreuCompraParticipacioOrigen'")]
+        public double? _PreuParticipacioOrigen
+        {
+            get { return PreuParticipacioOrigen; }
+            set { PreuParticipacioOrigen = value; }
+        }
+
+
+        /// <summary>
+        /// Calcula el preu compra origen a partir del desgloç de les compres.
+        /// </summary>
+        public double _PreuCompraParticipacioOrigen
+        {
+            get
+            {
+                if (_EsCompra)
+                {
+                    double sumaImports = DesglosCompres.Sum(s => s.ParticipacionsOrig * s._PreuPartOrig);
+                    var puOrig = sumaImports / Participacions;
+                    return puOrig;
+                }
+                if (_EsVenda)
+                {
+                    var compres = compresDeLaVenda();
+                    double importTotalOrigen =
+                        compres.Sum(compra => compra._PreuCompraParticipacioOrigen * compra._ParticipacionsDisponibles);
+                    var puOrig = importTotalOrigen / Participacions;
+                    return puOrig;
+                }
+                return 0;
+            }
+        }
 
         //public string _NomProducteTraspasOrigen
         //{
@@ -229,13 +262,13 @@ namespace Inversions
         {
             get { return MovimentRefVenda1.FirstOrDefault(); }
         }
-
+        
         #endregion *** Atributs ***
 
 
         #region *** Test ***
 
-        public IEnumerable<MovimentDesglosCompra> TestCompresDeLaVenda(InversionsBDContext connexio)
+        public IEnumerable<MovimentDesglosCompra> compresDeLaVendaTest(InversionsBDContext connexio)
         {
             return compresDeLaVenda(connexio);
         }
@@ -245,6 +278,121 @@ namespace Inversions
 
         #region *** Mètodes ***
 
+
+        /// <summary>
+        /// Reseteja el valor de vParticipacionsDisponibles dels moviments del paràmetre.
+        /// </summary>
+        /// <param name="moviments">Llista de moviments a resetejar.</param>
+        static void ResetParticipacionsDisponibles(IEnumerable<Moviment> moviments)
+        {
+            foreach (var moviment in moviments)
+            {
+                moviment.resetParticipacionsDisponibles();
+            }
+        }
+
+
+        /// <summary>
+        /// Torna la llista de les vendes que utilitzen les participacions d'aquesta compra
+        /// </summary>
+        /// <param name="participEnCartera">Son les participacions que no s'han venut.</param>
+        /// <returns></returns>
+        private IEnumerable<Moviment> vendesDeLaCompra(out double participEnCartera)
+        {
+            if (!_EsCompra)
+                throw new ArgumentException(String.Format("El moviment ha de ser una compra. Id={0}", Id));
+
+            participEnCartera = Participacions;
+            var vendes1 = Prod.MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data >= Data).OrderBy(o => o.Data).ToList();
+
+            // *** Reinicia _ParticipacionsDisponibles ***
+            ResetParticipacionsDisponibles(vendes1);
+
+            var enCarteraAbansCompra = Prod.numParticipacionsEnData(Data.AddMilliseconds(-1));
+            var vendesCompra = new List<Moviment>();
+            foreach (var venda in vendes1)
+            {
+                if (enCarteraAbansCompra > 0)
+                {
+                    venda._ParticipacionsDisponibles -= enCarteraAbansCompra;
+                    enCarteraAbansCompra -= venda.Participacions;
+                    if (venda._ParticipacionsDisponibles <= 0)
+                        continue;
+                }
+
+                if (participEnCartera < venda._ParticipacionsDisponibles)
+                    venda._ParticipacionsDisponibles = participEnCartera;
+
+                vendesCompra.Add(venda);
+                participEnCartera -= venda._ParticipacionsDisponibles;
+                if (participEnCartera <= 0)
+                    break;
+            }
+            return vendesCompra;
+        }
+
+        /// <summary>
+        /// Torna la llista de les compres a les que afecten aquesta venda.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerable<Moviment> compresDeLaVenda()
+        {
+            if (!_EsVenda)
+                throw new ArgumentException(String.Format("El moviment ha de ser una venda. Id={0}", Id));
+
+            // Totes les compres anteriors a la venda.
+            var compresAnt = Prod.MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data < Data).OrderBy(o => o.Data).ToList();
+
+            // Totes les vendes anteriors a la venda.
+            var vendesAnt = new Queue<Moviment>(Prod.MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data < Data).OrderBy(o => o.Data));
+
+            // *** Reinicia _ParticipacionsDisponibles ***
+            ResetParticipacionsDisponibles(compresAnt);
+
+
+            List<Moviment> compres = new List<Moviment>();
+            double participacionsRestantsCompra = 0;
+            var partRestantsVenda = Participacions;
+            foreach (var compra in compresAnt)
+            {
+                if (partRestantsVenda <= 0)
+                    // Ja no queden participacions de la venda per repartir.
+                    break;
+
+                if (compres.Count > 0)
+                {
+                    // Ja he trobat la primera compra, a partir d'aquí afegeixo totes les compres fins a repartir totes les participacions.
+                    if (partRestantsVenda < compra._ParticipacionsDisponibles)
+                    {
+                        compra._ParticipacionsDisponibles = partRestantsVenda;
+                    }
+                    compres.Add(compra);
+                    partRestantsVenda -= compra._ParticipacionsDisponibles;
+                    continue;
+                }
+
+                participacionsRestantsCompra += compra._ParticipacionsDisponibles;
+
+                while (vendesAnt.Count > 0 && participacionsRestantsCompra > 0)
+                {
+                    // Resta de la compra les vendes anteriors.
+                    var venda = vendesAnt.Dequeue();
+                    participacionsRestantsCompra -= venda.Participacions;
+                }
+
+                if (participacionsRestantsCompra > 0)
+                {
+                    // Si encara queden participacions en la compra, significa que és la primera que pertany a la venda.
+                    compra._ParticipacionsDisponibles = partRestantsVenda <= participacionsRestantsCompra ? partRestantsVenda : participacionsRestantsCompra;
+                    compres.Add(compra);
+
+                    partRestantsVenda -= compra._ParticipacionsDisponibles;
+                }
+            }
+
+            return compres;
+        }
+        
         public double pigDeLaCompraTest(double? preuPartsEnCartera = null, bool inclouParticsEnCartera = true)
         {
             return pigDeLaCompra(preuPartsEnCartera, inclouParticsEnCartera);
@@ -274,7 +422,7 @@ namespace Inversions
             if (inclouParticsEnCartera)
                 valorEnCartera = participEnCartera * preuPartsEnCartera.GetValueOrDefault(Prod.valorParticipacio());
 
-            var valorVendes = vendesCompra.Sum(s => s._ParticipacionsDisponibles * s.PreuParticipacioOrigen.GetValueOrDefault());
+            var valorVendes = vendesCompra.Sum(s => s._ParticipacionsDisponibles * s._PreuParticipacio);
 
             var piG = -ImportBrut + valorEnCartera + valorVendes;
 
@@ -284,45 +432,6 @@ namespace Inversions
         void resetParticipacionsDisponibles()
         {
             vParticipacionsDisponibles = null;
-        }
-
-        /// <summary>
-        /// Torna la llista de les vendes que utulitzen les participacions d'aquesta compra
-        /// </summary>
-        /// <param name="participEnCartera">Son les participacions de l'última venda que no son d'aquesta compra.</param>
-        /// <returns></returns>
-        private IEnumerable<Moviment> vendesDeLaCompra(out double participEnCartera)
-        {
-            participEnCartera = Participacions;
-            var vendes1 = Prod.MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data >= Data).OrderBy(o => o.Data).ToList();
-
-            // *** Reinicia _ParticipacionsDisponibles ***
-            foreach (var moviment in vendes1)
-            {
-                moviment.resetParticipacionsDisponibles();
-            }
-
-            var enCarteraAbansCompra = Prod.numParticipacionsEnData(Data.AddMilliseconds(-1));
-            var vendesCompra = new List<Moviment>();
-            foreach (var venda in vendes1)
-            {
-                if (enCarteraAbansCompra > 0)
-                {
-                    venda._ParticipacionsDisponibles -= enCarteraAbansCompra;
-                    enCarteraAbansCompra -= venda.Participacions;
-                    if (venda._ParticipacionsDisponibles <= 0)
-                        continue;
-                }
-
-                if (participEnCartera < venda._ParticipacionsDisponibles)
-                    venda._ParticipacionsDisponibles = participEnCartera;
-
-                vendesCompra.Add(venda);
-                participEnCartera -= venda._ParticipacionsDisponibles;
-                if (participEnCartera <= 0)
-                    break;
-            }
-            return vendesCompra;
         }
 
 
@@ -516,10 +625,10 @@ namespace Inversions
                 }
                 else
                 {
-                    if (MovimentRefVendaN.PreuParticipacioOrigen == null)
+                    if (MovimentRefVendaN._PreuParticipacioOrigen == null)
                         throw new NullReferenceException("El 'movimentVendaVinculatCompra' és NULL i hauria de tenir algún valor.");
 
-                    valorRetorn = MovimentRefVendaN.PreuParticipacioOrigen.Value * MovimentRefVendaN.Participacions / Participacions;
+                    valorRetorn = MovimentRefVendaN._PreuParticipacioOrigen.Value * MovimentRefVendaN.Participacions / Participacions;
                 }
             }
             else if (TipusMoviment == TipusMoviment.Venda || TipusMoviment == TipusMoviment.Traspàs)
@@ -531,11 +640,11 @@ namespace Inversions
                 {
                     foreach (var compra in compresAnteriors())
                     {
-                        if (compra._Moviment.PreuParticipacioOrigen == null)
+                        if (compra._Moviment._PreuParticipacioOrigen == null)
                             throw new NullReferenceException("El 'compra._Moviment.PreuParticipacioOrigen' és NULL i hauria de tenir algún valor. Id moviment: " + compra._Moviment.Id);
 
                         var despeses = compra._Moviment.Despeses.GetValueOrDefault() / compra._Moviment.Participacions * compra._ParticipacionsDisponibles;
-                        importCompraPartDisponibles += compra._ParticipacionsDisponibles * compra._Moviment.PreuParticipacioOrigen.Value + despeses;
+                        importCompraPartDisponibles += compra._ParticipacionsDisponibles * compra._Moviment._PreuParticipacioOrigen.Value + despeses;
                         numPartDisponibles += compra._ParticipacionsDisponibles;
                     }
                     valorRetorn = importCompraPartDisponibles / numPartDisponibles;
@@ -593,7 +702,7 @@ namespace Inversions
         /// </summary>
         public double _ImportBrutOrigen
         {
-            get { return Participacions * PreuParticipacioOrigen.GetValueOrDefault(PreuParticipacio); }
+            get { return Participacions * _PreuParticipacioOrigen.GetValueOrDefault(PreuParticipacio); }
         }
 
 

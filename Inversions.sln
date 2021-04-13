@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controls", "..\..\Llibrerie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comuns", "..\..\Llibreries\Comuns\Comuns.csproj", "{83FFF275-A1A1-4DF4-A669-591CB12DCBB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestInversions", "..\UnitTestInversions\UnitTestInversions.csproj", "{D667449D-42EA-4604-877C-15F7E9D72DBD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestInversions", "..\UnitTestInversionsV2\UnitTestInversions.csproj", "{D667449D-42EA-4604-877C-15F7E9D72DBD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
