@@ -50,7 +50,7 @@ namespace Inversions
                     partics -= partsPerCalcul;
                 }
                 var despeses = Despeses.GetValueOrDefault() / Participacions * partsPerCalcul; // És la part proporcional de les despeses.
-                preuOrig += desglosCompra.calculaPartsMovAPartsOrig(partsPerCalcul) * desglosCompra._PreuPartOrig + despeses;
+                preuOrig += desglosCompra.calculaPartsMovAPartsOrig(partsPerCalcul) * desglosCompra._PreuParticipacioOrig + despeses;
             }
 
             return preuOrig;

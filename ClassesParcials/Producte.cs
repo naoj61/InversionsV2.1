@@ -504,7 +504,7 @@ namespace Inversions
                     partOrig = participacions / desg.Participacions * desg.ParticipacionsOrig;
                     participacions = 0;
                 }
-                cost += (partOrig * desg._PreuPartOrig);
+                cost += (partOrig * desg._PreuParticipacioOrig);
             }
 
             return cost;

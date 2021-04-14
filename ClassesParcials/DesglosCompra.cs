@@ -12,7 +12,7 @@ namespace Inversions
 
         #region *** Atributs ***
 
-        public double _PreuPartOrig
+        public double _PreuParticipacioOrig
         {
             get { return MovCompraOrig.PreuParticipacio; }
         }

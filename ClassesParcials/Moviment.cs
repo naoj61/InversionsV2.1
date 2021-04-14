@@ -77,7 +77,7 @@ namespace Inversions
 
         public double _PreuParticipacioOrig
         {
-            get { return _DesglosCompra._PreuPartOrig; }
+            get { return _DesglosCompra._PreuParticipacioOrig; }
         }
 
 
@@ -100,31 +100,36 @@ namespace Inversions
             set { PreuParticipacioOrigen = value; }
         }
 
-
+        
         /// <summary>
-        /// Calcula el preu compra origen a partir del desgloç de les compres.
+        /// Calcula el preu compra unitari origen a partir del _ImportCompraOrigen.
+        /// Aquest import multiplicat per les participacions del moviment actual ha de donar el preu de cost total.
         /// </summary>
         public double _PreuCompraParticipacioOrigen
+        {
+            get { return _ImportCompraOrigen / Participacions; }
+        }
+
+        /// <summary>
+        /// Calcula el preu total compra origen a partir del desgloç de les compres.
+        /// </summary>
+        private double _ImportCompraOrigen
         {
             get
             {
                 if (_EsCompra)
                 {
-                    double sumaImports = DesglosCompres.Sum(s => s.ParticipacionsOrig * s._PreuPartOrig);
-                    var puOrig = sumaImports / Participacions;
-                    return puOrig;
+                    return DesglosCompres.Sum(s => s.ParticipacionsOrig * s._PreuParticipacioOrig);
                 }
                 if (_EsVenda)
                 {
                     var compres = compresDeLaVenda();
-                    double importTotalOrigen =
-                        compres.Sum(compra => compra._PreuCompraParticipacioOrigen * compra._ParticipacionsDisponibles);
-                    var puOrig = importTotalOrigen / Participacions;
-                    return puOrig;
+                    return compres.Sum(compra => compra._PreuCompraParticipacioOrigen * compra._ParticipacionsDisponibles);
                 }
-                return 0;
+                throw new Exception(String.Format("El moviment Id:{0} no és ni compra ni venda. Tipus moviment: {1}", Id, _TipusMoviment));
             }
         }
+
 
         //public string _NomProducteTraspasOrigen
         //{
