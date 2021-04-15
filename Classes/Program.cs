@@ -97,17 +97,9 @@ namespace Inversions
                 {
                     if (createdNew)
                     {
-                        if (bd == null || !Directory.Exists(bd))
-                            // No hi ha directori de la BD per paràmetre, utilitzo el directori de app.config.
-                            bd = Utilitats.ConverteixVariablesEntornDeCadena(Utilitats.LlegeixConfig("DirBd"));
-
-                        if (!Directory.Exists(bd))
-                            throw new ArgumentException(String.Format("El directori de la Bd: \"{0}\". no existeix", bd));
-
-
                         // Informa la variable |DataDirectory|, s'utilitza en App.config.
                         // ***** A partir d'aquí, ja es pot accedir a la Bd *****
-                        AppDomain.CurrentDomain.SetData("DataDirectory", bd);
+                        Utilitats.AssignaDataDirectory(bd, "InversionsBD.mdf");
 
                         Usuari usuari = Sessio.Usuaris.Find(idUsuari.Value);
 
