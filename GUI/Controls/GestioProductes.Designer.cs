@@ -503,7 +503,7 @@ namespace Inversions.GUI
             // tbParticipacions
             // 
             this.tbParticipacions._CapturaEscape = true;
-            this.tbParticipacions._Format = "#,#0.00";
+            this.tbParticipacions._Format = "#,#0.####";
             this.tbParticipacions._PermetDecimals = true;
             this.tbParticipacions._PermetEspais = false;
             this.tbParticipacions._PermetNegatius = true;
@@ -515,7 +515,7 @@ namespace Inversions.GUI
             this.tbParticipacions.ReadOnly = true;
             this.tbParticipacions.Size = new System.Drawing.Size(164, 25);
             this.tbParticipacions.TabIndex = 0;
-            this.tbParticipacions.Text = "0,00";
+            this.tbParticipacions.Text = "0,0000";
             this.tbParticipacions.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.toolTip1.SetToolTip(this.tbParticipacions, "Número de participacions en cartera");
             this.tbParticipacions.Valor = 0D;

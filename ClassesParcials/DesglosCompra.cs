@@ -22,9 +22,43 @@ namespace Inversions
             get { return MovCompra.PreuParticipacio; }
         }
 
+        public DateTime _DataOrig
+        {
+            get { return MovCompraOrig.Data; }
+        }
+
+
+        /// <summary>
+        /// L'utilitzo per saber les participacions disponibles que poden no ser les mateixes que les del moviment.
+        /// </summary>
+        public double _ParticipacionsDisponibles
+        {
+            get { return vParticipacionsDisponibles.GetValueOrDefault(Participacions); }
+            set
+            {
+                if (Utilitats.ComparaNumeros(value, Participacions, 4) > 0)
+                    throw new Exception("El valor no pot ser superior a 'Participacions'");
+                vParticipacionsDisponibles = value;
+            }
+        }
+        private double? vParticipacionsDisponibles;
+
         #endregion *** Atributs ***
 
         #region *** Mètodes ***
+
+
+        /// <summary>
+        /// Reseteja el valor de vParticipacionsDisponibles dels moviments del paràmetre.
+        /// </summary>
+        /// <param name="desglosCompres">Llista de moviments a resetejar.</param>
+        public static void ResetParticipacionsDisponibles(IEnumerable<DesglosCompra> desglosCompres)
+        {
+            foreach (var desg in desglosCompres)
+            {
+                desg.vParticipacionsDisponibles = null;
+            }
+        }
 
 
         /// <summary>

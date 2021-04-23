@@ -227,9 +227,11 @@
     </Compile>
     <EmbeddedResource Include="GUI\Controls\GestioProductes.resx">
       <DependentUpon>GestioProductes.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\MovimentsTab.resx">
       <DependentUpon>MovimentsTab.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\SimulacióVendaTab.resx">
       <DependentUpon>SimulacióVendaTab.cs</DependentUpon>
@@ -239,6 +241,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\GrafiquesTab.resx">
       <DependentUpon>GrafiquesTab.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\ValoracionsTab.resx">
       <DependentUpon>ValoracionsTab.cs</DependentUpon>

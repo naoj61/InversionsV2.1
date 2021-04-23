@@ -780,15 +780,15 @@ namespace Inversions
         {
             validacionsCompraVenda(connexio, dataHora, participacions, mostraFinestraAdvertencia);
 
-            Moviment moviment = connexio.Moviments.Create();
-            moviment.UsuariId = Usuari.Seleccionat.Id; // Utilitzo Id perquè "Usuari.Seleccionat" està en un context diferent.
-            moviment.TipusMoviment = TipusMoviment.Compra;
-            moviment.Participacions = participacions;
-            moviment.PreuParticipacio = preuParticipacio;
-            moviment.CanviAplicat = canviAplicat;
-            moviment.Despeses = despeses;
-            moviment.Data = dataHora;
-            moviment.Descripcio = String.IsNullOrEmpty(descripcio) ? null : descripcio;
+            Moviment novaCompra = connexio.Moviments.Create();
+            novaCompra.UsuariId = Usuari.Seleccionat.Id; // Utilitzo Id perquè "Usuari.Seleccionat" està en un context diferent.
+            novaCompra.TipusMoviment = TipusMoviment.Compra;
+            novaCompra.Participacions = participacions;
+            novaCompra.PreuParticipacio = preuParticipacio;
+            novaCompra.CanviAplicat = canviAplicat;
+            novaCompra.Despeses = despeses;
+            novaCompra.Data = dataHora;
+            novaCompra.Descripcio = String.IsNullOrEmpty(descripcio) ? null : descripcio;
             if (movimentVendaVinculatTraspas != null)
             {
                 //// Asigno valor a "ProducteTraspasId" en la venda.
@@ -798,25 +798,25 @@ namespace Inversions
                 //movimentVendaVinculatTraspas.Prod.MovimentsTraspas.Add(moviment);
 
                 // Asigno valor a "MovimentRefVendaId" en la venda.
-                moviment.MovimentRefVenda1.Add(movimentVendaVinculatTraspas);
+                novaCompra.MovimentRefVenda1.Add(movimentVendaVinculatTraspas);
 
                 // Asigno valor a "MovimentRefVendaId" en la compra.
-                movimentVendaVinculatTraspas.MovimentRefVenda1.Add(moviment);
+                movimentVendaVinculatTraspas.MovimentRefVenda1.Add(novaCompra);
             }
 
-            this.Moviments.Add(moviment); // Carrega les referències.
-            connexio.Entry(moviment).Reference(c => c.Prod).Load();
+            this.Moviments.Add(novaCompra); // Carrega les referències.
+            connexio.Entry(novaCompra).Reference(c => c.Prod).Load();
 
-            moviment._PreuParticipacioOrigen = moviment.calculaPreuOrigen(); // Després del Add per tenir les referèmcies creades.
+            novaCompra._PreuParticipacioOrigen = novaCompra.calculaPreuOrigen(); // Després del Add per tenir les referèmcies creades.
 
             if (afegeigPreuAValoracions)
                 this.afegeigPreuAValoracions(connexio, dataHora, preuParticipacio);
 
             connexio.SaveChanges();
 
-            moviment.desgloçarCompra(connexio);
+            novaCompra.desgloçarCompra(connexio, movimentVendaVinculatTraspas);
 
-            return moviment;
+            return novaCompra;
         }
 
 

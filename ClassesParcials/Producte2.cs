@@ -108,6 +108,62 @@ namespace Inversions
             return compresAnteriors2(moviment.Data, moviment.Participacions);
         }
 
+        /// <summary>
+        /// Torna la llista de les compres a les que afecten aquesta venda.
+        /// </summary>
+        /// <param name="dataHora">Es buscaran compres i vendes anteriors a aquesta data.</param>
+        /// <param name="numParticions">Son les particions venudes a les que buscaré les seves compres.</param>
+        /// <returns></returns>
+        internal IEnumerable<Moviment> compresAnteriors3(DateTime dataHora, double numParticions)
+        {
+            // Totes les compres anteriors a la venda.
+            var compresAnt = MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data < dataHora).OrderBy(o => o.Data).ToList();
+
+            // Totes les vendes anteriors a la venda.
+            var vendesAnt = new Queue<Moviment>(MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data < dataHora).OrderBy(o => o.Data));
+
+            // *** Reinicia _ParticipacionsDisponibles ***
+            Moviment.ResetParticipacionsDisponibles(compresAnt);
+
+
+            List<Moviment> compres = new List<Moviment>();
+            double participacionsRestantsCompra = 0;
+            var partRestantsVenda = numParticions;
+            foreach (var compraAnt in compresAnt)
+            {
+                if (partRestantsVenda <= 0)
+                    // Ja no queden participacions de la venda per repartir.
+                    break;
+
+                if (compres.Any())
+                {
+                    // Ja he trobat la primera compra, a partir d'aquí afegeixo totes les compres fins a repartir totes les participacions.
+                    partRestantsVenda = compraAnt.trobaParticipacionsDisponiblesDesgloçCompra(0, partRestantsVenda);
+                    compres.Add(compraAnt);
+
+                    continue;
+                }
+
+                participacionsRestantsCompra += compraAnt._ParticipacionsDisponibles;
+
+                while (vendesAnt.Count > 0 && Utilitats.ComparaNumeros(participacionsRestantsCompra, 0) > 0)
+                {
+                    // Resta de la compra les vendes anteriors.
+                    var venda = vendesAnt.Dequeue();
+                    participacionsRestantsCompra -= venda.Participacions;
+                }
+
+                if (Utilitats.ComparaNumeros(participacionsRestantsCompra, 0) > 0)
+                {
+                    // Si encara queden participacions en la compra, significa que és la primera que pertany a la venda.
+                    partRestantsVenda = compraAnt.trobaParticipacionsDisponiblesDesgloçCompra(compraAnt.Participacions - participacionsRestantsCompra, partRestantsVenda);
+                    compres.Add(compraAnt);
+                }
+            }
+
+            return compres;
+        }
+
 
         /// <summary>
         /// Calcula perdues i guanys de les vendes reals més els dividents entre les dates, inclou participacions en cartera si -> inclouCartera=true.
@@ -247,6 +303,8 @@ namespace Inversions
         private double costOriginalEnCartera2(DateTime dataHoraFinal, double? numPartsMax = null)
         {
             var compresAnt = compresAnteriors2(dataHoraFinal).ToList();
+
+            Moviment.ResetParticipacionsDisponibles(compresAnt.Select(s => s._Moviment));
 
             var partsPerCalcul = compresAnt.Sum(s => s._ParticipacionsDisponibles);
 
