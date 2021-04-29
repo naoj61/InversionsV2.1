@@ -91,7 +91,7 @@ namespace Inversions
         /// <returns></returns>
         internal double costOriginalEnCartera2(double? numPartsMax = null)
         {
-            return costOriginalEnCartera2(DateTime.MaxValue, numPartsMax);
+            return costOriginalEnCartera3(DateTime.MaxValue, numPartsMax);
         }
 
 
@@ -179,7 +179,6 @@ namespace Inversions
             return pig2Total(dataIni, dataFi, inclouCartera);
         }
 
-
         /// <summary>
         /// Calcula perdues i guanys de les vendes reals més els dividents entre les dates, inclou participacions en cartera si -> inclouCartera=true.
         /// </summary>
@@ -195,8 +194,9 @@ namespace Inversions
             var pigVendesReals = pig2Vendes(dataIni, dataFi, true);
             var pigEnCartera = inclouCartera ? pig2EnCartera(dataFi, null) : 0;
             var divid = dividends(dataIni, dataFi);
+            var pigTotal = pigVendesReals + pigEnCartera + divid;
 
-            return pigVendesReals + pigEnCartera + divid;
+            return pigTotal;
         }
 
 
@@ -268,7 +268,7 @@ namespace Inversions
         {
             var parts = numParts.GetValueOrDefault(numParticipacionsEnData(dataHoraFinal));
 
-            var preuOrig = costOriginalEnCartera2(dataHoraFinal, parts);
+            var preuOrig = costOriginalEnCartera3(dataHoraFinal, parts);
             var preuData = preuParticipacio.GetValueOrDefault(valorParticipacio(dataHoraFinal)) * parts;
 
             return Math.Round(preuData - preuOrig, 5);
@@ -290,7 +290,7 @@ namespace Inversions
             if (nomesVendesReals)
                 vendes = vendes.Where(w => !w._EsTraspas).ToList();
 
-            return vendes.Sum(venda => venda.pig2Venda() - venda.Despeses.GetValueOrDefault());
+            return vendes.Sum(venda => venda.pig2Venda());
         }
 
 
@@ -300,13 +300,21 @@ namespace Inversions
         /// <param name="dataHoraFinal">Si null calcula les participacions avui, sinò les que hi havia a la data.</param>
         /// <param name="numPartsMax">Limita el cost a num de participacions</param>
         /// <returns></returns>
-        private double costOriginalEnCartera2(DateTime dataHoraFinal, double? numPartsMax = null)
+        private double costOriginalEnCartera3(DateTime dataHoraFinal, double? numPartsMax = null)
         {
-            var compresAnt = compresAnteriors2(dataHoraFinal).ToList();
+            var partsEnCartera = numParticipacionsEnData(dataHoraFinal);
 
-            Moviment.ResetParticipacionsDisponibles(compresAnt.Select(s => s._Moviment));
+            if (numPartsMax.HasValue && numPartsMax.Value > partsEnCartera)
+                throw new ArgumentException("'numPartsMax' és més gran que les participacions en cartera.", "numPartsMax");
+
+            Moviment.ResetParticipacionsDisponibles(this);
+
+            var compresAnt = compresAnteriors3(dataHoraFinal, partsEnCartera).ToList();
 
             var partsPerCalcul = compresAnt.Sum(s => s._ParticipacionsDisponibles);
+
+            if (Utilitats.EsZero(partsPerCalcul))
+                return 0;
 
             if (numPartsMax.HasValue)
                 if (Utilitats.ComparaNumeros(numPartsMax.Value, partsPerCalcul) > 0)
@@ -320,7 +328,7 @@ namespace Inversions
             {
                 var parts = movimentCompra._ParticipacionsDisponibles < partsPerCalcul ? movimentCompra._ParticipacionsDisponibles : partsPerCalcul;
 
-                preuOrig2 += movimentCompra._Moviment.calculaPreuOrig2(parts);
+                preuOrig2 += movimentCompra.calculaPreuOrig2(parts);
                 partsPerCalcul -= parts;
 
                 if (Utilitats.EsZero(partsPerCalcul))

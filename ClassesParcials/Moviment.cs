@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -108,7 +109,7 @@ namespace Inversions
         /// </summary>
         public double _PreuCompraParticipacioOrigen
         {
-            get { return calculaImportCompraOrigen() / Participacions; }
+            get { return calculaImportCompraOrigen3(calculaImportNet: false, utilitzoParticipacionsDisponibles: false) / Participacions; }
         }
 
 
@@ -281,10 +282,20 @@ namespace Inversions
         /// <summary>
         /// Calcula el preu total compra origen a partir del desgloç de les compres.
         /// </summary>
+        /// <param name="calculaImportNet"></param>
         /// <param name="utilitzoParticipacionsDisponibles"></param>
         /// <returns></returns>
-        public double calculaImportCompraOrigen(bool utilitzoParticipacionsDisponibles = false)
+        public double calculaImportCompraOrigen3(bool calculaImportNet, bool utilitzoParticipacionsDisponibles)
         {
+            double desp = 0;
+            if (calculaImportNet && Despeses.HasValue)
+            {
+                if (utilitzoParticipacionsDisponibles)
+                    desp = Despeses.Value / Participacions * _ParticipacionsDisponibles;
+                else
+                    desp = Despeses.Value;
+            }
+
             if (_EsCompra)
             {
                 double import = 0;
@@ -302,15 +313,26 @@ namespace Inversions
 
                     import += partsOrig * desglosCompra._PreuParticipacioOrig;
                 }
-                return import;
+                return import + desp;
             }
 
             if (_EsVenda)
             {
-                return compresDeLaVenda3().Sum(compra => compra.calculaImportCompraOrigen(true));
+                var import = compresDeLaVenda3().Sum(compra => compra.calculaImportCompraOrigen3(calculaImportNet, true));
+                return import - desp;
             }
 
             throw new Exception(String.Format("El moviment Id:{0} no és ni compra ni venda. Tipus moviment: {1}", Id, _TipusMoviment));
+        }
+
+
+        /// <summary>
+        /// Reseteja el valor de vParticipacionsDisponibles dels moviments del producte.
+        /// </summary>
+        /// <param name="producte"></param>
+        internal static void ResetParticipacionsDisponibles(Producte producte)
+        {
+            ResetParticipacionsDisponibles(producte.MovimentsProducteUsuari.Where(w=>w.TipusMoviment == TipusMoviment.Compra));
         }
 
 
@@ -928,6 +950,5 @@ namespace Inversions
         }
 
         #endregion
-
     }
 }

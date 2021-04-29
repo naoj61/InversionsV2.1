@@ -9,3 +9,4 @@ packages/
 BD/
 *.DotSettings.user
 Thumbs.db
+~$*

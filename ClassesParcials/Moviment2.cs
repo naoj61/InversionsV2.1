@@ -67,12 +67,23 @@ namespace Inversions
                 throw new Exception("El moviment no és una venda.");
 
             double preuCost = 0;
-            var compresAnt = Prod.compresAnteriors2(this).ToList();
+            //var compresAnt = Prod.compresAnteriors2(this).ToList();
+            //foreach (var compraAnt in compresAnt)
+            //{
+            //    preuCost += compraAnt._Moviment.calculaPreuOrig2();
+            //}
+
+            var compresAnt = this.compresDeLaVenda3().ToList();
             foreach (var compraAnt in compresAnt)
             {
-                preuCost += compraAnt._Moviment.calculaPreuOrig2();
+                // Inclou despeses de la compra.
+                preuCost += compraAnt.calculaImportCompraOrigen3(calculaImportNet: true, utilitzoParticipacionsDisponibles: true);
             }
-            return Participacions * PreuParticipacio - preuCost;
+
+            // Inclou despeses de la venda.
+            var pig = Participacions * PreuParticipacio - Despeses.GetValueOrDefault() - preuCost;
+
+            return pig;
         }
 
 
