@@ -217,65 +217,6 @@ namespace Inversions
 
 
         /// <summary>
-        /// Torma una llista amb les Compres o "Traspassos compres" anteriors a la data hora, fins que cobreixin el número de participacions.
-        /// </summary>
-        /// <param name="dataHora">Data hora a partir de la que es buscaran els moviments de compravenda.</param>
-        /// <param name="numParticipacions">Numero de participacions que es volen vendre.</param>
-        /// <returns></returns>
-        [Obsolete("Obsolet. No funciona bé Utilitzar compresAnteriors2")]
-        public IEnumerable<MovimentCompra> compresAnteriors(DateTime dataHora, double? numParticipacions = null)
-        {
-            double participacions = numParticipacions.HasValue ? numParticipacions.Value : numParticipacionsEnData(dataHora);
-            List<MovimentCompra> compresAmbParticipacio = new List<MovimentCompra>();
-
-            if (participacions <= 0)
-                return compresAmbParticipacio;
-
-            // Troba suma participacions venudes anteriors a aquesta venda.
-            var participVenudesAbans = MovimentsProducteUsuari
-                .Where(w => w.Data < dataHora && w.TipusMoviment == TipusMoviment.Venda).Sum(s => (double?)s.Participacions) ?? 0;
-            var trobadaPrimeraCompra = false;
-
-            // Llegeix compres anteriors a la venda del producte ordenades per data creixent i vaig restant les participacions venudes anteriorment.
-            var compresAnt = MovimentsProducteUsuari.Where(w => w.Data < dataHora && w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data).ToList();
-            foreach (var compra in compresAnt)
-            {
-                if (!trobadaPrimeraCompra)
-                {
-                    if (participVenudesAbans >= compra.Participacions)
-                    {
-                        // Son les participacions que ja estan venude per una venda anterior.
-                        participVenudesAbans -= compra.Participacions;
-                    }
-                    else
-                    {
-                        var part = compra.Participacions - participVenudesAbans;
-                        if (part > participacions)
-                            part = participacions;
-                        compresAmbParticipacio.Add(new MovimentCompra(compra, part));
-                        participacions -= part;
-                        trobadaPrimeraCompra = true;
-                    }
-                }
-                else
-                {
-                    //double part = participacions > compra.Participacions ? participacions - compra.Participacions : participacions;
-                    double part = participacions > compra.Participacions ? compra.Participacions : participacions;
-                    compresAmbParticipacio.Add(new MovimentCompra(compra, part));
-                    participacions -= part;
-                }
-
-                if (Utilitats.EsZero(participacions))
-                    break;
-            }
-
-            if (participacions > 0.0000001)
-                throw new ApplicationException("No hi ha prou participacions disponibles en cartera en aquesta data: " + dataHora.ToShortDateString() + " " + dataHora.ToShortTimeString());
-
-            return compresAmbParticipacio;
-        }
-
-        /// <summary>
         /// Calcula la diferencia de compra/venda en l'any.
         /// </summary>
         /// <param name="any"></param>
@@ -300,12 +241,9 @@ namespace Inversions
             foreach (Moviment vendaReal in vendesReals)
             {
                 // Troba les compres de la venda.
-                var desgloçCompres = vendaReal.compresDeLaVenda(Program.Sessio);
+                var compres = vendaReal.compresDeLaVenda3();
 
-                foreach (var desgloçCompra in desgloçCompres)
-                {
-                    importCompresOrig += (desgloçCompra._ParticipacionsDelMovimentOrigen * desgloçCompra._PreuParticipacioOrig);
-                }
+                importCompresOrig += compres.Sum(compra => compra.calculaImportCompraOrigen3(true, true));
             }
 
             return importCompresOrig;
@@ -362,8 +300,7 @@ namespace Inversions
             foreach (var venda in MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w._EsVendaReal).ToList())
             {
                 // Despeses de la compra.
-                totalDespeses += venda.compresAnteriors()
-                    .Sum(movCompra => movCompra._Moviment.Despeses.GetValueOrDefault() * movCompra._ParticipacionsDisponibles / movCompra._Moviment.Participacions);
+                totalDespeses += venda.compresDeLaVenda3().Sum(movCompra => movCompra._DespesesParticipacionsDisponibles);
             }
 
             return totalDespeses;
@@ -459,57 +396,7 @@ namespace Inversions
 
             return participacions * valorParticipacio(dFinal);
         }
-
-
-        /// <summary>
-        /// Calcula el cost original de les participacions en cartera.
-        /// </summary>
-        /// <param name="data">Si null calcula les participacions avui, sinò les que hi havia a la data.</param>
-        /// <param name="numPartsMax">Limita el cost a num de participacions</param>
-        /// <returns></returns>
-        [Obsolete("Obsolet. No funciona bé Utilitzar costOriginalEnCartera2")]
-        public double costOriginalEnCarteraX(DateTime? data = null, double? numPartsMax = null)
-        {
-            var dFinal = data.GetValueOrDefault(Utilitats.PosoHora(data));
-
-            var participacions = numParticipacionsEnData(dFinal);
-
-            if (numPartsMax.HasValue)
-                if (numPartsMax.Value > participacions && numPartsMax.Value < 0)
-                    throw new ArgumentException("El numero de participacions del parèmetre supera les participacions en cartera o és negatiu", "numPartsMax");
-                else
-                    participacions = numPartsMax.Value;
-
-
-
-            // *** Creo una pila amb el desgloç de les compres anteriors a la data. *****
-            var compresAnt = compresAnteriors(dFinal, participacions).OrderBy(o => o._Moviment.Data);
-            var compresDesgAnt = new Stack<DesglosCompra>(compresAnt.SelectMany(compAnt => compAnt._Moviment.DesglosCompres.
-                OrderBy(o => o.MovCompraOrig.Data)));
-
-
-            double cost = 0;
-            while (compresDesgAnt.Count > 0 && participacions > 0)
-            {
-                var desg = compresDesgAnt.Pop();
-                double partOrig = 0;
-
-                if (participacions > desg.Participacions)
-                {
-                    partOrig = desg.ParticipacionsOrig;
-                    participacions -= desg.Participacions;
-                }
-                else
-                {
-                    partOrig = participacions / desg.Participacions * desg.ParticipacionsOrig;
-                    participacions = 0;
-                }
-                cost += (partOrig * desg._PreuParticipacioOrig);
-            }
-
-            return cost;
-        }
-
+        
 
         /// <summary>
         /// Torna les valoracions entre les dates, ponderades si s'indica.
@@ -914,11 +801,11 @@ namespace Inversions
                 throw new ApplicationException("No és una acció. Només es pot fer l'split si és una acció.");
 
             var descripcio = String.Format("{0}. Factor conversor: {1}.", "Split", factorConversor);
-            var compres = compresAnteriors(dataHora, _Participacions).ToList();
+            var compres = compresAnteriors3(dataHora, _Participacions).ToList();
 
             foreach (var movimentCompra in compres)
             {
-                var mov1 = connexio.Moviments.Find(movimentCompra._Moviment.Id);
+                var mov1 = connexio.Moviments.Find(movimentCompra.Id);
 
                 DateTime data1 = mov1.Data; // Deso la data per sumar-li segons.
 
@@ -947,9 +834,8 @@ namespace Inversions
                 desaCompra(connexio, data1, participacions, preuParticipacio, mov1.CanviAplicat, despesesSplit, descripcio, null, false, false);
             }
 
-
             // Modifico les valoracions a partir de la data del Split.
-            var dataPrimeraCompra = compres.First()._Moviment.Data;
+            var dataPrimeraCompra = compres.First().Data;
             modificaValoracions(connexio, TipusMoviment.Split, dataPrimeraCompra.Date, factorConversor);
 
             //connexio.SaveChanges();
@@ -970,11 +856,11 @@ namespace Inversions
                 throw new ApplicationException("No és una acció. Només es pot fer l'split si és una acció.");
 
             var descripcio = String.Format("{0}. Factor conversor: {1}. Preu operació: {2}.", "ContraSplit", factorConversor, preuOperacio);
-            var compresAnt = compresAnteriors(dataHora, _Participacions).ToList();
+            var compresAnt = compresAnteriors3(dataHora, _Participacions).ToList();
 
             foreach (var movimentCompra in compresAnt)
             {
-                var mov1 = connexio.Moviments.Find(movimentCompra._Moviment.Id);
+                var mov1 = connexio.Moviments.Find(movimentCompra.Id);
 
                 DateTime data1 = mov1.Data; // Deso la data per sumar-li segons.
 
@@ -1016,7 +902,7 @@ namespace Inversions
             }
 
             // Modifico les valoracions a partir de la data del ContraSplit.
-            var dataPrimeraCompra = compresAnt.First()._Moviment.Data;
+            var dataPrimeraCompra = compresAnt.First().Data;
             modificaValoracions(connexio, TipusMoviment.ContraSplit, dataPrimeraCompra.Date, factorConversor);
 
             //connexio.SaveChanges();

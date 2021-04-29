@@ -96,19 +96,6 @@ namespace Inversions
 
 
         /// <summary>
-        /// Torma una llista amb les Compres o "T compres" anteriors a la venda.
-        /// </summary>
-        /// <param name="moviment">Venda</param>
-        /// <returns></returns>
-        internal IEnumerable<MovimentCompra> compresAnteriors2(Moviment moviment)
-        {
-            if (moviment.TipusMoviment != TipusMoviment.Venda)
-                throw new Exception("El moviment ha de ser una venda.");
-
-            return compresAnteriors2(moviment.Data, moviment.Participacions);
-        }
-
-        /// <summary>
         /// Torna la llista de les compres a les que afecten aquesta venda.
         /// </summary>
         /// <param name="dataHora">Es buscaran compres i vendes anteriors a aquesta data.</param>
@@ -335,53 +322,6 @@ namespace Inversions
                     break;
             }
             return preuOrig2;
-        }
-
-
-        /// <summary>
-        /// Torma una llista amb les Compres o "T compres" anteriors a la data hora i que les participacions no s'hagin disposat anteriorment.
-        /// Creat 01/07/2020
-        /// </summary>
-        /// <param name="dataHora">Data hora a partir de la que es buscaran els moviments de compravenda.</param>
-        /// <param name="numParticipacions"></param>
-        /// <returns></returns>
-        private IEnumerable<MovimentCompra> compresAnteriors2(DateTime dataHora, double? numParticipacions = null)
-        {
-            List<MovimentCompra> compresAmbParticipacio = new List<MovimentCompra>();
-
-            double participacions = numParticipacions.HasValue ? numParticipacions.Value : numParticipacionsEnData(dataHora);
-
-            if (participacions <= 0)
-                return compresAmbParticipacio;
-
-            // Troba suma participacions venudes anteriors a aquesta venda per descomptarles.
-            var participVenudesAbans = MovimentsProducteUsuari
-                .Where(w => w.Data < dataHora && w.TipusMoviment == TipusMoviment.Venda)
-                .Sum(s => s.Participacions);
-
-            // Llegeix compres anteriors a la venda del producte ordenades per data creixent i vaig restant les participacions venudes anteriorment.
-            var compresAnt = MovimentsProducteUsuari.Where(w => w.Data < dataHora && w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data).ToList();
-            foreach (var compra in compresAnt)
-            {
-                if (Utilitats.EsZero(participacions))
-                    break;
-
-                if (participVenudesAbans >= compra.Participacions)
-                {
-                    // Son les participacions que ja estan venudes per una venda anterior.
-                    participVenudesAbans -= compra.Participacions;
-                }
-                else
-                {
-                    var part = compra.Participacions - participVenudesAbans;
-                    part = part >= participacions ? participacions : part;
-                    compresAmbParticipacio.Add(new MovimentCompra(compra, part));
-                    participacions -= part;
-                    participVenudesAbans = 0; // Un cop trobada la primera compra ja no val.
-                }
-            }
-
-            return compresAmbParticipacio;
         }
 
 
