@@ -10,7 +10,6 @@ using Comuns;
 
 namespace Inversions
 {
-
     /// <summary>
     /// El moviment de compra lligadas a una venda pot ser que no utilitzi totes les participacions.
     /// </summary>
@@ -33,12 +32,6 @@ namespace Inversions
         public double _ParticipacionsDisponibles { get; private set; }
 
         public Moviment _Moviment { get; private set; }
-
-        [Obsolete("Obsolet. No utilitzar el camp 'PreuParticipacioOrigen'")]
-        public double _PreuParticipacioOrigenTest
-        {
-            get { return _Moviment._PreuParticipacioOrigen.GetValueOrDefault(_Moviment.PreuParticipacio); }
-        }
         
 
         public override string ToString()
@@ -94,14 +87,6 @@ namespace Inversions
     public partial class Moviment
     {
         #region *** Atributs ***
-
-        [Obsolete("Obsolet. El camp 'Moviment.PreuParticipacioOrigen' està pendent d'eliminar. Utilitzar '_PreuCompraParticipacioOrigen'")]
-        public double? _PreuParticipacioOrigen
-        {
-            get { return PreuParticipacioOrigen; }
-            set { PreuParticipacioOrigen = value; }
-        }
-
         
         /// <summary>
         /// Calcula el preu compra unitari origen a partir del _ImportCompraOrigen.
@@ -112,16 +97,6 @@ namespace Inversions
             get { return calculaImportCompraOrigen3(calculaImportNet: false, utilitzoParticipacionsDisponibles: false) / Participacions; }
         }
 
-
-        //public string _NomProducteTraspasOrigen
-        //{
-        //    get { return _ProducteTraspasOrigen != null ? _ProducteTraspasOrigen._NomProducte : null; }
-        //}
-
-        //public string _NomProducteTraspasDesti
-        //{
-        //    get { return _ProducteTraspasDesti != null ? _ProducteTraspasDesti._NomProducte : null; }
-        //}
 
         [Description("S'utilitza en un DataGrid")]
         public Producte _ProducteTraspasOrigen
@@ -774,57 +749,6 @@ namespace Inversions
         }
 
 
-        /// <summary>
-        /// Calcula el preu de compra origen d'un moviment de; Compra, venda o traspàs.
-        /// </summary>
-        /// <returns></returns>
-        [ObsoleteAttribute("Obsolet.", false)]
-        [Description("El mantinc perquè encara desa el camp 'PreuParticipacioOrigen' malgrat no l'utilitzo")]
-        internal double? calculaPreuOrigen()
-        {
-            double? valorRetorn = null;
-
-            if (TipusMoviment == TipusMoviment.Compra)
-            {
-                if (MovimentRefVendaN == null)
-                {
-                    valorRetorn = PreuParticipacio;
-                }
-                else
-                {
-                    if (MovimentRefVendaN._PreuParticipacioOrigen == null)
-                        throw new NullReferenceException("El 'movimentVendaVinculatCompra' és NULL i hauria de tenir algún valor.");
-
-                    valorRetorn = MovimentRefVendaN._PreuParticipacioOrigen.Value * MovimentRefVendaN.Participacions / Participacions;
-                }
-            }
-            else if (TipusMoviment == TipusMoviment.Venda || TipusMoviment == TipusMoviment.Traspàs)
-            {
-                double importCompraPartDisponibles = 0;
-                double numPartDisponibles = 0;
-
-                if (compresAnteriors().Any())
-                {
-                    foreach (var compra in compresAnteriors())
-                    {
-                        if (compra._Moviment._PreuParticipacioOrigen == null)
-                            throw new NullReferenceException("El 'compra._Moviment.PreuParticipacioOrigen' és NULL i hauria de tenir algún valor. Id moviment: " + compra._Moviment.Id);
-
-                        var despeses = compra._Moviment.Despeses.GetValueOrDefault() / compra._Moviment.Participacions * compra._ParticipacionsDisponibles;
-                        importCompraPartDisponibles += compra._ParticipacionsDisponibles * compra._Moviment._PreuParticipacioOrigen.Value + despeses;
-                        numPartDisponibles += compra._ParticipacionsDisponibles;
-                    }
-                    valorRetorn = importCompraPartDisponibles / numPartDisponibles;
-                }
-            }
-            else
-            {
-                throw new ApplicationException("El moviment ha de ser: Compra, venda o traspàs.");
-            }
-
-            return valorRetorn.HasValue ? Math.Round(valorRetorn.Value, 4) : (double?) null;
-        }
-
         public double ImportBrut
         {
             get
@@ -863,15 +787,7 @@ namespace Inversions
                 return result;
             }
         }
-
-        /// <summary>
-        /// S'utilitza en dgvCompresProducte.
-        /// </summary>
-        public double _ImportBrutOrigen
-        {
-            get { return Participacions * _PreuParticipacioOrigen.GetValueOrDefault(PreuParticipacio); }
-        }
-
+        
 
         /// <summary>
         /// Crea una còpia superficial creant un objecte nou.

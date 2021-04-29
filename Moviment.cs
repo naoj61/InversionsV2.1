@@ -28,7 +28,6 @@ namespace Inversions
         public Nullable<int> MovimentRefVendaId { get; set; }
         public System.DateTime Data { get; set; }
         public double Participacions { get; set; }
-        private Nullable<double> PreuParticipacioOrigen { get; set; }
         public double PreuParticipacio { get; set; }
         public double CanviAplicat { get; set; }
         public Nullable<double> Despeses { get; set; }

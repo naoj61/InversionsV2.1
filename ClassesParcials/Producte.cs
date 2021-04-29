@@ -807,8 +807,6 @@ namespace Inversions
             this.Moviments.Add(novaCompra); // Carrega les referències.
             connexio.Entry(novaCompra).Reference(c => c.Prod).Load();
 
-            novaCompra._PreuParticipacioOrigen = novaCompra.calculaPreuOrigen(); // Després del Add per tenir les referèmcies creades.
-
             if (afegeigPreuAValoracions)
                 this.afegeigPreuAValoracions(connexio, dataHora, preuParticipacio);
 
@@ -874,8 +872,6 @@ namespace Inversions
 
             this.Moviments.Add(moviment);
             connexio.Entry(moviment).Reference(c => c.Prod).Load(); // Carrega les referències.
-
-            moviment._PreuParticipacioOrigen = moviment.calculaPreuOrigen(); // Després del Add per tenir les referències creades.
 
             if (afegeigPreuAValoracions)
                 this.afegeigPreuAValoracions(connexio, dataHora, preuParticipacio);
@@ -1016,7 +1012,6 @@ namespace Inversions
                     // Venc les participacions restants.
                     data1 = data1.AddSeconds(1);
                     var ven = desaVenda(connexio, data1, partRestants, preuOperacio, canviAplicat, 0, descripcio, false, false);
-                    ven._PreuParticipacioOrigen = mov1._PreuParticipacioOrigen.GetValueOrDefault(); // Modifico el PreuParticipacioOrigen.
                 }
             }
 

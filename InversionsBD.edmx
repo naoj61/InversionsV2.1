@@ -546,7 +546,6 @@
           <Property Name="MovimentRefVendaId" Type="Int32" />
           <Property Name="Data" Nullable="false" Precision="3" Type="DateTime" />
           <Property Name="Participacions" Nullable="false" Type="Double" />
-          <Property Name="PreuParticipacioOrigen" Type="Double" cg:GetterAccess="Private" cg:SetterAccess="Private" />
           <Property Name="PreuParticipacio" Nullable="false" Type="Double" />
           <Property Name="CanviAplicat" Nullable="false" Type="Double" />
           <Property Name="Despeses" Type="Double" />
@@ -728,7 +727,6 @@
                 <ScalarProperty Name="Despeses" ColumnName="Despeses" />
                 <ScalarProperty Name="CanviAplicat" ColumnName="CanviAplicat" />
                 <ScalarProperty Name="PreuParticipacio" ColumnName="PreuParticipacio" />
-                <ScalarProperty Name="PreuParticipacioOrigen" ColumnName="PreuParticipacioOrigen" />
                 <ScalarProperty Name="Participacions" ColumnName="Participacions" />
                 <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="MovimentRefVendaId" ColumnName="MovimentRefVendaId" />
