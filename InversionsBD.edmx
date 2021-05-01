@@ -51,10 +51,9 @@
           <Property Name="UsuariId" Type="int" Nullable="false" />
           <Property Name="ProdId" Type="int" Nullable="false" />
           <Property Name="TipusMoviment" Type="int" Nullable="false" />
-          <Property Name="RefTraspas" Type="int" />
+          <Property Name="RefTraspasId" Type="int" />
           <Property Name="Data" Type="datetime" Nullable="false" />
           <Property Name="Participacions" Type="float" Nullable="false" />
-          <Property Name="PreuParticipacioOrigen" Type="float" />
           <Property Name="PreuParticipacio" Type="float" Nullable="false" />
           <Property Name="CanviAplicat" Type="float" Nullable="false" />
           <Property Name="Despeses" Type="float" />
@@ -256,7 +255,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Moviments1">
-              <PropertyRef Name="RefTraspas" />
+              <PropertyRef Name="RefTraspasId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -543,7 +542,7 @@
           <Property Name="UsuariId" Nullable="false" Type="Int32" />
           <Property Name="ProdId" Nullable="false" Type="Int32" />
           <Property Name="TipusMoviment" Nullable="false" Type="InversionsBD.TipusMoviment" />
-          <Property Name="RefTraspas" Type="Int32" >
+          <Property Name="RefTraspasId" Type="Int32" >
             <Documentation>
               <Summary>Si traspàs, lliga compra i venda</Summary>
               <LongDescription>En cas de traspàs lliga la venda amb la compra del nou fons.</LongDescription>
@@ -558,7 +557,7 @@
           <Property Name="RowVersion" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" Type="Binary" />
           <NavigationProperty Name="Prod" Relationship="InversionsBD.FK_ProdMov" FromRole="Moviment" ToRole="Producte" />
           <NavigationProperty Name="RefTraspas1" Relationship="InversionsBD.FK_RefVenda" FromRole="Moviment" ToRole="RefTraspasN" />
-          <NavigationProperty Name="RefTraspasN" Relationship="InversionsBD.FK_RefVenda" FromRole="RefTraspasN" ToRole="Moviment" />
+          <NavigationProperty Name="RefTraspas" Relationship="InversionsBD.FK_RefVenda" FromRole="RefTraspasN" ToRole="Moviment" />
           <NavigationProperty Name="Usuari" Relationship="InversionsBD.FK_Usuaris" FromRole="Moviment" ToRole="Usuari" />
           <NavigationProperty Name="DesglosCompres" Relationship="InversionsBD.FK_MovCompra" FromRole="Moviment" ToRole="DesglosCompre" />
           <NavigationProperty Name="DesglosCompresOrig" Relationship="InversionsBD.FK_MovCompraOrig" FromRole="Moviment" ToRole="DesglosCompre" />
@@ -583,7 +582,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="RefTraspasN">
-              <PropertyRef Name="RefTraspas" />
+              <PropertyRef Name="RefTraspasId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -734,7 +733,7 @@
                 <ScalarProperty Name="PreuParticipacio" ColumnName="PreuParticipacio" />
                 <ScalarProperty Name="Participacions" ColumnName="Participacions" />
                 <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="RefTraspas" ColumnName="RefTraspas" />
+                <ScalarProperty Name="RefTraspasId" ColumnName="RefTraspasId" />
                 <ScalarProperty Name="TipusMoviment" ColumnName="TipusMoviment" />
                 <ScalarProperty Name="ProdId" ColumnName="ProdId" />
                 <ScalarProperty Name="UsuariId" ColumnName="UsuariId" />

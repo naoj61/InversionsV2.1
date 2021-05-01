@@ -38,7 +38,7 @@ namespace Inversions
 
         public Producte _ProducteTraspas
         {
-            get { return RefTraspasN != null ? RefTraspasN.Prod : null; }
+            get { return RefTraspas != null ? RefTraspas.Prod : null; }
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Inversions
 
         public bool _EsTraspas
         {
-            get { return RefTraspasN != null; }
+            get { return RefTraspas != null; }
         }
 
         /// <summary>
