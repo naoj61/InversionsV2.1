@@ -543,7 +543,12 @@
           <Property Name="UsuariId" Nullable="false" Type="Int32" />
           <Property Name="ProdId" Nullable="false" Type="Int32" />
           <Property Name="TipusMoviment" Nullable="false" Type="InversionsBD.TipusMoviment" />
-          <Property Name="MovimentRefVendaId" Type="Int32" />
+          <Property Name="MovimentRefVendaId" Type="Int32" >
+            <Documentation>
+              <Summary>Si traspàs, lliga compra i venda</Summary>
+              <LongDescription>En cas de traspàs lliga la venda amb la compra del nou fons.</LongDescription>
+            </Documentation>
+          </Property>
           <Property Name="Data" Nullable="false" Precision="3" Type="DateTime" />
           <Property Name="Participacions" Nullable="false" Type="Double" />
           <Property Name="PreuParticipacio" Nullable="false" Type="Double" />

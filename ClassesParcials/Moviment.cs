@@ -247,6 +247,10 @@ namespace Inversions
             }
         }
 
+        public IEnumerable<Moviment> vendesDeLaCompraTest(out double participEnCartera)
+        {
+            return vendesDeLaCompra(out participEnCartera);
+        }
 
         /// <summary>
         /// Torna la llista de les vendes que utilitzen les participacions d'aquesta compra

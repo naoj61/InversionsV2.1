@@ -95,6 +95,11 @@ namespace Inversions
         }
 
 
+        public IEnumerable<Moviment> compresAnteriors3Test(DateTime dataHora, double numParticions)
+        {
+            return compresAnteriors3(dataHora, numParticions);
+        }
+
         /// <summary>
         /// Torna la llista de les compres a les que afecten aquesta venda.
         /// </summary>

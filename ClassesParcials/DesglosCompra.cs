@@ -28,6 +28,11 @@ namespace Inversions
         }
 
 
+        public double _ParticipacionsDisponiblesOrig
+        {
+            get { return ParticipacionsOrig / Participacions * _ParticipacionsDisponibles; }
+        }
+
         /// <summary>
         /// L'utilitzo per saber les participacions disponibles que poden no ser les mateixes que les del moviment.
         /// </summary>
