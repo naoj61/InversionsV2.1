@@ -148,7 +148,14 @@ namespace Inversions
                 if (Utilitats.ComparaNumeros(participacionsRestantsCompra, 0) > 0)
                 {
                     // Si encara queden participacions en la compra, significa que és la primera que pertany a la venda.
-                    partRestantsVenda = compraAnt.trobaParticipacionsDisponiblesDesgloçCompra(compraAnt.Participacions - participacionsRestantsCompra, partRestantsVenda);
+
+                    var partsUtilit = compraAnt.Participacions - participacionsRestantsCompra;
+
+                    if (partsUtilit < 0 && Utilitats.EsZero(partsUtilit, 3))
+                        // Si és negatiu per decimes, poso 0.
+                        partsUtilit = 0;
+
+                    partRestantsVenda = compraAnt.trobaParticipacionsDisponiblesDesgloçCompra(partsUtilit, partRestantsVenda);
                     compres.Add(compraAnt);
                 }
             }
