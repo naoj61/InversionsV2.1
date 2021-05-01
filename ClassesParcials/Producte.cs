@@ -684,11 +684,11 @@ namespace Inversions
                 //// Asigno valor a "ProducteTraspasId" en la compra.
                 //movimentVendaVinculatTraspas.Prod.MovimentsTraspas.Add(moviment);
 
-                // Asigno valor a "MovimentRefVendaId" en la venda.
-                novaCompra.MovimentRefVenda1.Add(movimentVendaVinculatTraspas);
+                // Asigno valor a "RefTraspas" en la venda.
+                novaCompra.RefTraspas1.Add(movimentVendaVinculatTraspas);
 
-                // Asigno valor a "MovimentRefVendaId" en la compra.
-                movimentVendaVinculatTraspas.MovimentRefVenda1.Add(novaCompra);
+                // Asigno valor a "RefTraspas" en la compra.
+                movimentVendaVinculatTraspas.RefTraspas1.Add(novaCompra);
             }
 
             this.Moviments.Add(novaCompra); // Carrega les referències.

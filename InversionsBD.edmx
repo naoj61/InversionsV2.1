@@ -51,7 +51,7 @@
           <Property Name="UsuariId" Type="int" Nullable="false" />
           <Property Name="ProdId" Type="int" Nullable="false" />
           <Property Name="TipusMoviment" Type="int" Nullable="false" />
-          <Property Name="MovimentRefVendaId" Type="int" />
+          <Property Name="RefTraspas" Type="int" />
           <Property Name="Data" Type="datetime" Nullable="false" />
           <Property Name="Participacions" Type="float" Nullable="false" />
           <Property Name="PreuParticipacioOrigen" Type="float" />
@@ -256,7 +256,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Moviments1">
-              <PropertyRef Name="MovimentRefVendaId" />
+              <PropertyRef Name="RefTraspas" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -375,7 +375,7 @@
           </AssociationSet>
           <AssociationSet Name="FK_RefVenda" Association="InversionsBD.FK_RefVenda">
             <End EntitySet="Moviments" Role="Moviment" />
-            <End EntitySet="Moviments" Role="MovimentRefVendaN" />
+            <End EntitySet="Moviments" Role="RefTraspasN" />
           </AssociationSet>
           <AssociationSet Name="FK_Usuaris" Association="InversionsBD.FK_Usuaris">
             <End EntitySet="Usuaris" Role="Usuari" />
@@ -543,7 +543,7 @@
           <Property Name="UsuariId" Nullable="false" Type="Int32" />
           <Property Name="ProdId" Nullable="false" Type="Int32" />
           <Property Name="TipusMoviment" Nullable="false" Type="InversionsBD.TipusMoviment" />
-          <Property Name="MovimentRefVendaId" Type="Int32" >
+          <Property Name="RefTraspas" Type="Int32" >
             <Documentation>
               <Summary>Si traspàs, lliga compra i venda</Summary>
               <LongDescription>En cas de traspàs lliga la venda amb la compra del nou fons.</LongDescription>
@@ -557,8 +557,8 @@
           <Property Name="Descripcio" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
           <Property Name="RowVersion" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" Type="Binary" />
           <NavigationProperty Name="Prod" Relationship="InversionsBD.FK_ProdMov" FromRole="Moviment" ToRole="Producte" />
-          <NavigationProperty Name="MovimentRefVenda1" Relationship="InversionsBD.FK_RefVenda" FromRole="Moviment" ToRole="MovimentRefVendaN" />
-          <NavigationProperty Name="MovimentRefVendaN" Relationship="InversionsBD.FK_RefVenda" FromRole="MovimentRefVendaN" ToRole="Moviment" />
+          <NavigationProperty Name="RefTraspas1" Relationship="InversionsBD.FK_RefVenda" FromRole="Moviment" ToRole="RefTraspasN" />
+          <NavigationProperty Name="RefTraspasN" Relationship="InversionsBD.FK_RefVenda" FromRole="RefTraspasN" ToRole="Moviment" />
           <NavigationProperty Name="Usuari" Relationship="InversionsBD.FK_Usuaris" FromRole="Moviment" ToRole="Usuari" />
           <NavigationProperty Name="DesglosCompres" Relationship="InversionsBD.FK_MovCompra" FromRole="Moviment" ToRole="DesglosCompre" />
           <NavigationProperty Name="DesglosCompresOrig" Relationship="InversionsBD.FK_MovCompraOrig" FromRole="Moviment" ToRole="DesglosCompre" />
@@ -577,13 +577,13 @@
         </Association>
         <Association Name="FK_RefVenda">
           <End Type="InversionsBD.Moviment" Multiplicity="0..1" Role="Moviment" />
-          <End Type="InversionsBD.Moviment" Multiplicity="*" Role="MovimentRefVendaN" />
+          <End Type="InversionsBD.Moviment" Multiplicity="*" Role="RefTraspasN" />
           <ReferentialConstraint>
             <Principal Role="Moviment">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="MovimentRefVendaN">
-              <PropertyRef Name="MovimentRefVendaId" />
+            <Dependent Role="RefTraspasN">
+              <PropertyRef Name="RefTraspas" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -734,7 +734,7 @@
                 <ScalarProperty Name="PreuParticipacio" ColumnName="PreuParticipacio" />
                 <ScalarProperty Name="Participacions" ColumnName="Participacions" />
                 <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="MovimentRefVendaId" ColumnName="MovimentRefVendaId" />
+                <ScalarProperty Name="RefTraspas" ColumnName="RefTraspas" />
                 <ScalarProperty Name="TipusMoviment" ColumnName="TipusMoviment" />
                 <ScalarProperty Name="ProdId" ColumnName="ProdId" />
                 <ScalarProperty Name="UsuariId" ColumnName="UsuariId" />

@@ -38,7 +38,7 @@ namespace Inversions
 
         public Producte _ProducteTraspas
         {
-            get { return MovimentRefVendaN != null ? MovimentRefVendaN.Prod : null; }
+            get { return RefTraspasN != null ? RefTraspasN.Prod : null; }
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Inversions
 
         public bool _EsTraspas
         {
-            get { return MovimentRefVendaN != null; }
+            get { return RefTraspasN != null; }
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace Inversions
         /// </summary>
         public Moviment _MovimentRefCompra
         {
-            get { return MovimentRefVenda1.FirstOrDefault(); }
+            get { return RefTraspas1.FirstOrDefault(); }
         }
         
         #endregion *** Atributs ***

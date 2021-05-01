@@ -16,7 +16,7 @@ namespace Inversions
     {
         public Moviment()
         {
-            this.MovimentRefVenda1 = new HashSet<Moviment>();
+            this.RefTraspas1 = new HashSet<Moviment>();
             this.DesglosCompres = new HashSet<DesglosCompra>();
             this.DesglosCompresOrig = new HashSet<DesglosCompra>();
         }
@@ -25,7 +25,7 @@ namespace Inversions
         public int UsuariId { get; set; }
         public int ProdId { get; set; }
         public TipusMoviment TipusMoviment { get; set; }
-        public Nullable<int> MovimentRefVendaId { get; set; }
+        public Nullable<int> RefTraspas { get; set; }
         public System.DateTime Data { get; set; }
         public double Participacions { get; set; }
         public double PreuParticipacio { get; set; }
@@ -35,8 +35,8 @@ namespace Inversions
         public byte[] RowVersion { get; set; }
     
         public virtual Producte Prod { get; set; }
-        public virtual ICollection<Moviment> MovimentRefVenda1 { get; set; }
-        public virtual Moviment MovimentRefVendaN { get; set; }
+        public virtual ICollection<Moviment> RefTraspas1 { get; set; }
+        public virtual Moviment RefTraspasN { get; set; }
         public virtual Usuari Usuari { get; set; }
         public virtual ICollection<DesglosCompra> DesglosCompres { get; set; }
         public virtual ICollection<DesglosCompra> DesglosCompresOrig { get; set; }
