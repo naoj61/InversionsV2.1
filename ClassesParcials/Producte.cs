@@ -169,6 +169,14 @@ namespace Inversions
 
         #region Mètodes
 
+        public void resetParticipacionsDisponibles()
+        {
+            foreach (var moviment in MovimentsProducteUsuari)
+            {
+                moviment.resetParticipacionsDisponibles();
+            }
+        }
+
         internal double dividends(DateTime dataFi)
         {
             return dividends(DateTime.MinValue, dataFi);

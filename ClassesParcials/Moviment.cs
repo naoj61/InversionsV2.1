@@ -125,6 +125,9 @@ namespace Inversions
         }
 
 
+        // todo He de diferenciar entre participacions Ocupades(per altres operacions), Utilitzades(en aquesta operació) i Disponibles(la resta).
+
+
         /// <summary>
         /// L'utilitzo per saber les participacions disponibles que poden no ser les mateixes que les del moviment.
         /// </summary>
@@ -223,28 +226,28 @@ namespace Inversions
 
 
         /// <summary>
-        /// Reseteja el valor de vParticipacionsDisponibles dels moviments del producte.
+        /// Reseteja el valor de ParticipacionsDisponibles de moviments
         /// </summary>
-        /// <param name="producte"></param>
-        internal static void ResetParticipacionsDisponibles(Producte producte)
+        /// <param name="moviments"></param>
+        public static void ResetParticipacionsDisponibles(IEnumerable<Moviment> moviments)
         {
-            ResetParticipacionsDisponibles(producte.MovimentsProducteUsuari.Where(w=>w.TipusMoviment == TipusMoviment.Compra));
+            foreach (var moviment in moviments)
+                moviment.resetParticipacionsDisponibles();
         }
 
 
         /// <summary>
-        /// Reseteja el valor de vParticipacionsDisponibles dels moviments del paràmetre.
+        /// Reseteja el valor de ParticipacionsDisponibles.
         /// </summary>
-        /// <param name="moviments">Llista de moviments a resetejar.</param>
-        internal static void ResetParticipacionsDisponibles(IEnumerable<Moviment> moviments)
+        internal void resetParticipacionsDisponibles()
         {
-            foreach (var moviment in moviments)
-            {
-                if (moviment._EsCompra)
-                    DesglosCompra.ResetParticipacionsDisponibles(moviment.DesglosCompres);
-                else if (moviment._EsVenda)
-                    moviment.vParticipacionsDisponiblesVenda = null;
-            }
+            if (_EsCompra)
+                foreach (var desglosCompra in DesglosCompres)
+                {
+                    desglosCompra.resetParticipacionsDisponibles();
+                }
+            else if (_EsVenda)
+                vParticipacionsDisponiblesVenda = null;
         }
 
         public IEnumerable<Moviment> vendesDeLaCompraTest(out double participEnCartera)
@@ -257,12 +260,12 @@ namespace Inversions
         /// </summary>
         /// <param name="participEnCartera">Son les participacions que no s'han venut.</param>
         /// <returns></returns>
-        private IEnumerable<Moviment> vendesDeLaCompra(out double participEnCartera)
+        internal IEnumerable<Moviment> vendesDeLaCompra(out double participEnCartera)
         {
             if (!_EsCompra)
                 throw new ArgumentException(String.Format("El moviment ha de ser una compra. Id={0}", Id));
 
-            participEnCartera = Participacions;
+            participEnCartera = Prod.numParticipacionsEnData(Data);
             var vendes1 = Prod.MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data >= Data).OrderBy(o => o.Data).ToList();
 
             // *** Reinicia _ParticipacionsDisponibles ***
@@ -274,17 +277,34 @@ namespace Inversions
             {
                 if (enCarteraAbansCompra > 0)
                 {
-                    venda._ParticipacionsDisponibles -= enCarteraAbansCompra;
-                    enCarteraAbansCompra -= venda.Participacions;
-                    if (venda._ParticipacionsDisponibles <= 0)
+                    if (Utilitats.ComparaNumeros(venda._ParticipacionsDisponibles, enCarteraAbansCompra) >= 0)
+                    {
+                        venda._ParticipacionsDisponibles -= enCarteraAbansCompra;
+                        enCarteraAbansCompra = 0;
+                    }
+                    else
+                    {
+                        enCarteraAbansCompra -= venda._ParticipacionsDisponibles;
+                        venda._ParticipacionsDisponibles = 0;
+                        continue;
+                    }
+
+                    if (enCarteraAbansCompra > 0)
                         continue;
                 }
 
-                if (participEnCartera < venda._ParticipacionsDisponibles)
-                    venda._ParticipacionsDisponibles = participEnCartera;
+                if (Utilitats.ComparaNumeros(venda._ParticipacionsDisponibles, participEnCartera) >= 0)
+                {
+                    venda._ParticipacionsDisponibles -= participEnCartera;
+                    participEnCartera = 0;
+                }
+                else
+                {
+                    participEnCartera -= venda._ParticipacionsDisponibles;
+                    venda._ParticipacionsDisponibles = 0;
+                }
 
                 vendesCompra.Add(venda);
-                participEnCartera -= venda._ParticipacionsDisponibles;
                 if (participEnCartera <= 0)
                     break;
             }
@@ -308,6 +328,16 @@ namespace Inversions
             return compresDeLaVenda3();
         }
 
+
+        /// <summary>
+        /// Torna les participacions que encara hi ha en cartera de una compra real. No serveix per compres traspassos.
+        /// La compra ha de pertanyer a un fons d'inversió.
+        /// </summary>
+        /// <returns></returns>
+        public double partsEnCarteraCompra()
+        {
+            return DesglosCompra.PartsEnCarteraCompra(this);
+        }
 
 
         public double trobaParticipacionsDisponiblesDesgloçCompraTest(double partsUtilitzadesAbans, double partVenudesRestants)

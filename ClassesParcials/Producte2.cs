@@ -117,7 +117,6 @@ namespace Inversions
             // *** Reinicia _ParticipacionsDisponibles ***
             Moviment.ResetParticipacionsDisponibles(compresAnt);
 
-
             List<Moviment> compres = new List<Moviment>();
             double participacionsRestantsCompra = 0;
             var partRestantsVenda = numParticions;
@@ -306,7 +305,7 @@ namespace Inversions
             if (numPartsMax.HasValue && numPartsMax.Value > partsEnCartera)
                 throw new ArgumentException("'numPartsMax' és més gran que les participacions en cartera.", "numPartsMax");
 
-            Moviment.ResetParticipacionsDisponibles(this);
+            resetParticipacionsDisponibles();
 
             var compresAnt = compresAnteriors3(dataHoraFinal, partsEnCartera).ToList();
 
