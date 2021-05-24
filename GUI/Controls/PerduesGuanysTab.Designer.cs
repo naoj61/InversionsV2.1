@@ -88,6 +88,9 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PigDeLaCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.ckAmbCartera = new System.Windows.Forms.CheckBox();
+            this.ckAmbDividends = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.ntbPigCompra = new Controls.NumericTextBox2();
@@ -111,6 +114,7 @@ namespace Inversions.GUI
             ((System.ComponentModel.ISupportInitialize)(this.dgvPiGAnualsTributen)).BeginInit();
             this.pnPigFill.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCompresProducte)).BeginInit();
+            this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPiGProductePerAny)).BeginInit();
@@ -581,11 +585,12 @@ namespace Inversions.GUI
             this.label2.TabIndex = 14;
             this.label2.Text = "P i G que tributen";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip1.SetToolTip(this.label2, "Només vendes reals.");
+            this.toolTip1.SetToolTip(this.label2, "Només vendes reals, amb despeses, sense dividends.");
             // 
             // pnPigFill
             // 
             this.pnPigFill.Controls.Add(this.dgvCompresProducte);
+            this.pnPigFill.Controls.Add(this.flowLayoutPanel1);
             this.pnPigFill.Controls.Add(this.panel1);
             this.pnPigFill.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnPigFill.Location = new System.Drawing.Point(0, 493);
@@ -625,14 +630,14 @@ namespace Inversions.GUI
             this.dgvCompresProducte.DefaultCellStyle = dataGridViewCellStyle17;
             this.dgvCompresProducte.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvCompresProducte.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvCompresProducte.Location = new System.Drawing.Point(0, 0);
+            this.dgvCompresProducte.Location = new System.Drawing.Point(0, 34);
             this.dgvCompresProducte.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgvCompresProducte.Name = "dgvCompresProducte";
             this.dgvCompresProducte.ReadOnly = true;
             this.dgvCompresProducte.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.dgvCompresProducte.RowTemplate.Height = 24;
             this.dgvCompresProducte.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCompresProducte.Size = new System.Drawing.Size(745, 329);
+            this.dgvCompresProducte.Size = new System.Drawing.Size(745, 295);
             this.dgvCompresProducte.TabIndex = 21;
             // 
             // Id
@@ -691,6 +696,39 @@ namespace Inversions.GUI
             this.PigDeLaCompra.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.PigDeLaCompra.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.PigDeLaCompra.Width = 97;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.AutoSize = true;
+            this.flowLayoutPanel1.Controls.Add(this.ckAmbCartera);
+            this.flowLayoutPanel1.Controls.Add(this.ckAmbDividends);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(745, 34);
+            this.flowLayoutPanel1.TabIndex = 22;
+            // 
+            // ckAmbCartera
+            // 
+            this.ckAmbCartera.AutoSize = true;
+            this.ckAmbCartera.Location = new System.Drawing.Point(3, 3);
+            this.ckAmbCartera.Name = "ckAmbCartera";
+            this.ckAmbCartera.Padding = new System.Windows.Forms.Padding(2);
+            this.ckAmbCartera.Size = new System.Drawing.Size(129, 28);
+            this.ckAmbCartera.TabIndex = 1;
+            this.ckAmbCartera.Text = "Amb Cartera";
+            this.ckAmbCartera.UseVisualStyleBackColor = true;
+            // 
+            // ckAmbDividends
+            // 
+            this.ckAmbDividends.AutoSize = true;
+            this.ckAmbDividends.Location = new System.Drawing.Point(138, 3);
+            this.ckAmbDividends.Name = "ckAmbDividends";
+            this.ckAmbDividends.Padding = new System.Windows.Forms.Padding(2);
+            this.ckAmbDividends.Size = new System.Drawing.Size(145, 28);
+            this.ckAmbDividends.TabIndex = 0;
+            this.ckAmbDividends.Text = "Amb Dividends";
+            this.ckAmbDividends.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
@@ -857,7 +895,10 @@ namespace Inversions.GUI
             this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPiGAnualsTributen)).EndInit();
             this.pnPigFill.ResumeLayout(false);
+            this.pnPigFill.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCompresProducte)).EndInit();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -913,5 +954,8 @@ namespace Inversions.GUI
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
         private System.Windows.Forms.DataGridViewTextBoxColumn PigDeLaCompra;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.CheckBox ckAmbCartera;
+        private System.Windows.Forms.CheckBox ckAmbDividends;
     }
 }

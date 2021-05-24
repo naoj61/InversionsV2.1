@@ -41,8 +41,8 @@ namespace Inversions
 
                 if (compra.TipusMoviment == TipusMoviment.Dividends)
                 {
-                    _PiG = compra.ImportNet;
-                    _PreuVenda = compra.ImportNet;
+                    _PiG = compra._ImportNet;
+                    _PreuVenda = compra._ImportNet;
                 }
                 else
                 {
@@ -249,7 +249,7 @@ namespace Inversions
             foreach (Moviment vendaReal in vendesReals)
             {
                 // Troba les compres de la venda.
-                var compres = vendaReal.compresDeLaVenda3();
+                var compres = vendaReal.compresDeLaVenda4();
 
                 importCompresOrig += compres.Sum(compra => compra.calculaImportCompraOrigen3(true, true));
             }
@@ -308,7 +308,7 @@ namespace Inversions
             foreach (var venda in MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w._EsVendaReal).ToList())
             {
                 // Despeses de la compra.
-                totalDespeses += venda.compresDeLaVenda3().Sum(movCompra => movCompra._DespesesParticipacionsDisponibles);
+                totalDespeses += venda.compresDeLaVenda4().Sum(movCompra => movCompra._DespesesParticipacionsDisponibles);
             }
 
             return totalDespeses;
@@ -809,18 +809,18 @@ namespace Inversions
                 throw new ApplicationException("No és una acció. Només es pot fer l'split si és una acció.");
 
             var descripcio = String.Format("{0}. Factor conversor: {1}.", "Split", factorConversor);
-            var compres = compresAnteriors3(dataHora, _Participacions).ToList();
+            var compres = compresDeLaVenda4(dataHora, _Participacions).ToList();
 
-            foreach (var movimentCompra in compres)
+            foreach (var compra in compres)
             {
-                var mov1 = connexio.Moviments.Find(movimentCompra.Id);
+                var mov1 = connexio.Moviments.Find(compra.Id);
 
                 DateTime data1 = mov1.Data; // Deso la data per sumar-li segons.
 
                 mov1.TipusMoviment = TipusMoviment.Split; // Modifico el tipus de moviment de la compra.
                 mov1.Descripcio += descripcio;
 
-                int particSplit = (int)movimentCompra._ParticipacionsDisponibles;
+                int particSplit = (int)compra._ParticipacionsUtilitzades;
                 int particSenseSplit = (int)mov1.Participacions - particSplit;
 
                 double despesesSenseSplit = 0;
@@ -864,7 +864,7 @@ namespace Inversions
                 throw new ApplicationException("No és una acció. Només es pot fer l'split si és una acció.");
 
             var descripcio = String.Format("{0}. Factor conversor: {1}. Preu operació: {2}.", "ContraSplit", factorConversor, preuOperacio);
-            var compresAnt = compresAnteriors3(dataHora, _Participacions).ToList();
+            var compresAnt = compresDeLaVenda4(dataHora, _Participacions).ToList();
 
             foreach (var movimentCompra in compresAnt)
             {
@@ -875,8 +875,8 @@ namespace Inversions
                 mov1.TipusMoviment = TipusMoviment.ContraSplit; // Modifico el tipus de moviment de la compra.
                 mov1.Descripcio += descripcio;
 
-                int partRestants = (int)movimentCompra._ParticipacionsDisponibles % factorConversor; // Calculo el número de participacions que sobren i s'hauran de vendre.
-                int particContraSplit = (int)movimentCompra._ParticipacionsDisponibles - partRestants;
+                int partRestants = (int)movimentCompra._ParticipacionsUtilitzades % factorConversor; // Calculo el número de participacions que sobren i s'hauran de vendre.
+                int particContraSplit = (int)movimentCompra._ParticipacionsUtilitzades - partRestants;
                 int particSenseContraSplit = (int)mov1.Participacions - particContraSplit;
 
                 double despesesSenseContraSplit = 0;

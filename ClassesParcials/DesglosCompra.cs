@@ -27,28 +27,55 @@ namespace Inversions
             get { return MovCompraOrig.Data; }
         }
 
-
-        public double _ParticipacionsDisponiblesOrig
-        {
-            get { return ParticipacionsOrig / Participacions * _ParticipacionsDisponibles; }
-        }
-
         // todo He de diferenciar entre participacions Ocupades(per altres moviments), Utilitzades(en aquest moviment) i Disponibles(la resta).
 
         /// <summary>
-        /// L'utilitzo per saber les participacions disponibles que poden no ser les mateixes que les del moviment.
+        /// Son les participacions originals utilitzades en aquest moviment.
+        /// </summary>
+        public double _ParticipacionsUtilitzadesOrig
+        {
+            get { return ParticipacionsOrig / Participacions * _ParticipacionsUtilitzades; }
+        }
+
+        /// <summary>
+        /// Son les participacions utilitzades en moviments anteriors.
+        /// </summary>
+        public double _ParticipacionsOcupades
+        {
+            get { return vParticipacionsOcupades; }
+            set
+            {
+                if (Utilitats.ComparaNumeros(value, Participacions - vParticipacionsUtilitzades) > 0)
+                    throw new Exception("El valor no pot ser superior a 'Participacions disponibles'");
+
+                vParticipacionsOcupades = value;
+            }
+        }
+        private double vParticipacionsOcupades;
+
+        /// <summary>
+        /// Son les participacions utilitzades en aquest moviment.
+        /// </summary>
+        public double _ParticipacionsUtilitzades
+        {
+            get { return vParticipacionsUtilitzades; }
+            set
+            {
+                if (Utilitats.ComparaNumeros(value, Participacions - vParticipacionsOcupades) > 0)
+                    throw new Exception("El valor no pot ser superior a 'Participacions disponibles'");
+
+                vParticipacionsUtilitzades = value;
+            }
+        }
+        private double vParticipacionsUtilitzades;
+
+        /// <summary>
+        /// Son les participacions no utilitzades en aquest moviment.
         /// </summary>
         public double _ParticipacionsDisponibles
         {
-            get { return vParticipacionsDisponibles.GetValueOrDefault(Participacions); }
-            set
-            {
-                if (Utilitats.ComparaNumeros(value, Participacions, 4) > 0)
-                    throw new Exception("El valor no pot ser superior a 'Participacions'");
-                vParticipacionsDisponibles = value;
-            }
+            get { return Participacions - vParticipacionsOcupades - vParticipacionsUtilitzades; }
         }
-        private double? vParticipacionsDisponibles;
 
         #endregion *** Atributs ***
 
@@ -71,7 +98,8 @@ namespace Inversions
         /// </summary>
         internal void resetParticipacionsDisponibles()
         {
-            vParticipacionsDisponibles = null;
+            vParticipacionsUtilitzades = 0;
+            vParticipacionsOcupades = 0;
         }
 
         /// <summary>
@@ -118,8 +146,7 @@ namespace Inversions
         {
             var compraOrig = MovCompraOrig;
             var compra = MovCompra;
-            double participEnCartera;
-            var vendes = compra.vendesDeLaCompra(out participEnCartera);
+            var vendes = compra.vendesDeLaCompra();
            
             foreach (var venda in vendes)
             {
@@ -132,7 +159,7 @@ namespace Inversions
                 }
                 else
                 {
-                    var pa = ParticipacionsOrig / compra.Participacions * venda._ParticipacionsDisponibles;
+                    var pa = ParticipacionsOrig / compra.Participacions * venda._ParticipacionsUtilitzades;
                     parts -= pa;
                 }
             }
