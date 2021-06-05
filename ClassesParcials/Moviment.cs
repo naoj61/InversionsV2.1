@@ -344,25 +344,25 @@ namespace Inversions
 
 
         /// <summary>
-        /// Reseteja el valor de ParticipacionsDisponibles de moviments
+        /// Reseteja Participacions utilitzades i ocupades.
         /// </summary>
         /// <param name="moviments"></param>
-        public static void ResetParticipacionsDisponibles(IEnumerable<Moviment> moviments)
+        public static void ResetParticipacionsDeTreball(IEnumerable<Moviment> moviments)
         {
             foreach (var moviment in moviments)
-                moviment.resetParticipacionsDisponibles();
+                moviment.resetParticipacionsDeTreball();
         }
 
 
         /// <summary>
-        /// Reseteja el valor de ParticipacionsDisponibles.
+        /// Reseteja Participacions utilitzades i ocupades.
         /// </summary>
-        internal void resetParticipacionsDisponibles()
+        internal void resetParticipacionsDeTreball()
         {
             if (_EsCompra)
                 foreach (var desglosCompra in DesglosCompres)
                 {
-                    desglosCompra.resetParticipacionsDisponibles();
+                    desglosCompra.resetParticipacionsDeTreball();
                 }
             else if (_EsVenda)
             {
@@ -384,7 +384,7 @@ namespace Inversions
             var vendes1 = Prod.MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data >= Data).OrderBy(o => o.Data).ToList();
 
             // *** Reinicia _ParticipacionsDisponibles ***
-            ResetParticipacionsDisponibles(vendes1);
+            ResetParticipacionsDeTreball(vendes1);
 
             var enCarteraAbansCompra = Prod.numParticipacionsEnData(Data.AddMilliseconds(-1));
             var vendesCompra = new List<Moviment>();
@@ -483,7 +483,7 @@ namespace Inversions
             if (inclouParticsEnCartera)
             {
                 var partsEnCart = Participacions - vendesCompra.Sum(s => s._ParticipacionsUtilitzades);
-                valorEnCartera = partsEnCart * preuPartsEnCartera.GetValueOrDefault(Prod.valorParticipacio());
+                valorEnCartera = partsEnCart * preuPartsEnCartera.GetValueOrDefault(Prod._PreuParticipacioActual);
             }
 
             var valorVendes = vendesCompra.Sum(s => s._ParticipacionsUtilitzades * s._PreuParticipacio);

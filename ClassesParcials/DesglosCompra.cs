@@ -80,23 +80,11 @@ namespace Inversions
         #endregion *** Atributs ***
 
         #region *** Mètodes ***
-
-       /// <summary>
-        /// Reseteja ParticipacionsDisponibles dels moviments del paràmetre.
-       /// </summary>
-       /// <param name="desglosCompres"></param>
-        public static void ResetParticipacionsDisponibles(IEnumerable<DesglosCompra> desglosCompres)
-        {
-            foreach (var desglosCompra in desglosCompres)
-            {
-                desglosCompra.resetParticipacionsDisponibles();
-            }
-        }
-
+        
         /// <summary>
-        /// Reseteja ParticipacionsDisponibles.
+        /// Reseteja Participacions utilitzades i ocupades.
         /// </summary>
-        internal void resetParticipacionsDisponibles()
+        internal void resetParticipacionsDeTreball()
         {
             vParticipacionsUtilitzades = 0;
             vParticipacionsOcupades = 0;

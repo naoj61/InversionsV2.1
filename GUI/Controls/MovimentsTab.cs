@@ -171,9 +171,9 @@ namespace Inversions.GUI
 
         private void contraSplit()
         {
-            gbPreuPartic.Text = "Preu abans";
+            gbPreuPartic.Text = "Preu V sobrants";
             vDesaToolTipGbPreuPartic = this.toolTip1.GetToolTip(this.gbPreuPartic);
-            toolTip1.SetToolTip(this.gbPreuPartic, "Preu participació abans del ContraSplit");
+            toolTip1.SetToolTip(this.gbPreuPartic, "Preu venda de les participacions sobrants del ContraSplit");
 
             preparaPantallaEdicio();
         }

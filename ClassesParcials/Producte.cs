@@ -167,13 +167,14 @@ namespace Inversions
 
         #endregion
 
+
         #region Mètodes
 
         public void resetParticipacionsDisponibles()
         {
             foreach (var moviment in MovimentsProducteUsuari)
             {
-                moviment.resetParticipacionsDisponibles();
+                moviment.resetParticipacionsDeTreball();
             }
         }
 
@@ -194,9 +195,9 @@ namespace Inversions
         /// Torna el valor de l'accio inmediatament anterior a la data hora actual.
         /// </summary>
         /// <returns></returns>
-        internal double valorParticipacio()
+        public double _PreuParticipacioActual
         {
-            return valorParticipacio(DateTime.Now);
+            get { return valorParticipacio(DateTime.Now); }
         }
 
 
@@ -210,7 +211,7 @@ namespace Inversions
             var valoracions = ValoracionsProducte.Where(w => w.Data <= data).Select(val => new { val.Data, val.PreuParticipacio }).ToList();
 
             var moviments = this.Moviments.Where(w => w.Data <= data && (w.TipusMoviment == TipusMoviment.Compra || w.TipusMoviment == TipusMoviment.Venda))
-                .Select(mov => new { mov.Data, mov.PreuParticipacio });
+                .Select(mov => new { mov.Data, mov.PreuParticipacio }).ToList();
 
             var tot = valoracions.Union(moviments).OrderBy(o => o.Data).ToList();
 
@@ -434,139 +435,6 @@ namespace Inversions
         }
 
         #endregion
-
-
-        #region *** PiG ***
-
-
-        /// <summary>
-        /// Calcula les PiG d'un producte per cada compra feta i torna una llista.
-        /// </summary>
-        /// <returns></returns>
-        public List<PiGPerCompra> pigPerCompra()
-        {
-            /* Quan hi ha una venda Pot ser que no sigui total i que les accions venudes tinguin diferents preus de compra
-             * Pot ser que una compra tingui zero, una o varies vendes.
-             * Pot ser que una venda tingui una o varies compres.
-            */
-
-            var piG = new List<PiGPerCompra>();
-
-            var compres = new Queue<Moviment>(MovimentsProducteUsuari.Where(w => w.TipusMoviment == TipusMoviment.Compra).OrderBy(o => o.Data));
-            var vendes = new Queue<Moviment>(MovimentsProducteUsuari.Where(w => w.TipusMoviment == TipusMoviment.Venda).OrderBy(o => o.Data));
-
-            if (!compres.Any())
-            {
-                if (vendes.Any())
-                    throw new ApplicationException("Error. Hi ha vendes, però ni hi ha cap compra.");
-
-                // No hi ha moviments.
-                return piG;
-            }
-
-
-            var compra = compres.Dequeue();
-            double participacionsCompradesRestants = compra.Participacions;
-
-            Moviment venda = null;
-            double participacionsVenudesRestants = 0;
-            if (vendes.Any())
-            {
-                venda = vendes.Dequeue();
-                participacionsVenudesRestants = venda.Participacions;
-            }
-
-            do
-            {
-                if (participacionsCompradesRestants > 0 && participacionsVenudesRestants > 0)
-                {
-                    if (compra.Data > venda.Data)
-                        throw new ApplicationException("Error. La data de compra no pot ser mes gran que la de venda.");
-
-
-                    if (participacionsVenudesRestants <= participacionsCompradesRestants)
-                    {
-                        // Hi ha mes participacions comprades que les que queden per vendre.
-
-                        var part = participacionsVenudesRestants;
-
-                        piG.Add(new PiGPerCompra(compra, venda, part, !venda._EsTraspas));
-
-                        participacionsCompradesRestants = Math.Round(participacionsCompradesRestants - part, 4);
-                        participacionsVenudesRestants = 0;
-
-                        if (Math.Abs(participacionsCompradesRestants) < 0.0001) // Equival a participacionsCompradesRestants == 0
-                        {
-                            if (compres.Any())
-                            {
-                                compra = compres.Dequeue();
-                                participacionsCompradesRestants = compra.Participacions;
-                            }
-                        }
-
-                        if (vendes.Any())
-                        {
-                            venda = vendes.Dequeue();
-                            participacionsVenudesRestants = venda.Participacions;
-                        }
-                    }
-                    else
-                    {
-                        // Hi ha mes participacions per vendre que les comprades en aquest moviment.
-
-                        var part = participacionsCompradesRestants;
-
-                        piG.Add(new PiGPerCompra(compra, venda, part, !venda._EsTraspas));
-
-                        if (Math.Abs(part) < 1)
-                        {
-                        }
-
-                        participacionsCompradesRestants = 0;
-                        participacionsVenudesRestants = Math.Round(participacionsVenudesRestants - part, 4);
-
-                        if (compres.Any())
-                        {
-                            compra = compres.Dequeue();
-                            participacionsCompradesRestants = compra.Participacions;
-                        }
-                    }
-                }
-                else if (participacionsCompradesRestants > 0)
-                {
-                    //piG.Add(new PiG(compra, null, participacionsCompradesRestants,false));
-                    participacionsCompradesRestants = 0;
-
-                    if (compres.Any())
-                    {
-                        compra = compres.Dequeue();
-                        participacionsCompradesRestants = compra.Participacions;
-                    }
-                }
-                else if (participacionsVenudesRestants > 0)
-                {
-                    throw new ApplicationException("Error. No hauria d'entrar aquí.");
-                }
-            } while (compres.Any() || vendes.Any() || participacionsVenudesRestants > 0);
-
-
-            foreach (var divident in MovimentsProducteUsuari.Where(w => w.TipusMoviment == TipusMoviment.Dividends).OrderBy(o => o.Data))
-            {
-                piG.Add(new PiGPerCompra(divident, null, 0, true));
-            }
-
-            // Faig que acumuli les PiG en l'ordre real de la data del moviment.
-            var piG2 = new List<PiGPerCompra>();
-            PiGPerCompra.InicialitzaAcumulat();
-            foreach (var g in piG.OrderBy(o => o._DataMovimentReal))
-            {
-                piG2.Add(new PiGPerCompra(g._Compra, g._Venda, g._Participacions, g._Hisenda));
-            }
-
-            return piG2;
-        }
-
-        #endregion *** PiG ***
 
 
         #region *** Mètodes que modifiquen la BD ***
@@ -889,6 +757,7 @@ namespace Inversions
                     // Creo una nova compra amb la part de la compra original que no li afecta el ContraSplit
                     desaCompra(connexio, data1, particSenseContraSplit, mov1.PreuParticipacio, mov1.CanviAplicat, despesesSenseContraSplit, descripcio, null, false, false);
                 }
+
 
                 if (particContraSplit > 0)
                 {

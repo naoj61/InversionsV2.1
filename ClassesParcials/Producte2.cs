@@ -100,32 +100,40 @@ namespace Inversions
         /// <summary>
         /// Torna la llista de les compres afectades per una venda amb data 'dataHoraVenda' i num parts 'numParticionsVenda'.
         /// </summary>
-        /// <param name="dataHora"></param>
-        /// <param name="numParticions"></param>
+        /// <param name="dataHoraVenda">Es buscaran compres i vendes anteriors a aquesta data.</param>
+        /// <param name="numParticionsVenda">Son les particions venudes a les que buscaré les seves compres. 
+        /// Si null utilitza les participacions en cartera a la data.</param>
         /// <returns></returns>
-        public IEnumerable<Moviment> compresDeLaVenda4Test(DateTime dataHora, double numParticions)
+        public IEnumerable<Moviment> compresDeLaVenda4Test(DateTime dataHoraVenda, double? numParticionsVenda = null)
         {
-            return compresDeLaVenda4(dataHora, numParticions);
+            return compresDeLaVenda4(dataHoraVenda, numParticionsVenda);
         }
 
         /// <summary>
         /// Torna la llista de les compres afectades per una venda amb data 'dataHoraVenda' i num parts 'numParticionsVenda'.
         /// </summary>
         /// <param name="dataHoraVenda">Es buscaran compres i vendes anteriors a aquesta data.</param>
-        /// <param name="numParticionsVenda">Son les particions venudes a les que buscaré les seves compres.</param>
+        /// <param name="numParticionsVenda">Son les particions venudes a les que buscaré les seves compres. 
+        /// Si null utilitza les participacions en cartera a la data.</param>
         /// <returns></returns>
-        internal IEnumerable<Moviment> compresDeLaVenda4(DateTime dataHoraVenda, double numParticionsVenda)
+        internal IEnumerable<Moviment> compresDeLaVenda4(DateTime dataHoraVenda, double? numParticionsVenda = null)
         {
+            List<Moviment> compres = new List<Moviment>();
+            
+            var numParts = numParticionsVenda.GetValueOrDefault(numParticipacionsEnData(dataHoraVenda));
+
+            if (Utilitats.EsZero(numParts))
+                return compres;
+
             // Totes les compres anteriors a la venda.
             var compresAnt = MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data < dataHoraVenda).OrderBy(o => o.Data).ToList();
 
             // *** Reinicia _ParticipacionsDisponibles ***
-            Moviment.ResetParticipacionsDisponibles(compresAnt);
+            Moviment.ResetParticipacionsDeTreball(compresAnt);
 
             var numPartsVenudesAbans = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data < dataHoraVenda).Sum(s => s.Participacions);
-            var partRestantsVendaActual = numParticionsVenda;
+            var partRestantsVendaActual = numParts;
 
-            List<Moviment> compres = new List<Moviment>();
             foreach (var compraAnt in compresAnt)
             {
                 if (Utilitats.ComparaNumeros(numPartsVenudesAbans, 0) > 0)
