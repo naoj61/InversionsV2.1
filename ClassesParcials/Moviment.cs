@@ -172,7 +172,7 @@ namespace Inversions
         {
             get
             {
-                if (_EsCompra)
+                if (_EsCompra || TipusMoviment == TipusMoviment.Split || TipusMoviment == TipusMoviment.ContraSplit)
                     return DesglosCompres.Sum(s => s._ParticipacionsUtilitzades);
                 if (_EsVenda)
                     return vParticipacionsUtilitzades;

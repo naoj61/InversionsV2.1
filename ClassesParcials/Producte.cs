@@ -759,6 +759,14 @@ namespace Inversions
                 }
 
 
+                if (partRestants > 0)
+                {
+                    // Venc les participacions restants.
+                    data1 = data1.AddSeconds(1);
+                    var ven = desaVenda(connexio, data1, partRestants, preuOperacio, canviAplicat, 0, descripcio, false, false);
+                }
+
+
                 if (particContraSplit > 0)
                 {
                     // Creo una compra amb el nou numero de participacions i nou preu.
@@ -767,14 +775,6 @@ namespace Inversions
                     var preuParticipacio = Math.Round(mov1.PreuParticipacio * factorConversor, 4); // Calculo el nou preu i les participacions del contraSplit
                     double despesesContraSplit = Math.Round(mov1.Despeses.GetValueOrDefault() - despesesSenseContraSplit, 4);
                     desaCompra(connexio, data1, participacions, preuParticipacio, mov1.CanviAplicat, despesesContraSplit, descripcio, null, false, false);
-                }
-
-
-                if (partRestants > 0)
-                {
-                    // Venc les participacions restants.
-                    data1 = data1.AddSeconds(1);
-                    var ven = desaVenda(connexio, data1, partRestants, preuOperacio, canviAplicat, 0, descripcio, false, false);
                 }
             }
 
