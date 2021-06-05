@@ -27,39 +27,68 @@ namespace Inversions
             get { return MovCompraOrig.Data; }
         }
 
+        // todo He de diferenciar entre participacions Ocupades(per altres moviments), Utilitzades(en aquest moviment) i Disponibles(la resta).
 
         /// <summary>
-        /// L'utilitzo per saber les participacions disponibles que poden no ser les mateixes que les del moviment.
+        /// Son les participacions originals utilitzades en aquest moviment.
+        /// </summary>
+        public double _ParticipacionsUtilitzadesOrig
+        {
+            get { return ParticipacionsOrig / Participacions * _ParticipacionsUtilitzades; }
+        }
+
+        /// <summary>
+        /// Son les participacions utilitzades en moviments anteriors.
+        /// </summary>
+        public double _ParticipacionsOcupades
+        {
+            get { return vParticipacionsOcupades; }
+            set
+            {
+                if (Utilitats.ComparaNumeros(value, Participacions - vParticipacionsUtilitzades) > 0)
+                    throw new Exception("El valor no pot ser superior a 'Participacions disponibles'");
+
+                vParticipacionsOcupades = value;
+            }
+        }
+        private double vParticipacionsOcupades;
+
+        /// <summary>
+        /// Son les participacions utilitzades en aquest moviment.
+        /// </summary>
+        public double _ParticipacionsUtilitzades
+        {
+            get { return vParticipacionsUtilitzades; }
+            set
+            {
+                if (Utilitats.ComparaNumeros(value, Participacions - vParticipacionsOcupades) > 0)
+                    throw new Exception("El valor no pot ser superior a 'Participacions disponibles'");
+
+                vParticipacionsUtilitzades = value;
+            }
+        }
+        private double vParticipacionsUtilitzades;
+
+        /// <summary>
+        /// Son les participacions no utilitzades en aquest moviment.
         /// </summary>
         public double _ParticipacionsDisponibles
         {
-            get { return vParticipacionsDisponibles.GetValueOrDefault(Participacions); }
-            set
-            {
-                if (Utilitats.ComparaNumeros(value, Participacions, 4) > 0)
-                    throw new Exception("El valor no pot ser superior a 'Participacions'");
-                vParticipacionsDisponibles = value;
-            }
+            get { return Participacions - vParticipacionsOcupades - vParticipacionsUtilitzades; }
         }
-        private double? vParticipacionsDisponibles;
 
         #endregion *** Atributs ***
 
         #region *** Mètodes ***
-
-
+        
         /// <summary>
-        /// Reseteja el valor de vParticipacionsDisponibles dels moviments del paràmetre.
+        /// Reseteja Participacions utilitzades i ocupades.
         /// </summary>
-        /// <param name="desglosCompres">Llista de moviments a resetejar.</param>
-        public static void ResetParticipacionsDisponibles(IEnumerable<DesglosCompra> desglosCompres)
+        internal void resetParticipacionsDeTreball()
         {
-            foreach (var desg in desglosCompres)
-            {
-                desg.vParticipacionsDisponibles = null;
-            }
+            vParticipacionsUtilitzades = 0;
+            vParticipacionsOcupades = 0;
         }
-
 
         /// <summary>
         /// Converteix el número de participacions del moviment al numero de particions originals.
@@ -72,6 +101,58 @@ namespace Inversions
                 throw new ArgumentException("El valor de partsDelMoviment és més gran que el total de particions.");
             
             return partsDelMoviment / Participacions * ParticipacionsOrig;
+        }
+
+
+        /// <summary>
+        /// Torna les participacions que encara hi ha en cartera de una compra real. No serveix per traspassos.
+        /// La compra ha de pertanyer a un fons d'inversió.
+        /// </summary>
+        /// <param name="compra"></param>
+        /// <returns></returns>
+        public static double PartsEnCarteraCompra(Moviment compra)
+        {
+            if (!compra._EsCompraReal)
+                throw new Exception(String.Format("L'Id:{0}, no és una compra real", compra.Id));
+
+            if (!(compra.Prod is ProdFons))
+                throw new Exception(String.Format("L'Id:{0}, no pertany a un fons d'inversió", compra.Id));
+
+            // Si és una compra real, només hi pot haver un element a DesglosCompres.
+            var desgloç = compra.DesglosCompres.Single();
+          
+            return desgloç.partsEnCarteraCompra(compra.Participacions);
+        }
+
+        /// <summary>
+        /// Torna les participacions que encara hi ha en cartera de una compra real. No serveix per traspassos.
+        /// La compra ha de pertanyer a un fons d'inversió.
+        /// </summary>
+        /// <param name="parts">Participacions que queden per vendre.</param>
+        /// <returns></returns>
+        private double partsEnCarteraCompra(double parts)
+        {
+            var compraOrig = MovCompraOrig;
+            var compra = MovCompra;
+            var vendes = compra.vendesDeLaCompra();
+           
+            foreach (var venda in vendes)
+            {
+                if (venda._EsTraspas)
+                {
+                    // venda.Id==100 dona error.
+                    var cOrig = venda._MovimentRefCompra.DesglosCompres.SingleOrDefault(w => w.MovCompraOrig == compraOrig);
+                    if (cOrig != null) 
+                        parts = cOrig.partsEnCarteraCompra(parts);
+                }
+                else
+                {
+                    var pa = ParticipacionsOrig / compra.Participacions * venda._ParticipacionsUtilitzades;
+                    parts -= pa;
+                }
+            }
+
+            return parts;
         }
 
         #endregion *** Mètodes ***

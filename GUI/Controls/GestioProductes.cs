@@ -216,7 +216,7 @@ namespace Inversions.GUI
                 lbMoneda.Text = prod.Moneda;
 
                 tbParticipacions.Valor = prod._Participacions;
-                ntbPreuPartActual.Valor = prod.valorParticipacio();
+                ntbPreuPartActual.Valor = prod._PreuParticipacioActual;
                 tbDividends.Valor = prod.dividends(DateTime.Today);
                 tbValorActual.Valor = prod._ValorActualEnCartera;
 

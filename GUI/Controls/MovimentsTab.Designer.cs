@@ -697,7 +697,7 @@
             // ImportBrut
             // 
             this.ImportBrut.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.ImportBrut.DataPropertyName = "ImportBrut";
+            this.ImportBrut.DataPropertyName = "_ImportBrut";
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle4.Format = "C2";
             this.ImportBrut.DefaultCellStyle = dataGridViewCellStyle4;
@@ -709,7 +709,7 @@
             // colImport
             // 
             this.colImport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colImport.DataPropertyName = "ImportNet";
+            this.colImport.DataPropertyName = "_ImportNet";
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle5.Format = "C2";
             dataGridViewCellStyle5.NullValue = null;
