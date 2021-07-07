@@ -173,6 +173,9 @@ namespace Inversions.GUI
                         || (ckFiltreVendesAny.Checked && w.TipusMoviment == TipusMoviment.Venda)
                         || (ckFiltreDivAny.Checked && w.TipusMoviment == TipusMoviment.Dividends)));
 
+                    if (!ckFiltreTraspasAny.Checked)
+                        movs = movs.Where(w => !w._EsTraspas);
+
                     prods = prods.Where(prod => movs.Any(mov => mov.ProdId == prod.Id));
                 }
 
@@ -220,7 +223,7 @@ namespace Inversions.GUI
                 tbDividends.Valor = prod.dividends(DateTime.Today);
                 tbValorActual.Valor = prod._ValorActualEnCartera;
 
-                tbCostOrigPartActual.Valor = prod.costOriginalEnCartera2();
+                tbCostOrigPartActual.Valor = prod.costOriginalEnCartera4();
 
                 //tbPiGActual.Valor = prod.pigValorat(Producte.DateTimeFinalDia.Today);
                 //tbPiGReal.Valor = prod.pigReal(Producte.DateTimeFinalDia.Today);
@@ -287,6 +290,7 @@ namespace Inversions.GUI
         private void ckFiltreAny_CheckedChanged(object sender, EventArgs e)
         {
             cbFiltreAny.Enabled = ckFiltreCompresAny.Checked || ckFiltreVendesAny.Checked || ckFiltreDivAny.Checked;
+            ckFiltreTraspasAny.Enabled = ckFiltreCompresAny.Checked || ckFiltreVendesAny.Checked;
         }
 
         private void btFiltra_Click(object sender, EventArgs e)

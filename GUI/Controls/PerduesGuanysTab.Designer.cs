@@ -854,7 +854,7 @@ namespace Inversions.GUI
             // gestioProductesTabValoracions
             // 
             this.gestioProductesTabValoracions._AmbMoviments = true;
-            this.gestioProductesTabValoracions._FiltreAnyVisible = false;
+            this.gestioProductesTabValoracions._FiltreAnyVisible = true;
             this.gestioProductesTabValoracions._MostraLlistaAmbChecks = false;
             this.gestioProductesTabValoracions._NomesAmbParticipacions = true;
             this.gestioProductesTabValoracions.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;

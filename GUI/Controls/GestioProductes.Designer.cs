@@ -66,11 +66,6 @@ namespace Inversions.GUI
             this.ckAmbMoviments = new System.Windows.Forms.CheckBox();
             this.ckNomesAmbParticipacions = new System.Windows.Forms.CheckBox();
             this.pnFiltreAny = new System.Windows.Forms.Panel();
-            this.ckFiltreDivAny = new System.Windows.Forms.CheckBox();
-            this.gbFiltreAny = new System.Windows.Forms.GroupBox();
-            this.cbFiltreAny = new System.Windows.Forms.ComboBox();
-            this.ckFiltreVendesAny = new System.Windows.Forms.CheckBox();
-            this.ckFiltreCompresAny = new System.Windows.Forms.CheckBox();
             this.pnSelDeselChecksProds = new System.Windows.Forms.Panel();
             this.btDeseleccionaTot = new System.Windows.Forms.Button();
             this.btSeleccionaTot = new System.Windows.Forms.Button();
@@ -85,6 +80,13 @@ namespace Inversions.GUI
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cbTipusProducteFiltreTab2 = new System.Windows.Forms.ComboBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.ckFiltreVendesAny = new System.Windows.Forms.CheckBox();
+            this.cbFiltreAny = new System.Windows.Forms.ComboBox();
+            this.ckFiltreDivAny = new System.Windows.Forms.CheckBox();
+            this.gbFiltreAny = new System.Windows.Forms.GroupBox();
+            this.ckFiltreCompresAny = new System.Windows.Forms.CheckBox();
+            this.ckFiltreTraspasAny = new System.Windows.Forms.CheckBox();
             this.pnDadesProducte.SuspendLayout();
             this.panel1.SuspendLayout();
             this.pnDescripcioFons.SuspendLayout();
@@ -103,12 +105,13 @@ namespace Inversions.GUI
             this.gbFiltres.SuspendLayout();
             this.panel4.SuspendLayout();
             this.pnFiltreAny.SuspendLayout();
-            this.gbFiltreAny.SuspendLayout();
             this.pnSelDeselChecksProds.SuspendLayout();
             this.panel3.SuspendLayout();
             this.gbFons.SuspendLayout();
             this.gbEmpresa.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            this.gbFiltreAny.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnDadesProducte
@@ -515,7 +518,7 @@ namespace Inversions.GUI
             this.tbParticipacions.ReadOnly = true;
             this.tbParticipacions.Size = new System.Drawing.Size(164, 25);
             this.tbParticipacions.TabIndex = 0;
-            this.tbParticipacions.Text = "0,0000";
+            this.tbParticipacions.Text = "0";
             this.tbParticipacions.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.toolTip1.SetToolTip(this.tbParticipacions, "Número de participacions en cartera");
             this.tbParticipacions.Valor = 0D;
@@ -606,78 +609,12 @@ namespace Inversions.GUI
             // pnFiltreAny
             // 
             this.pnFiltreAny.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnFiltreAny.Controls.Add(this.ckFiltreDivAny);
-            this.pnFiltreAny.Controls.Add(this.gbFiltreAny);
-            this.pnFiltreAny.Controls.Add(this.ckFiltreVendesAny);
-            this.pnFiltreAny.Controls.Add(this.ckFiltreCompresAny);
+            this.pnFiltreAny.Controls.Add(this.flowLayoutPanel1);
             this.pnFiltreAny.Location = new System.Drawing.Point(203, 3);
             this.pnFiltreAny.Margin = new System.Windows.Forms.Padding(0);
             this.pnFiltreAny.Name = "pnFiltreAny";
-            this.pnFiltreAny.Size = new System.Drawing.Size(273, 72);
+            this.pnFiltreAny.Size = new System.Drawing.Size(345, 72);
             this.pnFiltreAny.TabIndex = 2;
-            // 
-            // ckFiltreDivAny
-            // 
-            this.ckFiltreDivAny.AutoSize = true;
-            this.ckFiltreDivAny.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.ckFiltreDivAny.Location = new System.Drawing.Point(145, 17);
-            this.ckFiltreDivAny.Margin = new System.Windows.Forms.Padding(0);
-            this.ckFiltreDivAny.Name = "ckFiltreDivAny";
-            this.ckFiltreDivAny.Size = new System.Drawing.Size(35, 45);
-            this.ckFiltreDivAny.TabIndex = 3;
-            this.ckFiltreDivAny.Text = "Div";
-            this.ckFiltreDivAny.UseVisualStyleBackColor = true;
-            this.ckFiltreDivAny.CheckedChanged += new System.EventHandler(this.ckFiltreAny_CheckedChanged);
-            // 
-            // gbFiltreAny
-            // 
-            this.gbFiltreAny.Controls.Add(this.cbFiltreAny);
-            this.gbFiltreAny.Location = new System.Drawing.Point(185, 14);
-            this.gbFiltreAny.Margin = new System.Windows.Forms.Padding(0, 11, 3, 0);
-            this.gbFiltreAny.Name = "gbFiltreAny";
-            this.gbFiltreAny.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbFiltreAny.Size = new System.Drawing.Size(78, 54);
-            this.gbFiltreAny.TabIndex = 2;
-            this.gbFiltreAny.TabStop = false;
-            this.gbFiltreAny.Text = "Any";
-            // 
-            // cbFiltreAny
-            // 
-            this.cbFiltreAny.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbFiltreAny.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbFiltreAny.Enabled = false;
-            this.cbFiltreAny.FormattingEnabled = true;
-            this.cbFiltreAny.Location = new System.Drawing.Point(3, 23);
-            this.cbFiltreAny.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.cbFiltreAny.Name = "cbFiltreAny";
-            this.cbFiltreAny.Size = new System.Drawing.Size(72, 28);
-            this.cbFiltreAny.TabIndex = 0;
-            // 
-            // ckFiltreVendesAny
-            // 
-            this.ckFiltreVendesAny.AutoSize = true;
-            this.ckFiltreVendesAny.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.ckFiltreVendesAny.Location = new System.Drawing.Point(73, 17);
-            this.ckFiltreVendesAny.Margin = new System.Windows.Forms.Padding(0);
-            this.ckFiltreVendesAny.Name = "ckFiltreVendesAny";
-            this.ckFiltreVendesAny.Size = new System.Drawing.Size(68, 45);
-            this.ckFiltreVendesAny.TabIndex = 1;
-            this.ckFiltreVendesAny.Text = "Vendes";
-            this.ckFiltreVendesAny.UseVisualStyleBackColor = true;
-            this.ckFiltreVendesAny.CheckedChanged += new System.EventHandler(this.ckFiltreAny_CheckedChanged);
-            // 
-            // ckFiltreCompresAny
-            // 
-            this.ckFiltreCompresAny.AutoSize = true;
-            this.ckFiltreCompresAny.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.ckFiltreCompresAny.Location = new System.Drawing.Point(0, 17);
-            this.ckFiltreCompresAny.Margin = new System.Windows.Forms.Padding(0);
-            this.ckFiltreCompresAny.Name = "ckFiltreCompresAny";
-            this.ckFiltreCompresAny.Size = new System.Drawing.Size(77, 45);
-            this.ckFiltreCompresAny.TabIndex = 0;
-            this.ckFiltreCompresAny.Text = "Compres";
-            this.ckFiltreCompresAny.UseVisualStyleBackColor = true;
-            this.ckFiltreCompresAny.CheckedChanged += new System.EventHandler(this.ckFiltreAny_CheckedChanged);
             // 
             // pnSelDeselChecksProds
             // 
@@ -829,6 +766,96 @@ namespace Inversions.GUI
             this.cbTipusProducteFiltreTab2.TabIndex = 0;
             this.cbTipusProducteFiltreTab2.SelectedIndexChanged += new System.EventHandler(this.cbTipusProducteFiltreTab2_SelectedIndexChanged);
             // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.gbFiltreAny);
+            this.flowLayoutPanel1.Controls.Add(this.ckFiltreCompresAny);
+            this.flowLayoutPanel1.Controls.Add(this.ckFiltreVendesAny);
+            this.flowLayoutPanel1.Controls.Add(this.ckFiltreTraspasAny);
+            this.flowLayoutPanel1.Controls.Add(this.ckFiltreDivAny);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(343, 70);
+            this.flowLayoutPanel1.TabIndex = 0;
+            // 
+            // ckFiltreVendesAny
+            // 
+            this.ckFiltreVendesAny.AutoSize = true;
+            this.ckFiltreVendesAny.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ckFiltreVendesAny.Location = new System.Drawing.Point(160, 10);
+            this.ckFiltreVendesAny.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
+            this.ckFiltreVendesAny.Name = "ckFiltreVendesAny";
+            this.ckFiltreVendesAny.Size = new System.Drawing.Size(68, 45);
+            this.ckFiltreVendesAny.TabIndex = 5;
+            this.ckFiltreVendesAny.Text = "Vendes";
+            this.ckFiltreVendesAny.UseVisualStyleBackColor = true;
+            this.ckFiltreVendesAny.CheckedChanged += new System.EventHandler(this.ckFiltreAny_CheckedChanged);
+            // 
+            // cbFiltreAny
+            // 
+            this.cbFiltreAny.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbFiltreAny.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFiltreAny.Enabled = false;
+            this.cbFiltreAny.FormattingEnabled = true;
+            this.cbFiltreAny.Location = new System.Drawing.Point(3, 23);
+            this.cbFiltreAny.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.cbFiltreAny.Name = "cbFiltreAny";
+            this.cbFiltreAny.Size = new System.Drawing.Size(72, 28);
+            this.cbFiltreAny.TabIndex = 0;
+            // 
+            // ckFiltreDivAny
+            // 
+            this.ckFiltreDivAny.AutoSize = true;
+            this.ckFiltreDivAny.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ckFiltreDivAny.Location = new System.Drawing.Point(298, 10);
+            this.ckFiltreDivAny.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
+            this.ckFiltreDivAny.Name = "ckFiltreDivAny";
+            this.ckFiltreDivAny.Size = new System.Drawing.Size(35, 45);
+            this.ckFiltreDivAny.TabIndex = 7;
+            this.ckFiltreDivAny.Text = "Div";
+            this.ckFiltreDivAny.UseVisualStyleBackColor = true;
+            this.ckFiltreDivAny.CheckedChanged += new System.EventHandler(this.ckFiltreAny_CheckedChanged);
+            // 
+            // gbFiltreAny
+            // 
+            this.gbFiltreAny.Controls.Add(this.cbFiltreAny);
+            this.gbFiltreAny.Location = new System.Drawing.Point(5, 10);
+            this.gbFiltreAny.Margin = new System.Windows.Forms.Padding(5, 10, 0, 0);
+            this.gbFiltreAny.Name = "gbFiltreAny";
+            this.gbFiltreAny.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gbFiltreAny.Size = new System.Drawing.Size(78, 54);
+            this.gbFiltreAny.TabIndex = 6;
+            this.gbFiltreAny.TabStop = false;
+            this.gbFiltreAny.Text = "Any";
+            // 
+            // ckFiltreCompresAny
+            // 
+            this.ckFiltreCompresAny.AutoSize = true;
+            this.ckFiltreCompresAny.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ckFiltreCompresAny.Location = new System.Drawing.Point(83, 10);
+            this.ckFiltreCompresAny.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
+            this.ckFiltreCompresAny.Name = "ckFiltreCompresAny";
+            this.ckFiltreCompresAny.Size = new System.Drawing.Size(77, 45);
+            this.ckFiltreCompresAny.TabIndex = 4;
+            this.ckFiltreCompresAny.Text = "Compres";
+            this.ckFiltreCompresAny.UseVisualStyleBackColor = true;
+            this.ckFiltreCompresAny.CheckedChanged += new System.EventHandler(this.ckFiltreAny_CheckedChanged);
+            // 
+            // ckFiltreTraspasAny
+            // 
+            this.ckFiltreTraspasAny.AutoSize = true;
+            this.ckFiltreTraspasAny.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ckFiltreTraspasAny.Enabled = false;
+            this.ckFiltreTraspasAny.Location = new System.Drawing.Point(228, 10);
+            this.ckFiltreTraspasAny.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
+            this.ckFiltreTraspasAny.Name = "ckFiltreTraspasAny";
+            this.ckFiltreTraspasAny.Size = new System.Drawing.Size(70, 45);
+            this.ckFiltreTraspasAny.TabIndex = 8;
+            this.ckFiltreTraspasAny.Text = "Traspàs";
+            this.ckFiltreTraspasAny.UseVisualStyleBackColor = true;
+            this.ckFiltreTraspasAny.CheckedChanged += new System.EventHandler(this.ckFiltreAny_CheckedChanged);
+            // 
             // GestioProductes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -867,13 +894,14 @@ namespace Inversions.GUI
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.pnFiltreAny.ResumeLayout(false);
-            this.pnFiltreAny.PerformLayout();
-            this.gbFiltreAny.ResumeLayout(false);
             this.pnSelDeselChecksProds.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.gbFons.ResumeLayout(false);
             this.gbEmpresa.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
+            this.gbFiltreAny.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -908,11 +936,7 @@ namespace Inversions.GUI
         private GroupBox gbMoneda;
         private Label lbMoneda;
         private Panel panel4;
-        private CheckBox ckFiltreVendesAny;
-        private ComboBox cbFiltreAny;
         private Button btFiltra;
-        private CheckBox ckFiltreCompresAny;
-        private GroupBox gbFiltreAny;
         private Panel pnFiltreAny;
         private CheckBox ckAmbMoviments;
         private GroupBox groupBox1;
@@ -932,6 +956,12 @@ namespace Inversions.GUI
         private Panel panel1;
         private Panel pnDescripcioFons;
         private Button btDescripcioFons;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private GroupBox gbFiltreAny;
+        private ComboBox cbFiltreAny;
+        private CheckBox ckFiltreCompresAny;
+        private CheckBox ckFiltreVendesAny;
         private CheckBox ckFiltreDivAny;
+        private CheckBox ckFiltreTraspasAny;
     }
 }
