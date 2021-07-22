@@ -372,7 +372,7 @@ namespace Inversions
         }
 
         /// <summary>
-        /// Torna la llista de les vendes que utilitzen les participacions d'aquesta compra
+        /// Torna la llista de les vendes que utilitzen les participacions d'aquesta compra.
         /// </summary>
         /// <returns></returns>
         internal IEnumerable<Moviment> vendesDeLaCompra()

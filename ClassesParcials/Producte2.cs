@@ -14,6 +14,8 @@ namespace Inversions
 {
     public abstract partial class Producte
     {
+        #region ***** PiG *****
+
         /// <summary>
         /// PiG de tots els productes en un any. Vendes reals dins el periode.
         /// Preu compra --> Preu origen.
@@ -74,103 +76,7 @@ namespace Inversions
             }
             return prods.Sum(prod => prod.pig2Total(dataInici, dataFinal, inclouCartera, inclouDividends));
         }
-        
 
-        /// <summary>
-        /// Torna les participacions en una data hora determinada. No te en compte els moviments del mateix dia fets en hora posterior.
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        internal double numParticipacionsEnData(DateTime? data = null)
-        {
-            return numParticipacionsEnData(data.GetValueOrDefault(DateTime.MaxValue));
-        }
-
-
-        /// <summary>
-        /// Calcula el cost original de les participacions en cartera.
-        /// </summary>
-        /// <param name="numPartsMax"></param>
-        /// <returns></returns>
-        internal double costOriginalEnCartera2(double? numPartsMax = null)
-        {
-            return costOriginalEnCartera4(DateTime.MaxValue, numPartsMax);
-        }
-
-        /// <summary>
-        /// Torna la llista de les compres afectades per una venda amb data 'dataHoraVenda' i num parts 'numParticionsVenda'.
-        /// </summary>
-        /// <param name="dataHoraVenda">Es buscaran compres i vendes anteriors a aquesta data.</param>
-        /// <param name="numParticionsVenda">Son les particions venudes a les que buscaré les seves compres. 
-        /// Si null utilitza les participacions en cartera a la data.</param>
-        /// <returns></returns>
-        public IEnumerable<Moviment> compresDeLaVenda4Test(DateTime dataHoraVenda, double? numParticionsVenda = null)
-        {
-            return compresDeLaVenda4(dataHoraVenda, numParticionsVenda);
-        }
-
-        /// <summary>
-        /// Torna la llista de les compres afectades per una venda amb data 'dataHoraVenda' i num parts 'numParticionsVenda'.
-        /// </summary>
-        /// <param name="dataHoraVenda">Es buscaran compres i vendes anteriors a aquesta data.</param>
-        /// <param name="numParticionsVenda">Son les particions venudes a les que buscaré les seves compres. 
-        /// Si null utilitza les participacions en cartera a la data.</param>
-        /// <returns></returns>
-        internal IEnumerable<Moviment> compresDeLaVenda4(DateTime dataHoraVenda, double? numParticionsVenda = null)
-        {
-            List<Moviment> compres = new List<Moviment>();
-            
-            var numParts = numParticionsVenda.GetValueOrDefault(numParticipacionsEnData(dataHoraVenda));
-
-            if (Utilitats.EsZero(numParts))
-                return compres;
-
-            // Totes les compres anteriors a la venda.
-            var compresAnt = MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data < dataHoraVenda).OrderBy(o => o.Data).ToList();
-
-            // *** Reinicia _ParticipacionsDisponibles ***
-            Moviment.ResetParticipacionsDeTreball(compresAnt);
-
-            var numPartsVenudesAbans = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data < dataHoraVenda).Sum(s => s.Participacions);
-            var partRestantsVendaActual = numParts;
-
-            foreach (var compraAnt in compresAnt)
-            {
-                if (Utilitats.ComparaNumeros(numPartsVenudesAbans, 0) > 0)
-                {
-                    // Descompta les participacions venudes abans.
-                    if (Utilitats.ComparaNumeros(numPartsVenudesAbans, compraAnt.Participacions) >= 0)
-                    {
-                        // Tota la compra estava venuda abans.
-                        numPartsVenudesAbans -= compraAnt.Participacions;
-                        continue;
-                    }
-
-                    // Descompto les participacions venudes abans.
-                    compraAnt._ParticipacionsOcupades = numPartsVenudesAbans;
-                    numPartsVenudesAbans = 0;
-                }
-
-                if (Utilitats.ComparaNumeros(partRestantsVendaActual, compraAnt._ParticipacionsDisponibles) > 0)
-                {
-                    var partsDisp = compraAnt._ParticipacionsDisponibles;
-                    compraAnt._ParticipacionsUtilitzades = partsDisp;
-                    partRestantsVendaActual -= partsDisp;
-                }
-                else
-                {
-                    compraAnt._ParticipacionsUtilitzades = partRestantsVendaActual;
-                    partRestantsVendaActual = 0;
-                }
-
-                compres.Add(compraAnt);
-
-                if (Utilitats.EsZero(partRestantsVendaActual))
-                    break;
-            }
-
-            return compres;
-        }
 
 
         /// <summary>
@@ -190,7 +96,7 @@ namespace Inversions
         /// <returns></returns>
         internal double pig2Total(int any, bool inclouCartera, bool inclouDividends)
         {
-            var dataIni = new DateTime(any,1,1);
+            var dataIni = new DateTime(any, 1, 1);
             var dataFi = dataIni.AddYears(1).AddMilliseconds(-1);
 
             return pig2Total(dataIni, dataFi, inclouCartera, inclouDividends);
@@ -254,8 +160,6 @@ namespace Inversions
         }
 
 
-        #region ***** Mètodes que fan coses, com els catalans *****
-
         /// <summary>
         /// PiG del producte sense tenir en compte el preu original en cas de traspàs.
         /// </summary>
@@ -303,7 +207,7 @@ namespace Inversions
         private double pig2Vendes(DateTime dataHoraInici, DateTime dataHoraFinal, bool nomesVendesReals)
         {
             //var vendesReals = MovimentsProducteUsuari.Where(w => w._EsVendaReal && w.Data >= dataIni && w.Data <= dataFi).ToList();
-            
+
             var vendes = MovimentsProducteUsuari.Where(w => w.Data >= dataHoraInici && w.Data <= dataHoraFinal && w._EsVenda).ToList();
             if (nomesVendesReals)
                 vendes = vendes.Where(w => !w._EsTraspas).ToList();
@@ -311,23 +215,89 @@ namespace Inversions
             return vendes.Sum(venda => venda.pig2Venda());
         }
 
+        #endregion ***** PiG *****
+        
 
+        /// <summary>
+        /// Torna la llista de les compres afectades per una venda amb data 'dataHoraVenda' i num parts 'numParticionsVenda'.
+        /// la venda pot ser que encara no existeixi en la taula moviments o que siguin les participacions en cartera.
+        /// </summary>
+        /// <param name="dataHoraVenda">Es buscaran compres i vendes anteriors a aquesta data.</param>
+        /// <param name="numParticionsVenda">Son les particions venudes a les que buscaré les seves compres. 
+        /// Si null utilitza les participacions en cartera a la data.</param>
+        /// <returns></returns>
+        internal IEnumerable<Moviment> compresDeLaVenda4(DateTime dataHoraVenda, double? numParticionsVenda = null)
+        {
+            List<Moviment> compres = new List<Moviment>();
+            
+            var numParts = numParticionsVenda.GetValueOrDefault(numParticipacionsEnData(dataHoraVenda));
+
+            if (Utilitats.EsZero(numParts))
+                return compres;
+
+            // Totes les compres anteriors a la venda.
+            var compresAnt = MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data < dataHoraVenda).OrderBy(o => o.Data).ToList();
+
+            // *** Reinicia _ParticipacionsDisponibles ***
+            Moviment.ResetParticipacionsDeTreball(compresAnt);
+
+            var numPartsVenudesAbans = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data < dataHoraVenda).Sum(s => s.Participacions);
+            var partRestantsVendaActual = numParts;
+
+            foreach (var compraAnt in compresAnt)
+            {
+                if (Utilitats.ComparaNumeros(numPartsVenudesAbans, 0) > 0)
+                {
+                    // Descompta les participacions venudes abans.
+                    if (Utilitats.ComparaNumeros(numPartsVenudesAbans, compraAnt.Participacions) >= 0)
+                    {
+                        // Tota la compra estava venuda abans.
+                        numPartsVenudesAbans -= compraAnt.Participacions;
+                        continue;
+                    }
+
+                    // Descompto les participacions venudes abans.
+                    compraAnt._ParticipacionsOcupades = numPartsVenudesAbans;
+                    numPartsVenudesAbans = 0;
+                }
+
+                if (Utilitats.ComparaNumeros(partRestantsVendaActual, compraAnt._ParticipacionsDisponibles) > 0)
+                {
+                    var partsDisp = compraAnt._ParticipacionsDisponibles;
+                    compraAnt._ParticipacionsUtilitzades = partsDisp;
+                    partRestantsVendaActual -= partsDisp;
+                }
+                else
+                {
+                    compraAnt._ParticipacionsUtilitzades = partRestantsVendaActual;
+                    partRestantsVendaActual = 0;
+                }
+
+                compres.Add(compraAnt);
+
+                if (Utilitats.EsZero(partRestantsVendaActual))
+                    break;
+            }
+
+            return compres;
+        }
+
+
+        
         /// <summary>
         /// Calcula el cost original de les participacions en cartera. Inclou despeses. 
         /// </summary>
         /// <param name="dataHoraFinal">Si null calcula les participacions avui, sinò les que hi havia a la data.</param>
         /// <param name="numPartsMax">Limita el cost a num de participacions</param>
         /// <returns></returns>
-        private double costOriginalEnCartera4(DateTime dataHoraFinal, double? numPartsMax = null)
+        internal double costOriginalEnCartera4(DateTime? dataHoraFinal = null, double? numPartsMax = null)
         {
             var partsEnCartera = numParticipacionsEnData(dataHoraFinal);
 
             if (numPartsMax.HasValue && numPartsMax.Value > partsEnCartera)
                 throw new ArgumentException("'numPartsMax' és més gran que les participacions en cartera.", "numPartsMax");
 
-            resetParticipacionsDisponibles();
-
-            var compresAnt = compresDeLaVenda4(dataHoraFinal, partsEnCartera).ToList();
+            var compresAnt = compresDeLaVenda4(dataHoraFinal.GetValueOrDefault(DateTime.Now), partsEnCartera).ToList();
 
             var partsPerCalcul = compresAnt.Sum(s => s._ParticipacionsUtilitzades);
 
@@ -354,28 +324,37 @@ namespace Inversions
             }
             return preuOrig2;
         }
+
+        
         /// <summary>
         /// Torna les participacions en una data hora determinada. No te en compte els moviments del mateix dia fets en hora posterior.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="dataHora">Si null, data hora actual.</param>
         /// <returns></returns>
-        private double numParticipacionsEnData(DateTime data)
+        internal double numParticipacionsEnData(DateTime? dataHora = null)
         {
-            /* *** No modifico data a final del dia perquè no em permet discriminar les participacions que hi havia abans del moviment 
-             * si hi ha més d'un moviment en un dia. 
-             */
-            //data = Utilitats.DataFinalDia(data);
+            var data = dataHora.GetValueOrDefault(DateTime.Now);
 
             var particComprades = MovimentsProducteUsuari.Where(w => w.Data <= data && w.TipusMoviment == TipusMoviment.Compra).Sum(s => s.Participacions);
             var particVenudes = MovimentsProducteUsuari.Where(w => w.Data <= data && w.TipusMoviment == TipusMoviment.Venda).Sum(s => s.Participacions);
 
             return Math.Round(particComprades - particVenudes, 5);
         }
-        
-        #endregion
 
 
         #region **** Mètodes cridats des de Test *****
+
+        /// <summary>
+        /// Torna la llista de les compres afectades per una venda amb data 'dataHoraVenda' i num parts 'numParticionsVenda'.
+        /// </summary>
+        /// <param name="dataHoraVenda">Es buscaran compres i vendes anteriors a aquesta data.</param>
+        /// <param name="numParticionsVenda">Son les particions venudes a les que buscaré les seves compres. 
+        /// Si null utilitza les participacions en cartera a la data.</param>
+        /// <returns></returns>
+        public IEnumerable<Moviment> compresDeLaVenda4Test(DateTime dataHoraVenda, double? numParticionsVenda = null)
+        {
+            return compresDeLaVenda4(dataHoraVenda, numParticionsVenda);
+        }
 
         public double pig2EnCarteraTest(DateTime? dataHoraFinal = null, double? numParts = null, double? preuParticipacio = null)
         {
@@ -389,7 +368,7 @@ namespace Inversions
 
         public double costOriginalEnCartera2Test(double? numPartsMax = null)
         {
-            return costOriginalEnCartera2(numPartsMax);
+            return costOriginalEnCartera4(null, numPartsMax);
         }
 
 

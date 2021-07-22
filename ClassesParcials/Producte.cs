@@ -170,14 +170,6 @@ namespace Inversions
 
         #region Mètodes
 
-        public void resetParticipacionsDisponibles()
-        {
-            foreach (var moviment in MovimentsProducteUsuari)
-            {
-                moviment.resetParticipacionsDeTreball();
-            }
-        }
-
         internal double dividends(DateTime dataFi)
         {
             return dividends(DateTime.MinValue, dataFi);
@@ -234,6 +226,7 @@ namespace Inversions
         {
             return importCompra(new DateTime(any, 1, 1), Utilitats.PosoHora(new DateTime(any, 12, 31)));
         }
+
 
         /// <summary>
         /// Calcula la diferencia de compra/venda en el periode a partir de les vendes reals entre les dates. Substitueix "importCompraAntic".
@@ -889,7 +882,5 @@ namespace Inversions
         }
 
         #endregion
-
-
     }
 }
