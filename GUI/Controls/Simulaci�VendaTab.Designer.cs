@@ -113,9 +113,9 @@ namespace Inversions.GUI
             this.ntbPreuParticipacio._PermetEspais = false;
             this.ntbPreuParticipacio._PermetNegatius = true;
             this.ntbPreuParticipacio.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbPreuParticipacio.Enabled = false;
             this.ntbPreuParticipacio.Location = new System.Drawing.Point(3, 22);
             this.ntbPreuParticipacio.Name = "ntbPreuParticipacio";
-            this.ntbPreuParticipacio.ReadOnly = true;
             this.ntbPreuParticipacio.Size = new System.Drawing.Size(105, 26);
             this.ntbPreuParticipacio.TabIndex = 3;
             this.ntbPreuParticipacio.Text = "0";

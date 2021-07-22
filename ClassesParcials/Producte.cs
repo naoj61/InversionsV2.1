@@ -202,7 +202,7 @@ namespace Inversions
         {
             var valoracions = ValoracionsProducte.Where(w => w.Data <= data).Select(val => new { val.Data, val.PreuParticipacio }).ToList();
 
-            var moviments = this.Moviments.Where(w => w.Data <= data && (w.TipusMoviment == TipusMoviment.Compra || w.TipusMoviment == TipusMoviment.Venda))
+            var moviments = Moviments.Where(w => w.Data <= data && (w.TipusMoviment == TipusMoviment.Compra || w.TipusMoviment == TipusMoviment.Venda))
                 .Select(mov => new { mov.Data, mov.PreuParticipacio }).ToList();
 
             var tot = valoracions.Union(moviments).OrderBy(o => o.Data).ToList();
@@ -380,8 +380,9 @@ namespace Inversions
         /// </summary>
         /// <param name="data"></param>
         /// <param name="numPartsMax">Limita el cost a num de participacions</param>
+        /// <param name="preuParticipacio">Si no null, utilitza aquest preu en lloc del actual a la data.</param>
         /// <returns></returns>
-        public double valorEnCartera(DateTime? data = null, double? numPartsMax = null)
+        public double valorEnCartera(DateTime? data = null, double? numPartsMax = null, double? preuParticipacio = null)
         {
             var dFinal = Utilitats.PosoHora(data);
 
@@ -389,14 +390,14 @@ namespace Inversions
 
             if (numPartsMax.HasValue)
                 if (numPartsMax.Value > participacions && numPartsMax.Value < 0)
-                    throw new ArgumentException("El numero de participacions del parèmetre supera les participacions en cartera o és negatiu", "numPartsMax");
+                    throw new ArgumentException("El numero de participacions del paràmetre supera les participacions en cartera o és negatiu", "numPartsMax");
                 else
                     participacions = numPartsMax.Value;
 
             if (Utilitats.EsZero(participacions))
                 return 0;
 
-            return participacions * valorParticipacio(dFinal);
+            return participacions * preuParticipacio.GetValueOrDefault(valorParticipacio(dFinal));
         }
         
 
