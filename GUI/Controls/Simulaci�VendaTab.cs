@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -59,22 +60,26 @@ namespace Inversions.GUI
             if (vProducteSeleccionat == null)
             {
                 btSimulacio.Enabled = false;
-                ntbNumParticipacions.Enabled = false;
-                ntbNumParticipacions.Valor = 0;
 
+                ntbNumParticipacions.Enabled = false;
                 ntbPreuParticipacio.Enabled = false;
+
+                ntbNumParticipacions.Valor = 0;
                 ntbPreuParticipacio.Valor = 0;
+                ntbPerduesAnteriors.Valor = 0;
+                ntbPigTributa.Valor = 0;
             }
             else
             {
                 btSimulacio.Enabled = true;
-                ntbNumParticipacions.Enabled = vProducteSeleccionat._Participacions > 0;
-                ntbNumParticipacions.Valor = vProducteSeleccionat._Participacions;
 
+                ntbNumParticipacions.Enabled = vProducteSeleccionat._Participacions > 0;
                 ntbPreuParticipacio.Enabled = vProducteSeleccionat._Participacions > 0;
+
+                ntbNumParticipacions.Valor = vProducteSeleccionat._Participacions;
                 ntbPreuParticipacio.Valor = vProducteSeleccionat.ValoracionsProducte.Last().PreuParticipacio;
-                
-                ntbPig.Valor = 0;
+
+                ompleValors();
             }
         }
 
@@ -85,11 +90,41 @@ namespace Inversions.GUI
                 MessageBox.Show("Num. participacions massa gran");
                 return;
             }
-            var costParts = vProducteSeleccionat.costOriginalEnCartera4(numPartsMax: ntbNumParticipacions.Valor);
-            //var valorPartsEnData = vProducteSeleccionat.valorEnCartera(numPartsMax: ntbNumParticipacions.Valor);
-            var valorPartsEnData = vProducteSeleccionat.valorEnCartera(numPartsMax: ntbNumParticipacions.Valor, preuParticipacio: ntbPreuParticipacio.Valor);
-            ntbPig.Valor = valorPartsEnData - costParts;
+
+            ompleValors();
         }
 
+        private void SimulacióVendaTab_Load(object sender, EventArgs e)
+        {
+            ntbAnyRenda.Valor = DateTime.Today.Year;
+            calculaPerdues();
+        }
+
+        private void btRecalcula_Click(object sender, EventArgs e)
+        {
+            calculaPerdues();
+            if (btSimulacio.Enabled)
+                ompleValors();
+        }
+
+
+        private void calculaPerdues()
+        {
+            ntbPerduesAnteriors.Valor = Producte.PerduesDarrersQuatreAnys(ntbAnyRenda._IntValue);
+        }
+
+
+        private void ompleValors()
+        {
+            var costParts = vProducteSeleccionat.costOriginalEnCartera4(numPartsMax: ntbNumParticipacions.Valor);
+            var valorPartsEnData = vProducteSeleccionat.valorEnCartera(numPartsMax: ntbNumParticipacions.Valor, preuParticipacio: ntbPreuParticipacio.Valor);
+
+            ntbPig.Valor = valorPartsEnData - costParts;
+
+            if (-ntbPerduesAnteriors.Valor > ntbPig.Valor)
+                ntbPigTributa.Valor = 0;
+            else
+                ntbPigTributa.Valor = ntbPig.Valor + ntbPerduesAnteriors.Valor;
+        }
     }
 }

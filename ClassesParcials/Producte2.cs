@@ -78,7 +78,28 @@ namespace Inversions
         }
 
 
+        /// <summary>
+        /// Suma les perdues dels 4 anys anteriors
+        /// </summary>
+        /// <param name="dataRenda"></param>
+        /// <returns></returns>
+        internal static double PerduesDarrersQuatreAnys(int? dataRenda = null)
+        {
+            var any = dataRenda.GetValueOrDefault(DateTime.Today.Year) - 4;
+            double pigT = 0;
 
+            for (int i = 0; i < 4; i++)
+            {
+                var pAny = Pig2(TipusProducte.Tots, any++, false, false);
+                if (pAny + pigT >= 0)
+                    pigT = 0;
+                else
+                    pigT += pAny;
+            }
+
+            return pigT;
+        }
+    
         /// <summary>
         /// Calcula perdues i guanys de les vendes reals més els dividents entre les dates, inclou participacions en cartera si -> inclouCartera=true.
         /// </summary>
