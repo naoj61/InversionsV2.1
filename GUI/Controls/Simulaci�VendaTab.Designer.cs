@@ -36,7 +36,10 @@ namespace Inversions.GUI
             this.ntbPigTributa = new Controls.NumericTextBox2();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.ntbPig = new Controls.NumericTextBox2();
+            this.btRecalcula = new System.Windows.Forms.Button();
             this.btSimulacio = new System.Windows.Forms.Button();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.ntbAnyRenda = new Controls.NumericTextBox2();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.ntbPerduesAnteriors = new Controls.NumericTextBox2();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -45,16 +48,13 @@ namespace Inversions.GUI
             this.ntbNumParticipacions = new Controls.NumericTextBox2();
             this.productes = new Inversions.GUI.GestioProductes();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.ntbAnyRenda = new Controls.NumericTextBox2();
-            this.btRecalcula = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -130,6 +130,16 @@ namespace Inversions.GUI
             this.ntbPig.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbPig.Valor = 0D;
             // 
+            // btRecalcula
+            // 
+            this.btRecalcula.Location = new System.Drawing.Point(673, 35);
+            this.btRecalcula.Name = "btRecalcula";
+            this.btRecalcula.Size = new System.Drawing.Size(102, 39);
+            this.btRecalcula.TabIndex = 3;
+            this.btRecalcula.Text = "Recalcula";
+            this.btRecalcula.UseVisualStyleBackColor = true;
+            this.btRecalcula.Click += new System.EventHandler(this.btRecalcula_Click);
+            // 
             // btSimulacio
             // 
             this.btSimulacio.Enabled = false;
@@ -140,6 +150,32 @@ namespace Inversions.GUI
             this.btSimulacio.Text = "Simulació";
             this.btSimulacio.UseVisualStyleBackColor = true;
             this.btSimulacio.Click += new System.EventHandler(this.btSimulacio_Click);
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.ntbAnyRenda);
+            this.groupBox6.Location = new System.Drawing.Point(431, 19);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(109, 55);
+            this.groupBox6.TabIndex = 2;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Any Renda";
+            // 
+            // ntbAnyRenda
+            // 
+            this.ntbAnyRenda._CapturaEscape = true;
+            this.ntbAnyRenda._Format = "0";
+            this.ntbAnyRenda._PermetDecimals = false;
+            this.ntbAnyRenda._PermetEspais = false;
+            this.ntbAnyRenda._PermetNegatius = false;
+            this.ntbAnyRenda.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbAnyRenda.Location = new System.Drawing.Point(3, 22);
+            this.ntbAnyRenda.Name = "ntbAnyRenda";
+            this.ntbAnyRenda.Size = new System.Drawing.Size(103, 26);
+            this.ntbAnyRenda.TabIndex = 3;
+            this.ntbAnyRenda.Text = "0";
+            this.ntbAnyRenda.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbAnyRenda.Valor = 0D;
             // 
             // groupBox4
             // 
@@ -239,42 +275,6 @@ namespace Inversions.GUI
             this.productes.TabIndex = 0;
             this.productes.ProducteSeleccionat += new System.EventHandler(this.productes_ProducteSeleccionat);
             // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.ntbAnyRenda);
-            this.groupBox6.Location = new System.Drawing.Point(431, 19);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(102, 55);
-            this.groupBox6.TabIndex = 2;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Any Renda";
-            // 
-            // ntbAnyRenda
-            // 
-            this.ntbAnyRenda._CapturaEscape = true;
-            this.ntbAnyRenda._Format = "0";
-            this.ntbAnyRenda._PermetDecimals = false;
-            this.ntbAnyRenda._PermetEspais = false;
-            this.ntbAnyRenda._PermetNegatius = false;
-            this.ntbAnyRenda.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ntbAnyRenda.Location = new System.Drawing.Point(3, 22);
-            this.ntbAnyRenda.Name = "ntbAnyRenda";
-            this.ntbAnyRenda.Size = new System.Drawing.Size(96, 26);
-            this.ntbAnyRenda.TabIndex = 3;
-            this.ntbAnyRenda.Text = "0";
-            this.ntbAnyRenda.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbAnyRenda.Valor = 0D;
-            // 
-            // btRecalcula
-            // 
-            this.btRecalcula.Location = new System.Drawing.Point(673, 35);
-            this.btRecalcula.Name = "btRecalcula";
-            this.btRecalcula.Size = new System.Drawing.Size(102, 39);
-            this.btRecalcula.TabIndex = 3;
-            this.btRecalcula.Text = "Recalcula";
-            this.btRecalcula.UseVisualStyleBackColor = true;
-            this.btRecalcula.Click += new System.EventHandler(this.btRecalcula_Click);
-            // 
             // SimulacióVendaTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -290,14 +290,14 @@ namespace Inversions.GUI
             this.groupBox5.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
 
         }

@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using Comuns;
 using Inversions.GUI.Forms;
+using Microsoft.Win32;
 
 namespace Inversions.GUI
 {
     public partial class SimulacióVendaTab : UserControl, ITabs
     {
+        const string NomVarReg = "AnyRenda";
+
         public SimulacióVendaTab()
         {
             InitializeComponent();
@@ -27,7 +31,6 @@ namespace Inversions.GUI
         public void canviUsuari(Usuari usuari)
         {
             productes._UsuariSeleccionat = usuari;
-            //dgvPiGProducte.DataSource = null;
             Refresh();
         }
 
@@ -96,7 +99,9 @@ namespace Inversions.GUI
 
         private void SimulacióVendaTab_Load(object sender, EventArgs e)
         {
-            ntbAnyRenda.Valor = DateTime.Today.Year;
+            var anyRenda = Program.LlegeigVariableEnRegistreWindows(NomVarReg, true);
+            ntbAnyRenda.Valor = Utilitats.EsNumeric(anyRenda) ? Convert.ToInt32(anyRenda) : DateTime.Today.Year;
+
             calculaPerdues();
         }
 
@@ -107,9 +112,10 @@ namespace Inversions.GUI
                 ompleValors();
         }
 
-
         private void calculaPerdues()
         {
+            Program.DesaVariableEnRegistreWindows(NomVarReg, ntbAnyRenda._IntValue.ToString(CultureInfo.InvariantCulture), true);
+
             ntbPerduesAnteriors.Valor = Producte.PerduesDarrersQuatreAnys(ntbAnyRenda._IntValue);
         }
 
