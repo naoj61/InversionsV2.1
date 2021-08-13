@@ -48,6 +48,8 @@ namespace Inversions.GUI
             this.ntbNumParticipacions = new Controls.NumericTextBox2();
             this.productes = new Inversions.GUI.GestioProductes();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.ntbImportBrut = new Controls.NumericTextBox2();
             this.panel1.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -55,11 +57,13 @@ namespace Inversions.GUI
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.groupBox5);
+            this.panel1.Controls.Add(this.groupBox7);
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.btRecalcula);
             this.panel1.Controls.Add(this.btSimulacio);
@@ -76,7 +80,8 @@ namespace Inversions.GUI
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.ntbPigTributa);
-            this.groupBox5.Location = new System.Drawing.Point(434, 85);
+            this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox5.Location = new System.Drawing.Point(431, 85);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(154, 57);
             this.groupBox5.TabIndex = 4;
@@ -92,7 +97,8 @@ namespace Inversions.GUI
             this.ntbPigTributa._PermetEspais = false;
             this.ntbPigTributa._PermetNegatius = true;
             this.ntbPigTributa.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ntbPigTributa.Location = new System.Drawing.Point(3, 22);
+            this.ntbPigTributa.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPigTributa.Location = new System.Drawing.Point(3, 19);
             this.ntbPigTributa.Name = "ntbPigTributa";
             this.ntbPigTributa.ReadOnly = true;
             this.ntbPigTributa.Size = new System.Drawing.Size(148, 26);
@@ -104,7 +110,8 @@ namespace Inversions.GUI
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.ntbPig);
-            this.groupBox2.Location = new System.Drawing.Point(16, 94);
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.Location = new System.Drawing.Point(13, 94);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(154, 57);
             this.groupBox2.TabIndex = 4;
@@ -120,7 +127,8 @@ namespace Inversions.GUI
             this.ntbPig._PermetEspais = false;
             this.ntbPig._PermetNegatius = true;
             this.ntbPig.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ntbPig.Location = new System.Drawing.Point(3, 22);
+            this.ntbPig.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPig.Location = new System.Drawing.Point(3, 19);
             this.ntbPig.Name = "ntbPig";
             this.ntbPig.ReadOnly = true;
             this.ntbPig.Size = new System.Drawing.Size(148, 26);
@@ -132,7 +140,7 @@ namespace Inversions.GUI
             // 
             // btRecalcula
             // 
-            this.btRecalcula.Location = new System.Drawing.Point(673, 35);
+            this.btRecalcula.Location = new System.Drawing.Point(673, 31);
             this.btRecalcula.Name = "btRecalcula";
             this.btRecalcula.Size = new System.Drawing.Size(102, 39);
             this.btRecalcula.TabIndex = 3;
@@ -143,7 +151,7 @@ namespace Inversions.GUI
             // btSimulacio
             // 
             this.btSimulacio.Enabled = false;
-            this.btSimulacio.Location = new System.Drawing.Point(265, 35);
+            this.btSimulacio.Location = new System.Drawing.Point(265, 31);
             this.btSimulacio.Name = "btSimulacio";
             this.btSimulacio.Size = new System.Drawing.Size(95, 39);
             this.btSimulacio.TabIndex = 3;
@@ -154,6 +162,7 @@ namespace Inversions.GUI
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.ntbAnyRenda);
+            this.groupBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox6.Location = new System.Drawing.Point(431, 19);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(109, 55);
@@ -169,17 +178,20 @@ namespace Inversions.GUI
             this.ntbAnyRenda._PermetEspais = false;
             this.ntbAnyRenda._PermetNegatius = false;
             this.ntbAnyRenda.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ntbAnyRenda.Location = new System.Drawing.Point(3, 22);
+            this.ntbAnyRenda.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbAnyRenda.Location = new System.Drawing.Point(3, 19);
             this.ntbAnyRenda.Name = "ntbAnyRenda";
             this.ntbAnyRenda.Size = new System.Drawing.Size(103, 26);
             this.ntbAnyRenda.TabIndex = 3;
             this.ntbAnyRenda.Text = "0";
             this.ntbAnyRenda.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbAnyRenda.Valor = 0D;
+            this.ntbAnyRenda.Enter += new System.EventHandler(this.ntbAnyRenda_Enter);
             // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.ntbPerduesAnteriors);
+            this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox4.Location = new System.Drawing.Point(552, 19);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(102, 55);
@@ -196,7 +208,8 @@ namespace Inversions.GUI
             this.ntbPerduesAnteriors._PermetEspais = false;
             this.ntbPerduesAnteriors._PermetNegatius = true;
             this.ntbPerduesAnteriors.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ntbPerduesAnteriors.Location = new System.Drawing.Point(3, 22);
+            this.ntbPerduesAnteriors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPerduesAnteriors.Location = new System.Drawing.Point(3, 19);
             this.ntbPerduesAnteriors.Name = "ntbPerduesAnteriors";
             this.ntbPerduesAnteriors.ReadOnly = true;
             this.ntbPerduesAnteriors.Size = new System.Drawing.Size(96, 26);
@@ -208,6 +221,7 @@ namespace Inversions.GUI
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.ntbPreuParticipacio);
+            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(139, 19);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(111, 55);
@@ -224,17 +238,20 @@ namespace Inversions.GUI
             this.ntbPreuParticipacio._PermetNegatius = true;
             this.ntbPreuParticipacio.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPreuParticipacio.Enabled = false;
-            this.ntbPreuParticipacio.Location = new System.Drawing.Point(3, 22);
+            this.ntbPreuParticipacio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPreuParticipacio.Location = new System.Drawing.Point(3, 19);
             this.ntbPreuParticipacio.Name = "ntbPreuParticipacio";
             this.ntbPreuParticipacio.Size = new System.Drawing.Size(105, 26);
             this.ntbPreuParticipacio.TabIndex = 3;
             this.ntbPreuParticipacio.Text = "0,000";
             this.ntbPreuParticipacio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbPreuParticipacio.Valor = 0D;
+            this.ntbPreuParticipacio.Enter += new System.EventHandler(this.ntbPreuParticipacio_Enter);
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.ntbNumParticipacions);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(13, 19);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(111, 55);
@@ -251,13 +268,15 @@ namespace Inversions.GUI
             this.ntbNumParticipacions._PermetNegatius = true;
             this.ntbNumParticipacions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbNumParticipacions.Enabled = false;
-            this.ntbNumParticipacions.Location = new System.Drawing.Point(3, 22);
+            this.ntbNumParticipacions.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbNumParticipacions.Location = new System.Drawing.Point(3, 19);
             this.ntbNumParticipacions.Name = "ntbNumParticipacions";
             this.ntbNumParticipacions.Size = new System.Drawing.Size(105, 26);
             this.ntbNumParticipacions.TabIndex = 3;
             this.ntbNumParticipacions.Text = "0,00";
             this.ntbNumParticipacions.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbNumParticipacions.Valor = 0D;
+            this.ntbNumParticipacions.Enter += new System.EventHandler(this.ntbNumParticipacions_Enter);
             // 
             // productes
             // 
@@ -274,6 +293,36 @@ namespace Inversions.GUI
             this.productes.Size = new System.Drawing.Size(1459, 493);
             this.productes.TabIndex = 0;
             this.productes.ProducteSeleccionat += new System.EventHandler(this.productes_ProducteSeleccionat);
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.ntbImportBrut);
+            this.groupBox7.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox7.Location = new System.Drawing.Point(206, 94);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(154, 57);
+            this.groupBox7.TabIndex = 4;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Import Brut";
+            // 
+            // ntbImportBrut
+            // 
+            this.ntbImportBrut._CapturaEscape = true;
+            this.ntbImportBrut._Format = "#,##0.00";
+            this.ntbImportBrut._PermetDecimals = true;
+            this.ntbImportBrut._PermetEspais = false;
+            this.ntbImportBrut._PermetNegatius = true;
+            this.ntbImportBrut.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbImportBrut.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbImportBrut.Location = new System.Drawing.Point(3, 19);
+            this.ntbImportBrut.Name = "ntbImportBrut";
+            this.ntbImportBrut.ReadOnly = true;
+            this.ntbImportBrut.Size = new System.Drawing.Size(148, 26);
+            this.ntbImportBrut.TabIndex = 4;
+            this.ntbImportBrut.Tag = "";
+            this.ntbImportBrut.Text = "0,00";
+            this.ntbImportBrut.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbImportBrut.Valor = 0D;
             // 
             // SimulacióVendaTab
             // 
@@ -298,6 +347,8 @@ namespace Inversions.GUI
             this.groupBox3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -321,5 +372,7 @@ namespace Inversions.GUI
         private System.Windows.Forms.GroupBox groupBox6;
         private Controls.NumericTextBox2 ntbAnyRenda;
         private System.Windows.Forms.Button btRecalcula;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private Controls.NumericTextBox2 ntbImportBrut;
     }
 }

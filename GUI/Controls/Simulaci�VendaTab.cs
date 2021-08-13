@@ -14,7 +14,7 @@ namespace Inversions.GUI
 {
     public partial class SimulacióVendaTab : UserControl, ITabs
     {
-        const string NomVarReg = "AnyRenda";
+        private const string NomVarReg = "AnyRenda";
 
         public SimulacióVendaTab()
         {
@@ -34,18 +34,18 @@ namespace Inversions.GUI
             Refresh();
         }
 
+        public Button AcceptButton
+        {
+            get { return (Button) ParentForm.AcceptButton; }
+            private set { ParentForm.AcceptButton = value; }
+        }
+
         public bool enModeEdicio
         {
             get { return false; }
         }
 
         public bool activaRefresca { get; set; }
-
-
-        public Button AcceptButton
-        {
-            get { return btSimulacio; }
-        }
 
         public override void Refresh()
         {
@@ -54,7 +54,7 @@ namespace Inversions.GUI
             activaRefresca = false;
         }
 
-        Producte vProducteSeleccionat = null;
+        private Producte vProducteSeleccionat = null;
 
         private void productes_ProducteSeleccionat(object sender, EventArgs e)
         {
@@ -97,19 +97,20 @@ namespace Inversions.GUI
             ompleValors();
         }
 
+        private void btRecalcula_Click(object sender, EventArgs e)
+        {
+            calculaPerdues();
+
+            if (btSimulacio.Enabled)
+                ompleValors();
+        }
+
         private void SimulacióVendaTab_Load(object sender, EventArgs e)
         {
             var anyRenda = Program.LlegeigVariableEnRegistreWindows(NomVarReg, true);
             ntbAnyRenda.Valor = Utilitats.EsNumeric(anyRenda) ? Convert.ToInt32(anyRenda) : DateTime.Today.Year;
 
             calculaPerdues();
-        }
-
-        private void btRecalcula_Click(object sender, EventArgs e)
-        {
-            calculaPerdues();
-            if (btSimulacio.Enabled)
-                ompleValors();
         }
 
         private void calculaPerdues()
@@ -123,14 +124,31 @@ namespace Inversions.GUI
         private void ompleValors()
         {
             var costParts = vProducteSeleccionat.costOriginalEnCartera4(numPartsMax: ntbNumParticipacions.Valor);
-            var valorPartsEnData = vProducteSeleccionat.valorEnCartera(numPartsMax: ntbNumParticipacions.Valor, preuParticipacio: ntbPreuParticipacio.Valor);
+            var valorParts = vProducteSeleccionat.valorEnCartera(numPartsMax: ntbNumParticipacions.Valor, preuParticipacio: ntbPreuParticipacio.Valor);
 
-            ntbPig.Valor = valorPartsEnData - costParts;
+            ntbPig.Valor = valorParts - costParts;
 
             if (-ntbPerduesAnteriors.Valor > ntbPig.Valor)
                 ntbPigTributa.Valor = 0;
             else
                 ntbPigTributa.Valor = ntbPig.Valor + ntbPerduesAnteriors.Valor;
+
+            ntbImportBrut.Valor = valorParts;
+        }
+
+        private void ntbNumParticipacions_Enter(object sender, EventArgs e)
+        {
+            AcceptButton = btSimulacio;
+        }
+
+        private void ntbPreuParticipacio_Enter(object sender, EventArgs e)
+        {
+            AcceptButton = btSimulacio;
+        }
+
+        private void ntbAnyRenda_Enter(object sender, EventArgs e)
+        {
+            AcceptButton = btRecalcula;
         }
     }
 }
