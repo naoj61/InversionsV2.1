@@ -14,7 +14,6 @@ namespace Inversions.GUI
     {
         public ValoracionsTab()
         {
-
             InitializeComponent();
 
             chart1.GetToolTipText += chart1_GetToolTipText;
@@ -29,6 +28,9 @@ namespace Inversions.GUI
             cbTipusProducteFiltre.SelectedIndexChanged += cbTipusProducteFiltre_SelectedIndexChanged;
 
             dtpDataIniciLlista.Value = DateTime.Now.AddMonths(-6);
+
+            gestioProductesTabValoracions.refrescaDadesControl();
+
         }
 
         public Button AcceptButton
