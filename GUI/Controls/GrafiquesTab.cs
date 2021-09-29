@@ -140,19 +140,22 @@ namespace Inversions.GUI
                 if (producte == null) return;
 
                 lbNomProducte.Text = e.HitTestResult.Series.Name;
-                lbValorActual.Text = producte.valorEnCartera().ToString("#,##0.00€");
-
-                var vals =producte.valoracionsPonderades(false, dtpInici.Value.GetValueOrDefault(DateTime.MinValue), dtpFinal.Value);
-                var valIni = vals.First().Value;
-                var valMax = vals.Last().Value;
-                lbVariacio.Text = (valMax / valIni - 1).ToString("#0.00%");
-
+     
+                var puntSenyalatGrafica = ((DataPoint)(e.HitTestResult.Object));
+                //lbValorActual.Text = producte.valorEnCartera().ToString("#,##0.00€");
+                lbValorActual.Text = puntSenyalatGrafica.YValues[0].ToString("#,##0.00€");
+                lbData.Text = DateTime.FromOADate(puntSenyalatGrafica.XValue).ToShortDateString();
+                
+                //var vals = producte.valoracionsPonderades(false, dtpInici.Value.GetValueOrDefault(DateTime.MinValue), dtpFinal.Value);
+                //var valIni = vals.First().Value;
+                //var valMax = vals.Last().Value;
+                //lbData.Text = (valMax / valIni - 1).ToString("#0.00%");
             }
             else
             { 
-                lbNomProducte.Text = String.Empty;
-                lbValorActual.Text = String.Empty;
-                lbVariacio.Text = String.Empty;
+                //lbNomProducte.Text = String.Empty;
+                //lbValorActual.Text = String.Empty;
+                //lbData.Text = String.Empty;
             }
         }
 

@@ -35,7 +35,7 @@ namespace Inversions.GUI
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.lbVariacio = new System.Windows.Forms.Label();
+            this.lbData = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.lbValorActual = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -78,40 +78,41 @@ namespace Inversions.GUI
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel4.Controls.Add(this.lbVariacio);
+            this.panel4.Controls.Add(this.lbData);
             this.panel4.Controls.Add(this.label4);
             this.panel4.Controls.Add(this.lbValorActual);
             this.panel4.Controls.Add(this.label1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel4.Location = new System.Drawing.Point(3, 684);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(475, 31);
+            this.panel4.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
+            this.panel4.Size = new System.Drawing.Size(475, 34);
             this.panel4.TabIndex = 4;
             // 
-            // lbVariacio
+            // lbData
             // 
-            this.lbVariacio.AutoSize = true;
-            this.lbVariacio.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lbVariacio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbVariacio.Location = new System.Drawing.Point(238, 0);
-            this.lbVariacio.Name = "lbVariacio";
-            this.lbVariacio.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-            this.lbVariacio.Size = new System.Drawing.Size(29, 23);
-            this.lbVariacio.TabIndex = 3;
-            this.lbVariacio.Text = "    ";
-            this.lbVariacio.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbData.AutoSize = true;
+            this.lbData.Dock = System.Windows.Forms.DockStyle.Left;
+            this.lbData.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbData.Location = new System.Drawing.Point(138, 3);
+            this.lbData.Name = "lbData";
+            this.lbData.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
+            this.lbData.Size = new System.Drawing.Size(29, 23);
+            this.lbData.TabIndex = 3;
+            this.lbData.Text = "    ";
+            this.lbData.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Left;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(139, 0);
+            this.label4.Location = new System.Drawing.Point(85, 3);
             this.label4.Name = "label4";
             this.label4.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-            this.label4.Size = new System.Drawing.Size(99, 23);
+            this.label4.Size = new System.Drawing.Size(53, 23);
             this.label4.TabIndex = 2;
-            this.label4.Text = "Variació %:";
+            this.label4.Text = "Data:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lbValorActual
@@ -119,7 +120,7 @@ namespace Inversions.GUI
             this.lbValorActual.AutoSize = true;
             this.lbValorActual.Dock = System.Windows.Forms.DockStyle.Left;
             this.lbValorActual.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbValorActual.Location = new System.Drawing.Point(110, 0);
+            this.lbValorActual.Location = new System.Drawing.Point(56, 3);
             this.lbValorActual.Name = "lbValorActual";
             this.lbValorActual.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
             this.lbValorActual.Size = new System.Drawing.Size(29, 23);
@@ -132,12 +133,12 @@ namespace Inversions.GUI
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Left;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Location = new System.Drawing.Point(0, 3);
             this.label1.Name = "label1";
             this.label1.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-            this.label1.Size = new System.Drawing.Size(110, 23);
+            this.label1.Size = new System.Drawing.Size(56, 23);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Valor actual:";
+            this.label1.Text = "Valor:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lbNomProducte
@@ -344,7 +345,7 @@ namespace Inversions.GUI
         private Panel panel4;
         private Label lbValorActual;
         private Label label1;
-        private Label lbVariacio;
+        private Label lbData;
         private Label label4;
     }
 }

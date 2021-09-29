@@ -368,7 +368,7 @@ namespace Inversions.GUI
             double pigPerDataAnt = 0;
             foreach (var valoracio in valMovs)
             {
-                DateTime data = valoracio.Key;
+                DateTime data = Utilitats.DataHoraFinalDia(valoracio.Key);
 
                 double pigPerData;
                 double saldo;
