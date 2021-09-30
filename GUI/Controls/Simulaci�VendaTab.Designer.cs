@@ -34,6 +34,8 @@ namespace Inversions.GUI
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.ntbPigTributa = new Controls.NumericTextBox2();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.ntbImportBrut = new Controls.NumericTextBox2();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.ntbPig = new Controls.NumericTextBox2();
             this.btRecalcula = new System.Windows.Forms.Button();
@@ -48,16 +50,14 @@ namespace Inversions.GUI
             this.ntbNumParticipacions = new Controls.NumericTextBox2();
             this.productes = new Inversions.GUI.GestioProductes();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.ntbImportBrut = new Controls.NumericTextBox2();
             this.panel1.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -106,6 +106,36 @@ namespace Inversions.GUI
             this.ntbPigTributa.Text = "0,00";
             this.ntbPigTributa.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbPigTributa.Valor = 0D;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.ntbImportBrut);
+            this.groupBox7.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox7.Location = new System.Drawing.Point(206, 94);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(154, 57);
+            this.groupBox7.TabIndex = 4;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Import Brut";
+            // 
+            // ntbImportBrut
+            // 
+            this.ntbImportBrut._CapturaEscape = true;
+            this.ntbImportBrut._Format = "#,##0.00";
+            this.ntbImportBrut._PermetDecimals = true;
+            this.ntbImportBrut._PermetEspais = false;
+            this.ntbImportBrut._PermetNegatius = true;
+            this.ntbImportBrut.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbImportBrut.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbImportBrut.Location = new System.Drawing.Point(3, 19);
+            this.ntbImportBrut.Name = "ntbImportBrut";
+            this.ntbImportBrut.ReadOnly = true;
+            this.ntbImportBrut.Size = new System.Drawing.Size(148, 26);
+            this.ntbImportBrut.TabIndex = 4;
+            this.ntbImportBrut.Tag = "";
+            this.ntbImportBrut.Text = "0,00";
+            this.ntbImportBrut.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbImportBrut.Valor = 0D;
             // 
             // groupBox2
             // 
@@ -262,7 +292,7 @@ namespace Inversions.GUI
             // ntbNumParticipacions
             // 
             this.ntbNumParticipacions._CapturaEscape = true;
-            this.ntbNumParticipacions._Format = "#,##0.00";
+            this.ntbNumParticipacions._Format = "#,##0.0000";
             this.ntbNumParticipacions._PermetDecimals = true;
             this.ntbNumParticipacions._PermetEspais = false;
             this.ntbNumParticipacions._PermetNegatius = true;
@@ -273,7 +303,7 @@ namespace Inversions.GUI
             this.ntbNumParticipacions.Name = "ntbNumParticipacions";
             this.ntbNumParticipacions.Size = new System.Drawing.Size(105, 26);
             this.ntbNumParticipacions.TabIndex = 3;
-            this.ntbNumParticipacions.Text = "0,00";
+            this.ntbNumParticipacions.Text = "0,0000";
             this.ntbNumParticipacions.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbNumParticipacions.Valor = 0D;
             this.ntbNumParticipacions.Enter += new System.EventHandler(this.ntbNumParticipacions_Enter);
@@ -294,36 +324,6 @@ namespace Inversions.GUI
             this.productes.TabIndex = 0;
             this.productes.ProducteSeleccionat += new System.EventHandler(this.productes_ProducteSeleccionat);
             // 
-            // groupBox7
-            // 
-            this.groupBox7.Controls.Add(this.ntbImportBrut);
-            this.groupBox7.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox7.Location = new System.Drawing.Point(206, 94);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(154, 57);
-            this.groupBox7.TabIndex = 4;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Import Brut";
-            // 
-            // ntbImportBrut
-            // 
-            this.ntbImportBrut._CapturaEscape = true;
-            this.ntbImportBrut._Format = "#,##0.00";
-            this.ntbImportBrut._PermetDecimals = true;
-            this.ntbImportBrut._PermetEspais = false;
-            this.ntbImportBrut._PermetNegatius = true;
-            this.ntbImportBrut.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ntbImportBrut.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbImportBrut.Location = new System.Drawing.Point(3, 19);
-            this.ntbImportBrut.Name = "ntbImportBrut";
-            this.ntbImportBrut.ReadOnly = true;
-            this.ntbImportBrut.Size = new System.Drawing.Size(148, 26);
-            this.ntbImportBrut.TabIndex = 4;
-            this.ntbImportBrut.Tag = "";
-            this.ntbImportBrut.Text = "0,00";
-            this.ntbImportBrut.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbImportBrut.Valor = 0D;
-            // 
             // SimulacióVendaTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -337,6 +337,8 @@ namespace Inversions.GUI
             this.panel1.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox6.ResumeLayout(false);
@@ -347,8 +349,6 @@ namespace Inversions.GUI
             this.groupBox3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
             this.ResumeLayout(false);
 
         }
