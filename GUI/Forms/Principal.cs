@@ -126,7 +126,9 @@ namespace Inversions.GUI
         {
             vConnEmpreses = new InversionsBDContext(); // Creo la connexió per si he fet cancel rellegeixi les dades de la taula.
             vConnEmpreses.Empreses.Load();
-            dgvEmpreses.DataSource = vConnEmpreses.Empreses.Local.ToBindingList();
+            
+            dgvEmpreses.DataSource = vConnEmpreses.Empreses.Local.OrderBy(o => o.TipusEmpresa).ThenBy(o => o.Nom).ToList();
+            //dgvEmpreses.DataSource = vConnEmpreses.Empreses.Local.ToBindingList();
         }
 
 
@@ -506,6 +508,9 @@ namespace Inversions.GUI
         {
             try
             {
+                if(tbNomProducte.Text.Length > 50)
+                    throw new Exception("El nom del producte no pot ser més llarg de 50 caracters");
+
                 bool esProdNou = vProducteSeleccionat.Id == 0;
                 
                 vProducteSeleccionat.OrdreGrid = ntbOrdreGridProducte._IntValue;
@@ -544,7 +549,7 @@ namespace Inversions.GUI
             }
             catch (Exception ex1)
             {
-                Utilitats.EscriuLog(ex1);
+                Utilitats.EscriuLog(ex1, true);
             }
         }
 
