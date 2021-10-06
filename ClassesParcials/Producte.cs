@@ -478,8 +478,9 @@ namespace Inversions
         /// <param name="dataHoraCompra"></param>
         /// <param name="prodCompra"></param>
         /// <param name="participacionsCompra"></param>
-        public void desaTraspas(InversionsBDContext connexio, DateTime dataHoraVenda, double participacionsVenda, double preuParticipacioVenda, string descripcio,
-            DateTime dataHoraCompra, Producte prodCompra, double participacionsCompra)
+        /// <param name="afegeigPreuAValoracions"></param>
+        public void desaTraspas(InversionsBDContext connexio, DateTime dataHoraVenda, double participacionsVenda, double preuParticipacioVenda, 
+            string descripcio, DateTime dataHoraCompra, Producte prodCompra, double participacionsCompra, bool afegeigPreuAValoracions = true)
         {
             dataHoraVenda = Utilitats.ArrodoneixoDataASegons(dataHoraVenda);
             dataHoraCompra = Utilitats.ArrodoneixoDataASegons(dataHoraCompra);
@@ -490,8 +491,10 @@ namespace Inversions
 
             double preuParticipacioCompra = preuParticipacioVenda * participacionsVenda / participacionsCompra;
 
-            var venda = this.desaVenda(connexio, dataHoraVenda, participacionsVenda, preuParticipacioVenda, 1, null, descripcio, false, true);
-            var compra = prodCompra.desaCompra(connexio, dataHoraCompra, participacionsCompra, preuParticipacioCompra, 1, null, descripcio, venda, false, true);
+            var venda = this.desaVenda(connexio, dataHoraVenda, participacionsVenda, preuParticipacioVenda, 1, null, descripcio, afegeigPreuAValoracions, 
+                true);
+            var compra = prodCompra.desaCompra(connexio, dataHoraCompra, participacionsCompra, preuParticipacioCompra, 1, null, descripcio, venda, 
+                afegeigPreuAValoracions, true);
         }
 
 

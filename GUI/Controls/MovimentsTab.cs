@@ -281,7 +281,7 @@ namespace Inversions.GUI
         {
             if (prodDesti != null && tipusMoviment != TipusMoviment.Traspàs)
                 throw new ArgumentException("L'argument només pot estar informat si és un traspàs.", "prodDesti");
-            double x1 = 0;
+            
             using (var conn = new InversionsBDContext())
             {
                 var prodOrigenContext = conn.Productes.Find(prodOrigen.Id);

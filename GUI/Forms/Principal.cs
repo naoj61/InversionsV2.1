@@ -127,8 +127,8 @@ namespace Inversions.GUI
             vConnEmpreses = new InversionsBDContext(); // Creo la connexió per si he fet cancel rellegeixi les dades de la taula.
             vConnEmpreses.Empreses.Load();
             
-            dgvEmpreses.DataSource = vConnEmpreses.Empreses.Local.OrderBy(o => o.TipusEmpresa).ThenBy(o => o.Nom).ToList();
-            //dgvEmpreses.DataSource = vConnEmpreses.Empreses.Local.ToBindingList();
+            //dgvEmpreses.DataSource = vConnEmpreses.Empreses.Local.OrderBy(o => o.TipusEmpresa).ThenBy(o => o.Nom).ToList();
+            dgvEmpreses.DataSource = vConnEmpreses.Empreses.Local.ToBindingList();
         }
 
 
