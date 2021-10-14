@@ -568,7 +568,7 @@ namespace Inversions
             connexio.Entry(novaCompra).Reference(c => c.Prod).Load();
 
             if (afegeigPreuAValoracions)
-                this.afegeigPreuAValoracions(connexio, dataHora, preuParticipacio);
+                this.afegeigPreuAValoracions(connexio, dataHora, preuParticipacio, false);
 
             connexio.SaveChanges();
 
@@ -634,7 +634,7 @@ namespace Inversions
             connexio.Entry(moviment).Reference(c => c.Prod).Load(); // Carrega les referències.
 
             if (afegeigPreuAValoracions)
-                this.afegeigPreuAValoracions(connexio, dataHora, preuParticipacio);
+                this.afegeigPreuAValoracions(connexio, dataHora, preuParticipacio, false);
 
             connexio.SaveChanges();
 
@@ -783,14 +783,14 @@ namespace Inversions
         }
 
 
-
         /// <summary>
         /// Afegeig un preu a la taula "Valoracions"
         /// </summary>
         /// <param name="connexio"></param>
         /// <param name="dataHora"></param>
         /// <param name="preuParticipacio"></param>
-        private void afegeigPreuAValoracions(InversionsBDContext connexio, DateTime dataHora, double preuParticipacio)
+        /// <param name="sobreescriuSiExisteix">Indica que se sobreescriurà la valoració si ja existeix.</param>
+        private void afegeigPreuAValoracions(InversionsBDContext connexio, DateTime dataHora, double preuParticipacio, bool sobreescriuSiExisteix)
         {
             // Crea una valoració amb el preu del moviment
             Valoracio val = ValoracionsProducte.SingleOrDefault(a => a.Data.Date == dataHora.Date);
@@ -806,7 +806,7 @@ namespace Inversions
                         throw;
                 }
             }
-            else
+            else if (sobreescriuSiExisteix)
                 val.modifica(connexio, dataHora, preuParticipacio);
         }
 
