@@ -18,7 +18,7 @@ namespace Inversions.GUI
 
             chart1.GetToolTipText += chart1_GetToolTipText;
 
-            cDataGridView1.AutoGenerateColumns = false;
+            dgvValoracions.AutoGenerateColumns = false;
 
             cData.Value = DateTime.Today;
 
@@ -139,7 +139,7 @@ namespace Inversions.GUI
             btCopiaValorsDelPaste.Enabled = false;
             btCancela.Enabled = true;
             btDesa.Enabled = true;
-            cDataGridView1.Enabled = false;
+            dgvValoracions.Enabled = false;
             gestioProductesTabValoracions.Enabled = false;
             cData.Enabled = true;
             tbImport.Enabled = true;
@@ -164,7 +164,7 @@ namespace Inversions.GUI
             tbImport.Enabled = false;
             gbFiltreTipusProducte.Enabled = true;
 
-            cDataGridView1.Enabled = true;
+            dgvValoracions.Enabled = true;
 
             vModeEdicio = false;
 
@@ -252,13 +252,13 @@ namespace Inversions.GUI
 
         private void cDataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (cDataGridView1.CurrentRow == null)
+            if (dgvValoracions.CurrentRow == null)
             {
                 vValoracioSeleccionada = null;
             }
-            else if (vValoracioSeleccionada != (Valoracio) cDataGridView1.Rows[e.RowIndex].DataBoundItem)
+            else if (vValoracioSeleccionada != (Valoracio) dgvValoracions.Rows[e.RowIndex].DataBoundItem)
             {
-                vValoracioSeleccionada = (Valoracio) cDataGridView1.Rows[e.RowIndex].DataBoundItem;
+                vValoracioSeleccionada = (Valoracio) dgvValoracions.Rows[e.RowIndex].DataBoundItem;
                 posaValorsDeLaFilaSeleccionada();
                 btModifica.Enabled = true;
                 btEsborra.Enabled = true;
@@ -287,7 +287,7 @@ namespace Inversions.GUI
         public void canviUsuari(Usuari usuari)
         {
             gestioProductesTabValoracions._UsuariSeleccionat = usuari;
-            cDataGridView1.DataSource = null;
+            dgvValoracions.DataSource = null;
             Refresh();
         }
 
@@ -425,21 +425,22 @@ namespace Inversions.GUI
         private void actualitzaLlistaValoracionsPerProducte()
         {
             var valoracionsProducte = Program.Sessio.Valoracions
-                .Where(w => w.Prod.Id == gestioProductesTabValoracions._ProducteSeleccionat.Id && w.Data > dtpDataIniciLlista.Value).OrderBy(o => o.Data).ToList();
+                .Where(w => w.Prod.Id == gestioProductesTabValoracions._ProducteSeleccionat.Id && w.Data > dtpDataIniciLlista.Value)
+                .OrderBy(o => o.Data).ToList();
 
-            cDataGridView1.SuspendLayout();
-            cDataGridView1.DataSource = valoracionsProducte;
-            var xx = cDataGridView1.Rows.GetLastRow(DataGridViewElementStates.Visible);
+            dgvValoracions.SuspendLayout();
+            dgvValoracions.DataSource = valoracionsProducte;
+            var xx = dgvValoracions.Rows.GetLastRow(DataGridViewElementStates.Visible);
             if (xx >= 0)
             {
-                cDataGridView1.FirstDisplayedScrollingRowIndex = xx;
+                dgvValoracions.FirstDisplayedScrollingRowIndex = xx;
                 ompleGrafica1(valoracionsProducte);
             }
             else
             {
                 chart1.Visible = false;
             }
-            cDataGridView1.ResumeLayout();
+            dgvValoracions.ResumeLayout();
         }
 
 

@@ -30,7 +30,7 @@ namespace Inversions
         {
             get
             {
-                return Prod == null ? 0 : Prod.numParticipacionsEnData(DateTime.MaxValue);
+                return Prod == null ? 0 : Prod.numParticipacionsEnData(Utilitats.DataHoraFinalDia(Data));
             }
         }
 
