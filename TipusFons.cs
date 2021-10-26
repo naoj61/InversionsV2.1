@@ -10,20 +10,10 @@
 namespace Inversions
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class ProdFons : Producte
+    public enum TipusFons : int
     {
-        public ProdFons()
-        {
-            this.Gestors = new HashSet<Gestor>();
-        }
-    
-        public string Nom { get; set; }
-        public string ISIN { get; set; }
-        public TipusFons Tipus { get; set; }
-        public string Descripcio { get; set; }
-    
-        public virtual ICollection<Gestor> Gestors { get; set; }
+        RF = 0,
+        RV = 1
     }
 }

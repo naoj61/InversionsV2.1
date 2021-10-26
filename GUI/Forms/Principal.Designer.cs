@@ -49,6 +49,7 @@
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnCampsProductes = new System.Windows.Forms.Panel();
             this.grOrdreGridProducte = new System.Windows.Forms.GroupBox();
+            this.ntbOrdreGridProducte = new Controls.NumericTextBox2();
             this.grNomProducte = new System.Windows.Forms.GroupBox();
             this.tbNomProducte = new System.Windows.Forms.TextBox();
             this.grIsinProducte = new System.Windows.Forms.GroupBox();
@@ -56,7 +57,9 @@
             this.grDescripcioProducte = new System.Windows.Forms.GroupBox();
             this.tbDescripcioProducte = new System.Windows.Forms.TextBox();
             this.grMercatProducte = new System.Windows.Forms.GroupBox();
+            this.cbMercatProducte = new Controls.ComboBox2();
             this.grMonedaProducte = new System.Windows.Forms.GroupBox();
+            this.cbMonedaProducte = new Controls.ComboBox2();
             this.pnDesaCanvisProductes = new System.Windows.Forms.Panel();
             this.btCancelaProducte = new System.Windows.Forms.Button();
             this.btEsborraProducte = new System.Windows.Forms.Button();
@@ -64,18 +67,18 @@
             this.btNouProducte = new System.Windows.Forms.Button();
             this.btDesaProducte = new System.Windows.Forms.Button();
             this.tabMoviments = new System.Windows.Forms.TabPage();
-            this.tabValoracions = new System.Windows.Forms.TabPage();
-            this.tabPerduesGuanys = new System.Windows.Forms.TabPage();
-            this.tabGrafiques = new System.Windows.Forms.TabPage();
-            this.tabSimulacióVenda = new System.Windows.Forms.TabPage();
-            this.ntbOrdreGridProducte = new Controls.NumericTextBox2();
-            this.cbMercatProducte = new Controls.ComboBox2();
-            this.cbMonedaProducte = new Controls.ComboBox2();
             this.movimentsTab1 = new Inversions.GUI.MovimentsTab();
+            this.tabValoracions = new System.Windows.Forms.TabPage();
             this.valoracionsTab1 = new Inversions.GUI.ValoracionsTab();
+            this.tabPerduesGuanys = new System.Windows.Forms.TabPage();
             this.perduesGuanysTab1 = new Inversions.GUI.PerduesGuanysTab();
+            this.tabGrafiques = new System.Windows.Forms.TabPage();
             this.grafiquesTab1 = new Inversions.GUI.GrafiquesTab();
+            this.tabSimulacióVenda = new System.Windows.Forms.TabPage();
             this.simulacióVendaTab1 = new Inversions.GUI.SimulacióVendaTab();
+            this.gbTipusProducte = new System.Windows.Forms.GroupBox();
+            this.cbTipusProducte = new Controls.ComboBox2();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.tabControl1.SuspendLayout();
             this.tabUsuari.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -98,6 +101,8 @@
             this.tabPerduesGuanys.SuspendLayout();
             this.tabGrafiques.SuspendLayout();
             this.tabSimulacióVenda.SuspendLayout();
+            this.gbTipusProducte.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -319,12 +324,11 @@
             // 
             // pnCampsProductes
             // 
+            this.pnCampsProductes.Controls.Add(this.panel1);
             this.pnCampsProductes.Controls.Add(this.grOrdreGridProducte);
             this.pnCampsProductes.Controls.Add(this.grNomProducte);
             this.pnCampsProductes.Controls.Add(this.grIsinProducte);
             this.pnCampsProductes.Controls.Add(this.grDescripcioProducte);
-            this.pnCampsProductes.Controls.Add(this.grMercatProducte);
-            this.pnCampsProductes.Controls.Add(this.grMonedaProducte);
             this.pnCampsProductes.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnCampsProductes.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pnCampsProductes.Location = new System.Drawing.Point(3, 282);
@@ -346,6 +350,24 @@
             this.grOrdreGridProducte.TabIndex = 1;
             this.grOrdreGridProducte.TabStop = false;
             this.grOrdreGridProducte.Text = "Ordre Grid";
+            // 
+            // ntbOrdreGridProducte
+            // 
+            this.ntbOrdreGridProducte._CapturaEscape = true;
+            this.ntbOrdreGridProducte._Format = "0";
+            this.ntbOrdreGridProducte._PermetDecimals = true;
+            this.ntbOrdreGridProducte._PermetEspais = false;
+            this.ntbOrdreGridProducte._PermetNegatius = true;
+            this.ntbOrdreGridProducte.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbOrdreGridProducte.Location = new System.Drawing.Point(6, 24);
+            this.ntbOrdreGridProducte.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ntbOrdreGridProducte.Name = "ntbOrdreGridProducte";
+            this.ntbOrdreGridProducte.Size = new System.Drawing.Size(104, 25);
+            this.ntbOrdreGridProducte.TabIndex = 0;
+            this.ntbOrdreGridProducte.Text = "999";
+            this.ntbOrdreGridProducte.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbOrdreGridProducte.Valor = 999D;
+            this.ntbOrdreGridProducte.TextChanged += new System.EventHandler(this.tbProducte_TextChanged);
             // 
             // grNomProducte
             // 
@@ -417,26 +439,52 @@
             // grMercatProducte
             // 
             this.grMercatProducte.Controls.Add(this.cbMercatProducte);
-            this.grMercatProducte.Location = new System.Drawing.Point(158, 160);
+            this.grMercatProducte.Dock = System.Windows.Forms.DockStyle.Left;
+            this.grMercatProducte.Location = new System.Drawing.Point(126, 0);
             this.grMercatProducte.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.grMercatProducte.Name = "grMercatProducte";
             this.grMercatProducte.Padding = new System.Windows.Forms.Padding(6);
-            this.grMercatProducte.Size = new System.Drawing.Size(126, 59);
+            this.grMercatProducte.Size = new System.Drawing.Size(126, 63);
             this.grMercatProducte.TabIndex = 4;
             this.grMercatProducte.TabStop = false;
             this.grMercatProducte.Text = "Mercat";
             // 
+            // cbMercatProducte
+            // 
+            this.cbMercatProducte.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbMercatProducte.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbMercatProducte.FormattingEnabled = true;
+            this.cbMercatProducte.Location = new System.Drawing.Point(6, 24);
+            this.cbMercatProducte.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.cbMercatProducte.Name = "cbMercatProducte";
+            this.cbMercatProducte.Size = new System.Drawing.Size(114, 28);
+            this.cbMercatProducte.TabIndex = 0;
+            this.cbMercatProducte.SelectedIndexChanged += new System.EventHandler(this.cbProducte_SelectedIndexChanged);
+            // 
             // grMonedaProducte
             // 
             this.grMonedaProducte.Controls.Add(this.cbMonedaProducte);
-            this.grMonedaProducte.Location = new System.Drawing.Point(9, 160);
+            this.grMonedaProducte.Dock = System.Windows.Forms.DockStyle.Left;
+            this.grMonedaProducte.Location = new System.Drawing.Point(0, 0);
             this.grMonedaProducte.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.grMonedaProducte.Name = "grMonedaProducte";
             this.grMonedaProducte.Padding = new System.Windows.Forms.Padding(6);
-            this.grMonedaProducte.Size = new System.Drawing.Size(126, 59);
+            this.grMonedaProducte.Size = new System.Drawing.Size(126, 63);
             this.grMonedaProducte.TabIndex = 3;
             this.grMonedaProducte.TabStop = false;
             this.grMonedaProducte.Text = "Moneda";
+            // 
+            // cbMonedaProducte
+            // 
+            this.cbMonedaProducte.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbMonedaProducte.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbMonedaProducte.FormattingEnabled = true;
+            this.cbMonedaProducte.Location = new System.Drawing.Point(6, 24);
+            this.cbMonedaProducte.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.cbMonedaProducte.Name = "cbMonedaProducte";
+            this.cbMonedaProducte.Size = new System.Drawing.Size(114, 28);
+            this.cbMonedaProducte.TabIndex = 0;
+            this.cbMonedaProducte.SelectedIndexChanged += new System.EventHandler(this.cbProducte_SelectedIndexChanged);
             // 
             // pnDesaCanvisProductes
             // 
@@ -524,6 +572,17 @@
             this.tabMoviments.Text = "Moviments";
             this.tabMoviments.UseVisualStyleBackColor = true;
             // 
+            // movimentsTab1
+            // 
+            this.movimentsTab1.activaRefresca = false;
+            this.movimentsTab1.CausesValidation = false;
+            this.movimentsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.movimentsTab1.Location = new System.Drawing.Point(6, 6);
+            this.movimentsTab1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.movimentsTab1.Name = "movimentsTab1";
+            this.movimentsTab1.Size = new System.Drawing.Size(1510, 874);
+            this.movimentsTab1.TabIndex = 0;
+            // 
             // tabValoracions
             // 
             this.tabValoracions.Controls.Add(this.valoracionsTab1);
@@ -534,6 +593,17 @@
             this.tabValoracions.TabIndex = 2;
             this.tabValoracions.Text = "Valoracions";
             this.tabValoracions.UseVisualStyleBackColor = true;
+            // 
+            // valoracionsTab1
+            // 
+            this.valoracionsTab1.activaRefresca = false;
+            this.valoracionsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.valoracionsTab1.Location = new System.Drawing.Point(0, 0);
+            this.valoracionsTab1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.valoracionsTab1.MinimumSize = new System.Drawing.Size(1464, 819);
+            this.valoracionsTab1.Name = "valoracionsTab1";
+            this.valoracionsTab1.Size = new System.Drawing.Size(1522, 886);
+            this.valoracionsTab1.TabIndex = 0;
             // 
             // tabPerduesGuanys
             // 
@@ -547,6 +617,16 @@
             this.tabPerduesGuanys.Text = "Perdues i Guanys";
             this.tabPerduesGuanys.UseVisualStyleBackColor = true;
             // 
+            // perduesGuanysTab1
+            // 
+            this.perduesGuanysTab1.activaRefresca = false;
+            this.perduesGuanysTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.perduesGuanysTab1.Location = new System.Drawing.Point(3, 4);
+            this.perduesGuanysTab1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.perduesGuanysTab1.Name = "perduesGuanysTab1";
+            this.perduesGuanysTab1.Size = new System.Drawing.Size(186, 59);
+            this.perduesGuanysTab1.TabIndex = 0;
+            // 
             // tabGrafiques
             // 
             this.tabGrafiques.Controls.Add(this.grafiquesTab1);
@@ -559,91 +639,6 @@
             this.tabGrafiques.Text = "Gràfiques";
             this.tabGrafiques.UseVisualStyleBackColor = true;
             // 
-            // tabSimulacióVenda
-            // 
-            this.tabSimulacióVenda.Controls.Add(this.simulacióVendaTab1);
-            this.tabSimulacióVenda.Location = new System.Drawing.Point(4, 29);
-            this.tabSimulacióVenda.Name = "tabSimulacióVenda";
-            this.tabSimulacióVenda.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSimulacióVenda.Size = new System.Drawing.Size(1522, 886);
-            this.tabSimulacióVenda.TabIndex = 7;
-            this.tabSimulacióVenda.Text = "Simulació Venda";
-            this.tabSimulacióVenda.UseVisualStyleBackColor = true;
-            // 
-            // ntbOrdreGridProducte
-            // 
-            this.ntbOrdreGridProducte._CapturaEscape = true;
-            this.ntbOrdreGridProducte._Format = "0";
-            this.ntbOrdreGridProducte._PermetDecimals = true;
-            this.ntbOrdreGridProducte._PermetEspais = false;
-            this.ntbOrdreGridProducte._PermetNegatius = true;
-            this.ntbOrdreGridProducte.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ntbOrdreGridProducte.Location = new System.Drawing.Point(6, 24);
-            this.ntbOrdreGridProducte.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ntbOrdreGridProducte.Name = "ntbOrdreGridProducte";
-            this.ntbOrdreGridProducte.Size = new System.Drawing.Size(104, 25);
-            this.ntbOrdreGridProducte.TabIndex = 0;
-            this.ntbOrdreGridProducte.Text = "999";
-            this.ntbOrdreGridProducte.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbOrdreGridProducte.Valor = 999D;
-            this.ntbOrdreGridProducte.TextChanged += new System.EventHandler(this.tbProducte_TextChanged);
-            // 
-            // cbMercatProducte
-            // 
-            this.cbMercatProducte.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbMercatProducte.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbMercatProducte.FormattingEnabled = true;
-            this.cbMercatProducte.Location = new System.Drawing.Point(6, 24);
-            this.cbMercatProducte.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.cbMercatProducte.Name = "cbMercatProducte";
-            this.cbMercatProducte.Size = new System.Drawing.Size(114, 28);
-            this.cbMercatProducte.TabIndex = 0;
-            this.cbMercatProducte.SelectedIndexChanged += new System.EventHandler(this.cbProducte_SelectedIndexChanged);
-            // 
-            // cbMonedaProducte
-            // 
-            this.cbMonedaProducte.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbMonedaProducte.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbMonedaProducte.FormattingEnabled = true;
-            this.cbMonedaProducte.Location = new System.Drawing.Point(6, 24);
-            this.cbMonedaProducte.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.cbMonedaProducte.Name = "cbMonedaProducte";
-            this.cbMonedaProducte.Size = new System.Drawing.Size(114, 28);
-            this.cbMonedaProducte.TabIndex = 0;
-            this.cbMonedaProducte.SelectedIndexChanged += new System.EventHandler(this.cbProducte_SelectedIndexChanged);
-            // 
-            // movimentsTab1
-            // 
-            this.movimentsTab1.activaRefresca = false;
-            this.movimentsTab1.CausesValidation = false;
-            this.movimentsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.movimentsTab1.Location = new System.Drawing.Point(6, 6);
-            this.movimentsTab1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.movimentsTab1.Name = "movimentsTab1";
-            this.movimentsTab1.Size = new System.Drawing.Size(1510, 874);
-            this.movimentsTab1.TabIndex = 0;
-            // 
-            // valoracionsTab1
-            // 
-            this.valoracionsTab1.activaRefresca = false;
-            this.valoracionsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.valoracionsTab1.Location = new System.Drawing.Point(0, 0);
-            this.valoracionsTab1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.valoracionsTab1.MinimumSize = new System.Drawing.Size(1464, 819);
-            this.valoracionsTab1.Name = "valoracionsTab1";
-            this.valoracionsTab1.Size = new System.Drawing.Size(1522, 886);
-            this.valoracionsTab1.TabIndex = 0;
-            // 
-            // perduesGuanysTab1
-            // 
-            this.perduesGuanysTab1.activaRefresca = false;
-            this.perduesGuanysTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.perduesGuanysTab1.Location = new System.Drawing.Point(3, 4);
-            this.perduesGuanysTab1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.perduesGuanysTab1.Name = "perduesGuanysTab1";
-            this.perduesGuanysTab1.Size = new System.Drawing.Size(1516, 878);
-            this.perduesGuanysTab1.TabIndex = 0;
-            // 
             // grafiquesTab1
             // 
             this.grafiquesTab1.activaRefresca = false;
@@ -655,6 +650,17 @@
             this.grafiquesTab1.Size = new System.Drawing.Size(1516, 878);
             this.grafiquesTab1.TabIndex = 0;
             // 
+            // tabSimulacióVenda
+            // 
+            this.tabSimulacióVenda.Controls.Add(this.simulacióVendaTab1);
+            this.tabSimulacióVenda.Location = new System.Drawing.Point(4, 29);
+            this.tabSimulacióVenda.Name = "tabSimulacióVenda";
+            this.tabSimulacióVenda.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSimulacióVenda.Size = new System.Drawing.Size(1522, 886);
+            this.tabSimulacióVenda.TabIndex = 7;
+            this.tabSimulacióVenda.Text = "Simulació Venda";
+            this.tabSimulacióVenda.UseVisualStyleBackColor = true;
+            // 
             // simulacióVendaTab1
             // 
             this.simulacióVendaTab1.activaRefresca = false;
@@ -664,6 +670,41 @@
             this.simulacióVendaTab1.Name = "simulacióVendaTab1";
             this.simulacióVendaTab1.Size = new System.Drawing.Size(1516, 880);
             this.simulacióVendaTab1.TabIndex = 0;
+            // 
+            // gbTipusProducte
+            // 
+            this.gbTipusProducte.Controls.Add(this.cbTipusProducte);
+            this.gbTipusProducte.Dock = System.Windows.Forms.DockStyle.Left;
+            this.gbTipusProducte.Location = new System.Drawing.Point(252, 0);
+            this.gbTipusProducte.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gbTipusProducte.Name = "gbTipusProducte";
+            this.gbTipusProducte.Padding = new System.Windows.Forms.Padding(6);
+            this.gbTipusProducte.Size = new System.Drawing.Size(99, 63);
+            this.gbTipusProducte.TabIndex = 4;
+            this.gbTipusProducte.TabStop = false;
+            this.gbTipusProducte.Text = "Tipus";
+            // 
+            // cbTipusProducte
+            // 
+            this.cbTipusProducte.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbTipusProducte.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbTipusProducte.FormattingEnabled = true;
+            this.cbTipusProducte.Location = new System.Drawing.Point(6, 24);
+            this.cbTipusProducte.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.cbTipusProducte.Name = "cbTipusProducte";
+            this.cbTipusProducte.Size = new System.Drawing.Size(87, 28);
+            this.cbTipusProducte.TabIndex = 0;
+            this.cbTipusProducte.SelectedIndexChanged += new System.EventHandler(this.cbProducte_SelectedIndexChanged);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.gbTipusProducte);
+            this.panel1.Controls.Add(this.grMercatProducte);
+            this.panel1.Controls.Add(this.grMonedaProducte);
+            this.panel1.Location = new System.Drawing.Point(9, 160);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(363, 63);
+            this.panel1.TabIndex = 6;
             // 
             // Principal
             // 
@@ -708,6 +749,8 @@
             this.tabPerduesGuanys.ResumeLayout(false);
             this.tabGrafiques.ResumeLayout(false);
             this.tabSimulacióVenda.ResumeLayout(false);
+            this.gbTipusProducte.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -762,5 +805,8 @@
         private GrafiquesTab grafiquesTab1;
         private System.Windows.Forms.TabPage tabSimulacióVenda;
         private SimulacióVendaTab simulacióVendaTab1;
+        private System.Windows.Forms.GroupBox gbTipusProducte;
+        private Controls.ComboBox2 cbTipusProducte;
+        private System.Windows.Forms.Panel panel1;
     }
 }

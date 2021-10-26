@@ -106,6 +106,12 @@ namespace Inversions.GUI
             cbMonedaProducte.SelectedItem = null;
             cbMonedaProducte.ResumeLayout();
 
+
+            cbTipusProducte.SuspendLayout();
+            cbTipusProducte.DataSource = Enum.GetValues(typeof(TipusFons));
+            cbTipusProducte.SelectedItem = null;
+            cbTipusProducte.ResumeLayout();
+
             modeConsultaProducte();
         }
 
@@ -159,6 +165,7 @@ namespace Inversions.GUI
                 ntbOrdreGridProducte.Valor = 0;
                 cbMercatProducte.SelectedItem = null;
                 cbMonedaProducte.SelectedItem = null;
+                cbTipusProducte.SelectedItem = null;
                 tbIsinProducte.Text = String.Empty;
                 tbDescripcioProducte.Text = String.Empty;
                 
@@ -186,6 +193,7 @@ namespace Inversions.GUI
                 ntbOrdreGridProducte.Valor = 0;
                 cbMercatProducte.SelectedItem = null;
                 cbMonedaProducte.SelectedItem = null;
+                cbTipusProducte.SelectedItem = null;
                 tbIsinProducte.Text = String.Empty;
                 tbDescripcioProducte.Text = String.Empty;
             }
@@ -198,11 +206,14 @@ namespace Inversions.GUI
                 {
                     cbMercatProducte.SelectedItem = producte._Mercat;
                     cbMonedaProducte.SelectedItem = (Utilitats.Monedes)Enum.Parse(typeof(Utilitats.Monedes), producte.Moneda);
+                    gbTipusProducte.Visible = false;
                 }
                 else if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.GestoraFons)
                 {
                     tbIsinProducte.Text = producte._Isin;
                     tbDescripcioProducte.Text = producte._Descripcio;
+                    cbTipusProducte.SelectedItem = ((ProdFons)producte).Tipus;
+                    gbTipusProducte.Visible = true;
                 }
             }
         }
@@ -523,7 +534,8 @@ namespace Inversions.GUI
                 else if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.GestoraFons)
                 {
                     ((ProdFons) vProducteSeleccionat).Nom = tbNomProducte.Text;
-                    ((ProdFons) vProducteSeleccionat).ISIN = tbIsinProducte.Text;
+                    ((ProdFons)vProducteSeleccionat).ISIN = tbIsinProducte.Text;
+                    ((ProdFons)vProducteSeleccionat).Tipus = ((TipusFons)cbTipusProducte.SelectedItem);
                     ((ProdFons) vProducteSeleccionat).Descripcio = tbDescripcioProducte.Text;
                 }
 
@@ -565,7 +577,7 @@ namespace Inversions.GUI
             {
                 cbMercatProducte.SelectedItem = null;
                 cbMonedaProducte.SelectedItem = null;
-
+                cbTipusProducte.SelectedItem = null;
             }
             else
             {

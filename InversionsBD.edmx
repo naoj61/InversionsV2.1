@@ -22,8 +22,8 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="TipusEmpresa" Type="int" Nullable="false" />
+          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
         <EntityType Name="Gestors">
           <Key>
@@ -89,10 +89,11 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ISIN" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Tipus" Type="int" Nullable="false" />
           <Property Name="Descripcio" Type="nvarchar(max)" />
-          <Property Name="Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Usuaris">
           <Key>
@@ -111,6 +112,10 @@
           <Property Name="PreuParticipacio" Type="float" Nullable="false" />
           <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJECTS\MEUS\INVERSIONSV2\BD\INVERSIONSBD.MDF.dbo.View_MovimentsCompraVendaAccions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJECTS\MEUS\INVERSIONSV2\BD\INVERSIONSBD.MDF.dbo.View_MovimentsCompraVendaFons' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <Association Name="FK_EmpresaGestor">
           <End Role="Empreses" Type="Self.Empreses" Multiplicity="1" />
           <End Role="Gestors" Type="Self.Gestors" Multiplicity="*" />
@@ -476,6 +481,7 @@
           <Property Name="Nom" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="ISIN" Type="String" Nullable="false" MaxLength="25" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Gestors" Relationship="InversionsBD.ProdFonsGestor" FromRole="ProdFons" ToRole="Gestor" />
+          <Property Name="Tipus" Type="InversionsBD.TipusFons" Nullable="false" />
           <Property Name="Descripcio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="ProdFonsGestor">
@@ -635,6 +641,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EnumType Name="TipusFons">
+          <Member Name="RF" />
+          <Member Name="RV" />
+        </EnumType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -685,7 +695,8 @@
       </EntityTypeMapping>
       <EntityTypeMapping TypeName="IsTypeOf(InversionsBD.ProdFons)">
         <MappingFragment StoreEntitySet="Productes_ProdFons">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Tipus" ColumnName="Tipus" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Nom" ColumnName="Nom" />
           <ScalarProperty Name="ISIN" ColumnName="ISIN" />
           <ScalarProperty Name="Descripcio" ColumnName="Descripcio" />

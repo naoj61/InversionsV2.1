@@ -216,6 +216,9 @@
     <Compile Include="TipusEmpresa.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
+    <Compile Include="TipusFons.cs">
+      <DependentUpon>InversionsBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="TipusMoviment.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
