@@ -12,6 +12,14 @@ namespace Inversions.GUI
 {
     public partial class ValoracionsTab : UserControl, ITabs
     {
+        enum TipusProd
+        {
+            Tot,
+            Accions,
+            Fons,
+            RF,
+            RV
+        }
         public ValoracionsTab()
         {
             InitializeComponent();
@@ -22,8 +30,9 @@ namespace Inversions.GUI
 
             cData.Value = DateTime.Today;
 
+
             cbTipusProducteFiltre.SelectedIndexChanged -= cbTipusProducteFiltre_SelectedIndexChanged;
-            cbTipusProducteFiltre.DataSource = Enum.GetValues(typeof (Producte.TipusProducte));
+            cbTipusProducteFiltre.DataSource = Enum.GetValues(typeof(TipusProd));
             cbTipusProducteFiltre.SelectedIndex = 0;
             cbTipusProducteFiltre.SelectedIndexChanged += cbTipusProducteFiltre_SelectedIndexChanged;
 
@@ -324,31 +333,52 @@ namespace Inversions.GUI
             if (this.DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Designtime)
                 return;
 
-            var tipusProdFiltre = cbTipusProducteFiltre.SelectedItem == null ? Producte.TipusProducte.Tots : (Producte.TipusProducte) cbTipusProducteFiltre.SelectedItem;
+            //var tipusProdFiltre = cbTipusProducteFiltre.SelectedItem == null ? Producte.TipusProducte.Tots : (Producte.TipusProducte)cbTipusProducteFiltre.SelectedItem;
+            var tipusProdFiltre = cbTipusProducteFiltre.SelectedItem == null ? TipusProd.Tot : (TipusProd)cbTipusProducteFiltre.SelectedItem;
             List<Valoracio> valoracions;
             List<Moviment> moviments;
+            var valData = Program.Sessio.Valoracions.Where(w => w.Data >= dtpDataIniciLlista.Value).ToList();
+            var movData = Program.Sessio.MovimentsUsuari.Where(w => w.Data >= dtpDataIniciLlista.Value).ToList();
             switch (tipusProdFiltre)
             {
-                case Producte.TipusProducte.Accions:
+                case TipusProd.Accions:
                     //valoracions = MyClass.Sessio.Valoracions.Where(w => w.Prod is ProdAccions);
-                    valoracions = Program.Sessio.Valoracions.Where(w => w.Prod is ProdAccions).ToList();
-                    moviments = Program.Sessio.MovimentsUsuari.Where(w => w.Prod is ProdAccions && w.Participacions > 0).ToList();
+                    valoracions = valData.Where(w => w.Prod is ProdAccions).ToList();
+                    moviments = movData.Where(w => w.Prod is ProdAccions && w.Participacions > 0).ToList();
                     break;
-                case Producte.TipusProducte.Fons:
+                case TipusProd.Fons:
+                case TipusProd.RF:
+                case TipusProd.RV:
                     //valoracions = MyClass.Sessio.Valoracions.Where(w => w.Prod is ProdFons);
-                    valoracions = Program.Sessio.Valoracions.Where(w => w.Prod is ProdFons).ToList();
-                    moviments = Program.Sessio.MovimentsUsuari.Where(w => w.Prod is ProdFons && w.Participacions > 0).ToList();
+                    var val = valData.Where(w => w.Prod is ProdFons).ToList();
+                    var mov = movData.Where(w => w.Prod is ProdFons && w.Participacions > 0).ToList();
+                    switch (tipusProdFiltre)
+                    {
+                        case TipusProd.RF:
+                            valoracions = val.Where(w => ((ProdFons) w.Prod).Tipus == TipusFons.RF).ToList();
+                            moviments = mov.Where(w => ((ProdFons) w.Prod).Tipus == TipusFons.RF).ToList();
+                            break;
+                        case TipusProd.RV:
+                            valoracions = val.Where(w => ((ProdFons) w.Prod).Tipus == TipusFons.RV).ToList();
+                            moviments = mov.Where(w => ((ProdFons) w.Prod).Tipus == TipusFons.RV).ToList();
+                            break;
+                        default:
+                            valoracions = val;
+                            moviments = mov;
+                            break;
+                    }
                     break;
+
                 default:
                     //valoracions = MyClass.Sessio.Valoracions;
-                    valoracions = Program.Sessio.Valoracions.ToList();
-                    moviments = Program.Sessio.MovimentsUsuari.Where(w => w.Participacions > 0).ToList();
+                    valoracions = valData.ToList();
+                    moviments = movData.Where(w => w.Participacions > 0).ToList();
                     break;
             }
 
 
-            var valMovs = valoracions.Where(w => w.Data >= dtpDataIniciLlista.Value).Select(s => new {Data = s.Data.Date, PreuParticipacio = s.PreuParticipacio}).
-                Union(moviments.Where(w => w.Data >= dtpDataIniciLlista.Value).Select(s => new {Data = s.Data.Date, PreuParticipacio = s.PreuParticipacio})).
+            var valMovs = valoracions.Select(s => new {Data = s.Data.Date, s.PreuParticipacio}).
+                Union(moviments.Select(s => new {Data = s.Data.Date, s.PreuParticipacio})).
                 GroupBy(g => g.Data).OrderBy(o => o.Key);
 
             if (!valMovs.Any())
@@ -364,7 +394,7 @@ namespace Inversions.GUI
 
             chart2.Series[0].Points.Clear();
             chart2.ChartAreas[0].AxisY.Maximum = Math.Ceiling(valoracions.Max(m => m.PreuParticipacio));
-
+            
             double pigPerDataAnt = 0;
             foreach (var valoracio in valMovs)
             {
@@ -374,25 +404,34 @@ namespace Inversions.GUI
                 double saldo;
                 switch (tipusProdFiltre)
                 {
-                    case Producte.TipusProducte.Accions:
-                        //pigPerData = ProdAccions.PiG(new Producte.DateTimeFinalDia(data));
-                        pigPerData = Producte.Pig2(Producte.TipusProducte.Accions, DateTime.MinValue, data, true, true);
+                    case TipusProd.Accions:
+                        pigPerData = Producte.Pig2(Producte.TipusProducte.Accions, null, DateTime.MinValue, data, true, true);
                         saldo = ProdAccions.Valor(data);
                         break;
-                    case Producte.TipusProducte.Fons:
-                        //pigPerData = ProdFons.PiG(new Producte.DateTimeFinalDia(data));
-                        pigPerData = Producte.Pig2(Producte.TipusProducte.Fons, DateTime.MinValue, data, true, true);
-                        saldo = ProdFons.Valor(data);
+
+                    case TipusProd.Fons:
+                        pigPerData = Producte.Pig2(Producte.TipusProducte.Fons, TipusFons.Tots, DateTime.MinValue, data, true, true);
+                        saldo = ProdFons.Valor(data, TipusFons.Tots);
                         break;
+
+                    case TipusProd.RF:
+                        pigPerData = Producte.Pig2(Producte.TipusProducte.Fons, TipusFons.RF, DateTime.MinValue, data, true, true);
+                        saldo = ProdFons.Valor(data, TipusFons.RF);
+                        break;
+
+                    case TipusProd.RV:
+                        pigPerData = Producte.Pig2(Producte.TipusProducte.Fons, TipusFons.RV, DateTime.MinValue, data, true, true);
+                        saldo = ProdFons.Valor(data, TipusFons.RV);
+                        break;
+
                     default:
-                        //pigPerData = ProdAccions.PiG(new Producte.DateTimeFinalDia(data)) + ProdFons.PiG(new Producte.DateTimeFinalDia(data));
-                        pigPerData = Producte.Pig2(Producte.TipusProducte.Tots, DateTime.MinValue, data, true, true);
-                        saldo = ProdAccions.Valor(data) + ProdFons.Valor(data);
+                        pigPerData = Producte.Pig2(Producte.TipusProducte.Tots, null, DateTime.MinValue, data, true, true);
+                        saldo = ProdAccions.Valor(data) + ProdFons.Valor(data, TipusFons.Tots);
                         break;
                 }
 
                 importAcumulat += (pigPerData - pigPerDataAnt);
-
+                
                 dgvValoracionsPerData.Rows.Add(data, pigPerData, (pigPerData / pigPerDataAnt - 1), pigPerData - pigPerDataAnt, saldo);
 
                 if (data >= new DateTime(2015, 3, 20) && pigPerData > 0)
@@ -408,7 +447,7 @@ namespace Inversions.GUI
 
                 pigPerDataAnt = pigPerData;
             }
-
+            
 
             var ultimaFila = dgvValoracionsPerData.Rows.GetLastRow(DataGridViewElementStates.Visible);
             if (ultimaFila >= 0)

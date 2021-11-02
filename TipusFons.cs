@@ -14,6 +14,7 @@ namespace Inversions
     public enum TipusFons : int
     {
         RF = 0,
-        RV = 1
+        RV = 1,
+        Tots = 2
     }
 }

@@ -27,7 +27,7 @@ namespace Inversions
         /// <returns></returns>
         public static double Pig2(TipusProducte tipusProducte, bool inclouCartera, bool inclouDividends)
         {
-            return Pig2(tipusProducte, DateTime.MinValue, DateTime.MaxValue, inclouCartera, inclouDividends);
+            return Pig2(tipusProducte, null, DateTime.MinValue, DateTime.MaxValue, inclouCartera, inclouDividends);
         }
 
 
@@ -43,7 +43,7 @@ namespace Inversions
         /// <returns></returns>
         public static double Pig2(TipusProducte tipusProducte, int any, bool inclouCartera, bool inclouDividends)
         {
-            return Pig2(tipusProducte, new DateTime(any, 1, 1), new DateTime(any + 1, 1, 1).AddMilliseconds(-1), inclouCartera, inclouDividends);
+            return Pig2(tipusProducte, null, new DateTime(any, 1, 1), new DateTime(any + 1, 1, 1).AddMilliseconds(-1), inclouCartera, inclouDividends);
         }
 
 
@@ -53,22 +53,39 @@ namespace Inversions
         /// Preu venda  --> Preu venda.
         /// </summary>
         /// <param name="tipusProducte"></param>
+        /// <param name="tipusFons">Si null, tots els fons.</param>
         /// <param name="dataInici"></param>
         /// <param name="dataFinal"></param>
         /// <param name="inclouCartera"></param>
         /// <param name="inclouDividends">En la tributació a la renda els dividends tributen a part de les PiG de les accions. </param>
         /// <returns></returns>
-        internal static double Pig2(TipusProducte tipusProducte,
+        internal static double Pig2(TipusProducte tipusProducte, TipusFons? tipusFons,
             DateTime dataInici, DateTime dataFinal, bool inclouCartera, bool inclouDividends)
         {
-            List<Producte> prods;
+            List<Producte> prods = null;
             switch (tipusProducte)
             {
                 case TipusProducte.Accions:
                     prods = new List<Producte>(Program.Sessio.ProdAccions);
                     break;
                 case TipusProducte.Fons:
-                    prods = new List<Producte>(Program.Sessio.ProdFons);
+                    if (tipusFons.HasValue)
+                    {
+                        switch (tipusFons.Value)
+                        {
+                            case TipusFons.RF:
+                                prods = new List<Producte>(Program.Sessio.ProdFons.Where(w=>w.Tipus == TipusFons.RF));
+                                break;
+                            case TipusFons.RV:
+                                prods = new List<Producte>(Program.Sessio.ProdFons.Where(w=>w.Tipus == TipusFons.RV));
+                                break;
+                            default:
+                                prods = new List<Producte>(Program.Sessio.ProdFons);
+                                break;
+                        }
+                    }
+                    else
+                        prods = new List<Producte>(Program.Sessio.ProdFons);
                     break;
                 default:
                     prods = Program.Sessio.Productes.ToList();

@@ -47,7 +47,7 @@ namespace Inversions.GUI
 
 
                     // *** PiG Real ***
-                    var pigFinsAny = Producte.Pig2(tipusProducte, DateTime.MinValue, Utilitats.DataHoraFinalAny(any), true, true);
+                    var pigFinsAny = Producte.Pig2(tipusProducte, null, DateTime.MinValue, Utilitats.DataHoraFinalAny(any), true, true);
                     var pigAny = pigFinsAny - pigFinsAnyAnt;
 
                     if (!Utilitats.EsZero(pigAny))
@@ -220,7 +220,7 @@ namespace Inversions.GUI
                     .pig2Total(dtpFiltreDataInici.Value, dtpFiltreDataFi.Value, true, true);
             else
             {
-                tbPigEntreDates.Valor = Producte.Pig2(Producte.TipusProducte.Tots, 
+                tbPigEntreDates.Valor = Producte.Pig2(Producte.TipusProducte.Tots, null,
                     dtpFiltreDataInici.Value.GetValueOrDefault(DateTime.MinValue), dtpFiltreDataFi.Value.GetValueOrDefault(DateTime.MaxValue), true, true);
             }
         }

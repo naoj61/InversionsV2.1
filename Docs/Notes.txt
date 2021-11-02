@@ -1,4 +1,8 @@
-﻿
+﻿- Mirar Arcelor PiG
+
+- Preu part i Preu part Origen, ha de sortir de desgloç compra.
+- Modificar moviments.
+- Revisar mida text.
 - Fet. Refrescar PiG al introduir noves valoracions.
 - Fet. Fer una comparativa entre gràfiques.
 - Fet. Llegir valors dels fons d'inversió fent Copy/Paste de la pàgina de fons.'
@@ -13,5 +17,6 @@
 3-Asian Smaller Companies Fund
 4-Thailand A-USD
 5-Deutschland
+
 
 

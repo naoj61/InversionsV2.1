@@ -644,6 +644,7 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
         <EnumType Name="TipusFons">
           <Member Name="RF" />
           <Member Name="RV" />
+          <Member Name="Tots" />
         </EnumType>
         </Schema>
     </edmx:ConceptualModels>

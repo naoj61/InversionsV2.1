@@ -50,17 +50,13 @@ namespace Inversions
         /// Valor dels fons en cartera en una data determinada.
         /// </summary>
         /// <param name="data"></param>
+        /// <param name="tipusFons"></param>
         /// <returns></returns>
-        public static double Valor(DateTime data)
+        public static double Valor(DateTime data, TipusFons tipusFons)
         {
-            double saldo = 0;
+            var prods = tipusFons == TipusFons.Tots ? Program.Sessio.ProdFons : Program.Sessio.ProdFons.Where(w => w.Tipus == tipusFons);
 
-            foreach (Producte producte in Program.Sessio.Productes.Where(w => w is ProdFons))
-            {
-                saldo += producte.valorEnCartera(data);
-            }
-
-            return saldo;
+            return prods.ToList().Sum(producte => producte.valorEnCartera(data));
         }
     }
 }
