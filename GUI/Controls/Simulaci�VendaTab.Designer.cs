@@ -217,6 +217,7 @@ namespace Inversions.GUI
             this.ntbAnyRenda.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbAnyRenda.Valor = 0D;
             this.ntbAnyRenda.Enter += new System.EventHandler(this.ntbAnyRenda_Enter);
+            this.ntbAnyRenda.Validating += new System.ComponentModel.CancelEventHandler(this.ntbAnyRenda_Validating);
             // 
             // groupBox4
             // 
