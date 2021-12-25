@@ -7,12 +7,13 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Comuns;
+using DevExpress.XtraEditors.Controls;
 
 namespace Inversions.GUI
 {
     public partial class ValoracionsTab : UserControl, ITabs
     {
-        enum TipusProd
+        private enum TipusProd
         {
             Tot,
             Accions,
@@ -20,6 +21,7 @@ namespace Inversions.GUI
             RF,
             RV
         }
+
         public ValoracionsTab()
         {
             InitializeComponent();
@@ -29,13 +31,7 @@ namespace Inversions.GUI
             dgvValoracions.AutoGenerateColumns = false;
 
             cData.Value = DateTime.Today;
-
-
-            cbTipusProducteFiltre.SelectedIndexChanged -= cbTipusProducteFiltre_SelectedIndexChanged;
-            cbTipusProducteFiltre.DataSource = Enum.GetValues(typeof(TipusProd));
-            cbTipusProducteFiltre.SelectedIndex = 0;
-            cbTipusProducteFiltre.SelectedIndexChanged += cbTipusProducteFiltre_SelectedIndexChanged;
-
+            
             dtpDataIniciLlista.Value = DateTime.Now.AddMonths(-6);
 
             gestioProductesTabValoracions.refrescaDadesControl();
@@ -322,144 +318,6 @@ namespace Inversions.GUI
             actualitzaLlistaValoracionsTotal();
         }
 
-        private void cbTipusProducteFiltre_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            actualitzaLlistaValoracionsTotal();
-        }
-
-        private void actualitzaLlistaValoracionsTotal()
-        {
-            //if (!Program.RuntimeMode)
-            if (this.DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Designtime)
-                return;
-
-            //var tipusProdFiltre = cbTipusProducteFiltre.SelectedItem == null ? Producte.TipusProducte.Tots : (Producte.TipusProducte)cbTipusProducteFiltre.SelectedItem;
-            var tipusProdFiltre = cbTipusProducteFiltre.SelectedItem == null ? TipusProd.Tot : (TipusProd)cbTipusProducteFiltre.SelectedItem;
-            List<Valoracio> valoracions;
-            List<Moviment> moviments;
-            var valData = Program.Sessio.Valoracions.Where(w => w.Data >= dtpDataIniciLlista.Value).ToList();
-            var movData = Program.Sessio.MovimentsUsuari.Where(w => w.Data >= dtpDataIniciLlista.Value).ToList();
-            switch (tipusProdFiltre)
-            {
-                case TipusProd.Accions:
-                    //valoracions = MyClass.Sessio.Valoracions.Where(w => w.Prod is ProdAccions);
-                    valoracions = valData.Where(w => w.Prod is ProdAccions).ToList();
-                    moviments = movData.Where(w => w.Prod is ProdAccions && w.Participacions > 0).ToList();
-                    break;
-                case TipusProd.Fons:
-                case TipusProd.RF:
-                case TipusProd.RV:
-                    //valoracions = MyClass.Sessio.Valoracions.Where(w => w.Prod is ProdFons);
-                    var val = valData.Where(w => w.Prod is ProdFons).ToList();
-                    var mov = movData.Where(w => w.Prod is ProdFons && w.Participacions > 0).ToList();
-                    switch (tipusProdFiltre)
-                    {
-                        case TipusProd.RF:
-                            valoracions = val.Where(w => ((ProdFons) w.Prod).Tipus == TipusFons.RF).ToList();
-                            moviments = mov.Where(w => ((ProdFons) w.Prod).Tipus == TipusFons.RF).ToList();
-                            break;
-                        case TipusProd.RV:
-                            valoracions = val.Where(w => ((ProdFons) w.Prod).Tipus == TipusFons.RV).ToList();
-                            moviments = mov.Where(w => ((ProdFons) w.Prod).Tipus == TipusFons.RV).ToList();
-                            break;
-                        default:
-                            valoracions = val;
-                            moviments = mov;
-                            break;
-                    }
-                    break;
-
-                default:
-                    //valoracions = MyClass.Sessio.Valoracions;
-                    valoracions = valData.ToList();
-                    moviments = movData.Where(w => w.Participacions > 0).ToList();
-                    break;
-            }
-
-
-            var valMovs = valoracions.Select(s => new {Data = s.Data.Date, s.PreuParticipacio}).
-                Union(moviments.Select(s => new {Data = s.Data.Date, s.PreuParticipacio})).
-                GroupBy(g => g.Data).OrderBy(o => o.Key);
-
-            if (!valMovs.Any())
-                return;
-
-
-            dgvValoracionsPerData.Rows.Clear();
-
-            double importAcumulat = 0;
-
-            double maxVal = 0;
-            double minVal = double.MaxValue;
-
-            chart2.Series[0].Points.Clear();
-            chart2.ChartAreas[0].AxisY.Maximum = Math.Ceiling(valoracions.Max(m => m.PreuParticipacio));
-            
-            double pigPerDataAnt = 0;
-            foreach (var valoracio in valMovs)
-            {
-                DateTime data = Utilitats.DataHoraFinalDia(valoracio.Key);
-
-                double pigPerData;
-                double saldo;
-                switch (tipusProdFiltre)
-                {
-                    case TipusProd.Accions:
-                        pigPerData = Producte.Pig2(Producte.TipusProducte.Accions, null, DateTime.MinValue, data, true, true);
-                        saldo = ProdAccions.Valor(data);
-                        break;
-
-                    case TipusProd.Fons:
-                        pigPerData = Producte.Pig2(Producte.TipusProducte.Fons, TipusFons.Tots, DateTime.MinValue, data, true, true);
-                        saldo = ProdFons.Valor(data, TipusFons.Tots);
-                        break;
-
-                    case TipusProd.RF:
-                        pigPerData = Producte.Pig2(Producte.TipusProducte.Fons, TipusFons.RF, DateTime.MinValue, data, true, true);
-                        saldo = ProdFons.Valor(data, TipusFons.RF);
-                        break;
-
-                    case TipusProd.RV:
-                        pigPerData = Producte.Pig2(Producte.TipusProducte.Fons, TipusFons.RV, DateTime.MinValue, data, true, true);
-                        saldo = ProdFons.Valor(data, TipusFons.RV);
-                        break;
-
-                    default:
-                        pigPerData = Producte.Pig2(Producte.TipusProducte.Tots, null, DateTime.MinValue, data, true, true);
-                        saldo = ProdAccions.Valor(data) + ProdFons.Valor(data, TipusFons.Tots);
-                        break;
-                }
-
-                importAcumulat += (pigPerData - pigPerDataAnt);
-                
-                dgvValoracionsPerData.Rows.Add(data, pigPerData, (pigPerData / pigPerDataAnt - 1), pigPerData - pigPerDataAnt, saldo);
-
-                if (data >= new DateTime(2015, 3, 20) && pigPerData > 0)
-                {
-                    chart2.Series[0].Points.AddXY(data.ToOADate(), pigPerData);
-
-                    if (maxVal < pigPerData)
-                        maxVal = Math.Ceiling(pigPerData / 10) * 10;
-
-                    if (minVal > importAcumulat)
-                        minVal = Math.Floor(pigPerData / 10) * 10;
-                }
-
-                pigPerDataAnt = pigPerData;
-            }
-            
-
-            var ultimaFila = dgvValoracionsPerData.Rows.GetLastRow(DataGridViewElementStates.Visible);
-            if (ultimaFila >= 0)
-                dgvValoracionsPerData.FirstDisplayedScrollingRowIndex = ultimaFila;
-
-            chart2.ChartAreas[0].AxisY.Minimum = minVal;
-            chart2.ChartAreas[0].AxisY.Maximum = maxVal;
-            chart2.Update();
-
-            //ompleGrafica2(valoracions.Where(w=>w.Data>=(new DateTime(2015,03,20))).OrderBy(o => o.Data).ToList());
-        }
-
 
         private void actualitzaLlistaValoracionsPerProducte()
         {
@@ -485,9 +343,6 @@ namespace Inversions.GUI
 
         private void ompleGrafica1(List<Valoracio> valoracionsProducte)
         {
-            //chart1.ChartAreas[0].AxisX.Minimum = valoracionsProducte.Min(m => m.Data).t;
-            //chart1.ChartAreas[0].AxisX.Maximum = Maquina.Seleccionat._NumSegmentsTinter + 1;
-
             chart1.ChartAreas[0].AxisY.LabelStyle.Format = "#,##0.00";
 
             chart1.ChartAreas[0].AxisY.Minimum = valoracionsProducte.Min(m => m.PreuParticipacio) / 1.02;
@@ -504,9 +359,144 @@ namespace Inversions.GUI
         private void btCopiaValorsDelPaste_Click(object sender, EventArgs e)
         {
             PasteSelfBank pSelf = new PasteSelfBank();
-            if( pSelf.ShowDialog(this)== DialogResult.OK)
+            if (pSelf.ShowDialog(this) == DialogResult.OK)
             {
                 Principal.ActivaRefresca(this);
+            }
+        }
+
+        private void checkedComboBoxEdit1_CloseUp(object sender, DevExpress.XtraEditors.Controls.CloseUpEventArgs e)
+        {
+            if (e.AcceptValue)
+            {
+                actualitzaLlistaValoracionsTotal();
+            }
+        }
+
+
+        private void actualitzaLlistaValoracionsTotal()
+        {
+            if (this.DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Designtime)
+                return;
+
+            dgvValoracionsPerData.Rows.Clear();
+            chart2.Series[0].Points.Clear();
+
+            // Per saber que està seleccionat
+            var accions = checkedComboBoxEdit1.Properties.Items[TipusProd.Accions].CheckState == CheckState.Checked;
+            var rf = checkedComboBoxEdit1.Properties.Items[TipusProd.RF].CheckState == CheckState.Checked;
+            var rv = checkedComboBoxEdit1.Properties.Items[TipusProd.RV].CheckState == CheckState.Checked;
+
+            if(!(accions || rf || rv))
+                return;
+
+            var valData = Program.Sessio.Valoracions.Where(w => w.Data >= dtpDataIniciLlista.Value).ToList();
+            var movData = Program.Sessio.MovimentsUsuari.Where(w => w.Data >= dtpDataIniciLlista.Value).ToList();
+
+            List<Valoracio> valoracions = new List<Valoracio>();
+            List<Moviment> moviments = new List<Moviment>();
+
+            if (accions)
+            {
+                valoracions.AddRange(valData.Where(w => w.Prod is ProdAccions).ToList());
+                moviments.AddRange(movData.Where(w => w.Prod is ProdAccions && w.Participacions > 0).ToList());
+            }
+
+            if (rv && rf)
+            {
+                valoracions.AddRange(valData.Where(w => w.Prod is ProdFons).ToList());
+                moviments.AddRange(movData.Where(w => w.Prod is ProdFons && w.Participacions > 0).ToList());
+            }
+            else
+            {
+                if (rv)
+                {
+                    valoracions.AddRange(valData.Where(w => w.Prod is ProdFons && ((ProdFons) w.Prod).Tipus == TipusFons.RV).ToList());
+                    moviments.AddRange(movData.Where(w => w.Prod is ProdFons && w.Participacions > 0 && ((ProdFons) w.Prod).Tipus == TipusFons.RV).ToList());
+                }
+
+                if (rf)
+                {
+                    valoracions.AddRange(valData.Where(w => w.Prod is ProdFons && ((ProdFons) w.Prod).Tipus == TipusFons.RF).ToList());
+                    moviments.AddRange(movData.Where(w => w.Prod is ProdFons && w.Participacions > 0 && ((ProdFons) w.Prod).Tipus == TipusFons.RF).ToList());
+                }
+            }
+
+            var valMovs = valoracions.Select(s => new {Data = s.Data.Date, s.PreuParticipacio}).
+                Union(moviments.Select(s => new {Data = s.Data.Date, s.PreuParticipacio})).
+                GroupBy(g => g.Data).OrderBy(o => o.Key);
+
+            if (!valMovs.Any())
+                return;
+
+
+            double maxVal = 0;
+            double minVal = double.MaxValue;
+
+            double pigPerDataAnt = 0;
+            foreach (var valoracio in valMovs)
+            {
+                DateTime data = Utilitats.DataHoraFinalDia(valoracio.Key);
+
+                double pigPerData = 0;
+                double saldo = 0;
+                if (accions)
+                {
+                    pigPerData += Producte.Pig2(Producte.TipusProducte.Accions, null, DateTime.MinValue, data, true, true);
+                    saldo += ProdAccions.Valor(data);
+                }
+                if (rv)
+                {
+                    pigPerData += Producte.Pig2(Producte.TipusProducte.Fons, TipusFons.RV, DateTime.MinValue, data, true, true);
+                    saldo += ProdFons.Valor(data, TipusFons.RV);
+                }
+                if (rf)
+                {
+                    pigPerData += Producte.Pig2(Producte.TipusProducte.Fons, TipusFons.RF, DateTime.MinValue, data, true, true);
+                    saldo += ProdFons.Valor(data, TipusFons.RF);
+                }
+
+                dgvValoracionsPerData.Rows.Add(data, pigPerData, (pigPerData / pigPerDataAnt - 1), pigPerData - pigPerDataAnt, saldo);
+
+                if (data >= new DateTime(2015, 3, 20) && pigPerData > 0)
+                {
+                    chart2.Series[0].Points.AddXY(data.ToOADate(), pigPerData);
+
+                    if (maxVal < pigPerData)
+                        maxVal = Math.Ceiling(pigPerData / 10) * 10;
+
+                    if (minVal > pigPerData)
+                        minVal = Math.Floor(pigPerData / 10) * 10;
+                }
+
+                pigPerDataAnt = pigPerData;
+            }
+
+            var ultimaFila = dgvValoracionsPerData.Rows.GetLastRow(DataGridViewElementStates.Visible);
+            if (ultimaFila >= 0)
+                dgvValoracionsPerData.FirstDisplayedScrollingRowIndex = ultimaFila;
+
+            chart2.ChartAreas[0].AxisY.Minimum = minVal;
+            chart2.ChartAreas[0].AxisY.Maximum = maxVal;
+            chart2.Update();
+        }
+
+        private void checkedComboBoxEdit1_CustomDisplayText(object sender, CustomDisplayTextEventArgs e)
+        {
+            if (e.Value != null)
+            {
+                // Per saber que està seleccionat
+                var accions = checkedComboBoxEdit1.Properties.Items[TipusProd.Accions].CheckState == CheckState.Checked;
+                var rf = checkedComboBoxEdit1.Properties.Items[TipusProd.RF].CheckState == CheckState.Checked;
+                var rv = checkedComboBoxEdit1.Properties.Items[TipusProd.RV].CheckState == CheckState.Checked;
+
+                // Posa el títol en el combo.
+                if (accions && rf && rv)
+                    e.DisplayText = "Tot";
+                else if (!accions && rf && rv)
+                    e.DisplayText = "Fons";
+                else if (accions && !rf && !rv)
+                    e.DisplayText = "Accions";
             }
         }
     }
