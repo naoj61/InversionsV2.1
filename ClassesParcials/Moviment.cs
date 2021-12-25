@@ -466,6 +466,12 @@ namespace Inversions
             get { return pigDeLaCompra(); }
         }
 
+        [Description("S'utilitza en un DataGrid")]
+        public double _PigDeLaCompraOrigen
+        {
+            get { return (Participacions * Prod._PreuParticipacioActual) - calculaPreuOrig2(); }
+        }
+
         /// <summary>
         /// PiG d'una compra.
         /// </summary>
@@ -594,7 +600,7 @@ namespace Inversions
         }
 
         /// <summary>
-        /// Calcula el preu origen de les partticipacions 'numParts' del moviment. Inclou despeses. 
+        /// Calcula el preu origen de les participacions 'numParts' del moviment. Inclou despeses. 
         /// Creat el 1/07/2020
         /// </summary>
         /// <param name="numParts">Num participacions a calcular.</param>
