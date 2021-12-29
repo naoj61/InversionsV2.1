@@ -110,7 +110,7 @@ namespace Inversions
         /// </summary>
         /// <param name="compra"></param>
         /// <returns></returns>
-        public static double PartsEnCarteraCompra(Moviment compra)
+        public static double PartsEnCarteraCompraReal(Moviment compra)
         {
             if (!compra._EsCompraReal)
                 throw new Exception(String.Format("L'Id:{0}, no és una compra real", compra.Id));
@@ -121,7 +121,7 @@ namespace Inversions
             // Si és una compra real, només hi pot haver un element a DesglosCompres.
             var desgloç = compra.DesglosCompres.Single();
           
-            return desgloç.partsEnCarteraCompra(compra.Participacions);
+            return desgloç.partsEnCarteraCompraReal(compra.Participacions);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Inversions
         /// </summary>
         /// <param name="parts">Participacions que queden per vendre.</param>
         /// <returns></returns>
-        private double partsEnCarteraCompra(double parts)
+        private double partsEnCarteraCompraReal(double parts)
         {
             var compraOrig = MovCompraOrig;
             var compra = MovCompra;
@@ -143,7 +143,7 @@ namespace Inversions
                     // venda.Id==100 dona error.
                     var cOrig = venda._MovimentRefCompra.DesglosCompres.SingleOrDefault(w => w.MovCompraOrig == compraOrig);
                     if (cOrig != null) 
-                        parts = cOrig.partsEnCarteraCompra(parts);
+                        parts = cOrig.partsEnCarteraCompraReal(parts);
                 }
                 else
                 {

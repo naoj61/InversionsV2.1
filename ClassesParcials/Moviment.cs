@@ -13,7 +13,7 @@ namespace Inversions
     public partial class Moviment
     {
         #region *** Atributs ***
-        
+
         [Description("S'utilitza en un DataGrid")]
         public Producte _ProducteTraspasOrigen
         {
@@ -26,7 +26,61 @@ namespace Inversions
             get { return TipusMoviment == TipusMoviment.Venda ? _ProducteTraspas : null; }
         }
 
-        public Producte _ProducteTraspas
+        [Description("S'utilitza en un DataGrid")]
+        public double _ImportBrut
+        {
+            get
+            {
+                double result;
+                if (Utilitats.EsZero(Participacions))
+                {
+                    result = PreuParticipacio;
+                }
+                else
+                {
+                    result = PreuParticipacio * Participacions;
+                }
+                return result;
+            }
+        }
+
+        [Description("S'utilitza en un DataGrid")]
+        public double _ImportNet
+        {
+            get
+            {
+                double result;
+                if (Utilitats.EsZero(Participacions))
+                {
+                    result = PreuParticipacio;
+                }
+                else
+                {
+                    if (_EsCompra)
+                        result = PreuParticipacio * Participacions + Despeses.GetValueOrDefault();
+                    else if (_EsVenda)
+                        result = PreuParticipacio * Participacions - Despeses.GetValueOrDefault();
+                    else
+                        result = PreuParticipacio * Participacions;
+                }
+                return result;
+            }
+        }
+
+        [Description("S'utilitza en un DataGrid")]
+        public double _PigDeLaCompra
+        {
+            get { return pigDeLaCompraEsElBooooo(true, false); }
+        }
+
+        [Description("S'utilitza en un DataGrid")]
+        public double _PigDeLaCompraOrigen
+        {
+            get { return pigDeLaCompraEsElBooooo(true, true); }
+        }
+
+
+        private Producte _ProducteTraspas
         {
             get { return RefTraspas != null ? RefTraspas.Prod : null; }
         }
@@ -34,6 +88,7 @@ namespace Inversions
         /// <summary>
         /// Torna tipus movimen en string i indica els traspassos.
         /// </summary>
+        [Description("S'utilitza en un DataGrid")]
         public string _TipusMoviment
         {
             get
@@ -249,48 +304,6 @@ namespace Inversions
             get { return RefTraspas1.FirstOrDefault(); }
         }
 
-
-        [Description("S'utilitza en un DataGrid")]
-        public double _ImportBrut
-        {
-            get
-            {
-                double result;
-                if (Utilitats.EsZero(Participacions))
-                {
-                    result = PreuParticipacio;
-                }
-                else
-                {
-                    result = PreuParticipacio * Participacions;
-                }
-                return result;
-            }
-        }
-
-        [Description("S'utilitza en un DataGrid")]
-        public double _ImportNet
-        {
-            get
-            {
-                double result;
-                if (Utilitats.EsZero(Participacions))
-                {
-                    result = PreuParticipacio;
-                }
-                else
-                {
-                    if (_EsCompra)
-                        result = PreuParticipacio * Participacions + Despeses.GetValueOrDefault();
-                    else if (_EsVenda)
-                        result = PreuParticipacio * Participacions - Despeses.GetValueOrDefault();
-                    else
-                        result = PreuParticipacio * Participacions;
-                }
-                return result;
-            }
-        }
-
         #endregion *** Atributs ***
 
 
@@ -451,25 +464,83 @@ namespace Inversions
 
 
         /// <summary>
-        /// Torna les participacions que encara hi ha en cartera de una compra real. No serveix per compres traspassos.
-        /// La compra ha de pertanyer a un fons d'inversió.
+        /// Torna les participacions que encara hi ha en cartera d'una compra.
         /// </summary>
         /// <returns></returns>
-        public double partsEnCarteraCompra()
+        private double partsEnCarteraCompra()
         {
-            return DesglosCompra.PartsEnCarteraCompra(this);
+            if (!_EsCompra)
+                throw new Exception(String.Format("L'Id:{0}, no és una compra", Id));
+
+            var v = vendesDeLaCompra();
+            var c = vendesDeLaCompra().Sum(s => s._ParticipacionsUtilitzades);
+
+            return Participacions - vendesDeLaCompra().Sum(s => s._ParticipacionsUtilitzades);
         }
 
-        [Description("S'utilitza en un DataGrid")]
-        public double _PigDeLaCompra
-        {
-            get { return pigDeLaCompra(); }
-        }
 
-        [Description("S'utilitza en un DataGrid")]
-        public double _PigDeLaCompraOrigen
+        /// <summary>
+        /// PiG d'una compra. !!!! MIRAR SI PUC UTILITZAR AQUEST MÈTODE PER SUBSTITUTIR LA RESTA DE CALCUL DEL PiG.
+        /// </summary>
+        /// <param name="nomesPartsEnCartera">True: Només calcula les participacions en cartera.</param>
+        /// <param name="pigOrigen">True: PiG respecte al preu de compra original. False: Pig  respecte al preu d'aquesta compra.</param>
+        /// <returns></returns>
+        private double pigDeLaCompraEsElBooooo(bool nomesPartsEnCartera, bool pigOrigen)
         {
-            get { return (Participacions * Prod._PreuParticipacioActual) - calculaPreuOrig2(); }
+            var partsEnCartera = partsEnCarteraCompra();
+            double preuCost = 0;
+            var desglosCompresOrdenat = DesglosCompres.OrderBy(o => o._DataOrig).ToList();
+
+            if (nomesPartsEnCartera)
+            {
+                // Càlcul amb les participacions que queden en cartera.
+
+                var partsVenudes = Participacions - partsEnCartera;
+                var partsVenudesResten = partsVenudes;
+                foreach (var desglosCompra in desglosCompresOrdenat)
+                {
+                    if (Utilitats.ComparaNumeros(partsVenudesResten, desglosCompra.Participacions) > 0)
+                    {
+                        partsVenudesResten -= desglosCompra.Participacions;
+                        continue;
+                    }
+
+                    double parts;
+                    if (Utilitats.ComparaNumeros(partsVenudesResten, 0) > 0)
+                    {
+                        parts = desglosCompra.Participacions - partsVenudesResten;
+                        partsVenudesResten = 0;
+                    }
+                    else
+                    {
+                        parts = desglosCompra.Participacions;
+                    }
+
+                    if (pigOrigen)
+                    {
+                        var coeficientEnCartera = parts / desglosCompra.Participacions;
+                        preuCost += desglosCompra._PreuParticipacioOrig * desglosCompra.ParticipacionsOrig * coeficientEnCartera;
+                    }
+                    else
+                        preuCost += desglosCompra._PreuParticipacio * parts;
+                }
+            }
+            else
+            {
+                // Càlcul amb totes les participacions de la compra
+
+                foreach (var desglosCompra in desglosCompresOrdenat)
+                {
+                    if (pigOrigen)
+                        preuCost += desglosCompra.ParticipacionsOrig * desglosCompra._PreuParticipacioOrig;
+                    else
+                        preuCost += desglosCompra.Participacions * desglosCompra._PreuParticipacio;
+                }
+            }
+
+            double preuVenda = (nomesPartsEnCartera ? partsEnCartera : Participacions) * Prod._PreuParticipacioActual;
+
+            return preuVenda - preuCost;
         }
 
         /// <summary>
@@ -488,7 +559,7 @@ namespace Inversions
             double valorEnCartera = 0;
             if (inclouParticsEnCartera)
             {
-                var partsEnCart = Participacions - vendesCompra.Sum(s => s._ParticipacionsUtilitzades);
+                var partsEnCart = partsEnCarteraCompra();
                 valorEnCartera = partsEnCart * preuPartsEnCartera.GetValueOrDefault(Prod._PreuParticipacioActual);
             }
 
@@ -498,6 +569,7 @@ namespace Inversions
 
             return Math.Round(piG, 3);
         }
+
 
         /// <summary>
         /// 

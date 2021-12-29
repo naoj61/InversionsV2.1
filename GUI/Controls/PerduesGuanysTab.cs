@@ -140,9 +140,9 @@ namespace Inversions.GUI
                 dgvCompresProducte.DataSource = null;
                 return;
             }
-            
+
             var compres = prodSeleccionat.MovimentsProducteUsuari.Where(w => w._EsCompra).ToList();
-            
+
             SuspendLayout();
             dgvCompresProducte.SuspendLayout();
             dgvCompresProducte.SelectionChanged -= dgvCompresProducte_SelectionChanged;
@@ -152,7 +152,7 @@ namespace Inversions.GUI
             dgvCompresProducte.SelectionChanged += dgvCompresProducte_SelectionChanged;
             dgvCompresProducte.ResumeLayout();
             ResumeLayout();
-            
+
         }
 
 
@@ -260,49 +260,6 @@ namespace Inversions.GUI
             calculaPiG();
         }
 
-        private IButtonControl vAcceptButton = null;
-
-        private void canviaAcceptButton(IButtonControl boto)
-        {
-            vAcceptButton = ParentForm.AcceptButton;
-            ParentForm.AcceptButton = boto;
-        }
-
-        private void restauraAcceptButton()
-        {
-            ParentForm.AcceptButton = vAcceptButton;
-        }
-
-        private void ntbPreuParticipacio_Enter(object sender, EventArgs e)
-        {
-            canviaAcceptButton(btSimulacioPiG);
-        }
-
-        private void ntbPreuParticipacio_Leave(object sender, EventArgs e)
-        {
-            restauraAcceptButton();
-        }
-
-        private void dtpFiltreDataInici_Enter(object sender, EventArgs e)
-        {
-            canviaAcceptButton(btFiltreDates);
-        }
-
-        private void dtpFiltreDataInici_Leave(object sender, EventArgs e)
-        {
-            restauraAcceptButton();
-        }
-
-        private void dtpFiltreDataFi_Enter(object sender, EventArgs e)
-        {
-            canviaAcceptButton(btFiltreDates);
-        }
-
-        private void dtpFiltreDataFi_Leave(object sender, EventArgs e)
-        {
-            restauraAcceptButton();
-        }
-
 
         private void dgvPiGAnualsTributen_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -321,9 +278,9 @@ namespace Inversions.GUI
             double pig = 0;
             foreach (DataGridViewRow selectedRow in dgvCompresProducte.SelectedRows)
             {
-                pig += ((Moviment)selectedRow.DataBoundItem)._PigDeLaCompra;
+                pig += ((Moviment) selectedRow.DataBoundItem)._PigDeLaCompra;
             }
-            ntbPigCompra.Valor = Math.Round(pig, 2); 
+            ntbPigCompra.Valor = Math.Round(pig, 2);
         }
-        }
+    }
 }
