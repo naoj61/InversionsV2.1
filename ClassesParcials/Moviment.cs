@@ -67,16 +67,19 @@ namespace Inversions
             }
         }
 
+        static internal bool AmbCartera;
+        static internal bool AmbDividents;
+
         [Description("S'utilitza en un DataGrid")]
-        public double _PigDeLaCompra
+        public double __PigDeLaCompra
         {
-            get { return pigDeLaCompraEsElBooooo(true, false); }
+            get { return pigDeLaCompraEsElBooooo(AmbCartera, false, true, AmbDividents); }
         }
 
         [Description("S'utilitza en un DataGrid")]
-        public double _PigDeLaCompraOrigen
+        public double __PigDeLaCompraOrigen
         {
-            get { return pigDeLaCompraEsElBooooo(true, true); }
+            get { return pigDeLaCompraEsElBooooo(AmbCartera, true, true, AmbDividents); }
         }
 
 
@@ -472,9 +475,6 @@ namespace Inversions
             if (!_EsCompra)
                 throw new Exception(String.Format("L'Id:{0}, no és una compra", Id));
 
-            var v = vendesDeLaCompra();
-            var c = vendesDeLaCompra().Sum(s => s._ParticipacionsUtilitzades);
-
             return Participacions - vendesDeLaCompra().Sum(s => s._ParticipacionsUtilitzades);
         }
 
@@ -484,19 +484,29 @@ namespace Inversions
         /// </summary>
         /// <param name="nomesPartsEnCartera">True: Només calcula les participacions en cartera.</param>
         /// <param name="pigOrigen">True: PiG respecte al preu de compra original. False: Pig  respecte al preu d'aquesta compra.</param>
+        /// <param name="ambDespeses">Inclou despeses.</param>
+        /// <param name="ambDividents">Inclou dividents.</param>
         /// <returns></returns>
-        private double pigDeLaCompraEsElBooooo(bool nomesPartsEnCartera, bool pigOrigen)
+        internal double pigDeLaCompraEsElBooooo(bool nomesPartsEnCartera, bool pigOrigen, bool ambDespeses = true, bool ambDividents = true)
         {
-            var partsEnCartera = partsEnCarteraCompra();
-            double preuCost = 0;
+            if (Prod is ProdFons)
+            {
+                // Si és un fons no té despeses ni dividents.
+                ambDespeses = false;
+                ambDividents = false;
+            }
+
+            double importCostCompra = 0;
             var desglosCompresOrdenat = DesglosCompres.OrderBy(o => o._DataOrig).ToList();
 
             if (nomesPartsEnCartera)
             {
-                // Càlcul amb les participacions que queden en cartera.
+                // Calcula el cost amb les participacions que queden en cartera.
 
-                var partsVenudes = Participacions - partsEnCartera;
-                var partsVenudesResten = partsVenudes;
+                if (Utilitats.EsZero(partsEnCarteraCompra()))
+                    return 0;
+
+                var partsVenudesResten = Participacions - partsEnCarteraCompra();
                 foreach (var desglosCompra in desglosCompresOrdenat)
                 {
                     if (Utilitats.ComparaNumeros(partsVenudesResten, desglosCompra.Participacions) > 0)
@@ -518,30 +528,66 @@ namespace Inversions
 
                     if (pigOrigen)
                     {
-                        var coeficientEnCartera = parts / desglosCompra.Participacions;
-                        preuCost += desglosCompra._PreuParticipacioOrig * desglosCompra.ParticipacionsOrig * coeficientEnCartera;
+                        var coeficientEnCartera = parts / desglosCompra.Participacions; // Per calcular les parts Origen que hi ha en cartera.
+                        importCostCompra += desglosCompra._PreuParticipacioOrig * desglosCompra.ParticipacionsOrig * coeficientEnCartera;
                     }
                     else
-                        preuCost += desglosCompra._PreuParticipacio * parts;
+                        importCostCompra += desglosCompra._PreuParticipacio * parts;
                 }
             }
             else
             {
-                // Càlcul amb totes les participacions de la compra
+                // Calcula el cost amb totes les participacions de la compra
 
                 foreach (var desglosCompra in desglosCompresOrdenat)
                 {
                     if (pigOrigen)
-                        preuCost += desglosCompra.ParticipacionsOrig * desglosCompra._PreuParticipacioOrig;
+                        importCostCompra += desglosCompra.ParticipacionsOrig * desglosCompra._PreuParticipacioOrig;
                     else
-                        preuCost += desglosCompra.Participacions * desglosCompra._PreuParticipacio;
+                        importCostCompra += desglosCompra.Participacions * desglosCompra._PreuParticipacio;
                 }
             }
 
-            double preuVenda = (nomesPartsEnCartera ? partsEnCartera : Participacions) * Prod._PreuParticipacioActual;
+            double importVendesReals = 0;
+            double despeses = Despeses.GetValueOrDefault();
+            foreach (Moviment moviment in vendesDeLaCompra().Where(w=>w._EsVendaReal))
+            {
+                importVendesReals += moviment._ParticipacionsUtilitzades * moviment.PreuParticipacio;
 
-            return preuVenda - preuCost;
+                if (ambDespeses)
+                    // Afegeig les despeses per les vendes d'aquesta compra.
+                    despeses += moviment.Despeses.GetValueOrDefault() / moviment.Participacions * moviment._ParticipacionsUtilitzades;
+            }
+
+            double importActualParticsEnCartera = partsEnCarteraCompra() * Prod._PreuParticipacioActual;
+
+            double divident = ambDividents ? dividentsDeLaCompra(): 0;
+            
+            return importVendesReals + importActualParticsEnCartera - importCostCompra - despeses + divident;
         }
+
+
+        /// <summary>
+        /// Calcula el divident que s'ha cobrat per la compra.
+        /// Pot ser que hi hagi més d'un divident o que algun divident no correspongui completament a les accions de la compra.
+        /// </summary>
+        /// <returns></returns>
+        private double dividentsDeLaCompra()
+        {
+            double divident = 0;
+            var dataIni = Data;
+            var dataFi = vendesDeLaCompra().Any() ? vendesDeLaCompra().Last().Data : DateTime.Now;
+            var dividents = Program.Sessio.MovimentsUsuari.Where(w => w._EsDividents && w.Data >= dataIni && w.Data <= dataFi).ToList();
+            foreach (var div in dividents)
+            {
+                var partsVenudes = vendesDeLaCompra().Where(w => w.Data < div.Data).Sum(s => s._ParticipacionsUtilitzades);
+                var partsEnDataDivident = Prod.numParticipacionsEnData(div.Data);
+                divident += div._ImportBrut / partsEnDataDivident * (Participacions - partsVenudes);
+            }
+
+            return divident;
+        }
+
 
         /// <summary>
         /// PiG d'una compra.
