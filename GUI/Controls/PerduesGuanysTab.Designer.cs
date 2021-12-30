@@ -44,13 +44,13 @@ namespace Inversions.GUI
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnPigRight = new System.Windows.Forms.Panel();
@@ -85,23 +85,26 @@ namespace Inversions.GUI
             this.label2 = new System.Windows.Forms.Label();
             this.pnPigFill = new System.Windows.Forms.Panel();
             this.dgvCompresProducte = new System.Windows.Forms.DataGridView();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.ckAmbCartera = new System.Windows.Forms.CheckBox();
-            this.ckAmbDividends = new System.Windows.Forms.CheckBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.ntbPigCompra = new Controls.NumericTextBox2();
-            this.dgvPiGProductePerAny = new System.Windows.Forms.DataGridView();
-            this.label4 = new System.Windows.Forms.Label();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.gestioProductesTabValoracions = new Inversions.GUI.GestioProductes();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PigDeLaCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PigOrigen = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.ckAmbCartera = new System.Windows.Forms.CheckBox();
+            this.ckAmbDividends = new System.Windows.Forms.CheckBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.dgvPiGProductePerAny = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label4 = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.gestioProductesTabValoracions = new Inversions.GUI.GestioProductes();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.ntbPigCompra = new Controls.NumericTextBox2();
+            this.gbPigCompraOrig = new System.Windows.Forms.GroupBox();
+            this.ntbPigCompraOrig = new Controls.NumericTextBox2();
             this.pnPigRight.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.gbSimulacioPig.SuspendLayout();
@@ -118,8 +121,9 @@ namespace Inversions.GUI
             ((System.ComponentModel.ISupportInitialize)(this.dgvCompresProducte)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPiGProductePerAny)).BeginInit();
+            this.groupBox3.SuspendLayout();
+            this.gbPigCompraOrig.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnPigRight
@@ -593,6 +597,7 @@ namespace Inversions.GUI
             // 
             this.pnPigFill.Controls.Add(this.dgvCompresProducte);
             this.pnPigFill.Controls.Add(this.flowLayoutPanel1);
+            this.pnPigFill.Controls.Add(this.panel4);
             this.pnPigFill.Controls.Add(this.panel1);
             this.pnPigFill.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnPigFill.Location = new System.Drawing.Point(0, 493);
@@ -640,8 +645,80 @@ namespace Inversions.GUI
             this.dgvCompresProducte.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.dgvCompresProducte.RowTemplate.Height = 24;
             this.dgvCompresProducte.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCompresProducte.Size = new System.Drawing.Size(745, 295);
+            this.dgvCompresProducte.Size = new System.Drawing.Size(724, 295);
             this.dgvCompresProducte.TabIndex = 21;
+            // 
+            // Id
+            // 
+            this.Id.DataPropertyName = "Id";
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle13.Format = "N0";
+            dataGridViewCellStyle13.NullValue = null;
+            this.Id.DefaultCellStyle = dataGridViewCellStyle13;
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            this.Id.Width = 5;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "Data";
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle14.Format = "d";
+            dataGridViewCellStyle14.NullValue = null;
+            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle14;
+            this.dataGridViewTextBoxColumn3.HeaderText = "Data Compra";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            this.dataGridViewTextBoxColumn3.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn3.Width = 99;
+            // 
+            // dataGridViewTextBoxColumn12
+            // 
+            this.dataGridViewTextBoxColumn12.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+            this.dataGridViewTextBoxColumn12.DataPropertyName = "PreuParticipacio";
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle15.Format = "C3";
+            this.dataGridViewTextBoxColumn12.DefaultCellStyle = dataGridViewCellStyle15;
+            this.dataGridViewTextBoxColumn12.HeaderText = "Preu Unit. Compra";
+            this.dataGridViewTextBoxColumn12.MinimumWidth = 95;
+            this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
+            this.dataGridViewTextBoxColumn12.ReadOnly = true;
+            this.dataGridViewTextBoxColumn12.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn12.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn12.Width = 95;
+            // 
+            // PigDeLaCompra
+            // 
+            this.PigDeLaCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+            this.PigDeLaCompra.DataPropertyName = "__PigDeLaCompra";
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle16.Format = "C2";
+            this.PigDeLaCompra.DefaultCellStyle = dataGridViewCellStyle16;
+            this.PigDeLaCompra.HeaderText = "PiG";
+            this.PigDeLaCompra.MinimumWidth = 97;
+            this.PigDeLaCompra.Name = "PigDeLaCompra";
+            this.PigDeLaCompra.ReadOnly = true;
+            this.PigDeLaCompra.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.PigDeLaCompra.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.PigDeLaCompra.Width = 97;
+            // 
+            // PigOrigen
+            // 
+            this.PigOrigen.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+            this.PigOrigen.DataPropertyName = "__PigDeLaCompraOrigen";
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle17.Format = "C2";
+            this.PigOrigen.DefaultCellStyle = dataGridViewCellStyle17;
+            this.PigOrigen.HeaderText = "PigOrigen";
+            this.PigOrigen.MinimumWidth = 97;
+            this.PigOrigen.Name = "PigOrigen";
+            this.PigOrigen.ReadOnly = true;
+            this.PigOrigen.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.PigOrigen.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.PigOrigen.Width = 97;
             // 
             // flowLayoutPanel1
             // 
@@ -651,12 +728,14 @@ namespace Inversions.GUI
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(745, 34);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(724, 34);
             this.flowLayoutPanel1.TabIndex = 22;
             // 
             // ckAmbCartera
             // 
             this.ckAmbCartera.AutoSize = true;
+            this.ckAmbCartera.Checked = true;
+            this.ckAmbCartera.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ckAmbCartera.Location = new System.Drawing.Point(3, 3);
             this.ckAmbCartera.Name = "ckAmbCartera";
             this.ckAmbCartera.Padding = new System.Windows.Forms.Padding(2);
@@ -664,10 +743,13 @@ namespace Inversions.GUI
             this.ckAmbCartera.TabIndex = 1;
             this.ckAmbCartera.Text = "Amb Cartera";
             this.ckAmbCartera.UseVisualStyleBackColor = true;
+            this.ckAmbCartera.CheckedChanged += new System.EventHandler(this.ckAmbCartera_CheckedChanged);
             // 
             // ckAmbDividends
             // 
             this.ckAmbDividends.AutoSize = true;
+            this.ckAmbDividends.Checked = true;
+            this.ckAmbDividends.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ckAmbDividends.Location = new System.Drawing.Point(138, 3);
             this.ckAmbDividends.Name = "ckAmbDividends";
             this.ckAmbDividends.Padding = new System.Windows.Forms.Padding(2);
@@ -675,11 +757,13 @@ namespace Inversions.GUI
             this.ckAmbDividends.TabIndex = 0;
             this.ckAmbDividends.Text = "Amb Dividends";
             this.ckAmbDividends.UseVisualStyleBackColor = true;
+            this.ckAmbDividends.CheckedChanged += new System.EventHandler(this.ckAmbDividends_CheckedChanged);
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.groupBox3);
             this.panel1.Controls.Add(this.dgvPiGProductePerAny);
+            this.panel1.Controls.Add(this.groupBox3);
+            this.panel1.Controls.Add(this.gbPigCompraOrig);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel1.Location = new System.Drawing.Point(745, 0);
@@ -687,39 +771,6 @@ namespace Inversions.GUI
             this.panel1.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
             this.panel1.Size = new System.Drawing.Size(284, 329);
             this.panel1.TabIndex = 20;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.ntbPigCompra);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(5, 272);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox3.Size = new System.Drawing.Size(279, 57);
-            this.groupBox3.TabIndex = 23;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "PiG de la compra";
-            // 
-            // ntbPigCompra
-            // 
-            this.ntbPigCompra._CapturaEscape = true;
-            this.ntbPigCompra._Format = "#,#0.00 €";
-            this.ntbPigCompra._PermetDecimals = true;
-            this.ntbPigCompra._PermetEspais = false;
-            this.ntbPigCompra._PermetNegatius = true;
-            this.ntbPigCompra.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ntbPigCompra.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbPigCompra.Location = new System.Drawing.Point(3, 22);
-            this.ntbPigCompra.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ntbPigCompra.Name = "ntbPigCompra";
-            this.ntbPigCompra.ReadOnly = true;
-            this.ntbPigCompra.Size = new System.Drawing.Size(273, 25);
-            this.ntbPigCompra.TabIndex = 2;
-            this.ntbPigCompra.Text = "0,00 €";
-            this.ntbPigCompra.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPigCompra.Valor = 0D;
             // 
             // dgvPiGProductePerAny
             // 
@@ -755,8 +806,35 @@ namespace Inversions.GUI
             this.dgvPiGProductePerAny.ReadOnly = true;
             this.dgvPiGProductePerAny.RowHeadersVisible = false;
             this.dgvPiGProductePerAny.RowTemplate.Height = 24;
-            this.dgvPiGProductePerAny.Size = new System.Drawing.Size(279, 300);
+            this.dgvPiGProductePerAny.Size = new System.Drawing.Size(279, 186);
             this.dgvPiGProductePerAny.TabIndex = 20;
+            // 
+            // dataGridViewTextBoxColumn8
+            // 
+            this.dataGridViewTextBoxColumn8.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle20.Format = "0000";
+            dataGridViewCellStyle20.NullValue = null;
+            this.dataGridViewTextBoxColumn8.DefaultCellStyle = dataGridViewCellStyle20;
+            this.dataGridViewTextBoxColumn8.HeaderText = "Any";
+            this.dataGridViewTextBoxColumn8.MinimumWidth = 40;
+            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            this.dataGridViewTextBoxColumn8.ReadOnly = true;
+            this.dataGridViewTextBoxColumn8.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn8.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn8.Width = 42;
+            // 
+            // dataGridViewTextBoxColumn9
+            // 
+            this.dataGridViewTextBoxColumn9.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle21.Format = "c2";
+            this.dataGridViewTextBoxColumn9.DefaultCellStyle = dataGridViewCellStyle21;
+            this.dataGridViewTextBoxColumn9.HeaderText = "P i G Total Origen";
+            this.dataGridViewTextBoxColumn9.MinimumWidth = 20;
+            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            this.dataGridViewTextBoxColumn9.ReadOnly = true;
+            this.dataGridViewTextBoxColumn9.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // label4
             // 
@@ -786,104 +864,79 @@ namespace Inversions.GUI
             this.gestioProductesTabValoracions.TabIndex = 0;
             this.gestioProductesTabValoracions.ProducteSeleccionat += new System.EventHandler(this.gestioProductesTabValoracions_ProducteSeleccionat);
             // 
-            // Id
+            // panel4
             // 
-            this.Id.DataPropertyName = "Id";
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle13.Format = "N0";
-            dataGridViewCellStyle13.NullValue = null;
-            this.Id.DefaultCellStyle = dataGridViewCellStyle13;
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.ReadOnly = true;
-            this.Id.Width = 5;
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel4.Location = new System.Drawing.Point(724, 0);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(21, 329);
+            this.panel4.TabIndex = 23;
             // 
-            // dataGridViewTextBoxColumn3
+            // groupBox3
             // 
-            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewTextBoxColumn3.DataPropertyName = "Data";
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle14.Format = "d";
-            dataGridViewCellStyle14.NullValue = null;
-            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle14;
-            this.dataGridViewTextBoxColumn3.HeaderText = "Data Compra";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            this.dataGridViewTextBoxColumn3.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn3.Width = 110;
+            this.groupBox3.Controls.Add(this.ntbPigCompra);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox3.Location = new System.Drawing.Point(5, 215);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 9, 3, 4);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox3.Size = new System.Drawing.Size(279, 57);
+            this.groupBox3.TabIndex = 26;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "PiG de la compra";
             // 
-            // dataGridViewTextBoxColumn12
+            // ntbPigCompra
             // 
-            this.dataGridViewTextBoxColumn12.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
-            this.dataGridViewTextBoxColumn12.DataPropertyName = "PreuParticipacio";
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle15.Format = "C3";
-            this.dataGridViewTextBoxColumn12.DefaultCellStyle = dataGridViewCellStyle15;
-            this.dataGridViewTextBoxColumn12.HeaderText = "Preu Unit. Compra";
-            this.dataGridViewTextBoxColumn12.MinimumWidth = 95;
-            this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
-            this.dataGridViewTextBoxColumn12.ReadOnly = true;
-            this.dataGridViewTextBoxColumn12.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn12.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn12.Width = 95;
+            this.ntbPigCompra._CapturaEscape = true;
+            this.ntbPigCompra._Format = "#,#0.00 €";
+            this.ntbPigCompra._PermetDecimals = true;
+            this.ntbPigCompra._PermetEspais = false;
+            this.ntbPigCompra._PermetNegatius = true;
+            this.ntbPigCompra.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbPigCompra.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPigCompra.Location = new System.Drawing.Point(3, 22);
+            this.ntbPigCompra.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ntbPigCompra.Name = "ntbPigCompra";
+            this.ntbPigCompra.ReadOnly = true;
+            this.ntbPigCompra.Size = new System.Drawing.Size(273, 25);
+            this.ntbPigCompra.TabIndex = 2;
+            this.ntbPigCompra.Text = "0,00 €";
+            this.ntbPigCompra.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbPigCompra.Valor = 0D;
             // 
-            // PigDeLaCompra
+            // gbPigCompraOrig
             // 
-            this.PigDeLaCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
-            this.PigDeLaCompra.DataPropertyName = "_PigDeLaCompra";
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle16.Format = "C2";
-            this.PigDeLaCompra.DefaultCellStyle = dataGridViewCellStyle16;
-            this.PigDeLaCompra.HeaderText = "PiG";
-            this.PigDeLaCompra.MinimumWidth = 97;
-            this.PigDeLaCompra.Name = "PigDeLaCompra";
-            this.PigDeLaCompra.ReadOnly = true;
-            this.PigDeLaCompra.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.PigDeLaCompra.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.PigDeLaCompra.Width = 97;
+            this.gbPigCompraOrig.Controls.Add(this.ntbPigCompraOrig);
+            this.gbPigCompraOrig.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.gbPigCompraOrig.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbPigCompraOrig.Location = new System.Drawing.Point(5, 272);
+            this.gbPigCompraOrig.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gbPigCompraOrig.Name = "gbPigCompraOrig";
+            this.gbPigCompraOrig.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gbPigCompraOrig.Size = new System.Drawing.Size(279, 57);
+            this.gbPigCompraOrig.TabIndex = 27;
+            this.gbPigCompraOrig.TabStop = false;
+            this.gbPigCompraOrig.Text = "PiG de la compra Orig";
             // 
-            // PigOrigen
+            // ntbPigCompraOrig
             // 
-            this.PigOrigen.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
-            this.PigOrigen.DataPropertyName = "_PigDeLaCompraOrigen";
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle17.Format = "C2";
-            this.PigOrigen.DefaultCellStyle = dataGridViewCellStyle17;
-            this.PigOrigen.HeaderText = "PigOrigen";
-            this.PigOrigen.MinimumWidth = 97;
-            this.PigOrigen.Name = "PigOrigen";
-            this.PigOrigen.ReadOnly = true;
-            this.PigOrigen.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.PigOrigen.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.PigOrigen.Width = 97;
-            // 
-            // dataGridViewTextBoxColumn8
-            // 
-            this.dataGridViewTextBoxColumn8.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle20.Format = "0000";
-            dataGridViewCellStyle20.NullValue = null;
-            this.dataGridViewTextBoxColumn8.DefaultCellStyle = dataGridViewCellStyle20;
-            this.dataGridViewTextBoxColumn8.HeaderText = "Any";
-            this.dataGridViewTextBoxColumn8.MinimumWidth = 40;
-            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
-            this.dataGridViewTextBoxColumn8.ReadOnly = true;
-            this.dataGridViewTextBoxColumn8.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn8.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn8.Width = 42;
-            // 
-            // dataGridViewTextBoxColumn9
-            // 
-            this.dataGridViewTextBoxColumn9.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle21.Format = "c2";
-            this.dataGridViewTextBoxColumn9.DefaultCellStyle = dataGridViewCellStyle21;
-            this.dataGridViewTextBoxColumn9.HeaderText = "P i G Total Origen";
-            this.dataGridViewTextBoxColumn9.MinimumWidth = 20;
-            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
-            this.dataGridViewTextBoxColumn9.ReadOnly = true;
-            this.dataGridViewTextBoxColumn9.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.ntbPigCompraOrig._CapturaEscape = true;
+            this.ntbPigCompraOrig._Format = "#,#0.00 €";
+            this.ntbPigCompraOrig._PermetDecimals = true;
+            this.ntbPigCompraOrig._PermetEspais = false;
+            this.ntbPigCompraOrig._PermetNegatius = true;
+            this.ntbPigCompraOrig.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbPigCompraOrig.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPigCompraOrig.Location = new System.Drawing.Point(3, 22);
+            this.ntbPigCompraOrig.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ntbPigCompraOrig.Name = "ntbPigCompraOrig";
+            this.ntbPigCompraOrig.ReadOnly = true;
+            this.ntbPigCompraOrig.Size = new System.Drawing.Size(273, 25);
+            this.ntbPigCompraOrig.TabIndex = 2;
+            this.ntbPigCompraOrig.Text = "0,00 €";
+            this.ntbPigCompraOrig.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbPigCompraOrig.Valor = 0D;
             // 
             // PerduesGuanysTab
             // 
@@ -918,9 +971,11 @@ namespace Inversions.GUI
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPiGProductePerAny)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvPiGProductePerAny)).EndInit();
+            this.gbPigCompraOrig.ResumeLayout(false);
+            this.gbPigCompraOrig.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -964,17 +1019,20 @@ namespace Inversions.GUI
         private Controls.DateTimePickerNullable dtpFiltreDataFi;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.DataGridView dgvCompresProducte;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private Controls.NumericTextBox2 ntbPigCompra;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.CheckBox ckAmbCartera;
         private System.Windows.Forms.CheckBox ckAmbDividends;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
         private System.Windows.Forms.DataGridViewTextBoxColumn PigDeLaCompra;
         private System.Windows.Forms.DataGridViewTextBoxColumn PigOrigen;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private Controls.NumericTextBox2 ntbPigCompra;
+        private System.Windows.Forms.GroupBox gbPigCompraOrig;
+        private Controls.NumericTextBox2 ntbPigCompraOrig;
     }
 }

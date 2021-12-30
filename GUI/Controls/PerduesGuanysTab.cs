@@ -108,6 +108,10 @@ namespace Inversions.GUI
 
         private void gestioProductesTabValoracions_ProducteSeleccionat(object sender, EventArgs e)
         {
+            ckAmbDividends.Visible = gestioProductesTabValoracions._ProducteSeleccionat is ProdAccions;
+            PigOrigen.Visible = ckAmbCartera.Checked && gestioProductesTabValoracions._ProducteSeleccionat is ProdFons;
+            gbPigCompraOrig.Visible = PigOrigen.Visible;
+
             ompleLlistaCompres(gestioProductesTabValoracions._ProducteSeleccionat);
 
             if (gestioProductesTabValoracions._ProducteSeleccionat != null)
@@ -141,7 +145,10 @@ namespace Inversions.GUI
                 return;
             }
 
-            var compres = prodSeleccionat.MovimentsProducteUsuari.Where(w => w._EsCompra).ToList();
+            Moviment.AmbCartera = ckAmbCartera.Checked;
+            Moviment.AmbDividents = ckAmbDividends.Checked;
+
+            var compres = prodSeleccionat.MovimentsProducteUsuari.Where(w => w._EsCompra).OrderBy(o=>o.Data).ToList();
 
             SuspendLayout();
             dgvCompresProducte.SuspendLayout();
@@ -276,11 +283,27 @@ namespace Inversions.GUI
         private void dgvCompresProducte_SelectionChanged(object sender, EventArgs e)
         {
             double pig = 0;
+            double pigOrig = 0;
             foreach (DataGridViewRow selectedRow in dgvCompresProducte.SelectedRows)
             {
-                pig += ((Moviment) selectedRow.DataBoundItem)._PigDeLaCompra;
+                pig += ((Moviment)selectedRow.DataBoundItem).pigDeLaCompraEsElBooooo(ckAmbCartera.Checked, false, true, ckAmbDividends.Checked);
+                pigOrig += ((Moviment)selectedRow.DataBoundItem).pigDeLaCompraEsElBooooo(ckAmbCartera.Checked, true, false, false);
             }
             ntbPigCompra.Valor = Math.Round(pig, 2);
+            ntbPigCompraOrig.Valor = Math.Round(pigOrig, 2);
+        }
+
+        private void ckAmbCartera_CheckedChanged(object sender, EventArgs e)
+        {
+            PigOrigen.Visible = ckAmbCartera.Checked && gestioProductesTabValoracions._ProducteSeleccionat is ProdFons;
+            gbPigCompraOrig.Visible = PigOrigen.Visible;
+
+            ompleLlistaCompres(gestioProductesTabValoracions._ProducteSeleccionat);
+        }
+
+        private void ckAmbDividends_CheckedChanged(object sender, EventArgs e)
+        {
+            ompleLlistaCompres(gestioProductesTabValoracions._ProducteSeleccionat);
         }
     }
 }
