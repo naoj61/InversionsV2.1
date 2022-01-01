@@ -286,8 +286,8 @@ namespace Inversions.GUI
             double pigOrig = 0;
             foreach (DataGridViewRow selectedRow in dgvCompresProducte.SelectedRows)
             {
-                pig += ((Moviment)selectedRow.DataBoundItem).pigDeLaCompraEsElBooooo(ckAmbCartera.Checked, false, true, ckAmbDividends.Checked);
-                pigOrig += ((Moviment)selectedRow.DataBoundItem).pigDeLaCompraEsElBooooo(ckAmbCartera.Checked, true, false, false);
+                pig += ((Moviment)selectedRow.DataBoundItem).pigDeLaCompraEsElBooooo(ckAmbCartera.Checked, false, null, true, ckAmbDividends.Checked);
+                pigOrig += ((Moviment)selectedRow.DataBoundItem).pigDeLaCompraEsElBooooo(ckAmbCartera.Checked, true, null, false, false);
             }
             ntbPigCompra.Valor = Math.Round(pig, 2);
             ntbPigCompraOrig.Valor = Math.Round(pigOrig, 2);
