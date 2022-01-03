@@ -153,6 +153,36 @@ namespace Inversions
             var dataIni = dataHoraInici.GetValueOrDefault(DateTime.MinValue);
             var dataFi = dataHoraFinal.GetValueOrDefault(DateTime.MaxValue);
 
+            //var mov = Program.Sessio.MovimentsUsuari.ToList();
+            //var compresRealsX = mov.Where(w => w._EsCompraReal).Sum(s => s._ImportNet);
+            //var vendesRealsX = mov.Where(w => w._EsVendaReal).Sum(s => s._ImportNet);
+            //var div = mov.Where(w => w._EsDividents).Sum(s=>s._ImportNet);
+            //var tot = vendesRealsX + div - compresRealsX + 4194.26 + 70795.24 + 15073.20 + 15000;
+
+            uint? anyVendes = dataHoraFinal.HasValue ? (uint?)dataHoraFinal.Value.Year : null;
+            var vendesRealsAny = MovimentsProducteUsuari.Where(w => w._EsVendaReal && w.Data.Year == anyVendes).ToList();
+
+            List<Moviment> compres = new List<Moviment>();
+            foreach (Moviment vendaReal in vendesRealsAny)
+            {
+                // Creo llista de compres de les vendes del periode evitant duplicats.
+                foreach (Moviment compra in vendaReal.compresDeLaVenda4())
+                {
+                    if(!compres.Contains(compra))
+                        compres.Add(compra);
+                }
+            }
+
+            double sum = 0;
+            foreach (var compra in compres)
+            {
+                sum += compra.pigDeLaCompraEsElBooooo(inclouCartera, true, anyVendes, true, inclouDividends);
+            }
+            
+            return sum;
+
+
+
             var pigVendesReals = pig2Vendes(dataIni, dataFi, true);
             var pigEnCartera = inclouCartera ? pig2EnCartera(dataFi, null) : 0;
             var divid = inclouDividends ? dividends(dataIni, dataFi) : 0;

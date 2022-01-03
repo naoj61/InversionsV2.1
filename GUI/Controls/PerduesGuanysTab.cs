@@ -40,7 +40,7 @@ namespace Inversions.GUI
                 for (int any = Program.PrimerAny; any <= ultimAny; any++)
                 {
                     // *** PiG Tributa ***
-                    var pigTributa = Producte.Pig2(tipusProducte, any, false, false);
+                    var pigTributa = Producte.Pig2(tipusProducte, any, false, true);
                     if (!Utilitats.EsZero(pigTributa))
                         // Hi ha vendes reals en l'any.
                         dgvPiGAnualsTributen.Rows.Add(any, 0, 0, pigTributa);

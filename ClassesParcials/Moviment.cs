@@ -73,7 +73,7 @@ namespace Inversions
         [Description("S'utilitza en un DataGrid")]
         public double __PigDeLaCompra
         {
-            get { return pigDeLaCompraEsElBooooo(AmbCartera, false, true, AmbDividents); }
+            get { return pigDeLaCompraEsElBooooo(AmbCartera, false, null, true, AmbDividents); }
         }
 
         [Description("S'utilitza en un DataGrid")]
@@ -520,61 +520,93 @@ namespace Inversions
             if (!_EsCompra)
                 throw new Exception(String.Format("L'Id:{0}. Ha de ser una compra", Id));
             
-            var vendesRealsDeLaCompra = vendesDeLaCompra().Where(w => w._EsVendaReal).ToList();
-            var c1 = vendesRealsDeLaCompra.Count;
-            if (anyVenda.HasValue)
-                vendesRealsDeLaCompra = vendesRealsDeLaCompra.Where(w => w.Data.Year == anyVenda.Value).ToList();
+            /*
+             * He de comptar amb les vendes dels anys anteriors i les traspassos.
+             */
+
+            var vendesCompra = new Queue<Moviment>(vendesDeLaCompra().OrderBy(o => o.Data));
+            var desgloçCompra = new Queue<DesglosCompra>(DesglosCompres.OrderBy(o => o._DataOrig));
             
-            int c2 = vendesRealsDeLaCompra.Count;
-
-            var partsVenudes = vendesRealsDeLaCompra.Sum(s => s._ParticipacionsUtilitzades);
-
-            // Calcula el cost de les participacions venudes.
             double importCostCompra = 0;
+            double importVendesReals = 0;
+
+            Moviment venda = vendesCompra.Dequeue();
+            DesglosCompra desgloç = desgloçCompra.Dequeue();
+            double partsVendesResten = venda._ParticipacionsUtilitzades;
+            double partsDesgloçResten = desgloç.Participacions; // No utilitzo "_ParticipacionsUtilitzades"
+
+            while (true)
             {
-                var partsVenudesResten = partsVenudes;
-                foreach (var desglosCompra in DesglosCompres.OrderBy(o => o._DataOrig))
+                if (Utilitats.EsZero(partsVendesResten))
                 {
-                    if (Utilitats.EsZero(partsVenudesResten))
+                    if (!vendesCompra.Any())
+                        // No queden vendes.
+                        break;
+                
+                    // Llegeix venda.
+                    venda = vendesCompra.Dequeue();
+                    partsVendesResten = venda._ParticipacionsUtilitzades;
+                }
+
+                if (Utilitats.EsZero(partsDesgloçResten))
+                {
+                    if(!desgloçCompra.Any())
+                        // No queden desgloç.
                         break;
 
-                    double parts;
-                    if (Utilitats.ComparaNumeros(partsVenudesResten, desglosCompra.Participacions) >= 0)
-                    {
-                        parts = desglosCompra.Participacions;
-                        partsVenudesResten -= parts;
-                    }
-                    else
-                    {
-                        parts = partsVenudesResten;
-                        partsVenudesResten = 0;
-                    }
-
-                    if (pigOrigen)
-                    {
-                        var partsOrig = parts / desglosCompra.Participacions * desglosCompra.ParticipacionsOrig;
-                        importCostCompra += partsOrig * desglosCompra._PreuParticipacioOrig;
-                    }
-                    else
-                        importCostCompra += parts * desglosCompra._PreuParticipacio;
+                    // Llegeix desgloç compra.
+                    desgloç = desgloçCompra.Dequeue();
+                    partsDesgloçResten = desgloç.Participacions;  // No utilitzo "_ParticipacionsUtilitzades"
                 }
+
+                if (venda.Data.Year < anyVenda.GetValueOrDefault(0) || !venda._EsVendaReal)
+                {
+                    // Aquesta venda no entra en el PiG del any.
+
+                    if (Utilitats.ComparaNumeros(partsVendesResten, partsDesgloçResten) >= 0)
+                    {
+                        partsVendesResten -= partsDesgloçResten;
+                        partsDesgloçResten = 0;
+                    }
+                    else
+                    {
+                        partsDesgloçResten -= partsVendesResten;
+                        partsVendesResten = 0;
+                    }
+                    continue;
+                }
+
+                double parts = 0;
+
+                if (Utilitats.ComparaNumeros(partsDesgloçResten, partsVendesResten) >= 0)
+                    parts = partsVendesResten;
+                else
+                    parts = partsDesgloçResten;
+
+
+                if (pigOrigen)
+                {
+                    var partsOrig = parts / desgloç.Participacions * desgloç.ParticipacionsOrig;
+                    importCostCompra += partsOrig * desgloç._PreuParticipacioOrig;
+                    importVendesReals += parts * venda.PreuParticipacio;
+                }
+                else
+                {
+                    importCostCompra += parts * desgloç._PreuParticipacio;
+                    importVendesReals += parts * venda.PreuParticipacio;
+                    if (ambDespeses)
+                    {
+                        var desp = parts / desgloç.Participacions * Despeses.GetValueOrDefault();
+                        importCostCompra += desp;
+                        desp = parts / venda.Participacions * venda.Despeses.GetValueOrDefault();
+                        importVendesReals -= desp;
+                    }
+                }
+                partsDesgloçResten -= parts;
+                partsVendesResten -= parts;
             }
-
-            // Despeses de la compra.
-            double despeses = ambDespeses ? Despeses.GetValueOrDefault() / Participacions * partsVenudes : 0;
-
-            // Calcula l'import de les participacions venudes.
-            double importVendesReals = 0;
-            foreach (Moviment moviment in vendesRealsDeLaCompra)
-            {
-                importVendesReals += moviment._ParticipacionsUtilitzades * moviment.PreuParticipacio;
-
-                if (ambDespeses)
-                    // Afegeig les despeses per les vendes d'aquesta compra.
-                    despeses += moviment.Despeses.GetValueOrDefault() / moviment.Participacions * moviment._ParticipacionsUtilitzades;
-            }
-
-            return importVendesReals - importCostCompra - despeses;
+            
+            return importVendesReals - importCostCompra;
         }
 
         /// <summary>
