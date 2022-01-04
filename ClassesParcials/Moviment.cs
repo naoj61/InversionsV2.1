@@ -525,6 +525,9 @@ namespace Inversions
              */
 
             var vendesCompra = new Queue<Moviment>(vendesDeLaCompra().OrderBy(o => o.Data));
+            if (!vendesCompra.Any())
+                return 0;
+
             var desgloçCompra = new Queue<DesglosCompra>(DesglosCompres.OrderBy(o => o._DataOrig));
             
             double importCostCompra = 0;
@@ -615,7 +618,7 @@ namespace Inversions
         /// <param name="pigOrigen">Calcula el PiG respecte el valor de compra original.</param>
         /// <param name="ambDespeses">Afegeig les despeses.</param>
         /// <returns></returns>
-        private double pigEnCartera(bool pigOrigen, bool ambDespeses)
+        internal double pigEnCartera(bool pigOrigen, bool ambDespeses)
         {
             if (!_EsCompra)
                 throw new Exception(String.Format("L'Id:{0}. Ha de ser una compra", Id));

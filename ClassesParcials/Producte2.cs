@@ -16,20 +16,6 @@ namespace Inversions
     {
         #region ***** PiG *****
 
-        /// <summary>
-        /// PiG de tots els productes en un any. Vendes reals dins el periode.
-        /// Preu compra --> Preu origen.
-        /// Preu venda  --> Preu venda.
-        /// </summary>
-        /// <param name="tipusProducte"></param>
-        /// <param name="inclouCartera"></param>
-        /// <param name="inclouDividends">En la tributació a la renda els dividends tributen a part de les PiG de les accions. </param>
-        /// <returns></returns>
-        public static double Pig2(TipusProducte tipusProducte, bool inclouCartera, bool inclouDividends)
-        {
-            return Pig2(tipusProducte, null, DateTime.MinValue, DateTime.MaxValue, inclouCartera, inclouDividends);
-        }
-
 
         /// <summary>
         /// PiG de tots els productes en un any. Vendes reals dins el periode.
@@ -152,13 +138,7 @@ namespace Inversions
         {
             var dataIni = dataHoraInici.GetValueOrDefault(DateTime.MinValue);
             var dataFi = dataHoraFinal.GetValueOrDefault(DateTime.MaxValue);
-
-            //var mov = Program.Sessio.MovimentsUsuari.ToList();
-            //var compresRealsX = mov.Where(w => w._EsCompraReal).Sum(s => s._ImportNet);
-            //var vendesRealsX = mov.Where(w => w._EsVendaReal).Sum(s => s._ImportNet);
-            //var div = mov.Where(w => w._EsDividents).Sum(s=>s._ImportNet);
-            //var tot = vendesRealsX + div - compresRealsX + 4194.26 + 70795.24 + 15073.20 + 15000;
-
+            
             uint? anyVendes = dataHoraFinal.HasValue ? (uint?)dataHoraFinal.Value.Year : null;
             var vendesRealsAny = MovimentsProducteUsuari.Where(w => w._EsVendaReal && w.Data.Year == anyVendes).ToList();
 
@@ -189,6 +169,65 @@ namespace Inversions
             var pigTotal = pigVendesReals + pigEnCartera + divid;
 
             return pigTotal;
+        }
+
+
+        /// <summary>
+        /// Calcula el PiG de les accions en cartera a final d'any.
+        /// </summary>
+        /// <param name="any">És l'any de càlcul.</param>
+        /// <param name="pigOrigen">Calcula el PiG respecte el valor de compra original.</param>
+        /// <param name="ambDespeses">Afegeig les despeses.</param>
+        /// <returns></returns>
+        private double pig2Cartera(uint any, bool pigOrigen, bool ambDespeses)
+        {
+            var dataFiAny = Utilitats.DataHoraFinalAny((int) any);
+            var compres = compresDeLaVenda4(dataFiAny);
+            return compres.Sum(compra => compra.pigEnCartera(pigOrigen, ambDespeses));
+        }
+
+
+        /// <summary>
+        /// Calcula el PiG de les accions en cartera a final d'any de tots els productes.
+        /// </summary>
+        /// <param name="tipusProducte"></param>
+        /// <param name="tipusFons">Si null, tots els fons.</param>
+        /// <param name="any">És l'any de càlcul.</param>
+        /// <param name="pigOrigen">Calcula el PiG respecte el valor de compra original.</param>
+        /// <param name="ambDespeses">Afegeig les despeses.</param>
+        /// <returns></returns>
+        static internal double Pig2Cartera(TipusProducte tipusProducte, TipusFons? tipusFons, uint any, bool pigOrigen, bool ambDespeses)
+        {
+            List<Producte> prods = null;
+            switch (tipusProducte)
+            {
+                case TipusProducte.Accions:
+                    prods = new List<Producte>(Program.Sessio.ProdAccions);
+                    break;
+                case TipusProducte.Fons:
+                    if (tipusFons.HasValue)
+                    {
+                        switch (tipusFons.Value)
+                        {
+                            case TipusFons.RF:
+                                prods = new List<Producte>(Program.Sessio.ProdFons.Where(w => w.Tipus == TipusFons.RF));
+                                break;
+                            case TipusFons.RV:
+                                prods = new List<Producte>(Program.Sessio.ProdFons.Where(w => w.Tipus == TipusFons.RV));
+                                break;
+                            default:
+                                prods = new List<Producte>(Program.Sessio.ProdFons);
+                                break;
+                        }
+                    }
+                    else
+                        prods = new List<Producte>(Program.Sessio.ProdFons);
+                    break;
+                default:
+                    prods = Program.Sessio.Productes.ToList();
+                    break;
+            }
+            return prods.Sum(prod => prod.pig2CarteraTest(any, true, true));
         }
 
 
@@ -411,6 +450,17 @@ namespace Inversions
 
 
         #region **** Mètodes cridats des de Test *****
+
+
+        public double pig2CarteraTest(uint any, bool pigOrigen, bool ambDespeses)
+        {
+            return pig2Cartera(any, pigOrigen, ambDespeses);
+        }
+
+        static public double Pig2CarteraTest(TipusProducte tipusProducte, TipusFons? tipusFons, uint any, bool pigOrigen, bool ambDespeses)
+        {
+            return Pig2Cartera(tipusProducte, tipusFons, any, pigOrigen, ambDespeses);
+        }
 
         /// <summary>
         /// Torna la llista de les compres afectades per una venda amb data 'dataHoraVenda' i num parts 'numParticionsVenda'.

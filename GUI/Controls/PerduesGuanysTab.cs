@@ -35,40 +35,29 @@ namespace Inversions.GUI
 
                 dgvPiGAnualsTributen.Rows.Clear();
                 dgvPiGAnualsTotal.Rows.Clear();
-                double pigFinsAnyAnt = 0;
-                double pigTotal = 0;
+                double pigTotalTributa = 0;
                 for (int any = Program.PrimerAny; any <= ultimAny; any++)
                 {
                     // *** PiG Tributa ***
                     var pigTributa = Producte.Pig2(tipusProducte, any, false, true);
+                    pigTotalTributa += pigTributa;
                     if (!Utilitats.EsZero(pigTributa))
                         // Hi ha vendes reals en l'any.
                         dgvPiGAnualsTributen.Rows.Add(any, 0, 0, pigTributa);
 
 
                     // *** PiG Real ***
-                    var pigFinsAny = Producte.Pig2(tipusProducte, null, DateTime.MinValue, Utilitats.DataHoraFinalAny(any), true, true);
-                    var pigAny = pigFinsAny - pigFinsAnyAnt;
+                    var pigAny = Producte.Pig2Cartera(tipusProducte, null, (uint)any, true, true);
 
                     if (!Utilitats.EsZero(pigAny))
                     {
-                        if (any == DateTime.Today.Year)
-                            pigFinsAny += ntbDiferencia.Valor;
-
                         dgvPiGAnualsTotal.Rows.Add(any, pigAny);
-
-                        pigFinsAnyAnt = pigFinsAny;
-                        pigTotal += pigAny;
                     }
                 }
 
-                int fila = dgvPiGAnualsTributen.Rows.Add("Total", 0, 0, Producte.Pig2(tipusProducte, false, false));
+                int fila = dgvPiGAnualsTributen.Rows.Add("Total", 0, 0, pigTotalTributa);
                 dgvPiGAnualsTributen.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTributen.Font, FontStyle.Bold);
                 dgvPiGAnualsTributen.FirstDisplayedScrollingRowIndex = fila;
-
-                fila = dgvPiGAnualsTotal.Rows.Add("Total", pigTotal);
-                dgvPiGAnualsTotal.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTotal.Font, FontStyle.Bold);
-                dgvPiGAnualsTotal.FirstDisplayedScrollingRowIndex = fila;
             }
         }
 
