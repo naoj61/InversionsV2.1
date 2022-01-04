@@ -34,7 +34,6 @@ namespace Inversions.GUI
                 var ultimAny = DateTime.Today.Year;
 
                 dgvPiGAnualsTributen.Rows.Clear();
-                dgvPiGAnualsTotal.Rows.Clear();
                 double pigTotalTributa = 0;
                 for (int any = Program.PrimerAny; any <= ultimAny; any++)
                 {
@@ -44,20 +43,14 @@ namespace Inversions.GUI
                     if (!Utilitats.EsZero(pigTributa))
                         // Hi ha vendes reals en l'any.
                         dgvPiGAnualsTributen.Rows.Add(any, 0, 0, pigTributa);
-
-
-                    // *** PiG Real ***
-                    var pigAny = Producte.Pig2Cartera(tipusProducte, null, (uint)any, true, true);
-
-                    if (!Utilitats.EsZero(pigAny))
-                    {
-                        dgvPiGAnualsTotal.Rows.Add(any, pigAny);
                     }
-                }
 
                 int fila = dgvPiGAnualsTributen.Rows.Add("Total", 0, 0, pigTotalTributa);
                 dgvPiGAnualsTributen.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTributen.Font, FontStyle.Bold);
                 dgvPiGAnualsTributen.FirstDisplayedScrollingRowIndex = fila;
+
+                ntbPigActualPartsEnCartera.Valor = Producte.Pig2Cartera(tipusProducte, null, (uint)ultimAny, true, true);
+                ntbPigRealMesCartera.Valor = ntbPigActualPartsEnCartera.Valor + pigTotalTributa;
             }
         }
 
