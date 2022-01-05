@@ -142,6 +142,8 @@ namespace Inversions.GUI
             dgvCompresProducte.ResumeLayout();
             ResumeLayout();
 
+            ntbPigCompra.Valor = compres.Sum(s => s.__PigDeLaCompra);
+            ntbPigCompraOrig.Valor = compres.Sum(s => s.__PigDeLaCompraOrigen);
         }
 
 
