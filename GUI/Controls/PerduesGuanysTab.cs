@@ -35,21 +35,21 @@ namespace Inversions.GUI
 
                 dgvPiGAnualsTributen.Rows.Clear();
                 double pigTotalTributa = 0;
-                for (int any = Program.PrimerAny; any <= ultimAny; any++)
+                for (uint any = (uint) Program.PrimerAny; any <= ultimAny; any++)
                 {
                     // *** PiG Tributa ***
-                    var pigTributa = Producte.Pig2(tipusProducte, any, false, true);
+                    var pigTributa = Producte.Pig3(tipusProducte, null, any, false, true);
                     pigTotalTributa += pigTributa;
                     if (!Utilitats.EsZero(pigTributa))
                         // Hi ha vendes reals en l'any.
                         dgvPiGAnualsTributen.Rows.Add(any, 0, 0, pigTributa);
-                    }
+                }
 
                 int fila = dgvPiGAnualsTributen.Rows.Add("Total", 0, 0, pigTotalTributa);
                 dgvPiGAnualsTributen.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTributen.Font, FontStyle.Bold);
                 dgvPiGAnualsTributen.FirstDisplayedScrollingRowIndex = fila;
 
-                ntbPigActualPartsEnCartera.Valor = Producte.Pig2Cartera(tipusProducte, null, (uint)ultimAny, true, true);
+                ntbPigActualPartsEnCartera.Valor = Producte.Pig2Cartera(tipusProducte, null, (uint) ultimAny, true, true);
                 ntbPigRealMesCartera.Valor = ntbPigActualPartsEnCartera.Valor + pigTotalTributa;
             }
         }
@@ -130,7 +130,7 @@ namespace Inversions.GUI
             Moviment.AmbCartera = ckAmbCartera.Checked;
             Moviment.AmbDividents = ckAmbDividends.Checked;
 
-            var compres = prodSeleccionat.MovimentsProducteUsuari.Where(w => w._EsCompra).OrderBy(o=>o.Data).ToList();
+            var compres = prodSeleccionat.MovimentsProducteUsuari.Where(w => w._EsCompra).OrderBy(o => o.Data).ToList();
 
             SuspendLayout();
             dgvCompresProducte.SuspendLayout();
@@ -158,13 +158,13 @@ namespace Inversions.GUI
             {
                 dgvPiGProductePerAny.SuspendLayout();
 
-                Dictionary<int, double> anysPigTributa = new Dictionary<int, double>();
+                Dictionary<uint, double> anysPigTributa = new Dictionary<uint, double>();
                 double pigTotal = 0;
                 int fila;
 
-                for (int any = primerMovimentX.Data.Year; any <= DateTime.Today.Year; any++)
+                for (uint any = (uint) primerMovimentX.Data.Year; any <= DateTime.Today.Year; any++)
                 {
-                    anysPigTributa[any] = proSeleccionat.pig2Total(any, false, false);
+                    anysPigTributa[any] = proSeleccionat.pig3Total(any, false, false);
                 }
 
                 // Grid PiG Tributa del producte.
@@ -268,8 +268,8 @@ namespace Inversions.GUI
             double pigOrig = 0;
             foreach (DataGridViewRow selectedRow in dgvCompresProducte.SelectedRows)
             {
-                pig += ((Moviment)selectedRow.DataBoundItem).pigDeLaCompraEsElBooooo(ckAmbCartera.Checked, false, null, true, ckAmbDividends.Checked);
-                pigOrig += ((Moviment)selectedRow.DataBoundItem).pigDeLaCompraEsElBooooo(ckAmbCartera.Checked, true, null, false, false);
+                pig += ((Moviment) selectedRow.DataBoundItem).pigDeLaCompraEsElBooooo(ckAmbCartera.Checked, false, null, true, ckAmbDividends.Checked);
+                pigOrig += ((Moviment) selectedRow.DataBoundItem).pigDeLaCompraEsElBooooo(ckAmbCartera.Checked, true, null, false, false);
             }
             ntbPigCompra.Valor = Math.Round(pig, 2);
             ntbPigCompraOrig.Valor = Math.Round(pigOrig, 2);

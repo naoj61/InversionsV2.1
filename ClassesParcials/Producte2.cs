@@ -33,6 +33,7 @@ namespace Inversions
         }
 
 
+
         /// <summary>
         /// PiG de tots els productes en un any. Vendes reals dins el periode.
         /// Preu compra --> Preu origen.
@@ -48,7 +49,22 @@ namespace Inversions
         internal static double Pig2(TipusProducte tipusProducte, TipusFons? tipusFons,
             DateTime dataInici, DateTime dataFinal, bool inclouCartera, bool inclouDividends)
         {
+            IEnumerable<Producte> prods = seleccionaProds(tipusProducte, tipusFons);
+
+            return prods.Sum(prod => prod.pig2Total(dataInici, dataFinal, inclouCartera, inclouDividends));
+        }
+
+        internal static double Pig3(TipusProducte tipusProducte, TipusFons? tipusFons, uint any, bool inclouCartera, bool inclouDividends)
+        {
+            IEnumerable<Producte> prods = seleccionaProds(tipusProducte, tipusFons);
+
+            return prods.Sum(prod => prod.pig3Total(any, inclouCartera, inclouDividends));
+        }
+
+        private static IEnumerable<Producte> seleccionaProds(TipusProducte tipusProducte, TipusFons? tipusFons)
+        {
             List<Producte> prods = null;
+
             switch (tipusProducte)
             {
                 case TipusProducte.Accions:
@@ -60,10 +76,10 @@ namespace Inversions
                         switch (tipusFons.Value)
                         {
                             case TipusFons.RF:
-                                prods = new List<Producte>(Program.Sessio.ProdFons.Where(w=>w.Tipus == TipusFons.RF));
+                                prods = new List<Producte>(Program.Sessio.ProdFons.Where(w => w.Tipus == TipusFons.RF));
                                 break;
                             case TipusFons.RV:
-                                prods = new List<Producte>(Program.Sessio.ProdFons.Where(w=>w.Tipus == TipusFons.RV));
+                                prods = new List<Producte>(Program.Sessio.ProdFons.Where(w => w.Tipus == TipusFons.RV));
                                 break;
                             default:
                                 prods = new List<Producte>(Program.Sessio.ProdFons);
@@ -77,7 +93,8 @@ namespace Inversions
                     prods = Program.Sessio.Productes.ToList();
                     break;
             }
-            return prods.Sum(prod => prod.pig2Total(dataInici, dataFinal, inclouCartera, inclouDividends));
+
+            return prods;
         }
 
 
@@ -102,7 +119,7 @@ namespace Inversions
 
             return pigT;
         }
-    
+
         /// <summary>
         /// Calcula perdues i guanys de les vendes reals més els dividents entre les dates, inclou participacions en cartera si -> inclouCartera=true.
         /// </summary>
@@ -111,20 +128,6 @@ namespace Inversions
             return pig2Total(DateTime.MinValue, DateTime.MaxValue, true, true);
         }
 
-        /// <summary>
-        /// Calcula perdues i guanys de les vendes reals més els dividents entre les dates, inclou participacions en cartera si -> inclouCartera=true.
-        /// </summary>
-        /// <param name="any"></param>
-        /// <param name="inclouCartera">Indica si s'ha d'incloure els dividents.</param>
-        /// <param name="inclouDividends"></param>
-        /// <returns></returns>
-        internal double pig2Total(int any, bool inclouCartera, bool inclouDividends)
-        {
-            var dataIni = new DateTime(any, 1, 1);
-            var dataFi = dataIni.AddYears(1).AddMilliseconds(-1);
-
-            return pig2Total(dataIni, dataFi, inclouCartera, inclouDividends);
-        }
 
         /// <summary>
         /// Calcula perdues i guanys de les vendes reals més els dividents entre les dates, inclou participacions en cartera si -> inclouCartera=true.
@@ -138,8 +141,24 @@ namespace Inversions
         {
             var dataIni = dataHoraInici.GetValueOrDefault(DateTime.MinValue);
             var dataFi = dataHoraFinal.GetValueOrDefault(DateTime.MaxValue);
-            
-            uint? anyVendes = dataHoraFinal.HasValue ? (uint?)dataHoraFinal.Value.Year : null;
+
+            var pigVendesReals = pig2Vendes(dataIni, dataFi, true);
+            var pigEnCartera = inclouCartera ? pig2EnCartera(dataFi, null) : 0;
+            var divid = inclouDividends ? dividends(dataIni, dataFi) : 0;
+            var pigTotal = pigVendesReals + pigEnCartera + divid;
+
+            return pigTotal;
+        }
+
+        /// <summary>
+        /// Calcula perdues i guanys de les vendes reals més els dividents entre les dates, inclou participacions en cartera si -> inclouCartera=true.
+        /// </summary>
+        /// <param name="anyVendes"></param>
+        /// <param name="inclouCartera">Indica si s'ha d'incloure els dividents.</param>
+        /// <param name="inclouDividends">En la tributació a la renda els dividends tributen a part de les PiG de les accions. </param>
+        /// <returns></returns>
+        internal double pig3Total(uint anyVendes, bool inclouCartera, bool inclouDividends)
+        {
             var vendesRealsAny = MovimentsProducteUsuari.Where(w => w._EsVendaReal && w.Data.Year == anyVendes).ToList();
 
             List<Moviment> compres = new List<Moviment>();
@@ -148,7 +167,7 @@ namespace Inversions
                 // Creo llista de compres de les vendes del periode evitant duplicats.
                 foreach (Moviment compra in vendaReal.compresDeLaVenda4())
                 {
-                    if(!compres.Contains(compra))
+                    if (!compres.Contains(compra))
                         compres.Add(compra);
                 }
             }
@@ -158,17 +177,8 @@ namespace Inversions
             {
                 sum += compra.pigDeLaCompraEsElBooooo(inclouCartera, true, anyVendes, true, inclouDividends);
             }
-            
+
             return sum;
-
-
-
-            var pigVendesReals = pig2Vendes(dataIni, dataFi, true);
-            var pigEnCartera = inclouCartera ? pig2EnCartera(dataFi, null) : 0;
-            var divid = inclouDividends ? dividends(dataIni, dataFi) : 0;
-            var pigTotal = pigVendesReals + pigEnCartera + divid;
-
-            return pigTotal;
         }
 
 
@@ -196,7 +206,7 @@ namespace Inversions
         /// <param name="pigOrigen">Calcula el PiG respecte el valor de compra original.</param>
         /// <param name="ambDespeses">Afegeig les despeses.</param>
         /// <returns></returns>
-        static internal double Pig2Cartera(TipusProducte tipusProducte, TipusFons? tipusFons, uint any, bool pigOrigen, bool ambDespeses)
+        internal static double Pig2Cartera(TipusProducte tipusProducte, TipusFons? tipusFons, uint any, bool pigOrigen, bool ambDespeses)
         {
             List<Producte> prods = null;
             switch (tipusProducte)
@@ -323,7 +333,7 @@ namespace Inversions
         }
 
         #endregion ***** PiG *****
-        
+
 
         /// <summary>
         /// Torna la llista de les compres afectades per una venda amb data 'dataHoraVenda' i num parts 'numParticionsVenda'.
@@ -336,7 +346,7 @@ namespace Inversions
         internal IEnumerable<Moviment> compresDeLaVenda4(DateTime dataHoraVenda, double? numParticionsVenda = null)
         {
             List<Moviment> compres = new List<Moviment>();
-            
+
             var numParts = numParticionsVenda.GetValueOrDefault(numParticipacionsEnData(dataHoraVenda));
 
             if (Utilitats.EsZero(numParts))
@@ -390,7 +400,7 @@ namespace Inversions
         }
 
 
-        
+
         /// <summary>
         /// Calcula el cost original de les participacions en cartera. Inclou despeses. 
         /// </summary>
@@ -432,7 +442,7 @@ namespace Inversions
             return preuOrig2;
         }
 
-        
+
         /// <summary>
         /// Torna les participacions en una data hora determinada. No te en compte els moviments del mateix dia fets en hora posterior.
         /// </summary>
@@ -457,7 +467,7 @@ namespace Inversions
             return pig2Cartera(any, pigOrigen, ambDespeses);
         }
 
-        static public double Pig2CarteraTest(TipusProducte tipusProducte, TipusFons? tipusFons, uint any, bool pigOrigen, bool ambDespeses)
+        public static double Pig2CarteraTest(TipusProducte tipusProducte, TipusFons? tipusFons, uint any, bool pigOrigen, bool ambDespeses)
         {
             return Pig2Cartera(tipusProducte, tipusFons, any, pigOrigen, ambDespeses);
         }
@@ -490,9 +500,9 @@ namespace Inversions
         }
 
 
-        public double pig2TotalTest(int any, bool inclouCartera, bool inclouDividends)
+        public double pig3TotalTest(uint any, bool inclouCartera, bool inclouDividends)
         {
-            return pig2Total(any, inclouCartera, inclouDividends);
+            return pig3Total(any, inclouCartera, inclouDividends);
         }
 
         public double pig2TotalTest(DateTime? dataHoraInici = null, DateTime? dataHoraFinal = null, bool inclouCartera = true, bool inclouDividends = false)
