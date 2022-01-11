@@ -674,7 +674,7 @@ namespace Inversions
                 throw new ApplicationException("No és una acció. Només es pot fer l'split si és una acció.");
 
             var descripcio = String.Format("{0}. Factor conversor: {1}.", "Split", factorConversor);
-            var compres = compresDeParticions(dataHora, _Participacions).ToList();
+            var compres = compresDeParticions2(dataHora, _Participacions).ToList();
 
             foreach (var compra in compres)
             {
@@ -729,7 +729,7 @@ namespace Inversions
                 throw new ApplicationException("No és una acció. Només es pot fer l'split si és una acció.");
 
             var descripcio = String.Format("{0}. Factor conversor: {1}. Preu operació: {2}.", "ContraSplit", factorConversor, preuOperacio);
-            var compresAnt = compresDeParticions(dataHora, _Participacions).ToList();
+            var compresAnt = compresDeParticions2(dataHora, _Participacions).ToList();
 
             foreach (var movimentCompra in compresAnt)
             {
