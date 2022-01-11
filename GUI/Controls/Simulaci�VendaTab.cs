@@ -19,6 +19,8 @@ namespace Inversions.GUI
         public SimulacióVendaTab()
         {
             InitializeComponent();
+
+            refresca();
         }
 
 
@@ -71,6 +73,8 @@ namespace Inversions.GUI
                 ntbPreuParticipacio.Valor = 0;
                 ntbPerduesAnteriors.Valor = 0;
                 ntbPigTributa.Valor = 0;
+
+                dgvCompresOriginals.Rows.Clear();
             }
             else
             {
@@ -84,6 +88,147 @@ namespace Inversions.GUI
 
                 ompleValors();
             }
+            ompleDgvCompres(null);
+        }
+
+        struct FilaCompresOriginals
+        {
+            private static double? PreuPartActual;
+
+            private readonly DesglosCompra vDesglosCompra;
+ 
+
+            public FilaCompresOriginals(DesglosCompra desglosCompra)
+                : this()
+            {
+                vDesglosCompra = desglosCompra;
+            }
+
+
+            internal static double? _PreuPartActual
+            {
+                set { PreuPartActual = value; }
+            }
+
+            private double preuPartActual()
+            {
+                return PreuPartActual.GetValueOrDefault(vDesglosCompra.MovCompra.Prod._PreuParticipacioActual);
+            }
+
+            [Description("S'utilitza en un DataGrid")]
+            public int _IdOrig
+            {
+                get { return vDesglosCompra.MovCompraOrig.Id; }
+            }
+
+            [Description("S'utilitza en un DataGrid")]
+            public DateTime _DataOrig
+            {
+                get { return vDesglosCompra.MovCompraOrig.Data; }
+            }
+
+            [Description("S'utilitza en un DataGrid")]
+            public DateTime _DataCompra
+            {
+                get { return vDesglosCompra.MovCompra.Data; }
+            }
+
+            [Description("S'utilitza en un DataGrid")]
+            public double _Participacions
+            {
+                get { return vDesglosCompra.Participacions; }
+            }
+
+            [Description("S'utilitza en un DataGrid")]
+            public double _ParticipacionsUtilitzades
+            {
+                get { return vDesglosCompra._ParticipacionsUtilitzades; }
+            }
+
+            [Description("S'utilitza en un DataGrid")]
+            public double _PigDeLaCompraOrigen
+            {
+                get
+                {
+                    var costOrig = vDesglosCompra.MovCompraOrig.PreuParticipacio * vDesglosCompra._ParticipacionsUtilitzadesOrig;
+                    var valorAct = preuPartActual() * vDesglosCompra._ParticipacionsUtilitzades;
+
+                    return valorAct - costOrig;
+                }
+            }
+
+            [Description("S'utilitza en un DataGrid")]
+            public double _PigDeLaCompra
+            {
+                get
+                {
+                    var cost = vDesglosCompra.MovCompra.PreuParticipacio * vDesglosCompra._ParticipacionsUtilitzades;
+                    var valorAct = preuPartActual() * vDesglosCompra._ParticipacionsUtilitzades;
+
+                    return valorAct - cost;
+                }
+            }
+
+
+            #region *** Mètodes sobreescrits ***
+
+            public static bool operator ==(FilaCompresOriginals a, FilaCompresOriginals b)
+            {
+                return a._IdOrig == b._IdOrig;
+            }
+
+            public static bool operator !=(FilaCompresOriginals a, FilaCompresOriginals b)
+            {
+                return !(a == b);
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (!(obj is FilaCompresOriginals))
+                    return false;
+
+                return _IdOrig == ((FilaCompresOriginals)obj)._IdOrig;
+            }
+
+            public override int GetHashCode()
+            {
+                return _IdOrig;
+            }
+
+            #endregion *** Mètodes sobreescrits ***
+            
+        }
+
+        private void ompleDgvCompres(double? preuPartActual)
+        {
+            if (vProducteSeleccionat == null)
+                return;
+
+            var compresPartsEnCartera = vProducteSeleccionat.compresDeLaVenda4(DateTime.Now, ntbNumParticipacions.Valor);
+
+            Debug.WriteLine("\n\nParticipacions a repartir:\t"+ ntbNumParticipacions.Valor.ToString("0.###", CultureInfo.CurrentCulture));
+
+
+            List<FilaCompresOriginals> compresProdSelecionat = new List<FilaCompresOriginals>();
+            FilaCompresOriginals._PreuPartActual = preuPartActual;
+            foreach (var compra in compresPartsEnCartera)
+            {
+                foreach (var desglosCompra in compra.DesglosCompres)
+                {
+                    if (desglosCompra._ParticipacionsUtilitzades > 0)
+                        compresProdSelecionat.Add(new FilaCompresOriginals(desglosCompra));
+                }
+            }
+
+            SuspendLayout();
+            dgvCompresOriginals.SuspendLayout();
+            //dgvCompresOriginals.SelectionChanged -= dgvCompresOriginals;
+            dgvCompresOriginals.DataSource = compresProdSelecionat.OrderBy(o => o._DataOrig).ThenBy(o => o._DataCompra).ToList();
+            //dgvCompresOriginals.ClearSelection();
+            //dgvCompresOriginals.SelectionChanged += dgvCompresOriginals;
+            dgvCompresOriginals.ResumeLayout();
+            ResumeLayout();
+
         }
 
         private void btSimulacio_Click(object sender, EventArgs e)
@@ -95,6 +240,7 @@ namespace Inversions.GUI
             }
 
             ompleValors();
+            ompleDgvCompres(ntbPreuParticipacio.Valor);
         }
 
         private void btRecalcula_Click(object sender, EventArgs e)
