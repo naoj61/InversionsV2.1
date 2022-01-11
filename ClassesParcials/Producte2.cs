@@ -245,7 +245,7 @@ namespace Inversions
         private double pig2Cartera(uint any, bool pigOrigen, bool ambDespeses)
         {
             var dataFiAny = Utilitats.DataHoraFinalAny((int)any);
-            var compres = compresDeLaVenda4(dataFiAny);
+            var compres = compresDeParticions(dataFiAny);
             return compres.Sum(compra => compra.pigEnCartera(pigOrigen, ambDespeses));
         }
 
@@ -303,11 +303,11 @@ namespace Inversions
 
 
         /// <summary>
-        /// Torna la llista de les compres afectades per una venda amb data 'dataHoraVenda' i num parts 'numParticionsVenda'.
+        /// Torna la llista de les compres de les particions del producte en una data..
         /// la venda pot ser que encara no existeixi en la taula moviments o que siguin les participacions en cartera.
         /// </summary>
-        /// <param name="dataHoraVenda">Es buscaran compres i vendes anteriors a aquesta data.</param>
-        /// <param name="numParticionsVenda">Son les particions venudes a les que buscaré les seves compres. 
+        /// <param name="dataHoraVenda">Es buscaran compres anteriors a aquesta data.</param>
+        /// <param name="numParticionsVenda">Son les particions de les que buscaré les seves compres.
         /// Si null utilitza les participacions en cartera a la data.</param>
         /// <returns></returns>
         internal IEnumerable<Moviment> compresDeLaVenda4(DateTime dataHoraVenda, double? numParticionsVenda = null)
@@ -381,7 +381,7 @@ namespace Inversions
             if (numPartsMax.HasValue && numPartsMax.Value > partsEnCartera)
                 throw new ArgumentException("'numPartsMax' és més gran que les participacions en cartera.", "numPartsMax");
 
-            var compresAnt = compresDeLaVenda4(dataHoraFinal.GetValueOrDefault(DateTime.Now), partsEnCartera).ToList();
+            var compresAnt = compresDeParticions(dataHoraFinal.GetValueOrDefault(DateTime.Now), partsEnCartera).ToList();
 
             var partsPerCalcul = compresAnt.Sum(s => s._ParticipacionsUtilitzades);
 
@@ -446,9 +446,9 @@ namespace Inversions
         /// <param name="numParticionsVenda">Son les particions venudes a les que buscaré les seves compres. 
         /// Si null utilitza les participacions en cartera a la data.</param>
         /// <returns></returns>
-        public IEnumerable<Moviment> compresDeLaVenda4Test(DateTime dataHoraVenda, double? numParticionsVenda = null)
+        public IEnumerable<Moviment> compresDeParticionsTest(DateTime dataHoraVenda, double? numParticionsVenda = null)
         {
-            return compresDeLaVenda4(dataHoraVenda, numParticionsVenda);
+            return compresDeParticions(dataHoraVenda, numParticionsVenda);
         }
 
         public double pig2EnCarteraTest(DateTime? dataHoraFinal = null, double? numParts = null, double? preuParticipacio = null)

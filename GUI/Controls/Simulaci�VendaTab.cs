@@ -204,10 +204,7 @@ namespace Inversions.GUI
             if (vProducteSeleccionat == null)
                 return;
 
-            var compresPartsEnCartera = vProducteSeleccionat.compresDeLaVenda4(DateTime.Now, ntbNumParticipacions.Valor);
-
-            Debug.WriteLine("\n\nParticipacions a repartir:\t"+ ntbNumParticipacions.Valor.ToString("0.###", CultureInfo.CurrentCulture));
-
+            var compresPartsEnCartera = vProducteSeleccionat.compresDeParticions(DateTime.Now, ntbNumParticipacions.Valor);
 
             List<FilaCompresOriginals> compresProdSelecionat = new List<FilaCompresOriginals>();
             FilaCompresOriginals._PreuPartActual = preuPartActual;
