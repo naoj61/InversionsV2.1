@@ -310,7 +310,7 @@ namespace Inversions
         /// <param name="numParticionsVenda">Son les particions de les que buscaré les seves compres.
         /// Si null utilitza les participacions en cartera a la data.</param>
         /// <returns></returns>
-        internal IEnumerable<Moviment> compresDeLaVenda4(DateTime dataHoraVenda, double? numParticionsVenda = null)
+        internal IEnumerable<Moviment> compresDeParticions(DateTime dataHoraVenda, double? numParticionsVenda = null)
         {
             List<Moviment> compres = new List<Moviment>();
 
