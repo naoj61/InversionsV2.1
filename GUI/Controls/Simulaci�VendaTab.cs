@@ -204,25 +204,16 @@ namespace Inversions.GUI
             if (vProducteSeleccionat == null)
                 return;
 
-            var compresPartsEnCartera = vProducteSeleccionat.compresDeParticions2(DateTime.Now, ntbNumParticipacions.Valor);
+            var desgloçPartsEnCartera = vProducteSeleccionat.desglosDeParticions(DateTime.Now, ntbNumParticipacions.Valor);
 
-            List<FilaCompresOriginals> compresProdSelecionat = new List<FilaCompresOriginals>();
             FilaCompresOriginals._PreuPartActual = preuPartActual;
-            foreach (var compra in compresPartsEnCartera)
-            {
-                foreach (var desglosCompra in compra.DesglosCompres)
-                {
-                    if (desglosCompra._ParticipacionsUtilitzades > 0)
-                        compresProdSelecionat.Add(new FilaCompresOriginals(desglosCompra));
-                }
-            }
+
+            List<FilaCompresOriginals> compresProdSelecionat = 
+                desgloçPartsEnCartera.Select(desglosCompra => new FilaCompresOriginals(desglosCompra)).ToList();
 
             SuspendLayout();
             dgvCompresOriginals.SuspendLayout();
-            //dgvCompresOriginals.SelectionChanged -= dgvCompresOriginals;
             dgvCompresOriginals.DataSource = compresProdSelecionat.ToList();
-            //dgvCompresOriginals.ClearSelection();
-            //dgvCompresOriginals.SelectionChanged += dgvCompresOriginals;
             dgvCompresOriginals.ResumeLayout();
             ResumeLayout();
 
