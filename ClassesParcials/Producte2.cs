@@ -303,6 +303,86 @@ namespace Inversions
 
 
         /// <summary>
+        /// Torna la llista de les desgloç compres de les particions del producte en una data.
+        /// la venda pot ser que encara no existeixi en la taula moviments o que siguin les participacions en cartera.
+        /// </summary>
+        /// <param name="dataHora">Es buscaran compres anteriors a aquesta data.</param>
+        /// <param name="numParticions">Son les particions de les que buscaré les seves compres.
+        /// Si null utilitza les participacions en cartera a la data.</param>
+        /// <returns></returns>
+        internal IEnumerable<DesglosCompra> desglosDeParticions(DateTime dataHora, double? numParticions = null)
+        {
+            var numParts = numParticions.GetValueOrDefault(numParticipacionsEnData(dataHora));
+
+            if (Utilitats.EsZero(numParts))
+                return new List<DesglosCompra>();
+
+
+            // Totes les compres del producte.
+            var compresProd = MovimentsProducteUsuari.Where(w => w._EsCompra).OrderBy(o => o.Data).ToList();
+
+            // *** Reinicia _ParticipacionsDisponibles ***
+            Moviment.ResetParticipacionsDeTreball(compresProd);
+
+
+            // Desgloç de totes les compres anteriors a la dataHora ordenades per data.
+            List<DesglosCompra> desglosCompresAnt = new List<DesglosCompra>();
+            foreach (var compra in compresProd)
+                desglosCompresAnt.AddRange(compra.DesglosCompres.Where(w => w._DataOrig < dataHora));
+
+            // Ordeno primer per MovCompra.Data per què alhora de restar vendes he d'agafar primer les compres del producte i despres les compres Orig.
+            desglosCompresAnt = desglosCompresAnt.OrderBy(o => o.MovCompra.Data).ThenBy(o=>o._DataOrig).ToList();
+
+
+            // Llista de desgloç compres de les participacions numParticions.
+            List<DesglosCompra> dComp = new List<DesglosCompra>();
+
+            var restaPartsOcupades = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data < dataHora).Sum(s => s.Participacions);
+            var restaPartsVendaActual = numParts;
+
+            foreach (var desglosCompraAnt in desglosCompresAnt)
+            {
+                desglosCompraAnt._ParticipacionsUtilitzades = 0;
+
+                if (Utilitats.ComparaNumeros(restaPartsOcupades, 0) > 0)
+                {
+                    // Descompta les participacions venudes abans.
+                    if (Utilitats.ComparaNumeros(restaPartsOcupades, desglosCompraAnt.Participacions) > 0)
+                    {
+                        // Tota la compra estava venuda abans.
+                        desglosCompraAnt._ParticipacionsOcupades = desglosCompraAnt.Participacions;
+                        
+                        restaPartsOcupades -= desglosCompraAnt.Participacions;
+                        continue;
+                    }
+
+                    // Descompto les participacions venudes abans.
+                    desglosCompraAnt._ParticipacionsOcupades = restaPartsOcupades;
+                    restaPartsOcupades = 0;
+                }
+
+                if (Utilitats.ComparaNumeros(restaPartsVendaActual, desglosCompraAnt._ParticipacionsDisponibles) > 0)
+                {
+                    var partsDisp = desglosCompraAnt._ParticipacionsDisponibles;
+                    desglosCompraAnt._ParticipacionsUtilitzades = partsDisp;
+                    restaPartsVendaActual -= partsDisp;
+                }
+                else
+                {
+                    desglosCompraAnt._ParticipacionsUtilitzades = restaPartsVendaActual;
+                    restaPartsVendaActual = 0;
+                }
+
+                dComp.Add(desglosCompraAnt);
+
+                if (Utilitats.EsZero(restaPartsVendaActual))
+                    break;
+            }
+
+            return dComp;
+        }
+
+        /// <summary>
         /// Torna la llista de les compres de les particions del producte en una data..
         /// la venda pot ser que encara no existeixi en la taula moviments o que siguin les participacions en cartera.
         /// </summary>
@@ -310,71 +390,12 @@ namespace Inversions
         /// <param name="numParticions">Son les particions de les que buscaré les seves compres.
         /// Si null utilitza les participacions en cartera a la data.</param>
         /// <returns></returns>
+
         internal IEnumerable<Moviment> compresDeParticions2(DateTime dataHora, double? numParticions = null)
         {
+            var dComp = desglosDeParticions(dataHora, numParticions);
+
             List<Moviment> compres = new List<Moviment>();
-
-            var numParts = numParticions.GetValueOrDefault(numParticipacionsEnData(dataHora));
-
-            if (Utilitats.EsZero(numParts))
-                return compres;
-
-
-            // Totes les compres del producte.
-            var compresAnt = MovimentsProducteUsuari.Where(w => w._EsCompra).OrderBy(o => o.Data).ToList();
-
-
-            // Totes les compres anteriors a la dataHora desgloçades i ordenades.
-            List<DesglosCompra> desglosCompresAnt = new List<DesglosCompra>();
-            foreach (var compra in compresAnt)
-                desglosCompresAnt.AddRange(compra.DesglosCompres.Where(w => w._DataOrig < dataHora));
-            desglosCompresAnt = desglosCompresAnt.OrderBy(o => o._DataOrig).ToList();
-
-
-            // *** Reinicia _ParticipacionsDisponibles ***
-            Moviment.ResetParticipacionsDeTreball(compresAnt);
-
-
-            // Llista de desgloç compres de les participacions numParticions.
-            List<DesglosCompra> dComp = new List<DesglosCompra>();
-
-            var numPartsVenudesAbans = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data < dataHora).Sum(s => s.Participacions);
-            var partRestantsVendaActual = numParts;
-
-            foreach (var desglosCompraAnt in desglosCompresAnt)
-            {
-                if (Utilitats.ComparaNumeros(numPartsVenudesAbans, 0) > 0)
-                {
-                    // Descompta les participacions venudes abans.
-                    if (Utilitats.ComparaNumeros(numPartsVenudesAbans, desglosCompraAnt.Participacions) >= 0)
-                    {
-                        // Tota la compra estava venuda abans.
-                        numPartsVenudesAbans -= desglosCompraAnt.Participacions;
-                        continue;
-                    }
-
-                    // Descompto les participacions venudes abans.
-                    desglosCompraAnt._ParticipacionsOcupades = numPartsVenudesAbans;
-                    numPartsVenudesAbans = 0;
-                }
-
-                if (Utilitats.ComparaNumeros(partRestantsVendaActual, desglosCompraAnt._ParticipacionsDisponibles) > 0)
-                {
-                    var partsDisp = desglosCompraAnt._ParticipacionsDisponibles;
-                    desglosCompraAnt._ParticipacionsUtilitzades = partsDisp;
-                    partRestantsVendaActual -= partsDisp;
-                }
-                else
-                {
-                    desglosCompraAnt._ParticipacionsUtilitzades = partRestantsVendaActual;
-                    partRestantsVendaActual = 0;
-                }
-
-                dComp.Add(desglosCompraAnt);
-
-                if (Utilitats.EsZero(partRestantsVendaActual))
-                    break;
-            }
 
             foreach (var desglosCompra in dComp)
             {

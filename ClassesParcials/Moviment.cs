@@ -191,6 +191,8 @@ namespace Inversions
             {
                 if (_EsCompra)
                 {
+                    throw new ArgumentException(String.Format("El moviment ha de ser una compra. Id={0}.", Id));
+
                     var valor = value;
                     foreach (var desglosCompra in DesglosCompres.OrderBy(o => o._DataOrig))
                     {
@@ -230,7 +232,7 @@ namespace Inversions
         {
             get
             {
-                if (_EsCompra || TipusMoviment == TipusMoviment.Split || TipusMoviment == TipusMoviment.ContraSplit)
+                if (_EsCompra)
                     return DesglosCompres.Sum(s => s._ParticipacionsUtilitzades);
                 if (_EsVenda)
                     return vParticipacionsUtilitzades;
@@ -241,6 +243,8 @@ namespace Inversions
             {
                 if (_EsCompra)
                 {
+                    throw new ArgumentException(String.Format("El moviment ha de ser una compra. Id={0}.", Id));
+
                     var valor = value;
                     foreach (var desglosCompra in DesglosCompres.OrderBy(o => o._DataOrig))
                     {
@@ -757,45 +761,29 @@ namespace Inversions
             if (_EsTraspas)
             {
                 // ** És un traspàs.
-                var compresDeLaVenda = vendaTraspas.compresDeLaVenda4().ToList();
+            
+                var desgloçCompresVenda = vendaTraspas.Prod.desglosDeParticions(vendaTraspas.Data, vendaTraspas.Participacions).ToList();
 
-                List<DesglosCompra> desg = new List<DesglosCompra>();
-                foreach (var compra in compresDeLaVenda)
-                    desg.AddRange(compra.DesglosCompres);
-
-                //desg = desg.OrderBy(o => o._DataOrig).ToList();
-
-                //foreach (DesglosCompra dc in desg)
-                //{
-                //    Debug.WriteLine("{0}\t{1}\t{2}\t{3}"
-                //        , dc, dc._ParticipacionsUtilitzades.ToString(CultureInfo.CurrentCulture)
-                //        , dc.Participacions.ToString(CultureInfo.CurrentCulture)
-                //        , dc.ParticipacionsOrig.ToString(CultureInfo.CurrentCulture));
-                //}
-
-                var agrupatPerIdOrig = desg.OrderBy(o => o._DataOrig).GroupBy(g => g.MovCompraOrig)
+                var agrupatPerIdOrig = desgloçCompresVenda.OrderBy(o => o._DataOrig).GroupBy(g => g.MovCompraOrig)
                     .Select(s => new
                     {
                         movOrig = s.Key,
-                        partsDesgl = s.Sum(x => x.Participacions),
-                        partsUtilpDesgl = s.Sum(x => x._ParticipacionsUtilitzades),
-                        partsOrigDesgl = s.Sum(x => x.ParticipacionsOrig),
-                        partsUtilOrig = s.Sum(x => x._ParticipacionsUtilitzadesOrig)
+                        sumPartsUtil = s.Sum(x => x._ParticipacionsUtilitzades),
+                        sumPartsUtilOrig = s.Sum(x => x._ParticipacionsUtilitzadesOrig)
                     });
 
                 foreach (var grup in agrupatPerIdOrig)
                 {
-                    if (Utilitats.EsZero(grup.partsUtilpDesgl))
+                    if (Utilitats.EsZero(grup.sumPartsUtil))
                         continue;
 
                     DesglosCompra desglosCompra = connexio.DesglosCompras.Create();
 
                     // ** Per obtenir parts desgloç Traspas C
-                    desglosCompra.Participacions = Math.Round(grup.partsUtilpDesgl / vendaTraspas.Participacions * Participacions, 4);
+                    desglosCompra.Participacions = Math.Round(grup.sumPartsUtil / vendaTraspas.Participacions * Participacions, 4);
 
                     // ** Per obtenir parts orig desgloç Traspas C
-                    //desglosCompra.ParticipacionsOrig = Math.Round(grup.partsDispDesgl / grup.partsDesgl * grup.partsOrigDesgl, 4);
-                    desglosCompra.ParticipacionsOrig = Math.Round(grup.partsUtilOrig, 4);
+                    desglosCompra.ParticipacionsOrig = Math.Round(grup.sumPartsUtilOrig, 4);
 
                     this.DesglosCompres.Add(desglosCompra);
                     grup.movOrig.DesglosCompresOrig.Add(desglosCompra);
@@ -811,8 +799,6 @@ namespace Inversions
                 desglosCompra.Participacions = Math.Round(this.Participacions, 4);
                 desglosCompra.ParticipacionsOrig = Math.Round(this.Participacions, 4);
 
-                //desglosCompra.RefCompraId = this.Id;
-                //desglosCompra.RefCompraOrigId = this.Id;
                 this.DesglosCompres.Add(desglosCompra);
                 this.DesglosCompresOrig.Add(desglosCompra);
 

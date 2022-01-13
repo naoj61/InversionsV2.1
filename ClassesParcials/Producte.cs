@@ -466,6 +466,12 @@ namespace Inversions
                 throw new ArgumentException("El valor ha de ser major de zero", "numParticipacions");
         }
 
+        public void desaTraspasTest(InversionsBDContext connexio, DateTime dataHoraVenda, double participacionsVenda, double preuParticipacioVenda,
+            string descripcio, DateTime dataHoraCompra, Producte prodCompra, double participacionsCompra, bool afegeigPreuAValoracions = true)
+        {
+            desaTraspas(connexio, dataHoraVenda, participacionsVenda, preuParticipacioVenda,
+                descripcio, dataHoraCompra, prodCompra, participacionsCompra, afegeigPreuAValoracions);
+        }
 
         /// <summary>
         /// Traspàs de un fons.
@@ -479,7 +485,7 @@ namespace Inversions
         /// <param name="prodCompra"></param>
         /// <param name="participacionsCompra"></param>
         /// <param name="afegeigPreuAValoracions"></param>
-        public void desaTraspas(InversionsBDContext connexio, DateTime dataHoraVenda, double participacionsVenda, double preuParticipacioVenda, 
+        internal void desaTraspas(InversionsBDContext connexio, DateTime dataHoraVenda, double participacionsVenda, double preuParticipacioVenda, 
             string descripcio, DateTime dataHoraCompra, Producte prodCompra, double participacionsCompra, bool afegeigPreuAValoracions = true)
         {
             dataHoraVenda = Utilitats.ArrodoneixoDataASegons(dataHoraVenda);
