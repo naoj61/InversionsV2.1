@@ -204,7 +204,7 @@ namespace Inversions.GUI
             if (vProducteSeleccionat == null)
                 return;
 
-            var desgloçPartsEnCartera = vProducteSeleccionat.desglosDeParticions(DateTime.Now, ntbNumParticipacions.Valor);
+            var desgloçPartsEnCartera = vProducteSeleccionat.desglosDeCompres(DateTime.Now, ntbNumParticipacions.Valor);
 
             FilaCompresOriginals._PreuPartActual = preuPartActual;
 
@@ -213,7 +213,7 @@ namespace Inversions.GUI
 
             SuspendLayout();
             dgvCompresOriginals.SuspendLayout();
-            dgvCompresOriginals.DataSource = compresProdSelecionat.ToList();
+            dgvCompresOriginals.DataSource = compresProdSelecionat.OrderBy(o=>o._DataOrig).ToList();
             dgvCompresOriginals.ResumeLayout();
             ResumeLayout();
 

@@ -762,7 +762,7 @@ namespace Inversions
             {
                 // ** És un traspàs.
             
-                var desgloçCompresVenda = vendaTraspas.Prod.desglosDeParticions(vendaTraspas.Data, vendaTraspas.Participacions).ToList();
+                var desgloçCompresVenda = vendaTraspas.Prod.desglosDeCompres(vendaTraspas.Data, vendaTraspas.Participacions).ToList();
 
                 var agrupatPerIdOrig = desgloçCompresVenda.OrderBy(o => o._DataOrig).GroupBy(g => g.MovCompraOrig)
                     .Select(s => new
