@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,10 @@ namespace Inversions.GUI
         {
             InitializeComponent();
 
+            var xx = Convert.ToInt32(Program.LlegeigVariableEnRegistreWindows("ColumnaPreuParticio", false));
+            cbColumnaPreuParticio.SelectedIndex = Convert.ToInt32(Program.LlegeigVariableEnRegistreWindows("ColumnaPreuParticio", false));
+            cbColumnaPreuParticio.SelectedIndexChanged += cbColumnaPreuParticio_SelectedIndexChanged;
+
             dateTimePicker1.Value = Utilitats.AnteriorDiaLaborable(DateTime.Today);
 
             bool pasteSelfBankTancaAlDesar = Convert.ToBoolean(Program.LlegeigVariableEnRegistreWindows(NomVarRegTancaAlDesar, true));
@@ -33,7 +38,6 @@ namespace Inversions.GUI
         private const string NomVarRegTancaAlDesar = "PasteSelfBankTancaAlDesar";
         private const string NomVarRegCapturaAutomaticament = "PasteSelfBankCapturaAutomaticament";
 
-
         private void capturaValorsPaste()
         {
             var cursor = Cursor;
@@ -45,8 +49,9 @@ namespace Inversions.GUI
                 var text1 = textBox1.Text.Replace(Environment.NewLine, "\t");
                 var items = text1.Split(new char[] { '\t', }, StringSplitOptions.RemoveEmptyEntries);
                 ProdFons prod = null;
+                int posPreuPart = cbColumnaPreuParticio.SelectedIndex + 1;
                 int conta = 0;
-                string valor;
+                bool avis = false;
                 foreach (var item in items)
                 {
                     if (conta == 0)
@@ -55,7 +60,7 @@ namespace Inversions.GUI
                         if (prod != null)
                             conta++;
                     }
-                    else if (conta < 4)
+                    else if (conta < posPreuPart)
                     {
                         conta++;
                     }
@@ -63,12 +68,23 @@ namespace Inversions.GUI
                     {
                         conta = 0;
 
-                        dataGridView1.Rows.Add(new object[] { prod, Convert.ToDouble(item.Replace("€", "")) });
+                        if (item.Contains('€'))
+                        {
+                            var preuPart = Convert.ToDouble(item.Replace("€", ""));
+                            if (preuPart > 0)
+                                dataGridView1.Rows.Add(new object[] {prod, preuPart});
 
+                            if (Math.Abs(prod._PreuParticipacioActual - preuPart) > 100)
+                                avis = true;
+                        }
                     }
                 }
 
                 btDesa.Enabled = dataGridView1.Rows.Count > 0;
+
+                if (avis && dataGridView1.Rows.Count > 0)
+                    MessageBox.Show("Comprova els valors");
+
             }
             finally
             {
@@ -146,6 +162,12 @@ namespace Inversions.GUI
         {
             if (ckCapturaAutomaticament.Checked)
                 capturaValorsPaste();
+        }
+
+        private void cbColumnaPreuParticio_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Program.DesaVariableEnRegistreWindows("ColumnaPreuParticio", cbColumnaPreuParticio.SelectedIndex.ToString(), false);
+            capturaValorsPaste();
         }
     }
 }

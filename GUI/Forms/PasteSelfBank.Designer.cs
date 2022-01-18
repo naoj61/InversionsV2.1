@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.ckTancaAlDesar = new System.Windows.Forms.CheckBox();
@@ -36,11 +36,14 @@
             this.ckCapturaAutomaticament = new System.Windows.Forms.CheckBox();
             this.btCapturaValors = new System.Windows.Forms.Button();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.cbColumnaPreuParticio = new System.Windows.Forms.ComboBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.colNomFons = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colValor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBox1
@@ -50,7 +53,7 @@
             this.textBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(826, 726);
+            this.textBox1.Size = new System.Drawing.Size(826, 723);
             this.textBox1.TabIndex = 0;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -62,13 +65,14 @@
             this.panel1.Controls.Add(this.ckCapturaAutomaticament);
             this.panel1.Controls.Add(this.btCapturaValors);
             this.panel1.Controls.Add(this.dateTimePicker1);
+            this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.panel1.Location = new System.Drawing.Point(0, 726);
+            this.panel1.Location = new System.Drawing.Point(0, 723);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(6);
-            this.panel1.Size = new System.Drawing.Size(1261, 75);
+            this.panel1.Size = new System.Drawing.Size(1261, 78);
             this.panel1.TabIndex = 1;
             // 
             // ckTancaAlDesar
@@ -130,6 +134,24 @@
             this.dateTimePicker1.Size = new System.Drawing.Size(129, 26);
             this.dateTimePicker1.TabIndex = 1;
             // 
+            // cbColumnaPreuParticio
+            // 
+            this.cbColumnaPreuParticio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbColumnaPreuParticio.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9"});
+            this.cbColumnaPreuParticio.Location = new System.Drawing.Point(31, 28);
+            this.cbColumnaPreuParticio.Name = "cbColumnaPreuParticio";
+            this.cbColumnaPreuParticio.Size = new System.Drawing.Size(121, 28);
+            this.cbColumnaPreuParticio.TabIndex = 0;
+            // 
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
@@ -145,7 +167,7 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(435, 726);
+            this.dataGridView1.Size = new System.Drawing.Size(435, 723);
             this.dataGridView1.TabIndex = 3;
             // 
             // colNomFons
@@ -158,14 +180,24 @@
             // colValor
             // 
             this.colValor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Format = "C4";
-            dataGridViewCellStyle2.NullValue = "0";
-            this.colValor.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle1.Format = "C4";
+            dataGridViewCellStyle1.NullValue = "0";
+            this.colValor.DefaultCellStyle = dataGridViewCellStyle1;
             this.colValor.HeaderText = "Valor";
             this.colValor.Name = "colValor";
             this.colValor.ReadOnly = true;
             this.colValor.Width = 82;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.cbColumnaPreuParticio);
+            this.groupBox1.Location = new System.Drawing.Point(335, 9);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(200, 60);
+            this.groupBox1.TabIndex = 3;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Columa Preu en Web";
             // 
             // PasteSelfBank
             // 
@@ -183,6 +215,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -200,5 +233,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colValor;
         private System.Windows.Forms.CheckBox ckTancaAlDesar;
         private System.Windows.Forms.CheckBox ckCapturaAutomaticament;
+        private System.Windows.Forms.ComboBox cbColumnaPreuParticio;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }
