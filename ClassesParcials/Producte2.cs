@@ -409,37 +409,7 @@ namespace Inversions
         /// <returns></returns>
         internal double costOriginalEnCartera4(DateTime? dataHoraFinal = null, double? numPartsMax = null)
         {
-            var partsEnCartera = numParticipacionsEnData(dataHoraFinal);
-
-            if (numPartsMax.HasValue && numPartsMax.Value > partsEnCartera)
-                throw new ArgumentException("'numPartsMax' és més gran que les participacions en cartera.", "numPartsMax");
-
-            var compresAnt = compresDeParticions2(dataHoraFinal.GetValueOrDefault(DateTime.Now), partsEnCartera).ToList();
-
-            var partsPerCalcul = compresAnt.Sum(s => s._ParticipacionsUtilitzades);
-
-            if (Utilitats.EsZero(partsPerCalcul))
-                return 0;
-
-            if (numPartsMax.HasValue)
-                if (Utilitats.ComparaNumeros(numPartsMax.Value, partsPerCalcul, 3) > 0)
-                    throw new ArgumentException("'numPartsMax' és més gran que les participacions disponibles", "numPartsMax");
-                else
-                    partsPerCalcul = numPartsMax.Value;
-
-
-            double preuOrig2 = 0;
-            foreach (var compra in compresAnt)
-            {
-                var parts = compra._ParticipacionsUtilitzades < partsPerCalcul ? compra._ParticipacionsUtilitzades : partsPerCalcul;
-
-                preuOrig2 += compra.calculaPreuOrig2(parts);
-                partsPerCalcul -= parts;
-
-                if (Utilitats.EsZero(partsPerCalcul))
-                    break;
-            }
-            return preuOrig2;
+            return desglosDeCompres(dataHoraFinal, numPartsMax).Sum(s => s._ParticipacionsUtilitzadesOrig * s._PreuParticipacioOrig);
         }
 
 

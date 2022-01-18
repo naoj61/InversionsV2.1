@@ -500,6 +500,7 @@ namespace Inversions
             return pigVendesRealsX + pigEncarteraX + divident;
         }
 
+
         /// <summary>
         /// Torna les participacions que encara hi ha en cartera d'una compra.
         /// </summary>
@@ -806,51 +807,6 @@ namespace Inversions
             }
         }
 
-        /// <summary>
-        /// Calcula el preu origen de les participacions 'numParts' del moviment. Inclou despeses. 
-        /// Creat el 1/07/2020
-        /// </summary>
-        /// <param name="numParts">Num participacions a calcular.</param>
-        /// <returns></returns>
-        internal double calculaPreuOrig2(double? numParts = null)
-        {
-            if (!_EsCompra)
-                throw new Exception("El moviment no és una compra.");
-
-            var partics = numParts.GetValueOrDefault(_ParticipacionsUtilitzades);
-
-            if (Utilitats.ComparaNumeros(_ParticipacionsUtilitzades, partics) < 0)
-                throw new ArgumentException("El valor numparts és major que les participacions disponibles.", "numParts");
-
-            var partsUtilitzades = Participacions - _ParticipacionsUtilitzades;
-            double preuOrig = 0;
-
-            foreach (var desglosCompra in DesglosCompres)
-            {
-                if (partsUtilitzades >= desglosCompra.Participacions)
-                {
-                    partsUtilitzades -= desglosCompra.Participacions;
-                    continue;
-                }
-
-                var partsPerCalcul = desglosCompra.Participacions - partsUtilitzades;
-                partsUtilitzades = 0;
-
-                if (Utilitats.ComparaNumeros(partics, partsPerCalcul) <= 0)
-                {
-                    partsPerCalcul = partics;
-                    partics = 0;
-                }
-                else
-                {
-                    partics -= partsPerCalcul;
-                }
-                var despeses = Despeses.GetValueOrDefault() / Participacions * partsPerCalcul; // És la part proporcional de les despeses.
-                preuOrig += desglosCompra.calculaPartsMovAPartsOrig(partsPerCalcul) * desglosCompra._PreuParticipacioOrig + despeses;
-            }
-
-            return preuOrig;
-        }
 
         /// <summary>
         /// Crea una còpia superficial creant un objecte nou.
