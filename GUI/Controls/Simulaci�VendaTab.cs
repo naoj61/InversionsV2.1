@@ -73,8 +73,6 @@ namespace Inversions.GUI
                 ntbPreuParticipacio.Valor = 0;
                 ntbPerduesAnteriors.Valor = 0;
                 ntbPigTributa.Valor = 0;
-
-                dgvCompresOriginals.Rows.Clear();
             }
             else
             {
