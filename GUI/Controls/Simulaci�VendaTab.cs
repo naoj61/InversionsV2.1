@@ -166,7 +166,18 @@ namespace Inversions.GUI
                     return valorAct - cost;
                 }
             }
+            [Description("S'utilitza en un DataGrid")]
+            public double _ValorActual
+            {
+                get
+                {
+                    var valorAct = preuPartActual() * vDesglosCompra._ParticipacionsUtilitzades;
 
+                    return valorAct;
+                }
+            }
+
+            
 
             #region *** Mètodes sobreescrits ***
 
