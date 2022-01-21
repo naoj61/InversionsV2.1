@@ -405,7 +405,7 @@ namespace Inversions.GUI
             // 
             // IdOrig
             // 
-            this.IdOrig.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.IdOrig.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.IdOrig.DataPropertyName = "_IdOrig";
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.Format = "N0";
@@ -418,8 +418,9 @@ namespace Inversions.GUI
             // 
             // DataCompraOrig
             // 
-            this.DataCompraOrig.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.DataCompraOrig.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
             this.DataCompraOrig.DataPropertyName = "_DataOrig";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle3.Format = "d";
             dataGridViewCellStyle3.NullValue = null;
             this.DataCompraOrig.DefaultCellStyle = dataGridViewCellStyle3;
@@ -427,11 +428,11 @@ namespace Inversions.GUI
             this.DataCompraOrig.Name = "DataCompraOrig";
             this.DataCompraOrig.ReadOnly = true;
             this.DataCompraOrig.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataCompraOrig.Width = 159;
+            this.DataCompraOrig.Width = 5;
             // 
             // DataCompra
             // 
-            this.DataCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.DataCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
             this.DataCompra.DataPropertyName = "_DataCompra";
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle4.Format = "d";
@@ -441,7 +442,7 @@ namespace Inversions.GUI
             this.DataCompra.Name = "DataCompra";
             this.DataCompra.ReadOnly = true;
             this.DataCompra.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataCompra.Width = 129;
+            this.DataCompra.Width = 5;
             // 
             // Parts
             // 
@@ -478,12 +479,11 @@ namespace Inversions.GUI
             dataGridViewCellStyle7.Format = "C2";
             this.PigOrigen.DefaultCellStyle = dataGridViewCellStyle7;
             this.PigOrigen.HeaderText = "Pig Origen";
-            this.PigOrigen.MinimumWidth = 97;
             this.PigOrigen.Name = "PigOrigen";
             this.PigOrigen.ReadOnly = true;
             this.PigOrigen.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.PigOrigen.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.PigOrigen.Width = 97;
+            this.PigOrigen.Width = 5;
             // 
             // PigDeLaCompra
             // 
@@ -494,12 +494,11 @@ namespace Inversions.GUI
             dataGridViewCellStyle8.NullValue = null;
             this.PigDeLaCompra.DefaultCellStyle = dataGridViewCellStyle8;
             this.PigDeLaCompra.HeaderText = "PiG";
-            this.PigDeLaCompra.MinimumWidth = 97;
             this.PigDeLaCompra.Name = "PigDeLaCompra";
             this.PigDeLaCompra.ReadOnly = true;
             this.PigDeLaCompra.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.PigDeLaCompra.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.PigDeLaCompra.Width = 97;
+            this.PigDeLaCompra.Width = 5;
             // 
             // ValorAct
             // 
