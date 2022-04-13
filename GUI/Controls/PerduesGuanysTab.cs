@@ -257,7 +257,7 @@ namespace Inversions.GUI
             if (e.RowIndex == dgvPiGAnualsTributen.Rows.Count - 1)
                 return;
 
-            var any = (int) dgvPiGAnualsTributen[0, e.RowIndex].Value;
+            var any = Convert.ToInt32(dgvPiGAnualsTributen[0, e.RowIndex].Value);
 
             Tributacions trib = new Tributacions();
             trib.carregaDades(any);

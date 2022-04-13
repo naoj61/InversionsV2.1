@@ -861,6 +861,11 @@ namespace Inversions
             return pigDeLaCompra(preuPartsEnCartera, inclouParticsEnCartera);
         }
 
+        public double dividentsDeLaCompraTest()
+        {
+            return dividentsDeLaCompra();
+        }
+
         #endregion
 
 
