@@ -38,7 +38,7 @@ namespace Inversions.GUI
                 for (uint any = (uint) Program.PrimerAny; any <= ultimAny; any++)
                 {
                     // *** PiG Tributa ***
-                    var pigTributa = Producte.Pig3(tipusProducte, null, any, false, true);
+                    var pigTributa = Producte.PigTributa(tipusProducte, null, any, true);
                     pigTotalTributa += pigTributa;
                     if (!Utilitats.EsZero(pigTributa))
                         // Hi ha vendes reals en l'any.

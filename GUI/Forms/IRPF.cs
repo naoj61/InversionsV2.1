@@ -106,7 +106,7 @@ namespace Inversions.GUI.Forms
 
             public double _PiG
             {
-                get { return vVenda.pig2Venda(); }
+                get { return vVenda.pig2Venda(true); }
             }
             // ReSharper restore MemberCanBePrivate.Local
             // ReSharper restore UnusedAutoPropertyAccessor.Local
