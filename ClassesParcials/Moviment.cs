@@ -729,7 +729,7 @@ namespace Inversions
         /// 
         /// </summary>
         /// <returns></returns>
-        internal double pig2Venda()
+        internal double pig2Venda(bool inclouDespeses)
         {
             if (!_EsVenda)
                 throw new Exception("El moviment no és una venda.");
@@ -740,11 +740,12 @@ namespace Inversions
             foreach (var compraAnt in compresAnt)
             {
                 // Inclou despeses de la compra.
-                preuCost += compraAnt.calculaImportCompraOrigen3(calculaImportNet: true, utilitzoParticipacionsUtilitzades: true);
+                preuCost += compraAnt.calculaImportCompraOrigen3(calculaImportNet: inclouDespeses, utilitzoParticipacionsUtilitzades: true);
             }
 
             // Inclou despeses de la venda.
-            var pig = Participacions * PreuParticipacio - Despeses.GetValueOrDefault() - preuCost;
+            var despeses = inclouDespeses ? Despeses.GetValueOrDefault() : 0;
+            var pig = Participacions * PreuParticipacio - despeses - preuCost;
 
             return pig;
         }
@@ -853,6 +854,12 @@ namespace Inversions
         public IEnumerable<Moviment> vendesDeLaCompraTest()
         {
             return vendesDeLaCompra();
+        }
+
+
+        public double pig2VendaTest(bool inclouDespeses)
+        {
+            return pig2Venda(inclouDespeses);
         }
 
 

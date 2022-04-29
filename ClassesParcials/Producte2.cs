@@ -77,6 +77,21 @@ namespace Inversions
         }
 
 
+        internal static double PigTributa(TipusProducte tipusProducte, TipusFons? tipusFons, uint any, bool inclouDividends)
+        {
+            IEnumerable<Producte> prods = SeleccionaProds(tipusProducte, tipusFons).ToList();
+
+            double pig = Program.Sessio.MovimentsUsuari
+                .Where(w => w.Data.Year == any && prods.Contains(w.Prod) && w._EsVendaReal)
+                .Sum(s => s.pig2Venda(true));
+
+            double div = Program.Sessio.MovimentsUsuari
+                .Where(w => w.Data.Year == any && prods.Contains(w.Prod) && w._EsDividents)
+                .Sum(s => s._ImportBrut);
+
+            return pig + div;
+        }
+
         /// <summary>
         /// Suma les perdues dels 4 anys anteriors
         /// </summary>
@@ -295,7 +310,7 @@ namespace Inversions
             if (nomesVendesReals)
                 vendes = vendes.Where(w => !w._EsTraspas).ToList();
 
-            return vendes.Sum(venda => venda.pig2Venda());
+            return vendes.Sum(venda => venda.pig2Venda(true));
         }
 
         #endregion ***** PiG *****
