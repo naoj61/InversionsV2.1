@@ -64,49 +64,123 @@ namespace Inversions.GUI.Forms
 
             // ReSharper disable MemberCanBePrivate.Local
             // ReSharper disable UnusedAutoPropertyAccessor.Local
+
+            public Moviment _Venda
+            {
+                get { return vVenda; }
+            }
+
             public int _Id
             {
-                get { return vVenda.Id; }
+                get { return _Venda.Id; }
             }
 
             public DateTime _Data
             {
-                get { return vVenda.Data; }
+                get { return _Venda.Data; }
             }
 
             public Producte _Prod
             {
-                get { return vVenda.Prod; }
+                get { return _Venda.Prod; }
             }
 
             public double _Parts
             {
-                get { return vVenda.Participacions; }
+                get { return _Venda.Participacions; }
             }
 
             public double _PreuUnitari
             {
-                get { return vVenda.PreuParticipacio; }
+                get { return _Venda.PreuParticipacio; }
             }
 
             public double _Despeses
             {
-                get { return vVenda.Despeses.GetValueOrDefault(); }
+                get { return _Venda.Despeses.GetValueOrDefault(); }
             }
 
             public double _ImportBrut
             {
-                get { return vVenda._ImportBrut; }
+                get { return _Venda._ImportBrut; }
             }
 
             public double _ImportNet
             {
-                get { return vVenda._ImportNet; }
+                get { return _Venda._ImportNet; }
             }
 
             public double _PiG
             {
-                get { return vVenda.pig2Venda(true); }
+                get { return _Venda.pig2Venda(true); }
+            }
+
+
+            // ReSharper restore MemberCanBePrivate.Local
+            // ReSharper restore UnusedAutoPropertyAccessor.Local
+        }
+
+
+
+        private struct StCompresVenda
+        {
+            public StCompresVenda(Moviment compra)
+                : this()
+            {
+                if (!compra._EsCompra)
+                    throw new Exception("No és una compra");
+
+                vCompra = compra;
+            }
+
+            private readonly Moviment vCompra;
+
+            // ReSharper disable MemberCanBePrivate.Local
+            // ReSharper disable UnusedAutoPropertyAccessor.Local
+
+            public Moviment _Compra
+            {
+                get { return vCompra; }
+            }
+
+            public int _Id
+            {
+                get { return _Compra.Id; }
+            }
+
+            public DateTime _Data
+            {
+                get { return _Compra.Data; }
+            }
+
+            public double _Participacions
+            {
+                get { return _Compra.Participacions; }
+            }
+
+            public double _PreuUnitari
+            {
+                get { return _Compra.PreuParticipacio; }
+            }
+
+            public double _ParticipacionsUtilitzades
+            {
+                get { return _Compra._ParticipacionsUtilitzades; }
+            }
+
+            public double _DespesesUtil
+            {
+                get { return _Compra._DespesesParticipacionsUtilitzades; }
+            }
+
+            public double _ImportBrutUtil
+            {
+                get { return _Compra._ParticipacionsUtilitzades * _Compra.PreuParticipacio; }
+            }
+
+            public double _ImportNetUtil
+            {
+                get { return _ImportBrutUtil - _DespesesUtil; }
             }
             // ReSharper restore MemberCanBePrivate.Local
             // ReSharper restore UnusedAutoPropertyAccessor.Local
@@ -188,28 +262,24 @@ namespace Inversions.GUI.Forms
 
         private void carregaDades(int any)
         {
-
-
-
             //Valor de transmisión, Valor de adquisición 
 
             var tributs = Program.Sessio.Productes.AsEnumerable().Where(producte => producte.tributaAquestAny(any))
                 .Select(prod => new Tributs(any, prod)).ToList();
 
-            dgvVendes.DataSource = tributs.Where(w=>w._ImportVenda > 0).ToList();
+            //dgvVendes.DataSource = tributs.Where(w=>w._ImportVenda > 0).ToList();
            // dgvProductes.DataSource = tributs.Where(w=>w._Dividents > 0).ToList();
 
             tbPiG.Valor = tributs.Sum(t => t._ImportVenda - t._ImportCompra - t._DespesesCompra - t._DespesesVenda + t._Dividents);
         }
 
-        private void dgvVendes_RowEnter(object sender, DataGridViewCellEventArgs e)
+
+        private void IRPF_Shown(object sender, EventArgs e)
         {
-            //var fila = dgvVendes.Rows[e.RowIndex];
-
-            //var prod = ((Tributs) (fila.DataBoundItem))._Prod;
-            //var ss = dgvVendes.SelectedRows;
+            dgvProductes.ClearSelection();
+            
+            dgvProductes.SelectionChanged += dgvProductes_SelectionChanged;
         }
-
 
 
         private void cbAny_SelectedIndexChanged(object sender, EventArgs e)
@@ -243,9 +313,23 @@ namespace Inversions.GUI.Forms
             }
         }
 
-        private void IRPF_Shown(object sender, EventArgs e)
+        private void dgvVendes_SelectionChanged(object sender, EventArgs e)
         {
-            dgvProductes.ClearSelection();
+            if (dgvVendes.SelectedRows.Count == 0)
+                dgvVendes.DataSource = null;
+            else
+            {
+                // Crea llista de les vendes seleccionades de "dgvVendes".
+                var vendessSelec = (from DataGridViewRow row in dgvVendes.SelectedRows select (Moviment)row.Cells[0].Value).ToList();
+
+                List<StCompresVenda> compresVenda = new List<StCompresVenda>();
+                foreach (Moviment venda in vendessSelec)
+                {
+                    compresVenda.AddRange(venda.compresDeLaVenda4().Select(compra => new StCompresVenda(compra)));
+                }
+
+                dgvCompresVenda.DataSource = compresVenda;
+            }
         }
     }
 }

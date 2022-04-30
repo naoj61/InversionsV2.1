@@ -296,7 +296,7 @@ namespace Inversions
 
 
 
-        public double _DespesesParticipacionsDisponibles
+        public double _DespesesParticipacionsUtilitzades
         {
             get { return Despeses.GetValueOrDefault() / Participacions * _ParticipacionsUtilitzades; }
         }

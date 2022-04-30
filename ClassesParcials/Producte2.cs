@@ -85,9 +85,9 @@ namespace Inversions
                 .Where(w => w.Data.Year == any && prods.Contains(w.Prod) && w._EsVendaReal)
                 .Sum(s => s.pig2Venda(true));
 
-            double div = Program.Sessio.MovimentsUsuari
+            double div = inclouDividends ? Program.Sessio.MovimentsUsuari
                 .Where(w => w.Data.Year == any && prods.Contains(w.Prod) && w._EsDividents)
-                .Sum(s => s._ImportBrut);
+                .Sum(s => s._ImportBrut) : 0;
 
             return pig + div;
         }

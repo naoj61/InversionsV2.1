@@ -302,7 +302,7 @@ namespace Inversions
             foreach (var venda in MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w._EsVendaReal).ToList())
             {
                 // Despeses de la compra.
-                totalDespeses += venda.compresDeLaVenda4().Sum(movCompra => movCompra._DespesesParticipacionsDisponibles);
+                totalDespeses += venda.compresDeLaVenda4().Sum(movCompra => movCompra._DespesesParticipacionsUtilitzades);
             }
 
             return totalDespeses;
