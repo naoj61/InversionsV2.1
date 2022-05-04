@@ -20,8 +20,9 @@ namespace Inversions.GUI.Forms
         {
             InitializeComponent();
 
-            dgvVendes.AutoGenerateColumns = false;
             dgvProductes.AutoGenerateColumns = false;
+            dgvVendes.AutoGenerateColumns = false;
+            dgvCompresVenda.AutoGenerateColumns = false;
 
             for (int i = 2013; i <= DateTime.Today.Year; i++)
             {
@@ -124,23 +125,52 @@ namespace Inversions.GUI.Forms
 
         private struct StCompresVenda
         {
-            public StCompresVenda(Moviment compra)
+            public StCompresVenda(Moviment venda, Moviment compra)
                 : this()
             {
+                if (!venda._EsVenda)
+                    throw new Exception("No és una venda");
                 if (!compra._EsCompra)
                     throw new Exception("No és una compra");
 
+                vVenda = venda;
                 vCompra = compra;
-            }
 
+                vParticipacionsUtilitzades = compra._ParticipacionsUtilitzades;
+                _DespesesUtil = compra._DespesesParticipacionsUtilitzades;
+            }
+            
+            private readonly Moviment vVenda;
             private readonly Moviment vCompra;
+            private double vParticipacionsUtilitzades;
+
+            public void afegeigParticipacionsUtilitzades(StCompresVenda compraVenda)
+            {
+                vParticipacionsUtilitzades += compraVenda._ParticipacionsUtilitzades;
+            }
 
             // ReSharper disable MemberCanBePrivate.Local
             // ReSharper disable UnusedAutoPropertyAccessor.Local
 
+            public double _ParticipacionsUtilitzades
+            {
+                get { return vParticipacionsUtilitzades; }
+            }
+
+            public double _DespesesUtil { get; private set; }
+
+            public Moviment _Venda
+            {
+                get { return vVenda; }
+            }
             public Moviment _Compra
             {
                 get { return vCompra; }
+            }
+
+            public int _IdVenda
+            {
+                get { return _Venda.Id; }
             }
 
             public int _Id
@@ -163,27 +193,56 @@ namespace Inversions.GUI.Forms
                 get { return _Compra.PreuParticipacio; }
             }
 
-            public double _ParticipacionsUtilitzades
+            public double _ImportCompraBrutUtil
             {
-                get { return _Compra._ParticipacionsUtilitzades; }
+                get { return _ParticipacionsUtilitzades * _Compra.PreuParticipacio; }
             }
 
-            public double _DespesesUtil
+            public double _ImportCompraNetUtil
             {
-                get { return _Compra._DespesesParticipacionsUtilitzades; }
+                get { return _ImportCompraBrutUtil + _DespesesUtil; }
             }
 
-            public double _ImportBrutUtil
+            public double _ImportVendaBrutUtil
             {
-                get { return _Compra._ParticipacionsUtilitzades * _Compra.PreuParticipacio; }
+                get { return _ParticipacionsUtilitzades * vVenda.PreuParticipacio; }
             }
 
-            public double _ImportNetUtil
+            public double _ImportVendaNetUtil
             {
-                get { return _ImportBrutUtil - _DespesesUtil; }
+                get { return _ImportVendaBrutUtil - (vVenda.Despeses.GetValueOrDefault() / vVenda.Participacions * _ParticipacionsUtilitzades); }
             }
+
             // ReSharper restore MemberCanBePrivate.Local
             // ReSharper restore UnusedAutoPropertyAccessor.Local
+
+
+            #region Overrides
+
+            public override int GetHashCode()
+            {
+                return (vCompra != null ? vCompra.GetHashCode() : 0);
+            }
+
+            public static bool operator ==(StCompresVenda a, StCompresVenda b)
+            {
+                return a.vCompra.Id == b.vCompra.Id;
+            }
+
+            public static bool operator !=(StCompresVenda a, StCompresVenda b)
+            {
+                return !(a == b);
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (!(obj is StCompresVenda))
+                    return false;
+
+                return this == (StCompresVenda)obj;
+            }
+            
+            #endregion
         }
 
 
@@ -319,17 +378,46 @@ namespace Inversions.GUI.Forms
                 dgvVendes.DataSource = null;
             else
             {
-                // Crea llista de les vendes seleccionades de "dgvVendes".
-                var vendessSelec = (from DataGridViewRow row in dgvVendes.SelectedRows select (Moviment)row.Cells[0].Value).ToList();
-
-                List<StCompresVenda> compresVenda = new List<StCompresVenda>();
-                foreach (Moviment venda in vendessSelec)
-                {
-                    compresVenda.AddRange(venda.compresDeLaVenda4().Select(compra => new StCompresVenda(compra)));
-                }
-
-                dgvCompresVenda.DataSource = compresVenda;
+                ompleGridCompresDeLaVanda();
+                
             }
+        }
+
+        private void ompleGridCompresDeLaVanda()
+        {
+            // Crea llista de les vendes seleccionades de "dgvVendes".
+            var vendessSelec = (from DataGridViewRow row in dgvVendes.SelectedRows select (Moviment)row.Cells[0].Value).ToList();
+
+            List<StCompresVenda> compresVenda = new List<StCompresVenda>();
+            foreach (Moviment venda in vendessSelec)
+            {
+                compresVenda.AddRange(venda.compresDeLaVenda4().Select(compra => new StCompresVenda(venda, compra)));
+            }
+
+            if (ckAgrupaCompres.Checked)
+            {
+                List<StCompresVenda> compresVendaAgrup = new List<StCompresVenda>();
+                foreach (var compraVenda in compresVenda)
+                {
+                    if (compresVendaAgrup.Contains(compraVenda))
+                    {
+                        // Aixó és perquè "compraVenda" son strucs i la llista retorna una còpia no una referència.
+                        var idx = compresVendaAgrup.IndexOf(compraVenda);
+                        compraVenda.afegeigParticipacionsUtilitzades(compresVendaAgrup[idx]);
+                        compresVendaAgrup[idx] = compraVenda;
+                    }
+                    else
+                        compresVendaAgrup.Add(compraVenda);
+                }
+                dgvCompresVenda.DataSource = compresVendaAgrup.OrderBy(o => o._Venda.Data).ThenBy(o => o._Compra.Data).ToList();
+            }
+            else
+                dgvCompresVenda.DataSource = compresVenda.OrderBy(o => o._Venda.Data).ThenBy(o => o._Compra.Data).ToList();
+        }
+
+        private void ckAgrupaCompres_CheckedChanged(object sender, EventArgs e)
+        {
+            ompleGridCompresDeLaVanda();
         }
     }
 }

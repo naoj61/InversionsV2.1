@@ -243,26 +243,7 @@ namespace Inversions
             {
                 if (_EsCompra)
                 {
-                    throw new ArgumentException(String.Format("El moviment ha de ser una compra. Id={0}.", Id));
-
-                    var valor = value;
-                    foreach (var desglosCompra in DesglosCompres.OrderBy(o => o._DataOrig))
-                    {
-                        if (desglosCompra._ParticipacionsDisponibles >= valor)
-                        {
-                            desglosCompra._ParticipacionsUtilitzades = valor;
-                            valor = 0;
-                            break;
-                        }
-                        else
-                        {
-                            var partsDisp = desglosCompra._ParticipacionsDisponibles;
-                            desglosCompra._ParticipacionsUtilitzades = partsDisp;
-                            valor -= partsDisp;
-                        }
-                    }
-                    if (Utilitats.ComparaNumeros(valor, 0) > 0)
-                        throw new Exception("'value' no s'ha repartit completament");
+                    throw new ArgumentException(String.Format("El moviment és una compra. Id={0}. S'ha de modificar a través de DesgloçCompra.", Id));
                 }
                 else if (_EsVenda)
                 {
