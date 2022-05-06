@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Comuns;
 
 namespace Inversions.GUI.Forms
 {
@@ -15,6 +16,7 @@ namespace Inversions.GUI.Forms
         private List<StProductes> vProdsAmbVendesAny;
         private List<Moviment> vVendesAny;
         private Dictionary<Inversions.Moviment, List<Moviment>> vCompresVendesAny;
+        private int vAny;
 
         public IRPF(int any)
         {
@@ -24,17 +26,17 @@ namespace Inversions.GUI.Forms
             dgvVendes.AutoGenerateColumns = false;
             dgvCompresVenda.AutoGenerateColumns = false;
 
+            dgvProductes.AutoSize = true;
+
             for (int i = 2013; i <= DateTime.Today.Year; i++)
             {
                 cbAny.Items.Add(i);
             }
 
             cbAny.SelectedItem = any;
-
-            carregaDades(any);
         }
 
-        struct StProductes
+        private struct StProductes
         {
             public StProductes(int any, Producte prod) : this()
             {
@@ -122,7 +124,6 @@ namespace Inversions.GUI.Forms
         }
 
 
-
         private struct StCompresVenda
         {
             public StCompresVenda(Moviment venda, Moviment compra)
@@ -137,16 +138,26 @@ namespace Inversions.GUI.Forms
                 vCompra = compra;
 
                 vParticipacionsUtilitzades = compra._ParticipacionsUtilitzades;
-                _DespesesUtil = compra._DespesesParticipacionsUtilitzades;
             }
             
             private readonly Moviment vVenda;
             private readonly Moviment vCompra;
             private double vParticipacionsUtilitzades;
 
-            public void afegeigParticipacionsUtilitzades(StCompresVenda compraVenda)
+            private double _DespesesCompraUtil
             {
-                vParticipacionsUtilitzades += compraVenda._ParticipacionsUtilitzades;
+                get { return vCompra.Despeses.GetValueOrDefault() / vCompra.Participacions * vParticipacionsUtilitzades; }
+            }
+
+            private double _DespesesVendaUtil
+            {
+                get { return vVenda.Despeses.GetValueOrDefault() / vVenda.Participacions * vParticipacionsUtilitzades; }
+            }
+
+
+            public void afegeigParticipacionsUtilitzades(double participacionsUtilitzades)
+            {
+                vParticipacionsUtilitzades += participacionsUtilitzades;
             }
 
             // ReSharper disable MemberCanBePrivate.Local
@@ -157,12 +168,26 @@ namespace Inversions.GUI.Forms
                 get { return vParticipacionsUtilitzades; }
             }
 
-            public double _DespesesUtil { get; private set; }
+            public double _DespesesUtil
+            {
+                get { return _DespesesCompraUtil + _DespesesVendaUtil; }
+            }
+
+            public double _DespesesCompra
+            {
+                get { return vCompra.Despeses.GetValueOrDefault(); }
+            }
+
+            public double _DespesesVenda
+            {
+                get { return vVenda.Despeses.GetValueOrDefault(); }
+            }
 
             public Moviment _Venda
             {
                 get { return vVenda; }
             }
+
             public Moviment _Compra
             {
                 get { return vCompra; }
@@ -195,12 +220,7 @@ namespace Inversions.GUI.Forms
 
             public double _ImportCompraBrutUtil
             {
-                get { return _ParticipacionsUtilitzades * _Compra.PreuParticipacio; }
-            }
-
-            public double _ImportCompraNetUtil
-            {
-                get { return _ImportCompraBrutUtil + _DespesesUtil; }
+                get { return _ParticipacionsUtilitzades * vCompra.PreuParticipacio; }
             }
 
             public double _ImportVendaBrutUtil
@@ -208,9 +228,19 @@ namespace Inversions.GUI.Forms
                 get { return _ParticipacionsUtilitzades * vVenda.PreuParticipacio; }
             }
 
+            public double _ImportCompraNetUtil
+            {
+                get { return _ImportCompraBrutUtil + _DespesesCompraUtil; }
+            }
+
             public double _ImportVendaNetUtil
             {
-                get { return _ImportVendaBrutUtil - (vVenda.Despeses.GetValueOrDefault() / vVenda.Participacions * _ParticipacionsUtilitzades); }
+                get { return _ImportVendaBrutUtil - _DespesesVendaUtil; }
+            }
+
+            public double _PiG
+            {
+                get { return _ImportVendaNetUtil - _ImportCompraNetUtil; }
             }
 
             // ReSharper restore MemberCanBePrivate.Local
@@ -244,143 +274,13 @@ namespace Inversions.GUI.Forms
             
             #endregion
         }
-
-
-        struct Tributs
-        {
-            internal Tributs(int any, Producte prod)
-            {
-                vAny = any;
-                vProd = prod;
-                vImportCompra = prod.importCompra(any);
-                vImportVenda = prod.importVenda(any);
-                vDespesesCompra = prod.calculaDespesesCompra(any);
-                vDespesesVenda = prod.calculaDespesesVenda(any);
-                vDividents = prod.calculaDividents(any);
-            }
-
-            private int vAny;
-            private Producte vProd;
-            private double vImportCompra;
-            private double vImportVenda;
-            private double vDespesesCompra;
-            private double vDespesesVenda;
-            private double vDividents;
-
-            public int _Any
-            {
-                get { return vAny; }
-            }
-
-            public Producte _Prod
-            {
-                get { return vProd; }
-            }
-
-            public double _ImportCompra
-            {
-                get { return vImportCompra; }
-            }
-
-            public double _ImportVenda
-            {
-                get { return vImportVenda; }
-            }
-
-            public double _DespesesCompra
-            {
-                get { return vDespesesCompra; }
-            }
-
-            public double _DespesesVenda
-            {
-                get { return vDespesesVenda; }
-            }
-
-            public double _Dividents
-            {
-                get { return vDividents; }
-            }
-
-            public double _CompresNet
-            {
-                get { return vImportCompra + _DespesesCompra; }
-            }
-
-            public double _VendesNet
-            {
-                get { return vImportVenda - _DespesesVenda; }
-            }
-
-            public double _TotalNet
-            {
-                get { return _VendesNet - _CompresNet; }
-            }
-        }
-
-
-        private void carregaDades(int any)
-        {
-            //Valor de transmisión, Valor de adquisición 
-
-            var tributs = Program.Sessio.Productes.AsEnumerable().Where(producte => producte.tributaAquestAny(any))
-                .Select(prod => new Tributs(any, prod)).ToList();
-
-            //dgvVendes.DataSource = tributs.Where(w=>w._ImportVenda > 0).ToList();
-           // dgvProductes.DataSource = tributs.Where(w=>w._Dividents > 0).ToList();
-
-            tbPiG.Valor = tributs.Sum(t => t._ImportVenda - t._ImportCompra - t._DespesesCompra - t._DespesesVenda + t._Dividents);
-        }
-
+        
 
         private void IRPF_Shown(object sender, EventArgs e)
         {
             dgvProductes.ClearSelection();
             
             dgvProductes.SelectionChanged += dgvProductes_SelectionChanged;
-        }
-
-
-        private void cbAny_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var any = (int)cbAny.SelectedItem;
-
-            vVendesAny = Program.Sessio.MovimentsUsuari.Where(w => w._EsVendaReal && w.Data.Year == any).OrderBy(o => o.Prod).ThenBy(t => t.Data).ToList();
-            vProdsAmbVendesAny = vVendesAny.Select(s => s.Prod).Distinct().Select(i => new StProductes(any, i)).ToList();
-            vCompresVendesAny = vVendesAny.ToDictionary(x => x, x => x.compresDeLaVenda4().ToList());
-
-            dgvProductes.DataSource = vProdsAmbVendesAny;
-        }
-
-        private void dgvProductes_SelectionChanged(object sender, EventArgs e)
-        {
-            if (dgvProductes.SelectedRows.Count == 0)
-                dgvVendes.DataSource = null;
-            else
-            {
-                // Crea llista dels productes seleccionats de "dgvProductes".
-                var prodsSelec = (from DataGridViewRow row in dgvProductes.SelectedRows select (Producte)row.Cells[1].Value).ToList();
-
-                List<StVendesAny> vendesAny = new List<StVendesAny>();
-                foreach (Moviment venda in vVendesAny)
-                {
-                    if (prodsSelec.Contains(venda.Prod)) 
-                        vendesAny.Add(new StVendesAny(venda));
-                }
-
-                dgvVendes.DataSource = vendesAny;
-            }
-        }
-
-        private void dgvVendes_SelectionChanged(object sender, EventArgs e)
-        {
-            if (dgvVendes.SelectedRows.Count == 0)
-                dgvVendes.DataSource = null;
-            else
-            {
-                ompleGridCompresDeLaVanda();
-                
-            }
         }
 
         private void ompleGridCompresDeLaVanda()
@@ -396,6 +296,9 @@ namespace Inversions.GUI.Forms
 
             if (ckAgrupaCompres.Checked)
             {
+                ColDespesesCompra.Visible = false;
+                ColDespesesVenda.Visible = false;
+
                 List<StCompresVenda> compresVendaAgrup = new List<StCompresVenda>();
                 foreach (var compraVenda in compresVenda)
                 {
@@ -403,7 +306,7 @@ namespace Inversions.GUI.Forms
                     {
                         // Aixó és perquè "compraVenda" son strucs i la llista retorna una còpia no una referència.
                         var idx = compresVendaAgrup.IndexOf(compraVenda);
-                        compraVenda.afegeigParticipacionsUtilitzades(compresVendaAgrup[idx]);
+                        compraVenda.afegeigParticipacionsUtilitzades(compresVendaAgrup[idx]._ParticipacionsUtilitzades);
                         compresVendaAgrup[idx] = compraVenda;
                     }
                     else
@@ -412,12 +315,82 @@ namespace Inversions.GUI.Forms
                 dgvCompresVenda.DataSource = compresVendaAgrup.OrderBy(o => o._Venda.Data).ThenBy(o => o._Compra.Data).ToList();
             }
             else
+            {
+                ColDespesesCompra.Visible = true;
+                ColDespesesVenda.Visible = true;
+
                 dgvCompresVenda.DataSource = compresVenda.OrderBy(o => o._Venda.Data).ThenBy(o => o._Compra.Data).ToList();
+            }
+        }
+
+        private void calculaTotalATributar()
+        {
+            var totATributar = ntbPiG.Valor - ntbPerduesAnysAnteriors.Valor - ntbMinimContribuent.Valor;
+            ntbTotalTributar.Valor = totATributar <= 0 ? 0 : totATributar;
+        }
+
+
+        private void cbAny_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            vAny = (int)cbAny.SelectedItem;
+
+            vVendesAny = Program.Sessio.MovimentsUsuari.Where(w => w._EsVendaReal && w.Data.Year == vAny).OrderBy(o => o.Prod).ThenBy(t => t.Data).ToList();
+            vProdsAmbVendesAny = vVendesAny.Select(s => s.Prod).Distinct().Select(i => new StProductes(vAny, i)).ToList();
+            vCompresVendesAny = vVendesAny.ToDictionary(x => x, x => x.compresDeLaVenda4().ToList());
+
+            dgvProductes.DataSource = vProdsAmbVendesAny;
+
+            ntbPerduesAnysAnteriors.Valor = -Producte.PerduesDarrersQuatreAnys(vAny);
+        }
+
+        private void dgvProductes_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvProductes.SelectedRows.Count == 0)
+            {
+                dgvVendes.DataSource = null;
+                ntbDividents.Valor = 0;
+            }
+            else
+            {
+
+                // Crea llista dels productes seleccionats de "dgvProductes".
+                var prodsSelec = (from DataGridViewRow row in dgvProductes.SelectedRows select (Producte) row.Cells[1].Value).ToList();
+
+                List<StVendesAny> vendesAny = new List<StVendesAny>();
+                foreach (Moviment venda in vVendesAny)
+                {
+                    if (prodsSelec.Contains(venda.Prod))
+                        vendesAny.Add(new StVendesAny(venda));
+                }
+
+                dgvVendes.DataSource = vendesAny;
+
+                ntbDividents.Valor = dgvProductes.SelectedRows.Cast<DataGridViewRow>().Sum(row => ((StProductes) row.DataBoundItem)._Divident);
+            }
+        }
+
+        private void dgvVendes_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvVendes.SelectedRows.Count == 0)
+                dgvVendes.DataSource = null;
+            else
+            {
+                ompleGridCompresDeLaVanda();
+
+                ntbPiG.Valor = dgvVendes.SelectedRows.Cast<DataGridViewRow>().Sum(row => ((StVendesAny)row.DataBoundItem)._PiG);
+
+                calculaTotalATributar();
+            }
         }
 
         private void ckAgrupaCompres_CheckedChanged(object sender, EventArgs e)
         {
             ompleGridCompresDeLaVanda();
+        }
+
+        private void ntbMinimContribuent_Validated(object sender, EventArgs e)
+        {
+            calculaTotalATributar();
         }
     }
 }

@@ -170,9 +170,14 @@ namespace Inversions
 
         #region Mètodes
 
-        internal double dividends(DateTime dataFi)
+        internal double dividends(int any)
         {
-            return dividends(DateTime.MinValue, dataFi);
+            return dividends(new DateTime(any, 1, 1), Utilitats.DataHoraFinalAny(any));
+        }
+
+        internal double dividends()
+        {
+            return dividends(DateTime.MinValue, DateTime.Today);
         }
 
         private double dividends(DateTime dataInici, DateTime dataFi)
