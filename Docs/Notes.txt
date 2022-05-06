@@ -1,4 +1,22 @@
-﻿- Mirar Arcelor PiG
+﻿-Nova pestanya IRPF
+Perdues pendents anys anteriors
+PiG any
+Vendes any. Id; Data; Prod; Parts; PU; Desp; Brut; Net.
+Desgloç compres de les vendes any. Id; Data; Parts; PU; Desp; Brut; Net.
+Import a tributar. Guanys - perdues anys anteriors.
+Import mínim contribuent. 2021->8.550€
+
+_Compra
+_Id
+_Data
+_Participacions
+_PreuUnitari
+_ParticipacionsUtilitzades
+_DespesesUtil
+_ImportBrutUtil
+_ImportNetUtil
+
+- Mirar Arcelor PiG
 
 - Preu part i Preu part Origen, ha de sortir de desgloç compra.
 - Modificar moviments.
