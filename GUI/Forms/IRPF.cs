@@ -278,9 +278,13 @@ namespace Inversions.GUI.Forms
 
         private void IRPF_Shown(object sender, EventArgs e)
         {
+            ckAgrupaCompres.Checked = true;
+
             dgvProductes.ClearSelection();
-            
+
             dgvProductes.SelectionChanged += dgvProductes_SelectionChanged;
+
+            seleccionaFilesDataGrid();
         }
 
         private void ompleGridCompresDeLaVanda()
@@ -341,6 +345,17 @@ namespace Inversions.GUI.Forms
             dgvProductes.DataSource = vProdsAmbVendesAny;
 
             ntbPerduesAnysAnteriors.Valor = -Producte.PerduesDarrersQuatreAnys(vAny);
+
+            seleccionaFilesDataGrid();
+        }
+
+        private void seleccionaFilesDataGrid()
+        {
+            dgvProductes.SelectAll();
+
+            dgvVendes.SelectAll();
+
+            dgvCompresVenda.ClearSelection();
         }
 
         private void dgvProductes_SelectionChanged(object sender, EventArgs e)

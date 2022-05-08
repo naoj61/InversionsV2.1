@@ -30,7 +30,6 @@ namespace Inversions.GUI
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -67,6 +66,10 @@ namespace Inversions.GUI
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cbTipusProducteFiltreTab2 = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.ntbPigRealMesCartera = new Controls.NumericTextBox2();
+            this.label3 = new System.Windows.Forms.Label();
+            this.ntbPigActualPartsEnCartera = new Controls.NumericTextBox2();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.dgvPiGAnualsTributen = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -94,12 +97,8 @@ namespace Inversions.GUI
             this.gbPigCompraOrig = new System.Windows.Forms.GroupBox();
             this.ntbPigCompraOrig = new Controls.NumericTextBox2();
             this.label4 = new System.Windows.Forms.Label();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.label3 = new System.Windows.Forms.Label();
-            this.ntbPigActualPartsEnCartera = new Controls.NumericTextBox2();
+            this.toolTip1 = new System.Windows.Forms.ToolTip();
             this.gestioProductesTabValoracions = new Inversions.GUI.GestioProductes();
-            this.label1 = new System.Windows.Forms.Label();
-            this.ntbPigRealMesCartera = new Controls.NumericTextBox2();
             this.pnPigRight.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.gbSimulacioPig.SuspendLayout();
@@ -393,6 +392,72 @@ namespace Inversions.GUI
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(420, 258);
             this.panel2.TabIndex = 20;
+            // 
+            // ntbPigRealMesCartera
+            // 
+            this.ntbPigRealMesCartera._CapturaEscape = true;
+            this.ntbPigRealMesCartera._Format = "#,#0.00 €";
+            this.ntbPigRealMesCartera._PermetDecimals = true;
+            this.ntbPigRealMesCartera._PermetEspais = false;
+            this.ntbPigRealMesCartera._PermetNegatius = true;
+            this.ntbPigRealMesCartera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ntbPigRealMesCartera.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ntbPigRealMesCartera.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPigRealMesCartera.Location = new System.Drawing.Point(0, 92);
+            this.ntbPigRealMesCartera.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ntbPigRealMesCartera.Name = "ntbPigRealMesCartera";
+            this.ntbPigRealMesCartera.ReadOnly = true;
+            this.ntbPigRealMesCartera.Size = new System.Drawing.Size(420, 30);
+            this.ntbPigRealMesCartera.TabIndex = 22;
+            this.ntbPigRealMesCartera.Text = "0,00 €";
+            this.ntbPigRealMesCartera.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.ntbPigRealMesCartera, "PiG actual de les participacions en cartera");
+            this.ntbPigRealMesCartera.Valor = 0D;
+            // 
+            // label3
+            // 
+            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(0, 61);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(420, 31);
+            this.label3.TabIndex = 17;
+            this.label3.Text = "PiG Real + Cartera";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // ntbPigActualPartsEnCartera
+            // 
+            this.ntbPigActualPartsEnCartera._CapturaEscape = true;
+            this.ntbPigActualPartsEnCartera._Format = "#,#0.00 €";
+            this.ntbPigActualPartsEnCartera._PermetDecimals = true;
+            this.ntbPigActualPartsEnCartera._PermetEspais = false;
+            this.ntbPigActualPartsEnCartera._PermetNegatius = true;
+            this.ntbPigActualPartsEnCartera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ntbPigActualPartsEnCartera.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ntbPigActualPartsEnCartera.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPigActualPartsEnCartera.Location = new System.Drawing.Point(0, 31);
+            this.ntbPigActualPartsEnCartera.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ntbPigActualPartsEnCartera.Name = "ntbPigActualPartsEnCartera";
+            this.ntbPigActualPartsEnCartera.ReadOnly = true;
+            this.ntbPigActualPartsEnCartera.Size = new System.Drawing.Size(420, 30);
+            this.ntbPigActualPartsEnCartera.TabIndex = 20;
+            this.ntbPigActualPartsEnCartera.Text = "0,00 €";
+            this.ntbPigActualPartsEnCartera.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.ntbPigActualPartsEnCartera, "PiG actual de les participacions en cartera");
+            this.ntbPigActualPartsEnCartera.Valor = 0D;
+            // 
+            // label1
+            // 
+            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(420, 31);
+            this.label1.TabIndex = 21;
+            this.label1.Text = "PiG actual de les participacions en cartera";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel3
             // 
@@ -834,39 +899,6 @@ namespace Inversions.GUI
             this.label4.Text = "PiG Producte Tributa";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label3
-            // 
-            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(0, 61);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(420, 31);
-            this.label3.TabIndex = 17;
-            this.label3.Text = "PiG Real + Cartera";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // ntbPigActualPartsEnCartera
-            // 
-            this.ntbPigActualPartsEnCartera._CapturaEscape = true;
-            this.ntbPigActualPartsEnCartera._Format = "#,#0.00 €";
-            this.ntbPigActualPartsEnCartera._PermetDecimals = true;
-            this.ntbPigActualPartsEnCartera._PermetEspais = false;
-            this.ntbPigActualPartsEnCartera._PermetNegatius = true;
-            this.ntbPigActualPartsEnCartera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ntbPigActualPartsEnCartera.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ntbPigActualPartsEnCartera.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbPigActualPartsEnCartera.Location = new System.Drawing.Point(0, 31);
-            this.ntbPigActualPartsEnCartera.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ntbPigActualPartsEnCartera.Name = "ntbPigActualPartsEnCartera";
-            this.ntbPigActualPartsEnCartera.ReadOnly = true;
-            this.ntbPigActualPartsEnCartera.Size = new System.Drawing.Size(420, 30);
-            this.ntbPigActualPartsEnCartera.TabIndex = 20;
-            this.ntbPigActualPartsEnCartera.Text = "0,00 €";
-            this.ntbPigActualPartsEnCartera.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.toolTip1.SetToolTip(this.ntbPigActualPartsEnCartera, "PiG actual de les participacions en cartera");
-            this.ntbPigActualPartsEnCartera.Valor = 0D;
-            // 
             // gestioProductesTabValoracions
             // 
             this.gestioProductesTabValoracions._AmbMoviments = true;
@@ -882,39 +914,6 @@ namespace Inversions.GUI
             this.gestioProductesTabValoracions.Size = new System.Drawing.Size(1029, 493);
             this.gestioProductesTabValoracions.TabIndex = 0;
             this.gestioProductesTabValoracions.ProducteSeleccionat += new System.EventHandler(this.gestioProductesTabValoracions_ProducteSeleccionat);
-            // 
-            // label1
-            // 
-            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(420, 31);
-            this.label1.TabIndex = 21;
-            this.label1.Text = "PiG actual de les participacions en cartera";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // ntbPigRealMesCartera
-            // 
-            this.ntbPigRealMesCartera._CapturaEscape = true;
-            this.ntbPigRealMesCartera._Format = "#,#0.00 €";
-            this.ntbPigRealMesCartera._PermetDecimals = true;
-            this.ntbPigRealMesCartera._PermetEspais = false;
-            this.ntbPigRealMesCartera._PermetNegatius = true;
-            this.ntbPigRealMesCartera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ntbPigRealMesCartera.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ntbPigRealMesCartera.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbPigRealMesCartera.Location = new System.Drawing.Point(0, 92);
-            this.ntbPigRealMesCartera.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ntbPigRealMesCartera.Name = "ntbPigRealMesCartera";
-            this.ntbPigRealMesCartera.ReadOnly = true;
-            this.ntbPigRealMesCartera.Size = new System.Drawing.Size(420, 30);
-            this.ntbPigRealMesCartera.TabIndex = 22;
-            this.ntbPigRealMesCartera.Text = "0,00 €";
-            this.ntbPigRealMesCartera.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.toolTip1.SetToolTip(this.ntbPigRealMesCartera, "PiG actual de les participacions en cartera");
-            this.ntbPigRealMesCartera.Valor = 0D;
             // 
             // PerduesGuanysTab
             // 

@@ -259,9 +259,6 @@ namespace Inversions.GUI
 
             var any = Convert.ToInt32(dgvPiGAnualsTributen[0, e.RowIndex].Value);
 
-            //Tributacions trib = new Tributacions();
-            //trib.carregaDades(any);
-            //trib.ShowDialog(this);
             IRPF trib = new IRPF(any);
             trib.ShowDialog(this);
         }
@@ -291,5 +288,6 @@ namespace Inversions.GUI
         {
             ompleLlistaCompres(gestioProductesTabValoracions._ProducteSeleccionat);
         }
+
     }
 }
