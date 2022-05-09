@@ -438,7 +438,7 @@ namespace Inversions
             if (!_EsVenda)
                 throw new ArgumentException(String.Format("El moviment ha de ser una venda. Id={0}", Id));
 
-            return Prod.compresDeParticions2(Data, Participacions);
+            return Prod.compresDePartipacions2(Data, Participacions);
         }
 
         /// <summary>

@@ -91,14 +91,14 @@ namespace Inversions
         }
 
         /// <summary>
-        /// Converteix el número de participacions del moviment al numero de particions originals.
+        /// Converteix el número de participacions del moviment al numero de partipacions originals.
         /// </summary>
         /// <param name="partsDelMoviment"></param>
         /// <returns></returns>
         internal double calculaPartsMovAPartsOrig(double partsDelMoviment)
         {
             if (Utilitats.ComparaNumeros(partsDelMoviment, Participacions) > 0)
-                throw new ArgumentException("El valor de partsDelMoviment és més gran que el total de particions.");
+                throw new ArgumentException("El valor de partsDelMoviment és més gran que el total de partipacions.");
             
             return partsDelMoviment / Participacions * ParticipacionsOrig;
         }

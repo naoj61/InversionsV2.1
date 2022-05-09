@@ -259,7 +259,7 @@ namespace Inversions
         private double pig2Cartera(uint any, bool pigOrigen, bool ambDespeses)
         {
             var dataFiAny = Utilitats.DataHoraFinalAny((int)any);
-            var compres = compresDeParticions2(dataFiAny);
+            var compres = compresDePartipacions2(dataFiAny);
             return compres.Sum(compra => compra.pigEnCartera(pigOrigen, ambDespeses));
         }
 
@@ -317,17 +317,17 @@ namespace Inversions
 
 
         /// <summary>
-        /// Torna la llista de les desgloç compres de les particions del producte en una data.
+        /// Torna la llista de les desgloç compres de les partipacions del producte en una data.
         /// la venda pot ser que encara no existeixi en la taula moviments o que siguin les participacions en cartera.
         /// </summary>
         /// <param name="dataHora">Es buscaran compres anteriors a aquesta data.</param>
-        /// <param name="numParticions">Son les particions de les que buscaré les seves compres.
+        /// <param name="numPartipacions">Son les partipacions de les que buscaré les seves compres.
         /// Si null utilitza les participacions en cartera a la data.</param>
         /// <returns></returns>
-        internal IEnumerable<DesglosCompra> desglosDeCompres(DateTime? dataHora = null, double? numParticions = null)
+        internal IEnumerable<DesglosCompra> desglosDeCompres(DateTime? dataHora = null, double? numPartipacions = null)
         {
             var dataH = dataHora.GetValueOrDefault(DateTime.Now);
-            var numParts = numParticions.GetValueOrDefault(numParticipacionsEnData(dataH));
+            var numParts = numPartipacions.GetValueOrDefault(numParticipacionsEnData(dataH));
 
             if (Utilitats.EsZero(numParts))
                 return new List<DesglosCompra>();
@@ -391,24 +391,23 @@ namespace Inversions
 
 
         /// <summary>
-        /// Torna la llista de les compres de les particions del producte en una data..
+        /// Torna la llista de les compres de les partipacions del producte en una data..
         /// la venda pot ser que encara no existeixi en la taula moviments o que siguin les participacions en cartera.
         /// </summary>
         /// <param name="dataHora">Es buscaran compres anteriors a aquesta data.</param>
-        /// <param name="numParticions">Son les particions de les que buscaré les seves compres.
+        /// <param name="numPartipacions">Son les partipacions de les que buscaré les seves compres.
         /// Si null utilitza les participacions en cartera a la data.</param>
         /// <returns></returns>
-
-        internal IEnumerable<Moviment> compresDeParticions2(DateTime dataHora, double? numParticions = null)
+        internal IEnumerable<Moviment> compresDePartipacions2(DateTime dataHora, double? numPartipacions = null)
         {
-            var dComp = desglosDeCompres(dataHora, numParticions);
+            var dComp = desglosDeCompres(dataHora, numPartipacions);
 
             List<Moviment> compres = new List<Moviment>();
 
             foreach (var desglosCompra in dComp)
             {
                 if (desglosCompra._ParticipacionsUtilitzades > 0 && !compres.Contains(desglosCompra.MovCompra))
-                    // Creo la llista de compres de les participacions numParticions.
+                    // Creo la llista de compres de les participacions numPartipacions.
                     compres.Add(desglosCompra.MovCompra);
             }
 
@@ -458,15 +457,15 @@ namespace Inversions
         }
 
         /// <summary>
-        /// Torna la llista de les compres afectades per una venda amb data 'dataHoraVenda' i num parts 'numParticionsVenda'.
+        /// Torna la llista de les compres afectades per una venda amb data 'dataHoraVenda' i num parts 'numPartipacionsVenda'.
         /// </summary>
         /// <param name="dataHoraVenda">Es buscaran compres i vendes anteriors a aquesta data.</param>
-        /// <param name="numParticionsVenda">Son les particions venudes a les que buscaré les seves compres. 
+        /// <param name="numPartipacionsVenda">Son les partipacions venudes a les que buscaré les seves compres. 
         /// Si null utilitza les participacions en cartera a la data.</param>
         /// <returns></returns>
-        public IEnumerable<Moviment> compresDeParticionsTest(DateTime dataHoraVenda, double? numParticionsVenda = null)
+        public IEnumerable<Moviment> compresDePartipacionsTest(DateTime dataHoraVenda, double? numPartipacionsVenda = null)
         {
-            return compresDeParticions2(dataHoraVenda, numParticionsVenda);
+            return compresDePartipacions2(dataHoraVenda, numPartipacionsVenda);
         }
 
         public double pig2EnCarteraTest(DateTime? dataHoraFinal = null, double? numParts = null, double? preuParticipacio = null)

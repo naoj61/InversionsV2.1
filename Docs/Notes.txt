@@ -13,8 +13,12 @@ _Participacions
 _PreuUnitari
 _ParticipacionsUtilitzades
 _DespesesUtil
-_ImportBrutUtil
-_ImportNetUtil
+
+_ImportCompraBrutUtil
+_ImportCompraNetUtil
+_ImportVendaBrutUtil
+_ImportVendaNetUtil
+
 
 - Mirar Arcelor PiG
 
