@@ -324,7 +324,7 @@ namespace Inversions
         /// <param name="numPartipacions">Son les partipacions de les que buscaré les seves compres.
         /// Si null utilitza les participacions en cartera a la data.</param>
         /// <returns></returns>
-        internal IEnumerable<DesglosCompra> desglosDeCompres(DateTime? dataHora = null, double? numPartipacions = null)
+        public IEnumerable<DesglosCompra> desglosDeCompres(DateTime? dataHora = null, double? numPartipacions = null)
         {
             var dataH = dataHora.GetValueOrDefault(DateTime.Now);
             var numParts = numPartipacions.GetValueOrDefault(numParticipacionsEnData(dataH));
@@ -335,7 +335,6 @@ namespace Inversions
 
             var vendesAnt = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data < dataH).OrderBy(o => o.Data).ToList();
             var compresAnt = MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data < dataH).OrderBy(o => o.Data).ToList();
-
 
             // *** Reinicia _ParticipacionsDisponibles ***
             Moviment.ResetParticipacionsDeTreball(vendesAnt);
@@ -398,7 +397,7 @@ namespace Inversions
         /// <param name="numPartipacions">Son les partipacions de les que buscaré les seves compres.
         /// Si null utilitza les participacions en cartera a la data.</param>
         /// <returns></returns>
-        internal IEnumerable<Moviment> compresDePartipacions2(DateTime dataHora, double? numPartipacions = null)
+        public IEnumerable<Moviment> compresDePartipacions2(DateTime dataHora, double? numPartipacions = null)
         {
             var dComp = desglosDeCompres(dataHora, numPartipacions);
 
