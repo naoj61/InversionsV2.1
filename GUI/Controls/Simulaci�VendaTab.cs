@@ -93,10 +93,10 @@ namespace Inversions.GUI
         {
             private static double? PreuPartActual;
 
-            private readonly DesglosCompra vDesglosCompra;
+            private readonly DesglosCompraExt vDesglosCompra;
  
 
-            public FilaCompresOriginals(DesglosCompra desglosCompra)
+            public FilaCompresOriginals(DesglosCompraExt desglosCompra)
                 : this()
             {
                 vDesglosCompra = desglosCompra;
@@ -110,37 +110,37 @@ namespace Inversions.GUI
 
             private double preuPartActual()
             {
-                return PreuPartActual.GetValueOrDefault(vDesglosCompra.MovCompra.Prod._PreuParticipacioActual);
+                return PreuPartActual.GetValueOrDefault(vDesglosCompra._Compra.Prod._PreuParticipacioActual);
             }
 
             [Description("S'utilitza en un DataGrid")]
             public int _IdOrig
             {
-                get { return vDesglosCompra.MovCompraOrig.Id; }
+                get { return vDesglosCompra._CompraOrig.Id; }
             }
 
             [Description("S'utilitza en un DataGrid")]
             public DateTime _DataOrig
             {
-                get { return vDesglosCompra.MovCompraOrig.Data; }
+                get { return vDesglosCompra._CompraOrig.Data; }
             }
 
             [Description("S'utilitza en un DataGrid")]
             public DateTime _DataCompra
             {
-                get { return vDesglosCompra.MovCompra.Data; }
+                get { return vDesglosCompra._Compra.Data; }
             }
 
             [Description("S'utilitza en un DataGrid")]
             public double _Participacions
             {
-                get { return vDesglosCompra.Participacions; }
+                get { return vDesglosCompra._Participacions; }
             }
 
             [Description("S'utilitza en un DataGrid")]
             public double _ParticipacionsUtilitzades
             {
-                get { return vDesglosCompra._ParticipacionsUtilitzades; }
+                get { return vDesglosCompra._PartsUtilitzades; }
             }
 
             [Description("S'utilitza en un DataGrid")]
@@ -148,8 +148,8 @@ namespace Inversions.GUI
             {
                 get
                 {
-                    var costOrig = vDesglosCompra.MovCompraOrig.PreuParticipacio * vDesglosCompra._ParticipacionsUtilitzadesOrig;
-                    var valorAct = preuPartActual() * vDesglosCompra._ParticipacionsUtilitzades;
+                    var costOrig = vDesglosCompra._CompraOrig.PreuParticipacio * vDesglosCompra._PartsUtilitzadesOrig;
+                    var valorAct = preuPartActual() * vDesglosCompra._PartsUtilitzades;
 
                     return valorAct - costOrig;
                 }
@@ -160,8 +160,8 @@ namespace Inversions.GUI
             {
                 get
                 {
-                    var cost = vDesglosCompra.MovCompra.PreuParticipacio * vDesglosCompra._ParticipacionsUtilitzades;
-                    var valorAct = preuPartActual() * vDesglosCompra._ParticipacionsUtilitzades;
+                    var cost = vDesglosCompra._Compra.PreuParticipacio * vDesglosCompra._PartsUtilitzades;
+                    var valorAct = preuPartActual() * vDesglosCompra._PartsUtilitzades;
 
                     return valorAct - cost;
                 }
@@ -171,7 +171,7 @@ namespace Inversions.GUI
             {
                 get
                 {
-                    var valorAct = preuPartActual() * vDesglosCompra._ParticipacionsUtilitzades;
+                    var valorAct = preuPartActual() * vDesglosCompra._PartsUtilitzades;
 
                     return valorAct;
                 }
@@ -213,7 +213,7 @@ namespace Inversions.GUI
             if (vProducteSeleccionat == null)
                 return;
 
-            var desgloçPartsEnCartera = vProducteSeleccionat.desglosDeCompres(DateTime.Now, ntbNumParticipacions.Valor);
+            var desgloçPartsEnCartera = vProducteSeleccionat.desglosCompresDeParticipacionsEnData(DateTime.Now, ntbNumParticipacions.Valor);
 
             FilaCompresOriginals._PreuPartActual = preuPartActual;
 

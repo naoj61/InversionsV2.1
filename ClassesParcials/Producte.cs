@@ -280,71 +280,7 @@ namespace Inversions
                 Where(w => w.Data >= dInici && w.Data <= dFinal && w._EsVendaReal).
                 Sum(s => s.Participacions * s.PreuParticipacio);
         }
-
-
-        /// <summary>
-        /// Calcula les despeses per compra/venda en l'any.
-        /// </summary>
-        /// <param name="any"></param>
-        /// <returns></returns>
-        internal double calculaDespesesCompra(int any)
-        {
-            return calculaDespesesCompra(new DateTime(any, 1, 1), Utilitats.PosoHora(new DateTime(any, 12, 31)));
-        }
-
-
-        /// <summary>
-        /// Calcula les despeses per compra en el periode.
-        /// </summary>
-        /// <param name="dInici"></param>
-        /// <param name="dFinal"></param>
-        /// <returns></returns>
-        private double calculaDespesesCompra(DateTime dInici, DateTime dFinal)
-        {
-            // Calcula despeses i dividents.
-            double totalDespeses = 0;
-
-            foreach (var venda in MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w._EsVendaReal).ToList())
-            {
-                // Despeses de la compra.
-                totalDespeses += venda.compresDeLaVenda4().Sum(movCompra => movCompra._DespesesParticipacionsUtilitzades);
-            }
-
-            return totalDespeses;
-        }
-
-
-        /// <summary>
-        /// Calcula les despeses per compra/venda en l'any.
-        /// </summary>
-        /// <param name="any"></param>
-        /// <returns></returns>
-        internal double calculaDespesesVenda(int any)
-        {
-            return calculaDespesesVenda(new DateTime(any, 1, 1), Utilitats.PosoHora(new DateTime(any, 12, 31)));
-        }
-
-
-        /// <summary>
-        /// Calcula les despeses per venda en el periode.
-        /// </summary>
-        /// <param name="dInici"></param>
-        /// <param name="dFinal"></param>
-        /// <returns></returns>
-        private double calculaDespesesVenda(DateTime dInici, DateTime dFinal)
-        {
-            // Calcula despeses i dividents.
-            double totalDespeses = 0;
-
-            foreach (var venda in MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w._EsVendaReal).ToList())
-            {
-                // Despeses de la venda.
-                totalDespeses += venda.Despeses.GetValueOrDefault();
-            }
-
-            return totalDespeses;
-        }
-
+        
 
         /// <summary>
         /// Calcula els dividents en l'any.
@@ -685,18 +621,18 @@ namespace Inversions
                 throw new ApplicationException("No és una acció. Només es pot fer l'split si és una acció.");
 
             var descripcio = String.Format("{0}. Factor conversor: {1}.", "Split", factorConversor);
-            var compres = compresDePartipacions2(dataHora, _Participacions).ToList();
+            var compres = compresDePartipacionsEnData(dataHora, _Participacions).ToList();
 
-            foreach (var compra in compres)
+            foreach (var compraExt in compres)
             {
-                var mov1 = connexio.Moviments.Find(compra.Id);
+                var mov1 = connexio.Moviments.Find(compraExt._Compra.Id);
 
                 DateTime data1 = mov1.Data; // Deso la data per sumar-li segons.
 
                 mov1.TipusMoviment = TipusMoviment.Split; // Modifico el tipus de moviment de la compra.
                 mov1.Descripcio += descripcio;
 
-                int particSplit = (int)compra._ParticipacionsUtilitzades;
+                int particSplit = (int)compraExt._PartsUtilitzades;
                 int particSenseSplit = (int)mov1.Participacions - particSplit;
 
                 double despesesSenseSplit = 0;
@@ -719,7 +655,7 @@ namespace Inversions
             }
 
             // Modifico les valoracions a partir de la data del Split.
-            var dataPrimeraCompra = compres.First().Data;
+            var dataPrimeraCompra = compres.First()._Compra.Data;
             modificaValoracions(connexio, TipusMoviment.Split, dataPrimeraCompra.Date, factorConversor);
 
             //connexio.SaveChanges();
@@ -740,19 +676,19 @@ namespace Inversions
                 throw new ApplicationException("No és una acció. Només es pot fer l'split si és una acció.");
 
             var descripcio = String.Format("{0}. Factor conversor: {1}. Preu operació: {2}.", "ContraSplit", factorConversor, preuOperacio);
-            var compresAnt = compresDePartipacions2(dataHora, _Participacions).ToList();
+            var compresAnt = compresDePartipacionsEnData(dataHora, _Participacions).ToList();
 
-            foreach (var movimentCompra in compresAnt)
+            foreach (var compraExt in compresAnt)
             {
-                var mov1 = connexio.Moviments.Find(movimentCompra.Id);
+                var mov1 = connexio.Moviments.Find(compraExt._Compra.Id);
 
                 DateTime data1 = mov1.Data; // Deso la data per sumar-li segons.
 
                 mov1.TipusMoviment = TipusMoviment.ContraSplit; // Modifico el tipus de moviment de la compra.
                 mov1.Descripcio += descripcio;
 
-                int partRestants = (int)movimentCompra._ParticipacionsUtilitzades % factorConversor; // Calculo el número de participacions que sobren i s'hauran de vendre.
-                int particContraSplit = (int)movimentCompra._ParticipacionsUtilitzades - partRestants;
+                int partRestants = (int)compraExt._PartsUtilitzades % factorConversor; // Calculo el número de participacions que sobren i s'hauran de vendre.
+                int particContraSplit = (int)compraExt._PartsUtilitzades - partRestants;
                 int particSenseContraSplit = (int)mov1.Participacions - particContraSplit;
 
                 double despesesSenseContraSplit = 0;
@@ -787,7 +723,7 @@ namespace Inversions
             }
 
             // Modifico les valoracions a partir de la data del ContraSplit.
-            var dataPrimeraCompra = compresAnt.First().Data;
+            var dataPrimeraCompra = compresAnt.First()._Compra.Data;
             modificaValoracions(connexio, TipusMoviment.ContraSplit, dataPrimeraCompra.Date, factorConversor);
 
             //connexio.SaveChanges();

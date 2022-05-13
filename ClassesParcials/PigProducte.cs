@@ -37,9 +37,7 @@ namespace Inversions
             get { return vCompra; }
         }
 
-
-        //, compraExt.
-
+        
         public double _PartsUtilitzades
         {
             get { return vDesglosCompra.Sum(s => s._PartsUtilitzades); }
@@ -49,6 +47,13 @@ namespace Inversions
         {
             get { return vDesglosCompra.Sum(s => s._PartsOcupades); }
         }
+
+
+        public double _DespesesPartsUtilitzades
+        {
+            get { return vCompra.Despeses.GetValueOrDefault() / vCompra.Participacions * _PartsUtilitzades; }
+        }
+
 
         internal void addDesglos(DesglosCompraExt desglosCompra)
         {
@@ -61,6 +66,46 @@ namespace Inversions
             else
                 vDesglosCompra.Add(desglosCompra);
         }
+
+
+
+        /// <summary>
+        /// Calcula el preu total compra origen a partir del desgloç de les compres.
+        /// </summary>
+        /// <param name="calculaImportNet"></param>
+        /// <param name="utilitzoParticipacionsUtilitzades"></param>
+        /// <returns></returns>
+        public double calculaImportCompraOrigen3(bool calculaImportNet, bool utilitzoParticipacionsUtilitzades)
+        {
+            double desp = 0;
+            if (calculaImportNet && vCompra.Despeses.HasValue)
+            {
+                if (utilitzoParticipacionsUtilitzades)
+                    desp = vCompra.Despeses.Value / vCompra.Participacions * _PartsUtilitzades;
+                else
+                    desp = vCompra.Despeses.Value;
+            }
+
+
+            double import = 0;
+            foreach (DesglosCompraExt desglosCompra in vDesglosCompra)
+            {
+                double partsOrig;
+                if (!utilitzoParticipacionsUtilitzades || Utilitats.SonIguals(desglosCompra._Participacions, desglosCompra._PartsUtilitzades))
+                {
+                    // Per evitar embolics amb els decimals, si Participacions i _ParticipacionsUtilitzades son iguals ja no cal dividirlos.
+                    partsOrig = desglosCompra._ParticipacionsOrig;
+                }
+                else
+                    // Pondero ParticipacionsOrig a partir de la diferència entre Participacions i _ParticipacionsUtilitzades.
+                    partsOrig = desglosCompra._ParticipacionsOrig / desglosCompra._Participacions * desglosCompra._PartsUtilitzades;
+
+                import += partsOrig * desglosCompra._PreuParticipacioOrig;
+            }
+
+            return import + desp;
+        }
+
 
 
         #region Equals
@@ -125,6 +170,27 @@ namespace Inversions
         public Moviment _Compra
         {
             get { return vDesglosCompra.MovCompra; }
+        }
+
+        public Moviment _CompraOrig
+        {
+            get { return vDesglosCompra.MovCompraOrig; }
+        }
+
+        public double _Participacions
+        {
+            get { return vDesglosCompra.Participacions; }
+        }
+
+        public double _ParticipacionsOrig
+        {
+            get { return vDesglosCompra.ParticipacionsOrig; }
+        }
+
+
+        public double _PreuParticipacioOrig
+        {
+            get { return vDesglosCompra._PreuParticipacioOrig; }
         }
 
         public double _PartsDisponibles
@@ -209,6 +275,7 @@ namespace Inversions
         {
             return vDesglosCompra.ToString();
         }
+
     }
 
     #endregion Structs
@@ -216,36 +283,6 @@ namespace Inversions
 
     public abstract partial class Producte
     {
-
-        /// <summary>
-        /// Torna la llista de les compres de les partipacions del producte en una data..
-        /// la venda pot ser que encara no existeixi en la taula moviments o que siguin les participacions en cartera.
-        /// </summary>
-        /// <param name="dataHora">Es buscaran compres anteriors a aquesta data.</param>
-        /// <param name="numPartipacions">Son les partipacions de les que buscaré les seves compres.
-        /// Si null utilitza les participacions en cartera a la data.</param>
-        /// <returns></returns>
-        public IEnumerable<CompraExt> compresDePartipacionsEnData(DateTime? dataHora = null, double? numPartipacions = null)
-        {
-            var dComp = desglosCompresDePartipacionsEnData(dataHora, numPartipacions);
-
-            //return dComp.GroupBy(g => g._Compra).Select(exts => new CompraExt(exts.Key)).ToList();
-
-            List<CompraExt> compres = new List<CompraExt>();
-
-            foreach (var desglosCompraExt in dComp)
-            {
-                // Creo la llista de compres de les participacions numPartipacions.
-                if (compres.Any(w => w._Compra == desglosCompraExt._Compra))
-                    compres.Single(w => w._Compra == desglosCompraExt._Compra).addDesglos(desglosCompraExt);
-                else
-                    compres.Add(new CompraExt(desglosCompraExt));                    
-            }
-
-            return compres;
-        }
-
-
         /// <summary>
         /// Torna la llista de les desgloç compres de les partipacions del producte en una data.
         /// la venda pot ser que encara no existeixi en la taula moviments o que siguin les participacions en cartera.
@@ -254,7 +291,7 @@ namespace Inversions
         /// <param name="numPartipacions">Son les partipacions de les que buscaré les seves compres.
         /// Si null utilitza les participacions en cartera a la data.</param>
         /// <returns></returns>
-        public IEnumerable<DesglosCompraExt> desglosCompresDePartipacionsEnData(DateTime? dataHora = null, double? numPartipacions = null)
+        public IEnumerable<DesglosCompraExt> desglosCompresDeParticipacionsEnData(DateTime? dataHora = null, double? numPartipacions = null)
         {
             var dataH = dataHora.GetValueOrDefault(DateTime.Now);
             var numParts = numPartipacions.GetValueOrDefault(numParticipacionsEnData(dataH));
@@ -306,6 +343,35 @@ namespace Inversions
             }
 
             return desglosCompresAnt.Where(w => w._PartsUtilitzades > 0);
+        }
+        
+        
+        /// <summary>
+        /// Torna la llista de les compres de les partipacions del producte en una data..
+        /// la venda pot ser que encara no existeixi en la taula moviments o que siguin les participacions en cartera.
+        /// </summary>
+        /// <param name="dataHora">Es buscaran compres anteriors a aquesta data.</param>
+        /// <param name="numPartipacions">Son les partipacions de les que buscaré les seves compres.
+        /// Si null utilitza les participacions en cartera a la data.</param>
+        /// <returns></returns>
+        public IEnumerable<CompraExt> compresDePartipacionsEnData(DateTime? dataHora = null, double? numPartipacions = null)
+        {
+            var dComp = desglosCompresDeParticipacionsEnData(dataHora, numPartipacions);
+
+            //return dComp.GroupBy(g => g._Compra).Select(exts => new CompraExt(exts.Key)).ToList();
+
+            List<CompraExt> compres = new List<CompraExt>();
+
+            foreach (var desglosCompraExt in dComp)
+            {
+                // Creo la llista de compres de les participacions numPartipacions.
+                if (compres.Any(w => w._Compra == desglosCompraExt._Compra))
+                    compres.Single(w => w._Compra == desglosCompraExt._Compra).addDesglos(desglosCompraExt);
+                else
+                    compres.Add(new CompraExt(desglosCompraExt));
+            }
+
+            return compres;
         }
     }
 }

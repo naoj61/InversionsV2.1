@@ -433,19 +433,19 @@ namespace Inversions
         /// Torna la llista de les compres afectades per aquesta venda.
         /// </summary>
         /// <returns></returns>
-        internal IEnumerable<Moviment> compresDeLaVenda4()
+        internal IEnumerable<CompraExt> compresDeLaVenda4()
         {
             if (!_EsVenda)
                 throw new ArgumentException(String.Format("El moviment ha de ser una venda. Id={0}", Id));
 
-            return Prod.compresDePartipacions2(Data, Participacions);
+            return Prod.compresDePartipacionsEnData(Data, Participacions);
         }
 
         /// <summary>
         /// Torna la llista de les compres afectades per aquesta venda.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Moviment> compresDeLaVenda4Test()
+        public IEnumerable<CompraExt> compresDeLaVenda4Test()
         {
             return compresDeLaVenda4();
         }
@@ -744,15 +744,15 @@ namespace Inversions
             if (_EsTraspas)
             {
                 // ** És un traspàs.
-            
-                var desgloçCompresVenda = vendaTraspas.Prod.desglosDeCompres(vendaTraspas.Data, vendaTraspas.Participacions).ToList();
 
-                var agrupatPerIdOrig = desgloçCompresVenda.OrderBy(o => o._DataOrig).GroupBy(g => g.MovCompraOrig)
+                var desgloçCompresVenda = vendaTraspas.Prod.desglosCompresDeParticipacionsEnData(vendaTraspas.Data, vendaTraspas.Participacions).ToList();
+
+                var agrupatPerIdOrig = desgloçCompresVenda.OrderBy(o => o._DataOrig).GroupBy(g => g._CompraOrig)
                     .Select(s => new
                     {
                         movOrig = s.Key,
-                        sumPartsUtil = s.Sum(x => x._ParticipacionsUtilitzades),
-                        sumPartsUtilOrig = s.Sum(x => x._ParticipacionsUtilitzadesOrig)
+                        sumPartsUtil = s.Sum(x => x._PartsUtilitzades),
+                        sumPartsUtilOrig = s.Sum(x => x._PartsUtilitzadesOrig)
                     });
 
                 foreach (var grup in agrupatPerIdOrig)
