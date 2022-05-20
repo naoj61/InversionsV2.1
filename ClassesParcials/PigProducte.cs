@@ -12,7 +12,114 @@ using Comuns;
 
 namespace Inversions
 {
-    #region Structs
+    #region Classes Ext
+
+    public class VendaExt
+    {
+        public VendaExt(Moviment venda, double partsOcupades, double partsUtilitzades)
+        {
+            if (!venda._EsVenda)
+                throw new Exception("El paràmetre 'venda' no és una venda");
+
+            vVenda = venda;
+            _PartsOcupades = partsOcupades;
+            _PartsUtilitzades = partsUtilitzades;
+        }
+
+
+        private readonly Moviment vVenda;
+        public double _PartsUtilitzades { get; set; }
+        public double _PartsOcupades { get; set; }
+
+
+        public Moviment _Venda
+        {
+            get { return vVenda; }
+        }
+
+
+        public int _Id
+        {
+            get { return vVenda.Id; }
+        }
+
+        public DateTime _Data
+        {
+            get { return vVenda.Data; }
+        }
+
+        public double _Participacions
+        {
+            get { return vVenda.Participacions; }
+        }
+
+        public double _PreuParticipacio
+        {
+            get { return vVenda.PreuParticipacio; }
+        }
+
+        public double _Despeses
+        {
+            get { return vVenda.Despeses.GetValueOrDefault(); }
+        }
+
+        public double _DespesesPartsUtilitzades
+        {
+            get { return vVenda.Despeses.GetValueOrDefault() / vVenda.Participacions * _PartsUtilitzades; }
+        }
+
+        public bool _EsVendaReal
+        {
+            get { return vVenda._EsVendaReal; }
+        }
+        
+
+        #region Equals
+
+        public override bool Equals(object obj)
+        {
+            return Equals((VendaExt)obj);
+        }
+
+        public bool Equals(VendaExt other)
+        {
+            return vVenda == other.vVenda;
+        }
+
+        public override int GetHashCode()
+        {
+            return vVenda.GetHashCode();
+        }
+
+        public static bool operator ==(VendaExt left, VendaExt right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            // If one is null,return false.
+            if ((object)left == null || (object)right == null)
+            {
+                return false;
+            }
+
+            return left.vVenda == right.vVenda;
+        }
+
+        public static bool operator !=(VendaExt left, VendaExt right)
+        {
+            return !(left == right);
+        }
+
+        #endregion Equals
+
+        public override string ToString()
+        {
+            return vVenda.ToString();
+        }
+    }
 
     public class CompraExt
     {
@@ -37,7 +144,33 @@ namespace Inversions
             get { return vCompra; }
         }
 
-        
+
+        public int _Id
+        {
+            get { return vCompra.Id; }
+        }
+
+        public DateTime _Data
+        {
+            get { return vCompra.Data; }
+        }
+
+        public double _Participacions
+        {
+            get { return vCompra.Participacions; }
+        }
+
+        public double _PreuParticipacio
+        {
+            get { return vCompra.PreuParticipacio; }
+        }
+
+        public double _Despeses
+        {
+            get { return vCompra.Despeses.GetValueOrDefault(); }
+        }
+
+
         public double _PartsUtilitzades
         {
             get { return vDesglosCompra.Sum(s => s._PartsUtilitzades); }
@@ -112,17 +245,17 @@ namespace Inversions
 
         public override bool Equals(object obj)
         {
-            return Equals((CompraExt)obj);
+            return Equals((CompraExt) obj);
         }
 
         public bool Equals(CompraExt other)
         {
-            return _Compra == other._Compra;
+            return vCompra == other.vCompra;
         }
 
         public override int GetHashCode()
         {
-            return _Compra.GetHashCode();
+            return vCompra.GetHashCode();
         }
 
         public static bool operator ==(CompraExt left, CompraExt right)
@@ -134,12 +267,12 @@ namespace Inversions
             }
 
             // If one is null,return false.
-            if ((object)left == null || (object)right == null)
+            if ((object) left == null || (object) right == null)
             {
                 return false;
             }
 
-            return left._Compra == right._Compra;
+            return left.vCompra == right.vCompra;
         }
 
         public static bool operator !=(CompraExt left, CompraExt right)
@@ -151,7 +284,7 @@ namespace Inversions
 
         public override string ToString()
         {
-            return _Compra.ToString();
+            return vCompra.ToString();
         }
     }
 
@@ -278,7 +411,7 @@ namespace Inversions
 
     }
 
-    #endregion Structs
+    #endregion Classes Ext
 
 
     public abstract partial class Producte
@@ -373,5 +506,36 @@ namespace Inversions
 
             return compres;
         }
+
+
+
+        ///// <summary>
+        ///// Torna les participacions que encara hi ha en cartera a una data.
+        ///// </summary>
+        ///// <param name="participacions"></param>
+        ///// <param name="dataHoraCompra"></param>
+        ///// <param name="dataHoraMaxVenda">Vendes amb data menor o igual a dataHora. Si null, totes les vendes.</param>
+        ///// <returns></returns>
+        //private double partsEnCartera(double participacions, DateTime dataHoraCompra, DateTime? dataHoraMaxVenda= null)
+        //{
+        //    var dataH = dataHoraMaxVenda.GetValueOrDefault(DateTime.Now);
+
+        //    if (dataH < dataHoraCompra)
+        //        return 0;
+
+        //    // Suma de les participacions comprades incloses les d'aquesta compra.
+        //    var partsC = Program.Sessio.MovimentsUsuari.Where(w => w.Prod == this && w._EsCompra && w.Data <= dataHoraCompra).Sum(s => s.Participacions);
+
+        //    // Suma de les participacions venudes amb data <= 'dataH'
+        //    var partsV = Program.Sessio.MovimentsUsuari.Where(w => w.Prod == this && w._EsVenda && w.Data <= dataH).Sum(s => s.Participacions);
+
+        //    var partsComprades = partsC - partsV;
+
+        //    // Si partsComprades >= Participacions. Encara no s'ha venut cap participació.
+        //    // Si partsComprades < Participacions i partsComprades > 0. Encara falten per vendre 'partsComprades'.
+        //    // Si partsComprades < Participacions i partsComprades <= 0. S'ha venut tot.
+        //    return partsComprades >= participacions ? participacions : (partsComprades > 0 ? partsComprades : 0);
+        //}
+
     }
 }

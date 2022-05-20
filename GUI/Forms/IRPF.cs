@@ -145,7 +145,7 @@ namespace Inversions.GUI.Forms
 
             private double _DespesesCompraUtil
             {
-                get { return vCompra._DespesesPartsUtilitzades / vCompra._Compra.Participacions * vParticipacionsUtilitzades; }
+                get { return vCompra._DespesesPartsUtilitzades / vCompra._Participacions * vParticipacionsUtilitzades; }
             }
 
             private double _DespesesVendaUtil
@@ -174,7 +174,7 @@ namespace Inversions.GUI.Forms
 
             public double _DespesesCompra
             {
-                get { return vCompra._Compra.Despeses.GetValueOrDefault(); }
+                get { return vCompra._Despeses; }
             }
 
             public double _DespesesVenda
@@ -199,27 +199,27 @@ namespace Inversions.GUI.Forms
 
             public int _Id
             {
-                get { return _CompraExt._Compra.Id; }
+                get { return _CompraExt._Id; }
             }
 
             public DateTime _Data
             {
-                get { return _CompraExt._Compra.Data; }
+                get { return _CompraExt._Data; }
             }
 
             public double _Participacions
             {
-                get { return _CompraExt._Compra.Participacions; }
+                get { return _CompraExt._Participacions; }
             }
 
             public double _PreuUnitari
             {
-                get { return _CompraExt._Compra.PreuParticipacio; }
+                get { return _CompraExt._PreuParticipacio; }
             }
 
             public double _ImportCompraBrutUtil
             {
-                get { return _ParticipacionsUtilitzades * vCompra._Compra.PreuParticipacio; }
+                get { return _ParticipacionsUtilitzades * vCompra._PreuParticipacio; }
             }
 
             public double _ImportVendaBrutUtil
@@ -315,14 +315,14 @@ namespace Inversions.GUI.Forms
                     else
                         compresVendaAgrup.Add(compraVenda);
                 }
-                dgvCompresVenda.DataSource = compresVendaAgrup.OrderBy(o => o._Venda.Data).ThenBy(o => o._CompraExt._Compra.Data).ToList();
+                dgvCompresVenda.DataSource = compresVendaAgrup.OrderBy(o => o._Venda.Data).ThenBy(o => o._CompraExt._Data).ToList();
             }
             else
             {
                 ColDespesesCompra.Visible = true;
                 ColDespesesVenda.Visible = true;
 
-                dgvCompresVenda.DataSource = compresVenda.OrderBy(o => o._Venda.Data).ThenBy(o => o._CompraExt._Compra.Data).ToList();
+                dgvCompresVenda.DataSource = compresVenda.OrderBy(o => o._Venda.Data).ThenBy(o => o._CompraExt._Data).ToList();
             }
         }
 
