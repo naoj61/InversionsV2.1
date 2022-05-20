@@ -73,13 +73,13 @@ namespace Inversions
         [Description("S'utilitza en un DataGrid")]
         public double __PigDeLaCompra
         {
-            get { return pigDeLaCompraEsElBooooo(AmbCartera, false, null, true, AmbDividents); }
+            get { return pigDeLaCompra(AmbCartera, false, null, true, AmbDividents); }
         }
 
         [Description("S'utilitza en un DataGrid")]
         public double __PigDeLaCompraOrigen
         {
-            get { return pigDeLaCompraEsElBooooo(AmbCartera, true, null, true, AmbDividents); }
+            get { return pigDeLaCompra(AmbCartera, true, null, true, AmbDividents); }
         }
 
 
@@ -188,60 +188,12 @@ namespace Inversions
 
         #region *** Mètodes ***
 
-
         private IEnumerable<VendaExt> vendesDeLaCompra()
         {
             if (!_EsCompra)
                 throw new ArgumentException(String.Format("El moviment ha de ser una compra. Id={0}", Id));
 
-            List<VendaExt> vendesDeLaCompra = new List<VendaExt>();
-
-            var partsEnCarteraAbansCompra = Prod.numParticipacionsEnData(Data.AddMilliseconds(-1)); //partsEnCarteraCompra(true, Data);
-            var partsDeLaCompraResten = Participacions;
-            var vendesPost = Prod.MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data > Data).OrderBy(o => o.Data).ToList();
-
-            foreach (var venda in vendesPost)
-            {
-                double partsOcupades, partsUtilitzades;
-
-                if (partsEnCarteraAbansCompra > 0)
-                {
-                    if (partsEnCarteraAbansCompra >= venda.Participacions)
-                    {
-                        partsEnCarteraAbansCompra -= venda.Participacions;
-                        continue;
-                    }
-
-                    partsOcupades = partsEnCarteraAbansCompra;
-                    double partsDisponibles = venda.Participacions - partsOcupades;
-                    partsUtilitzades = partsDisponibles >= partsDeLaCompraResten ? partsDeLaCompraResten : partsDisponibles;
-
-                    partsDeLaCompraResten -= partsUtilitzades;
-                    partsEnCarteraAbansCompra = 0;
-                }
-                else
-                {
-                    partsOcupades = 0;
-
-                    if (venda.Participacions >= partsDeLaCompraResten)
-                    {
-                        partsUtilitzades = partsDeLaCompraResten;
-                        partsDeLaCompraResten = 0;
-                    }
-                    else
-                    {
-                        partsUtilitzades = venda.Participacions;
-                        partsDeLaCompraResten -= venda.Participacions;
-                    }
-                }
-
-                vendesDeLaCompra.Add(new VendaExt(venda, partsOcupades, partsUtilitzades));
-
-                if (Utilitats.EsZero(partsDeLaCompraResten))
-                   break;
-            }
-
-            return vendesDeLaCompra;
+            return Prod.vendesDePartipacionsEnDataTest(Data, Participacions);
         }
 
 
@@ -249,7 +201,7 @@ namespace Inversions
         /// Torna la llista de les compres afectades per aquesta venda.
         /// </summary>
         /// <returns></returns>
-        internal IEnumerable<CompraExt> compresDeLaVenda4()
+        internal IEnumerable<CompraExt> compresDeLaVenda()
         {
             if (!_EsVenda)
                 throw new ArgumentException(String.Format("El moviment ha de ser una venda. Id={0}", Id));
@@ -267,7 +219,7 @@ namespace Inversions
         /// <param name="ambDespeses">Inclou despeses.</param>
         /// <param name="ambDividents">Inclou dividents.</param>
         /// <returns></returns>
-        internal double pigDeLaCompraEsElBooooo(bool ambCartera, bool pigOrigen, uint? anyVenda, bool ambDespeses = true, bool ambDividents = true)
+        internal double pigDeLaCompra(bool ambCartera, bool pigOrigen, uint? anyVenda, bool ambDespeses = true, bool ambDividents = true)
         {
             if (Prod is ProdFons)
             {
@@ -513,7 +465,7 @@ namespace Inversions
 
             double preuCost = 0;
 
-            var compresAnt = this.compresDeLaVenda4().ToList();
+            var compresAnt = this.compresDeLaVenda().ToList();
             foreach (var compraAnt in compresAnt)
             {
                 // Inclou despeses de la compra.
@@ -622,9 +574,9 @@ namespace Inversions
 
         #region **** Mètodes cridats des de Test *****
 
-        public double pigDeLaCompraEsElBoooooTest(bool ambCartera, bool pigOrigen, uint? any, bool ambDespeses = true, bool ambDividents = true)
+        public double pigDeLaCompraTest(bool ambCartera, bool pigOrigen, uint? any, bool ambDespeses = true, bool ambDividents = true)
         {
-            return pigDeLaCompraEsElBooooo(ambCartera, pigOrigen, any, ambDespeses, ambDividents);
+            return pigDeLaCompra(ambCartera, pigOrigen, any, ambDespeses, ambDividents);
         }
 
 

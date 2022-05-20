@@ -294,7 +294,7 @@ namespace Inversions.GUI.Forms
             List<StCompresVenda> compresVenda = new List<StCompresVenda>();
             foreach (Moviment venda in vendessSelec)
             {
-                compresVenda.AddRange(venda.compresDeLaVenda4().Select(compraExt => new StCompresVenda(venda, compraExt)));
+                compresVenda.AddRange(venda.compresDeLaVenda().Select(compraExt => new StCompresVenda(venda, compraExt)));
             }
 
             if (ckAgrupaCompres.Checked)
@@ -339,7 +339,7 @@ namespace Inversions.GUI.Forms
 
             vVendesAny = Program.Sessio.MovimentsUsuari.Where(w => w._EsVendaReal && w.Data.Year == vAny).OrderBy(o => o.Prod).ThenBy(t => t.Data).ToList();
             vProdsAmbVendesAny = vVendesAny.Select(s => s.Prod).Distinct().Select(i => new StProductes(vAny, i)).ToList();
-            vCompresVendesAny = vVendesAny.ToDictionary(x => x, x => x.compresDeLaVenda4().ToList());
+            vCompresVendesAny = vVendesAny.ToDictionary(x => x, x => x.compresDeLaVenda().ToList());
 
             dgvProductes.DataSource = vProdsAmbVendesAny;
 

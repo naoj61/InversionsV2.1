@@ -421,21 +421,16 @@ namespace Inversions
         /// la venda pot ser que encara no existeixi en la taula moviments o que siguin les participacions en cartera.
         /// </summary>
         /// <param name="dataHora">Es buscaran compres anteriors a aquesta data.</param>
-        /// <param name="numPartipacions">Son les partipacions de les que buscaré les seves compres.
-        /// Si null utilitza les participacions en cartera a la data.</param>
+        /// <param name="numPartipacions">Son les partipacions de les que buscaré les seves compres.</param>
         /// <returns></returns>
-        public IEnumerable<DesglosCompraExt> desglosCompresDeParticipacionsEnData(DateTime? dataHora = null, double? numPartipacions = null)
+        public IEnumerable<DesglosCompraExt> desglosCompresDeParticipacionsEnData(DateTime dataHora, double numPartipacions)
         {
-            var dataH = dataHora.GetValueOrDefault(DateTime.Now);
-            var numParts = numPartipacions.GetValueOrDefault(numParticipacionsEnData(dataH));
-
-            if (Utilitats.EsZero(numParts))
+            if (Utilitats.EsZero(numPartipacions))
                 return new List<DesglosCompraExt>();
 
-
-            var vendesAnt = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data < dataH).OrderBy(o => o.Data).ToList();
+            var vendesAnt = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data < dataHora).OrderBy(o => o.Data).ToList();
             var desglosCompresAnt = DesglosCompraExt.OmpleLlista(MovimentsProducteUsuari
-                .Where(w => w._EsCompra && w.Data < dataH)).ToList();
+                .Where(w => w._EsCompra && w.Data < dataHora)).ToList();
 
             // Marco les participacions ocupades per vendes anteriors.
             double partsVenudesResten;
@@ -460,7 +455,7 @@ namespace Inversions
             }
 
             // Marco les participacions utilitzades en aquesta venda.
-            partsVenudesResten = numParts;
+            partsVenudesResten = numPartipacions;
             foreach (var desgCompra in desglosCompresAnt.Where(w => w._PartsDisponibles > 0).OrderBy(o => o._DataOrig))
             {
                 if (Utilitats.ComparaNumeros(partsVenudesResten, desgCompra._PartsDisponibles) > 0)
@@ -480,18 +475,15 @@ namespace Inversions
         
         
         /// <summary>
-        /// Torna la llista de les compres de les partipacions del producte en una data..
+        /// Torna la llista de les compres de les partipacions del producte en una data.
         /// la venda pot ser que encara no existeixi en la taula moviments o que siguin les participacions en cartera.
         /// </summary>
         /// <param name="dataHora">Es buscaran compres anteriors a aquesta data.</param>
-        /// <param name="numPartipacions">Son les partipacions de les que buscaré les seves compres.
-        /// Si null utilitza les participacions en cartera a la data.</param>
+        /// <param name="numPartipacions">Son les partipacions de les que buscaré les seves compres.</param>
         /// <returns></returns>
-        public IEnumerable<CompraExt> compresDePartipacionsEnData(DateTime? dataHora = null, double? numPartipacions = null)
+        public IEnumerable<CompraExt> compresDePartipacionsEnData(DateTime dataHora, double numPartipacions)
         {
             var dComp = desglosCompresDeParticipacionsEnData(dataHora, numPartipacions);
-
-            //return dComp.GroupBy(g => g._Compra).Select(exts => new CompraExt(exts.Key)).ToList();
 
             List<CompraExt> compres = new List<CompraExt>();
 
@@ -507,35 +499,68 @@ namespace Inversions
             return compres;
         }
 
+        public IEnumerable<VendaExt> vendesDePartipacionsEnDataTest(DateTime dataHora, double numPartipacions)
+        {
+            return vendesDePartipacionsCompradesEnData(dataHora, numPartipacions);
+        }
 
+        /// <summary>
+        /// Torna la llista de les vendes de les partipacions del producte comprades en una data.
+        /// </summary>
+        /// <param name="dataHora">Data de la compra.</param>
+        /// <param name="numPartipacions">Participacions comprades.</param>
+        /// <returns></returns>
+        private IEnumerable<VendaExt> vendesDePartipacionsCompradesEnData(DateTime dataHora, double numPartipacions)
+        {
+            List<VendaExt> vendesDeLaCompra = new List<VendaExt>();
 
-        ///// <summary>
-        ///// Torna les participacions que encara hi ha en cartera a una data.
-        ///// </summary>
-        ///// <param name="participacions"></param>
-        ///// <param name="dataHoraCompra"></param>
-        ///// <param name="dataHoraMaxVenda">Vendes amb data menor o igual a dataHora. Si null, totes les vendes.</param>
-        ///// <returns></returns>
-        //private double partsEnCartera(double participacions, DateTime dataHoraCompra, DateTime? dataHoraMaxVenda= null)
-        //{
-        //    var dataH = dataHoraMaxVenda.GetValueOrDefault(DateTime.Now);
+            var partsEnCarteraAbansCompra = numParticipacionsEnData(dataHora.AddMilliseconds(-1));
+            var partsDeLaCompraResten = numPartipacions;
+            var vendesPost = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data > dataHora).OrderBy(o => o.Data).ToList();
 
-        //    if (dataH < dataHoraCompra)
-        //        return 0;
+            foreach (var venda in vendesPost)
+            {
+                double partsOcupades, partsUtilitzades;
 
-        //    // Suma de les participacions comprades incloses les d'aquesta compra.
-        //    var partsC = Program.Sessio.MovimentsUsuari.Where(w => w.Prod == this && w._EsCompra && w.Data <= dataHoraCompra).Sum(s => s.Participacions);
+                if (partsEnCarteraAbansCompra > 0)
+                {
+                    if (partsEnCarteraAbansCompra >= venda.Participacions)
+                    {
+                        partsEnCarteraAbansCompra -= venda.Participacions;
+                        continue;
+                    }
 
-        //    // Suma de les participacions venudes amb data <= 'dataH'
-        //    var partsV = Program.Sessio.MovimentsUsuari.Where(w => w.Prod == this && w._EsVenda && w.Data <= dataH).Sum(s => s.Participacions);
+                    partsOcupades = partsEnCarteraAbansCompra;
+                    double partsDisponibles = venda.Participacions - partsOcupades;
+                    partsUtilitzades = partsDisponibles >= partsDeLaCompraResten ? partsDeLaCompraResten : partsDisponibles;
 
-        //    var partsComprades = partsC - partsV;
+                    partsDeLaCompraResten -= partsUtilitzades;
+                    partsEnCarteraAbansCompra = 0;
+                }
+                else
+                {
+                    partsOcupades = 0;
 
-        //    // Si partsComprades >= Participacions. Encara no s'ha venut cap participació.
-        //    // Si partsComprades < Participacions i partsComprades > 0. Encara falten per vendre 'partsComprades'.
-        //    // Si partsComprades < Participacions i partsComprades <= 0. S'ha venut tot.
-        //    return partsComprades >= participacions ? participacions : (partsComprades > 0 ? partsComprades : 0);
-        //}
+                    if (venda.Participacions >= partsDeLaCompraResten)
+                    {
+                        partsUtilitzades = partsDeLaCompraResten;
+                        partsDeLaCompraResten = 0;
+                    }
+                    else
+                    {
+                        partsUtilitzades = venda.Participacions;
+                        partsDeLaCompraResten -= venda.Participacions;
+                    }
+                }
+
+                vendesDeLaCompra.Add(new VendaExt(venda, partsOcupades, partsUtilitzades));
+
+                if (Utilitats.EsZero(partsDeLaCompraResten))
+                    break;
+            }
+
+            return vendesDeLaCompra;
+        }
 
     }
 }

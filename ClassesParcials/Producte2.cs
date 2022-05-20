@@ -203,7 +203,7 @@ namespace Inversions
             foreach (Moviment vendaReal in vendesRealsAny)
             {
                 // Creo llista de compres de les vendes del periode evitant duplicats.
-                foreach (CompraExt compraExt in vendaReal.compresDeLaVenda4())
+                foreach (CompraExt compraExt in vendaReal.compresDeLaVenda())
                 {
                     if (!compres.Contains(compraExt._Compra))
                         compres.Add(compraExt._Compra);
@@ -213,7 +213,7 @@ namespace Inversions
             double sum = 0;
             foreach (var compra in compres)
             {
-                sum += compra.pigDeLaCompraEsElBooooo(inclouCartera, true, anyVendes, true, inclouDividends);
+                sum += compra.pigDeLaCompra(inclouCartera, true, anyVendes, true, inclouDividends);
             }
 
             return sum;
@@ -260,7 +260,8 @@ namespace Inversions
         private double pig2Cartera(uint any, bool pigOrigen, bool ambDespeses)
         {
             var dataFiAny = Utilitats.DataHoraFinalAny((int)any);
-            var compres = compresDePartipacionsEnData(dataFiAny);
+            var numParts = numParticipacionsEnData(dataFiAny);
+            var compres = compresDePartipacionsEnData(dataFiAny, numParts);
             return compres.Sum(compraExt => compraExt._Compra.pigEnCartera(pigOrigen, ambDespeses));
         }
 
@@ -324,7 +325,10 @@ namespace Inversions
         /// <returns></returns>
         public double costOriginalEnCartera4(DateTime? dataHoraFinal = null, double? numPartsMax = null)
         {
-            return desglosCompresDeParticipacionsEnData(dataHoraFinal, numPartsMax).Sum(s => s._PartsUtilitzadesOrig * s._PreuParticipacioOrig);
+            var dataH = dataHoraFinal.GetValueOrDefault(DateTime.Now);
+            var numParts = numPartsMax.GetValueOrDefault(numParticipacionsEnData(dataH));
+
+            return desglosCompresDeParticipacionsEnData(dataH, numParts).Sum(s => s._PartsUtilitzadesOrig * s._PreuParticipacioOrig);
         }
 
 
