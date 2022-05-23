@@ -83,7 +83,7 @@ namespace Inversions
 
             double pig = Program.Sessio.MovimentsUsuari
                 .Where(w => w.Data.Year == any && prods.Contains(w.Prod) && w._EsVendaReal)
-                .Sum(s => s.pig2Venda(true));
+                .Sum(s => s.pigDeUnaVenda(true));
 
             double div = inclouDividends ? Program.Sessio.MovimentsUsuari
                 .Where(w => w.Data.Year == any && prods.Contains(w.Prod) && w._EsDividents)
@@ -259,10 +259,23 @@ namespace Inversions
         /// <returns></returns>
         private double pig2Cartera(uint any, bool pigOrigen, bool ambDespeses)
         {
-            var dataFiAny = Utilitats.DataHoraFinalAny((int)any);
-            var numParts = numParticipacionsEnData(dataFiAny);
-            var compres = compresDePartipacionsEnData(dataFiAny, numParts);
-            return compres.Sum(compraExt => compraExt._Compra.pigEnCartera(pigOrigen, ambDespeses));
+            var compres = MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data.Year <= any).ToList();
+            return compres.Sum(compra => compra.pigEnCartera(pigOrigen, ambDespeses));
+        }
+
+
+        /// <summary>
+        /// Participacions en cartera d'un producte en una data.
+        /// </summary>
+        /// <param name="dataHora">Si null, data d'avui.</param>
+        /// <returns></returns>
+        private double partsEnCartera(DateTime? dataHora)
+        {
+            var dataH = dataHora.GetValueOrDefault(DateTime.Now);
+            var partsComprades = MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data <= dataH).Sum(s => s.Participacions);
+            var partsVenudes = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data <= dataH).Sum(s => s.Participacions);
+
+            return partsComprades - partsVenudes;
         }
 
 
@@ -280,7 +293,7 @@ namespace Inversions
 
 
         /// <summary>
-        /// Calcula perdues i guanys del les participacions en cartera a una data. Inclou despeses. No inclou vendes reals ni dividends.
+        /// Calcula perdues i guanys de les participacions en cartera a una data. Inclou despeses. No inclou vendes reals ni dividends.
         /// </summary>
         /// <param name="dataHoraFinal"></param>
         /// <param name="numParts"></param>
@@ -312,7 +325,7 @@ namespace Inversions
             if (nomesVendesReals)
                 vendes = vendes.Where(w => !w._EsTraspas).ToList();
 
-            return vendes.Sum(venda => venda.pig2Venda(true));
+            return vendes.Sum(venda => venda.pigDeUnaVenda(true));
         }
 
         #endregion ***** PiG *****
