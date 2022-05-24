@@ -41,12 +41,16 @@ namespace Inversions.GUI
                     var pigTributa = Producte.PigTributa(tipusProducte, null, any, true);
                     pigTotalTributa += pigTributa;
                     if (!Utilitats.EsZero(pigTributa))
+                    {
                         // Hi ha vendes reals en l'any.
-                        dgvPiGAnualsTributen.Rows.Add(any, 0, 0, pigTributa);
+                        var ff = dgvPiGAnualsTributen.Rows.Add(any, 0, 0, pigTributa);
+                        dgvPiGAnualsTributen.Rows[ff].Cells[3].Style.ForeColor = pigTributa < 0 ? Color.Red : Color.Black;
+                    }
                 }
 
                 int fila = dgvPiGAnualsTributen.Rows.Add("Total", 0, 0, pigTotalTributa);
                 dgvPiGAnualsTributen.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTributen.Font, FontStyle.Bold);
+                dgvPiGAnualsTributen.Rows[fila].Cells[3].Style.ForeColor = pigTotalTributa < 0 ? Color.Red : Color.Black;
                 dgvPiGAnualsTributen.FirstDisplayedScrollingRowIndex = fila;
 
                 ntbPigActualPartsEnCartera.Valor = Producte.Pig2Cartera(tipusProducte, null, (uint) ultimAny, true, true);
@@ -231,6 +235,14 @@ namespace Inversions.GUI
             cbTipusProducteFiltreTab2.SelectedIndex = -1;
             cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
             cbTipusProducteFiltreTab2.SelectedIndex = 0;
+
+
+            for (int any = 2000; any <= DateTime.Today.Year; any++)
+            {
+                cbAnysPiGEnCartera.Items.Add(any);
+            }
+            cbAnysPiGEnCartera.SelectedIndexChanged += cbAnysPiGEnCartera_SelectedIndexChanged;
+            cbAnysPiGEnCartera.SelectedItem = DateTime.Today.Year;
         }
 
         private void calculaPigSimulat()
@@ -269,8 +281,8 @@ namespace Inversions.GUI
             double pigOrig = 0;
             foreach (DataGridViewRow selectedRow in dgvCompresProducte.SelectedRows)
             {
-                pig += ((Moviment) selectedRow.DataBoundItem).pigDeLaCompraEsElBooooo(ckAmbCartera.Checked, false, null, true, ckAmbDividends.Checked);
-                pigOrig += ((Moviment) selectedRow.DataBoundItem).pigDeLaCompraEsElBooooo(ckAmbCartera.Checked, true, null, false, false);
+                pig += ((Moviment) selectedRow.DataBoundItem).pigDeLaCompra(ckAmbCartera.Checked, false, null, true, ckAmbDividends.Checked);
+                pigOrig += ((Moviment) selectedRow.DataBoundItem).pigDeLaCompra(ckAmbCartera.Checked, true, null, false, false);
             }
             ntbPigCompra.Valor = Math.Round(pig, 2);
             ntbPigCompraOrig.Valor = Math.Round(pigOrig, 2);
@@ -289,5 +301,35 @@ namespace Inversions.GUI
             ompleLlistaCompres(gestioProductesTabValoracions._ProducteSeleccionat);
         }
 
+        private void cbAnysPiGEnCartera_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            // PiG en cartera
+            var anyDades = (int)cbAnysPiGEnCartera.SelectedItem;
+            double pigTotalEncartera = 0;
+            dgvPiGEnCartera.Rows.Clear();
+            foreach (var prod in Program.Sessio.Productes)
+            {
+                var pigEnCartera = prod.pigVariacioCartera(anyDades, false);
+                var pigPercentatge = prod.pigVariacioCartera(anyDades, true);
+                if (!Utilitats.EsZero(pigEnCartera))
+                {
+                    int ff = dgvPiGEnCartera.Rows.Add(prod, pigEnCartera, pigPercentatge);
+
+                    dgvPiGEnCartera.Rows[ff].Cells[1].Style.ForeColor = pigEnCartera < 0 ? Color.Red : Color.Black;
+                    dgvPiGEnCartera.Rows[ff].Cells[2].Style.ForeColor = pigEnCartera < 0 ? Color.Red : Color.Black;
+
+                    pigTotalEncartera += pigEnCartera;
+                }
+            }
+            
+            int fila2 = dgvPiGEnCartera.Rows.Add("Total", pigTotalEncartera);
+            dgvPiGEnCartera.Rows[fila2].DefaultCellStyle.Font = new Font(dgvPiGEnCartera.Font, FontStyle.Bold);
+            dgvPiGEnCartera.Rows[fila2].Cells[1].Style.ForeColor = pigTotalEncartera < 0 ? Color.Red : Color.Black;
+            dgvPiGEnCartera.FirstDisplayedScrollingRowIndex = fila2;
+
+            dgvPiGEnCartera.FirstDisplayedScrollingRowIndex = 0;
+            dgvPiGEnCartera.Rows[0].Selected = false;
+        }
     }
 }

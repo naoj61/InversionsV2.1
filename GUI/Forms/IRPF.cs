@@ -15,7 +15,7 @@ namespace Inversions.GUI.Forms
     {
         private List<StProductes> vProdsAmbVendesAny;
         private List<Moviment> vVendesAny;
-        private Dictionary<Inversions.Moviment, List<Moviment>> vCompresVendesAny;
+        private Dictionary<Inversions.Moviment, List<CompraExt>> vCompresVendesAny;
         private int vAny;
 
         public IRPF(int any)
@@ -115,7 +115,7 @@ namespace Inversions.GUI.Forms
 
             public double _PiG
             {
-                get { return _Venda.pig2Venda(true); }
+                get { return _Venda.pigDeUnaVenda(true); }
             }
 
 
@@ -126,27 +126,26 @@ namespace Inversions.GUI.Forms
 
         private struct StCompresVenda
         {
-            public StCompresVenda(Moviment venda, Moviment compra)
+            public StCompresVenda(Moviment venda, CompraExt compra)
                 : this()
             {
                 if (!venda._EsVenda)
                     throw new Exception("No és una venda");
-                if (!compra._EsCompra)
-                    throw new Exception("No és una compra");
+           
 
                 vVenda = venda;
                 vCompra = compra;
 
-                vParticipacionsUtilitzades = compra._ParticipacionsUtilitzades;
+                vParticipacionsUtilitzades = compra._PartsUtilitzades;
             }
             
             private readonly Moviment vVenda;
-            private readonly Moviment vCompra;
+            private readonly CompraExt vCompra;
             private double vParticipacionsUtilitzades;
 
             private double _DespesesCompraUtil
             {
-                get { return vCompra.Despeses.GetValueOrDefault() / vCompra.Participacions * vParticipacionsUtilitzades; }
+                get { return vCompra._DespesesPartsUtilitzades / vCompra._Participacions * vParticipacionsUtilitzades; }
             }
 
             private double _DespesesVendaUtil
@@ -175,7 +174,7 @@ namespace Inversions.GUI.Forms
 
             public double _DespesesCompra
             {
-                get { return vCompra.Despeses.GetValueOrDefault(); }
+                get { return vCompra._Despeses; }
             }
 
             public double _DespesesVenda
@@ -188,7 +187,7 @@ namespace Inversions.GUI.Forms
                 get { return vVenda; }
             }
 
-            public Moviment _Compra
+            public CompraExt _CompraExt
             {
                 get { return vCompra; }
             }
@@ -200,27 +199,27 @@ namespace Inversions.GUI.Forms
 
             public int _Id
             {
-                get { return _Compra.Id; }
+                get { return _CompraExt._Id; }
             }
 
             public DateTime _Data
             {
-                get { return _Compra.Data; }
+                get { return _CompraExt._Data; }
             }
 
             public double _Participacions
             {
-                get { return _Compra.Participacions; }
+                get { return _CompraExt._Participacions; }
             }
 
             public double _PreuUnitari
             {
-                get { return _Compra.PreuParticipacio; }
+                get { return _CompraExt._PreuParticipacio; }
             }
 
             public double _ImportCompraBrutUtil
             {
-                get { return _ParticipacionsUtilitzades * vCompra.PreuParticipacio; }
+                get { return _ParticipacionsUtilitzades * vCompra._PreuParticipacio; }
             }
 
             public double _ImportVendaBrutUtil
@@ -256,7 +255,7 @@ namespace Inversions.GUI.Forms
 
             public static bool operator ==(StCompresVenda a, StCompresVenda b)
             {
-                return a.vCompra.Id == b.vCompra.Id;
+                return a.vCompra == b.vCompra;
             }
 
             public static bool operator !=(StCompresVenda a, StCompresVenda b)
@@ -287,7 +286,7 @@ namespace Inversions.GUI.Forms
             seleccionaFilesDataGrid();
         }
 
-        private void ompleGridCompresDeLaVanda()
+        private void ompleGridCompresDeLaVenda()
         {
             // Crea llista de les vendes seleccionades de "dgvVendes".
             var vendessSelec = (from DataGridViewRow row in dgvVendes.SelectedRows select (Moviment)row.Cells[0].Value).ToList();
@@ -295,7 +294,7 @@ namespace Inversions.GUI.Forms
             List<StCompresVenda> compresVenda = new List<StCompresVenda>();
             foreach (Moviment venda in vendessSelec)
             {
-                compresVenda.AddRange(venda.compresDeLaVenda4().Select(compra => new StCompresVenda(venda, compra)));
+                compresVenda.AddRange(venda.compresDeLaVenda().Select(compraExt => new StCompresVenda(venda, compraExt)));
             }
 
             if (ckAgrupaCompres.Checked)
@@ -316,14 +315,14 @@ namespace Inversions.GUI.Forms
                     else
                         compresVendaAgrup.Add(compraVenda);
                 }
-                dgvCompresVenda.DataSource = compresVendaAgrup.OrderBy(o => o._Venda.Data).ThenBy(o => o._Compra.Data).ToList();
+                dgvCompresVenda.DataSource = compresVendaAgrup.OrderBy(o => o._Venda.Data).ThenBy(o => o._CompraExt._Data).ToList();
             }
             else
             {
                 ColDespesesCompra.Visible = true;
                 ColDespesesVenda.Visible = true;
 
-                dgvCompresVenda.DataSource = compresVenda.OrderBy(o => o._Venda.Data).ThenBy(o => o._Compra.Data).ToList();
+                dgvCompresVenda.DataSource = compresVenda.OrderBy(o => o._Venda.Data).ThenBy(o => o._CompraExt._Data).ToList();
             }
         }
 
@@ -340,7 +339,7 @@ namespace Inversions.GUI.Forms
 
             vVendesAny = Program.Sessio.MovimentsUsuari.Where(w => w._EsVendaReal && w.Data.Year == vAny).OrderBy(o => o.Prod).ThenBy(t => t.Data).ToList();
             vProdsAmbVendesAny = vVendesAny.Select(s => s.Prod).Distinct().Select(i => new StProductes(vAny, i)).ToList();
-            vCompresVendesAny = vVendesAny.ToDictionary(x => x, x => x.compresDeLaVenda4().ToList());
+            vCompresVendesAny = vVendesAny.ToDictionary(x => x, x => x.compresDeLaVenda().ToList());
 
             dgvProductes.DataSource = vProdsAmbVendesAny;
 
@@ -390,7 +389,7 @@ namespace Inversions.GUI.Forms
                 dgvVendes.DataSource = null;
             else
             {
-                ompleGridCompresDeLaVanda();
+                ompleGridCompresDeLaVenda();
 
                 ntbPiG.Valor = dgvVendes.SelectedRows.Cast<DataGridViewRow>().Sum(row => ((StVendesAny)row.DataBoundItem)._PiG);
 
@@ -400,7 +399,7 @@ namespace Inversions.GUI.Forms
 
         private void ckAgrupaCompres_CheckedChanged(object sender, EventArgs e)
         {
-            ompleGridCompresDeLaVanda();
+            ompleGridCompresDeLaVenda();
         }
 
         private void ntbMinimContribuent_Validated(object sender, EventArgs e)
