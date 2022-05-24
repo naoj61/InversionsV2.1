@@ -51,6 +51,7 @@ namespace Inversions.GUI
 
                 ntbPigActualPartsEnCartera.Valor = Producte.Pig2Cartera(tipusProducte, null, (uint) ultimAny, true, true);
                 ntbPigRealMesCartera.Valor = ntbPigActualPartsEnCartera.Valor + pigTotalTributa;
+
             }
         }
 
@@ -231,6 +232,14 @@ namespace Inversions.GUI
             cbTipusProducteFiltreTab2.SelectedIndex = -1;
             cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
             cbTipusProducteFiltreTab2.SelectedIndex = 0;
+
+
+            for (int any = 2000; any <= DateTime.Today.Year; any++)
+            {
+                cbAnysPiGEnCartera.Items.Add(any);
+            }
+            cbAnysPiGEnCartera.SelectedIndexChanged += cbAnysPiGEnCartera_SelectedIndexChanged;
+            cbAnysPiGEnCartera.SelectedItem = DateTime.Today.Year;
         }
 
         private void calculaPigSimulat()
@@ -289,5 +298,36 @@ namespace Inversions.GUI
             ompleLlistaCompres(gestioProductesTabValoracions._ProducteSeleccionat);
         }
 
+        private void cbAnysPiGEnCartera_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            // PiG en cartera
+            var anyDades = (int)cbAnysPiGEnCartera.SelectedItem;
+            double pigTotalEncartera = 0;
+            var productes = Program.Sessio.Productes;
+            dgvPiGEnCartera.Rows.Clear();
+            foreach (var prod in productes)
+            {
+                var pigEnCartera = prod.pigVariacioCarteraEntreDates(anyDades);
+                var pigPercentatge = prod.pigPercentatgeVariacioCarteraEntreDates(anyDades);
+                if (!Utilitats.EsZero(pigEnCartera))
+                {
+                    int ff = dgvPiGEnCartera.Rows.Add(prod, pigEnCartera, pigPercentatge);
+
+                    dgvPiGEnCartera.Rows[ff].Cells[1].Style.ForeColor = pigEnCartera < 0 ? Color.Red : Color.Black;
+                    dgvPiGEnCartera.Rows[ff].Cells[2].Style.ForeColor = pigEnCartera < 0 ? Color.Red : Color.Black;
+
+                    pigTotalEncartera += pigEnCartera;
+                }
+            }
+            
+            int fila2 = dgvPiGEnCartera.Rows.Add("Total", pigTotalEncartera);
+            dgvPiGEnCartera.Rows[fila2].DefaultCellStyle.Font = new Font(dgvPiGEnCartera.Font, FontStyle.Bold);
+            dgvPiGEnCartera.Rows[fila2].Cells[1].Style.ForeColor = pigTotalEncartera < 0 ? Color.Red : Color.Black;
+            dgvPiGEnCartera.FirstDisplayedScrollingRowIndex = fila2;
+
+            dgvPiGEnCartera.FirstDisplayedScrollingRowIndex = 0;
+            dgvPiGEnCartera.Rows[0].Selected = false;
+        }
     }
 }

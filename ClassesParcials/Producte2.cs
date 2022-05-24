@@ -310,6 +310,55 @@ namespace Inversions
         }
 
 
+        internal double pigVariacioCarteraEntreDates(int any)
+        {
+            DateTime dataHoraInicial = new DateTime(any, 1, 1);
+            DateTime dataHoraFinal = Utilitats.DataHoraFinalAny(any);
+
+            return pigVariacioCarteraEntreDates(dataHoraInicial, dataHoraFinal);
+        }
+
+        internal double pigVariacioCarteraEntreDates(DateTime dataHoraInicial, DateTime dataHoraFinal)
+        {
+            var preuPartInici = valorParticipacio(dataHoraInicial);
+            var preuPartActual = valorParticipacio(dataHoraFinal);
+           
+            if (Utilitats.EsZero(preuPartActual))
+                return 0;
+
+            if (Utilitats.EsZero(preuPartInici))
+                preuPartInici = ValoracionsProducte.First().PreuParticipacio;
+
+            var parts = numParticipacionsEnData(dataHoraFinal);
+
+            return parts * (preuPartActual - preuPartInici);
+        }
+
+
+
+        internal double pigPercentatgeVariacioCarteraEntreDates(int any)
+        {
+            DateTime dataHoraInicial = new DateTime(any, 1, 1);
+            DateTime dataHoraFinal = Utilitats.DataHoraFinalAny(any);
+
+            return pigPercentatgeVariacioCarteraEntreDates(dataHoraInicial, dataHoraFinal);
+        }
+
+        internal double pigPercentatgeVariacioCarteraEntreDates(DateTime dataHoraInicial, DateTime dataHoraFinal)
+        {
+            var preuPartInici = valorParticipacio(dataHoraInicial);
+            var preuPartActual = valorParticipacio(dataHoraFinal);
+           
+            if (Utilitats.EsZero(preuPartActual))
+                return 0;
+
+            if (Utilitats.EsZero(preuPartInici))
+                preuPartInici = ValoracionsProducte.First().PreuParticipacio;
+
+            return preuPartActual / preuPartInici - 1;
+        }
+
+
         /// <summary>
         /// PiG de vendes. No inclou dividends.
         /// </summary>
