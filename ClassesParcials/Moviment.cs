@@ -73,13 +73,13 @@ namespace Inversions
         [Description("S'utilitza en un DataGrid")]
         public double __PigDeLaCompra
         {
-            get { return pigDeLaCompra(AmbCartera, false, null, true, AmbDividents); }
+            get { return pigCompra(AmbCartera, false, null, true, AmbDividents); }
         }
 
         [Description("S'utilitza en un DataGrid")]
         public double __PigDeLaCompraOrigen
         {
-            get { return pigDeLaCompra(AmbCartera, true, null, true, AmbDividents); }
+            get { return pigCompra(AmbCartera, true, null, true, AmbDividents); }
         }
 
 
@@ -211,38 +211,6 @@ namespace Inversions
 
 
         /// <summary>
-        /// PiG d'una compra. !!!! MIRAR SI PUC UTILITZAR AQUEST MÈTODE PER SUBSTITUTIR LA RESTA DE CALCUL DEL PiG.
-        /// </summary>
-        /// <param name="ambCartera">True: Calcula vendes reals més les participacions en cartera.</param>
-        /// <param name="pigOrigen">True: PiG respecte al preu de compra original. False: Pig  respecte al preu d'aquesta compra.</param>
-        /// <param name="anyVenda">Si no és null només selecciona les vendes del any.</param>
-        /// <param name="ambDespeses">Inclou despeses.</param>
-        /// <param name="ambDividents">Inclou dividents.</param>
-        /// <returns></returns>
-        internal double pigDeLaCompra(bool ambCartera, bool pigOrigen, uint? anyVenda, bool ambDespeses = true, bool ambDividents = true)
-        {
-            if (Prod is ProdFons)
-            {
-                // Si és un fons no té despeses ni dividents.
-                ambDespeses = false;
-                ambDividents = false;
-            }
-            if (Prod is ProdAccions)
-            {
-                pigOrigen = false;
-            }
-
-            double pigVendesRealsX = pigCompraDeVendesReals(pigOrigen, ambDespeses, anyVenda);
-
-            double pigEncarteraX = ambCartera ? pigEnCartera(pigOrigen, ambDespeses) : 0;
-            
-            double divident = ambDividents ? dividentsDeLaCompra(): 0;
-
-            return pigVendesRealsX + pigEncarteraX + divident;
-        }
-
-
-        /// <summary>
         /// Torna les participacions que encara hi ha en cartera d'una compra a 'dataHora'.
         /// </summary>
         /// <param name="dataHora">Vendes amb data menor o igual a dataHora. Si null, totes les vendes.</param>
@@ -269,181 +237,6 @@ namespace Inversions
             // Si partsComprades < Participacions i partsComprades > 0. Encara falten per vendre 'partsComprades'.
             // Si partsComprades < Participacions i partsComprades <= 0. S'ha venut tot.
             return partsComprades >= Participacions ? Participacions : (partsComprades > 0 ? partsComprades : 0);
-        }
-
-
-
-        /// <summary>
-        /// Pig d'una venda.
-        /// </summary>
-        /// <returns></returns>
-        internal double pigDeUnaVenda(bool inclouDespeses)
-        {
-            if (!_EsVenda)
-                throw new Exception("El moviment no és una venda.");
-
-            double preuCost = 0;
-
-            var compresAnt = compresDeLaVenda().ToList();
-            foreach (var compraAnt in compresAnt)
-            {
-                // Inclou despeses de la compra.
-                preuCost += compraAnt.calculaImportCompraOrigen3(calculaImportNet: inclouDespeses, utilitzoParticipacionsUtilitzades: true);
-            }
-
-            // Inclou despeses de la venda.
-            var despeses = inclouDespeses ? Despeses.GetValueOrDefault() : 0;
-            var pig = Participacions * PreuParticipacio - despeses - preuCost;
-
-            return pig;
-        }
-
-        /// <summary>
-        /// Calcula el PiG de les vendes reals de la compra.
-        /// </summary>
-        /// <param name="pigOrigen">Calcula el PiG respecte el valor de compra original.</param>
-        /// <param name="ambDespeses">Afegeig les despeses.</param>
-        /// <param name="anyVenda">Si no és null només selecciona les vendes del any.</param>
-        /// <returns></returns>
-        private double pigCompraDeVendesReals(bool pigOrigen, bool ambDespeses, uint? anyVenda)
-        {
-            if (!_EsCompra)
-                throw new Exception(String.Format("L'Id:{0}. Ha de ser una compra", Id));
-            
-            /*
-             * He de comptar amb les vendes dels anys anteriors i les traspassos.
-             */
-
-            var vendesCompra = new Queue<VendaExt>(vendesDeLaCompra().OrderBy(o => o._Data));
-            if (!vendesCompra.Any())
-                return 0;
-
-            var desgloçCompra = new Queue<DesglosCompra>(DesglosCompres.OrderBy(o => o._DataOrig));
-            
-            double importCostCompra = 0;
-            double importVendesReals = 0;
-
-            VendaExt venda = vendesCompra.Dequeue();
-            DesglosCompra desgloç = desgloçCompra.Dequeue();
-            double partsVendesResten = venda._PartsUtilitzades;
-            double partsDesgloçResten = desgloç.Participacions; // No utilitzo "_ParticipacionsUtilitzades"
-
-            while (true)
-            {
-                if (Utilitats.EsZero(partsVendesResten))
-                {
-                    if (!vendesCompra.Any())
-                        // No queden vendes.
-                        break;
-                
-                    // Llegeix venda.
-                    venda = vendesCompra.Dequeue();
-                    partsVendesResten = venda._PartsUtilitzades;
-                }
-
-                if (Utilitats.EsZero(partsDesgloçResten))
-                {
-                    if(!desgloçCompra.Any())
-                        // No queden desgloç.
-                        break;
-
-                    // Llegeix desgloç compra.
-                    desgloç = desgloçCompra.Dequeue();
-                    partsDesgloçResten = desgloç.Participacions;  // No utilitzo "_ParticipacionsUtilitzades"
-                }
-
-                if (venda._Data.Year < anyVenda.GetValueOrDefault(0) || !venda._EsVendaReal)
-                {
-                    // Aquesta venda no entra en el PiG del any.
-
-                    if (Utilitats.ComparaNumeros(partsVendesResten, partsDesgloçResten) >= 0)
-                    {
-                        partsVendesResten -= partsDesgloçResten;
-                        partsDesgloçResten = 0;
-                    }
-                    else
-                    {
-                        partsDesgloçResten -= partsVendesResten;
-                        partsVendesResten = 0;
-                    }
-                    continue;
-                }
-
-                double parts = 0;
-
-                parts = Utilitats.ComparaNumeros(partsDesgloçResten, partsVendesResten) >= 0 ? partsVendesResten : partsDesgloçResten;
-
-                if (pigOrigen)
-                {
-                    var partsOrig = parts / desgloç.Participacions * desgloç.ParticipacionsOrig;
-                    importCostCompra += partsOrig * desgloç._PreuParticipacioOrig;
-                    importVendesReals += parts * venda._PreuParticipacio;
-                }
-                else
-                {
-                    importCostCompra += parts * desgloç._PreuParticipacio;
-                    importVendesReals += parts * venda._PreuParticipacio;
-                    if (ambDespeses)
-                    {
-                        var desp = parts / desgloç.Participacions * Despeses.GetValueOrDefault();
-                        importCostCompra += desp;
-                        desp = parts / venda._Participacions * venda._Despeses;
-                        importVendesReals -= desp;
-                    }
-                }
-                partsDesgloçResten -= parts;
-                partsVendesResten -= parts;
-            }
-            
-            return importVendesReals - importCostCompra;
-        }
-
-
-        /// <summary>
-        /// PiG de les participacions en cartera de la compra amb el preu unitari actual.
-        /// </summary>
-        /// <param name="pigOrigen">Calcula el PiG respecte el valor de compra original.</param>
-        /// <param name="ambDespeses">Afegeig les despeses.</param>
-        /// <returns></returns>
-        internal double pigEnCartera(bool pigOrigen, bool ambDespeses)
-        {
-            if (!_EsCompra)
-                throw new Exception(String.Format("L'Id:{0}. Ha de ser una compra", Id));
-
-            var partsEnCartera = partsEnCarteraCompra();
-
-            if (Utilitats.EsZero(partsEnCartera))
-                return 0;
-
-            var partsEnCarteraResten = partsEnCartera;
-            double importCostCompra = 0;
-
-            foreach (var desglosCompra in DesglosCompres.OrderByDescending(o => o._DataOrig))
-            {
-                double parts;
-                if (Utilitats.ComparaNumeros(desglosCompra.Participacions, partsEnCarteraResten) >= 0)
-                {
-                    parts = pigOrigen ? partsEnCarteraResten / desglosCompra.Participacions * desglosCompra.ParticipacionsOrig : partsEnCarteraResten;
-                    partsEnCarteraResten = 0;
-                }
-                else
-                {
-                    parts = pigOrigen ? desglosCompra.ParticipacionsOrig : desglosCompra.Participacions;
-                    partsEnCarteraResten -= desglosCompra.Participacions;
-                }
-
-                importCostCompra += parts * (pigOrigen ? desglosCompra._PreuParticipacioOrig : desglosCompra._PreuParticipacio);
-
-                if(Utilitats.EsZero(partsEnCarteraResten))
-                    break;
-            }
-
-            double importActualParticsEnCartera = partsEnCartera * Prod._PreuParticipacioActual;
-
-            // Despeses de la compra.
-            double despeses = ambDespeses ? Despeses.GetValueOrDefault() / Participacions * partsEnCartera : 0;
-
-            return importActualParticsEnCartera - importCostCompra - despeses;
         }
 
 
@@ -565,11 +358,218 @@ namespace Inversions
         #endregion *** Mètodes ***
 
 
+        #region *** PiG ***
+
+        /// <summary>
+        /// PiG d'una compra.
+        /// </summary>
+        /// <param name="ambCartera">True: Calcula vendes reals més les participacions en cartera.</param>
+        /// <param name="pigOrigen">True: PiG respecte al preu de compra original. False: Pig  respecte al preu d'aquesta compra.</param>
+        /// <param name="anyVenda">Si no és null només selecciona les vendes del any.</param>
+        /// <param name="ambDespeses">Inclou despeses.</param>
+        /// <param name="ambDividents">Inclou dividents.</param>
+        /// <returns></returns>
+        internal double pigCompra(bool ambCartera, bool pigOrigen, uint? anyVenda, bool ambDespeses = true, bool ambDividents = true)
+        {
+            if (Prod is ProdFons)
+                // Si és un fons no té despeses ni dividents.
+                ambDespeses = false;
+
+            if (Prod is ProdAccions)
+                pigOrigen = false;
+
+            double pigVendesReals = pigCompraNomesVendesReals(pigOrigen, ambDespeses, anyVenda);
+
+            double pigEncartera = ambCartera ? pigEnCartera(pigOrigen, ambDespeses) : 0;
+
+            double divident = ambDividents ? dividentsDeLaCompra() : 0;
+
+            return pigVendesReals + pigEncartera + divident;
+        }
+
+
+        /// <summary>
+        /// Calcula el PiG de les vendes reals de la compra.
+        /// </summary>
+        /// <param name="pigOrigen">Calcula el PiG respecte el valor de compra original.</param>
+        /// <param name="ambDespeses">Afegeig les despeses.</param>
+        /// <param name="anyVenda">Si no és null només selecciona les vendes del any.</param>
+        /// <returns></returns>
+        private double pigCompraNomesVendesReals(bool pigOrigen, bool ambDespeses, uint? anyVenda)
+        {
+            if (!_EsCompra)
+                throw new Exception(String.Format("L'Id:{0}. Ha de ser una compra", Id));
+
+            /*
+             * He de comptar amb les vendes dels anys anteriors i les traspassos.
+             */
+
+            var vendesCompra = new Queue<VendaExt>(vendesDeLaCompra().OrderBy(o => o._Data));
+            if (!vendesCompra.Any())
+                return 0;
+
+            var desgloçCompra = new Queue<DesglosCompra>(DesglosCompres.OrderBy(o => o._DataOrig));
+
+            double importCostCompra = 0;
+            double importVendesReals = 0;
+
+            VendaExt venda = vendesCompra.Dequeue();
+            DesglosCompra desgloç = desgloçCompra.Dequeue();
+            double partsVendesResten = venda._PartsUtilitzades;
+            double partsDesgloçResten = desgloç.Participacions; // No utilitzo "_ParticipacionsUtilitzades"
+
+            while (true)
+            {
+                if (Utilitats.EsZero(partsVendesResten))
+                {
+                    if (!vendesCompra.Any())
+                        // No queden vendes.
+                        break;
+
+                    // Llegeix venda.
+                    venda = vendesCompra.Dequeue();
+                    partsVendesResten = venda._PartsUtilitzades;
+                }
+
+                if (Utilitats.EsZero(partsDesgloçResten))
+                {
+                    if (!desgloçCompra.Any())
+                        // No queden desgloç.
+                        break;
+
+                    // Llegeix desgloç compra.
+                    desgloç = desgloçCompra.Dequeue();
+                    partsDesgloçResten = desgloç.Participacions;  // No utilitzo "_ParticipacionsUtilitzades"
+                }
+
+                if (venda._Data.Year < anyVenda.GetValueOrDefault(0) || !venda._EsVendaReal)
+                {
+                    // Aquesta venda no entra en el PiG del any.
+
+                    if (Utilitats.ComparaNumeros(partsVendesResten, partsDesgloçResten) >= 0)
+                    {
+                        partsVendesResten -= partsDesgloçResten;
+                        partsDesgloçResten = 0;
+                    }
+                    else
+                    {
+                        partsDesgloçResten -= partsVendesResten;
+                        partsVendesResten = 0;
+                    }
+                    continue;
+                }
+
+                double parts = 0;
+
+                parts = Utilitats.ComparaNumeros(partsDesgloçResten, partsVendesResten) >= 0 ? partsVendesResten : partsDesgloçResten;
+
+                if (pigOrigen)
+                {
+                    var partsOrig = parts / desgloç.Participacions * desgloç.ParticipacionsOrig;
+                    importCostCompra += partsOrig * desgloç._PreuParticipacioOrig;
+                    importVendesReals += parts * venda._PreuParticipacio;
+                }
+                else
+                {
+                    importCostCompra += parts * desgloç._PreuParticipacio;
+                    importVendesReals += parts * venda._PreuParticipacio;
+                    if (ambDespeses)
+                    {
+                        var desp = parts / desgloç.Participacions * Despeses.GetValueOrDefault();
+                        importCostCompra += desp;
+                        desp = parts / venda._Participacions * venda._Despeses;
+                        importVendesReals -= desp;
+                    }
+                }
+                partsDesgloçResten -= parts;
+                partsVendesResten -= parts;
+            }
+
+            return importVendesReals - importCostCompra;
+        }
+
+
+        /// <summary>
+        /// PiG de les participacions en cartera de la compra amb el preu unitari actual.
+        /// </summary>
+        /// <param name="pigOrigen">Calcula el PiG respecte el valor de compra original.</param>
+        /// <param name="ambDespeses">Afegeig les despeses.</param>
+        /// <returns></returns>
+        internal double pigEnCartera(bool pigOrigen, bool ambDespeses)
+        {
+            if (!_EsCompra)
+                throw new Exception(String.Format("L'Id:{0}. Ha de ser una compra", Id));
+
+            var partsEnCartera = partsEnCarteraCompra();
+
+            if (Utilitats.EsZero(partsEnCartera))
+                return 0;
+
+            var partsEnCarteraResten = partsEnCartera;
+            double importCostCompra = 0;
+
+            foreach (var desglosCompra in DesglosCompres.OrderByDescending(o => o._DataOrig))
+            {
+                double parts;
+                if (Utilitats.ComparaNumeros(desglosCompra.Participacions, partsEnCarteraResten) >= 0)
+                {
+                    parts = pigOrigen ? partsEnCarteraResten / desglosCompra.Participacions * desglosCompra.ParticipacionsOrig : partsEnCarteraResten;
+                    partsEnCarteraResten = 0;
+                }
+                else
+                {
+                    parts = pigOrigen ? desglosCompra.ParticipacionsOrig : desglosCompra.Participacions;
+                    partsEnCarteraResten -= desglosCompra.Participacions;
+                }
+
+                importCostCompra += parts * (pigOrigen ? desglosCompra._PreuParticipacioOrig : desglosCompra._PreuParticipacio);
+
+                if (Utilitats.EsZero(partsEnCarteraResten))
+                    break;
+            }
+
+            double importActualParticsEnCartera = partsEnCartera * Prod._PreuParticipacioActual;
+
+            // Despeses de la compra.
+            double despeses = ambDespeses ? Despeses.GetValueOrDefault() / Participacions * partsEnCartera : 0;
+
+            return importActualParticsEnCartera - importCostCompra - despeses;
+        }
+
+
+        /// <summary>
+        /// Pig d'una venda.
+        /// </summary>
+        /// <returns></returns>
+        internal double pigVenda(bool inclouDespeses)
+        {
+            if (!_EsVenda)
+                throw new Exception("El moviment no és una venda.");
+
+            double preuCost = 0;
+
+            var compresAnt = compresDeLaVenda().ToList();
+            foreach (var compraAnt in compresAnt)
+            {
+                // Inclou despeses de la compra.
+                preuCost += compraAnt.calculaImportCompraOrigen3(calculaImportNet: inclouDespeses, utilitzoParticipacionsUtilitzades: true);
+            }
+
+            // Inclou despeses de la venda.
+            var despeses = inclouDespeses ? Despeses.GetValueOrDefault() : 0;
+            var pig = Participacions * PreuParticipacio - despeses - preuCost;
+
+            return pig;
+        }
+
+        #endregion *** PiG ***
+
+
         #region **** Mètodes cridats des de Test *****
 
-        public double pigDeLaCompraTest(bool ambCartera, bool pigOrigen, uint? any, bool ambDespeses = true, bool ambDividents = true)
+        public double pigCompraTest(bool ambCartera, bool pigOrigen, uint? any, bool ambDespeses = true, bool ambDividents = true)
         {
-            return pigDeLaCompra(ambCartera, pigOrigen, any, ambDespeses, ambDividents);
+            return pigCompra(ambCartera, pigOrigen, any, ambDespeses, ambDividents);
         }
 
 
@@ -579,9 +579,9 @@ namespace Inversions
         }
 
 
-        public double pig2VendaTest(bool inclouDespeses)
+        public double pigVendaTest(bool inclouDespeses)
         {
-            return pigDeUnaVenda(inclouDespeses);
+            return pigVenda(inclouDespeses);
         }
 
 

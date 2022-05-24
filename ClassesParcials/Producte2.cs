@@ -33,22 +33,6 @@ namespace Inversions
 
 
         /// <summary>
-        /// Calcula el PiG de les accions en cartera a final d'any de tots els productes.
-        /// </summary>
-        /// <param name="tipusProducte"></param>
-        /// <param name="tipusFons">Si null, tots els fons.</param>
-        /// <param name="any">És l'any de càlcul.</param>
-        /// <param name="pigOrigen">Calcula el PiG respecte el valor de compra original.</param>
-        /// <param name="ambDespeses">Afegeig les despeses.</param>
-        /// <returns></returns>
-        internal static double Pig2Cartera(TipusProducte tipusProducte, TipusFons? tipusFons, uint any, bool pigOrigen, bool ambDespeses)
-        {
-            var prods = SeleccionaProds(tipusProducte, tipusFons);
-            return prods.Sum(prod => prod.pig2Cartera(any, pigOrigen, ambDespeses));
-        }
-
-
-        /// <summary>
         /// PiG de tots els productes en un any. Vendes reals dins el periode.
         /// Preu compra --> Preu origen.
         /// Preu venda  --> Preu venda.
@@ -67,13 +51,21 @@ namespace Inversions
 
             return prods.Sum(prod => prod.pig2Total(dataInici, dataFinal, inclouCartera, inclouDividends));
         }
+        
 
-
-        internal static double Pig3(TipusProducte tipusProducte, TipusFons? tipusFons, uint any, bool inclouCartera, bool inclouDividends)
+        /// <summary>
+        /// Calcula el PiG de les accions en cartera a final d'any de tots els productes.
+        /// </summary>
+        /// <param name="tipusProducte"></param>
+        /// <param name="tipusFons">Si null, tots els fons.</param>
+        /// <param name="any">És l'any de càlcul.</param>
+        /// <param name="pigOrigen">Calcula el PiG respecte el valor de compra original.</param>
+        /// <param name="ambDespeses">Afegeig les despeses.</param>
+        /// <returns></returns>
+        internal static double Pig2Cartera(TipusProducte tipusProducte, TipusFons? tipusFons, uint any, bool pigOrigen, bool ambDespeses)
         {
-            IEnumerable<Producte> prods = SeleccionaProds(tipusProducte, tipusFons);
-
-            return prods.Sum(prod => prod.pig3Total(any, inclouCartera, inclouDividends));
+            var prods = SeleccionaProds(tipusProducte, tipusFons);
+            return prods.Sum(prod => prod.pig2Cartera(any, pigOrigen, ambDespeses));
         }
 
 
@@ -83,7 +75,7 @@ namespace Inversions
 
             double pig = Program.Sessio.MovimentsUsuari
                 .Where(w => w.Data.Year == any && prods.Contains(w.Prod) && w._EsVendaReal)
-                .Sum(s => s.pigDeUnaVenda(true));
+                .Sum(s => s.pigVenda(true));
 
             double div = inclouDividends ? Program.Sessio.MovimentsUsuari
                 .Where(w => w.Data.Year == any && prods.Contains(w.Prod) && w._EsDividents)
@@ -213,7 +205,7 @@ namespace Inversions
             double sum = 0;
             foreach (var compra in compres)
             {
-                sum += compra.pigDeLaCompra(inclouCartera, true, anyVendes, true, inclouDividends);
+                sum += compra.pigCompra(inclouCartera, true, anyVendes, true, inclouDividends);
             }
 
             return sum;
@@ -365,7 +357,7 @@ namespace Inversions
             if (nomesVendesReals)
                 vendes = vendes.Where(w => !w._EsTraspas).ToList();
 
-            return vendes.Sum(venda => venda.pigDeUnaVenda(true));
+            return vendes.Sum(venda => venda.pigVenda(true));
         }
 
         #endregion ***** PiG *****

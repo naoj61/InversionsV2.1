@@ -115,7 +115,7 @@ namespace Inversions.GUI.Forms
 
             public double _PiG
             {
-                get { return _Venda.pigDeUnaVenda(true); }
+                get { return _Venda.pigVenda(true); }
             }
 
 
