@@ -41,17 +41,20 @@ namespace Inversions.GUI
                     var pigTributa = Producte.PigTributa(tipusProducte, null, any, true);
                     pigTotalTributa += pigTributa;
                     if (!Utilitats.EsZero(pigTributa))
+                    {
                         // Hi ha vendes reals en l'any.
-                        dgvPiGAnualsTributen.Rows.Add(any, 0, 0, pigTributa);
+                        var ff = dgvPiGAnualsTributen.Rows.Add(any, 0, 0, pigTributa);
+                        dgvPiGAnualsTributen.Rows[ff].Cells[3].Style.ForeColor = pigTributa < 0 ? Color.Red : Color.Black;
+                    }
                 }
 
                 int fila = dgvPiGAnualsTributen.Rows.Add("Total", 0, 0, pigTotalTributa);
                 dgvPiGAnualsTributen.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTributen.Font, FontStyle.Bold);
+                dgvPiGAnualsTributen.Rows[fila].Cells[3].Style.ForeColor = pigTotalTributa < 0 ? Color.Red : Color.Black;
                 dgvPiGAnualsTributen.FirstDisplayedScrollingRowIndex = fila;
 
                 ntbPigActualPartsEnCartera.Valor = Producte.Pig2Cartera(tipusProducte, null, (uint) ultimAny, true, true);
                 ntbPigRealMesCartera.Valor = ntbPigActualPartsEnCartera.Valor + pigTotalTributa;
-
             }
         }
 
@@ -304,12 +307,11 @@ namespace Inversions.GUI
             // PiG en cartera
             var anyDades = (int)cbAnysPiGEnCartera.SelectedItem;
             double pigTotalEncartera = 0;
-            var productes = Program.Sessio.Productes;
             dgvPiGEnCartera.Rows.Clear();
-            foreach (var prod in productes)
+            foreach (var prod in Program.Sessio.Productes)
             {
-                var pigEnCartera = prod.pigVariacioCarteraEntreDates(anyDades);
-                var pigPercentatge = prod.pigPercentatgeVariacioCarteraEntreDates(anyDades);
+                var pigEnCartera = prod.pigVariacioCartera(anyDades, false);
+                var pigPercentatge = prod.pigVariacioCartera(anyDades, true);
                 if (!Utilitats.EsZero(pigEnCartera))
                 {
                     int ff = dgvPiGEnCartera.Rows.Add(prod, pigEnCartera, pigPercentatge);

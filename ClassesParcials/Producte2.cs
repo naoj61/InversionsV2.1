@@ -310,53 +310,44 @@ namespace Inversions
         }
 
 
-        internal double pigVariacioCarteraEntreDates(int any)
+        /// <summary>
+        /// Torna la variació de valor en cartera entre dates. Només productes amb cartera a 'dataHoraFinal'.
+        /// </summary>
+        /// <param name="any"></param>
+        /// <param name="percentatge">Si true, torna percentatge.</param>
+        /// <returns></returns>
+        internal double pigVariacioCartera(int any, bool percentatge)
         {
             DateTime dataHoraInicial = new DateTime(any, 1, 1);
             DateTime dataHoraFinal = Utilitats.DataHoraFinalAny(any);
 
-            return pigVariacioCarteraEntreDates(dataHoraInicial, dataHoraFinal);
+            return pigVariacioCartera(dataHoraInicial, dataHoraFinal, percentatge);
         }
 
-        internal double pigVariacioCarteraEntreDates(DateTime dataHoraInicial, DateTime dataHoraFinal)
+        /// <summary>
+        /// Torna la variació de valor en cartera entre dates. Només productes amb cartera a 'dataHoraFinal'.
+        /// </summary>
+        /// <param name="dataHoraInicial"></param>
+        /// <param name="dataHoraFinal"></param>
+        /// <param name="percentatge">Si true, torna percentatge.</param>
+        /// <returns></returns>
+        internal double pigVariacioCartera(DateTime dataHoraInicial, DateTime dataHoraFinal, bool percentatge)
         {
             var preuPartInici = valorParticipacio(dataHoraInicial);
-            var preuPartActual = valorParticipacio(dataHoraFinal);
-           
-            if (Utilitats.EsZero(preuPartActual))
+            var preuPartFinal = valorParticipacio(dataHoraFinal);
+            var partsFinal = numParticipacionsEnData(dataHoraFinal);
+
+            if (Utilitats.EsZero(partsFinal))
                 return 0;
 
             if (Utilitats.EsZero(preuPartInici))
                 preuPartInici = ValoracionsProducte.First().PreuParticipacio;
 
-            var parts = numParticipacionsEnData(dataHoraFinal);
-
-            return parts * (preuPartActual - preuPartInici);
+            return percentatge 
+                ? preuPartFinal / preuPartInici - 1 
+                : partsFinal * (preuPartFinal - preuPartInici);
         }
 
-
-
-        internal double pigPercentatgeVariacioCarteraEntreDates(int any)
-        {
-            DateTime dataHoraInicial = new DateTime(any, 1, 1);
-            DateTime dataHoraFinal = Utilitats.DataHoraFinalAny(any);
-
-            return pigPercentatgeVariacioCarteraEntreDates(dataHoraInicial, dataHoraFinal);
-        }
-
-        internal double pigPercentatgeVariacioCarteraEntreDates(DateTime dataHoraInicial, DateTime dataHoraFinal)
-        {
-            var preuPartInici = valorParticipacio(dataHoraInicial);
-            var preuPartActual = valorParticipacio(dataHoraFinal);
-           
-            if (Utilitats.EsZero(preuPartActual))
-                return 0;
-
-            if (Utilitats.EsZero(preuPartInici))
-                preuPartInici = ValoracionsProducte.First().PreuParticipacio;
-
-            return preuPartActual / preuPartInici - 1;
-        }
 
 
         /// <summary>
