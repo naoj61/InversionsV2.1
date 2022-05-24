@@ -68,7 +68,6 @@ namespace Inversions
             return prods.Sum(prod => prod.pig2Cartera(any, pigOrigen, ambDespeses));
         }
 
-
         internal static double PigTributa(TipusProducte tipusProducte, TipusFons? tipusFons, uint any, bool inclouDividends)
         {
             IEnumerable<Producte> prods = SeleccionaProds(tipusProducte, tipusFons).ToList();
@@ -243,35 +242,6 @@ namespace Inversions
 
 
         /// <summary>
-        /// Calcula el PiG de les accions en cartera a final d'any.
-        /// </summary>
-        /// <param name="any">És l'any de càlcul.</param>
-        /// <param name="pigOrigen">Calcula el PiG respecte el valor de compra original.</param>
-        /// <param name="ambDespeses">Afegeig les despeses.</param>
-        /// <returns></returns>
-        private double pig2Cartera(uint any, bool pigOrigen, bool ambDespeses)
-        {
-            var compres = MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data.Year <= any).ToList();
-            return compres.Sum(compra => compra.pigEnCartera(pigOrigen, ambDespeses));
-        }
-
-
-        /// <summary>
-        /// Participacions en cartera d'un producte en una data.
-        /// </summary>
-        /// <param name="dataHora">Si null, data d'avui.</param>
-        /// <returns></returns>
-        private double partsEnCartera(DateTime? dataHora)
-        {
-            var dataH = dataHora.GetValueOrDefault(DateTime.Now);
-            var partsComprades = MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data <= dataH).Sum(s => s.Participacions);
-            var partsVenudes = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data <= dataH).Sum(s => s.Participacions);
-
-            return partsComprades - partsVenudes;
-        }
-
-
-        /// <summary>
         /// Calcula perdues i guanys del les participacions en cartera a una data. Inclou despeses. No inclou vendes reals ni dividends.
         /// </summary>
         /// <param name="dataHoraFinal">Si null, data d'avui.</param>
@@ -299,6 +269,20 @@ namespace Inversions
             var preuData = preuParticipacio.GetValueOrDefault(valorParticipacio(dataHoraFinal)) * parts;
 
             return Math.Round(preuData - preuOrig, 5);
+        }
+
+
+        /// <summary>
+        /// Calcula el PiG de les accions en cartera a final d'any.
+        /// </summary>
+        /// <param name="any">És l'any de càlcul.</param>
+        /// <param name="pigOrigen">Calcula el PiG respecte el valor de compra original.</param>
+        /// <param name="ambDespeses">Afegeig les despeses.</param>
+        /// <returns></returns>
+        private double pig2Cartera(uint any, bool pigOrigen, bool ambDespeses)
+        {
+            var compres = MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data.Year <= any).ToList();
+            return compres.Sum(compra => compra.pigEnCartera(pigOrigen, ambDespeses));
         }
 
 
@@ -361,6 +345,22 @@ namespace Inversions
         }
 
         #endregion ***** PiG *****
+
+
+        /// <summary>
+        /// Participacions en cartera d'un producte en una data.
+        /// </summary>
+        /// <param name="dataHora">Si null, data d'avui.</param>
+        /// <returns></returns>
+        private double partsEnCartera(DateTime? dataHora)
+        {
+            var dataH = dataHora.GetValueOrDefault(DateTime.Now);
+            var partsComprades = MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data <= dataH).Sum(s => s.Participacions);
+            var partsVenudes = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data <= dataH).Sum(s => s.Participacions);
+
+            return partsComprades - partsVenudes;
+        }
+
 
         /// <summary>
         /// Calcula el cost original de les participacions en cartera. Inclou despeses. 
