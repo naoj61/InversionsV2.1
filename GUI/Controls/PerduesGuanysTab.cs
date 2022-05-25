@@ -82,6 +82,10 @@ namespace Inversions.GUI
             base.Refresh();
             if (cbTipusProducteFiltreTab2.SelectedItem != null)
                 calculaPiG();
+
+            if (cbAnysPiGEnCartera.SelectedItem != null)
+                ompleDgvPiGEnCartera();
+
             gestioProductesTabValoracions.refrescaDadesControl();
             activaRefresca = false;
         }
@@ -303,9 +307,13 @@ namespace Inversions.GUI
 
         private void cbAnysPiGEnCartera_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ompleDgvPiGEnCartera();
+        }
 
+        private void ompleDgvPiGEnCartera()
+        {
             // PiG en cartera
-            var anyDades = (int)cbAnysPiGEnCartera.SelectedItem;
+            var anyDades = (int) cbAnysPiGEnCartera.SelectedItem;
             double pigTotalEncartera = 0;
             dgvPiGEnCartera.Rows.Clear();
             foreach (var prod in Program.Sessio.Productes)
@@ -322,7 +330,7 @@ namespace Inversions.GUI
                     pigTotalEncartera += pigEnCartera;
                 }
             }
-            
+
             int fila2 = dgvPiGEnCartera.Rows.Add("Total", pigTotalEncartera);
             dgvPiGEnCartera.Rows[fila2].DefaultCellStyle.Font = new Font(dgvPiGEnCartera.Font, FontStyle.Bold);
             dgvPiGEnCartera.Rows[fila2].Cells[1].Style.ForeColor = pigTotalEncartera < 0 ? Color.Red : Color.Black;
