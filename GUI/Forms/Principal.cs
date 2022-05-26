@@ -24,93 +24,51 @@ namespace Inversions.GUI
         private static TabControl Tc;
         private bool vModeConsultaProducte = true;
 
-        EmpresesProductesTab empresesProductesTab = new EmpresesProductesTab();
-        MovimentsTab movimentsTab = new MovimentsTab();
+        readonly EmpresesProductesTab vEmpresesProductesTab = new EmpresesProductesTab();
+        readonly MovimentsTab vMovimentsTab = new MovimentsTab();
+        readonly ValoracionsTab vValoracionsTab = new ValoracionsTab();
+        readonly PerduesGuanysTab vPerduesGuanysTab = new PerduesGuanysTab();
+        readonly GrafiquesTab vGrafiquesTab = new GrafiquesTab();
+        readonly SimulacióVendaTab vSimulacióVendaTab = new SimulacióVendaTab();
 
         public Principal()
         {
             InitializeComponent();
 
             Tc = tabControl1;
-
-            //using (var conn = new InversionsBDContext())
-            //{
-            //    //var conn = Program.Sessio;
-
-            //    using (var dbContextTransaction = conn.Database.BeginTransaction())
-            //    {
-            //        try
-            //        {
-            //            //var ges = conn.Gestors.Single(s => s.Id == 1);
-            //            var ges = conn.Gestors.Create();
-            //            ges.Nom = "jlklkh";
-            //            ges.Empresa = conn.Empreses.First();
-
-            //            conn.Gestors.AddOrUpdate(ges);
-            //            conn.SaveChanges();
-
-            //            //dbContextTransaction.Rollback();
-            //            //dbContextTransaction.Commit();
-
-            //            conn.Gestors.Remove(ges);
-            //            conn.SaveChanges();
-
-            //            ////dbContextTransaction.Rollback();
-            //            dbContextTransaction.Commit();
-
-
-            //        }
-            //        catch (Exception)
-            //        {
-            //            dbContextTransaction.Rollback();
-            //            throw;
-            //        }
-            //    }
-            //}
-
-            //var cc = Program.Sessio.Gestors.Count();
-            //var gess = Program.Sessio.Gestors.Single(s => s.Id == 1);
-            //Program.Sessio.ChangeTracker.DetectChanges();
-            //var gess2 = Program.Sessio.Gestors.Single(s => s.Id == 1);
-
+            
             titolFinestra();
-
-            // Selecciona l'ultima pestanya seleccionada al tancar l'últim cop.
-            var ultimaPestanyaSeleccionada = Program.LlegeigVariableEnRegistreWindows(NomVarReg, true);
-            try
-            {
-                tabControl1.SelectTab(ultimaPestanyaSeleccionada);
-            }
-            catch (ArgumentNullException)
-            {
-                tabControl1.SelectTab(tabValoracions.Name);
-            }
-
-#if DEBUG           
-            //tabControl1.SelectTab(tabPerduesGuanys.Name);
-#endif
-
    
             modeConsultaProducte();
         }
 
-        public static TabControl _Tc
-        {
-            get { return Tc; }
-        }
 
         #region *** Mètodes ***
 
         private void titolFinestra()
         {
-            this.Text = String.Format("Inversions. Ver: {0}. Usuari: {1}", Application.ProductVersion, Usuari.Seleccionat.Nom);
+            Text = String.Format("Inversions. Ver: {0}. Usuari: {1}", Application.ProductVersion, Usuari.Seleccionat.Nom);
         }
-
 
 
         private void modeConsultaProducte()
         {
             vModeConsultaProducte = true;
+        }
+
+        /// <summary>
+        /// Activa l'indicador per refrescar al entrar en la pestanya.
+        /// </summary>
+        /// <param name="tabX"></param>
+        internal static void ActivaRefresca(ITabs tabX)
+        {
+            foreach (TabPage tabPage in Tc.TabPages)
+            {
+                ITabs tab = tabPage.Controls.OfType<ITabs>().FirstOrDefault();
+
+                if (tab != null)
+                    tab.activaRefresca = tab != tabX;
+            }
         }
 
         #endregion *** Mètodes ***
@@ -128,22 +86,60 @@ namespace Inversions.GUI
                 cbUsuaris.DisplayMember = "Nom";
                 cbUsuaris.DataSource = Program.Sessio.Usuaris.ToList();
                 cbUsuaris.SelectedItem = Usuari.Seleccionat;
-
                 cbUsuaris.SelectedIndexChanged += cbUsuaris_SelectedIndexChanged;
 
                 // Afegeix EmpresesProductesTab
                 tabEmpresesProductes.SuspendLayout();
-                tabEmpresesProductes.Controls.Add(empresesProductesTab);
-                empresesProductesTab.Dock = DockStyle.Fill;
-                tabEmpresesProductes.ResumeLayout(false);
+                tabEmpresesProductes.Controls.Add(vEmpresesProductesTab);
+                vEmpresesProductesTab.Dock = DockStyle.Fill;
+                tabEmpresesProductes.ResumeLayout();
 
                 // Afegeig MovimentsTab
                 tabMoviments.SuspendLayout();
-                tabEmpresesProductes.Controls.Add(empresesProductesTab);
-                empresesProductesTab.Dock = DockStyle.Fill;
-                tabEmpresesProductes.ResumeLayout(false);
+                tabMoviments.Controls.Add(vMovimentsTab);
+                vMovimentsTab.Dock = DockStyle.Fill;
+                tabMoviments.ResumeLayout();
+
+                // Afegeig ValoracionsTab
+                tabValoracions.SuspendLayout();
+                tabValoracions.Controls.Add(vValoracionsTab);
+                vValoracionsTab.Dock = DockStyle.Fill;
+                tabValoracions.ResumeLayout();
+
+                // Afegeig PerduesGuanysTab
+                tabPerduesGuanys.SuspendLayout();
+                tabPerduesGuanys.Controls.Add(vPerduesGuanysTab);
+                vPerduesGuanysTab.Dock = DockStyle.Fill;
+                tabPerduesGuanys.ResumeLayout();
+
+                // Afegeig GrafiquesTab
+                tabGrafiques.SuspendLayout();
+                tabGrafiques.Controls.Add(vGrafiquesTab);
+                vGrafiquesTab.Dock = DockStyle.Fill;
+                tabGrafiques.ResumeLayout();
+
+                // Afegeig SimulacióVendaTab
+                tabSimulacióVenda.SuspendLayout();
+                tabSimulacióVenda.Controls.Add(vSimulacióVendaTab);
+                vSimulacióVendaTab.Dock = DockStyle.Fill;
+                tabSimulacióVenda.ResumeLayout();
 
                 ResumeLayout();
+
+                var ultimaPestanyaSeleccionada = Program.LlegeigVariableEnRegistreWindows(NomVarReg, true);
+                try
+                {
+                    tabControl1.SelectTab(ultimaPestanyaSeleccionada);
+                }
+                catch (ArgumentNullException)
+                {
+                    tabControl1.SelectTab(tabValoracions.Name);
+                }
+
+#if DEBUG
+                //tabControl1.SelectTab(tabPerduesGuanys.Name);
+#endif
+
             }
         }
 
@@ -155,9 +151,10 @@ namespace Inversions.GUI
                 SestaCanviantLusuari = true;
 
                 Program.CanviUsuari((Usuari)cbUsuaris.SelectedItem);
-                movimentsTab1.canviUsuari(Usuari.Seleccionat);
-                valoracionsTab1.canviUsuari(Usuari.Seleccionat);
-                perduesGuanysTab1.canviUsuari(Usuari.Seleccionat);
+                vMovimentsTab.canviUsuari(Usuari.Seleccionat);
+                vValoracionsTab.canviUsuari(Usuari.Seleccionat);
+                vPerduesGuanysTab.canviUsuari(Usuari.Seleccionat);
+                vSimulacióVendaTab.canviUsuari(Usuari.Seleccionat);
             }
             finally
             {
@@ -220,8 +217,6 @@ namespace Inversions.GUI
             }
         }
 
-
-
         private void Principal_FormClosing(object sender, FormClosingEventArgs e)
         {
             //if (pnDesaCanvisEmpreses.Enabled)
@@ -235,17 +230,6 @@ namespace Inversions.GUI
             //}
         }
 
-
-        private void tabControl1_Deselecting(object sender, TabControlCancelEventArgs e)
-        {
-            ITabs tab = e.TabPage.Controls.OfType<ITabs>().FirstOrDefault();
-
-            if (tab != null && tab.enModeEdicio)
-                e.Cancel = true;
-        }
-        
-        #endregion *** Events ***
-
         private void Principal_Activated(object sender, EventArgs e)
         {
             // *** Canvia d'usuari si s'ha intentat arrancar de nou el procés amb un usuari diferent.
@@ -258,6 +242,14 @@ namespace Inversions.GUI
                     canviUsuari(usuari);
                 }
             }
+        }
+
+        private void tabControl1_Deselecting(object sender, TabControlCancelEventArgs e)
+        {
+            ITabs tab = e.TabPage.Controls.OfType<ITabs>().FirstOrDefault();
+
+            if (tab != null && tab.enModeEdicio)
+                e.Cancel = true;
         }
 
         private void tabControl1_Selected(object sender, TabControlEventArgs e)
@@ -276,19 +268,6 @@ namespace Inversions.GUI
             Program.DesaVariableEnRegistreWindows(NomVarReg, e.TabPage.Name, true);
         }
 
-        /// <summary>
-        /// Activa l'indicador per refrescar al entrar en la pestanya.
-        /// </summary>
-        /// <param name="tabX"></param>
-        internal static void ActivaRefresca(ITabs tabX)
-        {
-            foreach (TabPage tabPage in Tc.TabPages)
-            {
-                ITabs tab = tabPage.Controls.OfType<ITabs>().FirstOrDefault();
-
-                if (tab != null)
-                    tab.activaRefresca = tab != tabX;
-            }
-        }
+        #endregion *** Events ***
     }
 }

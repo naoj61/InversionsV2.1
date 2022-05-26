@@ -33,6 +33,7 @@ namespace Inversions.GUI
         public void canviUsuari(Usuari usuari)
         {
             productes._UsuariSeleccionat = usuari;
+            dgvCompresOriginals.DataSource = null;
             Refresh();
         }
 
