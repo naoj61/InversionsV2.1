@@ -163,8 +163,11 @@ namespace Inversions.GUI
 
         public bool carregaDadesInicial { get; set; }
 
-        public void refresca()
+        public void refresca(bool? refrescaActivat)
         {
+            if (refrescaActivat.HasValue)
+                activaRefresca = refrescaActivat.Value;
+            
             Refresh();
         }
 
@@ -177,6 +180,10 @@ namespace Inversions.GUI
         }
 
         public void canviUsuari(Usuari usuari) { }
+        
+        public void escape(object sender, KeyEventArgs e)
+        {
+        }
 
         public bool enModeEdicio
         {

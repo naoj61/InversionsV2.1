@@ -286,8 +286,11 @@ namespace Inversions.GUI
 
         public bool carregaDadesInicial { get; set; }
 
-        public void refresca()
+        public void refresca(bool? refrescaActivat)
         {
+            if (refrescaActivat.HasValue)
+                activaRefresca = refrescaActivat.Value;
+
             Refresh();
         }
 
@@ -296,7 +299,13 @@ namespace Inversions.GUI
         {
             gestioProductesTabValoracions._UsuariSeleccionat = usuari;
             dgvValoracions.DataSource = null;
+            activaRefresca = true;
+            refresca(true);
             Refresh();
+        }
+
+        public void escape(object sender, KeyEventArgs e)
+        {
         }
 
         public bool enModeEdicio

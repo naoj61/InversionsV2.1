@@ -20,14 +20,17 @@ namespace Inversions.GUI
         {
             InitializeComponent();
 
-            refresca();
+            //refresca();
         }
 
 
         public bool carregaDadesInicial { get; set; }
 
-        public void refresca()
+        public void refresca(bool? refrescaActivat)
         {
+            if (refrescaActivat.HasValue)
+                activaRefresca = refrescaActivat.Value;
+
             Refresh();
         }
 
@@ -36,7 +39,12 @@ namespace Inversions.GUI
         {
             productes._UsuariSeleccionat = usuari;
             dgvCompresOriginals.DataSource = null;
-            Refresh();
+            refresca(true);
+        }
+
+        public void escape(object sender, KeyEventArgs e)
+        {
+            
         }
 
         public Button AcceptButton

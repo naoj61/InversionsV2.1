@@ -64,8 +64,11 @@ namespace Inversions.GUI
         public bool activaRefresca { get; set; }
         public bool carregaDadesInicial { get; set; }
 
-        public void refresca()
+        public void refresca(bool? refrescaActivat)
         {
+            if (refrescaActivat.HasValue)
+                activaRefresca = refrescaActivat.Value;
+
             Refresh();
         }
 
@@ -90,6 +93,11 @@ namespace Inversions.GUI
         {
             // *** No hi ha canvi usuari en aquesta pestanya ***
             // Refresh();
+        }
+
+        public void escape(object sender, KeyEventArgs e)
+        {
+            teclaEscapeEdicioProducte();
         }
 
         public Button AcceptButton { get; private set; }
@@ -248,6 +256,16 @@ namespace Inversions.GUI
                 vConnEmpreses.Empreses.Load();
 
                 dgvEmpreses.DataSource = vConnEmpreses.Empreses.Local.ToBindingList();
+            }
+        }
+
+        private void teclaEscapeEdicioProducte()
+        {
+            IValorControlRestaurable control = ActiveControl as IValorControlRestaurable;
+            if (control != null)
+            {
+                if (control.Modified)
+                    control.Undo();
             }
         }
 

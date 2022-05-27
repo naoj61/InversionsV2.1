@@ -57,17 +57,17 @@ namespace Inversions.GUI
         }
 
         /// <summary>
-        /// Activa l'indicador per refrescar al entrar en la pestanya.
+        /// Activa l'indicador per refrescar al entrar en totes les pestanyes.
         /// </summary>
-        /// <param name="tabX"></param>
-        internal static void ActivaRefresca(ITabs tabX)
+        /// <param name="iTab"></param>
+        internal static void ActivaRefresca(ITabs iTab)
         {
             foreach (TabPage tabPage in Tc.TabPages)
             {
                 ITabs tab = tabPage.Controls.OfType<ITabs>().FirstOrDefault();
 
                 if (tab != null)
-                    tab.activaRefresca = tab != tabX;
+                    tab.activaRefresca = tab != iTab;
             }
         }
 
@@ -164,10 +164,13 @@ namespace Inversions.GUI
                 SestaCanviantLusuari = true;
 
                 Program.CanviUsuari((Usuari)cbUsuaris.SelectedItem);
-                vMovimentsTab.canviUsuari(Usuari.Seleccionat);
-                vValoracionsTab.canviUsuari(Usuari.Seleccionat);
-                vPerduesGuanysTab.canviUsuari(Usuari.Seleccionat);
-                vSimulacióVendaTab.canviUsuari(Usuari.Seleccionat);
+
+                foreach (Control tabPage in tabControl1.TabPages)
+                {
+                    var iTab = tabPage.Controls.OfType<ITabs>().FirstOrDefault();
+                    if (iTab != null)
+                        iTab.canviUsuari((Usuari)cbUsuaris.SelectedItem);
+                }
             }
             finally
             {
@@ -178,13 +181,21 @@ namespace Inversions.GUI
 
         private void Principal_KeyDown(object sender, KeyEventArgs e)
         {
+            var iTab = tabControl1.SelectedTab.Controls.OfType<ITabs>().FirstOrDefault();
+
             if (e.Control && e.KeyCode == Keys.U)
             {
                 canviUsuari();
             }
             else if (e.KeyCode == Keys.F5 || (e.Control && e.KeyCode == Keys.R))
             {
-                tabControl1.SelectedTab.Controls[0].Refresh();
+                if (iTab != null) 
+                    iTab.refresca(true);
+            }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                if (iTab != null) 
+                    iTab.escape(sender, e);
             }
         }
 
@@ -269,8 +280,7 @@ namespace Inversions.GUI
             else
             {
                 AcceptButton = tab.AcceptButton;
-                if (tab.activaRefresca || tab.carregaDadesInicial)
-                    tab.refresca();
+                tab.refresca(null);
             }
 
             Program.DesaVariableEnRegistreWindows(NomVarReg, e.TabPage.Name, true);

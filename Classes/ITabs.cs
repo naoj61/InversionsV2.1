@@ -16,10 +16,16 @@ namespace Inversions
         /// </summary>
         bool carregaDadesInicial { get; set; }
 
-        void refresca();
+        Button AcceptButton { get; }
+
+        /// <summary>
+        /// Refresca les dades de la pestanya.
+        /// </summary>
+        /// <param name="refrescaActivat"> Si no null canvia el valor de 'activaRefresca'</param>
+        void refresca(bool? refrescaActivat);
 
         void canviUsuari(Usuari usuari);
 
-        Button AcceptButton { get; }
+        void escape(object sender, KeyEventArgs e);
     }
 }
