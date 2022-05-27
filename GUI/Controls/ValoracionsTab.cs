@@ -315,7 +315,9 @@ namespace Inversions.GUI
             {
                 activaRefresca = false;
 
-                actualitzaLlistaValoracionsTotal();
+                if (dgvValoracionsPerData.Rows.Count > 0)
+                    actualitzaLlistaValoracionsTotal();
+
                 gestioProductesTabValoracions.refrescaDadesControl();
             }
         }
