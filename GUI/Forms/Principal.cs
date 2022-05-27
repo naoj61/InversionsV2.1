@@ -88,12 +88,14 @@ namespace Inversions.GUI
                 cbUsuaris.SelectedItem = Usuari.Seleccionat;
                 cbUsuaris.SelectedIndexChanged += cbUsuaris_SelectedIndexChanged;
 
+
                 // Afegeix EmpresesProductesTab
                 tabEmpresesProductes.SuspendLayout();
                 tabEmpresesProductes.Controls.Add(vEmpresesProductesTab);
                 vEmpresesProductesTab.Dock = DockStyle.Fill;
                 tabEmpresesProductes.ResumeLayout();
                 vEmpresesProductesTab.carregaDadesInicial = true;
+                vEmpresesProductesTab.activaRefresca = true;
 
                 // Afegeig MovimentsTab
                 tabMoviments.SuspendLayout();
@@ -101,6 +103,7 @@ namespace Inversions.GUI
                 vMovimentsTab.Dock = DockStyle.Fill;
                 tabMoviments.ResumeLayout();
                 vMovimentsTab.carregaDadesInicial = true;
+                vMovimentsTab.activaRefresca = true;
 
                 // Afegeig ValoracionsTab
                 tabValoracions.SuspendLayout();
@@ -108,6 +111,7 @@ namespace Inversions.GUI
                 vValoracionsTab.Dock = DockStyle.Fill;
                 tabValoracions.ResumeLayout();
                 vValoracionsTab.carregaDadesInicial = true;
+                vValoracionsTab.activaRefresca = true;
 
                 // Afegeig PerduesGuanysTab
                 tabPerduesGuanys.SuspendLayout();

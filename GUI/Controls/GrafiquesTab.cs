@@ -165,6 +165,13 @@ namespace Inversions.GUI
 
         public void refresca()
         {
+            Refresh();
+        }
+
+        public override void Refresh()
+        {
+            base.Refresh();
+
             carregaDadesInicial = false;
             activaRefresca = false;
         }
