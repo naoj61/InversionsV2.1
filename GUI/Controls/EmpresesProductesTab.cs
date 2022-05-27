@@ -251,24 +251,6 @@ namespace Inversions.GUI
             }
         }
 
-
-
-        private void teclaEscapeEdicioProducte()
-        {
-            if (ActiveControl is TextBoxBase)
-            {
-                var control = (TextBoxBase) ActiveControl;
-                if (control.Modified)
-                    control.Undo();
-            }
-            if (ActiveControl is IValorControlRestaurable)
-            {
-                var control = (IValorControlRestaurable) ActiveControl;
-                if (control.Modified)
-                    control.Undo();
-            }
-        }
-
         #endregion *** Mètodes ***
 
 
@@ -508,9 +490,6 @@ namespace Inversions.GUI
             }
         }
 
-        private void EmpresesProductesTab_Load(object sender, EventArgs e)
-        {
-        }
 
         private void dgvProductes_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
@@ -547,5 +526,6 @@ namespace Inversions.GUI
         }
 
         #endregion *** Events ***
+
     }
 }

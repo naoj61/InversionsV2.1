@@ -151,7 +151,9 @@ namespace Inversions.GUI
             gbFiltreTipusProducte.Enabled = false;
 
             ((Form) Parent.Parent.Parent).AcceptButton = btDesa;
-            ((Form) Parent.Parent.Parent).CancelButton = btCancela;
+
+            // Si utilitzo CancelButton, la tecla ESC no funciona bé en un NumericTextBox,
+            // ((Form) Parent.Parent.Parent).CancelButton = btCancela;
 
             vModeEdicio = true;
         }

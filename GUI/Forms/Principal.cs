@@ -186,11 +186,6 @@ namespace Inversions.GUI
             {
                 tabControl1.SelectedTab.Controls[0].Refresh();
             }
-            //else if (e.KeyCode == Keys.Escape)
-            //{
-            //    if (ActiveControl.Parent.Parent == pnCampsProductes)
-            //        teclaEscapeEdicioProducte();
-            //}
         }
 
         private void canviUsuari(Usuari usuari = null)
