@@ -161,8 +161,11 @@ namespace Inversions.GUI
 
         #region Implementació d'ITabs
 
+        public bool carregaDadesInicial { get; set; }
+
         public void refresca()
         {
+            carregaDadesInicial = false;
             activaRefresca = false;
         }
 

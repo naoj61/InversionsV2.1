@@ -21,7 +21,7 @@ namespace Inversions.GUI
         private const string NomVarReg = "UltimaPestanyaSeleccionada";
         private InversionsBDContext vConnEmpreses;
         private InversionsBDContext vConnProductes;
-        private bool vModeConsultaProducte = true;
+        private bool vModeEdicio = false;
         private Empresa vEmpresaSeleccionada;
         private Producte vProducteSeleccionat;
 
@@ -40,13 +40,13 @@ namespace Inversions.GUI
             cbMercatProducte.ResumeLayout();
 
             cbMonedaProducte.SuspendLayout();
-            cbMonedaProducte.DataSource = Enum.GetValues(typeof(Comuns.Utilitats.Monedes));
+            cbMonedaProducte.DataSource = Enum.GetValues(typeof (Comuns.Utilitats.Monedes));
             cbMonedaProducte.SelectedItem = null;
             cbMonedaProducte.ResumeLayout();
 
 
             cbTipusProducte.SuspendLayout();
-            cbTipusProducte.DataSource = Enum.GetValues(typeof(TipusFons));
+            cbTipusProducte.DataSource = Enum.GetValues(typeof (TipusFons));
             cbTipusProducte.SelectedItem = null;
             cbTipusProducte.ResumeLayout();
 
@@ -56,8 +56,13 @@ namespace Inversions.GUI
 
         #region *** ITabs ***
 
-        public bool enModeEdicio { get; private set; }
+        public bool enModeEdicio
+        {
+            get { return vModeEdicio; }
+        }
+
         public bool activaRefresca { get; set; }
+        public bool carregaDadesInicial { get; set; }
 
         public void refresca()
         {
@@ -67,6 +72,17 @@ namespace Inversions.GUI
         public override void Refresh()
         {
             base.Refresh();
+
+            if (carregaDadesInicial)
+            {
+                carregaDadesInicial = false;
+
+                if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
+                {
+                    carregaGridEmpreses();
+                }
+            }
+
             activaRefresca = false;
         }
 
@@ -117,7 +133,7 @@ namespace Inversions.GUI
 
         private void modeEdicioProducte()
         {
-            vModeConsultaProducte = false;
+            vModeEdicio = true;
 
             btDesaProducte.Enabled = true;
             btCancelaProducte.Enabled = true;
@@ -132,7 +148,7 @@ namespace Inversions.GUI
 
         private void modeConsultaProducte()
         {
-            vModeConsultaProducte = true;
+            vModeEdicio = false;
 
             btDesaProducte.Enabled = false;
             btCancelaProducte.Enabled = false;
@@ -241,13 +257,13 @@ namespace Inversions.GUI
         {
             if (ActiveControl is TextBoxBase)
             {
-                var control = (TextBoxBase)ActiveControl;
+                var control = (TextBoxBase) ActiveControl;
                 if (control.Modified)
                     control.Undo();
             }
             if (ActiveControl is IValorControlRestaurable)
             {
-                var control = (IValorControlRestaurable)ActiveControl;
+                var control = (IValorControlRestaurable) ActiveControl;
                 if (control.Modified)
                     control.Undo();
             }
@@ -439,7 +455,7 @@ namespace Inversions.GUI
 
         private void tbNomProducte_TextChanged(object sender, EventArgs e)
         {
-            if (vModeConsultaProducte && ((TextBoxBase) sender).Modified)
+            if (!vModeEdicio && ((TextBoxBase) sender).Modified)
             {
                 modeEdicioProducte();
             }
@@ -494,10 +510,6 @@ namespace Inversions.GUI
 
         private void EmpresesProductesTab_Load(object sender, EventArgs e)
         {
-            if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
-            {
-                carregaGridEmpreses();
-            }
         }
 
         private void dgvProductes_RowEnter(object sender, DataGridViewCellEventArgs e)
@@ -505,7 +517,7 @@ namespace Inversions.GUI
             if (dgvProductes.CurrentRow != null && dgvProductes.CurrentRow.Index == e.RowIndex)
                 return;
 
-            vProducteSeleccionat = (Producte)dgvProductes.Rows[e.RowIndex].DataBoundItem;
+            vProducteSeleccionat = (Producte) dgvProductes.Rows[e.RowIndex].DataBoundItem;
 
             if (vProducteSeleccionat == null)
             {
@@ -526,17 +538,14 @@ namespace Inversions.GUI
             }
         }
 
-
-        #endregion *** Events ***
-
         private void ntbOrdreGridProducte_TextChanged(object sender, EventArgs e)
         {
-            if (vModeConsultaProducte && ((TextBoxBase)sender).Modified)
+            if (!vModeEdicio && ((TextBoxBase) sender).Modified)
             {
                 modeEdicioProducte();
             }
-
         }
 
+        #endregion *** Events ***
     }
 }

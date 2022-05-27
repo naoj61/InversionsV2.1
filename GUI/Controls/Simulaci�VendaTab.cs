@@ -24,6 +24,8 @@ namespace Inversions.GUI
         }
 
 
+        public bool carregaDadesInicial { get; set; }
+
         public void refresca()
         {
             Refresh();
@@ -53,8 +55,23 @@ namespace Inversions.GUI
         public override void Refresh()
         {
             base.Refresh();
-            productes.refrescaDadesControl();
-            activaRefresca = false;
+
+            if (carregaDadesInicial)
+            {
+                carregaDadesInicial = false;
+
+                var anyRenda = Program.LlegeigVariableEnRegistreWindows(NomVarReg, true);
+                ntbAnyRenda.Valor = Utilitats.EsNumeric(anyRenda) ? Convert.ToInt32(anyRenda) : DateTime.Today.Year;
+
+                calculaPerdues();
+            }
+
+            if (activaRefresca)
+            {
+                activaRefresca = false;
+
+                productes.refrescaDadesControl();
+            }
         }
 
         private Producte vProducteSeleccionat = null;
@@ -249,13 +266,6 @@ namespace Inversions.GUI
                 ompleValors();
         }
 
-        private void SimulacióVendaTab_Load(object sender, EventArgs e)
-        {
-            var anyRenda = Program.LlegeigVariableEnRegistreWindows(NomVarReg, true);
-            ntbAnyRenda.Valor = Utilitats.EsNumeric(anyRenda) ? Convert.ToInt32(anyRenda) : DateTime.Today.Year;
-
-            calculaPerdues();
-        }
 
         private void calculaPerdues()
         {

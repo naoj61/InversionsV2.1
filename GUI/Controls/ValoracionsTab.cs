@@ -282,6 +282,7 @@ namespace Inversions.GUI
         }
 
 
+        public bool carregaDadesInicial { get; set; }
 
         public void refresca()
         {
@@ -307,9 +308,16 @@ namespace Inversions.GUI
         public override void Refresh()
         {
             base.Refresh();
-            actualitzaLlistaValoracionsTotal();
-            gestioProductesTabValoracions.refrescaDadesControl();
-            activaRefresca = false;
+
+            carregaDadesInicial = false;
+
+            if (activaRefresca)
+            {
+                activaRefresca = false;
+
+                actualitzaLlistaValoracionsTotal();
+                gestioProductesTabValoracions.refrescaDadesControl();
+            }
         }
 
 

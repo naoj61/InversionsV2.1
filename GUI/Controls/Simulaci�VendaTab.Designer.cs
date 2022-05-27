@@ -523,7 +523,6 @@ namespace Inversions.GUI
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "SimulacióVendaTab";
             this.Size = new System.Drawing.Size(1459, 822);
-            this.Load += new System.EventHandler(this.SimulacióVendaTab_Load);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCompresOriginals)).EndInit();
             this.panel2.ResumeLayout(false);

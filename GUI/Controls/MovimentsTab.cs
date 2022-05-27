@@ -232,6 +232,8 @@ namespace Inversions.GUI
                 return;
             }
 
+            Principal.ActivaRefresca(this);
+
             preparaPantallaConsulta();
         }
 
@@ -240,6 +242,8 @@ namespace Inversions.GUI
         {
             preparaPantallaConsulta();
         }
+
+        public bool carregaDadesInicial { get; set; }
 
         public void refresca()
         {
@@ -265,9 +269,13 @@ namespace Inversions.GUI
         {
             base.Refresh();
 
+            
             // Aquí s'haurien de refrescar les dades en pantalla.
-            gestioProductesTabMoviments.refrescaDadesControl();
-            canviProducteSeleccionat();
+            //gestioProductesTabMoviments.refrescaDadesControl();
+            //canviProducteSeleccionat();
+            
+            carregaDadesInicial = false;
+            
             activaRefresca = false;
         }
 

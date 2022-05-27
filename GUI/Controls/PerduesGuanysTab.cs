@@ -59,6 +59,8 @@ namespace Inversions.GUI
         }
 
 
+        public bool carregaDadesInicial { get; set; }
+
         public void refresca()
         {
             Refresh();
@@ -80,14 +82,38 @@ namespace Inversions.GUI
         public override void Refresh()
         {
             base.Refresh();
-            if (cbTipusProducteFiltreTab2.SelectedItem != null)
-                calculaPiG();
 
-            if (cbAnysPiGEnCartera.SelectedItem != null)
-                ompleDgvPiGEnCartera();
+            if(carregaDadesInicial)
+            {
+                carregaDadesInicial = false;
+                
+                gestioProductesTabValoracions._NomesAmbParticipacions = true;
 
-            gestioProductesTabValoracions.refrescaDadesControl();
-            activaRefresca = false;
+                cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof(Producte.TipusProducte));
+                cbTipusProducteFiltreTab2.SelectedIndex = -1;
+                cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
+                cbTipusProducteFiltreTab2.SelectedIndex = 0;
+
+                for (int any = 2000; any <= DateTime.Today.Year; any++)
+                {
+                    cbAnysPiGEnCartera.Items.Add(any);
+                }
+                cbAnysPiGEnCartera.SelectedIndexChanged += cbAnysPiGEnCartera_SelectedIndexChanged;
+                cbAnysPiGEnCartera.SelectedItem = DateTime.Today.Year;
+            }
+            
+            if (activaRefresca)
+            {
+                activaRefresca = false;
+
+                if (cbTipusProducteFiltreTab2.SelectedItem != null)
+                    calculaPiG();
+
+                if (cbAnysPiGEnCartera.SelectedItem != null)
+                    ompleDgvPiGEnCartera();
+
+                gestioProductesTabValoracions.refrescaDadesControl();
+            }
         }
 
         private void cbTipusProducteFiltreTab2_SelectedIndexChanged(object sender, EventArgs e)
@@ -230,24 +256,6 @@ namespace Inversions.GUI
             calculaPigSimulat();
         }
 
-
-        private void PerduesGuanysTab_Load(object sender, EventArgs e)
-        {
-            gestioProductesTabValoracions._NomesAmbParticipacions = true;
-
-            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof (Producte.TipusProducte));
-            cbTipusProducteFiltreTab2.SelectedIndex = -1;
-            cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
-            cbTipusProducteFiltreTab2.SelectedIndex = 0;
-
-
-            for (int any = 2000; any <= DateTime.Today.Year; any++)
-            {
-                cbAnysPiGEnCartera.Items.Add(any);
-            }
-            cbAnysPiGEnCartera.SelectedIndexChanged += cbAnysPiGEnCartera_SelectedIndexChanged;
-            cbAnysPiGEnCartera.SelectedItem = DateTime.Today.Year;
-        }
 
         private void calculaPigSimulat()
         {
