@@ -31,7 +31,7 @@ namespace Inversions.GUI
             dgvValoracions.AutoGenerateColumns = false;
 
             cData.Value = DateTime.Today;
-            
+
             dtpDataIniciLlista.Value = DateTime.Now.AddMonths(-6);
 
             gestioProductesTabValoracions.refrescaDadesControl();
@@ -150,10 +150,10 @@ namespace Inversions.GUI
             tbImport.Enabled = true;
             gbFiltreTipusProducte.Enabled = false;
 
-            ((Form) Parent.Parent.Parent).AcceptButton = btDesa;
+            Principal.PrincipalForm.AcceptButton = btDesa;
 
             // Si utilitzo CancelButton, la tecla ESC no funciona bé en un NumericTextBox,
-            // ((Form) Parent.Parent.Parent).CancelButton = btCancela;
+            Principal.PrincipalForm.CancelButton = btCancela;
 
             vModeEdicio = true;
         }
@@ -175,8 +175,8 @@ namespace Inversions.GUI
 
             vModeEdicio = false;
 
-            ((Form) this.Parent.Parent.Parent).AcceptButton = null;
-            ((Form) this.Parent.Parent.Parent).CancelButton = null;
+            Principal.PrincipalForm.AcceptButton = null;
+            Principal.PrincipalForm.CancelButton = null;
         }
 
 
@@ -408,7 +408,7 @@ namespace Inversions.GUI
             var rf = checkedComboBoxEdit1.Properties.Items[TipusProd.RF].CheckState == CheckState.Checked;
             var rv = checkedComboBoxEdit1.Properties.Items[TipusProd.RV].CheckState == CheckState.Checked;
 
-            if(!(accions || rf || rv))
+            if (!(accions || rf || rv))
                 return;
 
             var valData = Program.Sessio.Valoracions.Where(w => w.Data >= dtpDataIniciLlista.Value).ToList();
@@ -518,6 +518,22 @@ namespace Inversions.GUI
                     e.DisplayText = "Fons";
                 else if (accions && !rf && !rv)
                     e.DisplayText = "Accions";
+            }
+        }
+
+        private void tbImport_ValorChanged(object sender, EventArgs e)
+        {
+            Principal.PrincipalForm.CancelButton = tbImport.Modified ? null : btCancela;
+        }
+
+        private void tbImport_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                if (tbImport.Modified)
+                {
+                    Principal.PrincipalForm.CancelButton = btCancela;
+                }
             }
         }
     }

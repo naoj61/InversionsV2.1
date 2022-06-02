@@ -21,6 +21,7 @@ namespace Inversions.GUI
     {
         const string NomVarReg = "UltimaPestanyaSeleccionada";
         static internal bool SestaCanviantLusuari = false;
+        internal static Form PrincipalForm { get; private set; }
         private static TabControl Tc;
         private bool vModeConsultaProducte = true;
 
@@ -34,7 +35,7 @@ namespace Inversions.GUI
         public Principal()
         {
             InitializeComponent();
-
+            PrincipalForm = this;
             Tc = tabControl1;
             
             titolFinestra();
@@ -74,7 +75,7 @@ namespace Inversions.GUI
         #endregion *** Mètodes ***
 
         #region *** Events ***
-        
+
         private void Principal_Load(object sender, EventArgs e)
         {
             if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
@@ -83,6 +84,7 @@ namespace Inversions.GUI
                     Program.CanviUsuari(Program.Sessio.Usuaris.First());
 
                 SuspendLayout();
+
                 cbUsuaris.DisplayMember = "Nom";
                 cbUsuaris.DataSource = Program.Sessio.Usuaris.ToList();
                 cbUsuaris.SelectedItem = Usuari.Seleccionat;
