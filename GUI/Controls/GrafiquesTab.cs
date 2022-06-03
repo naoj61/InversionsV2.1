@@ -10,6 +10,9 @@ namespace Inversions.GUI
 {
     public partial class GrafiquesTab : UserControl, ITabs
     {
+        readonly int vNumElem = Enum.GetValues(typeof(ChartColorPalette)).Length;
+        private readonly ChartArea vChartArea;
+
         public GrafiquesTab()
         {
             InitializeComponent();
@@ -26,46 +29,35 @@ namespace Inversions.GUI
             gestioProductesTabValoracions.aplicaFiltre();
         }
 
+
+        #region *** d'ITabs ***
+
+        public bool enModeEdicio
+        {
+            get { return false; }
+        }
+
+        public bool activaRefresca { get; set; }
+
+        public bool carregaDadesInicial { get; set; }
+
         public Button AcceptButton
         {
             get { return null; }
         }
 
-        private readonly ChartArea vChartArea;
-
-        private void gestioProductesTabValoracions_ItemCheck(object sender, ItemCheckEventArgs e)
+        public void refresca(bool? refrescaActivat)
         {
-            activaBotoGrafiques(true);
         }
 
+        public void canviUsuari(Usuari usuari) { }
 
-        private void btgActualitzaGrafiques_Click(object sender, EventArgs e)
+        public void escape(object sender, KeyEventArgs e)
         {
-            btgActualitzaGrafiques.Enabled = false;
-
-            vChartArea.AxisY.Interval = ntbIntervalEixY.Valor;
-
-            // Troba la data d'inici de les gràfiques.
-            DateTime dataInici = dtpInici.Value.GetValueOrDefault(DateTime.MinValue);
-            if (ckDataIniciComu.Checked)
-            {
-                foreach (var producteSeleccionat in gestioProductesTabValoracions.productesSeleccionats())
-                {
-                    DateTime minDataVal = producteSeleccionat.ValoracionsProducte.Min(m => m.Data);
-                    if (minDataVal > dataInici && minDataVal <= dtpFinal.Value)
-                        // Modifica la dataInici a la data més petita del producte sempre que aquesta no sigui més gran a la data final.
-                        dataInici = minDataVal;
-                }
-            }
-
-
-            chart1.Series.Clear();
-
-            foreach (var producteSeleccionat in gestioProductesTabValoracions.productesSeleccionats())
-            {
-                creaGraficaDelProducte(producteSeleccionat, dataInici, dtpFinal.Value);
-            }
         }
+
+        #endregion *** d'ITabs ***
+
 
         private void creaGraficaDelProducte(Producte producte, DateTime dataInici, DateTime dataFinal)
         {
@@ -88,21 +80,6 @@ namespace Inversions.GUI
             //series1.Legend = "Legend1";
         }
 
-        private void ck_CheckedChanged(object sender, EventArgs e)
-        {
-            activaBotoGrafiques();
-        }
-
-        private void dtpInici_ValueChanged(object sender, EventArgs e)
-        {
-            activaBotoGrafiques();
-        }
-
-        private void ntbIntervalEixY_TextChanged(object sender, EventArgs e)
-        {
-            activaBotoGrafiques();
-        }
-
         private void activaBotoGrafiques(bool forçaActivacio = false)
         {
             if (forçaActivacio || gestioProductesTabValoracions.productesSeleccionats().Any())
@@ -119,11 +96,11 @@ namespace Inversions.GUI
         }
 
 
-        readonly int vNumElem = Enum.GetValues(typeof(ChartColorPalette)).Length;
+        #region *** Events ***
 
         private void chart1_DoubleClick(object sender, EventArgs e)
         {
-            
+
             var posElem = (int)chart1.Palette + 1;
 
             if (posElem == vNumElem)
@@ -140,58 +117,72 @@ namespace Inversions.GUI
                 if (producte == null) return;
 
                 lbNomProducte.Text = e.HitTestResult.Series.Name;
-     
+
                 var puntSenyalatGrafica = ((DataPoint)(e.HitTestResult.Object));
                 //lbValorActual.Text = producte.valorEnCartera().ToString("#,##0.00€");
                 lbValorActual.Text = puntSenyalatGrafica.YValues[0].ToString("#,##0.00€");
                 lbData.Text = DateTime.FromOADate(puntSenyalatGrafica.XValue).ToShortDateString();
-                
+
                 //var vals = producte.valoracionsPonderades(false, dtpInici.Value.GetValueOrDefault(DateTime.MinValue), dtpFinal.Value);
                 //var valIni = vals.First().Value;
                 //var valMax = vals.Last().Value;
                 //lbData.Text = (valMax / valIni - 1).ToString("#0.00%");
             }
             else
-            { 
+            {
                 //lbNomProducte.Text = String.Empty;
                 //lbValorActual.Text = String.Empty;
                 //lbData.Text = String.Empty;
             }
         }
 
-        #region Implementació d'ITabs
-
-        public bool carregaDadesInicial { get; set; }
-
-        public void refresca(bool? refrescaActivat)
+        private void gestioProductesTabValoracions_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            if (refrescaActivat.HasValue)
-                activaRefresca = refrescaActivat.Value;
-            
-            Refresh();
+            activaBotoGrafiques(true);
         }
 
-        public override void Refresh()
+        private void btgActualitzaGrafiques_Click(object sender, EventArgs e)
         {
-            base.Refresh();
+            btgActualitzaGrafiques.Enabled = false;
 
-            carregaDadesInicial = false;
-            activaRefresca = false;
+            vChartArea.AxisY.Interval = ntbIntervalEixY.Valor;
+
+            // Troba la data d'inici de les gràfiques.
+            DateTime dataInici = dtpInici.Value.GetValueOrDefault(DateTime.MinValue);
+            if (ckDataIniciComu.Checked)
+            {
+                foreach (var producteSeleccionat in gestioProductesTabValoracions.productesSeleccionats())
+                {
+                    DateTime minDataVal = producteSeleccionat.ValoracionsProducte.Min(m => m.Data);
+                    if (minDataVal > dataInici && minDataVal <= dtpFinal.Value)
+                        // Modifica la dataInici a la data més petita del producte sempre que aquesta no sigui més gran a la data final.
+                        dataInici = minDataVal;
+                }
+            }
+
+            chart1.Series.Clear();
+
+            foreach (var producteSeleccionat in gestioProductesTabValoracions.productesSeleccionats())
+            {
+                creaGraficaDelProducte(producteSeleccionat, dataInici, dtpFinal.Value);
+            }
         }
 
-        public void canviUsuari(Usuari usuari) { }
-        
-        public void escape(object sender, KeyEventArgs e)
+        private void ck_CheckedChanged(object sender, EventArgs e)
         {
+            activaBotoGrafiques();
         }
 
-        public bool enModeEdicio
+        private void dtpInici_ValueChanged(object sender, EventArgs e)
         {
-            get { return false; }
+            activaBotoGrafiques();
         }
 
-        public bool activaRefresca { get; set; }
+        private void ntbIntervalEixY_TextChanged(object sender, EventArgs e)
+        {
+            activaBotoGrafiques();
+        }
 
-        #endregion
+        #endregion *** Events ***
     }
 }

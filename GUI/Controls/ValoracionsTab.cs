@@ -22,8 +22,13 @@ namespace Inversions.GUI
             RV
         }
 
+        private bool vEsNouValor = false;
+
+        private Valoracio vValoracioSeleccionada = null;
+
         public ValoracionsTab()
         {
+            enModeEdicio = false;
             InitializeComponent();
 
             chart1.GetToolTipText += chart1_GetToolTipText;
@@ -38,10 +43,52 @@ namespace Inversions.GUI
 
         }
 
+
+        #region *** ITabs ***
+
+        public bool enModeEdicio { get; private set; }
+
+        public bool activaRefresca { get; set; }
+
+        public bool carregaDadesInicial { get; set; }
+
         public Button AcceptButton
         {
             get { return btActualitzaLlista; }
         }
+
+        public void refresca(bool? refrescaActivat)
+        {
+            if (refrescaActivat.HasValue)
+                activaRefresca = refrescaActivat.Value;
+
+            carregaDadesInicial = false;
+
+            if (activaRefresca)
+            {
+                activaRefresca = false;
+
+                if (dgvValoracionsPerData.Rows.Count > 0)
+                    actualitzaLlistaValoracionsTotal();
+
+                gestioProductesTabValoracions.refrescaDadesControl();
+            }
+        }
+
+        public void canviUsuari(Usuari usuari)
+        {
+            gestioProductesTabValoracions._UsuariSeleccionat = usuari;
+            dgvValoracions.DataSource = null;
+            activaRefresca = true;
+            refresca(true);
+        }
+
+        public void escape(object sender, KeyEventArgs e)
+        {
+        }
+
+        #endregion *** ITabs ***
+
 
         public DateTime _Data
         {
@@ -51,89 +98,6 @@ namespace Inversions.GUI
         public double _Import
         {
             get { return tbImport._DoubleValue; }
-        }
-
-
-        private void chart1_GetToolTipText(object sender, ToolTipEventArgs e)
-        {
-            // Check selected chart element and set tooltip text for it
-            switch (e.HitTestResult.ChartElementType)
-            {
-                case ChartElementType.DataPoint:
-                    if (e.HitTestResult.Series != null)
-                    {
-                        var dataPoint = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
-
-                        e.Text = string.Format("Import:\t{0}", dataPoint.YValues[0]);
-                    }
-                    break;
-            }
-        }
-
-        private bool vEsNouValor = false;
-
-        private void btNouValor_Click(object sender, EventArgs e)
-        {
-            vEsNouValor = true;
-
-            tbImport.Valor = 0;
-
-            modeEdicio();
-
-            cData.Value = Utilitats.AnteriorDiaLaborable(DateTime.Today);
-            tbImport.Focus();
-        }
-
-
-        private void btModifica_Click(object sender, EventArgs e)
-        {
-            vEsNouValor = false;
-
-            modeEdicio();
-
-            tbImport.Focus();
-        }
-
-
-        private void btEsborra_Click(object sender, EventArgs e)
-        {
-            vEsNouValor = false;
-
-            if (MessageBox.Show(String.Format("S'esborrarà: {0}-{1}", vValoracioSeleccionada.Prod.Empresa.Nom, vValoracioSeleccionada.Data.ToShortDateString()), "", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                using (var conn = new InversionsBDContext())
-                {
-                    try
-                    {
-                        //Valoracio valToRemove = conn.Valoracions.Single(s => s.Id == vValoracioSeleccionada.Id);
-                        Valoracio valToRemove = conn.Valoracions.Find(vValoracioSeleccionada.Id);
-                        conn.Valoracions.Remove(valToRemove);
-                        conn.SaveChanges();
-                    }
-                    catch (DbUpdateException ex2)
-                    {
-                        Comuns.Utilitats.EscriuLog(ex2, Program.FitxerLog, Program.Versio);
-                        //MessageBox.Show(ex2.InnerException.InnerException.Message);
-                        conn.UndoingChangesDbEntityPropertyLevel(vValoracioSeleccionada);
-                    }
-                    catch (Exception ex)
-                    {
-                        Comuns.Utilitats.EscriuLog(ex, Program.FitxerLog, Program.Versio);
-                        //MessageBox.Show(ex.Message);
-                        conn.UndoingChangesDbEntityPropertyLevel(vValoracioSeleccionada);
-                    }
-                }
-
-                Program.Sessio.refrescaTaula(typeof (Valoracio));
-                actualitzaLlistaValoracionsPerProducte();
-            }
-        }
-
-
-        private void btCancela_Click(object sender, EventArgs e)
-        {
-            posaValorsDeLaFilaSeleccionada();
-            modeConsulta();
         }
 
         private void modeEdicio()
@@ -150,12 +114,12 @@ namespace Inversions.GUI
             tbImport.Enabled = true;
             gbFiltreTipusProducte.Enabled = false;
 
-            Principal.PrincipalForm.AcceptButton = btDesa;
+            ParentForm.AcceptButton = btDesa;
 
             // Si utilitzo CancelButton, la tecla ESC no funciona bé en un NumericTextBox,
-            Principal.PrincipalForm.CancelButton = btCancela;
+            ParentForm.CancelButton = btCancela;
 
-            vModeEdicio = true;
+            enModeEdicio = true;
         }
 
         private void modeConsulta()
@@ -173,172 +137,20 @@ namespace Inversions.GUI
 
             dgvValoracions.Enabled = true;
 
-            vModeEdicio = false;
+            enModeEdicio = false;
 
-            Principal.PrincipalForm.AcceptButton = null;
-            Principal.PrincipalForm.CancelButton = null;
+            ParentForm.AcceptButton = null;
+            ParentForm.CancelButton = null;
         }
-
-
-        private void btDesa_Click(object sender, EventArgs e)
-        {
-            var cursor = this.Cursor;
-            this.Cursor = Cursors.WaitCursor;
-
-            try
-            {
-                using (var conn = new InversionsBDContext())
-                {
-                    {
-                        try
-                        {
-                            if (vEsNouValor)
-                            {
-                                Valoracio.Nova(conn, gestioProductesTabValoracions._ProducteSeleccionat, cData.Value, tbImport._DoubleValue);
-                            }
-                            else
-                            {
-                                vValoracioSeleccionada.modifica(conn, cData.Value, tbImport._DoubleValue);
-                            }
-
-                            conn.SaveChanges();
-                        }
-                        catch (Exception ex)
-                        {
-                            var xx = Utilitats.ExtreuInnerException(ex);
-
-                            if (xx is System.Data.SqlClient.SqlException && ((System.Data.SqlClient.SqlException) xx).Number == 2627)
-                                MessageBox.Show("Valoració ja existeix", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            else
-                                MessageBox.Show(xx.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
-                }
-
-                if (vValoracioSeleccionada != null)
-                    Program.Sessio.Entry(vValoracioSeleccionada).Reload();
-
-                gestioProductesTabValoracions.refrescaDadesControl();
-
-                Principal.ActivaRefresca(this);
-
-                modeConsulta();
-
-                tbImport.Valor = 0;
-
-                actualitzaLlistaValoracionsPerProducte();
-            }
-            finally
-            {
-                this.Cursor = cursor;
-            }
-        }
-
-
-        private void gestioProductesTabValoracions_ProducteSeleccionat(object sender, EventArgs e)
-        {
-            btNouValor.Enabled = true;
-            btModifica.Enabled = false;
-            btEsborra.Enabled = false;
-
-            Valoracio val = Program.Sessio.Valoracions.ToList().LastOrDefault(l => l.Prod == gestioProductesTabValoracions._ProducteSeleccionat);
-            if (val == null)
-            {
-                tbImport.Valor = 0;
-            }
-
-            pnEdicio.Visible = sender != null;
-
-            if (sender != null)
-            {
-                actualitzaLlistaValoracionsPerProducte();
-            }
-        }
-
-        private Valoracio vValoracioSeleccionada = null;
-
-        private void cDataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            if (dgvValoracions.CurrentRow == null)
-            {
-                vValoracioSeleccionada = null;
-            }
-            else if (vValoracioSeleccionada != (Valoracio) dgvValoracions.Rows[e.RowIndex].DataBoundItem)
-            {
-                vValoracioSeleccionada = (Valoracio) dgvValoracions.Rows[e.RowIndex].DataBoundItem;
-                posaValorsDeLaFilaSeleccionada();
-                btModifica.Enabled = true;
-                btEsborra.Enabled = true;
-            }
-        }
-
-        private bool vModeEdicio = false;
 
         private void posaValorsDeLaFilaSeleccionada()
         {
-            if (!vModeEdicio)
+            if (!enModeEdicio)
             {
                 cData.Value = vValoracioSeleccionada.Data;
                 tbImport.Valor = vValoracioSeleccionada.PreuParticipacio;
             }
         }
-
-
-        public bool carregaDadesInicial { get; set; }
-
-        public void refresca(bool? refrescaActivat)
-        {
-            if (refrescaActivat.HasValue)
-                activaRefresca = refrescaActivat.Value;
-
-            Refresh();
-        }
-
-
-        public void canviUsuari(Usuari usuari)
-        {
-            gestioProductesTabValoracions._UsuariSeleccionat = usuari;
-            dgvValoracions.DataSource = null;
-            activaRefresca = true;
-            refresca(true);
-            Refresh();
-        }
-
-        public void escape(object sender, KeyEventArgs e)
-        {
-        }
-
-        public bool enModeEdicio
-        {
-            get { return vModeEdicio; }
-        }
-
-        public bool activaRefresca { get; set; }
-
-
-        public override void Refresh()
-        {
-            base.Refresh();
-
-            carregaDadesInicial = false;
-
-            if (activaRefresca)
-            {
-                activaRefresca = false;
-
-                if (dgvValoracionsPerData.Rows.Count > 0)
-                    actualitzaLlistaValoracionsTotal();
-
-                gestioProductesTabValoracions.refrescaDadesControl();
-            }
-        }
-
-
-        private void btActualitzaLlista_Click(object sender, EventArgs e)
-        {
-            actualitzaLlistaValoracionsTotal();
-        }
-
 
         private void actualitzaLlistaValoracionsPerProducte()
         {
@@ -361,7 +173,6 @@ namespace Inversions.GUI
             dgvValoracions.ResumeLayout();
         }
 
-
         private void ompleGrafica1(List<Valoracio> valoracionsProducte)
         {
             chart1.ChartAreas[0].AxisY.LabelStyle.Format = "#,##0.00";
@@ -376,24 +187,6 @@ namespace Inversions.GUI
 
             chart1.Visible = true;
         }
-
-        private void btCopiaValorsDelPaste_Click(object sender, EventArgs e)
-        {
-            PasteSelfBank pSelf = new PasteSelfBank();
-            if (pSelf.ShowDialog(this) == DialogResult.OK)
-            {
-                Principal.ActivaRefresca(this);
-            }
-        }
-
-        private void checkedComboBoxEdit1_CloseUp(object sender, DevExpress.XtraEditors.Controls.CloseUpEventArgs e)
-        {
-            if (e.AcceptValue)
-            {
-                actualitzaLlistaValoracionsTotal();
-            }
-        }
-
 
         private void actualitzaLlistaValoracionsTotal()
         {
@@ -501,6 +294,199 @@ namespace Inversions.GUI
             chart2.ChartAreas[0].AxisY.Maximum = maxVal;
             chart2.Update();
         }
+        
+
+        #region *** Events ***
+
+        private void btNouValor_Click(object sender, EventArgs e)
+        {
+            vEsNouValor = true;
+
+            tbImport.Valor = 0;
+
+            modeEdicio();
+
+            cData.Value = Utilitats.AnteriorDiaLaborable(DateTime.Today);
+            tbImport.Focus();
+        }
+
+        private void btModifica_Click(object sender, EventArgs e)
+        {
+            vEsNouValor = false;
+
+            modeEdicio();
+
+            tbImport.Focus();
+        }
+
+        private void btEsborra_Click(object sender, EventArgs e)
+        {
+            vEsNouValor = false;
+
+            if (MessageBox.Show(String.Format("S'esborrarà: {0}-{1}", vValoracioSeleccionada.Prod.Empresa.Nom, vValoracioSeleccionada.Data.ToShortDateString()), "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                using (var conn = new InversionsBDContext())
+                {
+                    try
+                    {
+                        //Valoracio valToRemove = conn.Valoracions.Single(s => s.Id == vValoracioSeleccionada.Id);
+                        Valoracio valToRemove = conn.Valoracions.Find(vValoracioSeleccionada.Id);
+                        conn.Valoracions.Remove(valToRemove);
+                        conn.SaveChanges();
+                    }
+                    catch (DbUpdateException ex2)
+                    {
+                        Comuns.Utilitats.EscriuLog(ex2, Program.FitxerLog, Program.Versio);
+                        //MessageBox.Show(ex2.InnerException.InnerException.Message);
+                        conn.UndoingChangesDbEntityPropertyLevel(vValoracioSeleccionada);
+                    }
+                    catch (Exception ex)
+                    {
+                        Comuns.Utilitats.EscriuLog(ex, Program.FitxerLog, Program.Versio);
+                        //MessageBox.Show(ex.Message);
+                        conn.UndoingChangesDbEntityPropertyLevel(vValoracioSeleccionada);
+                    }
+                }
+
+                Program.Sessio.refrescaTaula(typeof(Valoracio));
+                actualitzaLlistaValoracionsPerProducte();
+            }
+        }
+
+        private void btCancela_Click(object sender, EventArgs e)
+        {
+            posaValorsDeLaFilaSeleccionada();
+            modeConsulta();
+        }
+
+        private void btDesa_Click(object sender, EventArgs e)
+        {
+            var cursor = this.Cursor;
+            this.Cursor = Cursors.WaitCursor;
+
+            try
+            {
+                using (var conn = new InversionsBDContext())
+                {
+                    {
+                        try
+                        {
+                            if (vEsNouValor)
+                            {
+                                Valoracio.Nova(conn, gestioProductesTabValoracions._ProducteSeleccionat, cData.Value, tbImport._DoubleValue);
+                            }
+                            else
+                            {
+                                vValoracioSeleccionada.modifica(conn, cData.Value, tbImport._DoubleValue);
+                            }
+
+                            conn.SaveChanges();
+                        }
+                        catch (Exception ex)
+                        {
+                            var xx = Utilitats.ExtreuInnerException(ex);
+
+                            if (xx is System.Data.SqlClient.SqlException && ((System.Data.SqlClient.SqlException)xx).Number == 2627)
+                                MessageBox.Show("Valoració ja existeix", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            else
+                                MessageBox.Show(xx.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+
+                if (vValoracioSeleccionada != null)
+                    Program.Sessio.Entry(vValoracioSeleccionada).Reload();
+
+                gestioProductesTabValoracions.refrescaDadesControl();
+
+                Principal.ActivaRefresca(this);
+
+                modeConsulta();
+
+                tbImport.Valor = 0;
+
+                actualitzaLlistaValoracionsPerProducte();
+            }
+            finally
+            {
+                this.Cursor = cursor;
+            }
+        }
+
+        private void gestioProductesTabValoracions_ProducteSeleccionat(object sender, EventArgs e)
+        {
+            btNouValor.Enabled = true;
+            btModifica.Enabled = false;
+            btEsborra.Enabled = false;
+
+            Valoracio val = Program.Sessio.Valoracions.ToList().LastOrDefault(l => l.Prod == gestioProductesTabValoracions._ProducteSeleccionat);
+            if (val == null)
+            {
+                tbImport.Valor = 0;
+            }
+
+            pnEdicio.Visible = sender != null;
+
+            if (sender != null)
+            {
+                actualitzaLlistaValoracionsPerProducte();
+            }
+        }
+
+        private void cDataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvValoracions.CurrentRow == null)
+            {
+                vValoracioSeleccionada = null;
+            }
+            else if (vValoracioSeleccionada != (Valoracio)dgvValoracions.Rows[e.RowIndex].DataBoundItem)
+            {
+                vValoracioSeleccionada = (Valoracio)dgvValoracions.Rows[e.RowIndex].DataBoundItem;
+                posaValorsDeLaFilaSeleccionada();
+                btModifica.Enabled = true;
+                btEsborra.Enabled = true;
+            }
+        }
+
+        private void btCopiaValorsDelPaste_Click(object sender, EventArgs e)
+        {
+            PasteSelfBank pSelf = new PasteSelfBank();
+            if (pSelf.ShowDialog(this) == DialogResult.OK)
+            {
+                Principal.ActivaRefresca(this);
+            }
+        }
+
+        private void checkedComboBoxEdit1_CloseUp(object sender, DevExpress.XtraEditors.Controls.CloseUpEventArgs e)
+        {
+            if (e.AcceptValue)
+            {
+                actualitzaLlistaValoracionsTotal();
+            }
+        }
+
+
+        private void btActualitzaLlista_Click(object sender, EventArgs e)
+        {
+            actualitzaLlistaValoracionsTotal();
+        }
+
+
+        private void chart1_GetToolTipText(object sender, ToolTipEventArgs e)
+        {
+            // Check selected chart element and set tooltip text for it
+            switch (e.HitTestResult.ChartElementType)
+            {
+                case ChartElementType.DataPoint:
+                    if (e.HitTestResult.Series != null)
+                    {
+                        var dataPoint = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
+
+                        e.Text = string.Format("Import:\t{0}", dataPoint.YValues[0]);
+                    }
+                    break;
+            }
+        }
 
         private void checkedComboBoxEdit1_CustomDisplayText(object sender, CustomDisplayTextEventArgs e)
         {
@@ -523,7 +509,7 @@ namespace Inversions.GUI
 
         private void tbImport_ValorChanged(object sender, EventArgs e)
         {
-            Principal.PrincipalForm.CancelButton = tbImport.Modified ? null : btCancela;
+            ParentForm.CancelButton = tbImport.Modified ? null : btCancela;
         }
 
         private void tbImport_KeyDown(object sender, KeyEventArgs e)
@@ -532,9 +518,11 @@ namespace Inversions.GUI
             {
                 if (tbImport.Modified)
                 {
-                    Principal.PrincipalForm.CancelButton = btCancela;
+                    ParentForm.CancelButton = btCancela;
                 }
             }
         }
+        
+        #endregion *** Events ***
     }
 }

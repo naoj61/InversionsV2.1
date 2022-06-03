@@ -62,20 +62,13 @@ namespace Inversions.GUI
         }
 
         public bool activaRefresca { get; set; }
+        
         public bool carregaDadesInicial { get; set; }
+
+        public Button AcceptButton { get; private set; }
 
         public void refresca(bool? refrescaActivat)
         {
-            if (refrescaActivat.HasValue)
-                activaRefresca = refrescaActivat.Value;
-
-            Refresh();
-        }
-
-        public override void Refresh()
-        {
-            base.Refresh();
-
             if (carregaDadesInicial)
             {
                 carregaDadesInicial = false;
@@ -85,8 +78,6 @@ namespace Inversions.GUI
                     carregaGridEmpreses();
                 }
             }
-
-            activaRefresca = false;
         }
 
         public void canviUsuari(Usuari usuari)
@@ -100,13 +91,10 @@ namespace Inversions.GUI
             teclaEscapeEdicioProducte();
         }
 
-        public Button AcceptButton { get; private set; }
-
         #endregion *** ITabs ***
 
 
         #region *** Mètodes ***
-
 
         /// <summary>
         /// Mostra o amaga els controls en funvio del tipus d'empresa seleccionada.
@@ -279,7 +267,6 @@ namespace Inversions.GUI
             modeEdicioProducte();
         }
 
-
         private void btNouProducte_Click(object sender, EventArgs e)
         {
             if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.Accions)
@@ -352,7 +339,6 @@ namespace Inversions.GUI
             }
         }
 
-
         private void dgvEmpreses_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
             try
@@ -394,7 +380,6 @@ namespace Inversions.GUI
             }
         }
 
-
         private void dgvEmpreses_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
         {
             if (dgvEmpreses.IsCurrentRowDirty)
@@ -402,7 +387,6 @@ namespace Inversions.GUI
                 pnDesaCanvisEmpreses.Enabled = true;
             }
         }
-
 
         private void dgvEmpreses_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
         {
@@ -507,7 +491,6 @@ namespace Inversions.GUI
                 Utilitats.EscriuLog(ex1);
             }
         }
-
 
         private void dgvProductes_RowEnter(object sender, DataGridViewCellEventArgs e)
         {

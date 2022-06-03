@@ -634,6 +634,7 @@
             this.cProducteTraspas.Name = "cProducteTraspas";
             this.cProducteTraspas.Size = new System.Drawing.Size(367, 28);
             this.cProducteTraspas.TabIndex = 0;
+            this.cProducteTraspas.SelectedIndexChanged += new System.EventHandler(this.cProducteTraspas_SelectedIndexChanged);
             // 
             // gbDataDesti
             // 

@@ -23,17 +23,50 @@ namespace Inversions.GUI
                 cDataGridView1.AutoGenerateColumns = false;
             }
         }
+        
+        
+        #region *** ITabs ***
+
+        public bool enModeEdicio
+        {
+            get { return gbEdicio.Visible; }
+        }
+
+        public bool activaRefresca { get; set; }
+
+        public bool carregaDadesInicial { get; set; }
 
         public Button AcceptButton
         {
             get { return null; }
         }
 
-        private void gestioProductes1_ProducteSeleccionat(object sender, EventArgs e)
+        public void refresca(bool? refrescaActivat)
         {
-            canviProducteSeleccionat();
+            if (refrescaActivat.HasValue)
+                activaRefresca = refrescaActivat.Value;
+
+            // Aquí s'haurien de refrescar les dades en pantalla.
+            //gestioProductesTabMoviments.refrescaDadesControl();
+            //canviProducteSeleccionat();
+
+            carregaDadesInicial = false;
+            activaRefresca = false;
         }
 
+        public void canviUsuari(Usuari usuari)
+        {
+            gestioProductesTabMoviments._UsuariSeleccionat = usuari;
+            cDataGridView1.DataSource = null;
+            refresca(true);
+        }
+
+        public void escape(object sender, KeyEventArgs e)
+        {
+        }
+
+        #endregion *** ITabs ***
+      
 
         /// <summary>
         /// Canvia les dades del control a les del nou producte
@@ -83,7 +116,6 @@ namespace Inversions.GUI
                 cbTipusMoviment.ResumeLayout();
             }
         }
-
 
         private void ompleTaulaMovimentsProducte(Producte prod)
         {
@@ -143,7 +175,6 @@ namespace Inversions.GUI
             preparaPantallaEdicio();
         }
 
-
         private void dividents()
         {
             tbNumParticipacions.Valor = 0;
@@ -156,7 +187,6 @@ namespace Inversions.GUI
             preparaPantallaEdicio();
         }
 
-
         private string vDesaToolTipGbPreuPartic = null;
 
         private void split()
@@ -168,7 +198,6 @@ namespace Inversions.GUI
             preparaPantallaEdicio();
         }
 
-
         private void contraSplit()
         {
             gbPreuPartic.Text = "PV sobrants";
@@ -176,114 +205,6 @@ namespace Inversions.GUI
             toolTip1.SetToolTip(this.gbPreuPartic, "Preu venda de les participacions sobrants del ContraSplit");
 
             preparaPantallaEdicio();
-        }
-
-        private void btDesaMoviment_Click(object sender, EventArgs e)
-        {
-            TipusMoviment tp = (TipusMoviment) cbTipusMoviment.SelectedItem;
-
-            if ((tp == TipusMoviment.Compra || tp == TipusMoviment.Venda || tp == TipusMoviment.Traspàs) && tbNumParticipacions.Valor <= 0)
-            {
-                MessageBox.Show("Falta num. participacions");
-                return;
-            }
-
-            if (tp == TipusMoviment.Traspàs && cProducteTraspas.SelectedItem == null)
-            {
-                MessageBox.Show("Falta informar el producte destí");
-                return;
-            }
-
-            if (cProducteTraspas.SelectedItem != null && tbNumParticipacionsDesti.Valor <= 0)
-            {
-                MessageBox.Show("Falta num. participacions producte destí");
-                return;
-            }
-
-            var prod = gestioProductesTabMoviments._ProducteSeleccionat;
-
-            if ((tp == TipusMoviment.Venda || tp == TipusMoviment.Traspàs) && tbNumParticipacions.Valor > prod._Participacions)
-            {
-                MessageBox.Show("No hi ha prou participacions per vendre");
-                return;
-            }
-
-            if (tp == TipusMoviment.Split || tp == TipusMoviment.ContraSplit)
-            {
-                if (ntbFactorConversor.Valor <= 0)
-                {
-                    MessageBox.Show("El valor del factor conversor de Split o Cantraplit ha de ser més gran de zero.");
-                    return;
-                }
-                if (tp == TipusMoviment.ContraSplit && ntbPreuParticipacio.Valor <= 0)
-                {
-                    MessageBox.Show("El nou import de l'acció ha de ser més gran de zero.");
-                    return;
-                }
-            }
-
-            try
-            {
-                desaMoviment(tp, prod, (ProdFons) cProducteTraspas.SelectedItem);
-            }
-            catch (Exception ex1)
-            {
-                var log = Utilitats.EscriuLog(ex1, true, true);
-                return;
-            }
-
-            Principal.ActivaRefresca(this);
-
-            preparaPantallaConsulta();
-        }
-
-
-        private void btCancelaMoviment_Click(object sender, EventArgs e)
-        {
-            preparaPantallaConsulta();
-        }
-
-        public bool carregaDadesInicial { get; set; }
-
-        public void refresca(bool? refrescaActivat)
-        {
-            if (refrescaActivat.HasValue)
-                activaRefresca = refrescaActivat.Value;
-
-            Refresh();
-        }
-
-        public void canviUsuari(Usuari usuari)
-        {
-            gestioProductesTabMoviments._UsuariSeleccionat = usuari;
-            cDataGridView1.DataSource = null;
-            refresca(true);
-        }
-
-        public void escape(object sender, KeyEventArgs e)
-        {
-        }
-
-        public bool enModeEdicio
-        {
-            get { return gbEdicio.Visible; }
-        }
-
-        public bool activaRefresca { get; set; }
-
-
-        public override void Refresh()
-        {
-            base.Refresh();
-
-            
-            // Aquí s'haurien de refrescar les dades en pantalla.
-            //gestioProductesTabMoviments.refrescaDadesControl();
-            //canviProducteSeleccionat();
-            
-            carregaDadesInicial = false;
-            
-            activaRefresca = false;
         }
 
         /// <summary>
@@ -430,41 +351,6 @@ namespace Inversions.GUI
             ompleTaulaMovimentsProducte(prodDesti ?? prodOrigen);
         }
 
-
-        private void cProducteTraspas_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cProducteTraspas.SelectedItem == null)
-            {
-                gbDataDesti.Visible = false;
-                gbNumParticipacionsDesti.Visible = false;
-            }
-            else
-            {
-                cDataDesti.Value = cData1.Value;
-                gbDataDesti.Visible = true;
-                gbNumParticipacionsDesti.Visible = true;
-            }
-        }
-
-
-        private void tbNumParticipacions_Leave(object sender, EventArgs e)
-        {
-            calculaImportTotal();
-        }
-
-
-        private void tbPreuParticipacio_Leave(object sender, EventArgs e)
-        {
-            calculaImportTotal();
-        }
-
-
-        private void tbDespeses_Leave(object sender, EventArgs e)
-        {
-            calculaImportTotal();
-        }
-
-
         private void calculaImportTotal()
         {
             var imp = ntbPreuParticipacio.Valor * tbNumParticipacions.Valor;
@@ -475,58 +361,6 @@ namespace Inversions.GUI
 
             tbImportTotal.Valor = imp;
         }
-
-
-        private void cDataGridView1_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                if (e.ColumnIndex == 10 || e.ColumnIndex == 11)
-                {
-                    var prodTraspas = (Producte) cDataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-                    if (prodTraspas != null)
-                    {
-                        gestioProductesTabMoviments.seleccionaProducte(prodTraspas);
-                    }
-                }
-            }
-        }
-
-
-        private void cbTipusMoviment_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            btFes.Enabled = cbTipusMoviment.SelectedItem != null;
-        }
-
-
-        private void btFes_Click(object sender, EventArgs e)
-        {
-            if (cbTipusMoviment.SelectedItem != null)
-            {
-                switch ((TipusMoviment) cbTipusMoviment.SelectedItem)
-                {
-                    case TipusMoviment.Compra:
-                        compra();
-                        break;
-                    case TipusMoviment.Venda:
-                    case TipusMoviment.Traspàs:
-                        vendaTraspas();
-                        break;
-                    case TipusMoviment.Dividends:
-                        dividents();
-                        break;
-                    case TipusMoviment.Split:
-                        split();
-                        break;
-                    case TipusMoviment.ContraSplit:
-                        contraSplit();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
 
         private void preparaPantallaConsulta()
         {
@@ -550,7 +384,6 @@ namespace Inversions.GUI
 
             comprant = null;
         }
-
 
         private void preparaPantallaEdicio()
         {
@@ -582,9 +415,161 @@ namespace Inversions.GUI
             gbEdicio.Visible = true;
         }
 
+
+        #region *** Events ***
+
         private void ckActivaDataDesti_CheckedChanged(object sender, EventArgs e)
         {
             gbDataDesti.Visible = ckActivaDataDesti.Checked;
         }
+
+        private void gestioProductes1_ProducteSeleccionat(object sender, EventArgs e)
+        {
+            canviProducteSeleccionat();
+        }
+
+        private void btDesaMoviment_Click(object sender, EventArgs e)
+        {
+            TipusMoviment tp = (TipusMoviment)cbTipusMoviment.SelectedItem;
+
+            if ((tp == TipusMoviment.Compra || tp == TipusMoviment.Venda || tp == TipusMoviment.Traspàs) && tbNumParticipacions.Valor <= 0)
+            {
+                MessageBox.Show("Falta num. participacions");
+                return;
+            }
+
+            if (tp == TipusMoviment.Traspàs && cProducteTraspas.SelectedItem == null)
+            {
+                MessageBox.Show("Falta informar el producte destí");
+                return;
+            }
+
+            if (cProducteTraspas.SelectedItem != null && tbNumParticipacionsDesti.Valor <= 0)
+            {
+                MessageBox.Show("Falta num. participacions producte destí");
+                return;
+            }
+
+            var prod = gestioProductesTabMoviments._ProducteSeleccionat;
+
+            if ((tp == TipusMoviment.Venda || tp == TipusMoviment.Traspàs) && tbNumParticipacions.Valor > prod._Participacions)
+            {
+                MessageBox.Show("No hi ha prou participacions per vendre");
+                return;
+            }
+
+            if (tp == TipusMoviment.Split || tp == TipusMoviment.ContraSplit)
+            {
+                if (ntbFactorConversor.Valor <= 0)
+                {
+                    MessageBox.Show("El valor del factor conversor de Split o Cantraplit ha de ser més gran de zero.");
+                    return;
+                }
+                if (tp == TipusMoviment.ContraSplit && ntbPreuParticipacio.Valor <= 0)
+                {
+                    MessageBox.Show("El nou import de l'acció ha de ser més gran de zero.");
+                    return;
+                }
+            }
+
+            try
+            {
+                desaMoviment(tp, prod, (ProdFons)cProducteTraspas.SelectedItem);
+            }
+            catch (Exception ex1)
+            {
+                var log = Utilitats.EscriuLog(ex1, true, true);
+                return;
+            }
+
+            Principal.ActivaRefresca(this);
+
+            preparaPantallaConsulta();
+        }
+
+        private void btCancelaMoviment_Click(object sender, EventArgs e)
+        {
+            preparaPantallaConsulta();
+        }
+
+        private void cProducteTraspas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cProducteTraspas.SelectedItem == null)
+            {
+                gbDataDesti.Visible = false;
+                gbNumParticipacionsDesti.Visible = false;
+            }
+            else
+            {
+                cDataDesti.Value = cData1.Value;
+                gbDataDesti.Visible = true;
+                gbNumParticipacionsDesti.Visible = true;
+            }
+        }
+
+        private void tbNumParticipacions_Leave(object sender, EventArgs e)
+        {
+            calculaImportTotal();
+        }
+
+        private void tbPreuParticipacio_Leave(object sender, EventArgs e)
+        {
+            calculaImportTotal();
+        }
+
+        private void tbDespeses_Leave(object sender, EventArgs e)
+        {
+            calculaImportTotal();
+        }
+
+        private void cDataGridView1_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                if (e.ColumnIndex == 10 || e.ColumnIndex == 11)
+                {
+                    var prodTraspas = (Producte)cDataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                    if (prodTraspas != null)
+                    {
+                        gestioProductesTabMoviments.seleccionaProducte(prodTraspas);
+                    }
+                }
+            }
+        }
+
+        private void cbTipusMoviment_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btFes.Enabled = cbTipusMoviment.SelectedItem != null;
+        }
+
+        private void btFes_Click(object sender, EventArgs e)
+        {
+            if (cbTipusMoviment.SelectedItem != null)
+            {
+                switch ((TipusMoviment)cbTipusMoviment.SelectedItem)
+                {
+                    case TipusMoviment.Compra:
+                        compra();
+                        break;
+                    case TipusMoviment.Venda:
+                    case TipusMoviment.Traspàs:
+                        vendaTraspas();
+                        break;
+                    case TipusMoviment.Dividends:
+                        dividents();
+                        break;
+                    case TipusMoviment.Split:
+                        split();
+                        break;
+                    case TipusMoviment.ContraSplit:
+                        contraSplit();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        #endregion *** Events ***
     }
 }

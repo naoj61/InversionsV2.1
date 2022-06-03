@@ -18,24 +18,87 @@ namespace Inversions.GUI
             dgvCompresProducte.AutoGenerateColumns = false;
         }
 
+
+        #region *** ITabs ***
+
+        public bool enModeEdicio
+        {
+            get { return false; }
+        }
+
+        public bool activaRefresca { get; set; }
+
+        public bool carregaDadesInicial { get; set; }
+
         public Button AcceptButton
         {
             get { return null; }
         }
+
+        public void refresca(bool? refrescaActivat)
+        {
+            if (refrescaActivat.HasValue)
+                activaRefresca = refrescaActivat.Value;
+
+            if (carregaDadesInicial)
+            {
+                carregaDadesInicial = false;
+
+                gestioProductesTabValoracions._NomesAmbParticipacions = true;
+
+                cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof(Producte.TipusProducte));
+                cbTipusProducteFiltreTab2.SelectedIndex = -1;
+                cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
+                cbTipusProducteFiltreTab2.SelectedIndex = 0;
+
+                for (int any = 2000; any <= DateTime.Today.Year; any++)
+                {
+                    cbAnysPiGEnCartera.Items.Add(any);
+                }
+                cbAnysPiGEnCartera.SelectedIndexChanged += cbAnysPiGEnCartera_SelectedIndexChanged;
+                cbAnysPiGEnCartera.SelectedItem = DateTime.Today.Year;
+            }
+
+            if (activaRefresca)
+            {
+                activaRefresca = false;
+
+                if (cbTipusProducteFiltreTab2.SelectedItem != null)
+                    calculaPiG();
+
+                if (cbAnysPiGEnCartera.SelectedItem != null)
+                    ompleDgvPiGEnCartera();
+
+                gestioProductesTabValoracions.refrescaDadesControl();
+            }
+        }
+
+        public void canviUsuari(Usuari usuari)
+        {
+            gestioProductesTabValoracions._UsuariSeleccionat = usuari;
+            refresca(true);
+        }
+
+        public void escape(object sender, KeyEventArgs e)
+        {
+        }
+
+        #endregion *** ITabs ***
+
 
         private void calculaPiG()
         {
             //if (Program.RuntimeMode)
             if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
-                Producte.TipusProducte tipusProducte = (Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem;
+                Producte.TipusProducte tipusProducte = (Producte.TipusProducte)cbTipusProducteFiltreTab2.SelectedItem;
 
                 //var primerAny = Program.Sessio.MovimentsUsuari.OrderBy(o => o.Data).First().Data.Year;
                 var ultimAny = DateTime.Today.Year;
 
                 dgvPiGAnualsTributen.Rows.Clear();
                 double pigTotalTributa = 0;
-                for (uint any = (uint) Program.PrimerAny; any <= ultimAny; any++)
+                for (uint any = (uint)Program.PrimerAny; any <= ultimAny; any++)
                 {
                     // *** PiG Tributa ***
                     var pigTributa = Producte.PigTributa(tipusProducte, null, any, true);
@@ -53,109 +116,9 @@ namespace Inversions.GUI
                 dgvPiGAnualsTributen.Rows[fila].Cells[3].Style.ForeColor = pigTotalTributa < 0 ? Color.Red : Color.Black;
                 dgvPiGAnualsTributen.FirstDisplayedScrollingRowIndex = fila;
 
-                ntbPigActualPartsEnCartera.Valor = Producte.Pig2Cartera(tipusProducte, null, (uint) ultimAny, true, true);
+                ntbPigActualPartsEnCartera.Valor = Producte.Pig2Cartera(tipusProducte, null, (uint)ultimAny, true, true);
                 ntbPigRealMesCartera.Valor = ntbPigActualPartsEnCartera.Valor + pigTotalTributa;
             }
-        }
-
-
-        public bool carregaDadesInicial { get; set; }
-
-        public void refresca(bool? refrescaActivat)
-        {
-            if (refrescaActivat.HasValue)
-                activaRefresca = refrescaActivat.Value;
-
-            Refresh();
-        }
-
-        public void canviUsuari(Usuari usuari)
-        {
-            gestioProductesTabValoracions._UsuariSeleccionat = usuari;
-            refresca(true);
-        }
-
-        public void escape(object sender, KeyEventArgs e)
-        {
-        }
-
-        public bool enModeEdicio
-        {
-            get { return false; }
-        }
-
-        public bool activaRefresca { get; set; }
-
-        public override void Refresh()
-        {
-            base.Refresh();
-
-            if(carregaDadesInicial)
-            {
-                carregaDadesInicial = false;
-                
-                gestioProductesTabValoracions._NomesAmbParticipacions = true;
-
-                cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof(Producte.TipusProducte));
-                cbTipusProducteFiltreTab2.SelectedIndex = -1;
-                cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
-                cbTipusProducteFiltreTab2.SelectedIndex = 0;
-
-                for (int any = 2000; any <= DateTime.Today.Year; any++)
-                {
-                    cbAnysPiGEnCartera.Items.Add(any);
-                }
-                cbAnysPiGEnCartera.SelectedIndexChanged += cbAnysPiGEnCartera_SelectedIndexChanged;
-                cbAnysPiGEnCartera.SelectedItem = DateTime.Today.Year;
-            }
-            
-            if (activaRefresca)
-            {
-                activaRefresca = false;
-
-                if (cbTipusProducteFiltreTab2.SelectedItem != null)
-                    calculaPiG();
-
-                if (cbAnysPiGEnCartera.SelectedItem != null)
-                    ompleDgvPiGEnCartera();
-
-                gestioProductesTabValoracions.refrescaDadesControl();
-            }
-        }
-
-        private void cbTipusProducteFiltreTab2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Refresh();
-        }
-
-
-        private void gestioProductesTabValoracions_ProducteSeleccionat(object sender, EventArgs e)
-        {
-            ckAmbDividends.Visible = gestioProductesTabValoracions._ProducteSeleccionat is ProdAccions;
-            PigOrigen.Visible = ckAmbCartera.Checked && gestioProductesTabValoracions._ProducteSeleccionat is ProdFons;
-            gbPigCompraOrig.Visible = PigOrigen.Visible;
-
-            ompleLlistaCompres(gestioProductesTabValoracions._ProducteSeleccionat);
-
-            if (gestioProductesTabValoracions._ProducteSeleccionat != null)
-            {
-                dgvPiGProductePerAny.ResumeLayout();
-                if (Utilitats.EsZero(ntbPreuParticipacio.Valor))
-                {
-                    // Si cambio de producte i el PiP Simulat té valor, el poso a 0.
-                    ntbPreuParticipacio.Valor = 0;
-                    calculaPigSimulat();
-                }
-                else
-                    actualitzaLlistaPerduesGuanys();
-
-                ckPiGEntreDatesNomesProdSel.Enabled = true;
-                tbPigEntreDates.Valor = 0;
-            }
-            else
-                ckPiGEntreDatesNomesProdSel.Enabled = false;
-
-            gbSimulacioPig.Enabled = gestioProductesTabValoracions._ProducteSeleccionat != null;
         }
 
 
@@ -245,24 +208,6 @@ namespace Inversions.GUI
         }
 
 
-        private void btFiltreDates_Click(object sender, EventArgs e)
-        {
-            if (ckPiGEntreDatesNomesProdSel.Checked)
-                tbPigEntreDates.Valor = gestioProductesTabValoracions._ProducteSeleccionat
-                    .pig2Total(dtpFiltreDataInici.Value, dtpFiltreDataFi.Value, true, true);
-            else
-            {
-                tbPigEntreDates.Valor = Producte.Pig2(Producte.TipusProducte.Tots, null,
-                    dtpFiltreDataInici.Value.GetValueOrDefault(DateTime.MinValue), dtpFiltreDataFi.Value.GetValueOrDefault(DateTime.MaxValue), true, true);
-            }
-        }
-
-
-        private void btSimulacioPiG_Click(object sender, EventArgs e)
-        {
-            calculaPigSimulat();
-        }
-
 
         private void calculaPigSimulat()
         {
@@ -280,49 +225,6 @@ namespace Inversions.GUI
             }
             actualitzaLlistaPerduesGuanys();
             calculaPiG();
-        }
-
-
-        private void dgvPiGAnualsTributen_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex == dgvPiGAnualsTributen.Rows.Count - 1)
-                return;
-
-            var any = Convert.ToInt32(dgvPiGAnualsTributen[0, e.RowIndex].Value);
-
-            IRPF trib = new IRPF(any);
-            trib.ShowDialog(this);
-        }
-
-        private void dgvCompresProducte_SelectionChanged(object sender, EventArgs e)
-        {
-            double pig = 0;
-            double pigOrig = 0;
-            foreach (DataGridViewRow selectedRow in dgvCompresProducte.SelectedRows)
-            {
-                pig += ((Moviment) selectedRow.DataBoundItem).pigCompra(ckAmbCartera.Checked, false, null, true, ckAmbDividends.Checked);
-                pigOrig += ((Moviment) selectedRow.DataBoundItem).pigCompra(ckAmbCartera.Checked, true, null, false, false);
-            }
-            ntbPigCompra.Valor = Math.Round(pig, 2);
-            ntbPigCompraOrig.Valor = Math.Round(pigOrig, 2);
-        }
-
-        private void ckAmbCartera_CheckedChanged(object sender, EventArgs e)
-        {
-            PigOrigen.Visible = ckAmbCartera.Checked && gestioProductesTabValoracions._ProducteSeleccionat is ProdFons;
-            gbPigCompraOrig.Visible = PigOrigen.Visible;
-
-            ompleLlistaCompres(gestioProductesTabValoracions._ProducteSeleccionat);
-        }
-
-        private void ckAmbDividends_CheckedChanged(object sender, EventArgs e)
-        {
-            ompleLlistaCompres(gestioProductesTabValoracions._ProducteSeleccionat);
-        }
-
-        private void cbAnysPiGEnCartera_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ompleDgvPiGEnCartera();
         }
 
         private void ompleDgvPiGEnCartera()
@@ -354,5 +256,103 @@ namespace Inversions.GUI
             dgvPiGEnCartera.FirstDisplayedScrollingRowIndex = 0;
             dgvPiGEnCartera.Rows[0].Selected = false;
         }
+
+
+        #region *** Events ***
+
+        private void cbTipusProducteFiltreTab2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            refresca(true);
+        }
+
+        private void gestioProductesTabValoracions_ProducteSeleccionat(object sender, EventArgs e)
+        {
+            ckAmbDividends.Visible = gestioProductesTabValoracions._ProducteSeleccionat is ProdAccions;
+            PigOrigen.Visible = ckAmbCartera.Checked && gestioProductesTabValoracions._ProducteSeleccionat is ProdFons;
+            gbPigCompraOrig.Visible = PigOrigen.Visible;
+
+            ompleLlistaCompres(gestioProductesTabValoracions._ProducteSeleccionat);
+
+            if (gestioProductesTabValoracions._ProducteSeleccionat != null)
+            {
+                dgvPiGProductePerAny.ResumeLayout();
+                if (Utilitats.EsZero(ntbPreuParticipacio.Valor))
+                {
+                    // Si cambio de producte i el PiP Simulat té valor, el poso a 0.
+                    ntbPreuParticipacio.Valor = 0;
+                    calculaPigSimulat();
+                }
+                else
+                    actualitzaLlistaPerduesGuanys();
+
+                ckPiGEntreDatesNomesProdSel.Enabled = true;
+                tbPigEntreDates.Valor = 0;
+            }
+            else
+                ckPiGEntreDatesNomesProdSel.Enabled = false;
+
+            gbSimulacioPig.Enabled = gestioProductesTabValoracions._ProducteSeleccionat != null;
+        }
+
+        private void btFiltreDates_Click(object sender, EventArgs e)
+        {
+            if (ckPiGEntreDatesNomesProdSel.Checked)
+                tbPigEntreDates.Valor = gestioProductesTabValoracions._ProducteSeleccionat
+                    .pig2Total(dtpFiltreDataInici.Value, dtpFiltreDataFi.Value, true, true);
+            else
+            {
+                tbPigEntreDates.Valor = Producte.Pig2(Producte.TipusProducte.Tots, null,
+                    dtpFiltreDataInici.Value.GetValueOrDefault(DateTime.MinValue), dtpFiltreDataFi.Value.GetValueOrDefault(DateTime.MaxValue), true, true);
+            }
+        }
+
+        private void btSimulacioPiG_Click(object sender, EventArgs e)
+        {
+            calculaPigSimulat();
+        }
+
+        private void dgvPiGAnualsTributen_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex == dgvPiGAnualsTributen.Rows.Count - 1)
+                return;
+
+            var any = Convert.ToInt32(dgvPiGAnualsTributen[0, e.RowIndex].Value);
+
+            IRPF trib = new IRPF(any);
+            trib.ShowDialog(this);
+        }
+
+        private void dgvCompresProducte_SelectionChanged(object sender, EventArgs e)
+        {
+            double pig = 0;
+            double pigOrig = 0;
+            foreach (DataGridViewRow selectedRow in dgvCompresProducte.SelectedRows)
+            {
+                pig += ((Moviment)selectedRow.DataBoundItem).pigCompra(ckAmbCartera.Checked, false, null, true, ckAmbDividends.Checked);
+                pigOrig += ((Moviment)selectedRow.DataBoundItem).pigCompra(ckAmbCartera.Checked, true, null, false, false);
+            }
+            ntbPigCompra.Valor = Math.Round(pig, 2);
+            ntbPigCompraOrig.Valor = Math.Round(pigOrig, 2);
+        }
+
+        private void ckAmbCartera_CheckedChanged(object sender, EventArgs e)
+        {
+            PigOrigen.Visible = ckAmbCartera.Checked && gestioProductesTabValoracions._ProducteSeleccionat is ProdFons;
+            gbPigCompraOrig.Visible = PigOrigen.Visible;
+
+            ompleLlistaCompres(gestioProductesTabValoracions._ProducteSeleccionat);
+        }
+
+        private void ckAmbDividends_CheckedChanged(object sender, EventArgs e)
+        {
+            ompleLlistaCompres(gestioProductesTabValoracions._ProducteSeleccionat);
+        }
+
+        private void cbAnysPiGEnCartera_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ompleDgvPiGEnCartera();
+        }
+
+        #endregion *** Events ***
     }
 }

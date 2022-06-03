@@ -21,7 +21,6 @@ namespace Inversions.GUI
     {
         const string NomVarReg = "UltimaPestanyaSeleccionada";
         static internal bool SestaCanviantLusuari = false;
-        internal static Form PrincipalForm { get; private set; }
         private static TabControl Tc;
         private bool vModeConsultaProducte = true;
 
@@ -35,7 +34,6 @@ namespace Inversions.GUI
         public Principal()
         {
             InitializeComponent();
-            PrincipalForm = this;
             Tc = tabControl1;
             
             titolFinestra();
