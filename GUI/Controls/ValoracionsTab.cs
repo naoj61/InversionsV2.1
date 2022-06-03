@@ -28,7 +28,6 @@ namespace Inversions.GUI
 
         public ValoracionsTab()
         {
-            enModeEdicio = false;
             InitializeComponent();
 
             chart1.GetToolTipText += chart1_GetToolTipText;
@@ -46,13 +45,16 @@ namespace Inversions.GUI
 
         #region *** ITabs ***
 
-        public bool enModeEdicio { get; private set; }
+        public bool enModeEdicio
+        {
+            get { return btDesa.Enabled; }
+        }
 
         public bool activaRefresca { get; set; }
 
         public bool carregaDadesInicial { get; set; }
 
-        public Button AcceptButton
+        public Button acceptButton
         {
             get { return btActualitzaLlista; }
         }
@@ -118,8 +120,6 @@ namespace Inversions.GUI
 
             // Si utilitzo CancelButton, la tecla ESC no funciona bé en un NumericTextBox,
             ParentForm.CancelButton = btCancela;
-
-            enModeEdicio = true;
         }
 
         private void modeConsulta()
@@ -137,19 +137,14 @@ namespace Inversions.GUI
 
             dgvValoracions.Enabled = true;
 
-            enModeEdicio = false;
-
             ParentForm.AcceptButton = null;
             ParentForm.CancelButton = null;
         }
 
         private void posaValorsDeLaFilaSeleccionada()
         {
-            if (!enModeEdicio)
-            {
-                cData.Value = vValoracioSeleccionada.Data;
-                tbImport.Valor = vValoracioSeleccionada.PreuParticipacio;
-            }
+            cData.Value = vValoracioSeleccionada.Data;
+            tbImport.Valor = vValoracioSeleccionada.PreuParticipacio;
         }
 
         private void actualitzaLlistaValoracionsPerProducte()

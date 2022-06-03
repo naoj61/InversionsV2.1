@@ -36,7 +36,7 @@ namespace Inversions.GUI
 
         public bool carregaDadesInicial { get; set; }
 
-        public Button AcceptButton
+        public Button acceptButton
         {
             get { return null; }
         }

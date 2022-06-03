@@ -154,7 +154,7 @@ namespace Inversions.GUI
 
         public bool carregaDadesInicial { get; set; }
 
-        public Button AcceptButton
+        public Button acceptButton
         {
             get { return (Button)ParentForm.AcceptButton; }
             private set { ParentForm.AcceptButton = value; }
@@ -245,17 +245,17 @@ namespace Inversions.GUI
 
         private void ntbNumParticipacions_Enter(object sender, EventArgs e)
         {
-            AcceptButton = btSimulacio;
+            acceptButton = btSimulacio;
         }
 
         private void ntbPreuParticipacio_Enter(object sender, EventArgs e)
         {
-            AcceptButton = btSimulacio;
+            acceptButton = btSimulacio;
         }
 
         private void ntbAnyRenda_Enter(object sender, EventArgs e)
         {
-            AcceptButton = btRecalcula;
+            acceptButton = btRecalcula;
         }
 
         private void ntbAnyRenda_Validating(object sender, CancelEventArgs e)

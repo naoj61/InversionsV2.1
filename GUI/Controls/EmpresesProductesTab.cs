@@ -21,7 +21,6 @@ namespace Inversions.GUI
         private const string NomVarReg = "UltimaPestanyaSeleccionada";
         private InversionsBDContext vConnEmpreses;
         private InversionsBDContext vConnProductes;
-        private bool vModeEdicio = false;
         private Empresa vEmpresaSeleccionada;
         private Producte vProducteSeleccionat;
 
@@ -58,14 +57,14 @@ namespace Inversions.GUI
 
         public bool enModeEdicio
         {
-            get { return vModeEdicio; }
+            get { return btDesaProducte.Enabled; }
         }
 
         public bool activaRefresca { get; set; }
         
         public bool carregaDadesInicial { get; set; }
 
-        public Button AcceptButton { get; private set; }
+        public Button acceptButton { get; private set; }
 
         public void refresca(bool? refrescaActivat)
         {
@@ -129,8 +128,6 @@ namespace Inversions.GUI
 
         private void modeEdicioProducte()
         {
-            vModeEdicio = true;
-
             btDesaProducte.Enabled = true;
             btCancelaProducte.Enabled = true;
             btNouProducte.Enabled = false;
@@ -144,8 +141,6 @@ namespace Inversions.GUI
 
         private void modeConsultaProducte()
         {
-            vModeEdicio = false;
-
             btDesaProducte.Enabled = false;
             btCancelaProducte.Enabled = false;
             btNouProducte.Enabled = vProducteSeleccionat != null;
@@ -439,7 +434,7 @@ namespace Inversions.GUI
 
         private void tbNomProducte_TextChanged(object sender, EventArgs e)
         {
-            if (!vModeEdicio && ((TextBoxBase) sender).Modified)
+            if (!enModeEdicio && ((TextBoxBase) sender).Modified)
             {
                 modeEdicioProducte();
             }
@@ -520,7 +515,7 @@ namespace Inversions.GUI
 
         private void ntbOrdreGridProducte_TextChanged(object sender, EventArgs e)
         {
-            if (!vModeEdicio && ((TextBoxBase) sender).Modified)
+            if (!enModeEdicio && ((TextBoxBase) sender).Modified)
             {
                 modeEdicioProducte();
             }

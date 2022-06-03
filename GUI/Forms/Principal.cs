@@ -279,7 +279,7 @@ namespace Inversions.GUI
                 AcceptButton = null;
             else
             {
-                AcceptButton = tab.AcceptButton;
+                AcceptButton = tab.acceptButton;
                 tab.refresca(null);
             }
 
