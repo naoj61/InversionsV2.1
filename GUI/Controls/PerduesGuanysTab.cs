@@ -230,10 +230,28 @@ namespace Inversions.GUI
         private void ompleDgvPiGEnCartera()
         {
             // PiG en cartera
+
+            List<Producte> productes;
+
+            switch ((Producte.TipusProducte)cbTipusProducteFiltreTab2.SelectedItem)
+            {
+                case Producte.TipusProducte.Tots:
+                    productes = Program.Sessio.Productes.ToList();
+                    break;
+                case Producte.TipusProducte.Accions:
+                    productes = new List<Producte>(Program.Sessio.ProdAccions);
+                    break;
+                case Producte.TipusProducte.Fons:
+                    productes = new List<Producte>(Program.Sessio.ProdFons);
+                    break;
+                default:
+                    return;
+            }
+
             var anyDades = (int) cbAnysPiGEnCartera.SelectedItem;
             double pigTotalEncartera = 0;
             dgvPiGEnCartera.Rows.Clear();
-            foreach (var prod in Program.Sessio.Productes)
+            foreach (var prod in productes)
             {
                 var pigEnCartera = prod.pigVariacioCartera(anyDades, false);
                 var pigPercentatge = prod.pigVariacioCartera(anyDades, true);

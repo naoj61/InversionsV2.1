@@ -30,6 +30,7 @@ namespace Inversions.GUI
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -95,7 +96,7 @@ namespace Inversions.GUI
             this.gbPigCompraOrig = new System.Windows.Forms.GroupBox();
             this.ntbPigCompraOrig = new Controls.NumericTextBox2();
             this.label4 = new System.Windows.Forms.Label();
-            this.toolTip1 = new System.Windows.Forms.ToolTip();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panel7 = new System.Windows.Forms.Panel();
             this.gbSimulacioPig = new System.Windows.Forms.GroupBox();
             this.btSimulacioPiG = new System.Windows.Forms.Button();
