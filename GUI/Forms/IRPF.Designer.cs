@@ -636,6 +636,7 @@
             this.ntbMinimContribuent.Text = "8.550,00 €";
             this.ntbMinimContribuent.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbMinimContribuent.Valor = 8550D;
+            this.ntbMinimContribuent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ntbMinimContribuent_KeyDown);
             this.ntbMinimContribuent.Validated += new System.EventHandler(this.ntbMinimContribuent_Validated);
             // 
             // groupBox2

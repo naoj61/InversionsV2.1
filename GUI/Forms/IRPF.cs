@@ -59,7 +59,7 @@ namespace Inversions.GUI.Forms
             {
                 if (!venda._EsVenda)
                     throw new Exception("No és una venda");
-                
+
                 vVenda = venda;
             }
 
@@ -131,14 +131,14 @@ namespace Inversions.GUI.Forms
             {
                 if (!venda._EsVenda)
                     throw new Exception("No és una venda");
-           
+
 
                 vVenda = venda;
                 vCompra = compra;
 
                 vParticipacionsUtilitzades = compra._PartsUtilitzades;
             }
-            
+
             private readonly Moviment vVenda;
             private readonly CompraExt vCompra;
             private double vParticipacionsUtilitzades;
@@ -268,12 +268,12 @@ namespace Inversions.GUI.Forms
                 if (!(obj is StCompresVenda))
                     return false;
 
-                return this == (StCompresVenda)obj;
+                return this == (StCompresVenda) obj;
             }
-            
+
             #endregion
         }
-        
+
 
         private void IRPF_Shown(object sender, EventArgs e)
         {
@@ -289,7 +289,7 @@ namespace Inversions.GUI.Forms
         private void ompleGridCompresDeLaVenda()
         {
             // Crea llista de les vendes seleccionades de "dgvVendes".
-            var vendessSelec = (from DataGridViewRow row in dgvVendes.SelectedRows select (Moviment)row.Cells[0].Value).ToList();
+            var vendessSelec = (from DataGridViewRow row in dgvVendes.SelectedRows select (Moviment) row.Cells[0].Value).ToList();
 
             List<StCompresVenda> compresVenda = new List<StCompresVenda>();
             foreach (Moviment venda in vendessSelec)
@@ -335,7 +335,7 @@ namespace Inversions.GUI.Forms
 
         private void cbAny_SelectedIndexChanged(object sender, EventArgs e)
         {
-            vAny = (int)cbAny.SelectedItem;
+            vAny = (int) cbAny.SelectedItem;
 
             vVendesAny = Program.Sessio.MovimentsUsuari.Where(w => w._EsVendaReal && w.Data.Year == vAny).OrderBy(o => o.Prod).ThenBy(t => t.Data).ToList();
             vProdsAmbVendesAny = vVendesAny.Select(s => s.Prod).Distinct().Select(i => new StProductes(vAny, i)).ToList();
@@ -391,7 +391,7 @@ namespace Inversions.GUI.Forms
             {
                 ompleGridCompresDeLaVenda();
 
-                ntbPiG.Valor = dgvVendes.SelectedRows.Cast<DataGridViewRow>().Sum(row => ((StVendesAny)row.DataBoundItem)._PiG);
+                ntbPiG.Valor = dgvVendes.SelectedRows.Cast<DataGridViewRow>().Sum(row => ((StVendesAny) row.DataBoundItem)._PiG);
 
                 calculaTotalATributar();
             }
@@ -405,6 +405,17 @@ namespace Inversions.GUI.Forms
         private void ntbMinimContribuent_Validated(object sender, EventArgs e)
         {
             calculaTotalATributar();
+        }
+
+        private void ntbMinimContribuent_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                calculaTotalATributar();
+
+                if (String.IsNullOrEmpty(ntbMinimContribuent.Text))
+                    ntbMinimContribuent.Text = "0";
+            }
         }
     }
 }
