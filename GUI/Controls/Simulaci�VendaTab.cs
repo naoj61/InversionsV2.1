@@ -44,6 +44,12 @@ namespace Inversions.GUI
         }
 
         [Description("S'utilitza en un DataGrid")]
+        public string _FonsOrig
+        {
+            get { return vDesglosCompra._CompraOrig.Prod._NomProducte; }
+        }
+
+        [Description("S'utilitza en un DataGrid")]
         public DateTime _DataOrig
         {
             get { return vDesglosCompra._CompraOrig.Data; }
@@ -156,7 +162,7 @@ namespace Inversions.GUI
 
         public Button acceptButton
         {
-            get { return (Button)ParentForm.AcceptButton; }
+            get { return (Button) ParentForm.AcceptButton; }
             private set { ParentForm.AcceptButton = value; }
         }
 
@@ -207,15 +213,15 @@ namespace Inversions.GUI
 
             FilaCompresOriginals._PreuPartActual = preuPartActual;
 
-            List<FilaCompresOriginals> compresProdSelecionat = 
+            List<FilaCompresOriginals> compresProdSelecionat =
                 desgloçPartsEnCartera.Select(desglosCompra => new FilaCompresOriginals(desglosCompra)).ToList();
 
             SuspendLayout();
             dgvCompresOriginals.SuspendLayout();
-            dgvCompresOriginals.DataSource = compresProdSelecionat.OrderBy(o=>o._DataOrig).ToList();
+            dgvCompresOriginals.DataSource = compresProdSelecionat.OrderBy(o => o._DataOrig).ToList();
+            dgvCompresOriginals.ClearSelection();
             dgvCompresOriginals.ResumeLayout();
             ResumeLayout();
-
         }
 
         private void calculaPerdues()
@@ -240,7 +246,7 @@ namespace Inversions.GUI
             ntbImportBrut.Valor = valorParts;
         }
 
-        
+
         #region *** Events ***
 
         private void ntbNumParticipacions_Enter(object sender, EventArgs e)
@@ -319,5 +325,6 @@ namespace Inversions.GUI
         }
 
         #endregion *** Events ***
+    
     }
 }

@@ -63,6 +63,7 @@ namespace Inversions.GUI
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.productes = new Inversions.GUI.GestioProductes();
             this.IdOrig = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DataCompraOrig = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DataCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Parts = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -97,9 +98,7 @@ namespace Inversions.GUI
             this.dgvCompresOriginals.AllowUserToAddRows = false;
             this.dgvCompresOriginals.AllowUserToDeleteRows = false;
             this.dgvCompresOriginals.AllowUserToOrderColumns = true;
-            this.dgvCompresOriginals.AllowUserToResizeColumns = false;
             this.dgvCompresOriginals.AllowUserToResizeRows = false;
-            this.dgvCompresOriginals.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -111,6 +110,7 @@ namespace Inversions.GUI
             this.dgvCompresOriginals.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCompresOriginals.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.IdOrig,
+            this.Column1,
             this.DataCompraOrig,
             this.DataCompra,
             this.Parts,
@@ -416,6 +416,15 @@ namespace Inversions.GUI
             this.IdOrig.ReadOnly = true;
             this.IdOrig.Width = 92;
             // 
+            // Column1
+            // 
+            this.Column1.DataPropertyName = "_FonsOrig";
+            this.Column1.HeaderText = "Fons Orig";
+            this.Column1.MinimumWidth = 150;
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.Width = 150;
+            // 
             // DataCompraOrig
             // 
             this.DataCompraOrig.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
@@ -424,11 +433,12 @@ namespace Inversions.GUI
             dataGridViewCellStyle3.Format = "d";
             dataGridViewCellStyle3.NullValue = null;
             this.DataCompraOrig.DefaultCellStyle = dataGridViewCellStyle3;
-            this.DataCompraOrig.HeaderText = "Data Compra Orig";
+            this.DataCompraOrig.HeaderText = "Data Orig Compra";
+            this.DataCompraOrig.MinimumWidth = 75;
             this.DataCompraOrig.Name = "DataCompraOrig";
             this.DataCompraOrig.ReadOnly = true;
             this.DataCompraOrig.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataCompraOrig.Width = 5;
+            this.DataCompraOrig.Width = 75;
             // 
             // DataCompra
             // 
@@ -439,15 +449,17 @@ namespace Inversions.GUI
             dataGridViewCellStyle4.NullValue = null;
             this.DataCompra.DefaultCellStyle = dataGridViewCellStyle4;
             this.DataCompra.HeaderText = "Data Compra";
+            this.DataCompra.MinimumWidth = 75;
             this.DataCompra.Name = "DataCompra";
             this.DataCompra.ReadOnly = true;
             this.DataCompra.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataCompra.Width = 5;
+            this.DataCompra.Width = 75;
             // 
             // Parts
             // 
             this.Parts.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Parts.DataPropertyName = "_Participacions";
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle5.Format = "N3";
             dataGridViewCellStyle5.NullValue = null;
             this.Parts.DefaultCellStyle = dataGridViewCellStyle5;
@@ -462,6 +474,7 @@ namespace Inversions.GUI
             // 
             this.PartsUtil.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.PartsUtil.DataPropertyName = "_ParticipacionsUtilitzades";
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle6.Format = "N3";
             this.PartsUtil.DefaultCellStyle = dataGridViewCellStyle6;
             this.PartsUtil.HeaderText = "Parts Util";
@@ -568,6 +581,7 @@ namespace Inversions.GUI
         private System.Windows.Forms.DataGridView dgvCompresOriginals;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.DataGridViewTextBoxColumn IdOrig;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn DataCompraOrig;
         private System.Windows.Forms.DataGridViewTextBoxColumn DataCompra;
         private System.Windows.Forms.DataGridViewTextBoxColumn Parts;
