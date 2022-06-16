@@ -41,4 +41,8 @@ _ImportVendaNetUtil
 5-Deutschland
 
 
+            // Todo: PiG Intermig.
 
+LU0122376428-BGF World Energy A2
+LU0122377152-BGF World Energy E2
+https://clientes.selfbank.es/fondos/quotes/LU0122377152.ISIN.WBANC

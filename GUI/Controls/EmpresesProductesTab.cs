@@ -143,7 +143,8 @@ namespace Inversions.GUI
         {
             btDesaProducte.Enabled = false;
             btCancelaProducte.Enabled = false;
-            btNouProducte.Enabled = vProducteSeleccionat != null;
+            //btNouProducte.Enabled = vProducteSeleccionat != null;
+            btNouProducte.Enabled = true;
             btEsborraProducte.Enabled = vProducteSeleccionat != null;
             btEditaProducte.Enabled = vProducteSeleccionat != null;
             grEmpresa.Enabled = true;

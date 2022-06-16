@@ -371,6 +371,8 @@ namespace Inversions
         /// <returns></returns>
         internal double pigCompra(bool ambCartera, bool pigOrigen, uint? anyVenda, bool ambDespeses = true, bool ambDividents = true)
         {
+            // Todo: PiG Intermig.
+
             if (Prod is ProdFons)
                 // Si és un fons no té despeses ni dividents.
                 ambDespeses = false;
@@ -543,23 +545,16 @@ namespace Inversions
         /// <returns></returns>
         internal double pigVenda(bool inclouDespeses)
         {
+            // todo: Repassant
+
             if (!_EsVenda)
                 throw new Exception("El moviment no és una venda.");
 
-            double preuCost = 0;
+            var preuCost = compresDeLaVenda().Sum(compra => compra.calculaImportCompraOrigen3(inclouDespeses));
+            var despesesVenda = inclouDespeses ? Despeses.GetValueOrDefault() : 0;
+            var preuVenda = Participacions * PreuParticipacio - despesesVenda;
 
-            var compresAnt = compresDeLaVenda().ToList();
-            foreach (var compraAnt in compresAnt)
-            {
-                // Inclou despeses de la compra.
-                preuCost += compraAnt.calculaImportCompraOrigen3(calculaImportNet: inclouDespeses, utilitzoParticipacionsUtilitzades: true);
-            }
-
-            // Inclou despeses de la venda.
-            var despeses = inclouDespeses ? Despeses.GetValueOrDefault() : 0;
-            var pig = Participacions * PreuParticipacio - despeses - preuCost;
-
-            return pig;
+            return preuVenda - preuCost;
         }
 
         #endregion *** PiG ***

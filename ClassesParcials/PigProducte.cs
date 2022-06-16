@@ -144,7 +144,6 @@ namespace Inversions
             get { return vCompra; }
         }
 
-
         public int _Id
         {
             get { return vCompra.Id; }
@@ -170,7 +169,6 @@ namespace Inversions
             get { return vCompra.Despeses.GetValueOrDefault(); }
         }
 
-
         public double _PartsUtilitzades
         {
             get { return vDesglosCompra.Sum(s => s._PartsUtilitzades); }
@@ -180,7 +178,6 @@ namespace Inversions
         {
             get { return vDesglosCompra.Sum(s => s._PartsOcupades); }
         }
-
 
         public double _DespesesPartsUtilitzades
         {
@@ -205,18 +202,18 @@ namespace Inversions
         /// <summary>
         /// Calcula el preu total compra origen a partir del desgloç de les compres.
         /// </summary>
-        /// <param name="calculaImportNet"></param>
-        /// <param name="utilitzoParticipacionsUtilitzades"></param>
+        /// <param name="calculaImportNet">Afegeig les despeses.</param>
         /// <returns></returns>
-        public double calculaImportCompraOrigen3(bool calculaImportNet, bool utilitzoParticipacionsUtilitzades)
+        public double calculaImportCompraOrigen3(bool calculaImportNet)
         {
             double desp = 0;
             if (calculaImportNet && vCompra.Despeses.HasValue)
             {
-                if (utilitzoParticipacionsUtilitzades)
-                    desp = vCompra.Despeses.Value / vCompra.Participacions * _PartsUtilitzades;
-                else
+                if (Utilitats.SonIguals(vCompra.Participacions, _PartsUtilitzades))
+                    // Per evitar embolics amb els decimals, si Participacions i _ParticipacionsUtilitzades son iguals ja no cal dividirlos.
                     desp = vCompra.Despeses.Value;
+                else
+                    desp = vCompra.Despeses.Value / vCompra.Participacions * _PartsUtilitzades;
             }
 
 
@@ -224,7 +221,7 @@ namespace Inversions
             foreach (DesglosCompraExt desglosCompra in vDesglosCompra)
             {
                 double partsOrig;
-                if (!utilitzoParticipacionsUtilitzades || Utilitats.SonIguals(desglosCompra._Participacions, desglosCompra._PartsUtilitzades))
+                if (Utilitats.SonIguals(desglosCompra._Participacions, desglosCompra._PartsUtilitzades))
                 {
                     // Per evitar embolics amb els decimals, si Participacions i _ParticipacionsUtilitzades son iguals ja no cal dividirlos.
                     partsOrig = desglosCompra._ParticipacionsOrig;
@@ -238,7 +235,6 @@ namespace Inversions
 
             return import + desp;
         }
-
 
 
         #region Equals
@@ -416,6 +412,8 @@ namespace Inversions
 
     public abstract partial class Producte
     {
+        #region *** Mètodes ***
+
         /// <summary>
         /// Torna la llista de les desgloç compres de les partipacions del producte en una data.
         /// la venda pot ser que encara no existeixi en la taula moviments o que siguin les participacions en cartera.
@@ -439,7 +437,7 @@ namespace Inversions
                 var dataVenda = venda.Data;
                 partsVenudesResten = venda.Participacions;
 
-                foreach (var desgCompra in desglosCompresAnt.Where(w => w._Data < dataVenda && w._PartsDisponibles > 0).OrderBy(o=>o._DataOrig))
+                foreach (var desgCompra in desglosCompresAnt.Where(w => w._Data < dataVenda && w._PartsDisponibles > 0).OrderBy(o => o._DataOrig))
                 {
                     if (Utilitats.ComparaNumeros(partsVenudesResten, desgCompra._PartsDisponibles) > 0)
                     {
@@ -472,8 +470,8 @@ namespace Inversions
 
             return desglosCompresAnt.Where(w => w._PartsUtilitzades > 0);
         }
-        
-        
+
+
         /// <summary>
         /// Torna la llista de les compres de les partipacions del producte en una data.
         /// la venda pot ser que encara no existeixi en la taula moviments o que siguin les participacions en cartera.
@@ -499,18 +497,13 @@ namespace Inversions
             return compres;
         }
 
-        public IEnumerable<VendaExt> vendesDePartipacionsEnDataTest(DateTime dataHora, double numPartipacions)
-        {
-            return vendesDePartipacionsCompradesEnData(dataHora, numPartipacions);
-        }
-
         /// <summary>
         /// Torna la llista de les vendes de les partipacions del producte comprades en una data.
         /// </summary>
         /// <param name="dataHora">Data de la compra.</param>
         /// <param name="numPartipacions">Participacions comprades.</param>
         /// <returns></returns>
-        private IEnumerable<VendaExt> vendesDePartipacionsCompradesEnData(DateTime dataHora, double numPartipacions)
+        internal IEnumerable<VendaExt> vendesDePartipacionsCompradesEnData(DateTime dataHora, double numPartipacions)
         {
             List<VendaExt> vendesDeLaCompra = new List<VendaExt>();
 
@@ -562,5 +555,16 @@ namespace Inversions
             return vendesDeLaCompra;
         }
 
+        #endregion *** Mètodes ***
+
+
+        #region *** Test ***
+
+        public IEnumerable<VendaExt> vendesDePartipacionsEnDataTest(DateTime dataHora, double numPartipacions)
+        {
+            return vendesDePartipacionsCompradesEnData(dataHora, numPartipacions);
+        }
+
+        #endregion *** Test ***
     }
 }
