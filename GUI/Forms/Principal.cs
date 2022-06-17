@@ -235,20 +235,6 @@ namespace Inversions.GUI
                 this.Cursor = cursor;
             }
         }
-
-        private void Principal_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            //if (pnDesaCanvisEmpreses.Enabled)
-            //{
-            //    if (MessageBox.Show("Hi han canvis pendents de desar en la taula Empreses. \nVols tancar igualment?", "Atenció",
-            //        MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
-            //    {
-            //        e.Cancel = true;
-            //        return;
-            //    }
-            //}
-        }
-
         private void Principal_Activated(object sender, EventArgs e)
         {
             // *** Canvia d'usuari si s'ha intentat arrancar de nou el procés amb un usuari diferent.
@@ -263,12 +249,24 @@ namespace Inversions.GUI
             }
         }
 
+
+        private void Principal_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            var iTab = tabControl1.SelectedTab.Controls.OfType<ITabs>().FirstOrDefault();
+
+            if (iTab != null)
+                // Impideix tancar l'aplicació si la pestanya seleccionada està en mode edició.
+                iTab.validating(sender, e);
+        }
+
+
         private void tabControl1_Deselecting(object sender, TabControlCancelEventArgs e)
         {
             ITabs tab = e.TabPage.Controls.OfType<ITabs>().FirstOrDefault();
 
-            if (tab != null && tab.enModeEdicio)
-                e.Cancel = true;
+            if (tab != null)
+                // Impideix canviar de pastanya si la pestanya seleccionada està en mode edició.
+                tab.validating(sender, e);
         }
 
         private void tabControl1_Selected(object sender, TabControlEventArgs e)

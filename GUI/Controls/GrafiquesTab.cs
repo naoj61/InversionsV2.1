@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -54,6 +55,15 @@ namespace Inversions.GUI
 
         public void escape(object sender, KeyEventArgs e)
         {
+        }
+
+        public void validating(object sender, CancelEventArgs e)
+        {
+            if (enModeEdicio)
+            {
+                MessageBox.Show("Està en mode edició");
+                e.Cancel = true;
+            }
         }
 
         #endregion *** d'ITabs ***

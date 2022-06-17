@@ -65,6 +65,15 @@ namespace Inversions.GUI
         {
         }
 
+        public void validating(object sender, CancelEventArgs e)
+        {
+            if (enModeEdicio)
+            {
+                MessageBox.Show("Està en mode edició");
+                e.Cancel = true;
+            }
+        }
+
         #endregion *** ITabs ***
       
 

@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace Inversions
 {
@@ -39,5 +40,13 @@ namespace Inversions
         /// <param name="sender"></param>
         /// <param name="e"></param>
         void escape(object sender, KeyEventArgs e);
+
+        /// <summary>
+        /// Impideix sortir de la pastanya si està en mode edició.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void validating(object sender, CancelEventArgs e);
+
     }
 }
