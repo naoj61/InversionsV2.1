@@ -125,7 +125,6 @@ namespace Inversions.GUI
             }
         }
 
-
         private void modeEdicioProducte()
         {
             btDesaProducte.Enabled = true;
@@ -135,7 +134,14 @@ namespace Inversions.GUI
             btEditaProducte.Enabled = false;
             grEmpresa.Enabled = false;
             dgvProductes.Enabled = false;
-            pnCampsProductes.Enabled = true;
+            cbMonedaProducte.Enabled = true;
+            cbMercatProducte.Enabled = true;
+            cbTipusProducte.Enabled = true;
+            //pnCampsProductes.Enabled = true;
+            tbNomProducte.ReadOnly = false;
+            ntbOrdreGridProducte.ReadOnly = false;
+            tbIsinProducte.ReadOnly = false;
+            tbDescripcioProducte.ReadOnly = false;
         }
 
 
@@ -149,7 +155,14 @@ namespace Inversions.GUI
             btEditaProducte.Enabled = vProducteSeleccionat != null;
             grEmpresa.Enabled = true;
             dgvProductes.Enabled = true;
-            pnCampsProductes.Enabled = false;
+            cbMonedaProducte.Enabled = false;
+            cbMercatProducte.Enabled = false;
+            cbTipusProducte.Enabled = false;
+            //pnCampsProductes.Enabled = false;
+            tbNomProducte.ReadOnly = true;
+            ntbOrdreGridProducte.ReadOnly = true;
+            tbIsinProducte.ReadOnly = true;
+            tbDescripcioProducte.ReadOnly = true;
         }
 
         private void carregaGridProductes(Empresa empresa)
@@ -278,9 +291,13 @@ namespace Inversions.GUI
                 vProducteSeleccionat = null;
             }
 
-            vProducteSeleccionat.Empresa = vConnProductes.Empreses.Find(vEmpresaSeleccionada.Id);
-            vProducteSeleccionat.Moneda = Utilitats.Monedes.EUR.ToString();
-
+            if (vProducteSeleccionat != null)
+            {
+                vProducteSeleccionat.Empresa = vConnProductes.Empreses.Find(vEmpresaSeleccionada.Id);
+                vProducteSeleccionat.Moneda = Utilitats.Monedes.EUR.ToString();
+                vProducteSeleccionat.OrdreGrid = 999;
+            }
+            
             ompleCampsProducte(vProducteSeleccionat);
             modeEdicioProducte();
         }

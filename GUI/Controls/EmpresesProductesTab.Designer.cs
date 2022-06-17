@@ -256,20 +256,21 @@ namespace Inversions.GUI
             this.panel1.Controls.Add(this.gbTipusProducte);
             this.panel1.Controls.Add(this.grMercatProducte);
             this.panel1.Controls.Add(this.grMonedaProducte);
-            this.panel1.Location = new System.Drawing.Point(9, 160);
+            this.panel1.Location = new System.Drawing.Point(9, 140);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(363, 63);
+            this.panel1.Padding = new System.Windows.Forms.Padding(5);
+            this.panel1.Size = new System.Drawing.Size(363, 79);
             this.panel1.TabIndex = 6;
             // 
             // gbTipusProducte
             // 
             this.gbTipusProducte.Controls.Add(this.cbTipusProducte);
             this.gbTipusProducte.Dock = System.Windows.Forms.DockStyle.Left;
-            this.gbTipusProducte.Location = new System.Drawing.Point(252, 0);
+            this.gbTipusProducte.Location = new System.Drawing.Point(257, 5);
             this.gbTipusProducte.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbTipusProducte.Name = "gbTipusProducte";
             this.gbTipusProducte.Padding = new System.Windows.Forms.Padding(6);
-            this.gbTipusProducte.Size = new System.Drawing.Size(99, 63);
+            this.gbTipusProducte.Size = new System.Drawing.Size(99, 69);
             this.gbTipusProducte.TabIndex = 4;
             this.gbTipusProducte.TabStop = false;
             this.gbTipusProducte.Text = "Tipus";
@@ -290,11 +291,11 @@ namespace Inversions.GUI
             // 
             this.grMercatProducte.Controls.Add(this.cbMercatProducte);
             this.grMercatProducte.Dock = System.Windows.Forms.DockStyle.Left;
-            this.grMercatProducte.Location = new System.Drawing.Point(126, 0);
+            this.grMercatProducte.Location = new System.Drawing.Point(131, 5);
             this.grMercatProducte.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.grMercatProducte.Name = "grMercatProducte";
             this.grMercatProducte.Padding = new System.Windows.Forms.Padding(6);
-            this.grMercatProducte.Size = new System.Drawing.Size(126, 63);
+            this.grMercatProducte.Size = new System.Drawing.Size(126, 69);
             this.grMercatProducte.TabIndex = 4;
             this.grMercatProducte.TabStop = false;
             this.grMercatProducte.Text = "Mercat";
@@ -315,11 +316,11 @@ namespace Inversions.GUI
             // 
             this.grMonedaProducte.Controls.Add(this.cbMonedaProducte);
             this.grMonedaProducte.Dock = System.Windows.Forms.DockStyle.Left;
-            this.grMonedaProducte.Location = new System.Drawing.Point(0, 0);
+            this.grMonedaProducte.Location = new System.Drawing.Point(5, 5);
             this.grMonedaProducte.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.grMonedaProducte.Name = "grMonedaProducte";
             this.grMonedaProducte.Padding = new System.Windows.Forms.Padding(6);
-            this.grMonedaProducte.Size = new System.Drawing.Size(126, 63);
+            this.grMonedaProducte.Size = new System.Drawing.Size(126, 69);
             this.grMonedaProducte.TabIndex = 3;
             this.grMonedaProducte.TabStop = false;
             this.grMonedaProducte.Text = "Moneda";
@@ -429,6 +430,7 @@ namespace Inversions.GUI
             this.tbDescripcioProducte.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tbDescripcioProducte.Multiline = true;
             this.tbDescripcioProducte.Name = "tbDescripcioProducte";
+            this.tbDescripcioProducte.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tbDescripcioProducte.Size = new System.Drawing.Size(684, 161);
             this.tbDescripcioProducte.TabIndex = 0;
             this.tbDescripcioProducte.TextChanged += new System.EventHandler(this.tbNomProducte_TextChanged);
