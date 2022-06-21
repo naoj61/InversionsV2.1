@@ -22,24 +22,24 @@ namespace Inversions.GUI
         {
             base.refresca(refrescaActivat);
      
-            if (_CarregaDadesInicial)
-            {
-                _CarregaDadesInicial = false;
+            //if (_CarregaDadesInicial)
+            //{
+            //    _CarregaDadesInicial = false;
 
-                gestioProductesTabValoracions._NomesAmbParticipacions = true;
+            //    gestioProductesTabValoracions._NomesAmbParticipacions = true;
 
-                cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof(Producte.TipusProducte));
-                cbTipusProducteFiltreTab2.SelectedIndex = -1;
-                cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
-                cbTipusProducteFiltreTab2.SelectedIndex = 0;
+            //    cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof(Producte.TipusProducte));
+            //    cbTipusProducteFiltreTab2.SelectedIndex = -1;
+            //    cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
+            //    cbTipusProducteFiltreTab2.SelectedIndex = 0;
 
-                for (int any = 2000; any <= DateTime.Today.Year; any++)
-                {
-                    cbAnysPiGEnCartera.Items.Add(any);
-                }
-                cbAnysPiGEnCartera.SelectedIndexChanged += cbAnysPiGEnCartera_SelectedIndexChanged;
-                cbAnysPiGEnCartera.SelectedItem = DateTime.Today.Year;
-            }
+            //    for (int any = 2000; any <= DateTime.Today.Year; any++)
+            //    {
+            //        cbAnysPiGEnCartera.Items.Add(any);
+            //    }
+            //    cbAnysPiGEnCartera.SelectedIndexChanged += cbAnysPiGEnCartera_SelectedIndexChanged;
+            //    cbAnysPiGEnCartera.SelectedItem = DateTime.Today.Year;
+            //}
 
             if (_ActivaRefresca)
             {
@@ -59,7 +59,6 @@ namespace Inversions.GUI
         {
             base.canviUsuari(usuari);
        
-            gestioProductesTabValoracions._UsuariSeleccionat = usuari;
             refresca(true);
         }
         
@@ -345,6 +344,23 @@ namespace Inversions.GUI
         private void cbAnysPiGEnCartera_SelectedIndexChanged(object sender, EventArgs e)
         {
             ompleDgvPiGEnCartera();
+        }
+
+        private void PerduesGuanysTab_Load(object sender, EventArgs e)
+        {
+            gestioProductesTabValoracions._NomesAmbParticipacions = true;
+
+            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof(Producte.TipusProducte));
+            cbTipusProducteFiltreTab2.SelectedIndex = -1;
+            cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
+            cbTipusProducteFiltreTab2.SelectedIndex = 0;
+
+            for (int any = 2000; any <= DateTime.Today.Year; any++)
+            {
+                cbAnysPiGEnCartera.Items.Add(any);
+            }
+            cbAnysPiGEnCartera.SelectedIndexChanged += cbAnysPiGEnCartera_SelectedIndexChanged;
+            cbAnysPiGEnCartera.SelectedItem = DateTime.Today.Year;
         }
 
         #endregion *** Events ***

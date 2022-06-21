@@ -44,12 +44,7 @@ namespace Inversions.GUI
             get { return pnFiltreAny.Visible; }
             set { pnFiltreAny.Visible = value; }
         }
-
-        public Usuari _UsuariSeleccionat
-        {
-            set { lbUsuari.Text = value.Nom; }
-        }
-
+        
         public bool _NomesAmbParticipacions
         {
             get { return ckNomesAmbParticipacions.Checked; }

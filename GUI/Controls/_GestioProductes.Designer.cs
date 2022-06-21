@@ -31,7 +31,6 @@ namespace Inversions.GUI
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.pnDadesProducte = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pnDescripcioFons = new System.Windows.Forms.Panel();
@@ -42,8 +41,6 @@ namespace Inversions.GUI
             this.lbMoneda = new System.Windows.Forms.Label();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.tbPigReal = new Controls.NumericTextBox2();
-            this.gbUsuari = new System.Windows.Forms.GroupBox();
-            this.lbUsuari = new System.Windows.Forms.Label();
             this.gbIsinMercat = new System.Windows.Forms.GroupBox();
             this.tbMercat = new System.Windows.Forms.TextBox();
             this.tbIsin = new System.Windows.Forms.TextBox();
@@ -63,8 +60,9 @@ namespace Inversions.GUI
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.gbFiltres = new System.Windows.Forms.GroupBox();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.ckAmbMoviments = new System.Windows.Forms.CheckBox();
-            this.ckNomesAmbParticipacions = new System.Windows.Forms.CheckBox();
+            this.pnSelDeselChecksProds = new System.Windows.Forms.Panel();
+            this.btDeseleccionaTot = new System.Windows.Forms.Button();
+            this.btSeleccionaTot = new System.Windows.Forms.Button();
             this.pnFiltreAny = new System.Windows.Forms.Panel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.gbFiltreAny = new System.Windows.Forms.GroupBox();
@@ -73,9 +71,8 @@ namespace Inversions.GUI
             this.ckFiltreVendesAny = new System.Windows.Forms.CheckBox();
             this.ckFiltreTraspasAny = new System.Windows.Forms.CheckBox();
             this.ckFiltreDivAny = new System.Windows.Forms.CheckBox();
-            this.pnSelDeselChecksProds = new System.Windows.Forms.Panel();
-            this.btDeseleccionaTot = new System.Windows.Forms.Button();
-            this.btSeleccionaTot = new System.Windows.Forms.Button();
+            this.ckNomesAmbParticipacions = new System.Windows.Forms.CheckBox();
+            this.ckAmbMoviments = new System.Windows.Forms.CheckBox();
             this.btFiltra = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.gbFons = new System.Windows.Forms.Panel();
@@ -86,14 +83,13 @@ namespace Inversions.GUI
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cbTipusProducteFiltreTab2 = new System.Windows.Forms.ComboBox();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip1 = new System.Windows.Forms.ToolTip();
             this.pnDadesProducte.SuspendLayout();
             this.panel1.SuspendLayout();
             this.pnDescripcioFons.SuspendLayout();
             this.gbDividents.SuspendLayout();
             this.gbMoneda.SuspendLayout();
             this.groupBox8.SuspendLayout();
-            this.gbUsuari.SuspendLayout();
             this.gbIsinMercat.SuspendLayout();
             this.gbPigProducte.SuspendLayout();
             this.groupBox7.SuspendLayout();
@@ -104,10 +100,10 @@ namespace Inversions.GUI
             this.panel2.SuspendLayout();
             this.gbFiltres.SuspendLayout();
             this.panel4.SuspendLayout();
+            this.pnSelDeselChecksProds.SuspendLayout();
             this.pnFiltreAny.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.gbFiltreAny.SuspendLayout();
-            this.pnSelDeselChecksProds.SuspendLayout();
             this.panel3.SuspendLayout();
             this.gbFons.SuspendLayout();
             this.gbEmpresa.SuspendLayout();
@@ -119,7 +115,6 @@ namespace Inversions.GUI
             this.pnDadesProducte.Controls.Add(this.panel1);
             this.pnDadesProducte.Controls.Add(this.gbMoneda);
             this.pnDadesProducte.Controls.Add(this.groupBox8);
-            this.pnDadesProducte.Controls.Add(this.gbUsuari);
             this.pnDadesProducte.Controls.Add(this.gbIsinMercat);
             this.pnDadesProducte.Controls.Add(this.gbPigProducte);
             this.pnDadesProducte.Controls.Add(this.groupBox7);
@@ -259,28 +254,6 @@ namespace Inversions.GUI
             this.tbPigReal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.toolTip1.SetToolTip(this.tbPigReal, "Valor actual - Valor compra real (No compra traspàs)");
             this.tbPigReal.Valor = 0D;
-            // 
-            // gbUsuari
-            // 
-            this.gbUsuari.Controls.Add(this.lbUsuari);
-            this.gbUsuari.Location = new System.Drawing.Point(8, 65);
-            this.gbUsuari.Margin = new System.Windows.Forms.Padding(3, 4, 10, 4);
-            this.gbUsuari.Name = "gbUsuari";
-            this.gbUsuari.Padding = new System.Windows.Forms.Padding(10, 4, 10, 4);
-            this.gbUsuari.Size = new System.Drawing.Size(260, 58);
-            this.gbUsuari.TabIndex = 1;
-            this.gbUsuari.TabStop = false;
-            this.gbUsuari.Text = "Usuari";
-            // 
-            // lbUsuari
-            // 
-            this.lbUsuari.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbUsuari.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbUsuari.Location = new System.Drawing.Point(10, 23);
-            this.lbUsuari.Name = "lbUsuari";
-            this.lbUsuari.Size = new System.Drawing.Size(240, 31);
-            this.lbUsuari.TabIndex = 0;
-            this.lbUsuari.Text = "Usuari";
             // 
             // gbIsinMercat
             // 
@@ -575,38 +548,40 @@ namespace Inversions.GUI
             this.panel4.Size = new System.Drawing.Size(696, 80);
             this.panel4.TabIndex = 1;
             // 
-            // ckAmbMoviments
+            // pnSelDeselChecksProds
             // 
-            this.ckAmbMoviments.AutoSize = true;
-            this.ckAmbMoviments.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.ckAmbMoviments.Checked = true;
-            this.ckAmbMoviments.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ckAmbMoviments.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ckAmbMoviments.Location = new System.Drawing.Point(3, 3);
-            this.ckAmbMoviments.Margin = new System.Windows.Forms.Padding(0);
-            this.ckAmbMoviments.Name = "ckAmbMoviments";
-            this.ckAmbMoviments.Size = new System.Drawing.Size(89, 74);
-            this.ckAmbMoviments.TabIndex = 0;
-            this.ckAmbMoviments.Text = "Amb\r\nMoviments";
-            this.ckAmbMoviments.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip1.SetToolTip(this.ckAmbMoviments, "Filtre productes que no han tingut moviments pel usuari.");
-            this.ckAmbMoviments.UseVisualStyleBackColor = true;
+            this.pnSelDeselChecksProds.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.pnSelDeselChecksProds.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnSelDeselChecksProds.Controls.Add(this.btDeseleccionaTot);
+            this.pnSelDeselChecksProds.Controls.Add(this.btSeleccionaTot);
+            this.pnSelDeselChecksProds.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pnSelDeselChecksProds.Location = new System.Drawing.Point(538, 3);
+            this.pnSelDeselChecksProds.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.pnSelDeselChecksProds.Name = "pnSelDeselChecksProds";
+            this.pnSelDeselChecksProds.Padding = new System.Windows.Forms.Padding(3);
+            this.pnSelDeselChecksProds.Size = new System.Drawing.Size(208, 74);
+            this.pnSelDeselChecksProds.TabIndex = 3;
+            this.pnSelDeselChecksProds.Visible = false;
             // 
-            // ckNomesAmbParticipacions
+            // btDeseleccionaTot
             // 
-            this.ckNomesAmbParticipacions.AutoSize = true;
-            this.ckNomesAmbParticipacions.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.ckNomesAmbParticipacions.Checked = true;
-            this.ckNomesAmbParticipacions.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ckNomesAmbParticipacions.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ckNomesAmbParticipacions.Location = new System.Drawing.Point(92, 3);
-            this.ckNomesAmbParticipacions.Margin = new System.Windows.Forms.Padding(0);
-            this.ckNomesAmbParticipacions.Name = "ckNomesAmbParticipacions";
-            this.ckNomesAmbParticipacions.Size = new System.Drawing.Size(111, 74);
-            this.ckNomesAmbParticipacions.TabIndex = 1;
-            this.ckNomesAmbParticipacions.Text = "Amb\r\nParticipacions";
-            this.ckNomesAmbParticipacions.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.ckNomesAmbParticipacions.UseVisualStyleBackColor = true;
+            this.btDeseleccionaTot.Location = new System.Drawing.Point(106, 5);
+            this.btDeseleccionaTot.Name = "btDeseleccionaTot";
+            this.btDeseleccionaTot.Size = new System.Drawing.Size(93, 60);
+            this.btDeseleccionaTot.TabIndex = 1;
+            this.btDeseleccionaTot.Text = "Deselec\r\nTot";
+            this.btDeseleccionaTot.UseVisualStyleBackColor = true;
+            this.btDeseleccionaTot.Click += new System.EventHandler(this.btDeseleccionaTot_Click);
+            // 
+            // btSeleccionaTot
+            // 
+            this.btSeleccionaTot.Location = new System.Drawing.Point(6, 5);
+            this.btSeleccionaTot.Name = "btSeleccionaTot";
+            this.btSeleccionaTot.Size = new System.Drawing.Size(93, 60);
+            this.btSeleccionaTot.TabIndex = 0;
+            this.btSeleccionaTot.Text = "Selec\r\nTot";
+            this.btSeleccionaTot.UseVisualStyleBackColor = true;
+            this.btSeleccionaTot.Click += new System.EventHandler(this.btSeleccionaTot_Click);
             // 
             // pnFiltreAny
             // 
@@ -713,40 +688,38 @@ namespace Inversions.GUI
             this.ckFiltreDivAny.UseVisualStyleBackColor = true;
             this.ckFiltreDivAny.CheckedChanged += new System.EventHandler(this.ckFiltreAny_CheckedChanged);
             // 
-            // pnSelDeselChecksProds
+            // ckNomesAmbParticipacions
             // 
-            this.pnSelDeselChecksProds.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.pnSelDeselChecksProds.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnSelDeselChecksProds.Controls.Add(this.btDeseleccionaTot);
-            this.pnSelDeselChecksProds.Controls.Add(this.btSeleccionaTot);
-            this.pnSelDeselChecksProds.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pnSelDeselChecksProds.Location = new System.Drawing.Point(538, 3);
-            this.pnSelDeselChecksProds.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.pnSelDeselChecksProds.Name = "pnSelDeselChecksProds";
-            this.pnSelDeselChecksProds.Padding = new System.Windows.Forms.Padding(3);
-            this.pnSelDeselChecksProds.Size = new System.Drawing.Size(208, 74);
-            this.pnSelDeselChecksProds.TabIndex = 3;
-            this.pnSelDeselChecksProds.Visible = false;
+            this.ckNomesAmbParticipacions.AutoSize = true;
+            this.ckNomesAmbParticipacions.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ckNomesAmbParticipacions.Checked = true;
+            this.ckNomesAmbParticipacions.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ckNomesAmbParticipacions.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ckNomesAmbParticipacions.Location = new System.Drawing.Point(92, 3);
+            this.ckNomesAmbParticipacions.Margin = new System.Windows.Forms.Padding(0);
+            this.ckNomesAmbParticipacions.Name = "ckNomesAmbParticipacions";
+            this.ckNomesAmbParticipacions.Size = new System.Drawing.Size(111, 74);
+            this.ckNomesAmbParticipacions.TabIndex = 1;
+            this.ckNomesAmbParticipacions.Text = "Amb\r\nParticipacions";
+            this.ckNomesAmbParticipacions.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ckNomesAmbParticipacions.UseVisualStyleBackColor = true;
             // 
-            // btDeseleccionaTot
+            // ckAmbMoviments
             // 
-            this.btDeseleccionaTot.Location = new System.Drawing.Point(106, 5);
-            this.btDeseleccionaTot.Name = "btDeseleccionaTot";
-            this.btDeseleccionaTot.Size = new System.Drawing.Size(93, 60);
-            this.btDeseleccionaTot.TabIndex = 1;
-            this.btDeseleccionaTot.Text = "Deselec\r\nTot";
-            this.btDeseleccionaTot.UseVisualStyleBackColor = true;
-            this.btDeseleccionaTot.Click += new System.EventHandler(this.btDeseleccionaTot_Click);
-            // 
-            // btSeleccionaTot
-            // 
-            this.btSeleccionaTot.Location = new System.Drawing.Point(6, 5);
-            this.btSeleccionaTot.Name = "btSeleccionaTot";
-            this.btSeleccionaTot.Size = new System.Drawing.Size(93, 60);
-            this.btSeleccionaTot.TabIndex = 0;
-            this.btSeleccionaTot.Text = "Selec\r\nTot";
-            this.btSeleccionaTot.UseVisualStyleBackColor = true;
-            this.btSeleccionaTot.Click += new System.EventHandler(this.btSeleccionaTot_Click);
+            this.ckAmbMoviments.AutoSize = true;
+            this.ckAmbMoviments.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ckAmbMoviments.Checked = true;
+            this.ckAmbMoviments.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ckAmbMoviments.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ckAmbMoviments.Location = new System.Drawing.Point(3, 3);
+            this.ckAmbMoviments.Margin = new System.Windows.Forms.Padding(0);
+            this.ckAmbMoviments.Name = "ckAmbMoviments";
+            this.ckAmbMoviments.Size = new System.Drawing.Size(89, 74);
+            this.ckAmbMoviments.TabIndex = 0;
+            this.ckAmbMoviments.Text = "Amb\r\nMoviments";
+            this.ckAmbMoviments.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip1.SetToolTip(this.ckAmbMoviments, "Filtre productes que no han tingut moviments pel usuari.");
+            this.ckAmbMoviments.UseVisualStyleBackColor = true;
             // 
             // btFiltra
             // 
@@ -881,7 +854,6 @@ namespace Inversions.GUI
             this.gbMoneda.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
-            this.gbUsuari.ResumeLayout(false);
             this.gbIsinMercat.ResumeLayout(false);
             this.gbIsinMercat.PerformLayout();
             this.gbPigProducte.ResumeLayout(false);
@@ -900,12 +872,12 @@ namespace Inversions.GUI
             this.gbFiltres.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
+            this.pnSelDeselChecksProds.ResumeLayout(false);
             this.pnFiltreAny.ResumeLayout(false);
             this.pnFiltreAny.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.gbFiltreAny.ResumeLayout(false);
-            this.pnSelDeselChecksProds.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.gbFons.ResumeLayout(false);
             this.gbEmpresa.ResumeLayout(false);
@@ -939,8 +911,6 @@ namespace Inversions.GUI
         private TextBox tbMercat;
         private TextBox tbIsin;
         private ToolTip toolTip1;
-        private GroupBox gbUsuari;
-        private Label lbUsuari;
         private GroupBox gbMoneda;
         private Label lbMoneda;
         private Panel panel4;

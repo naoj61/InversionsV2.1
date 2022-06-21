@@ -519,6 +519,7 @@ namespace Inversions.GUI
             this.MinimumSize = new System.Drawing.Size(1464, 819);
             this.Name = "EmpresesProductesTab";
             this.Size = new System.Drawing.Size(1642, 819);
+            this.Load += new System.EventHandler(this.EmpresesProductesTab_Load);
             this.grEmpresa.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmpreses)).EndInit();
             this.pnDesaCanvisEmpreses.ResumeLayout(false);

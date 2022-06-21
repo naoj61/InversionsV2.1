@@ -124,11 +124,11 @@
     <Compile Include="Gestor.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Controls\GestioProductes.cs">
+    <Compile Include="GUI\Controls\_GestioProductes.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\Controls\GestioProductes.Designer.cs">
-      <DependentUpon>GestioProductes.cs</DependentUpon>
+    <Compile Include="GUI\Controls\_GestioProductes.Designer.cs">
+      <DependentUpon>_GestioProductes.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Controls\MovimentsTab.cs">
       <SubType>UserControl</SubType>
@@ -242,8 +242,8 @@
     <Compile Include="Valoracio.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="GUI\Controls\GestioProductes.resx">
-      <DependentUpon>GestioProductes.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\Controls\_GestioProductes.resx">
+      <DependentUpon>_GestioProductes.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\MovimentsTab.resx">

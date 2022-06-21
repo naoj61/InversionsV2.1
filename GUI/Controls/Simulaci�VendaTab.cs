@@ -152,16 +152,6 @@ namespace Inversions.GUI
         {
             base.refresca(refrescaActivat);
 
-            if (_CarregaDadesInicial)
-            {
-                _CarregaDadesInicial = false;
-
-                var anyRenda = Program.LlegeigVariableEnRegistreWindows(NomVarReg, true);
-                ntbAnyRenda.Valor = Utilitats.EsNumeric(anyRenda) ? Convert.ToInt32(anyRenda) : DateTime.Today.Year;
-
-                calculaPerdues();
-            }
-
             if (_ActivaRefresca)
             {
                 _ActivaRefresca = false;
@@ -173,8 +163,7 @@ namespace Inversions.GUI
         public override void canviUsuari(Usuari usuari)
         {
             base.canviUsuari(usuari);
-        
-            productes._UsuariSeleccionat = usuari;
+
             dgvCompresOriginals.DataSource = null;
             refresca(true);
         }
@@ -299,7 +288,14 @@ namespace Inversions.GUI
             ompleDgvCompres(null);
         }
 
+        private void SimulacióVendaTab_Load(object sender, EventArgs e)
+        {
+            var anyRenda = Program.LlegeigVariableEnRegistreWindows(NomVarReg, true);
+            ntbAnyRenda.Valor = Utilitats.EsNumeric(anyRenda) ? Convert.ToInt32(anyRenda) : DateTime.Today.Year;
+
+            calculaPerdues();
+        }
+
         #endregion *** Events ***
-    
     }
 }

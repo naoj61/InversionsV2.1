@@ -24,24 +24,10 @@ namespace Inversions.GUI
             }
         }
         
-
-        internal override void refresca(bool? refrescaActivat)
-        {
-            base.refresca(refrescaActivat);
-
-            // Aquí s'haurien de refrescar les dades en pantalla.
-            //gestioProductesTabMoviments.refrescaDadesControl();
-            //canviProducteSeleccionat();
-
-            _CarregaDadesInicial = false;
-            _ActivaRefresca = false;
-        }
-
         public override void canviUsuari(Usuari usuari)
         {
             base.canviUsuari(usuari);
 
-            gestioProductesTabMoviments._UsuariSeleccionat = usuari;
             cDataGridView1.DataSource = null;
             refresca(true);
         }

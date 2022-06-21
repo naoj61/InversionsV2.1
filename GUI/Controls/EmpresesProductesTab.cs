@@ -52,21 +52,6 @@ namespace Inversions.GUI
             modeConsulta();
         }
         
-        internal override void refresca(bool? refrescaActivat)
-        {
-            base.refresca(refrescaActivat);
-        
-            if (_CarregaDadesInicial)
-            {
-                _CarregaDadesInicial = false;
-
-                if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
-                {
-                    carregaGridEmpreses();
-                }
-            }
-        }
-
         public override void escape(object sender, KeyEventArgs e)
         {
             base.escape(sender, e);
@@ -525,7 +510,14 @@ namespace Inversions.GUI
             }
         }
 
-        #endregion *** Events ***
+        private void EmpresesProductesTab_Load(object sender, EventArgs e)
+        {
+            if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
+            {
+                carregaGridEmpreses();
+            }
+        }
 
+        #endregion *** Events ***
     }
 }

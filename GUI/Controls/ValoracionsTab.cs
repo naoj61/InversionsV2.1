@@ -46,7 +46,6 @@ namespace Inversions.GUI
         {
             base.refresca(refrescaActivat);
 
-
             if (_ActivaRefresca)
             {
                 _ActivaRefresca = false;
@@ -63,7 +62,6 @@ namespace Inversions.GUI
         {
             base.canviUsuari(usuari);
         
-            gestioProductesTabValoracions._UsuariSeleccionat = usuari;
             dgvValoracions.DataSource = null;
             refresca(true);
         }

@@ -24,24 +24,20 @@ namespace Inversions
             // the contents of this method with the code editor.
             components = new Container();
             AutoScaleMode = AutoScaleMode.Font;
+
+           _ActivaRefresca = true;
         }
 
         /// <summary>
         /// Indica que la pestanya està s'està editant.
         /// </summary>
-        protected bool _EnModeEdicio { get; set; }
+        protected bool _EnModeEdicio { get; private set; }
 
         /// <summary>
         /// Indica que s'han de recarregar les dades de la pestanya
         /// </summary>
         internal bool _ActivaRefresca { get; set; }
-
-        /// <summary>
-        /// Si true, indica que s'han de carregar les dades de la pestanya per primer cop.
-        /// </summary>
-        internal bool _CarregaDadesInicial { get; set; }
-
-
+        
         protected void acceptButton(Button botoAccept)
         {
             if (ParentForm != null) 

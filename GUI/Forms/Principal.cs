@@ -96,48 +96,36 @@ namespace Inversions.GUI
                 tabEmpresesProductes.Controls.Add(vEmpresesProductesTab);
                 vEmpresesProductesTab.Dock = DockStyle.Fill;
                 tabEmpresesProductes.ResumeLayout();
-                vEmpresesProductesTab._CarregaDadesInicial = true;
-                vEmpresesProductesTab._ActivaRefresca = true;
 
                 // Afegeig MovimentsTab
                 tabMoviments.SuspendLayout();
                 tabMoviments.Controls.Add(vMovimentsTab);
                 vMovimentsTab.Dock = DockStyle.Fill;
                 tabMoviments.ResumeLayout();
-                vMovimentsTab._CarregaDadesInicial = true;
-                vMovimentsTab._ActivaRefresca = true;
 
                 // Afegeig ValoracionsTab
                 tabValoracions.SuspendLayout();
                 tabValoracions.Controls.Add(vValoracionsTab);
                 vValoracionsTab.Dock = DockStyle.Fill;
                 tabValoracions.ResumeLayout();
-                vValoracionsTab._CarregaDadesInicial = true;
-                vValoracionsTab._ActivaRefresca = true;
 
                 // Afegeig PerduesGuanysTab
                 tabPerduesGuanys.SuspendLayout();
                 tabPerduesGuanys.Controls.Add(vPerduesGuanysTab);
                 vPerduesGuanysTab.Dock = DockStyle.Fill;
                 tabPerduesGuanys.ResumeLayout();
-                vPerduesGuanysTab._CarregaDadesInicial = true;
-                vPerduesGuanysTab._ActivaRefresca = true;
 
                 // Afegeig GrafiquesTab
                 tabGrafiques.SuspendLayout();
                 tabGrafiques.Controls.Add(vGrafiquesTab);
                 vGrafiquesTab.Dock = DockStyle.Fill;
                 tabGrafiques.ResumeLayout();
-                vGrafiquesTab._CarregaDadesInicial = true;
-                vGrafiquesTab._ActivaRefresca = true;
 
                 // Afegeig SimulacióVendaTab
                 tabSimulacióVenda.SuspendLayout();
                 tabSimulacióVenda.Controls.Add(vSimulacióVendaTab);
                 vSimulacióVendaTab.Dock = DockStyle.Fill;
                 tabSimulacióVenda.ResumeLayout();
-                vSimulacióVendaTab._CarregaDadesInicial = true;
-                vSimulacióVendaTab._ActivaRefresca = true;
 
                 ResumeLayout();
 
