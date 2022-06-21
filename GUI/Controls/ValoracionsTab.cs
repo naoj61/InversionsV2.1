@@ -11,7 +11,7 @@ using DevExpress.XtraEditors.Controls;
 
 namespace Inversions.GUI
 {
-    public partial class ValoracionsTab : UserControl, ITabs
+    public partial class ValoracionsTab : TabX
     {
         private enum TipusProd
         {
@@ -39,36 +39,17 @@ namespace Inversions.GUI
             dtpDataIniciLlista.Value = DateTime.Now.AddMonths(-6);
 
             gestioProductesTabValoracions.refrescaDadesControl();
-
         }
 
-
-        #region *** ITabs ***
-
-        public bool enModeEdicio
+      
+        internal override void refresca(bool? refrescaActivat)
         {
-            get { return btDesa.Enabled; }
-        }
+            base.refresca(refrescaActivat);
 
-        public bool activaRefresca { get; set; }
 
-        public bool carregaDadesInicial { get; set; }
-
-        public Button acceptButton
-        {
-            get { return btActualitzaLlista; }
-        }
-
-        public void refresca(bool? refrescaActivat)
-        {
-            if (refrescaActivat.HasValue)
-                activaRefresca = refrescaActivat.Value;
-
-            carregaDadesInicial = false;
-
-            if (activaRefresca)
+            if (_ActivaRefresca)
             {
-                activaRefresca = false;
+                _ActivaRefresca = false;
 
                 if (dgvValoracionsPerData.Rows.Count > 0)
                     actualitzaLlistaValoracionsTotal();
@@ -76,30 +57,17 @@ namespace Inversions.GUI
                 gestioProductesTabValoracions.refrescaDadesControl();
             }
         }
+        
 
-        public void canviUsuari(Usuari usuari)
+        public override void canviUsuari(Usuari usuari)
         {
+            base.canviUsuari(usuari);
+        
             gestioProductesTabValoracions._UsuariSeleccionat = usuari;
             dgvValoracions.DataSource = null;
-            activaRefresca = true;
             refresca(true);
         }
-
-        public void escape(object sender, KeyEventArgs e)
-        {
-        }
-
-        public void validating(object sender, CancelEventArgs e)
-        {
-            if (enModeEdicio)
-            {
-                MessageBox.Show("Està en mode edició");
-                e.Cancel = true;
-            }
-        }
-
-        #endregion *** ITabs ***
-
+        
 
         public DateTime _Data
         {
@@ -111,8 +79,11 @@ namespace Inversions.GUI
             get { return tbImport._DoubleValue; }
         }
 
-        private void modeEdicio()
+
+        protected override void modeEdicio()
         {
+            base.modeEdicio();
+      
             btNouValor.Enabled = false;
             btModifica.Enabled = false;
             btEsborra.Enabled = false;
@@ -125,14 +96,17 @@ namespace Inversions.GUI
             tbImport.Enabled = true;
             gbFiltreTipusProducte.Enabled = false;
 
-            ParentForm.AcceptButton = btDesa;
 
             // Si utilitzo CancelButton, la tecla ESC no funciona bé en un NumericTextBox,
-            ParentForm.CancelButton = btCancela;
+
+            acceptButton(btDesa);
+            cancelButton(btCancela);
         }
 
-        private void modeConsulta()
+        protected override void modeConsulta()
         {
+            base.modeConsulta();
+        
             btNouValor.Enabled = true;
             btModifica.Enabled = false;
             btEsborra.Enabled = false;
@@ -146,8 +120,8 @@ namespace Inversions.GUI
 
             dgvValoracions.Enabled = true;
 
-            ParentForm.AcceptButton = null;
-            ParentForm.CancelButton = null;
+            acceptButton(null);
+            cancelButton(null);
         }
 
         private void posaValorsDeLaFilaSeleccionada()
@@ -404,7 +378,7 @@ namespace Inversions.GUI
                 gestioProductesTabValoracions.refrescaDadesControl();
 
                 Principal.ActivaRefresca(this);
-
+                
                 modeConsulta();
 
                 tbImport.Valor = 0;
@@ -513,7 +487,7 @@ namespace Inversions.GUI
 
         private void tbImport_ValorChanged(object sender, EventArgs e)
         {
-            ParentForm.CancelButton = tbImport.Modified ? null : btCancela;
+            cancelButton(tbImport.Modified ? null : btCancela);
         }
 
         private void tbImport_KeyDown(object sender, KeyEventArgs e)
@@ -522,7 +496,7 @@ namespace Inversions.GUI
             {
                 if (tbImport.Modified)
                 {
-                    ParentForm.CancelButton = btCancela;
+                    cancelButton(btCancela);
                 }
             }
         }

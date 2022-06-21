@@ -15,7 +15,7 @@ using DevExpress.XtraEditors.Controls;
 
 namespace Inversions.GUI
 {
-    public partial class EmpresesProductesTab : UserControl, ITabs
+    public partial class EmpresesProductesTab : TabX
     {
 
         private const string NomVarReg = "UltimaPestanyaSeleccionada";
@@ -49,28 +49,16 @@ namespace Inversions.GUI
             cbTipusProducte.SelectedItem = null;
             cbTipusProducte.ResumeLayout();
 
-            modeConsultaProducte();
+            modeConsulta();
         }
-
-
-        #region *** ITabs ***
-
-        public bool enModeEdicio
-        {
-            get { return btDesaProducte.Enabled; }
-        }
-
-        public bool activaRefresca { get; set; }
         
-        public bool carregaDadesInicial { get; set; }
-
-        public Button acceptButton { get; private set; }
-
-        public void refresca(bool? refrescaActivat)
+        internal override void refresca(bool? refrescaActivat)
         {
-            if (carregaDadesInicial)
+            base.refresca(refrescaActivat);
+        
+            if (_CarregaDadesInicial)
             {
-                carregaDadesInicial = false;
+                _CarregaDadesInicial = false;
 
                 if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
                 {
@@ -79,27 +67,12 @@ namespace Inversions.GUI
             }
         }
 
-        public void canviUsuari(Usuari usuari)
+        public override void escape(object sender, KeyEventArgs e)
         {
-            // *** No hi ha canvi usuari en aquesta pestanya ***
-            // Refresh();
-        }
-
-        public void escape(object sender, KeyEventArgs e)
-        {
+            base.escape(sender, e);
+        
             teclaEscapeEdicioProducte();
         }
-
-        public void validating(object sender, CancelEventArgs e)
-        {
-            if (enModeEdicio)
-            {
-                MessageBox.Show("Està en mode edició");
-                e.Cancel = true;
-            }
-        }
-
-        #endregion *** ITabs ***
 
 
         #region *** Mètodes ***
@@ -134,8 +107,11 @@ namespace Inversions.GUI
             }
         }
 
-        private void modeEdicioProducte()
+
+        protected override void modeEdicio()
         {
+            base.modeEdicio();
+        
             btDesaProducte.Enabled = true;
             btCancelaProducte.Enabled = true;
             btNouProducte.Enabled = false;
@@ -153,9 +129,10 @@ namespace Inversions.GUI
             tbDescripcioProducte.ReadOnly = false;
         }
 
-
-        private void modeConsultaProducte()
+        protected override void modeConsulta()
         {
+            base.modeConsulta();
+        
             btDesaProducte.Enabled = false;
             btCancelaProducte.Enabled = false;
             //btNouProducte.Enabled = vProducteSeleccionat != null;
@@ -205,7 +182,7 @@ namespace Inversions.GUI
                 tbIsinProducte.Text = String.Empty;
                 tbDescripcioProducte.Text = String.Empty;
 
-                modeConsultaProducte();
+                modeConsulta();
 
                 preparaControlsProducte();
             }
@@ -282,7 +259,7 @@ namespace Inversions.GUI
 
         private void btEditaProducte_Click(object sender, EventArgs e)
         {
-            modeEdicioProducte();
+            modeEdicio();
         }
 
         private void btNouProducte_Click(object sender, EventArgs e)
@@ -308,7 +285,7 @@ namespace Inversions.GUI
             }
             
             ompleCampsProducte(vProducteSeleccionat);
-            modeEdicioProducte();
+            modeEdicio();
         }
 
         private void btDesaProducte_Click(object sender, EventArgs e)
@@ -349,7 +326,7 @@ namespace Inversions.GUI
                     dgvProductes.CurrentCell = dgvProductes.Rows[dgvProductes.Rows.GetLastRow(DataGridViewElementStates.Visible)].Cells[0];
                 }
 
-                modeConsultaProducte();
+                modeConsulta();
             }
             catch (DbEntityValidationException ex2)
             {
@@ -456,14 +433,14 @@ namespace Inversions.GUI
         {
             ompleCampsProducte((Producte) (dgvProductes.CurrentRow == null ? null : dgvProductes.CurrentRow.DataBoundItem));
 
-            modeConsultaProducte();
+            modeConsulta();
         }
 
         private void tbNomProducte_TextChanged(object sender, EventArgs e)
         {
-            if (!enModeEdicio && ((TextBoxBase) sender).Modified)
+            if (!_EnModeEdicio && ((TextBoxBase) sender).Modified)
             {
-                modeEdicioProducte();
+                modeEdicio();
             }
         }
 
@@ -471,7 +448,7 @@ namespace Inversions.GUI
         {
             if (((IValorControlRestaurable) sender).Modified)
             {
-                modeEdicioProducte();
+                modeEdicio();
             }
         }
 
@@ -542,9 +519,9 @@ namespace Inversions.GUI
 
         private void ntbOrdreGridProducte_TextChanged(object sender, EventArgs e)
         {
-            if (!enModeEdicio && ((TextBoxBase) sender).Modified)
+            if (!_EnModeEdicio && ((TextBoxBase) sender).Modified)
             {
-                modeEdicioProducte();
+                modeEdicio();
             }
         }
 

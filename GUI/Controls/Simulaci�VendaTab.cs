@@ -138,7 +138,7 @@ namespace Inversions.GUI
         #endregion *** Mètodes sobreescrits ***
     }
 
-    public partial class SimulacióVendaTab : UserControl, ITabs
+    public partial class SimulacióVendaTab : TabX
     {
         private const string NomVarReg = "AnyRenda";
         private Producte vProducteSeleccionat = null;
@@ -148,32 +148,13 @@ namespace Inversions.GUI
             InitializeComponent();
         }
 
-
-        #region *** ITabs ***
-
-        public bool enModeEdicio
+        internal override void refresca(bool? refrescaActivat)
         {
-            get { return false; }
-        }
+            base.refresca(refrescaActivat);
 
-        public bool activaRefresca { get; set; }
-
-        public bool carregaDadesInicial { get; set; }
-
-        public Button acceptButton
-        {
-            get { return (Button) ParentForm.AcceptButton; }
-            private set { ParentForm.AcceptButton = value; }
-        }
-
-        public void refresca(bool? refrescaActivat)
-        {
-            if (refrescaActivat.HasValue)
-                activaRefresca = refrescaActivat.Value;
-
-            if (carregaDadesInicial)
+            if (_CarregaDadesInicial)
             {
-                carregaDadesInicial = false;
+                _CarregaDadesInicial = false;
 
                 var anyRenda = Program.LlegeigVariableEnRegistreWindows(NomVarReg, true);
                 ntbAnyRenda.Valor = Utilitats.EsNumeric(anyRenda) ? Convert.ToInt32(anyRenda) : DateTime.Today.Year;
@@ -181,37 +162,22 @@ namespace Inversions.GUI
                 calculaPerdues();
             }
 
-            if (activaRefresca)
+            if (_ActivaRefresca)
             {
-                activaRefresca = false;
+                _ActivaRefresca = false;
 
                 productes.refrescaDadesControl();
             }
         }
 
-
-        public void canviUsuari(Usuari usuari)
+        public override void canviUsuari(Usuari usuari)
         {
+            base.canviUsuari(usuari);
+        
             productes._UsuariSeleccionat = usuari;
             dgvCompresOriginals.DataSource = null;
             refresca(true);
         }
-
-        public void escape(object sender, KeyEventArgs e)
-        {
-        }
-
-        public void validating(object sender, CancelEventArgs e)
-        {
-            if (enModeEdicio)
-            {
-                MessageBox.Show("Està en mode edició");
-                e.Cancel = true;
-            }
-        }
-
-        #endregion *** ITabs ***
-
 
         private void ompleDgvCompres(double? preuPartActual)
         {
@@ -260,17 +226,17 @@ namespace Inversions.GUI
 
         private void ntbNumParticipacions_Enter(object sender, EventArgs e)
         {
-            acceptButton = btSimulacio;
+            acceptButton(btSimulacio);
         }
 
         private void ntbPreuParticipacio_Enter(object sender, EventArgs e)
         {
-            acceptButton = btSimulacio;
+            acceptButton(btSimulacio);
         }
 
         private void ntbAnyRenda_Enter(object sender, EventArgs e)
         {
-            acceptButton = btRecalcula;
+            acceptButton(btRecalcula);
         }
 
         private void ntbAnyRenda_Validating(object sender, CancelEventArgs e)

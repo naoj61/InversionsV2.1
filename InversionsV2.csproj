@@ -115,7 +115,6 @@
     <Compile Include="ClassesParcials\ProdAccions.cs" />
     <Compile Include="ClassesParcials\Moviment.cs" />
     <Compile Include="ClassesParcials\Producte.cs" />
-    <Compile Include="Classes\ITabs.cs" />
     <Compile Include="DesglosCompra.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
@@ -160,6 +159,9 @@
     </Compile>
     <Compile Include="GUI\Controls\EmpresesProductesTab.Designer.cs">
       <DependentUpon>EmpresesProductesTab.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\TabX.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\Controls\ValoracionsTab.cs">
       <SubType>UserControl</SubType>

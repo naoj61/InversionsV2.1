@@ -9,7 +9,7 @@ using Comuns;
 
 namespace Inversions.GUI
 {
-    public partial class GrafiquesTab : UserControl, ITabs
+    public partial class GrafiquesTab : TabX
     {
         readonly int vNumElem = Enum.GetValues(typeof(ChartColorPalette)).Length;
         private readonly ChartArea vChartArea;
@@ -29,45 +29,6 @@ namespace Inversions.GUI
 
             gestioProductesTabValoracions.aplicaFiltre();
         }
-
-
-        #region *** d'ITabs ***
-
-        public bool enModeEdicio
-        {
-            get { return false; }
-        }
-
-        public bool activaRefresca { get; set; }
-
-        public bool carregaDadesInicial { get; set; }
-
-        public Button acceptButton
-        {
-            get { return null; }
-        }
-
-        public void refresca(bool? refrescaActivat)
-        {
-        }
-
-        public void canviUsuari(Usuari usuari) { }
-
-        public void escape(object sender, KeyEventArgs e)
-        {
-        }
-
-        public void validating(object sender, CancelEventArgs e)
-        {
-            if (enModeEdicio)
-            {
-                MessageBox.Show("Està en mode edició");
-                e.Cancel = true;
-            }
-        }
-
-        #endregion *** d'ITabs ***
-
 
         private void creaGraficaDelProducte(Producte producte, DateTime dataInici, DateTime dataFinal)
         {
@@ -96,12 +57,9 @@ namespace Inversions.GUI
             {
                 btgActualitzaGrafiques.Enabled = true;
 
-                if (ParentForm != null)
-                {
-                    ParentForm.AcceptButton = btgActualitzaGrafiques;
-                    if(Utilitats.TeFocus(gestioProductesTabValoracions))
-                        panel2.Focus();
-                }
+                acceptButton(btgActualitzaGrafiques);
+                if (Utilitats.TeFocus(gestioProductesTabValoracions))
+                    panel2.Focus();
             }
         }
 
@@ -110,7 +68,6 @@ namespace Inversions.GUI
 
         private void chart1_DoubleClick(object sender, EventArgs e)
         {
-
             var posElem = (int)chart1.Palette + 1;
 
             if (posElem == vNumElem)

@@ -8,7 +8,7 @@ using Comuns;
 
 namespace Inversions.GUI
 {
-    public partial class MovimentsTab : UserControl, ITabs
+    public partial class MovimentsTab : TabX
     {
         // Todo - Moneda. Les valoracions del valors en dolars els hauria de veure convertits a Euros a partir del l'ultim canvi de moneda introduit.
         // Todo - Afegir pestanya amb simulació venda. Veuria les PiG i l'import a tributar en cas d'una venda.
@@ -24,58 +24,28 @@ namespace Inversions.GUI
             }
         }
         
-        
-        #region *** ITabs ***
 
-        public bool enModeEdicio
+        internal override void refresca(bool? refrescaActivat)
         {
-            get { return gbEdicio.Visible; }
-        }
-
-        public bool activaRefresca { get; set; }
-
-        public bool carregaDadesInicial { get; set; }
-
-        public Button acceptButton
-        {
-            get { return null; }
-        }
-
-        public void refresca(bool? refrescaActivat)
-        {
-            if (refrescaActivat.HasValue)
-                activaRefresca = refrescaActivat.Value;
+            base.refresca(refrescaActivat);
 
             // Aquí s'haurien de refrescar les dades en pantalla.
             //gestioProductesTabMoviments.refrescaDadesControl();
             //canviProducteSeleccionat();
 
-            carregaDadesInicial = false;
-            activaRefresca = false;
+            _CarregaDadesInicial = false;
+            _ActivaRefresca = false;
         }
 
-        public void canviUsuari(Usuari usuari)
+        public override void canviUsuari(Usuari usuari)
         {
+            base.canviUsuari(usuari);
+
             gestioProductesTabMoviments._UsuariSeleccionat = usuari;
             cDataGridView1.DataSource = null;
             refresca(true);
         }
 
-        public void escape(object sender, KeyEventArgs e)
-        {
-        }
-
-        public void validating(object sender, CancelEventArgs e)
-        {
-            if (enModeEdicio)
-            {
-                MessageBox.Show("Està en mode edició");
-                e.Cancel = true;
-            }
-        }
-
-        #endregion *** ITabs ***
-      
 
         /// <summary>
         /// Canvia les dades del control a les del nou producte
@@ -156,7 +126,7 @@ namespace Inversions.GUI
             tbCanviAplicat.Valor = 1;
             tbDespeses.Valor = 0;
 
-            preparaPantallaEdicio();
+            modeEdicio();
         }
 
         private void vendaTraspas()
@@ -181,7 +151,7 @@ namespace Inversions.GUI
             tbNumParticipacionsDesti.Valor = 0;
             tbDespeses.Valor = 0;
 
-            preparaPantallaEdicio();
+            modeEdicio();
         }
 
         private void dividents()
@@ -193,7 +163,7 @@ namespace Inversions.GUI
             tbDespeses.Valor = 0;
             gbPreuPartic.Text = "Import Brut";
 
-            preparaPantallaEdicio();
+            modeEdicio();
         }
 
         private string vDesaToolTipGbPreuPartic = null;
@@ -204,7 +174,7 @@ namespace Inversions.GUI
             vDesaToolTipGbPreuPartic = this.toolTip1.GetToolTip(this.gbPreuPartic);
             toolTip1.SetToolTip(this.gbPreuPartic, "Preu participació abans del Split");
 
-            preparaPantallaEdicio();
+            modeEdicio();
         }
 
         private void contraSplit()
@@ -213,7 +183,7 @@ namespace Inversions.GUI
             vDesaToolTipGbPreuPartic = this.toolTip1.GetToolTip(this.gbPreuPartic);
             toolTip1.SetToolTip(this.gbPreuPartic, "Preu venda de les participacions sobrants del ContraSplit");
 
-            preparaPantallaEdicio();
+            modeEdicio();
         }
 
         /// <summary>
@@ -371,8 +341,10 @@ namespace Inversions.GUI
             tbImportTotal.Valor = imp;
         }
 
-        private void preparaPantallaConsulta()
+        protected override void modeConsulta()
         {
+            base.modeConsulta();
+    
             gbEdicio.Visible = false;
 
             cbTipusMoviment.Enabled = true;
@@ -387,15 +359,16 @@ namespace Inversions.GUI
                 vDesaToolTipGbPreuPartic = null;
             }
 
-
             cProducteTraspas.SelectedItem = null;
             cbTipusMoviment.SelectedItem = null;
 
             comprant = null;
         }
 
-        private void preparaPantallaEdicio()
+        protected override void modeEdicio()
         {
+            base.modeEdicio();
+        
             var tipusProd = gestioProductesTabMoviments._ProducteSeleccionat._TipusProducte;
             var esUnaAccio = tipusProd == Producte.TipusProducte.Accions;
             var tipusMov = (TipusMoviment) cbTipusMoviment.SelectedItem;
@@ -493,12 +466,12 @@ namespace Inversions.GUI
 
             Principal.ActivaRefresca(this);
 
-            preparaPantallaConsulta();
+            modeConsulta();
         }
 
         private void btCancelaMoviment_Click(object sender, EventArgs e)
         {
-            preparaPantallaConsulta();
+            modeConsulta();
         }
 
         private void cProducteTraspas_SelectedIndexChanged(object sender, EventArgs e)

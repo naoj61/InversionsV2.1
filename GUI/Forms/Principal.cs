@@ -11,6 +11,7 @@ using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using Comuns;
 using Controls;
 using Microsoft.Win32;
@@ -34,6 +35,7 @@ namespace Inversions.GUI
         public Principal()
         {
             InitializeComponent();
+            
             Tc = tabControl1;
             
             titolFinestra();
@@ -55,18 +57,19 @@ namespace Inversions.GUI
             vModeConsultaProducte = true;
         }
 
+
         /// <summary>
         /// Activa l'indicador per refrescar al entrar en totes les pestanyes.
         /// </summary>
-        /// <param name="iTab"></param>
-        internal static void ActivaRefresca(ITabs iTab)
+        /// <param name="tabx"></param>
+        internal static void ActivaRefresca(TabX tabx)
         {
             foreach (TabPage tabPage in Tc.TabPages)
             {
-                ITabs tab = tabPage.Controls.OfType<ITabs>().FirstOrDefault();
+                var tab = tabPage.Controls.OfType<TabX>().FirstOrDefault();
 
                 if (tab != null)
-                    tab.activaRefresca = tab != iTab;
+                    tab._ActivaRefresca = tab != tabx;
             }
         }
 
@@ -88,54 +91,53 @@ namespace Inversions.GUI
                 cbUsuaris.SelectedItem = Usuari.Seleccionat;
                 cbUsuaris.SelectedIndexChanged += cbUsuaris_SelectedIndexChanged;
 
-
                 // Afegeix EmpresesProductesTab
                 tabEmpresesProductes.SuspendLayout();
                 tabEmpresesProductes.Controls.Add(vEmpresesProductesTab);
                 vEmpresesProductesTab.Dock = DockStyle.Fill;
                 tabEmpresesProductes.ResumeLayout();
-                vEmpresesProductesTab.carregaDadesInicial = true;
-                vEmpresesProductesTab.activaRefresca = true;
+                vEmpresesProductesTab._CarregaDadesInicial = true;
+                vEmpresesProductesTab._ActivaRefresca = true;
 
                 // Afegeig MovimentsTab
                 tabMoviments.SuspendLayout();
                 tabMoviments.Controls.Add(vMovimentsTab);
                 vMovimentsTab.Dock = DockStyle.Fill;
                 tabMoviments.ResumeLayout();
-                vMovimentsTab.carregaDadesInicial = true;
-                vMovimentsTab.activaRefresca = true;
+                vMovimentsTab._CarregaDadesInicial = true;
+                vMovimentsTab._ActivaRefresca = true;
 
                 // Afegeig ValoracionsTab
                 tabValoracions.SuspendLayout();
                 tabValoracions.Controls.Add(vValoracionsTab);
                 vValoracionsTab.Dock = DockStyle.Fill;
                 tabValoracions.ResumeLayout();
-                vValoracionsTab.carregaDadesInicial = true;
-                vValoracionsTab.activaRefresca = true;
+                vValoracionsTab._CarregaDadesInicial = true;
+                vValoracionsTab._ActivaRefresca = true;
 
                 // Afegeig PerduesGuanysTab
                 tabPerduesGuanys.SuspendLayout();
                 tabPerduesGuanys.Controls.Add(vPerduesGuanysTab);
                 vPerduesGuanysTab.Dock = DockStyle.Fill;
                 tabPerduesGuanys.ResumeLayout();
-                vPerduesGuanysTab.carregaDadesInicial = true;
-                vPerduesGuanysTab.activaRefresca = true;
+                vPerduesGuanysTab._CarregaDadesInicial = true;
+                vPerduesGuanysTab._ActivaRefresca = true;
 
                 // Afegeig GrafiquesTab
                 tabGrafiques.SuspendLayout();
                 tabGrafiques.Controls.Add(vGrafiquesTab);
                 vGrafiquesTab.Dock = DockStyle.Fill;
                 tabGrafiques.ResumeLayout();
-                vGrafiquesTab.carregaDadesInicial = true;
-                vGrafiquesTab.activaRefresca = true;
+                vGrafiquesTab._CarregaDadesInicial = true;
+                vGrafiquesTab._ActivaRefresca = true;
 
                 // Afegeig SimulacióVendaTab
                 tabSimulacióVenda.SuspendLayout();
                 tabSimulacióVenda.Controls.Add(vSimulacióVendaTab);
                 vSimulacióVendaTab.Dock = DockStyle.Fill;
                 tabSimulacióVenda.ResumeLayout();
-                vSimulacióVendaTab.carregaDadesInicial = true;
-                vSimulacióVendaTab.activaRefresca = true;
+                vSimulacióVendaTab._CarregaDadesInicial = true;
+                vSimulacióVendaTab._ActivaRefresca = true;
 
                 ResumeLayout();
 
@@ -165,11 +167,18 @@ namespace Inversions.GUI
 
                 Program.CanviUsuari((Usuari)cbUsuaris.SelectedItem);
 
+                //foreach (Control tabPage in tabControl1.TabPages)
+                //{
+                //    var iTab = tabPage.Controls.OfType<ITabs>().FirstOrDefault();
+                //    if (iTab != null)
+                //        iTab.canviUsuari((Usuari)cbUsuaris.SelectedItem);
+                //}
+
                 foreach (Control tabPage in tabControl1.TabPages)
                 {
-                    var iTab = tabPage.Controls.OfType<ITabs>().FirstOrDefault();
-                    if (iTab != null)
-                        iTab.canviUsuari((Usuari)cbUsuaris.SelectedItem);
+                    var tabX = tabPage.Controls.OfType<TabX>().FirstOrDefault();
+                    if (tabX != null)
+                        tabX.canviUsuari((Usuari)cbUsuaris.SelectedItem);
                 }
             }
             finally
@@ -181,7 +190,25 @@ namespace Inversions.GUI
 
         private void Principal_KeyDown(object sender, KeyEventArgs e)
         {
-            var iTab = tabControl1.SelectedTab.Controls.OfType<ITabs>().FirstOrDefault();
+            //var iTab = tabControl1.SelectedTab.Controls.OfType<ITabs>().FirstOrDefault();
+
+            //if (e.Control && e.KeyCode == Keys.U)
+            //{
+            //    canviUsuari();
+            //}
+            //else if (e.KeyCode == Keys.F5 || (e.Control && e.KeyCode == Keys.R))
+            //{
+            //    if (iTab != null) 
+            //        iTab.refresca(true);
+            //}
+            //else if (e.KeyCode == Keys.Escape)
+            //{
+            //    if (iTab != null) 
+            //        iTab.escape(sender, e);
+            //}
+
+
+            var tabX = tabControl1.SelectedTab.Controls.OfType<TabX>().FirstOrDefault();
 
             if (e.Control && e.KeyCode == Keys.U)
             {
@@ -189,14 +216,15 @@ namespace Inversions.GUI
             }
             else if (e.KeyCode == Keys.F5 || (e.Control && e.KeyCode == Keys.R))
             {
-                if (iTab != null) 
-                    iTab.refresca(true);
+                if (tabX != null)
+                    tabX.refresca(true);
             }
             else if (e.KeyCode == Keys.Escape)
             {
-                if (iTab != null) 
-                    iTab.escape(sender, e);
+                if (tabX != null)
+                    tabX.escape(sender, e);
             }
+
         }
 
         private void canviUsuari(Usuari usuari = null)
@@ -222,12 +250,7 @@ namespace Inversions.GUI
                 {
                     cbUsuaris.SelectedItem = usuari;
                 }
-
-                if (cbUsuaris.SelectedItem != null)
-                {
-                    Program.CanviUsuari(((Usuari) cbUsuaris.SelectedItem));
-                }
-
+                
                 titolFinestra();
             }
             finally
@@ -235,6 +258,8 @@ namespace Inversions.GUI
                 this.Cursor = cursor;
             }
         }
+
+
         private void Principal_Activated(object sender, EventArgs e)
         {
             // *** Canvia d'usuari si s'ha intentat arrancar de nou el procés amb un usuari diferent.
@@ -252,35 +277,25 @@ namespace Inversions.GUI
 
         private void Principal_FormClosing(object sender, FormClosingEventArgs e)
         {
-            var iTab = tabControl1.SelectedTab.Controls.OfType<ITabs>().FirstOrDefault();
+           var tabX = tabControl1.SelectedTab.Controls.OfType<TabX>().FirstOrDefault();
 
-            if (iTab != null)
-                // Impideix tancar l'aplicació si la pestanya seleccionada està en mode edició.
-                iTab.validating(sender, e);
+            if (tabX != null)
+                // Impideix canviar de pastanya si la pestanya seleccionada està en mode edició.
+                tabX.validating(sender, e);
         }
 
 
         private void tabControl1_Deselecting(object sender, TabControlCancelEventArgs e)
         {
-            ITabs tab = e.TabPage.Controls.OfType<ITabs>().FirstOrDefault();
+            var tabX = e.TabPage.Controls.OfType<TabX>().FirstOrDefault();
 
-            if (tab != null)
+            if (tabX != null)
                 // Impideix canviar de pastanya si la pestanya seleccionada està en mode edició.
-                tab.validating(sender, e);
+                tabX.validating(sender, e);
         }
 
         private void tabControl1_Selected(object sender, TabControlEventArgs e)
         {
-            ITabs tab = e.TabPage.Controls.OfType<ITabs>().FirstOrDefault();
-
-            if (tab == null)
-                AcceptButton = null;
-            else
-            {
-                AcceptButton = tab.acceptButton;
-                tab.refresca(null);
-            }
-
             Program.DesaVariableEnRegistreWindows(NomVarReg, e.TabPage.Name, true);
         }
 

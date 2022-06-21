@@ -9,7 +9,7 @@ using Inversions.GUI.Forms;
 
 namespace Inversions.GUI
 {
-    public partial class PerduesGuanysTab : UserControl, ITabs
+    public partial class PerduesGuanysTab : TabX
     {
         public PerduesGuanysTab()
         {
@@ -18,31 +18,13 @@ namespace Inversions.GUI
             dgvCompresProducte.AutoGenerateColumns = false;
         }
 
-
-        #region *** ITabs ***
-
-        public bool enModeEdicio
+        internal override void refresca(bool? refrescaActivat)
         {
-            get { return false; }
-        }
-
-        public bool activaRefresca { get; set; }
-
-        public bool carregaDadesInicial { get; set; }
-
-        public Button acceptButton
-        {
-            get { return null; }
-        }
-
-        public void refresca(bool? refrescaActivat)
-        {
-            if (refrescaActivat.HasValue)
-                activaRefresca = refrescaActivat.Value;
-
-            if (carregaDadesInicial)
+            base.refresca(refrescaActivat);
+     
+            if (_CarregaDadesInicial)
             {
-                carregaDadesInicial = false;
+                _CarregaDadesInicial = false;
 
                 gestioProductesTabValoracions._NomesAmbParticipacions = true;
 
@@ -59,9 +41,9 @@ namespace Inversions.GUI
                 cbAnysPiGEnCartera.SelectedItem = DateTime.Today.Year;
             }
 
-            if (activaRefresca)
+            if (_ActivaRefresca)
             {
-                activaRefresca = false;
+                _ActivaRefresca = false;
 
                 if (cbTipusProducteFiltreTab2.SelectedItem != null)
                     calculaPiG();
@@ -73,27 +55,14 @@ namespace Inversions.GUI
             }
         }
 
-        public void canviUsuari(Usuari usuari)
+        public override void canviUsuari(Usuari usuari)
         {
+            base.canviUsuari(usuari);
+       
             gestioProductesTabValoracions._UsuariSeleccionat = usuari;
             refresca(true);
         }
-
-        public void escape(object sender, KeyEventArgs e)
-        {
-        }
-
-        public void validating(object sender, CancelEventArgs e)
-        {
-            if (enModeEdicio)
-            {
-                MessageBox.Show("Està en mode edició");
-                e.Cancel = true;
-            }
-        }
-
-        #endregion *** ITabs ***
-
+        
 
         private void calculaPiG()
         {
@@ -215,8 +184,6 @@ namespace Inversions.GUI
             }
             ResumeLayout();
         }
-
-
 
         private void calculaPigSimulat()
         {
