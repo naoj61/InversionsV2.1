@@ -94,9 +94,6 @@ namespace Inversions.GUI
             tbImport.Enabled = true;
             gbFiltreTipusProducte.Enabled = false;
 
-
-            // Si utilitzo CancelButton, la tecla ESC no funciona bé en un NumericTextBox,
-
             acceptButton(btDesa);
             cancelButton(btCancela);
         }
@@ -106,17 +103,16 @@ namespace Inversions.GUI
             base.modeConsulta();
         
             btNouValor.Enabled = true;
-            btModifica.Enabled = false;
-            btEsborra.Enabled = false;
+            btModifica.Enabled = true;
+            btEsborra.Enabled = true;
             btCopiaValorsDelPaste.Enabled = true;
             btCancela.Enabled = false;
             btDesa.Enabled = false;
+            dgvValoracions.Enabled = true;
             gestioProductesTabValoracions.Enabled = true;
             cData.Enabled = false;
             tbImport.Enabled = false;
             gbFiltreTipusProducte.Enabled = true;
-
-            dgvValoracions.Enabled = true;
 
             acceptButton(null);
             cancelButton(null);
