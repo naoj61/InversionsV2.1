@@ -51,8 +51,8 @@ namespace Inversions.GUI
 
             modeConsulta();
         }
-        
-        public override void escape(object sender, KeyEventArgs e)
+
+        internal override void escape(object sender, KeyEventArgs e)
         {
             base.escape(sender, e);
         

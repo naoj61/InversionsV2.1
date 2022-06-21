@@ -33,6 +33,12 @@ namespace Inversions.GUI
             chart1.GetToolTipText += chart1_GetToolTipText;
 
             dgvValoracions.AutoGenerateColumns = false;
+        }
+
+
+        internal override void carregaInicial()
+        {
+            base.carregaInicial();
 
             cData.Value = DateTime.Today;
 
@@ -41,7 +47,6 @@ namespace Inversions.GUI
             gestioProductesTabValoracions.refrescaDadesControl();
         }
 
-      
         internal override void refresca(bool? refrescaActivat)
         {
             base.refresca(refrescaActivat);
@@ -50,22 +55,22 @@ namespace Inversions.GUI
             {
                 _ActivaRefresca = false;
 
+                dgvValoracions.DataSource = null;
+                
                 if (dgvValoracionsPerData.Rows.Count > 0)
                     actualitzaLlistaValoracionsTotal();
 
                 gestioProductesTabValoracions.refrescaDadesControl();
             }
         }
-        
 
-        public override void canviUsuari(Usuari usuari)
+        internal override void canviUsuari(Usuari usuari)
         {
+            dgvValoracionsPerData.Rows.Clear();
+
             base.canviUsuari(usuari);
-        
-            dgvValoracions.DataSource = null;
-            refresca(true);
         }
-        
+
 
         public DateTime _Data
         {

@@ -142,7 +142,6 @@ namespace Inversions.GUI
 #if DEBUG
                 //tabControl1.SelectTab(tabPerduesGuanys.Name);
 #endif
-
             }
         }
 
@@ -154,13 +153,6 @@ namespace Inversions.GUI
                 SestaCanviantLusuari = true;
 
                 Program.CanviUsuari((Usuari)cbUsuaris.SelectedItem);
-
-                //foreach (Control tabPage in tabControl1.TabPages)
-                //{
-                //    var iTab = tabPage.Controls.OfType<ITabs>().FirstOrDefault();
-                //    if (iTab != null)
-                //        iTab.canviUsuari((Usuari)cbUsuaris.SelectedItem);
-                //}
 
                 foreach (Control tabPage in tabControl1.TabPages)
                 {
@@ -178,24 +170,6 @@ namespace Inversions.GUI
 
         private void Principal_KeyDown(object sender, KeyEventArgs e)
         {
-            //var iTab = tabControl1.SelectedTab.Controls.OfType<ITabs>().FirstOrDefault();
-
-            //if (e.Control && e.KeyCode == Keys.U)
-            //{
-            //    canviUsuari();
-            //}
-            //else if (e.KeyCode == Keys.F5 || (e.Control && e.KeyCode == Keys.R))
-            //{
-            //    if (iTab != null) 
-            //        iTab.refresca(true);
-            //}
-            //else if (e.KeyCode == Keys.Escape)
-            //{
-            //    if (iTab != null) 
-            //        iTab.escape(sender, e);
-            //}
-
-
             var tabX = tabControl1.SelectedTab.Controls.OfType<TabX>().FirstOrDefault();
 
             if (e.Control && e.KeyCode == Keys.U)
@@ -214,6 +188,7 @@ namespace Inversions.GUI
             }
 
         }
+
 
         private void canviUsuari(Usuari usuari = null)
         {
@@ -285,6 +260,11 @@ namespace Inversions.GUI
         private void tabControl1_Selected(object sender, TabControlEventArgs e)
         {
             Program.DesaVariableEnRegistreWindows(NomVarReg, e.TabPage.Name, true);
+
+            var tabX = e.TabPage.Controls.OfType<TabX>().FirstOrDefault();
+
+            if (tabX != null && tabX._PendentCarregaInicial)
+                tabX.carregaInicial();
         }
 
         #endregion *** Events ***

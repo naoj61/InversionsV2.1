@@ -24,14 +24,17 @@ namespace Inversions.GUI
             }
         }
         
-        public override void canviUsuari(Usuari usuari)
+
+        internal override void refresca(bool? refrescaActivat)
         {
-            base.canviUsuari(usuari);
+            base.refresca(refrescaActivat);
 
-            cDataGridView1.DataSource = null;
-            refresca(true);
+            if (_ActivaRefresca)
+            {
+                _ActivaRefresca = false;
+                cDataGridView1.DataSource = null;
+            }
         }
-
 
         /// <summary>
         /// Canvia les dades del control a les del nou producte

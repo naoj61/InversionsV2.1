@@ -26,12 +26,15 @@ namespace Inversions
             AutoScaleMode = AutoScaleMode.Font;
 
            _ActivaRefresca = true;
+            _PendentCarregaInicial = true;
         }
 
         /// <summary>
         /// Indica que la pestanya està s'està editant.
         /// </summary>
         protected bool _EnModeEdicio { get; private set; }
+
+        public bool _PendentCarregaInicial { get; private set; }
 
         /// <summary>
         /// Indica que s'han de recarregar les dades de la pestanya
@@ -50,6 +53,11 @@ namespace Inversions
                 ParentForm.CancelButton = botoCancel;
         }
 
+        internal virtual void carregaInicial()
+        {
+            _PendentCarregaInicial = false;
+        }
+   
         /// <summary>
         /// Refresca les dades de la pestanya.
         /// </summary>
@@ -64,14 +72,17 @@ namespace Inversions
         /// Quan Principal detecta canvi d'usuari, crida el mètode de la pestanya seleccionada.
         /// </summary>
         /// <param name="usuari">Usuari seleccionat</param>
-        public virtual void canviUsuari(Usuari usuari) { }
+        internal virtual void canviUsuari(Usuari usuari) 
+        {
+            refresca(true);
+        }
 
         /// <summary>
         /// Quan Principal detecta Escape, crida el mètode de la pestanya seleccionada.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public virtual void escape(object sender, KeyEventArgs e) { }
+        internal virtual void escape(object sender, KeyEventArgs e) { }
 
         protected virtual void modeEdicio()
         {

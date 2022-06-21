@@ -156,17 +156,12 @@ namespace Inversions.GUI
             {
                 _ActivaRefresca = false;
 
+                dgvCompresOriginals.DataSource = null;
+
                 productes.refrescaDadesControl();
             }
         }
 
-        public override void canviUsuari(Usuari usuari)
-        {
-            base.canviUsuari(usuari);
-
-            dgvCompresOriginals.DataSource = null;
-            refresca(true);
-        }
 
         private void ompleDgvCompres(double? preuPartActual)
         {
