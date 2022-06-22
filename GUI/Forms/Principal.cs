@@ -86,7 +86,7 @@ namespace Inversions.GUI
             {
                 this.Cursor = Cursors.WaitCursor;
 
-                if (_PestanyaSeleccionada._EnModeEdicio)
+                if (_PestanyaSeleccionada != null && _PestanyaSeleccionada._EnModeEdicio)
                 {
                     MessageBox.Show("Està en mode edició");
                     return;
