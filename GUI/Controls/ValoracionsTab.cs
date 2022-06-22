@@ -394,7 +394,7 @@ namespace Inversions.GUI
 
         private void gestioProductesTabValoracions_ProducteSeleccionat(object sender, EventArgs e)
         {
-            btNouValor.Enabled = true;
+            btNouValor.Enabled = gestioProductesTabValoracions.productesSeleccionats().Any();
             btModifica.Enabled = false;
             btEsborra.Enabled = false;
 
