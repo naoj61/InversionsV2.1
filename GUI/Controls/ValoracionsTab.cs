@@ -54,8 +54,6 @@ namespace Inversions.GUI
             if (_ActivaRefresca)
             {
                 _ActivaRefresca = false;
-
-                dgvValoracions.DataSource = null;
                 
                 if (dgvValoracionsPerData.Rows.Count > 0)
                     actualitzaLlistaValoracionsTotal();
@@ -67,8 +65,10 @@ namespace Inversions.GUI
         internal override void canviUsuari(Usuari usuari)
         {
             dgvValoracionsPerData.Rows.Clear();
+            dgvValoracions.DataSource = null;
+            pnEdicio.Visible = false;
 
-            base.canviUsuari(usuari);
+            refresca(true);
         }
 
 

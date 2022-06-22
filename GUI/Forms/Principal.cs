@@ -43,20 +43,13 @@ namespace Inversions.GUI
             modeConsultaProducte();
         }
 
+        private TabX _PestanyaSeleccionada
+        {
+            get { return tabControl1.SelectedTab.Controls.OfType<TabX>().FirstOrDefault(); }
+        }
+        
 
         #region *** Mètodes ***
-
-        private void titolFinestra()
-        {
-            Text = String.Format("Inversions. Ver: {0}. Usuari: {1}", Application.ProductVersion, Usuari.Seleccionat.Nom);
-        }
-
-
-        private void modeConsultaProducte()
-        {
-            vModeConsultaProducte = true;
-        }
-
 
         /// <summary>
         /// Activa l'indicador per refrescar al entrar en totes les pestanyes.
@@ -70,6 +63,68 @@ namespace Inversions.GUI
 
                 if (tab != null)
                     tab._ActivaRefresca = tab != tabx;
+            }
+        }
+
+
+        private void titolFinestra()
+        {
+            Text = String.Format("Inversions. Ver: {0}. Usuari: {1}", Application.ProductVersion, Usuari.Seleccionat.Nom);
+        }
+
+
+        private void modeConsultaProducte()
+        {
+            vModeConsultaProducte = true;
+        }
+
+
+        private void canviUsuari(Usuari usuari = null)
+        {
+            var cursor = this.Cursor;
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+
+                if (_PestanyaSeleccionada._EnModeEdicio)
+                {
+                    MessageBox.Show("Està en mode edició");
+                    return;
+                }
+
+                SestaCanviantLusuari = true;
+
+                if (usuari == null)
+                {
+                    var numUsuaris = cbUsuaris.Items.Count;
+                    if (cbUsuaris.SelectedIndex == numUsuaris - 1)
+                        cbUsuaris.SelectedIndex = 0;
+                    else
+                        cbUsuaris.SelectedIndex++;
+                    return;
+                }
+                else if (((Usuari) cbUsuaris.SelectedItem) != usuari)
+                {
+                    cbUsuaris.SelectedItem = usuari;
+                    return;
+                }
+
+                Program.CanviUsuari(usuari);
+
+                foreach (Control tabPage in tabControl1.TabPages)
+                {
+                    var tabX = tabPage.Controls.OfType<TabX>().FirstOrDefault();
+                    if (tabX != null)
+                        tabX.canviUsuari(usuari);
+                }
+
+                titolFinestra();
+
+                SestaCanviantLusuari = false;
+            }
+            finally
+            {
+                this.Cursor = cursor;
             }
         }
 
@@ -139,34 +194,11 @@ namespace Inversions.GUI
                     tabControl1.SelectTab(tabValoracions.Name);
                 }
 
-#if DEBUG
+//#if DEBUG
                 //tabControl1.SelectTab(tabPerduesGuanys.Name);
-#endif
+//#endif
             }
         }
-
-        
-        private void cbUsuaris_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                SestaCanviantLusuari = true;
-
-                Program.CanviUsuari((Usuari)cbUsuaris.SelectedItem);
-
-                foreach (Control tabPage in tabControl1.TabPages)
-                {
-                    var tabX = tabPage.Controls.OfType<TabX>().FirstOrDefault();
-                    if (tabX != null)
-                        tabX.canviUsuari((Usuari)cbUsuaris.SelectedItem);
-                }
-            }
-            finally
-            {
-                SestaCanviantLusuari = false;
-            }
-        }
-
 
         private void Principal_KeyDown(object sender, KeyEventArgs e)
         {
@@ -189,40 +221,6 @@ namespace Inversions.GUI
 
         }
 
-
-        private void canviUsuari(Usuari usuari = null)
-        {
-            var cursor = this.Cursor;
-            try
-            {
-                this.Cursor = Cursors.WaitCursor;
-
-                if (usuari == null)
-                {
-                    var numUsuaris = cbUsuaris.Items.Count;
-                    if (cbUsuaris.SelectedIndex == numUsuaris - 1)
-                    {
-                        cbUsuaris.SelectedIndex = 0;
-                    }
-                    else
-                    {
-                        cbUsuaris.SelectedIndex++;
-                    }
-                }
-                else
-                {
-                    cbUsuaris.SelectedItem = usuari;
-                }
-                
-                titolFinestra();
-            }
-            finally
-            {
-                this.Cursor = cursor;
-            }
-        }
-
-
         private void Principal_Activated(object sender, EventArgs e)
         {
             // *** Canvia d'usuari si s'ha intentat arrancar de nou el procés amb un usuari diferent.
@@ -237,7 +235,6 @@ namespace Inversions.GUI
             }
         }
 
-
         private void Principal_FormClosing(object sender, FormClosingEventArgs e)
         {
            var tabX = tabControl1.SelectedTab.Controls.OfType<TabX>().FirstOrDefault();
@@ -247,6 +244,10 @@ namespace Inversions.GUI
                 tabX.validating(sender, e);
         }
 
+        private void cbUsuaris_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            canviUsuari((Usuari)cbUsuaris.SelectedItem);
+        }
 
         private void tabControl1_Deselecting(object sender, TabControlCancelEventArgs e)
         {

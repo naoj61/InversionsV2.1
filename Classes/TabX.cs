@@ -32,7 +32,7 @@ namespace Inversions
         /// <summary>
         /// Indica que la pestanya està s'està editant.
         /// </summary>
-        protected bool _EnModeEdicio { get; private set; }
+        public bool _EnModeEdicio { get; private set; }
 
         public bool _PendentCarregaInicial { get; private set; }
 

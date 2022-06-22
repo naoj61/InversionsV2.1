@@ -23,7 +23,14 @@ namespace Inversions.GUI
                 cDataGridView1.AutoGenerateColumns = false;
             }
         }
-        
+
+        internal override void canviUsuari(Usuari usuari)
+        {
+            gestioProductesTabMoviments.refrescaDadesControl();
+            cDataGridView1.DataSource = null;
+
+            refresca(true);
+        }
 
         internal override void refresca(bool? refrescaActivat)
         {
@@ -32,7 +39,6 @@ namespace Inversions.GUI
             if (_ActivaRefresca)
             {
                 _ActivaRefresca = false;
-                cDataGridView1.DataSource = null;
             }
         }
 

@@ -89,6 +89,25 @@ namespace Inversions.GUI
             return prodSel;
         }
 
+
+        private void netejaCamps()
+        {
+            lbEmpresa.Text = "";
+            lbFons.Text = "";
+            tbParticipacions.Text = "";
+            ntbPreuPartActual.Text = "";
+            tbValorActual.Text = "";
+            tbPigProducte.Text = "";
+            tbIsin.Text = "";
+            tbMercat.Text = "";
+            lbMoneda.Text = "";
+            tbCostOrigPartActual.Text = "";
+            tbPigReal.Text = "";
+            tbPiGActual.Text = "";
+            tbDividends.Text = "";
+        }
+
+
         /// <summary>
         /// Refresca les dades que mostra el control.
         /// </summary>
@@ -108,6 +127,9 @@ namespace Inversions.GUI
                     vLbProductes.SelectedItem = null;
                 } 
             }
+
+            if(vLbProductes.SelectedItem == null)
+                netejaCamps();
         }
 
         public void seleccionaProducte(Producte prod)
@@ -131,14 +153,7 @@ namespace Inversions.GUI
         {
             if (cbTipusProducteFiltreTab2.SelectedIndex >= 0)
             {
-                lbEmpresa.Text = "";
-                lbFons.Text = "";
-                tbParticipacions.Text = "";
-                ntbPreuPartActual.Text = "";
-                tbValorActual.Text = "";
-                tbPigProducte.Text = "";
-                tbIsin.Text = "";
-                tbMercat.Text = "";
+                netejaCamps();
             }
         }
 

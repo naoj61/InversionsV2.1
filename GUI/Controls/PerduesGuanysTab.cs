@@ -37,6 +37,13 @@ namespace Inversions.GUI
             cbAnysPiGEnCartera.SelectedItem = DateTime.Today.Year;
         }
 
+        internal override void canviUsuari(Usuari usuari)
+        {
+            dgvCompresProducte.DataSource = null;
+
+            refresca(true);
+        }
+
         internal override void refresca(bool? refrescaActivat)
         {
             base.refresca(refrescaActivat);

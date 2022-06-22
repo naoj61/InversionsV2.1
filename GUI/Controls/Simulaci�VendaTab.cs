@@ -148,6 +148,20 @@ namespace Inversions.GUI
             InitializeComponent();
         }
 
+        internal override void canviUsuari(Usuari usuari)
+        {
+            dgvCompresOriginals.DataSource = null;
+            
+            ntbNumParticipacions.Valor = 0;
+            ntbPreuParticipacio.Valor = 0;
+            ntbPerduesAnteriors.Valor = 0;
+            ntbPigTributa.Valor = 0;
+            ntbPig.Valor = 0;
+            ntbImportBrut.Valor = 0;
+
+            refresca(true);
+        }
+
         internal override void refresca(bool? refrescaActivat)
         {
             base.refresca(refrescaActivat);
@@ -155,8 +169,6 @@ namespace Inversions.GUI
             if (_ActivaRefresca)
             {
                 _ActivaRefresca = false;
-
-                dgvCompresOriginals.DataSource = null;
 
                 productes.refrescaDadesControl();
             }
