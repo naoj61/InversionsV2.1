@@ -22,8 +22,6 @@ namespace Inversions.GUI
     {
         const string NomVarReg = "UltimaPestanyaSeleccionada";
         static internal bool SestaCanviantLusuari = false;
-        private static TabControl Tc;
-        private bool vModeConsultaProducte = true;
 
         readonly EmpresesProductesTab vEmpresesProductesTab = new EmpresesProductesTab();
         readonly MovimentsTab vMovimentsTab = new MovimentsTab();
@@ -31,23 +29,23 @@ namespace Inversions.GUI
         readonly PerduesGuanysTab vPerduesGuanysTab = new PerduesGuanysTab();
         readonly GrafiquesTab vGrafiquesTab = new GrafiquesTab();
         readonly SimulacióVendaTab vSimulacióVendaTab = new SimulacióVendaTab();
+        readonly UsuarisTab vUsuarisTab = new UsuarisTab();
 
         public Principal()
         {
             InitializeComponent();
             
-            Tc = tabControl1;
-            
             titolFinestra();
-
-            modeConsultaProducte();
         }
 
-        private TabX _PestanyaSeleccionada
+        private TabX tornaTabX(TabPage tabPage = null)
         {
-            get { return tabControl1.SelectedTab.Controls.OfType<TabX>().FirstOrDefault(); }
+            if (tabPage == null)
+                tabPage = tabControl1.SelectedTab;
+
+            return tabPage.Controls.OfType<TabX>().FirstOrDefault();
         }
-        
+
 
         #region *** Mètodes ***
 
@@ -55,9 +53,9 @@ namespace Inversions.GUI
         /// Activa l'indicador per refrescar al entrar en totes les pestanyes.
         /// </summary>
         /// <param name="tabx"></param>
-        internal static void ActivaRefresca(TabX tabx)
+        internal void activaRefrescaEnTabs(TabX tabx)
         {
-            foreach (TabPage tabPage in Tc.TabPages)
+            foreach (TabPage tabPage in tabControl1.TabPages)
             {
                 var tab = tabPage.Controls.OfType<TabX>().FirstOrDefault();
 
@@ -65,19 +63,11 @@ namespace Inversions.GUI
                     tab._ActivaRefresca = tab != tabx;
             }
         }
-
-
+        
         private void titolFinestra()
         {
             Text = String.Format("Inversions. Ver: {0}. Usuari: {1}", Application.ProductVersion, Usuari.Seleccionat.Nom);
         }
-
-
-        private void modeConsultaProducte()
-        {
-            vModeConsultaProducte = true;
-        }
-
 
         private void canviUsuari(Usuari usuari = null)
         {
@@ -86,7 +76,8 @@ namespace Inversions.GUI
             {
                 this.Cursor = Cursors.WaitCursor;
 
-                if (_PestanyaSeleccionada != null && _PestanyaSeleccionada._EnModeEdicio)
+                var tabPageX = tornaTabX();
+                if (tabPageX != null && tabPageX._EnModeEdicio)
                 {
                     MessageBox.Show("Està en mode edició");
                     return;
@@ -96,27 +87,20 @@ namespace Inversions.GUI
 
                 if (usuari == null)
                 {
-                    var numUsuaris = cbUsuaris.Items.Count;
-                    if (cbUsuaris.SelectedIndex == numUsuaris - 1)
-                        cbUsuaris.SelectedIndex = 0;
-                    else
-                        cbUsuaris.SelectedIndex++;
-                    return;
-                }
-                else if (((Usuari) cbUsuaris.SelectedItem) != usuari)
-                {
-                    cbUsuaris.SelectedItem = usuari;
-                    return;
+                    usuari = vUsuarisTab.tornaUsuariSeguent();
                 }
 
                 Program.CanviUsuari(usuari);
 
-                foreach (Control tabPage in tabControl1.TabPages)
+
+                vUsuarisTab._SelectedIndexChanged -= usuarisTab_SelectedIndexChanged;
+                foreach (TabPage tabPage in tabControl1.TabPages)
                 {
-                    var tabX = tabPage.Controls.OfType<TabX>().FirstOrDefault();
+                    var tabX = tornaTabX(tabPage);
                     if (tabX != null)
                         tabX.canviUsuari(usuari);
                 }
+                vUsuarisTab._SelectedIndexChanged += usuarisTab_SelectedIndexChanged;
 
                 titolFinestra();
 
@@ -130,6 +114,7 @@ namespace Inversions.GUI
 
         #endregion *** Mètodes ***
 
+
         #region *** Events ***
 
         private void Principal_Load(object sender, EventArgs e)
@@ -139,12 +124,25 @@ namespace Inversions.GUI
                 if (Usuari.Seleccionat == null)
                     Program.CanviUsuari(Program.Sessio.Usuaris.First());
 
+                var ultimaPestanyaSeleccionada = Program.LlegeigVariableEnRegistreWindows(NomVarReg, true);
+                try
+                {
+                    tabControl1.SelectTab(ultimaPestanyaSeleccionada);
+                }
+                catch (ArgumentNullException)
+                {
+                    tabControl1.SelectTab(tabValoracions.Name);
+                }
+
+
                 SuspendLayout();
 
-                cbUsuaris.DisplayMember = "Nom";
-                cbUsuaris.DataSource = Program.Sessio.Usuaris.ToList();
-                cbUsuaris.SelectedItem = Usuari.Seleccionat;
-                cbUsuaris.SelectedIndexChanged += cbUsuaris_SelectedIndexChanged;
+                // Afegeix EmpresesProductesTab
+                tabUsuari.SuspendLayout();
+                tabUsuari.Controls.Add(vUsuarisTab);
+                tabUsuari.Dock = DockStyle.Fill;
+                tabUsuari.ResumeLayout();
+                vUsuarisTab._SelectedIndexChanged += usuarisTab_SelectedIndexChanged;
 
                 // Afegeix EmpresesProductesTab
                 tabEmpresesProductes.SuspendLayout();
@@ -184,15 +182,11 @@ namespace Inversions.GUI
 
                 ResumeLayout();
 
-                var ultimaPestanyaSeleccionada = Program.LlegeigVariableEnRegistreWindows(NomVarReg, true);
-                try
-                {
-                    tabControl1.SelectTab(ultimaPestanyaSeleccionada);
-                }
-                catch (ArgumentNullException)
-                {
-                    tabControl1.SelectTab(tabValoracions.Name);
-                }
+                vUsuarisTab.carregaInicial();
+
+                var tabSelect = tornaTabX();
+                if (tabSelect != null) 
+                    tabSelect.carregaInicial();
 
 //#if DEBUG
                 //tabControl1.SelectTab(tabPerduesGuanys.Name);
@@ -202,23 +196,22 @@ namespace Inversions.GUI
 
         private void Principal_KeyDown(object sender, KeyEventArgs e)
         {
-            var tabX = tabControl1.SelectedTab.Controls.OfType<TabX>().FirstOrDefault();
-
             if (e.Control && e.KeyCode == Keys.U)
             {
                 canviUsuari();
             }
             else if (e.KeyCode == Keys.F5 || (e.Control && e.KeyCode == Keys.R))
             {
+                var tabX = tornaTabX();
                 if (tabX != null)
                     tabX.refresca(true);
             }
             else if (e.KeyCode == Keys.Escape)
             {
+                var tabX = tornaTabX();
                 if (tabX != null)
                     tabX.escape(sender, e);
             }
-
         }
 
         private void Principal_Activated(object sender, EventArgs e)
@@ -237,21 +230,16 @@ namespace Inversions.GUI
 
         private void Principal_FormClosing(object sender, FormClosingEventArgs e)
         {
-           var tabX = tabControl1.SelectedTab.Controls.OfType<TabX>().FirstOrDefault();
+            var tabX = tornaTabX();
 
             if (tabX != null)
                 // Impideix canviar de pastanya si la pestanya seleccionada està en mode edició.
                 tabX.validating(sender, e);
         }
-
-        private void cbUsuaris_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            canviUsuari((Usuari)cbUsuaris.SelectedItem);
-        }
-
+        
         private void tabControl1_Deselecting(object sender, TabControlCancelEventArgs e)
         {
-            var tabX = e.TabPage.Controls.OfType<TabX>().FirstOrDefault();
+            var tabX = tornaTabX(e.TabPage);
 
             if (tabX != null)
                 // Impideix canviar de pastanya si la pestanya seleccionada està en mode edició.
@@ -262,10 +250,19 @@ namespace Inversions.GUI
         {
             Program.DesaVariableEnRegistreWindows(NomVarReg, e.TabPage.Name, true);
 
-            var tabX = e.TabPage.Controls.OfType<TabX>().FirstOrDefault();
+            var tabX = tornaTabX(e.TabPage);
 
-            if (tabX != null && tabX._PendentCarregaInicial)
+            if (tabX != null)
+            {
+            if (tabX._PendentCarregaInicial)
                 tabX.carregaInicial();
+                tabX.refresca(null);
+            }
+        }
+
+        void usuarisTab_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            canviUsuari((Usuari)sender);
         }
 
         #endregion *** Events ***

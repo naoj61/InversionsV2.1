@@ -59,6 +59,8 @@ namespace Inversions.GUI
                     actualitzaLlistaValoracionsTotal();
 
                 gestioProductesTabValoracions.refrescaDadesControl();
+
+                modeConsulta();
             }
         }
 
@@ -106,10 +108,10 @@ namespace Inversions.GUI
         protected override void modeConsulta()
         {
             base.modeConsulta();
-        
-            btNouValor.Enabled = true;
-            btModifica.Enabled = true;
-            btEsborra.Enabled = true;
+
+            btNouValor.Enabled = gestioProductesTabValoracions.productesSeleccionats().Any();
+            btModifica.Enabled = dgvValoracions.SelectedCells.Count > 0;
+            btEsborra.Enabled = dgvValoracions.SelectedCells.Count > 0;
             btCopiaValorsDelPaste.Enabled = true;
             btCancela.Enabled = false;
             btDesa.Enabled = false;
@@ -376,7 +378,7 @@ namespace Inversions.GUI
 
                 gestioProductesTabValoracions.refrescaDadesControl();
 
-                Principal.ActivaRefresca(this);
+                ((Principal)ParentForm).activaRefrescaEnTabs(this);
                 
                 modeConsulta();
 
@@ -430,7 +432,7 @@ namespace Inversions.GUI
             PasteSelfBank pSelf = new PasteSelfBank();
             if (pSelf.ShowDialog(this) == DialogResult.OK)
             {
-                Principal.ActivaRefresca(this);
+                ((Principal)ParentForm).activaRefrescaEnTabs(this);
             }
         }
 

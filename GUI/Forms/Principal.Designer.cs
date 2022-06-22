@@ -36,11 +36,7 @@
             this.tabMoviments = new System.Windows.Forms.TabPage();
             this.tabEmpresesProductes = new System.Windows.Forms.TabPage();
             this.tabUsuari = new System.Windows.Forms.TabPage();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.cbUsuaris = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabUsuari.SuspendLayout();
-            this.groupBox6.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -109,7 +105,6 @@
             // 
             // tabUsuari
             // 
-            this.tabUsuari.Controls.Add(this.groupBox6);
             this.tabUsuari.Location = new System.Drawing.Point(4, 29);
             this.tabUsuari.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabUsuari.Name = "tabUsuari";
@@ -117,29 +112,6 @@
             this.tabUsuari.TabIndex = 4;
             this.tabUsuari.Text = "Usuari";
             this.tabUsuari.UseVisualStyleBackColor = true;
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.cbUsuaris);
-            this.groupBox6.Location = new System.Drawing.Point(28, 51);
-            this.groupBox6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
-            this.groupBox6.Size = new System.Drawing.Size(259, 61);
-            this.groupBox6.TabIndex = 0;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Usuari";
-            // 
-            // cbUsuaris
-            // 
-            this.cbUsuaris.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbUsuaris.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbUsuaris.FormattingEnabled = true;
-            this.cbUsuaris.Location = new System.Drawing.Point(6, 23);
-            this.cbUsuaris.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.cbUsuaris.Name = "cbUsuaris";
-            this.cbUsuaris.Size = new System.Drawing.Size(247, 28);
-            this.cbUsuaris.TabIndex = 0;
             // 
             // tabControl1
             // 
@@ -177,8 +149,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Principal_FormClosing);
             this.Load += new System.EventHandler(this.Principal_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Principal_KeyDown);
-            this.tabUsuari.ResumeLayout(false);
-            this.groupBox6.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -194,8 +164,6 @@
         private System.Windows.Forms.TabPage tabMoviments;
         private System.Windows.Forms.TabPage tabEmpresesProductes;
         private System.Windows.Forms.TabPage tabUsuari;
-        private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.ComboBox cbUsuaris;
         private System.Windows.Forms.TabControl tabControl1;
     }
 }
