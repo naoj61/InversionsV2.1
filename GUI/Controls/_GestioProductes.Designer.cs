@@ -201,11 +201,11 @@ namespace Inversions.GUI
             // gbMoneda
             // 
             this.gbMoneda.Controls.Add(this.lbMoneda);
-            this.gbMoneda.Location = new System.Drawing.Point(279, 65);
+            this.gbMoneda.Location = new System.Drawing.Point(192, 65);
             this.gbMoneda.Margin = new System.Windows.Forms.Padding(3, 4, 10, 4);
             this.gbMoneda.Name = "gbMoneda";
             this.gbMoneda.Padding = new System.Windows.Forms.Padding(10, 4, 10, 4);
-            this.gbMoneda.Size = new System.Drawing.Size(83, 58);
+            this.gbMoneda.Size = new System.Drawing.Size(176, 58);
             this.gbMoneda.TabIndex = 2;
             this.gbMoneda.TabStop = false;
             this.gbMoneda.Text = "Moneda";
@@ -216,7 +216,7 @@ namespace Inversions.GUI
             this.lbMoneda.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbMoneda.Location = new System.Drawing.Point(10, 23);
             this.lbMoneda.Name = "lbMoneda";
-            this.lbMoneda.Size = new System.Drawing.Size(63, 31);
+            this.lbMoneda.Size = new System.Drawing.Size(156, 31);
             this.lbMoneda.TabIndex = 0;
             // 
             // groupBox8

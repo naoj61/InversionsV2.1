@@ -84,6 +84,7 @@ namespace Inversions.GUI
             this.gestioProductesTabValoracions = new Inversions.GUI.GestioProductes();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btCopiaValorsDelPaste = new System.Windows.Forms.Button();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.gbData.SuspendLayout();
             this.groupBox10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvValoracions)).BeginInit();
@@ -95,6 +96,7 @@ namespace Inversions.GUI
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbData
@@ -156,10 +158,9 @@ namespace Inversions.GUI
             // 
             // btCancela
             // 
-            this.btCancela.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btCancela.Enabled = false;
             this.btCancela.ForeColor = System.Drawing.Color.Red;
-            this.btCancela.Location = new System.Drawing.Point(501, 61);
+            this.btCancela.Location = new System.Drawing.Point(418, 61);
             this.btCancela.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btCancela.Name = "btCancela";
             this.btCancela.Size = new System.Drawing.Size(150, 45);
@@ -170,9 +171,8 @@ namespace Inversions.GUI
             // 
             // btNouValor
             // 
-            this.btNouValor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btNouValor.Enabled = false;
-            this.btNouValor.Location = new System.Drawing.Point(233, 9);
+            this.btNouValor.Location = new System.Drawing.Point(150, 9);
             this.btNouValor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btNouValor.Name = "btNouValor";
             this.btNouValor.Size = new System.Drawing.Size(110, 45);
@@ -183,10 +183,9 @@ namespace Inversions.GUI
             // 
             // btDesa
             // 
-            this.btDesa.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btDesa.Enabled = false;
             this.btDesa.ForeColor = System.Drawing.Color.Green;
-            this.btDesa.Location = new System.Drawing.Point(359, 61);
+            this.btDesa.Location = new System.Drawing.Point(276, 61);
             this.btDesa.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btDesa.Name = "btDesa";
             this.btDesa.Size = new System.Drawing.Size(124, 45);
@@ -226,7 +225,7 @@ namespace Inversions.GUI
             this.dgvValoracions.ReadOnly = true;
             this.dgvValoracions.RowTemplate.Height = 24;
             this.dgvValoracions.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvValoracions.Size = new System.Drawing.Size(974, 155);
+            this.dgvValoracions.Size = new System.Drawing.Size(1050, 155);
             this.dgvValoracions.TabIndex = 5;
             this.dgvValoracions.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.cDataGridView1_RowEnter);
             // 
@@ -343,10 +342,9 @@ namespace Inversions.GUI
             // 
             // pnEdicio
             // 
-            this.pnEdicio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pnEdicio.Controls.Add(this.groupBox10);
             this.pnEdicio.Controls.Add(this.gbData);
-            this.pnEdicio.Location = new System.Drawing.Point(361, 119);
+            this.pnEdicio.Location = new System.Drawing.Point(278, 119);
             this.pnEdicio.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnEdicio.Name = "pnEdicio";
             this.pnEdicio.Padding = new System.Windows.Forms.Padding(3, 6, 3, 4);
@@ -356,9 +354,8 @@ namespace Inversions.GUI
             // 
             // btModifica
             // 
-            this.btModifica.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btModifica.Enabled = false;
-            this.btModifica.Location = new System.Drawing.Point(359, 9);
+            this.btModifica.Location = new System.Drawing.Point(276, 9);
             this.btModifica.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btModifica.Name = "btModifica";
             this.btModifica.Size = new System.Drawing.Size(124, 45);
@@ -388,12 +385,12 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn6,
             this.Column1});
             this.dgvValoracionsPerData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvValoracionsPerData.Location = new System.Drawing.Point(980, 208);
+            this.dgvValoracionsPerData.Location = new System.Drawing.Point(0, 208);
             this.dgvValoracionsPerData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dgvValoracionsPerData.Name = "dgvValoracionsPerData";
             this.dgvValoracionsPerData.ReadOnly = true;
             this.dgvValoracionsPerData.RowTemplate.Height = 24;
-            this.dgvValoracionsPerData.Size = new System.Drawing.Size(662, 346);
+            this.dgvValoracionsPerData.Size = new System.Drawing.Size(586, 346);
             this.dgvValoracionsPerData.TabIndex = 6;
             // 
             // dataGridViewTextBoxColumn3
@@ -477,11 +474,10 @@ namespace Inversions.GUI
             // 
             // gbFiltreTipusProducte
             // 
-            this.gbFiltreTipusProducte.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.gbFiltreTipusProducte.Controls.Add(this.checkedComboBoxEdit1);
             this.gbFiltreTipusProducte.Controls.Add(this.dtpDataIniciLlista);
             this.gbFiltreTipusProducte.Controls.Add(this.btActualitzaLlista);
-            this.gbFiltreTipusProducte.Location = new System.Drawing.Point(103, 76);
+            this.gbFiltreTipusProducte.Location = new System.Drawing.Point(20, 76);
             this.gbFiltreTipusProducte.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gbFiltreTipusProducte.Name = "gbFiltreTipusProducte";
             this.gbFiltreTipusProducte.Padding = new System.Windows.Forms.Padding(6);
@@ -540,15 +536,14 @@ namespace Inversions.GUI
             series1.YValueMembers = "PreuParticipacio";
             series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(974, 162);
+            this.chart1.Size = new System.Drawing.Size(1050, 162);
             this.chart1.TabIndex = 8;
             this.chart1.Text = "chart1";
             // 
             // btEsborra
             // 
-            this.btEsborra.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btEsborra.Enabled = false;
-            this.btEsborra.Location = new System.Drawing.Point(499, 9);
+            this.btEsborra.Location = new System.Drawing.Point(416, 9);
             this.btEsborra.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btEsborra.Name = "btEsborra";
             this.btEsborra.Size = new System.Drawing.Size(150, 45);
@@ -566,7 +561,7 @@ namespace Inversions.GUI
             this.chart2.Dock = System.Windows.Forms.DockStyle.Bottom;
             legend2.Name = "Legend1";
             this.chart2.Legends.Add(legend2);
-            this.chart2.Location = new System.Drawing.Point(980, 554);
+            this.chart2.Location = new System.Drawing.Point(0, 554);
             this.chart2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chart2.Name = "chart2";
             series2.BorderWidth = 2;
@@ -578,7 +573,7 @@ namespace Inversions.GUI
             series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             this.chart2.Series.Add(series2);
-            this.chart2.Size = new System.Drawing.Size(662, 265);
+            this.chart2.Size = new System.Drawing.Size(586, 265);
             this.chart2.TabIndex = 8;
             this.chart2.Text = "chart1";
             // 
@@ -587,12 +582,12 @@ namespace Inversions.GUI
             this.panel1.Controls.Add(this.dgvValoracions);
             this.panel1.Controls.Add(this.gestioProductesTabValoracions);
             this.panel1.Controls.Add(this.chart1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.panel1.Size = new System.Drawing.Size(980, 819);
+            this.panel1.Size = new System.Drawing.Size(1056, 819);
             this.panel1.TabIndex = 9;
             // 
             // gestioProductesTabValoracions
@@ -606,7 +601,7 @@ namespace Inversions.GUI
             this.gestioProductesTabValoracions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gestioProductesTabValoracions.MinimumSize = new System.Drawing.Size(825, 494);
             this.gestioProductesTabValoracions.Name = "gestioProductesTabValoracions";
-            this.gestioProductesTabValoracions.Size = new System.Drawing.Size(974, 494);
+            this.gestioProductesTabValoracions.Size = new System.Drawing.Size(1050, 494);
             this.gestioProductesTabValoracions.TabIndex = 9;
             this.gestioProductesTabValoracions.ProducteSeleccionat += new System.EventHandler(this.gestioProductesTabValoracions_ProducteSeleccionat);
             // 
@@ -621,17 +616,16 @@ namespace Inversions.GUI
             this.panel2.Controls.Add(this.btCancela);
             this.panel2.Controls.Add(this.pnEdicio);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(980, 0);
+            this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(662, 208);
+            this.panel2.Size = new System.Drawing.Size(586, 208);
             this.panel2.TabIndex = 0;
             // 
             // btCopiaValorsDelPaste
             // 
-            this.btCopiaValorsDelPaste.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btCopiaValorsDelPaste.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.btCopiaValorsDelPaste.Location = new System.Drawing.Point(103, 4);
+            this.btCopiaValorsDelPaste.Location = new System.Drawing.Point(20, 4);
             this.btCopiaValorsDelPaste.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btCopiaValorsDelPaste.Name = "btCopiaValorsDelPaste";
             this.btCopiaValorsDelPaste.Size = new System.Drawing.Size(114, 54);
@@ -640,14 +634,23 @@ namespace Inversions.GUI
             this.btCopiaValorsDelPaste.UseVisualStyleBackColor = false;
             this.btCopiaValorsDelPaste.Click += new System.EventHandler(this.btCopiaValorsDelPaste_Click);
             // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.dgvValoracionsPerData);
+            this.panel3.Controls.Add(this.chart2);
+            this.panel3.Controls.Add(this.panel2);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel3.Location = new System.Drawing.Point(1056, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(586, 819);
+            this.panel3.TabIndex = 10;
+            // 
             // ValoracionsTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.dgvValoracionsPerData);
-            this.Controls.Add(this.chart2);
-            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panel3);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MinimumSize = new System.Drawing.Size(1464, 819);
             this.Name = "ValoracionsTab";
@@ -664,6 +667,7 @@ namespace Inversions.GUI
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -705,5 +709,6 @@ namespace Inversions.GUI
         private System.Windows.Forms.DataGridViewTextBoxColumn colValor;
         private System.Windows.Forms.DataGridViewTextBoxColumn colVariacioPercent;
         private System.Windows.Forms.DataGridViewTextBoxColumn colVariacioEuros;
+        private System.Windows.Forms.Panel panel3;
     }
 }
