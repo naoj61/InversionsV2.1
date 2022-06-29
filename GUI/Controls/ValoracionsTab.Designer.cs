@@ -47,7 +47,6 @@ namespace Inversions.GUI
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.gbData = new System.Windows.Forms.GroupBox();
             this.cData = new System.Windows.Forms.DateTimePicker();
@@ -225,7 +224,7 @@ namespace Inversions.GUI
             this.dgvValoracions.ReadOnly = true;
             this.dgvValoracions.RowTemplate.Height = 24;
             this.dgvValoracions.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvValoracions.Size = new System.Drawing.Size(1050, 155);
+            this.dgvValoracions.Size = new System.Drawing.Size(958, 155);
             this.dgvValoracions.TabIndex = 5;
             this.dgvValoracions.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.cDataGridView1_RowEnter);
             // 
@@ -369,6 +368,7 @@ namespace Inversions.GUI
             this.dgvValoracionsPerData.AllowUserToAddRows = false;
             this.dgvValoracionsPerData.AllowUserToDeleteRows = false;
             this.dgvValoracionsPerData.AllowUserToOrderColumns = true;
+            this.dgvValoracionsPerData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -390,7 +390,7 @@ namespace Inversions.GUI
             this.dgvValoracionsPerData.Name = "dgvValoracionsPerData";
             this.dgvValoracionsPerData.ReadOnly = true;
             this.dgvValoracionsPerData.RowTemplate.Height = 24;
-            this.dgvValoracionsPerData.Size = new System.Drawing.Size(586, 346);
+            this.dgvValoracionsPerData.Size = new System.Drawing.Size(678, 346);
             this.dgvValoracionsPerData.TabIndex = 6;
             // 
             // dataGridViewTextBoxColumn3
@@ -536,7 +536,7 @@ namespace Inversions.GUI
             series1.YValueMembers = "PreuParticipacio";
             series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(1050, 162);
+            this.chart1.Size = new System.Drawing.Size(958, 162);
             this.chart1.TabIndex = 8;
             this.chart1.Text = "chart1";
             // 
@@ -556,11 +556,14 @@ namespace Inversions.GUI
             // 
             chartArea2.AxisX.IsLabelAutoFit = false;
             chartArea2.AxisX.LabelStyle.Angle = 30;
+            chartArea2.InnerPlotPosition.Auto = false;
+            chartArea2.InnerPlotPosition.Height = 69.74533F;
+            chartArea2.InnerPlotPosition.Width = 82.98223F;
+            chartArea2.InnerPlotPosition.X = 7.017769F;
+            chartArea2.InnerPlotPosition.Y = 5.58511F;
             chartArea2.Name = "ChartArea1";
             this.chart2.ChartAreas.Add(chartArea2);
             this.chart2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            legend2.Name = "Legend1";
-            this.chart2.Legends.Add(legend2);
             this.chart2.Location = new System.Drawing.Point(0, 554);
             this.chart2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chart2.Name = "chart2";
@@ -568,12 +571,11 @@ namespace Inversions.GUI
             series2.ChartArea = "ChartArea1";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series2.IsVisibleInLegend = false;
-            series2.Legend = "Legend1";
             series2.Name = "Series1";
             series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             this.chart2.Series.Add(series2);
-            this.chart2.Size = new System.Drawing.Size(586, 265);
+            this.chart2.Size = new System.Drawing.Size(678, 265);
             this.chart2.TabIndex = 8;
             this.chart2.Text = "chart1";
             // 
@@ -587,7 +589,7 @@ namespace Inversions.GUI
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.panel1.Size = new System.Drawing.Size(1056, 819);
+            this.panel1.Size = new System.Drawing.Size(964, 819);
             this.panel1.TabIndex = 9;
             // 
             // gestioProductesTabValoracions
@@ -601,7 +603,7 @@ namespace Inversions.GUI
             this.gestioProductesTabValoracions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gestioProductesTabValoracions.MinimumSize = new System.Drawing.Size(825, 494);
             this.gestioProductesTabValoracions.Name = "gestioProductesTabValoracions";
-            this.gestioProductesTabValoracions.Size = new System.Drawing.Size(1050, 494);
+            this.gestioProductesTabValoracions.Size = new System.Drawing.Size(958, 494);
             this.gestioProductesTabValoracions.TabIndex = 9;
             this.gestioProductesTabValoracions.ProducteSeleccionat += new System.EventHandler(this.gestioProductesTabValoracions_ProducteSeleccionat);
             // 
@@ -619,7 +621,7 @@ namespace Inversions.GUI
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(586, 208);
+            this.panel2.Size = new System.Drawing.Size(678, 208);
             this.panel2.TabIndex = 0;
             // 
             // btCopiaValorsDelPaste
@@ -637,12 +639,12 @@ namespace Inversions.GUI
             // panel3
             // 
             this.panel3.Controls.Add(this.dgvValoracionsPerData);
-            this.panel3.Controls.Add(this.chart2);
             this.panel3.Controls.Add(this.panel2);
+            this.panel3.Controls.Add(this.chart2);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel3.Location = new System.Drawing.Point(1056, 0);
+            this.panel3.Location = new System.Drawing.Point(964, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(586, 819);
+            this.panel3.Size = new System.Drawing.Size(678, 819);
             this.panel3.TabIndex = 10;
             // 
             // ValoracionsTab
