@@ -127,8 +127,16 @@ namespace Inversions.GUI
 
         private void posaValorsDeLaFilaSeleccionada()
         {
-            cData.Value = vValoracioSeleccionada.Data;
-            tbImport.Valor = vValoracioSeleccionada.PreuParticipacio;
+            if (vValoracioSeleccionada == null)
+            {
+                cData.Value = DateTime.Today;
+                tbImport.Valor = 0;
+            }
+            else
+            {
+                cData.Value = vValoracioSeleccionada.Data;
+                tbImport.Valor = vValoracioSeleccionada.PreuParticipacio;
+            }
         }
 
         private void actualitzaLlistaValoracionsPerProducte()
