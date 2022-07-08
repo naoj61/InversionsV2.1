@@ -227,14 +227,12 @@ namespace Inversions.GUI
             dgvPiGEnCartera.Rows.Clear();
             foreach (var prod in productes)
             {
-                var pigEnCartera = prod.pigVariacioCartera(anyDades, false);
-                var pigPercentatge = prod.pigVariacioCartera(anyDades, true);
+                var pigEnCartera = prod.pigVariacioCartera(anyDades);
                 if (!Utilitats.EsZero(pigEnCartera))
                 {
-                    int ff = dgvPiGEnCartera.Rows.Add(prod, pigEnCartera, pigPercentatge);
+                    int ff = dgvPiGEnCartera.Rows.Add(prod, pigEnCartera);
 
                     dgvPiGEnCartera.Rows[ff].Cells[1].Style.ForeColor = pigEnCartera < 0 ? Color.Red : Color.Black;
-                    dgvPiGEnCartera.Rows[ff].Cells[2].Style.ForeColor = pigEnCartera < 0 ? Color.Red : Color.Black;
 
                     pigTotalEncartera += pigEnCartera;
                 }
@@ -245,7 +243,7 @@ namespace Inversions.GUI
             dgvPiGEnCartera.Rows[fila2].Cells[1].Style.ForeColor = pigTotalEncartera < 0 ? Color.Red : Color.Black;
             dgvPiGEnCartera.FirstDisplayedScrollingRowIndex = fila2;
 
-            dgvPiGEnCartera.FirstDisplayedScrollingRowIndex = 0;
+            //dgvPiGEnCartera.FirstDisplayedScrollingRowIndex = 0;
             dgvPiGEnCartera.Rows[0].Selected = false;
         }
 

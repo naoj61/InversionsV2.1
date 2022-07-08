@@ -290,14 +290,13 @@ namespace Inversions
         /// Torna la variació de valor en cartera entre dates. Només productes amb cartera a 'dataHoraFinal'.
         /// </summary>
         /// <param name="any"></param>
-        /// <param name="percentatge">Si true, torna percentatge.</param>
         /// <returns></returns>
-        internal double pigVariacioCartera(int any, bool percentatge)
+        internal double pigVariacioCartera(int any)
         {
             DateTime dataHoraInicial = new DateTime(any, 1, 1);
             DateTime dataHoraFinal = Utilitats.DataHoraFinalAny(any);
 
-            return pigVariacioCartera(dataHoraInicial, dataHoraFinal, percentatge);
+            return pigVariacioCartera(dataHoraInicial, dataHoraFinal);
         }
 
         /// <summary>
@@ -305,23 +304,47 @@ namespace Inversions
         /// </summary>
         /// <param name="dataHoraInicial"></param>
         /// <param name="dataHoraFinal"></param>
-        /// <param name="percentatge">Si true, torna percentatge.</param>
         /// <returns></returns>
-        internal double pigVariacioCartera(DateTime dataHoraInicial, DateTime dataHoraFinal, bool percentatge)
+        internal double pigVariacioCartera(DateTime dataHoraInicial, DateTime dataHoraFinal)
         {
             var preuPartInici = valorParticipacio(dataHoraInicial);
             var preuPartFinal = valorParticipacio(dataHoraFinal);
             var partsFinal = numParticipacionsEnData(dataHoraFinal);
 
-            if (Utilitats.EsZero(partsFinal))
+            /*
+             * Si s'ha comprat: Calcular el PiG des de la compra fins ara o fins la venda si s'han venut rl mateix any i restar a les parts actuals les parts comprades que restes.
+             * Si s'ha venut: Calcular el PiG de les parts venudes respecte al preu de principi d'any o del preu de compra si s'han comprat el mateix any.
+            */
+
+            var compres = MovimentsProducteUsuari.Where(w => w.Data >= dataHoraInicial && w.Data <= dataHoraFinal && w._EsCompra).ToList();
+            var vendes = MovimentsProducteUsuari.Where(w => w.Data >= dataHoraInicial && w.Data <= dataHoraFinal && w._EsVenda).ToList();
+
+            if (Utilitats.EsZero(partsFinal) && !vendes.Any())
                 return 0;
+
+            partsFinal -= compres.Sum(s=>s.Participacions); // Elimino les parts comprades perque calcularé el seu PiG a part.
+
+            double pigCompres = 0;
+            if (compres.Any())
+            {
+                if (Utilitats.EsZero(preuPartInici))
+                    preuPartInici = compres.Single(w => w.Data == compres.Min(m => m.Data)).PreuParticipacio;
+
+                pigCompres += compres.Sum(compra => (preuPartFinal - compra.PreuParticipacio) * compra.Participacions);
+            }
+
+            double pigVendes = 0;
+            if (vendes.Any())
+            {
+                pigVendes += vendes.Sum(venda => (venda.PreuParticipacio - preuPartInici) * venda.Participacions);
+            }
 
             if (Utilitats.EsZero(preuPartInici))
                 preuPartInici = ValoracionsProducte.First().PreuParticipacio;
 
-            return percentatge 
-                ? preuPartFinal / preuPartInici - 1 
-                : partsFinal * (preuPartFinal - preuPartInici);
+            var pigPartsDataFinal = partsFinal * (preuPartFinal - preuPartInici);
+
+            return pigCompres + pigVendes + pigPartsDataFinal;
         }
 
 
