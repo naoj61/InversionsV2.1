@@ -31,6 +31,7 @@ namespace Inversions.GUI
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pnDadesProducte = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pnDescripcioFons = new System.Windows.Forms.Panel();
@@ -83,7 +84,7 @@ namespace Inversions.GUI
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cbTipusProducteFiltreTab2 = new System.Windows.Forms.ComboBox();
-            this.toolTip1 = new System.Windows.Forms.ToolTip();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.pnDadesProducte.SuspendLayout();
             this.panel1.SuspendLayout();
             this.pnDescripcioFons.SuspendLayout();
@@ -446,7 +447,7 @@ namespace Inversions.GUI
             // ntbPreuPartActual
             // 
             this.ntbPreuPartActual._CapturaEscape = true;
-            this.ntbPreuPartActual._Format = "#,#0.00";
+            this.ntbPreuPartActual._Format = "#,#0.00 €";
             this.ntbPreuPartActual._PermetDecimals = true;
             this.ntbPreuPartActual._PermetEspais = false;
             this.ntbPreuPartActual._PermetNegatius = true;

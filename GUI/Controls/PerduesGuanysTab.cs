@@ -243,7 +243,6 @@ namespace Inversions.GUI
             dgvPiGEnCartera.Rows[fila2].Cells[1].Style.ForeColor = pigTotalEncartera < 0 ? Color.Red : Color.Black;
             dgvPiGEnCartera.FirstDisplayedScrollingRowIndex = fila2;
 
-            //dgvPiGEnCartera.FirstDisplayedScrollingRowIndex = 0;
             dgvPiGEnCartera.Rows[0].Selected = false;
         }
 

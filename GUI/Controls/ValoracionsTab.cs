@@ -129,7 +129,6 @@ namespace Inversions.GUI
         {
             if (vValoracioSeleccionada == null)
             {
-                cData.Value = DateTime.Today;
                 tbImport.Valor = 0;
             }
             else
@@ -293,7 +292,6 @@ namespace Inversions.GUI
 
             modeEdicio();
 
-            cData.Value = Utilitats.AnteriorDiaLaborable(DateTime.Today);
             tbImport.Focus();
         }
 
