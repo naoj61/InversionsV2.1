@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace Inversions.GUI
             cbColumnaPreuParticio.SelectedIndex = Convert.ToInt32(Program.LlegeigVariableEnRegistreWindows("ColumnaPreuParticio", false));
             cbColumnaPreuParticio.SelectedIndexChanged += cbColumnaPreuParticio_SelectedIndexChanged;
 
-            dateTimePicker1.Value = Utilitats.AnteriorDiaLaborable(DateTime.Today);
+            dtpDataUnica.Value = Utilitats.AnteriorDiaLaborable(DateTime.Today);
 
             bool pasteSelfBankTancaAlDesar = Convert.ToBoolean(Program.LlegeigVariableEnRegistreWindows(NomVarRegTancaAlDesar, true));
             ckTancaAlDesar.Checked = pasteSelfBankTancaAlDesar;
@@ -50,8 +51,10 @@ namespace Inversions.GUI
                 var items = text1.Split(new char[] { '\t', }, StringSplitOptions.RemoveEmptyEntries);
                 ProdFons prod = null;
                 int posPreuPart = cbColumnaPreuParticio.SelectedIndex + 1;
+                int posDataPreuPart = posPreuPart + 1;
                 int conta = 0;
                 bool avis = false;
+                double preuPart = 0;
                 foreach (var item in items)
                 {
                     if (conta == 0)
@@ -59,32 +62,40 @@ namespace Inversions.GUI
                         prod = Program.Sessio.ProdFons.SingleOrDefault(w => w.ISIN == item);
                         if (prod != null)
                             conta++;
+                        continue;
                     }
-                    else if (conta < posPreuPart)
+                    if (conta == posPreuPart)
                     {
+                        preuPart = Convert.ToDouble(item.Replace("€", ""));
+
                         conta++;
+                        continue;
                     }
-                    else
+                    if (conta == posDataPreuPart)
                     {
-                        conta = 0;
+                        DateTime dataPreuPart = Convert.ToDateTime(item.Substring(1, item.Length - 2));
 
-                        if (item.Contains('€'))
+                        if (preuPart > 0)
                         {
-                            var preuPart = Convert.ToDouble(item.Replace("€", ""));
-                            if (preuPart > 0)
-                                dataGridView1.Rows.Add(new object[] {prod, preuPart});
+                            int numFila = dataGridView1.Rows.Add(new object[] { prod, dataPreuPart, preuPart });
 
-                            if (Math.Abs(prod._PreuParticipacioActual - preuPart) > 100)
+                            if (Math.Abs((prod._PreuParticipacioActual - preuPart) / preuPart * 100) > 10)
+                            {
+                                dataGridView1.Rows[numFila].DefaultCellStyle.ForeColor = Color.Red;
+
                                 avis = true;
+                            }
                         }
+                        conta = 0;
+                        continue;
                     }
+                    conta++;
                 }
 
                 btDesa.Enabled = dataGridView1.Rows.Count > 0;
 
                 if (avis && dataGridView1.Rows.Count > 0)
-                    MessageBox.Show("Comprova els valors");
-
+                    MessageBox.Show("Diferència superior al 10%. Comprova els valors");
             }
             finally
             {
@@ -104,31 +115,33 @@ namespace Inversions.GUI
             {
                 try
                 {
-                    bool hiHaUpdate = false;
+                    //bool hiHaUpdate = false;
                     foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
                         var prodFons = (ProdFons) row.Cells[0].Value;
+                        DateTime data = ckDataUnica.Checked ? dtpDataUnica.Value : (DateTime)row.Cells[1].Value;
 
-                        var val = connexio.Valoracions.SingleOrDefault(w => w.ProdId == prodFons.Id && w.Data == dateTimePicker1.Value);
+                        var val = connexio.Valoracions.SingleOrDefault(w => w.ProdId == prodFons.Id && w.Data == data);
                         if (val == null)
                         {
+                            // Només noves valoracions. No modifica
                             val = connexio.Valoracions.Create();
                             val.ProdId = prodFons.Id;
-                            val.Data = dateTimePicker1.Value;
+                            val.Data = data;
+                            val.PreuParticipacio = (double)row.Cells[2].Value;
+                            
                             connexio.Valoracions.Add(val);
                         }
-                        else
-                        {
-                            hiHaUpdate = true;
-                        }
-
-                        val.PreuParticipacio = (double) row.Cells[1].Value;
+                        //else
+                        //{
+                        //    hiHaUpdate = true;
+                        //}
                     }
 
                         connexio.SaveChanges();
 
-                    if(hiHaUpdate)
-                        Program.Sessio.refrescaTaula(typeof(Valoracio));
+                    //if(hiHaUpdate)
+                    //    Program.Sessio.refrescaTaula(typeof(Valoracio));
 
                     btDesa.Enabled = false;
 
@@ -168,6 +181,12 @@ namespace Inversions.GUI
         {
             Program.DesaVariableEnRegistreWindows("ColumnaPreuParticio", cbColumnaPreuParticio.SelectedIndex.ToString(), false);
             capturaValorsPaste();
+        }
+
+        private void ckDataUnica_CheckedChanged(object sender, EventArgs e)
+        {
+            dtpDataUnica.Enabled = ckDataUnica.Checked;
+            colData.Visible = !ckDataUnica.Checked;
         }
     }
 }
