@@ -38,6 +38,7 @@ namespace Inversions.GUI
 
         private const string NomVarRegTancaAlDesar = "PasteSelfBankTancaAlDesar";
         private const string NomVarRegCapturaAutomaticament = "PasteSelfBankCapturaAutomaticament";
+        private const int DiferenciaMaimaxPreu = 10;
 
         private void capturaValorsPaste()
         {
@@ -48,7 +49,7 @@ namespace Inversions.GUI
                 dataGridView1.Rows.Clear();
 
                 var text1 = textBox1.Text.Replace(Environment.NewLine, "\t");
-                var items = text1.Split(new char[] { '\t', }, StringSplitOptions.RemoveEmptyEntries);
+                var items = text1.Split(new char[] {'\t',}, StringSplitOptions.RemoveEmptyEntries);
                 ProdFons prod = null;
                 int posPreuPart = cbColumnaPreuParticio.SelectedIndex + 1;
                 int posDataPreuPart = posPreuPart + 1;
@@ -77,11 +78,21 @@ namespace Inversions.GUI
 
                         if (preuPart > 0)
                         {
-                            int numFila = dataGridView1.Rows.Add(new object[] { prod, dataPreuPart, preuPart });
+                            var existeisValoracio = Program.Sessio.Valoracio.SingleOrDefault(w => w.Prod.Id == prod.Id && w.Data == dataPreuPart) != null;
 
-                            if (Math.Abs((prod._PreuParticipacioActual - preuPart) / preuPart * 100) > 10)
+                            int numFila = dataGridView1.Rows.Add(new object[] 
+                            {!existeisValoracio, prod, !existeisValoracio, dataPreuPart, prod._PreuParticipacioActual, preuPart});
+
+                            if (existeisValoracio)
+                                dataGridView1.Rows[numFila].Cells[colData.Name].Style.ForeColor = Color.Blue;
+
+                            if (Math.Abs((prod._PreuParticipacioActual - preuPart) / preuPart * 100) > DiferenciaMaimaxPreu)
                             {
-                                dataGridView1.Rows[numFila].DefaultCellStyle.ForeColor = Color.Red;
+                                // Diferència superior al 10% en el preu.
+                                dataGridView1.Rows[numFila].Cells[colEstatOriginalCheckBox.Name].Value = false;
+                                dataGridView1.Rows[numFila].Cells[colSeleccionat.Name].Value = false;
+                                dataGridView1.Rows[numFila].Cells[colValorActual.Name].Style.ForeColor = Color.Red;
+                                dataGridView1.Rows[numFila].Cells[colValorNou.Name].Style.ForeColor = Color.Red;
 
                                 avis = true;
                             }
@@ -95,7 +106,7 @@ namespace Inversions.GUI
                 btDesa.Enabled = dataGridView1.Rows.Count > 0;
 
                 if (avis && dataGridView1.Rows.Count > 0)
-                    MessageBox.Show("Diferència superior al 10%. Comprova els valors");
+                    MessageBox.Show(String.Format("Diferència superior al {0}%. Comprova els valors", DiferenciaMaimaxPreu));
             }
             finally
             {
@@ -115,11 +126,15 @@ namespace Inversions.GUI
             {
                 try
                 {
-                    //bool hiHaUpdate = false;
+                    bool hiHaUpdate = false;
                     foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
-                        var prodFons = (ProdFons) row.Cells[0].Value;
-                        DateTime data = ckDataUnica.Checked ? dtpDataUnica.Value : (DateTime)row.Cells[1].Value;
+                        if (!(bool) (row.Cells[colSeleccionat.Name]).Value)
+                            continue;
+
+                        var prodFons = (ProdFons) row.Cells[colNomFons.Name].Value;
+                        DateTime data = ckDataUnica.Checked ? dtpDataUnica.Value : (DateTime) row.Cells[colData.Name].Value;
+                        var preuPart = (double) row.Cells[colValorNou.Name].Value;
 
                         var val = connexio.Valoracions.SingleOrDefault(w => w.ProdId == prodFons.Id && w.Data == data);
                         if (val == null)
@@ -128,26 +143,27 @@ namespace Inversions.GUI
                             val = connexio.Valoracions.Create();
                             val.ProdId = prodFons.Id;
                             val.Data = data;
-                            val.PreuParticipacio = (double)row.Cells[2].Value;
-                            
+
                             connexio.Valoracions.Add(val);
                         }
-                        //else
-                        //{
-                        //    hiHaUpdate = true;
-                        //}
+                        else if (ckSobreescriuValoracions.Checked)
+                        {
+                            hiHaUpdate = true;
+                        }
+
+                        val.PreuParticipacio = preuPart;
                     }
 
-                        connexio.SaveChanges();
+                    connexio.SaveChanges();
 
-                    //if(hiHaUpdate)
-                    //    Program.Sessio.refrescaTaula(typeof(Valoracio));
+                    if (hiHaUpdate)
+                        Program.Sessio.refrescaTaula(typeof (Valoracio));
 
                     btDesa.Enabled = false;
 
-                    if (ckTancaAlDesar.Checked || 
-                        MessageBox.Show("Fet!" + Environment.NewLine + "Vols tancar la finestra?", "Fet", 
-                        MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    if (ckTancaAlDesar.Checked ||
+                        MessageBox.Show("Fet!" + Environment.NewLine + "Vols tancar la finestra?", "Fet",
+                            MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         this.DialogResult = DialogResult.OK;
                         this.Close();
@@ -187,6 +203,28 @@ namespace Inversions.GUI
         {
             dtpDataUnica.Enabled = ckDataUnica.Checked;
             colData.Visible = !ckDataUnica.Checked;
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.ColumnIndex == colSeleccionat.Index)
+            {
+                dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dataGridView1.Rows.Count > 0 && e.ColumnIndex == colSeleccionat.Index)
+            {
+                var estatOriginalCheckBox = (bool)dataGridView1.Rows[e.RowIndex].Cells[colEstatOriginalCheckBox.Name].Value;
+                var valorActualCheckBox = (bool) dataGridView1.CurrentCell.Value;
+                if (!estatOriginalCheckBox && valorActualCheckBox && !ckSobreescriuValoracions.Checked)
+                {
+                    if (MessageBox.Show("Marco per sobreescriure valoracions?", "La valoració ja existeix", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        ckSobreescriuValoracions.Checked = true;
+                }
+            }
         }
     }
 }

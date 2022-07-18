@@ -439,6 +439,7 @@ namespace Inversions.GUI
             if (pSelf.ShowDialog(this) == DialogResult.OK)
             {
                 ((Principal)ParentForm).activaRefrescaEnTabs(this);
+                gestioProductesTabValoracions.refrescaDadesControl();
             }
         }
 
