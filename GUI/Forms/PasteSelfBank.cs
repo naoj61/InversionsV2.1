@@ -43,9 +43,10 @@ namespace Inversions.GUI
         private void capturaValorsPaste()
         {
             var cursor = Cursor;
+            Cursor = Cursors.WaitCursor;
+
             try
             {
-                Cursor = Cursors.WaitCursor;
                 dataGridView1.Rows.Clear();
 
                 var text1 = textBox1.Text.Replace(Environment.NewLine, "\t");
@@ -80,8 +81,7 @@ namespace Inversions.GUI
                         {
                             var existeisValoracio = Program.Sessio.Valoracio.SingleOrDefault(w => w.Prod.Id == prod.Id && w.Data == dataPreuPart) != null;
 
-                            int numFila = dataGridView1.Rows.Add(new object[] 
-                            {!existeisValoracio, prod, !existeisValoracio, dataPreuPart, prod._PreuParticipacioActual, preuPart});
+                            int numFila = dataGridView1.Rows.Add(new object[] {!existeisValoracio, prod, !existeisValoracio, dataPreuPart, prod._PreuParticipacioActual, preuPart});
 
                             if (existeisValoracio)
                                 dataGridView1.Rows[numFila].Cells[colData.Name].Style.ForeColor = Color.Blue;
@@ -107,6 +107,11 @@ namespace Inversions.GUI
 
                 if (avis && dataGridView1.Rows.Count > 0)
                     MessageBox.Show(String.Format("Diferència superior al {0}%. Comprova els valors", DiferenciaMaimaxPreu));
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error. Alguna cosa no quadra.\n" + ex.Message);
             }
             finally
             {
