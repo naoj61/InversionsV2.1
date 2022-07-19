@@ -80,19 +80,24 @@ namespace Inversions.GUI
                         if (preuPart > 0)
                         {
                             var existeisValoracio = Program.Sessio.Valoracio.SingleOrDefault(w => w.Prod.Id == prod.Id && w.Data == dataPreuPart) != null;
+                            var difPercent = (preuPart / prod._PreuParticipacioActual - 1) * 100;
 
-                            int numFila = dataGridView1.Rows.Add(new object[] {!existeisValoracio, prod, !existeisValoracio, dataPreuPart, prod._PreuParticipacioActual, preuPart});
+                            int numFila = dataGridView1.Rows.Add(new object[] { !existeisValoracio, prod, !existeisValoracio, dataPreuPart
+                                , prod._PreuParticipacioActual, preuPart, difPercent });
 
                             if (existeisValoracio)
                                 dataGridView1.Rows[numFila].Cells[colData.Name].Style.ForeColor = Color.Blue;
 
-                            if (Math.Abs((prod._PreuParticipacioActual - preuPart) / preuPart * 100) > DiferenciaMaimaxPreu)
+                            if (difPercent < 0)
+                                dataGridView1.Rows[numFila].Cells[colPercentatge.Name].Style.ForeColor = Color.Red;
+
+                            if (Math.Abs(difPercent) >= DiferenciaMaimaxPreu)
                             {
                                 // Diferència superior al 10% en el preu.
                                 dataGridView1.Rows[numFila].Cells[colEstatOriginalCheckBox.Name].Value = false;
                                 dataGridView1.Rows[numFila].Cells[colSeleccionat.Name].Value = false;
-                                dataGridView1.Rows[numFila].Cells[colValorActual.Name].Style.ForeColor = Color.Red;
-                                dataGridView1.Rows[numFila].Cells[colValorNou.Name].Style.ForeColor = Color.Red;
+                                dataGridView1.Rows[numFila].Cells[colValorActual.Name].Style.ForeColor = Color.DarkOrange;
+                                dataGridView1.Rows[numFila].Cells[colValorNou.Name].Style.ForeColor = Color.DarkOrange;
 
                                 avis = true;
                             }

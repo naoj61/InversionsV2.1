@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.ckTancaAlDesar = new System.Windows.Forms.CheckBox();
@@ -53,6 +54,7 @@
             this.colData = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colValorActual = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colValorNou = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPercentatge = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -239,7 +241,7 @@
             this.textBox2.BackColor = System.Drawing.SystemColors.Control;
             this.textBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.ForeColor = System.Drawing.Color.Red;
+            this.textBox2.ForeColor = System.Drawing.Color.DarkOrange;
             this.textBox2.Location = new System.Drawing.Point(0, 0);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
@@ -258,7 +260,8 @@
             this.colSeleccionat,
             this.colData,
             this.colValorActual,
-            this.colValorNou});
+            this.colValorNou,
+            this.colPercentatge});
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Right;
             this.dataGridView1.Location = new System.Drawing.Point(777, 0);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -294,9 +297,9 @@
             // colData
             // 
             this.colData.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle1.Format = "d";
-            dataGridViewCellStyle1.NullValue = null;
-            this.colData.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Format = "d";
+            dataGridViewCellStyle5.NullValue = null;
+            this.colData.DefaultCellStyle = dataGridViewCellStyle5;
             this.colData.HeaderText = "Data";
             this.colData.Name = "colData";
             this.colData.ReadOnly = true;
@@ -305,9 +308,9 @@
             // colValorActual
             // 
             this.colValorActual.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Format = "c4";
-            this.colValorActual.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle6.Format = "c4";
+            this.colValorActual.DefaultCellStyle = dataGridViewCellStyle6;
             this.colValorActual.HeaderText = "Valor Act";
             this.colValorActual.Name = "colValorActual";
             this.colValorActual.ReadOnly = true;
@@ -316,14 +319,25 @@
             // colValorNou
             // 
             this.colValorNou.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "C4";
-            dataGridViewCellStyle3.NullValue = "0";
-            this.colValorNou.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle7.Format = "C4";
+            dataGridViewCellStyle7.NullValue = "0";
+            this.colValorNou.DefaultCellStyle = dataGridViewCellStyle7;
             this.colValorNou.HeaderText = "Valor Nou";
             this.colValorNou.Name = "colValorNou";
             this.colValorNou.ReadOnly = true;
             this.colValorNou.Width = 115;
+            // 
+            // colPercentatge
+            // 
+            this.colPercentatge.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle8.Format = "N3";
+            dataGridViewCellStyle8.NullValue = null;
+            this.colPercentatge.DefaultCellStyle = dataGridViewCellStyle8;
+            this.colPercentatge.HeaderText = "%";
+            this.colPercentatge.Name = "colPercentatge";
+            this.colPercentatge.ReadOnly = true;
+            this.colPercentatge.Width = 59;
             // 
             // PasteSelfBank
             // 
@@ -375,5 +389,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colData;
         private System.Windows.Forms.DataGridViewTextBoxColumn colValorActual;
         private System.Windows.Forms.DataGridViewTextBoxColumn colValorNou;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPercentatge;
     }
 }
