@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.ckTancaAlDesar = new System.Windows.Forms.CheckBox();
@@ -285,6 +285,8 @@
             this.colNomFons.HeaderText = "Nom Fons";
             this.colNomFons.Name = "colNomFons";
             this.colNomFons.ReadOnly = true;
+            this.colNomFons.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colNomFons.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // colSeleccionat
             // 
@@ -297,47 +299,56 @@
             // colData
             // 
             this.colData.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle5.Format = "d";
-            dataGridViewCellStyle5.NullValue = null;
-            this.colData.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Format = "d";
+            dataGridViewCellStyle1.NullValue = null;
+            this.colData.DefaultCellStyle = dataGridViewCellStyle1;
             this.colData.HeaderText = "Data";
             this.colData.Name = "colData";
             this.colData.ReadOnly = true;
-            this.colData.Width = 80;
+            this.colData.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colData.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colData.Width = 50;
             // 
             // colValorActual
             // 
             this.colValorActual.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "c4";
-            this.colValorActual.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Format = "c4";
+            this.colValorActual.DefaultCellStyle = dataGridViewCellStyle2;
             this.colValorActual.HeaderText = "Valor Act";
             this.colValorActual.Name = "colValorActual";
             this.colValorActual.ReadOnly = true;
-            this.colValorActual.Width = 110;
+            this.colValorActual.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colValorActual.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colValorActual.Width = 80;
             // 
             // colValorNou
             // 
             this.colValorNou.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle7.Format = "C4";
-            dataGridViewCellStyle7.NullValue = "0";
-            this.colValorNou.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Format = "C4";
+            dataGridViewCellStyle3.NullValue = "0";
+            this.colValorNou.DefaultCellStyle = dataGridViewCellStyle3;
             this.colValorNou.HeaderText = "Valor Nou";
             this.colValorNou.Name = "colValorNou";
             this.colValorNou.ReadOnly = true;
-            this.colValorNou.Width = 115;
+            this.colValorNou.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colValorNou.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colValorNou.Width = 85;
             // 
             // colPercentatge
             // 
             this.colPercentatge.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle8.Format = "N3";
-            dataGridViewCellStyle8.NullValue = null;
-            this.colPercentatge.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle4.Format = "#0.000 %";
+            dataGridViewCellStyle4.NullValue = null;
+            this.colPercentatge.DefaultCellStyle = dataGridViewCellStyle4;
             this.colPercentatge.HeaderText = "%";
             this.colPercentatge.Name = "colPercentatge";
             this.colPercentatge.ReadOnly = true;
-            this.colPercentatge.Width = 59;
+            this.colPercentatge.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colPercentatge.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colPercentatge.Width = 29;
             // 
             // PasteSelfBank
             // 

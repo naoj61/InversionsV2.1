@@ -80,7 +80,7 @@ namespace Inversions.GUI
                         if (preuPart > 0)
                         {
                             var existeisValoracio = Program.Sessio.Valoracio.SingleOrDefault(w => w.Prod.Id == prod.Id && w.Data == dataPreuPart) != null;
-                            var difPercent = (preuPart / prod._PreuParticipacioActual - 1) * 100;
+                            var difPercent = (preuPart / prod._PreuParticipacioActual - 1);
 
                             int numFila = dataGridView1.Rows.Add(new object[] { !existeisValoracio, prod, !existeisValoracio, dataPreuPart
                                 , prod._PreuParticipacioActual, preuPart, difPercent });

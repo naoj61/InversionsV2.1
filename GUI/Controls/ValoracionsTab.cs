@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -256,7 +257,13 @@ namespace Inversions.GUI
                     saldo += ProdFons.Valor(data, TipusFons.RF);
                 }
 
-                dgvValoracionsPerData.Rows.Add(data, pigPerData, (pigPerData / pigPerDataAnt - 1), pigPerData - pigPerDataAnt, saldo);
+                int numFila = dgvValoracionsPerData.Rows.Add(data, pigPerData, (pigPerData / pigPerDataAnt - 1), pigPerData - pigPerDataAnt, saldo);
+
+                if ((pigPerData - pigPerDataAnt) < 0)
+                {
+                    dgvValoracionsPerData.Rows[numFila].Cells[colVariacioEuros2.Name].Style.ForeColor = Color.Red;
+                    dgvValoracionsPerData.Rows[numFila].Cells[colVariacioPercentatge.Name].Style.ForeColor = Color.Red;
+                }
 
                 if (data >= new DateTime(2015, 3, 20) && pigPerData > 0)
                 {
