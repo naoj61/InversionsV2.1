@@ -49,7 +49,7 @@ namespace Inversions.GUI
             {
                 dataGridView1.Rows.Clear();
 
-                var text1 = textBox1.Text.Replace(Environment.NewLine, "\t");
+                var text1 = tbPaste.Text.Replace(Environment.NewLine, "\t");
                 var items = text1.Split(new char[] {'\t',}, StringSplitOptions.RemoveEmptyEntries);
                 ProdFons prod = null;
                 int posPreuPart = cbColumnaPreuParticio.SelectedIndex + 1;

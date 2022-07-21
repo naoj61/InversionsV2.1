@@ -32,7 +32,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbPaste = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.ckTancaAlDesar = new System.Windows.Forms.CheckBox();
             this.btDesa = new System.Windows.Forms.Button();
@@ -62,17 +62,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // textBox1
+            // tbPaste
             // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(0, 0);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(777, 722);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.tbPaste.Dock = System.Windows.Forms.DockStyle.Left;
+            this.tbPaste.Location = new System.Drawing.Point(0, 0);
+            this.tbPaste.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tbPaste.Multiline = true;
+            this.tbPaste.Name = "tbPaste";
+            this.tbPaste.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbPaste.Size = new System.Drawing.Size(433, 722);
+            this.tbPaste.TabIndex = 0;
+            this.tbPaste.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // flowLayoutPanel1
             // 
@@ -262,13 +262,13 @@
             this.colValorActual,
             this.colValorNou,
             this.colPercentatge});
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.dataGridView1.Location = new System.Drawing.Point(777, 0);
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(433, 0);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowTemplate.Height = 30;
-            this.dataGridView1.Size = new System.Drawing.Size(566, 722);
+            this.dataGridView1.Size = new System.Drawing.Size(910, 722);
             this.dataGridView1.TabIndex = 3;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
@@ -355,8 +355,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1343, 801);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.tbPaste);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "PasteSelfBank";
@@ -378,7 +378,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbPaste;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Button btCapturaValors;
         private System.Windows.Forms.DataGridView dataGridView1;
