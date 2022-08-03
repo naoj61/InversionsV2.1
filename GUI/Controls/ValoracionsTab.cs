@@ -55,7 +55,7 @@ namespace Inversions.GUI
             if (_ActivaRefresca)
             {
                 _ActivaRefresca = false;
-                
+
                 if (dgvValoracionsPerData.Rows.Count > 0)
                     actualitzaLlistaValoracionsTotal();
 
@@ -89,7 +89,7 @@ namespace Inversions.GUI
         protected override void modeEdicio()
         {
             base.modeEdicio();
-      
+
             btNouValor.Enabled = false;
             btModifica.Enabled = false;
             btEsborra.Enabled = false;
@@ -287,7 +287,7 @@ namespace Inversions.GUI
             chart2.ChartAreas[0].AxisY.Maximum = maxVal;
             chart2.Update();
         }
-        
+
 
         #region *** Events ***
 
@@ -340,7 +340,7 @@ namespace Inversions.GUI
                     }
                 }
 
-                Program.Sessio.refrescaTaula(typeof(Valoracio));
+                Program.Sessio.refrescaTaula(typeof (Valoracio));
                 actualitzaLlistaValoracionsPerProducte();
             }
         }
@@ -378,7 +378,7 @@ namespace Inversions.GUI
                         {
                             var xx = Utilitats.ExtreuInnerException(ex);
 
-                            if (xx is System.Data.SqlClient.SqlException && ((System.Data.SqlClient.SqlException)xx).Number == 2627)
+                            if (xx is System.Data.SqlClient.SqlException && ((System.Data.SqlClient.SqlException) xx).Number == 2627)
                                 MessageBox.Show("Valoració ja existeix", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             else
                                 MessageBox.Show(xx.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -391,8 +391,8 @@ namespace Inversions.GUI
 
                 gestioProductesTabValoracions.refrescaDadesControl();
 
-                ((Principal)ParentForm).activaRefrescaEnTabs(this);
-                
+                ((Principal) ParentForm).activaRefrescaEnTabs(this);
+
                 modeConsulta();
 
                 tbImport.Valor = 0;
@@ -431,9 +431,9 @@ namespace Inversions.GUI
             {
                 vValoracioSeleccionada = null;
             }
-            else if (vValoracioSeleccionada != (Valoracio)dgvValoracions.Rows[e.RowIndex].DataBoundItem)
+            else if (vValoracioSeleccionada != (Valoracio) dgvValoracions.Rows[e.RowIndex].DataBoundItem)
             {
-                vValoracioSeleccionada = (Valoracio)dgvValoracions.Rows[e.RowIndex].DataBoundItem;
+                vValoracioSeleccionada = (Valoracio) dgvValoracions.Rows[e.RowIndex].DataBoundItem;
                 posaValorsDeLaFilaSeleccionada();
                 btModifica.Enabled = true;
                 btEsborra.Enabled = true;
@@ -445,7 +445,7 @@ namespace Inversions.GUI
             PasteSelfBank pSelf = new PasteSelfBank();
             if (pSelf.ShowDialog(this) == DialogResult.OK)
             {
-                ((Principal)ParentForm).activaRefrescaEnTabs(this);
+                ((Principal) ParentForm).activaRefrescaEnTabs(this);
                 gestioProductesTabValoracions.refrescaDadesControl();
             }
         }
@@ -515,7 +515,20 @@ namespace Inversions.GUI
                 }
             }
         }
-        
+
+        private void dgvValoracions_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.ColumnIndex == colVariacioPercent.Index || e.ColumnIndex == colVariacioEuros.Index)
+            {
+                var ss = (double) e.Value;
+                if (ss < 0)
+                {
+                    e.CellStyle.ForeColor=Color.Red;
+                }
+            }
+        }
+
         #endregion *** Events ***
+
     }
 }
