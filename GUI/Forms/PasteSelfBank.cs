@@ -40,7 +40,7 @@ namespace Inversions.GUI
         private const string NomVarRegCapturaAutomaticament = "PasteSelfBankCapturaAutomaticament";
         private const int DiferenciaMaimaxPreu = 10;
 
-        private void capturaValorsPaste()
+        private void capturaValorsPaste(DateTime? data = null)
         {
             var cursor = Cursor;
             Cursor = Cursors.WaitCursor;
@@ -79,10 +79,12 @@ namespace Inversions.GUI
 
                         if (preuPart > 0)
                         {
-                            var existeisValoracio = Program.Sessio.Valoracio.SingleOrDefault(w => w.Prod.Id == prod.Id && w.Data == dataPreuPart) != null;
+                            DateTime datax = data.GetValueOrDefault(dataPreuPart);
+
+                            var existeisValoracio = Program.Sessio.Valoracio.SingleOrDefault(w => w.Prod.Id == prod.Id && w.Data == datax) != null;
                             var difPercent = (preuPart / prod._PreuParticipacioActual - 1);
 
-                            int numFila = dataGridView1.Rows.Add(new object[] { !existeisValoracio, prod, !existeisValoracio, dataPreuPart
+                            int numFila = dataGridView1.Rows.Add(new object[] { !existeisValoracio, prod, !existeisValoracio, datax
                                 , prod._PreuParticipacioActual, preuPart, difPercent });
 
                             if (existeisValoracio)
@@ -209,12 +211,6 @@ namespace Inversions.GUI
             capturaValorsPaste();
         }
 
-        private void ckDataUnica_CheckedChanged(object sender, EventArgs e)
-        {
-            dtpDataUnica.Enabled = ckDataUnica.Checked;
-            colData.Visible = !ckDataUnica.Checked;
-        }
-
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if(e.ColumnIndex == colSeleccionat.Index)
@@ -235,6 +231,24 @@ namespace Inversions.GUI
                         ckSobreescriuValoracions.Checked = true;
                 }
             }
+        }
+
+        private void ckDataUnica_CheckedChanged(object sender, EventArgs e)
+        {
+            dtpDataUnica.Enabled = ckDataUnica.Checked;
+            validaDataUnica();
+        }
+
+        private void dtpDataUnica_ValueChanged(object sender, EventArgs e)
+        {
+            validaDataUnica();
+        }
+
+        private void validaDataUnica()
+        {
+
+            // Comprovar si s'han de sobreescriure valors per la data.
+            capturaValorsPaste(ckDataUnica.Checked ? dtpDataUnica.Value : (DateTime?) null);
         }
     }
 }

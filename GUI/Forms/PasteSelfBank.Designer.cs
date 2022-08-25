@@ -162,6 +162,7 @@
             this.dtpDataUnica.Name = "dtpDataUnica";
             this.dtpDataUnica.Size = new System.Drawing.Size(129, 26);
             this.dtpDataUnica.TabIndex = 1;
+            this.dtpDataUnica.ValueChanged += new System.EventHandler(this.dtpDataUnica_ValueChanged);
             // 
             // ckDataUnica
             // 
