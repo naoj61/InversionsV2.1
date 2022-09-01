@@ -32,6 +32,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tbPaste = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.ckTancaAlDesar = new System.Windows.Forms.CheckBox();
@@ -55,6 +56,7 @@
             this.colValorActual = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colValorNou = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPercentatge = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDif = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -262,7 +264,8 @@
             this.colData,
             this.colValorActual,
             this.colValorNou,
-            this.colPercentatge});
+            this.colPercentatge,
+            this.colDif});
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(433, 0);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -351,6 +354,20 @@
             this.colPercentatge.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.colPercentatge.Width = 29;
             // 
+            // colDif
+            // 
+            this.colDif.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Format = "C2";
+            dataGridViewCellStyle5.NullValue = null;
+            this.colDif.DefaultCellStyle = dataGridViewCellStyle5;
+            this.colDif.HeaderText = "Dif";
+            this.colDif.Name = "colDif";
+            this.colDif.ReadOnly = true;
+            this.colDif.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colDif.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colDif.Width = 35;
+            // 
             // PasteSelfBank
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -402,5 +419,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colValorActual;
         private System.Windows.Forms.DataGridViewTextBoxColumn colValorNou;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPercentatge;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDif;
     }
 }

@@ -83,15 +83,20 @@ namespace Inversions.GUI
 
                             var existeisValoracio = Program.Sessio.Valoracio.SingleOrDefault(w => w.Prod.Id == prod.Id && w.Data == datax) != null;
                             var difPercent = (preuPart / prod._PreuParticipacioActual - 1);
+                            var difValor = ((preuPart - prod._PreuParticipacioActual) * prod._Participacions);
+
 
                             int numFila = dataGridView1.Rows.Add(new object[] { !existeisValoracio, prod, !existeisValoracio, datax
-                                , prod._PreuParticipacioActual, preuPart, difPercent });
+                                , prod._PreuParticipacioActual, preuPart, difPercent, difValor });
 
                             if (existeisValoracio)
                                 dataGridView1.Rows[numFila].Cells[colData.Name].Style.ForeColor = Color.Blue;
 
                             if (difPercent < 0)
+                            {
                                 dataGridView1.Rows[numFila].Cells[colPercentatge.Name].Style.ForeColor = Color.Red;
+                                dataGridView1.Rows[numFila].Cells[colDif.Name].Style.ForeColor = Color.Red;
+                            }
 
                             if (Math.Abs(difPercent) >= DiferenciaMaimaxPreu)
                             {
