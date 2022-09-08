@@ -617,8 +617,8 @@ namespace Inversions.GUI
             this.colValor.Name = "colValor";
             this.colValor.ReadOnly = true;
             this.colValor.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colValor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.colValor.Width = 121;
+            this.colValor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colValor.Width = 91;
             // 
             // colVariacioPercent
             // 

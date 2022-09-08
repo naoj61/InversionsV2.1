@@ -11,11 +11,16 @@ namespace Inversions.GUI
 {
     public partial class PerduesGuanysTab : TabX
     {
+
+        private readonly Producte vProdTotal = new ProdFons();
+
         public PerduesGuanysTab()
         {
             InitializeComponent();
 
             dgvCompresProducte.AutoGenerateColumns = false;
+
+            vProdTotal._NomProducte = "Total";
         }
 
         internal override void carregaInicial()
@@ -24,7 +29,7 @@ namespace Inversions.GUI
 
             gestioProductesTabValoracions._NomesAmbParticipacions = true;
 
-            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof(Producte.TipusProducte));
+            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof (Producte.TipusProducte));
             cbTipusProducteFiltreTab2.SelectedIndex = -1;
             cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
             cbTipusProducteFiltreTab2.SelectedIndex = 0;
@@ -47,7 +52,7 @@ namespace Inversions.GUI
         internal override void refresca(bool? refrescaActivat)
         {
             base.refresca(refrescaActivat);
-     
+
             if (_ActivaRefresca)
             {
                 _ActivaRefresca = false;
@@ -61,20 +66,20 @@ namespace Inversions.GUI
                 gestioProductesTabValoracions.refrescaDadesControl();
             }
         }
-        
+
         private void calculaPiG()
         {
             //if (Program.RuntimeMode)
             if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
-                Producte.TipusProducte tipusProducte = (Producte.TipusProducte)cbTipusProducteFiltreTab2.SelectedItem;
+                Producte.TipusProducte tipusProducte = (Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem;
 
                 //var primerAny = Program.Sessio.MovimentsUsuari.OrderBy(o => o.Data).First().Data.Year;
                 var ultimAny = DateTime.Today.Year;
 
                 dgvPiGAnualsTributen.Rows.Clear();
                 double pigTotalTributa = 0;
-                for (uint any = (uint)Program.PrimerAny; any <= ultimAny; any++)
+                for (uint any = (uint) Program.PrimerAny; any <= ultimAny; any++)
                 {
                     // *** PiG Tributa ***
                     var pigTributa = Producte.PigTributa(tipusProducte, null, any, true);
@@ -87,12 +92,13 @@ namespace Inversions.GUI
                     }
                 }
 
-                int fila = dgvPiGAnualsTributen.Rows.Add("Total", 0, 0, pigTotalTributa);
+
+                int fila = dgvPiGAnualsTributen.Rows.Add(vProdTotal, 0, 0, pigTotalTributa);
                 dgvPiGAnualsTributen.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTributen.Font, FontStyle.Bold);
                 dgvPiGAnualsTributen.Rows[fila].Cells[3].Style.ForeColor = pigTotalTributa < 0 ? Color.Red : Color.Black;
                 dgvPiGAnualsTributen.FirstDisplayedScrollingRowIndex = fila;
 
-                ntbPigActualPartsEnCartera.Valor = Producte.Pig2Cartera(tipusProducte, null, (uint)ultimAny, true, true);
+                ntbPigActualPartsEnCartera.Valor = Producte.Pig2Cartera(tipusProducte, null, (uint) ultimAny, true, true);
                 ntbPigRealMesCartera.Valor = ntbPigActualPartsEnCartera.Valor + pigTotalTributa;
             }
         }
@@ -174,7 +180,9 @@ namespace Inversions.GUI
                 var enCartera = proSeleccionat.pig2EnCartera();
                 dgvPiGProductePerAny.Rows.Add("Cartera", enCartera);
 
-                fila = dgvPiGProductePerAny.Rows.Add("Total", pigTotal + enCartera);
+
+
+                fila = dgvPiGProductePerAny.Rows.Add(vProdTotal, pigTotal + enCartera);
                 dgvPiGProductePerAny.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGProductePerAny.Font, FontStyle.Bold);
                 dgvPiGProductePerAny.FirstDisplayedScrollingRowIndex = fila;
 
@@ -207,7 +215,7 @@ namespace Inversions.GUI
 
             List<Producte> productes;
 
-            switch ((Producte.TipusProducte)cbTipusProducteFiltreTab2.SelectedItem)
+            switch ((Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem)
             {
                 case Producte.TipusProducte.Tots:
                     productes = Program.Sessio.Productes.ToList();
@@ -238,7 +246,9 @@ namespace Inversions.GUI
                 }
             }
 
-            int fila2 = dgvPiGEnCartera.Rows.Add("Total", pigTotalEncartera);
+
+
+            int fila2 = dgvPiGEnCartera.Rows.Add(vProdTotal, pigTotalEncartera);
             dgvPiGEnCartera.Rows[fila2].DefaultCellStyle.Font = new Font(dgvPiGEnCartera.Font, FontStyle.Bold);
             dgvPiGEnCartera.Rows[fila2].Cells[1].Style.ForeColor = pigTotalEncartera < 0 ? Color.Red : Color.Black;
             dgvPiGEnCartera.FirstDisplayedScrollingRowIndex = fila2;
@@ -302,7 +312,7 @@ namespace Inversions.GUI
 
         private void dgvPiGAnualsTributen_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex == dgvPiGAnualsTributen.Rows.Count - 1)
+            if (e.RowIndex < 0 || e.RowIndex == dgvPiGAnualsTributen.Rows.Count - 1)
                 return;
 
             var any = Convert.ToInt32(dgvPiGAnualsTributen[0, e.RowIndex].Value);
@@ -317,8 +327,8 @@ namespace Inversions.GUI
             double pigOrig = 0;
             foreach (DataGridViewRow selectedRow in dgvCompresProducte.SelectedRows)
             {
-                pig += ((Moviment)selectedRow.DataBoundItem).pigCompra(ckAmbCartera.Checked, false, null, true, ckAmbDividends.Checked);
-                pigOrig += ((Moviment)selectedRow.DataBoundItem).pigCompra(ckAmbCartera.Checked, true, null, false, false);
+                pig += ((Moviment) selectedRow.DataBoundItem).pigCompra(ckAmbCartera.Checked, false, null, true, ckAmbDividends.Checked);
+                pigOrig += ((Moviment) selectedRow.DataBoundItem).pigCompra(ckAmbCartera.Checked, true, null, false, false);
             }
             ntbPigCompra.Valor = Math.Round(pig, 2);
             ntbPigCompraOrig.Valor = Math.Round(pigOrig, 2);
@@ -342,10 +352,27 @@ namespace Inversions.GUI
             ompleDgvPiGEnCartera();
         }
 
-        private void PerduesGuanysTab_Load(object sender, EventArgs e)
+
+        private void dgvPiGEnCartera_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
         {
+            // *** Faig que la línia "Total" sempre surti al final. ***
+
+            var r1 = (Producte)dgvPiGEnCartera[0, e.RowIndex1].Value;
+            var r2 = (Producte)dgvPiGEnCartera[0, e.RowIndex2].Value;
+
+            if (r1._NomProducte == "Total")
+            {
+                e.SortResult = 1;
+                e.Handled = true;
+            }
+            else if (r2._NomProducte == "Total")
+            {
+                e.SortResult = 0; // Pensava que hauria de ser -1 però no funciona,
+                e.Handled = true;
+            }
         }
 
         #endregion *** Events ***
+
     }
 }

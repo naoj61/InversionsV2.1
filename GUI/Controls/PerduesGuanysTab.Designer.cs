@@ -39,6 +39,7 @@ namespace Inversions.GUI
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -50,7 +51,6 @@ namespace Inversions.GUI
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnPigRight = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -69,6 +69,8 @@ namespace Inversions.GUI
             this.label2 = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
             this.dgvPiGEnCartera = new System.Windows.Forms.DataGridView();
+            this.colPigEnCarteraProd = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPigEnCarteraPig = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel6 = new System.Windows.Forms.Panel();
             this.lbPiGEnCartera = new System.Windows.Forms.Label();
             this.cbAnysPiGEnCartera = new System.Windows.Forms.ComboBox();
@@ -109,8 +111,6 @@ namespace Inversions.GUI
             this.btFiltreDates = new System.Windows.Forms.Button();
             this.dtpFiltreDataFi = new Controls.DateTimePickerNullable();
             this.gestioProductesTabValoracions = new Inversions.GUI.GestioProductes();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnPigRight.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -332,7 +332,8 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn1.HeaderText = "Any";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 72;
+            this.dataGridViewTextBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn1.Width = 42;
             // 
             // dataGridViewTextBoxColumn6
             // 
@@ -343,6 +344,7 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn6.HeaderText = "P i G Curt";
             this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
             this.dataGridViewTextBoxColumn6.ReadOnly = true;
+            this.dataGridViewTextBoxColumn6.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.dataGridViewTextBoxColumn6.Visible = false;
             // 
             // dataGridViewTextBoxColumn5
@@ -354,6 +356,7 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn5.HeaderText = "P i G Llarg";
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            this.dataGridViewTextBoxColumn5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.dataGridViewTextBoxColumn5.Visible = false;
             // 
             // Column1
@@ -365,6 +368,7 @@ namespace Inversions.GUI
             this.Column1.HeaderText = "P i G Total";
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
+            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // label2
             // 
@@ -406,8 +410,8 @@ namespace Inversions.GUI
             this.dgvPiGEnCartera.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dgvPiGEnCartera.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPiGEnCartera.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column2,
-            this.dataGridViewTextBoxColumn10});
+            this.colPigEnCarteraProd,
+            this.colPigEnCarteraPig});
             dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -426,6 +430,25 @@ namespace Inversions.GUI
             this.dgvPiGEnCartera.Size = new System.Drawing.Size(420, 256);
             this.dgvPiGEnCartera.TabIndex = 15;
             this.toolTip1.SetToolTip(this.dgvPiGEnCartera, "Només vendes reals.");
+            this.dgvPiGEnCartera.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dgvPiGEnCartera_SortCompare);
+            // 
+            // colPigEnCarteraProd
+            // 
+            this.colPigEnCarteraProd.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colPigEnCarteraProd.HeaderText = "Producte";
+            this.colPigEnCarteraProd.Name = "colPigEnCarteraProd";
+            this.colPigEnCarteraProd.ReadOnly = true;
+            // 
+            // colPigEnCarteraPig
+            // 
+            this.colPigEnCarteraPig.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle8.Format = "c2";
+            this.colPigEnCarteraPig.DefaultCellStyle = dataGridViewCellStyle8;
+            this.colPigEnCarteraPig.HeaderText = "P i G";
+            this.colPigEnCarteraPig.Name = "colPigEnCarteraPig";
+            this.colPigEnCarteraPig.ReadOnly = true;
+            this.colPigEnCarteraPig.Width = 79;
             // 
             // panel6
             // 
@@ -1018,24 +1041,6 @@ namespace Inversions.GUI
             this.gestioProductesTabValoracions.TabIndex = 0;
             this.gestioProductesTabValoracions.ProducteSeleccionat += new System.EventHandler(this.gestioProductesTabValoracions_ProducteSeleccionat);
             // 
-            // Column2
-            // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column2.HeaderText = "Producte";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn10
-            // 
-            this.dataGridViewTextBoxColumn10.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle8.Format = "c2";
-            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle8;
-            this.dataGridViewTextBoxColumn10.HeaderText = "P i G";
-            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
-            this.dataGridViewTextBoxColumn10.ReadOnly = true;
-            this.dataGridViewTextBoxColumn10.Width = 79;
-            // 
             // PerduesGuanysTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1047,7 +1052,6 @@ namespace Inversions.GUI
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "PerduesGuanysTab";
             this.Size = new System.Drawing.Size(1459, 822);
-            this.Load += new System.EventHandler(this.PerduesGuanysTab_Load);
             this.pnPigRight.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
@@ -1098,10 +1102,6 @@ namespace Inversions.GUI
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridView dgvPiGProductePerAny;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.DataGridView dgvCompresProducte;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
@@ -1143,7 +1143,11 @@ namespace Inversions.GUI
         private Controls.DateTimePickerNullable dtpFiltreDataInici;
         private System.Windows.Forms.Button btFiltreDates;
         private Controls.DateTimePickerNullable dtpFiltreDataFi;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPigEnCarteraProd;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPigEnCarteraPig;
     }
 }
