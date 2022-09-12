@@ -294,7 +294,7 @@
             // ntbPreuParticipacio
             // 
             this.ntbPreuParticipacio._CapturaEscape = true;
-            this.ntbPreuParticipacio._Format = "#,##0.###### €";
+            this.ntbPreuParticipacio._Format = "#,##0.############ €";
             this.ntbPreuParticipacio._PermetDecimals = true;
             this.ntbPreuParticipacio._PermetEspais = false;
             this.ntbPreuParticipacio._PermetNegatius = false;
@@ -449,7 +449,7 @@
             // tbNumParticipacions
             // 
             this.tbNumParticipacions._CapturaEscape = true;
-            this.tbNumParticipacions._Format = "#,##0.######";
+            this.tbNumParticipacions._Format = "#,##0.############";
             this.tbNumParticipacions._PermetDecimals = true;
             this.tbNumParticipacions._PermetEspais = false;
             this.tbNumParticipacions._PermetNegatius = false;
