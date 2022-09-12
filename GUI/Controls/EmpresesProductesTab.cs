@@ -6,12 +6,12 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 using Comuns;
 using Controls;
-using DevExpress.XtraEditors.Controls;
+using DevExpress.Utils.Paint;
 
 namespace Inversions.GUI
 {
@@ -313,9 +313,80 @@ namespace Inversions.GUI
 
                 modeConsulta();
             }
-            catch (DbEntityValidationException ex2)
+            catch (DbUpdateException ex3)
             {
-                Utilitats.EscriuLog(ex2);
+                bool escriuLog = true;
+
+                Exception inEx = ex3;
+
+                while (inEx != null)
+                {
+                    if (inEx is SqlException)
+                    {
+                        var sqlEx = (SqlException) inEx;
+
+                        if (sqlEx.Number == 2601 || sqlEx.Number == 2627)
+                        {
+                            // Esborra el producte creat amb errors.
+                            vConnProductes.UndoingChangesDbEntityPropertyLevel(vProducteSeleccionat);
+
+                            escriuLog = false;
+                            MessageBox.Show(sqlEx.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                            break;
+                        }
+                    }
+
+                    inEx = inEx.InnerException;
+                }
+
+                if (escriuLog)
+                    Utilitats.EscriuLog(ex3);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                string message = "\nValidation Errors: ";
+                    
+                foreach (var error in ex.EntityValidationErrors.SelectMany(entity => entity.ValidationErrors))
+                {
+                    message += String.Format("\nNom camp: {0}, Missatge: {1}", error.PropertyName, error.ErrorMessage);
+                }
+
+                MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                // Esborra el producte creat amb errors.
+                vConnProductes.UndoingChangesDbEntityPropertyLevel(vProducteSeleccionat);
+
+
+                //// Retrieve the error messages as a list of strings.
+                //var errorMessages = ex.EntityValidationErrors.SelectMany(x => x.ValidationErrors).Select(x => x.ErrorMessage);
+                //var xx = ex.EntityValidationErrors.SelectMany(x => x.ValidationErrors).Select(x => x.ErrorMessage);
+
+                //// Join the list to a single string.
+                //var fullErrorMessage = string.Join("; ", errorMessages);
+
+                //// Combine the original exception message with the new one.
+                //var exceptionMessage = string.Concat(ex.Message, " The validation errors are: ", fullErrorMessage);
+
+                //// Throw a new DbEntityValidationException with the improved exception message.
+                //throw new DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
+
+
+
+
+                //if (ex.HResult == -2146232032)
+                //{
+                //    foreach (var validationErrors in ex.EntityValidationErrors)
+                //    {
+                //        foreach (var validationError in validationErrors.ValidationErrors)
+                //        {
+                //            var valorDuplicat = validationErrors.Entry.Entity;
+                //            var missatge = validationError.ErrorMessage;
+                //        }
+                //    }
+                //}
+                //else
+                //    Utilitats.EscriuLog(ex);
             }
             catch (Exception ex1)
             {
@@ -386,6 +457,8 @@ namespace Inversions.GUI
             vEmpresaSeleccionada = (Empresa) dgvEmpreses.Rows[e.RowIndex].DataBoundItem;
 
             carregaGridProductes(vEmpresaSeleccionada);
+
+            colIsin.Visible = vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.GestoraFons;
         }
 
         private void btEsborraProducte_Click(object sender, EventArgs e)

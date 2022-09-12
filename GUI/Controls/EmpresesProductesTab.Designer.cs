@@ -40,9 +40,6 @@ namespace Inversions.GUI
             this.btDesaCanvisEmpreses = new System.Windows.Forms.Button();
             this.grProductes = new System.Windows.Forms.GroupBox();
             this.dgvProductes = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._OrdreGrid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnCampsProductes = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.gbTipusProducte = new System.Windows.Forms.GroupBox();
@@ -65,6 +62,10 @@ namespace Inversions.GUI
             this.btEditaProducte = new System.Windows.Forms.Button();
             this.btNouProducte = new System.Windows.Forms.Button();
             this.btDesaProducte = new System.Windows.Forms.Button();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._OrdreGrid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIsin = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grEmpresa.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmpreses)).BeginInit();
             this.pnDesaCanvisEmpreses.SuspendLayout();
@@ -201,6 +202,7 @@ namespace Inversions.GUI
             this.dgvProductes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
             this._OrdreGrid,
+            this.colIsin,
             this.dataGridViewTextBoxColumn2});
             this.dgvProductes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvProductes.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
@@ -211,28 +213,6 @@ namespace Inversions.GUI
             this.dgvProductes.Size = new System.Drawing.Size(715, 260);
             this.dgvProductes.TabIndex = 0;
             this.dgvProductes.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProductes_RowEnter);
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "Id";
-            this.dataGridViewTextBoxColumn1.HeaderText = "Id";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 61;
-            // 
-            // _OrdreGrid
-            // 
-            this._OrdreGrid.DataPropertyName = "OrdreGrid";
-            this._OrdreGrid.HeaderText = "Ordre Grid";
-            this._OrdreGrid.Name = "_OrdreGrid";
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "_NomProducte";
-            this.dataGridViewTextBoxColumn2.HeaderText = "Nom";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             // 
             // pnCampsProductes
             // 
@@ -509,6 +489,36 @@ namespace Inversions.GUI
             this.btDesaProducte.UseVisualStyleBackColor = true;
             this.btDesaProducte.Click += new System.EventHandler(this.btDesaProducte_Click);
             // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "Id";
+            this.dataGridViewTextBoxColumn1.HeaderText = "Id";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Width = 61;
+            // 
+            // _OrdreGrid
+            // 
+            this._OrdreGrid.DataPropertyName = "OrdreGrid";
+            this._OrdreGrid.HeaderText = "Ordre Grid";
+            this._OrdreGrid.Name = "_OrdreGrid";
+            // 
+            // colIsin
+            // 
+            this.colIsin.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colIsin.DataPropertyName = "_Isin";
+            this.colIsin.HeaderText = "ISIN";
+            this.colIsin.Name = "colIsin";
+            this.colIsin.Width = 81;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "_NomProducte";
+            this.dataGridViewTextBoxColumn2.HeaderText = "Nom";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            // 
             // EmpresesProductesTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -555,9 +565,6 @@ namespace Inversions.GUI
         private System.Windows.Forms.Button btDesaCanvisEmpreses;
         private System.Windows.Forms.GroupBox grProductes;
         private System.Windows.Forms.DataGridView dgvProductes;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _OrdreGrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.Panel pnCampsProductes;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.GroupBox gbTipusProducte;
@@ -580,6 +587,10 @@ namespace Inversions.GUI
         private System.Windows.Forms.Button btEditaProducte;
         private System.Windows.Forms.Button btNouProducte;
         private System.Windows.Forms.Button btDesaProducte;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _OrdreGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colIsin;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
 
     }
 }
