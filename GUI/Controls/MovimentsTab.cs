@@ -415,6 +415,18 @@ namespace Inversions.GUI
                 return;
             }
 
+            if (tbNumParticipacions.Valor < 0)
+            {
+                MessageBox.Show("El num. participacions no pot ser negatiu");
+                return;
+            }
+
+            if (ntbPreuParticipacio.Valor < 0)
+            {
+                MessageBox.Show("El preu participació no pot ser negatiu");
+                return;
+            }
+
             if (tp == TipusMoviment.Traspàs && cProducteTraspas.SelectedItem == null)
             {
                 MessageBox.Show("Falta informar el producte destí");
@@ -424,6 +436,12 @@ namespace Inversions.GUI
             if (cProducteTraspas.SelectedItem != null && tbNumParticipacionsDesti.Valor <= 0)
             {
                 MessageBox.Show("Falta num. participacions producte destí");
+                return;
+            }
+
+            if (tbNumParticipacionsDesti.Valor < 0)
+            {
+                MessageBox.Show("El num. participacions producte destí no pot ser negatiu");
                 return;
             }
 
