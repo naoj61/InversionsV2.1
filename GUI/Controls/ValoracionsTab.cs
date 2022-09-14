@@ -181,6 +181,8 @@ namespace Inversions.GUI
             if (this.DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Designtime)
                 return;
 
+            titolValoracionsPerData();
+
             dgvValoracionsPerData.Rows.Clear();
             chart2.Series[0].Points.Clear();
 
@@ -310,6 +312,37 @@ namespace Inversions.GUI
             chart2.ChartAreas[0].AxisY.Minimum = minVal;
             chart2.ChartAreas[0].AxisY.Maximum = maxVal;
             chart2.Update();
+        }
+
+
+        private void titolValoracionsPerData()
+        {
+            // Per saber que està seleccionat
+            var accions = checkedComboBoxEdit1.Properties.Items[TipusProd.Accions].CheckState == CheckState.Checked;
+            var criptos = checkedComboBoxEdit1.Properties.Items[TipusProd.Criptos].CheckState == CheckState.Checked;
+            var rf = checkedComboBoxEdit1.Properties.Items[TipusProd.RF].CheckState == CheckState.Checked;
+            var rv = checkedComboBoxEdit1.Properties.Items[TipusProd.RV].CheckState == CheckState.Checked;
+
+            // Posa el títol en el combo.
+            if (accions && criptos && rf && rv)
+                lbTitolValoracionsPerData.Text = "Tot";
+            else
+            {
+                lbTitolValoracionsPerData.Text = "";
+                if (rf && rv)
+                    lbTitolValoracionsPerData.Text += " + Fons";
+                else if (rf)
+                    lbTitolValoracionsPerData.Text += " + Fons renda fixa";
+                else if (rv)
+                    lbTitolValoracionsPerData.Text += " + Fons renda variable";
+                if (accions)
+                    lbTitolValoracionsPerData.Text += " + Accions";
+                if (criptos)
+                    lbTitolValoracionsPerData.Text += " + Criptos";
+
+                if (lbTitolValoracionsPerData.Text.Length > 1)
+                    lbTitolValoracionsPerData.Text = lbTitolValoracionsPerData.Text.Remove(0, 2);
+            }
         }
 
 
@@ -502,30 +535,6 @@ namespace Inversions.GUI
                         e.Text = string.Format("Import:\t{0}", dataPoint.YValues[0]);
                     }
                     break;
-            }
-        }
-
-        private void checkedComboBoxEdit1_CustomDisplayText(object sender, CustomDisplayTextEventArgs e)
-        {
-            if (e.Value != null)
-            {
-                // Per saber que està seleccionat
-                var accions = checkedComboBoxEdit1.Properties.Items[TipusProd.Accions].CheckState == CheckState.Checked;
-                var criptos = checkedComboBoxEdit1.Properties.Items[TipusProd.Criptos].CheckState == CheckState.Checked;
-                var rf = checkedComboBoxEdit1.Properties.Items[TipusProd.RF].CheckState == CheckState.Checked;
-                var rv = checkedComboBoxEdit1.Properties.Items[TipusProd.RV].CheckState == CheckState.Checked;
-
-                // Posa el títol en el combo.
-                if (accions && criptos && rf && rv)
-                    e.DisplayText = "Tot";
-                if (!accions && !criptos && rf && rv)
-                    e.DisplayText = "Fons";
-                if (accions && !criptos && !rf && !rv)
-                    e.DisplayText = "Accions";
-                else if (!accions && criptos && !rf && !rv)
-                    e.DisplayText = "Criptos";
-                if (accions && criptos && !rf && !rv)
-                    e.DisplayText = "Acc+Cript";
             }
         }
 
