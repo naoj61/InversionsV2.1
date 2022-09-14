@@ -458,8 +458,10 @@ namespace Inversions.GUI
 
             carregaGridProductes(vEmpresaSeleccionada);
 
-            colIsin.Visible = vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.GestoraFons;
+            if (vEmpresaSeleccionada != null)
+                colIsin.Visible = vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.GestoraFons;
         }
+
 
         private void btEsborraProducte_Click(object sender, EventArgs e)
         {

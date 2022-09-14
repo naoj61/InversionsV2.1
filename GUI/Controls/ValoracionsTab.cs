@@ -20,7 +20,8 @@ namespace Inversions.GUI
             Accions,
             Fons,
             RF,
-            RV
+            RV,
+            Criptos
         }
 
         private bool vEsNouValor = false;
@@ -185,10 +186,11 @@ namespace Inversions.GUI
 
             // Per saber que està seleccionat
             var accions = checkedComboBoxEdit1.Properties.Items[TipusProd.Accions].CheckState == CheckState.Checked;
+            var criptos = checkedComboBoxEdit1.Properties.Items[TipusProd.Criptos].CheckState == CheckState.Checked;
             var rf = checkedComboBoxEdit1.Properties.Items[TipusProd.RF].CheckState == CheckState.Checked;
             var rv = checkedComboBoxEdit1.Properties.Items[TipusProd.RV].CheckState == CheckState.Checked;
 
-            if (!(accions || rf || rv))
+            if (!(accions || criptos || rf || rv))
                 return;
 
             var valData = Program.Sessio.Valoracions.Where(w => w.Data >= dtpDataIniciLlista.Value).ToList();
@@ -197,12 +199,24 @@ namespace Inversions.GUI
             List<Valoracio> valoracions = new List<Valoracio>();
             List<Moviment> moviments = new List<Moviment>();
 
-            if (accions)
-            {
-                valoracions.AddRange(valData.Where(w => w.Prod is ProdAccions).ToList());
-                moviments.AddRange(movData.Where(w => w.Prod is ProdAccions && w.Participacions > 0).ToList());
-            }
 
+            if (accions || criptos)
+            {
+                Mercat mercatCriptos = Program.Sessio.Mercats.Single(w => w.Nom == TipusProd.Criptos.ToString());
+
+                if (accions)
+                {
+                    valoracions.AddRange(valData.Where(w => w.Prod is ProdAccions && w.Prod._Mercat != mercatCriptos).ToList());
+                    moviments.AddRange(movData.Where(w => w.Prod is ProdAccions && w.Participacions > 0 && w.Prod._Mercat != mercatCriptos).ToList());
+                }
+
+                if (criptos)
+                {
+                    valoracions.AddRange(valData.Where(w => w.Prod is ProdAccions && w.Prod._Mercat == mercatCriptos).ToList());
+                    moviments.AddRange(movData.Where(w => w.Prod is ProdAccions && w.Participacions > 0 && w.Prod._Mercat == mercatCriptos).ToList());
+                }
+            }
+            
             if (rv && rf)
             {
                 valoracions.AddRange(valData.Where(w => w.Prod is ProdFons).ToList());
@@ -246,6 +260,11 @@ namespace Inversions.GUI
                     pigPerData += Producte.Pig2(Producte.TipusProducte.Accions, null, DateTime.MinValue, data, true, true);
                     saldo += ProdAccions.Valor(data);
                 }
+                if (criptos)
+                {
+                    pigPerData += Producte.Pig2(Producte.TipusProducte.Accions, null, DateTime.MinValue, data, true, true);
+                    saldo += ProdAccions.Valor(data);
+                }
                 if (rv)
                 {
                     pigPerData += Producte.Pig2(Producte.TipusProducte.Fons, TipusFons.RV, DateTime.MinValue, data, true, true);
@@ -257,7 +276,12 @@ namespace Inversions.GUI
                     saldo += ProdFons.Valor(data, TipusFons.RF);
                 }
 
-                int numFila = dgvValoracionsPerData.Rows.Add(data, pigPerData, (pigPerData / pigPerDataAnt - 1), pigPerData - pigPerDataAnt, saldo);
+                var percentVariacio = (pigPerData / pigPerDataAnt - 1);
+                var variacio = pigPerData - pigPerDataAnt;
+                
+                int numFila = double.IsInfinity(percentVariacio) 
+                    ? dgvValoracionsPerData.Rows.Add(data, pigPerData, null, null, saldo) 
+                    : dgvValoracionsPerData.Rows.Add(data, pigPerData, percentVariacio, variacio, saldo);
 
                 if ((pigPerData - pigPerDataAnt) < 0)
                 {
@@ -487,16 +511,21 @@ namespace Inversions.GUI
             {
                 // Per saber que està seleccionat
                 var accions = checkedComboBoxEdit1.Properties.Items[TipusProd.Accions].CheckState == CheckState.Checked;
+                var criptos = checkedComboBoxEdit1.Properties.Items[TipusProd.Criptos].CheckState == CheckState.Checked;
                 var rf = checkedComboBoxEdit1.Properties.Items[TipusProd.RF].CheckState == CheckState.Checked;
                 var rv = checkedComboBoxEdit1.Properties.Items[TipusProd.RV].CheckState == CheckState.Checked;
 
                 // Posa el títol en el combo.
-                if (accions && rf && rv)
+                if (accions && criptos && rf && rv)
                     e.DisplayText = "Tot";
-                else if (!accions && rf && rv)
+                if (!accions && !criptos && rf && rv)
                     e.DisplayText = "Fons";
-                else if (accions && !rf && !rv)
+                if (accions && !criptos && !rf && !rv)
                     e.DisplayText = "Accions";
+                else if (!accions && criptos && !rf && !rv)
+                    e.DisplayText = "Criptos";
+                if (accions && criptos && !rf && !rv)
+                    e.DisplayText = "Acc+Cript";
             }
         }
 
