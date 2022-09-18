@@ -181,8 +181,6 @@ namespace Inversions.GUI
             if (this.DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Designtime)
                 return;
 
-            titolValoracionsPerData();
-
             dgvValoracionsPerData.Rows.Clear();
             chart2.Series[0].Points.Clear();
 
@@ -192,15 +190,39 @@ namespace Inversions.GUI
             var rf = checkedComboBoxEdit1.Properties.Items[TipusProd.RF].CheckState == CheckState.Checked;
             var rv = checkedComboBoxEdit1.Properties.Items[TipusProd.RV].CheckState == CheckState.Checked;
 
+
             if (!(accions || criptos || rf || rv))
+            {
+                lbTitolValoracionsPerData.Text = "";
                 return;
+            }
+
+            // Posa el títol en el combo.
+            if (accions && criptos && rf && rv)
+                lbTitolValoracionsPerData.Text = "Tot";
+            else
+            {
+                lbTitolValoracionsPerData.Text = "";
+                if (rf && rv)
+                    lbTitolValoracionsPerData.Text += " + Fons";
+                else if (rf)
+                    lbTitolValoracionsPerData.Text += " + Fons renda fixa";
+                else if (rv)
+                    lbTitolValoracionsPerData.Text += " + Fons renda variable";
+                if (accions)
+                    lbTitolValoracionsPerData.Text += " + Accions";
+                if (criptos)
+                    lbTitolValoracionsPerData.Text += " + Criptos";
+
+                if (lbTitolValoracionsPerData.Text.Length > 1)
+                    lbTitolValoracionsPerData.Text = lbTitolValoracionsPerData.Text.Remove(0, 2);
+            }
 
             var valData = Program.Sessio.Valoracions.Where(w => w.Data >= dtpDataIniciLlista.Value).ToList();
             var movData = Program.Sessio.MovimentsUsuari.Where(w => w.Data >= dtpDataIniciLlista.Value).ToList();
 
             List<Valoracio> valoracions = new List<Valoracio>();
             List<Moviment> moviments = new List<Moviment>();
-
 
             if (accions || criptos)
             {
@@ -314,37 +336,7 @@ namespace Inversions.GUI
             chart2.Update();
         }
 
-
-        private void titolValoracionsPerData()
-        {
-            // Per saber que està seleccionat
-            var accions = checkedComboBoxEdit1.Properties.Items[TipusProd.Accions].CheckState == CheckState.Checked;
-            var criptos = checkedComboBoxEdit1.Properties.Items[TipusProd.Criptos].CheckState == CheckState.Checked;
-            var rf = checkedComboBoxEdit1.Properties.Items[TipusProd.RF].CheckState == CheckState.Checked;
-            var rv = checkedComboBoxEdit1.Properties.Items[TipusProd.RV].CheckState == CheckState.Checked;
-
-            // Posa el títol en el combo.
-            if (accions && criptos && rf && rv)
-                lbTitolValoracionsPerData.Text = "Tot";
-            else
-            {
-                lbTitolValoracionsPerData.Text = "";
-                if (rf && rv)
-                    lbTitolValoracionsPerData.Text += " + Fons";
-                else if (rf)
-                    lbTitolValoracionsPerData.Text += " + Fons renda fixa";
-                else if (rv)
-                    lbTitolValoracionsPerData.Text += " + Fons renda variable";
-                if (accions)
-                    lbTitolValoracionsPerData.Text += " + Accions";
-                if (criptos)
-                    lbTitolValoracionsPerData.Text += " + Criptos";
-
-                if (lbTitolValoracionsPerData.Text.Length > 1)
-                    lbTitolValoracionsPerData.Text = lbTitolValoracionsPerData.Text.Remove(0, 2);
-            }
-        }
-
+          
 
         #region *** Events ***
 
@@ -567,6 +559,5 @@ namespace Inversions.GUI
         }
 
         #endregion *** Events ***
-
     }
 }
