@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using Comuns;
+using DevExpress.Utils;
 using Microsoft.Win32;
 
 namespace Inversions.GUI
@@ -42,6 +43,69 @@ namespace Inversions.GUI
 
         private void capturaValorsPaste(DateTime? data = null)
         {
+            if (String.IsNullOrEmpty(tbPaste.Text))
+                return;
+
+            if (tbPaste.Text.IndexOf("Self Bank", StringComparison.OrdinalIgnoreCase) >= 0)
+                capturaValorsPasteSelfBank(data);
+
+            if (tbPaste.Text.IndexOf("Kraken", StringComparison.OrdinalIgnoreCase) >= 0)
+                capturaValorsPasteKraken(data);
+        }
+
+        private void capturaValorsPasteKraken(DateTime? data = null)
+        {
+            var cursor = Cursor;
+            Cursor = Cursors.WaitCursor;
+
+            try
+            {
+                dataGridView1.Rows.Clear();
+
+                var text1 = tbPaste.Text.Replace(Environment.NewLine, "\t");
+                var items = text1.Split(new char[] {'\t',}, StringSplitOptions.RemoveEmptyEntries);
+                ProdAccions prod = null;
+                int posPreuPart = cbColumnaPreuParticio.SelectedIndex + 2;
+                bool avis = false;
+
+                for (int i = 0; i < items.Count(); i++)
+                {
+                    if (!data.HasValue && items[i].IndexOf("Current time:", StringComparison.OrdinalIgnoreCase) == 0)
+                    {
+                        string sData = items[i].Substring(14, 17);
+                        data = Convert.ToDateTime(sData, CultureInfo.InvariantCulture);
+                    }
+                    else
+                    {
+                        var nom = items[i];
+                        prod = Program.Sessio.ProdAccions.SingleOrDefault(w => w.Empresa.Nom == nom);
+                        if (prod != null)
+                        {
+                            i += posPreuPart;
+                            double preuPart = Convert.ToDouble(items[i], CultureInfo.InvariantCulture);
+
+                            creaValoracio(data, prod, preuPart, ref avis);
+                        }
+                    }
+                }
+
+                btDesa.Enabled = dataGridView1.Rows.Count > 0;
+
+                if (avis && dataGridView1.Rows.Count > 0)
+                    MessageBox.Show(String.Format("Diferència superior al {0}%. Comprova els valors", DiferenciaMaimaxPreu));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error. Alguna cosa no quadra.\n" + ex.Message);
+            }
+            finally
+            {
+                Cursor = cursor;
+            }
+        }
+
+        private void capturaValorsPasteSelfBank(DateTime? data = null)
+        {
             var cursor = Cursor;
             Cursor = Cursors.WaitCursor;
 
@@ -57,6 +121,7 @@ namespace Inversions.GUI
                 int conta = 0;
                 bool avis = false;
                 double preuPart = 0;
+
                 foreach (var item in items)
                 {
                     if (conta == 0)
@@ -68,7 +133,7 @@ namespace Inversions.GUI
                     }
                     if (conta == posPreuPart)
                     {
-                        preuPart = Convert.ToDouble(item.Replace("€", ""));
+                        preuPart = Convert.ToDouble(item.Replace("€", ""), CultureInfo.CurrentCulture);
 
                         conta++;
                         continue;
@@ -81,33 +146,7 @@ namespace Inversions.GUI
                         {
                             DateTime datax = data.GetValueOrDefault(dataPreuPart);
 
-                            var existeisValoracio = Program.Sessio.Valoracio.SingleOrDefault(w => w.Prod.Id == prod.Id && w.Data == datax) != null;
-                            var difPercent = (preuPart / prod._PreuParticipacioActual - 1);
-                            var difValor = ((preuPart - prod._PreuParticipacioActual) * prod._Participacions);
-
-
-                            int numFila = dataGridView1.Rows.Add(new object[] { !existeisValoracio, prod, !existeisValoracio, datax
-                                , prod._PreuParticipacioActual, preuPart, difPercent, difValor });
-
-                            if (existeisValoracio)
-                                dataGridView1.Rows[numFila].Cells[colData.Name].Style.ForeColor = Color.Blue;
-
-                            if (difPercent < 0)
-                            {
-                                dataGridView1.Rows[numFila].Cells[colPercentatge.Name].Style.ForeColor = Color.Red;
-                                dataGridView1.Rows[numFila].Cells[colDif.Name].Style.ForeColor = Color.Red;
-                            }
-
-                            if (Math.Abs(difPercent) >= DiferenciaMaimaxPreu)
-                            {
-                                // Diferència superior al 10% en el preu.
-                                dataGridView1.Rows[numFila].Cells[colEstatOriginalCheckBox.Name].Value = false;
-                                dataGridView1.Rows[numFila].Cells[colSeleccionat.Name].Value = false;
-                                dataGridView1.Rows[numFila].Cells[colValorActual.Name].Style.ForeColor = Color.DarkOrange;
-                                dataGridView1.Rows[numFila].Cells[colValorNou.Name].Style.ForeColor = Color.DarkOrange;
-
-                                avis = true;
-                            }
+                            creaValoracio(datax, prod, preuPart, ref avis);
                         }
                         conta = 0;
                         continue;
@@ -119,7 +158,6 @@ namespace Inversions.GUI
 
                 if (avis && dataGridView1.Rows.Count > 0)
                     MessageBox.Show(String.Format("Diferència superior al {0}%. Comprova els valors", DiferenciaMaimaxPreu));
-
             }
             catch (Exception ex)
             {
@@ -130,6 +168,50 @@ namespace Inversions.GUI
                 Cursor = cursor;
             }
         }
+
+        /// <summary>
+        /// Crea les valoracions capturades del paste.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="prod"></param>
+        /// <param name="preuPart"></param>
+        /// <param name="avis"></param>
+        /// <returns></returns>
+        private void creaValoracio(DateTime? data, Producte prod, double preuPart, ref bool avis)
+        {
+            if (!data.HasValue)
+                throw new Exception("Falta la data");
+
+            var dataVal = data.Value.Date;
+
+            var existeisValoracio = Program.Sessio.Valoracio.SingleOrDefault(w => w.Prod.Id == prod.Id && w.Data == dataVal) != null;
+            var difPercent = (preuPart / prod._PreuParticipacioActual - 1);
+            var difValor = ((preuPart - prod._PreuParticipacioActual) * prod._Participacions);
+
+            int numFila = dataGridView1.Rows.Add(new object[] { !existeisValoracio, prod, !existeisValoracio, dataVal
+                                , prod._PreuParticipacioActual, preuPart, difPercent, difValor });
+
+            if (existeisValoracio)
+                dataGridView1.Rows[numFila].Cells[colData.Name].Style.ForeColor = Color.Blue;
+
+            if (difPercent < 0)
+            {
+                dataGridView1.Rows[numFila].Cells[colPercentatge.Name].Style.ForeColor = Color.Red;
+                dataGridView1.Rows[numFila].Cells[colDif.Name].Style.ForeColor = Color.Red;
+            }
+
+            if (Math.Abs(difPercent) >= DiferenciaMaimaxPreu)
+            {
+                // Diferència superior al 10% en el preu.
+                dataGridView1.Rows[numFila].Cells[colEstatOriginalCheckBox.Name].Value = false;
+                dataGridView1.Rows[numFila].Cells[colSeleccionat.Name].Value = false;
+                dataGridView1.Rows[numFila].Cells[colValorActual.Name].Style.ForeColor = Color.DarkOrange;
+                dataGridView1.Rows[numFila].Cells[colValorNou.Name].Style.ForeColor = Color.DarkOrange;
+
+                avis = true;
+            }
+        }
+
 
         private void btCapturaValors_Click(object sender, EventArgs e)
         {
@@ -149,16 +231,16 @@ namespace Inversions.GUI
                         if (!(bool) (row.Cells[colSeleccionat.Name]).Value)
                             continue;
 
-                        var prodFons = (ProdFons) row.Cells[colNomFons.Name].Value;
+                        var producte = (Producte) row.Cells[colNomFons.Name].Value;
                         DateTime data = ckDataUnica.Checked ? dtpDataUnica.Value : (DateTime) row.Cells[colData.Name].Value;
                         var preuPart = (double) row.Cells[colValorNou.Name].Value;
 
-                        var val = connexio.Valoracions.SingleOrDefault(w => w.ProdId == prodFons.Id && w.Data == data);
+                        var val = connexio.Valoracions.SingleOrDefault(w => w.ProdId == producte.Id && w.Data == data);
                         if (val == null)
                         {
                             // Només noves valoracions. No modifica
                             val = connexio.Valoracions.Create();
-                            val.ProdId = prodFons.Id;
+                            val.ProdId = producte.Id;
                             val.Data = data;
 
                             connexio.Valoracions.Add(val);
@@ -229,7 +311,8 @@ namespace Inversions.GUI
             if (dataGridView1.Rows.Count > 0 && e.ColumnIndex == colSeleccionat.Index)
             {
                 var estatOriginalCheckBox = (bool)dataGridView1.Rows[e.RowIndex].Cells[colEstatOriginalCheckBox.Name].Value;
-                var valorActualCheckBox = (bool) dataGridView1.CurrentCell.Value;
+                //var valorActualCheckBox = (bool)dataGridView1.CurrentCell.Value;
+                var valorActualCheckBox = (bool)dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
                 if (!estatOriginalCheckBox && valorActualCheckBox && !ckSobreescriuValoracions.Checked)
                 {
                     if (MessageBox.Show("Marco per sobreescriure valoracions?", "La valoració ja existeix", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -241,7 +324,6 @@ namespace Inversions.GUI
         private void ckDataUnica_CheckedChanged(object sender, EventArgs e)
         {
             dtpDataUnica.Enabled = ckDataUnica.Checked;
-            validaDataUnica();
         }
 
         private void dtpDataUnica_ValueChanged(object sender, EventArgs e)
