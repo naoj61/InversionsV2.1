@@ -65,7 +65,9 @@ namespace Inversions.GUI
                 var text1 = tbPaste.Text.Replace(Environment.NewLine, "\t");
                 var items = text1.Split(new char[] {'\t',}, StringSplitOptions.RemoveEmptyEntries);
                 ProdAccions prod = null;
-                int posPreuPart = cbColumnaPreuParticio.SelectedIndex + 2;
+                //int posPreuPart = cbColumnaPreuParticio.SelectedIndex == 0 ? 4 : cbColumnaPreuParticio.SelectedIndex;
+                int posPreuPart = 4;
+
                 bool avis = false;
 
                 for (int i = 0; i < items.Count(); i++)
@@ -116,42 +118,62 @@ namespace Inversions.GUI
                 var text1 = tbPaste.Text.Replace(Environment.NewLine, "\t");
                 var items = text1.Split(new char[] {'\t',}, StringSplitOptions.RemoveEmptyEntries);
                 ProdFons prod = null;
-                int posPreuPart = cbColumnaPreuParticio.SelectedIndex + 1;
-                int posDataPreuPart = posPreuPart + 1;
-                int conta = 0;
+                int? posPreuPart = null;
+                int? pos = null;
                 bool avis = false;
-                double preuPart = 0;
 
-                foreach (var item in items)
+                for (int index = 0; index < items.Length; index++)
                 {
-                    if (conta == 0)
-                    {
-                        prod = Program.Sessio.ProdFons.SingleOrDefault(w => w.ISIN == item);
-                        if (prod != null)
-                            conta++;
-                        continue;
-                    }
-                    if (conta == posPreuPart)
-                    {
-                        preuPart = Convert.ToDouble(item.Replace("€", ""), CultureInfo.CurrentCulture);
+                    var item = items[index];
 
-                        conta++;
-                        continue;
-                    }
-                    if (conta == posDataPreuPart)
+                    if (item == "FONDOS NACIONALES" || item == "FONDOS INTERNACIONALES")
                     {
-                        DateTime dataPreuPart = Convert.ToDateTime(item.Substring(1, item.Length - 2));
+                        pos = 0;
+                        posPreuPart = null;
 
-                        if (preuPart > 0)
+                        for (; index < items.Length; index++)
                         {
-                            DateTime datax = data.GetValueOrDefault(dataPreuPart);
-
-                            creaValoracio(datax, prod, preuPart, ref avis);
+                            if (items[index] == "Precio actual")
+                            {
+                                posPreuPart = pos;
+                                pos = null;
+                                break;
+                            }
+                            pos++;
                         }
-                        conta = 0;
+
                         continue;
                     }
-                    conta++;
+
+                    if (posPreuPart.HasValue)
+                    {
+                        if (!pos.HasValue)
+                        {
+                            prod = Program.Sessio.ProdFons.SingleOrDefault(w => w.ISIN == item);
+                            if (prod != null)
+                                pos = 2;
+                            continue;
+                        }
+
+                        if (pos == posPreuPart.Value)
+                        {
+                            double preuPart = Convert.ToDouble(item.Replace("€", ""), CultureInfo.CurrentCulture);
+
+                            item = items[++index];
+
+                            DateTime dataPreuPart = Convert.ToDateTime(item.Substring(1, item.Length - 2));
+
+                            if (preuPart > 0)
+                            {
+                                DateTime datax = data.GetValueOrDefault(dataPreuPart);
+
+                                creaValoracio(datax, prod, preuPart, ref avis);
+                            }
+                            pos = null;
+                            continue;
+                        }
+                        pos++;
+                    }
                 }
 
                 btDesa.Enabled = dataGridView1.Rows.Count > 0;
@@ -168,6 +190,7 @@ namespace Inversions.GUI
                 Cursor = cursor;
             }
         }
+
 
         /// <summary>
         /// Crea les valoracions capturades del paste.
