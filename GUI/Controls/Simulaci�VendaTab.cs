@@ -237,7 +237,7 @@ namespace Inversions.GUI
 
         private void ntbAnyRenda_Validating(object sender, CancelEventArgs e)
         {
-            if (ntbAnyRenda.Valor < 2000)
+            if (ntbAnyRenda.Valor > 0 && ntbAnyRenda.Valor < 2000)
             {
                 MessageBox.Show(this, "L'any no pot ser inferior al 2000", "Atenció", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 e.Cancel = true;

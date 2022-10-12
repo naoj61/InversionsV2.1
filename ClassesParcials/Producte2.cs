@@ -86,11 +86,14 @@ namespace Inversions
         /// <summary>
         /// Suma les perdues dels 4 anys anteriors
         /// </summary>
-        /// <param name="dataRenda"></param>
+        /// <param name="anyRenda"></param>
         /// <returns></returns>
-        internal static double PerduesDarrersQuatreAnys(int? dataRenda = null)
+        internal static double PerduesDarrersQuatreAnys(int? anyRenda = null)
         {
-            var any = dataRenda.GetValueOrDefault(DateTime.Today.Year) - 4;
+            if (!anyRenda.HasValue || anyRenda.Value == 0)
+                return 0;
+
+            var any = anyRenda.Value - 4;
             double pigT = 0;
 
             for (int i = 0; i < 4; i++)
