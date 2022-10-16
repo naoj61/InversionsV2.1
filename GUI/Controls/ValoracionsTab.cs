@@ -279,21 +279,19 @@ namespace Inversions.GUI
 
                 double pigPerData = 0;
                 double saldo = 0;
-                if (accions)
+
+                if (accions || criptos)
                 {
                     pigPerData += Producte.Pig2(Producte.TipusProducte.Accions, null, DateTime.MinValue, data, true, true);
                     saldo += ProdAccions.Valor(data);
                 }
-                if (criptos)
-                {
-                    pigPerData += Producte.Pig2(Producte.TipusProducte.Accions, null, DateTime.MinValue, data, true, true);
-                    saldo += ProdAccions.Valor(data);
-                }
+              
                 if (rv)
                 {
                     pigPerData += Producte.Pig2(Producte.TipusProducte.Fons, TipusFons.RV, DateTime.MinValue, data, true, true);
                     saldo += ProdFons.Valor(data, TipusFons.RV);
                 }
+
                 if (rf)
                 {
                     pigPerData += Producte.Pig2(Producte.TipusProducte.Fons, TipusFons.RF, DateTime.MinValue, data, true, true);
