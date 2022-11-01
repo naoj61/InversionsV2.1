@@ -183,9 +183,11 @@ namespace Inversions.GUI
             // 
             this.tbDividends._CapturaEscape = true;
             this.tbDividends._Format = "#,#0.00 €";
+            this.tbDividends._NegatiusEnVermell = true;
             this.tbDividends._PermetDecimals = true;
             this.tbDividends._PermetEspais = false;
             this.tbDividends._PermetNegatius = true;
+            this.tbDividends.BackColor = System.Drawing.SystemColors.Window;
             this.tbDividends.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbDividends.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbDividends.Location = new System.Drawing.Point(6, 23);
@@ -240,9 +242,11 @@ namespace Inversions.GUI
             // 
             this.tbPigReal._CapturaEscape = true;
             this.tbPigReal._Format = "#,#0.00 €";
+            this.tbPigReal._NegatiusEnVermell = true;
             this.tbPigReal._PermetDecimals = true;
             this.tbPigReal._PermetEspais = false;
             this.tbPigReal._PermetNegatius = true;
+            this.tbPigReal.BackColor = System.Drawing.SystemColors.Window;
             this.tbPigReal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbPigReal.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbPigReal.Location = new System.Drawing.Point(6, 22);
@@ -314,9 +318,11 @@ namespace Inversions.GUI
             // 
             this.tbPigProducte._CapturaEscape = true;
             this.tbPigProducte._Format = "#,#0.00 €";
+            this.tbPigProducte._NegatiusEnVermell = true;
             this.tbPigProducte._PermetDecimals = true;
             this.tbPigProducte._PermetEspais = false;
             this.tbPigProducte._PermetNegatius = true;
+            this.tbPigProducte.BackColor = System.Drawing.SystemColors.Window;
             this.tbPigProducte.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbPigProducte.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbPigProducte.Location = new System.Drawing.Point(6, 22);
@@ -347,9 +353,11 @@ namespace Inversions.GUI
             // 
             this.tbCostOrigPartActual._CapturaEscape = true;
             this.tbCostOrigPartActual._Format = "#,#0.00 €";
+            this.tbCostOrigPartActual._NegatiusEnVermell = false;
             this.tbCostOrigPartActual._PermetDecimals = true;
             this.tbCostOrigPartActual._PermetEspais = false;
             this.tbCostOrigPartActual._PermetNegatius = true;
+            this.tbCostOrigPartActual.BackColor = System.Drawing.SystemColors.Window;
             this.tbCostOrigPartActual.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbCostOrigPartActual.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbCostOrigPartActual.Location = new System.Drawing.Point(6, 23);
@@ -381,9 +389,11 @@ namespace Inversions.GUI
             // 
             this.tbPiGActual._CapturaEscape = true;
             this.tbPiGActual._Format = "#,#0.00 €";
+            this.tbPiGActual._NegatiusEnVermell = true;
             this.tbPiGActual._PermetDecimals = true;
             this.tbPiGActual._PermetEspais = false;
             this.tbPiGActual._PermetNegatius = true;
+            this.tbPiGActual.BackColor = System.Drawing.SystemColors.Window;
             this.tbPiGActual.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbPiGActual.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbPiGActual.Location = new System.Drawing.Point(6, 23);
@@ -415,9 +425,11 @@ namespace Inversions.GUI
             // 
             this.tbValorActual._CapturaEscape = true;
             this.tbValorActual._Format = "#,#0.00 €";
+            this.tbValorActual._NegatiusEnVermell = false;
             this.tbValorActual._PermetDecimals = true;
             this.tbValorActual._PermetEspais = false;
             this.tbValorActual._PermetNegatius = true;
+            this.tbValorActual.BackColor = System.Drawing.SystemColors.Window;
             this.tbValorActual.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbValorActual.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbValorActual.Location = new System.Drawing.Point(6, 23);
@@ -448,9 +460,11 @@ namespace Inversions.GUI
             // 
             this.ntbPreuPartActual._CapturaEscape = true;
             this.ntbPreuPartActual._Format = "#,#0.00 €";
+            this.ntbPreuPartActual._NegatiusEnVermell = false;
             this.ntbPreuPartActual._PermetDecimals = true;
             this.ntbPreuPartActual._PermetEspais = false;
             this.ntbPreuPartActual._PermetNegatius = true;
+            this.ntbPreuPartActual.BackColor = System.Drawing.SystemColors.Window;
             this.ntbPreuPartActual.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPreuPartActual.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ntbPreuPartActual.Location = new System.Drawing.Point(6, 23);
@@ -459,7 +473,7 @@ namespace Inversions.GUI
             this.ntbPreuPartActual.ReadOnly = true;
             this.ntbPreuPartActual.Size = new System.Drawing.Size(164, 25);
             this.ntbPreuPartActual.TabIndex = 0;
-            this.ntbPreuPartActual.Text = "0,00";
+            this.ntbPreuPartActual.Text = "0,00 €";
             this.ntbPreuPartActual.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbPreuPartActual.Valor = 0D;
             // 
@@ -481,11 +495,14 @@ namespace Inversions.GUI
             // 
             this.tbParticipacions._CapturaEscape = true;
             this.tbParticipacions._Format = "#,#0.####";
+            this.tbParticipacions._NegatiusEnVermell = false;
             this.tbParticipacions._PermetDecimals = true;
             this.tbParticipacions._PermetEspais = false;
             this.tbParticipacions._PermetNegatius = true;
+            this.tbParticipacions.BackColor = System.Drawing.SystemColors.Window;
             this.tbParticipacions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbParticipacions.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbParticipacions.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tbParticipacions.Location = new System.Drawing.Point(6, 23);
             this.tbParticipacions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tbParticipacions.Name = "tbParticipacions";

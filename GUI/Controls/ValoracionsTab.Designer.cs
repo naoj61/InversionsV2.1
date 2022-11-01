@@ -140,6 +140,7 @@ namespace Inversions.GUI
             // 
             this.tbImport._CapturaEscape = true;
             this.tbImport._Format = "#,##0.0######### €";
+            this.tbImport._NegatiusEnVermell = false;
             this.tbImport._PermetDecimals = true;
             this.tbImport._PermetEspais = false;
             this.tbImport._PermetNegatius = false;
