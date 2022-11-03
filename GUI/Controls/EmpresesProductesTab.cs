@@ -70,7 +70,17 @@ namespace Inversions.GUI
             if (vEmpresaSeleccionada == null)
                 return;
 
-            if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.Accions)
+            if (ckTotesLesEmpreses.Checked)
+            {
+                grNomProducte.Enabled = false;
+                grMercatProducte.Visible = false;
+                grMonedaProducte.Visible = false;
+                grIsinProducte.Visible = false;
+                grDescripcioProducte.Visible = false;
+
+                ntbOrdreGridProducte.Focus();
+            }
+            else if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.Accions)
             {
                 grNomProducte.Enabled = false;
                 grMercatProducte.Visible = true;
@@ -138,23 +148,25 @@ namespace Inversions.GUI
 
         private void carregaGridProductes(Empresa empresa)
         {
-            if (empresa == null)
-            {
-                dgvProductes.Rows.Clear();
-                return;
-            }
-
             vConnProductes = new InversionsBDContext(); // Creo la connexió per si he fet cancel rellegeixi les dades de la taula.
 
-            if (empresa.TipusEmpresa == TipusEmpresa.Accions)
+            if (empresa == null)
             {
-                vConnProductes.ProdAccions.Where(w => w.EmpresaId == empresa.Id).Load();
-                dgvProductes.DataSource = vConnProductes.ProdAccions.Local.ToBindingList();
+                vConnProductes.Productes.Load();
+                dgvProductes.DataSource = vConnProductes.Productes.Local.ToBindingList();
             }
-            else if (empresa.TipusEmpresa == TipusEmpresa.GestoraFons)
+            else
             {
-                vConnProductes.ProdFons.Where(w => w.EmpresaId == empresa.Id).Load();
-                dgvProductes.DataSource = vConnProductes.ProdFons.Local.ToBindingList();
+                if (empresa.TipusEmpresa == TipusEmpresa.Accions)
+                {
+                    vConnProductes.ProdAccions.Where(w => w.EmpresaId == empresa.Id).Load();
+                    dgvProductes.DataSource = vConnProductes.ProdAccions.Local.ToBindingList();
+                }
+                else if (empresa.TipusEmpresa == TipusEmpresa.GestoraFons)
+                {
+                    vConnProductes.ProdFons.Where(w => w.EmpresaId == empresa.Id).Load();
+                    dgvProductes.DataSource = vConnProductes.ProdFons.Local.ToBindingList();
+                }
             }
 
             if (((ICollection) dgvProductes.DataSource).Count == 0)
@@ -173,7 +185,10 @@ namespace Inversions.GUI
             }
             else
             {
-                btNouProducte.Enabled = empresa.TipusEmpresa == TipusEmpresa.GestoraFons;
+                if (empresa == null)
+                    btNouProducte.Enabled = false;
+                else
+                    btNouProducte.Enabled = empresa.TipusEmpresa == TipusEmpresa.GestoraFons;
             }
         }
 
@@ -284,17 +299,20 @@ namespace Inversions.GUI
 
                 vProducteSeleccionat.OrdreGrid = ntbOrdreGridProducte._IntValue;
 
-                if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.Accions)
+                if (!ckTotesLesEmpreses.Checked)
                 {
-                    ((ProdAccions) vProducteSeleccionat).Mercat = vConnProductes.Mercats.Find(((Mercat) cbMercatProducte.SelectedItem).Id);
-                    vProducteSeleccionat.Moneda = cbMonedaProducte.SelectedItem.ToString();
-                }
-                else if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.GestoraFons)
-                {
-                    ((ProdFons) vProducteSeleccionat).Nom = tbNomProducte.Text;
-                    ((ProdFons) vProducteSeleccionat).ISIN = tbIsinProducte.Text;
-                    ((ProdFons) vProducteSeleccionat).Tipus = ((TipusFons) cbTipusProducte.SelectedItem);
-                    ((ProdFons) vProducteSeleccionat).Descripcio = tbDescripcioProducte.Text;
+                    if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.Accions)
+                    {
+                        ((ProdAccions) vProducteSeleccionat).Mercat = vConnProductes.Mercats.Find(((Mercat) cbMercatProducte.SelectedItem).Id);
+                        vProducteSeleccionat.Moneda = cbMonedaProducte.SelectedItem.ToString();
+                    }
+                    else if (vEmpresaSeleccionada.TipusEmpresa == TipusEmpresa.GestoraFons)
+                    {
+                        ((ProdFons) vProducteSeleccionat).Nom = tbNomProducte.Text;
+                        ((ProdFons) vProducteSeleccionat).ISIN = tbIsinProducte.Text;
+                        ((ProdFons) vProducteSeleccionat).Tipus = ((TipusFons) cbTipusProducte.SelectedItem);
+                        ((ProdFons) vProducteSeleccionat).Descripcio = tbDescripcioProducte.Text;
+                    }
                 }
 
                 vConnProductes.Productes.AddOrUpdate(vProducteSeleccionat);
@@ -575,6 +593,22 @@ namespace Inversions.GUI
 
                 ompleCampsProducte(vProducteSeleccionat);
             }
+
+            if (ckTotesLesEmpreses.Checked && vProducteSeleccionat != null)
+            {
+                foreach (DataGridViewRow dgvEmprese in dgvEmpreses.Rows)
+                {
+                    var empresa = (Empresa) dgvEmprese.DataBoundItem;
+
+                    if (empresa.Id == vProducteSeleccionat.Empresa.Id)
+                    {
+                        dgvEmprese.Selected = true;
+                        dgvEmpreses.FirstDisplayedScrollingRowIndex = dgvEmprese.Index;
+                        vEmpresaSeleccionada = empresa;
+                        break;
+                    }
+                }
+            }
         }
 
         private void ntbOrdreGridProducte_TextChanged(object sender, EventArgs e)
@@ -591,6 +625,16 @@ namespace Inversions.GUI
             {
                 carregaGridEmpreses();
             }
+        }
+
+        private void ckTotesLesEmpreses_CheckedChanged(object sender, EventArgs e)
+        {
+            dgvEmpreses.Enabled = !ckTotesLesEmpreses.Checked;
+
+            if (ckTotesLesEmpreses.Checked)
+                carregaGridProductes(null);
+            else
+                carregaGridProductes(vEmpresaSeleccionada);
         }
 
         #endregion *** Events ***
