@@ -382,7 +382,7 @@ namespace Inversions.GUI
             this.groupBox4.Size = new System.Drawing.Size(176, 62);
             this.groupBox4.TabIndex = 7;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "PiG Actual";
+            this.groupBox4.Text = "PiG des d\'Origen";
             this.toolTip1.SetToolTip(this.groupBox4, "PiG participacions en cartera tenint en compte el preu original.");
             // 
             // tbPiGActual

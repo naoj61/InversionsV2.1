@@ -295,6 +295,7 @@
             // 
             this.ntbPreuParticipacio._CapturaEscape = true;
             this.ntbPreuParticipacio._Format = "#,##0.############ €";
+            this.ntbPreuParticipacio._NegatiusEnVermell = false;
             this.ntbPreuParticipacio._PermetDecimals = true;
             this.ntbPreuParticipacio._PermetEspais = false;
             this.ntbPreuParticipacio._PermetNegatius = false;
@@ -328,6 +329,7 @@
             // 
             this.ntbFactorConversor._CapturaEscape = true;
             this.ntbFactorConversor._Format = "#,##0";
+            this.ntbFactorConversor._NegatiusEnVermell = false;
             this.ntbFactorConversor._PermetDecimals = false;
             this.ntbFactorConversor._PermetEspais = false;
             this.ntbFactorConversor._PermetNegatius = false;
@@ -450,6 +452,7 @@
             // 
             this.tbNumParticipacions._CapturaEscape = true;
             this.tbNumParticipacions._Format = "#,##0.############";
+            this.tbNumParticipacions._NegatiusEnVermell = false;
             this.tbNumParticipacions._PermetDecimals = true;
             this.tbNumParticipacions._PermetEspais = false;
             this.tbNumParticipacions._PermetNegatius = false;
@@ -480,6 +483,7 @@
             // 
             this.tbCanviAplicat._CapturaEscape = true;
             this.tbCanviAplicat._Format = "#,##0.######## €";
+            this.tbCanviAplicat._NegatiusEnVermell = false;
             this.tbCanviAplicat._PermetDecimals = true;
             this.tbCanviAplicat._PermetEspais = false;
             this.tbCanviAplicat._PermetNegatius = false;
@@ -510,6 +514,7 @@
             // 
             this.tbDespeses._CapturaEscape = true;
             this.tbDespeses._Format = "#,##0.### €";
+            this.tbDespeses._NegatiusEnVermell = false;
             this.tbDespeses._PermetDecimals = true;
             this.tbDespeses._PermetEspais = false;
             this.tbDespeses._PermetNegatius = false;
@@ -540,6 +545,7 @@
             // 
             this.tbImportTotal._CapturaEscape = true;
             this.tbImportTotal._Format = "#,##0.### €";
+            this.tbImportTotal._NegatiusEnVermell = false;
             this.tbImportTotal._PermetDecimals = true;
             this.tbImportTotal._PermetEspais = false;
             this.tbImportTotal._PermetNegatius = false;
@@ -670,12 +676,13 @@
             this.gbNumParticipacionsDesti.Size = new System.Drawing.Size(128, 71);
             this.gbNumParticipacionsDesti.TabIndex = 2;
             this.gbNumParticipacionsDesti.TabStop = false;
-            this.gbNumParticipacionsDesti.Text = "Participacions";
+            this.gbNumParticipacionsDesti.Text = "Num Parts";
             // 
             // tbNumParticipacionsDesti
             // 
             this.tbNumParticipacionsDesti._CapturaEscape = true;
             this.tbNumParticipacionsDesti._Format = "#,##0.####";
+            this.tbNumParticipacionsDesti._NegatiusEnVermell = false;
             this.tbNumParticipacionsDesti._PermetDecimals = true;
             this.tbNumParticipacionsDesti._PermetEspais = false;
             this.tbNumParticipacionsDesti._PermetNegatius = false;
