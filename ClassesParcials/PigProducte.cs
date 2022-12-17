@@ -479,9 +479,11 @@ namespace Inversions
         /// <param name="dataHora">Es buscaran compres anteriors a aquesta data.</param>
         /// <param name="numPartipacions">Son les partipacions de les que buscaré les seves compres.</param>
         /// <returns></returns>
-        public IEnumerable<CompraExt> compresDePartipacionsEnData(DateTime dataHora, double numPartipacions)
+        public IEnumerable<CompraExt> compresDePartipacionsEnData(DateTime dataHora, double? numPartipacions = null)
         {
-            var dComp = desglosCompresDeParticipacionsEnData(dataHora, numPartipacions);
+            var numParts = numPartipacions.GetValueOrDefault(_Participacions);
+
+            var dComp = desglosCompresDeParticipacionsEnData(dataHora, numParts);
 
             List<CompraExt> compres = new List<CompraExt>();
 

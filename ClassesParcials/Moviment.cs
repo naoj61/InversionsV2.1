@@ -183,6 +183,17 @@ namespace Inversions
             get { return RefTraspas1.FirstOrDefault(); }
         }
 
+
+        /// <summary>
+        /// És la referéncia del la venda traspàs sobre la compra.
+        /// En la BD és una relació de 0..1-->*, però hauria de ser de 0..1-->1.
+        /// Per aixó només torno el primer element, que hauria de ser l'unic, si existeix.
+        /// </summary>
+        public bool _EsOrigen
+        {
+            get { return DesglosCompres.Count == 1 && DesglosCompres.Any(w=>w.MovCompraId == w.MovCompraOrigId); }
+        }
+
         #endregion *** Atributs ***
 
 
@@ -322,6 +333,23 @@ namespace Inversions
                 connexio.SaveChanges();
             }
         }
+
+
+
+        //internal List<Moviment> llistaMovimentsOrigEnCartera()
+        //{
+        //    List<Moviment> llista = new List<Moviment>();
+
+        //    foreach (var mov in Program.Sessio.MovimentsUsuari)
+        //    {
+        //        if(mov._EsOrigen)
+        //        {
+
+        //        }
+        //    }
+
+        //    return llista;
+        //}
 
 
         /// <summary>
