@@ -75,7 +75,14 @@ namespace Inversions.GUI
                     if (!data.HasValue && items[i].IndexOf("Current time:", StringComparison.OrdinalIgnoreCase) == 0)
                     {
                         string sData = items[i].Substring(14, 17);
-                        data = Convert.ToDateTime(sData, CultureInfo.InvariantCulture);
+                        try
+                        {
+                            data = Convert.ToDateTime(sData, CultureInfo.CurrentCulture);
+                        }
+                        catch (FormatException)
+                        {
+                            data = Convert.ToDateTime(sData, CultureInfo.InvariantCulture);
+                        }
                     }
                     else
                     {
