@@ -183,12 +183,29 @@ namespace Inversions
                 .OrderBy(o => o.Data)
                 .ToList();
 
+            while (true)
+            {
+                // *** Elimina el primer elemen si el PreuParticipacio és zero.
+
+                if(!valsProd.Any())
+                    break;
+
+                var val = valsProd[0];
+
+                if (Utilitats.EsZero(val.PreuParticipacio))
+                    valsProd.Remove(val);
+                else
+                    break;
+            }
+
             if (valsProd.Any())
             {
                 if (!ponderar)
                     // Sense ponderar.
                     return valsProd.ToDictionary(x => x, x => x.PreuParticipacio);
+
                 const double pond = 10;
+                
                 double valorPonderacio = pond / valsProd.First().PreuParticipacio;
                 return valsProd.ToDictionary(x => x, x => (x.PreuParticipacio * valorPonderacio) - pond);
             }
