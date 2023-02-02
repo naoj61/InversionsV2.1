@@ -83,6 +83,14 @@ namespace Inversions.GUI
                         {
                             data = Convert.ToDateTime(sData, CultureInfo.InvariantCulture);
                         }
+                        var difDiesDataActualIDataPaste = ((TimeSpan)(data - DateTime.Now)).Days;
+
+                        if ( Math.Abs(difDiesDataActualIDataPaste) > 15)
+                        {
+                            if (MessageBox.Show(String.Format("Diferència de dies {0} en la data {1} és massa gran. És correcte?"
+                                , difDiesDataActualIDataPaste, data.Value.ToShortDateString()), "Atenció", MessageBoxButtons.YesNo) == DialogResult.No)
+                                return;
+                        }
                     }
                     else
                     {
