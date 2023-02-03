@@ -77,15 +77,15 @@ namespace Inversions.GUI
                         string sData = items[i].Substring(14, 17);
                         try
                         {
-                            data = Convert.ToDateTime(sData, CultureInfo.CurrentCulture);
+                            data = Convert.ToDateTime(sData, CultureInfo.InvariantCulture);
                         }
                         catch (FormatException)
                         {
-                            data = Convert.ToDateTime(sData, CultureInfo.InvariantCulture);
+                            data = Convert.ToDateTime(sData, CultureInfo.CurrentCulture);
                         }
                         var difDiesDataActualIDataPaste = ((TimeSpan)(data - DateTime.Now)).Days;
 
-                        if ( Math.Abs(difDiesDataActualIDataPaste) > 15)
+                        if ( Math.Abs(difDiesDataActualIDataPaste) > 7)
                         {
                             if (MessageBox.Show(String.Format("Diferència de dies {0} en la data {1} és massa gran. És correcte?"
                                 , difDiesDataActualIDataPaste, data.Value.ToShortDateString()), "Atenció", MessageBoxButtons.YesNo) == DialogResult.No)
