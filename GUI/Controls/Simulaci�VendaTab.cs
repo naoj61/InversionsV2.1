@@ -156,6 +156,7 @@ namespace Inversions.GUI
             ntbPreuParticipacio.Valor = 0;
             ntbPerduesAnteriors.Valor = 0;
             ntbPigTributa.Valor = 0;
+            ntbTributaRenda.Valor = 0;
             ntbPig.Valor = 0;
             ntbImportBrut.Valor = 0;
 
@@ -213,6 +214,8 @@ namespace Inversions.GUI
                 ntbPigTributa.Valor = 0;
             else
                 ntbPigTributa.Valor = ntbPig.Valor + ntbPerduesAnteriors.Valor;
+
+            ntbTributaRenda.Valor = ntbDeduccioIrpf.Valor > ntbPigTributa.Valor ? 0 : ntbPigTributa.Valor - ntbDeduccioIrpf.Valor;
 
             ntbImportBrut.Valor = valorParts;
         }
@@ -279,6 +282,7 @@ namespace Inversions.GUI
                 ntbPreuParticipacio.Valor = 0;
                 ntbPerduesAnteriors.Valor = 0;
                 ntbPigTributa.Valor = 0;
+                ntbTributaRenda.Valor = 0;
             }
             else
             {
