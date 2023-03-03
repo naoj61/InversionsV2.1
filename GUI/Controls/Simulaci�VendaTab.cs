@@ -140,7 +140,8 @@ namespace Inversions.GUI
 
     public partial class SimulacióVendaTab : TabX
     {
-        private const string NomVarReg = "AnyRenda";
+        private const string NomVarRegAnyRenda = "AnyRenda";
+        private const string NomVarRegDeduccioIrpf = "DeduccioIrpf";
         private Producte vProducteSeleccionat = null;
 
         public SimulacióVendaTab()
@@ -198,7 +199,7 @@ namespace Inversions.GUI
 
         private void calculaPerdues()
         {
-            Program.DesaVariableEnRegistreWindows(NomVarReg, ntbAnyRenda._IntValue.ToString(CultureInfo.InvariantCulture), true);
+            Program.DesaVariableEnRegistreWindows(NomVarRegAnyRenda, ntbAnyRenda._IntValue.ToString(CultureInfo.InvariantCulture), true);
 
             ntbPerduesAnteriors.Valor = Producte.PerduesDarrersQuatreAnys(ntbAnyRenda._IntValue);
         }
@@ -301,10 +302,18 @@ namespace Inversions.GUI
 
         private void SimulacióVendaTab_Load(object sender, EventArgs e)
         {
-            var anyRenda = Program.LlegeigVariableEnRegistreWindows(NomVarReg, true);
+            var anyRenda = Program.LlegeigVariableEnRegistreWindows(NomVarRegAnyRenda, true);
             ntbAnyRenda.Valor = Utilitats.EsNumeric(anyRenda) ? Convert.ToInt32(anyRenda) : DateTime.Today.Year;
 
+            var deduccioIrpf = Program.LlegeigVariableEnRegistreWindows(NomVarRegDeduccioIrpf, true);
+            ntbDeduccioIrpf.Valor = Utilitats.EsNumeric(deduccioIrpf) ? Convert.ToInt32(deduccioIrpf) : DateTime.Today.Year;
+
             calculaPerdues();
+        }
+
+        private void ntbDeduccioIrpf_Validating(object sender, CancelEventArgs e)
+        {
+            Program.DesaVariableEnRegistreWindows(NomVarRegDeduccioIrpf, ntbDeduccioIrpf._DoubleValue.ToString(CultureInfo.InvariantCulture), true);
         }
 
         #endregion *** Events ***
