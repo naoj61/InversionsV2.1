@@ -70,41 +70,117 @@ namespace Inversions.GUI
 
                 bool avis = false;
 
+
+                // *** Format nou de Kraken ***
+
+                data = null;
+
+                bool vTerraClassic = false, vTerraUsd = false, vTerra2 = false;
+                int contPos = 0;
+
                 for (int i = 0; i < items.Count(); i++)
                 {
-                    if (!data.HasValue && items[i].IndexOf("Current time:", StringComparison.OrdinalIgnoreCase) == 0)
+                    try
                     {
-                        string sData = items[i].Substring(14, 17);
-                        try
-                        {
-                            data = Convert.ToDateTime(sData, CultureInfo.InvariantCulture);
-                        }
-                        catch (FormatException)
-                        {
-                            data = Convert.ToDateTime(sData, CultureInfo.CurrentCulture);
-                        }
-                        var difDiesDataActualIDataPaste = ((TimeSpan)(data - DateTime.Now)).Days;
-
-                        if ( Math.Abs(difDiesDataActualIDataPaste) > 7)
-                        {
-                            if (MessageBox.Show(String.Format("Diferència de dies {0} en la data {1} és massa gran. És correcte?"
-                                , difDiesDataActualIDataPaste, data.Value.ToShortDateString()), "Atenció", MessageBoxButtons.YesNo) == DialogResult.No)
-                                return;
-                        }
+                        // En el web de Kraken no apareix la data, agafo l'última data que apareix en la gràfica del web.
+                        data = DateTime.Parse(items[i]);
                     }
-                    else
+                    catch (Exception)
                     {
-                        var nom = items[i];
-                        prod = Program.Sessio.ProdAccions.SingleOrDefault(w => w.Empresa.Nom == nom);
-                        if (prod != null)
-                        {
-                            i += posPreuPart;
-                            double preuPart = Convert.ToDouble(items[i], CultureInfo.InvariantCulture);
+                    }
 
-                            creaValoracio(data, prod, preuPart, ref avis);
+                    if (items[i] == "Terra Classic")
+                    {
+                        vTerraClassic = true;
+                    }
+                    else if (items[i] == "TerraUSD Classic")
+                    {
+                        vTerraUsd = true;
+                    }
+                    else if (items[i] == "Terra 2.0")
+                    {
+                        vTerra2 = true;
+                    }
+
+                    if (vTerraClassic || vTerraUsd || vTerra2)
+                        contPos++;
+
+                    if (contPos == 3)
+                    {
+                        if (vTerraClassic)
+                        {
+                            prod = Program.Sessio.ProdAccions.Single(w => w.Empresa.Nom == "Terra Classic (LUNA)");
+
+                            vTerraClassic = false;
+                        }
+                        else if (vTerraUsd)
+                        {
+                            prod = Program.Sessio.ProdAccions.Single(w => w.Empresa.Nom == "TerraUSD Classic (UST)");
+
+                            vTerraUsd = false;
+                        }
+                        else if (vTerra2)
+                        {
+                            prod = Program.Sessio.ProdAccions.Single(w => w.Empresa.Nom == "Terra 2.0 (LUNA2)");
+
+                            vTerra2 = false;
+                        }
+
+                        // *** Elimina el simbol de moneda al inici ***
+                        string valor = Char.IsNumber(items[i][0]) ? items[i] : items[i].Substring(1);
+
+                        double preuPart = Convert.ToDouble(valor, CultureInfo.InvariantCulture);
+                        creaValoracio(data, prod, preuPart, ref avis);
+
+                        contPos = 0;
+                    }
+                }
+
+
+                #region *** Format antic de Kraken ***
+
+                if (dataGridView1.Rows.Count == 0)
+                {
+
+                    for (int i = 0; i < items.Count(); i++)
+                    {
+                        if (!data.HasValue && items[i].IndexOf("Current time:", StringComparison.OrdinalIgnoreCase) == 0)
+                        {
+                            string sData = items[i].Substring(14, 17);
+                            try
+                            {
+                                data = Convert.ToDateTime(sData, CultureInfo.InvariantCulture);
+                            }
+                            catch (FormatException)
+                            {
+                                data = Convert.ToDateTime(sData, CultureInfo.CurrentCulture);
+                            }
+                            var difDiesDataActualIDataPaste = ((TimeSpan) (data - DateTime.Now)).Days;
+
+                            if (Math.Abs(difDiesDataActualIDataPaste) > 7)
+                            {
+                                if (MessageBox.Show(String.Format("Diferència de dies {0} en la data {1} és massa gran. És correcte?"
+                                    , difDiesDataActualIDataPaste, data.Value.ToShortDateString()), "Atenció", MessageBoxButtons.YesNo) == DialogResult.No)
+                                    return;
+                            }
+                        }
+                        else
+                        {
+                            var nom = items[i];
+                            prod = Program.Sessio.ProdAccions.SingleOrDefault(w => w.Empresa.Nom == nom);
+                            if (prod != null)
+                            {
+                                i += posPreuPart;
+                                double preuPart = Convert.ToDouble(items[i], CultureInfo.InvariantCulture);
+
+                                creaValoracio(data, prod, preuPart, ref avis);
+                            }
                         }
                     }
                 }
+
+                #endregion
+
 
                 btDesa.Enabled = dataGridView1.Rows.Count > 0;
 
@@ -120,6 +196,7 @@ namespace Inversions.GUI
                 Cursor = cursor;
             }
         }
+
 
         private void capturaValorsPasteSelfBank(DateTime? data = null)
         {
