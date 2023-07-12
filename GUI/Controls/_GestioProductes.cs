@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using DevExpress.XtraPrinting.Native;
 
 namespace Inversions.GUI
 {
@@ -202,6 +203,11 @@ namespace Inversions.GUI
                     prods = prods.Where(prod => movs.Any(mov => mov.ProdId == prod.Id));
                 }
 
+                if (!String.IsNullOrEmpty(tbFiltreNom.Text))
+                {
+                    prods = prods.Where(w => (w._NomProducte + w._NomEmpresa).IndexOf(tbFiltreNom.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+                }
+
                 var llistaProds = prods.OrderBy(o => o.OrdreGrid).ToList();
                 if (_MostraLlistaAmbChecks)
                 {
@@ -214,6 +220,8 @@ namespace Inversions.GUI
                     vLbProductes.SelectedIndexChanged += lbProductesTab2_SelectedIndexChanged;
                     vLbProductes.SelectedItem = null;
                 }
+
+
             }
         }
 
@@ -408,6 +416,14 @@ namespace Inversions.GUI
         {
             if (!String.IsNullOrEmpty(lbFons.Text))
                 Clipboard.SetText(lbFons.Text);
+        }
+
+        private void tbFiltreNom_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar == 13)
+            {
+                aplicaFiltre();
+            }
         }
     }
 }
