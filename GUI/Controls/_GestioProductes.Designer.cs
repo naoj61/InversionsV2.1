@@ -74,6 +74,9 @@ namespace Inversions.GUI
             this.ckFiltreDivAny = new System.Windows.Forms.CheckBox();
             this.ckNomesAmbParticipacions = new System.Windows.Forms.CheckBox();
             this.ckAmbMoviments = new System.Windows.Forms.CheckBox();
+            this.gbFiltreText = new System.Windows.Forms.Panel();
+            this.tbFiltreNom = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.btFiltra = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.gbFons = new System.Windows.Forms.Panel();
@@ -105,6 +108,7 @@ namespace Inversions.GUI
             this.pnFiltreAny.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.gbFiltreAny.SuspendLayout();
+            this.gbFiltreText.SuspendLayout();
             this.panel3.SuspendLayout();
             this.gbFons.SuspendLayout();
             this.gbEmpresa.SuspendLayout();
@@ -150,7 +154,7 @@ namespace Inversions.GUI
             this.pnDescripcioFons.Name = "pnDescripcioFons";
             this.pnDescripcioFons.Padding = new System.Windows.Forms.Padding(6, 11, 6, 6);
             this.pnDescripcioFons.Size = new System.Drawing.Size(176, 61);
-            this.pnDescripcioFons.TabIndex = 12;
+            this.pnDescripcioFons.TabIndex = 1;
             this.pnDescripcioFons.Visible = false;
             // 
             // btDescripcioFons
@@ -159,7 +163,7 @@ namespace Inversions.GUI
             this.btDescripcioFons.Location = new System.Drawing.Point(6, 11);
             this.btDescripcioFons.Name = "btDescripcioFons";
             this.btDescripcioFons.Size = new System.Drawing.Size(164, 44);
-            this.btDescripcioFons.TabIndex = 12;
+            this.btDescripcioFons.TabIndex = 0;
             this.btDescripcioFons.Text = "Descripció";
             this.btDescripcioFons.UseVisualStyleBackColor = true;
             this.btDescripcioFons.Click += new System.EventHandler(this.btDescripcioFons_Click);
@@ -173,7 +177,7 @@ namespace Inversions.GUI
             this.gbDividents.Name = "gbDividents";
             this.gbDividents.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
             this.gbDividents.Size = new System.Drawing.Size(176, 62);
-            this.gbDividents.TabIndex = 9;
+            this.gbDividents.TabIndex = 0;
             this.gbDividents.TabStop = false;
             this.gbDividents.Text = "Dividends";
             this.toolTip1.SetToolTip(this.gbDividents, "Dividends historics");
@@ -209,7 +213,7 @@ namespace Inversions.GUI
             this.gbMoneda.Name = "gbMoneda";
             this.gbMoneda.Padding = new System.Windows.Forms.Padding(10, 4, 10, 4);
             this.gbMoneda.Size = new System.Drawing.Size(176, 58);
-            this.gbMoneda.TabIndex = 2;
+            this.gbMoneda.TabIndex = 1;
             this.gbMoneda.TabStop = false;
             this.gbMoneda.Text = "Moneda";
             // 
@@ -232,7 +236,7 @@ namespace Inversions.GUI
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
             this.groupBox8.Size = new System.Drawing.Size(176, 62);
-            this.groupBox8.TabIndex = 8;
+            this.groupBox8.TabIndex = 7;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "PiG Real";
             this.toolTip1.SetToolTip(this.groupBox8, "PiG cartera + vendes reals + dividents - despeses, tenint en compte el preu origi" +
@@ -308,7 +312,7 @@ namespace Inversions.GUI
             this.gbPigProducte.Name = "gbPigProducte";
             this.gbPigProducte.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
             this.gbPigProducte.Size = new System.Drawing.Size(176, 62);
-            this.gbPigProducte.TabIndex = 8;
+            this.gbPigProducte.TabIndex = 6;
             this.gbPigProducte.TabStop = false;
             this.gbPigProducte.Text = "PiG Producte";
             this.toolTip1.SetToolTip(this.gbPigProducte, "PiG cartera + vendes reals + vendesT + dividents - despeses, sense tenir en compt" +
@@ -345,7 +349,7 @@ namespace Inversions.GUI
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
             this.groupBox7.Size = new System.Drawing.Size(176, 62);
-            this.groupBox7.TabIndex = 6;
+            this.groupBox7.TabIndex = 5;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Cost Orig Particip";
             // 
@@ -380,7 +384,7 @@ namespace Inversions.GUI
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
             this.groupBox4.Size = new System.Drawing.Size(176, 62);
-            this.groupBox4.TabIndex = 7;
+            this.groupBox4.TabIndex = 8;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "PiG des d\'Origen";
             this.toolTip1.SetToolTip(this.groupBox4, "PiG participacions en cartera tenint en compte el preu original.");
@@ -416,7 +420,7 @@ namespace Inversions.GUI
             this.groupBox15.Name = "groupBox15";
             this.groupBox15.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
             this.groupBox15.Size = new System.Drawing.Size(176, 62);
-            this.groupBox15.TabIndex = 5;
+            this.groupBox15.TabIndex = 4;
             this.groupBox15.TabStop = false;
             this.groupBox15.Text = "Valor Actual";
             this.toolTip1.SetToolTip(this.groupBox15, "Valor de les participacions en cartera segons l\'últim valor");
@@ -452,7 +456,7 @@ namespace Inversions.GUI
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
             this.groupBox1.Size = new System.Drawing.Size(176, 62);
-            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Preu Part. Actual";
             // 
@@ -486,7 +490,7 @@ namespace Inversions.GUI
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
             this.groupBox13.Size = new System.Drawing.Size(176, 62);
-            this.groupBox13.TabIndex = 3;
+            this.groupBox13.TabIndex = 2;
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "Participacions";
             this.toolTip1.SetToolTip(this.groupBox13, "Número de participacions en cartera");
@@ -529,11 +533,11 @@ namespace Inversions.GUI
             // groupBox6
             // 
             this.groupBox6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox6.Location = new System.Drawing.Point(0, 222);
+            this.groupBox6.Location = new System.Drawing.Point(0, 267);
             this.groupBox6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(6);
-            this.groupBox6.Size = new System.Drawing.Size(702, 559);
+            this.groupBox6.Size = new System.Drawing.Size(702, 514);
             this.groupBox6.TabIndex = 1;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Productes";
@@ -541,13 +545,14 @@ namespace Inversions.GUI
             // gbFiltres
             // 
             this.gbFiltres.Controls.Add(this.panel4);
+            this.gbFiltres.Controls.Add(this.gbFiltreText);
             this.gbFiltres.Controls.Add(this.btFiltra);
             this.gbFiltres.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbFiltres.Location = new System.Drawing.Point(0, 80);
             this.gbFiltres.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbFiltres.Name = "gbFiltres";
             this.gbFiltres.Padding = new System.Windows.Forms.Padding(3, 0, 3, 4);
-            this.gbFiltres.Size = new System.Drawing.Size(702, 142);
+            this.gbFiltres.Size = new System.Drawing.Size(702, 187);
             this.gbFiltres.TabIndex = 0;
             this.gbFiltres.TabStop = false;
             this.gbFiltres.Text = "Filtres";
@@ -562,8 +567,8 @@ namespace Inversions.GUI
             this.panel4.Location = new System.Drawing.Point(3, 19);
             this.panel4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel4.Name = "panel4";
-            this.panel4.Padding = new System.Windows.Forms.Padding(3);
-            this.panel4.Size = new System.Drawing.Size(696, 80);
+            this.panel4.Padding = new System.Windows.Forms.Padding(3, 3, 3, 9);
+            this.panel4.Size = new System.Drawing.Size(696, 92);
             this.panel4.TabIndex = 1;
             // 
             // pnSelDeselChecksProds
@@ -577,8 +582,8 @@ namespace Inversions.GUI
             this.pnSelDeselChecksProds.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.pnSelDeselChecksProds.Name = "pnSelDeselChecksProds";
             this.pnSelDeselChecksProds.Padding = new System.Windows.Forms.Padding(3);
-            this.pnSelDeselChecksProds.Size = new System.Drawing.Size(208, 74);
-            this.pnSelDeselChecksProds.TabIndex = 3;
+            this.pnSelDeselChecksProds.Size = new System.Drawing.Size(208, 80);
+            this.pnSelDeselChecksProds.TabIndex = 2;
             this.pnSelDeselChecksProds.Visible = false;
             // 
             // btDeseleccionaTot
@@ -586,7 +591,7 @@ namespace Inversions.GUI
             this.btDeseleccionaTot.Location = new System.Drawing.Point(106, 5);
             this.btDeseleccionaTot.Name = "btDeseleccionaTot";
             this.btDeseleccionaTot.Size = new System.Drawing.Size(93, 60);
-            this.btDeseleccionaTot.TabIndex = 1;
+            this.btDeseleccionaTot.TabIndex = 0;
             this.btDeseleccionaTot.Text = "Deselec\r\nTot";
             this.btDeseleccionaTot.UseVisualStyleBackColor = true;
             this.btDeseleccionaTot.Click += new System.EventHandler(this.btDeseleccionaTot_Click);
@@ -596,7 +601,7 @@ namespace Inversions.GUI
             this.btSeleccionaTot.Location = new System.Drawing.Point(6, 5);
             this.btSeleccionaTot.Name = "btSeleccionaTot";
             this.btSeleccionaTot.Size = new System.Drawing.Size(93, 60);
-            this.btSeleccionaTot.TabIndex = 0;
+            this.btSeleccionaTot.TabIndex = 1;
             this.btSeleccionaTot.Text = "Selec\r\nTot";
             this.btSeleccionaTot.UseVisualStyleBackColor = true;
             this.btSeleccionaTot.Click += new System.EventHandler(this.btSeleccionaTot_Click);
@@ -611,7 +616,7 @@ namespace Inversions.GUI
             this.pnFiltreAny.Location = new System.Drawing.Point(203, 3);
             this.pnFiltreAny.Margin = new System.Windows.Forms.Padding(0);
             this.pnFiltreAny.Name = "pnFiltreAny";
-            this.pnFiltreAny.Size = new System.Drawing.Size(335, 74);
+            this.pnFiltreAny.Size = new System.Drawing.Size(335, 80);
             this.pnFiltreAny.TabIndex = 2;
             // 
             // flowLayoutPanel1
@@ -626,7 +631,7 @@ namespace Inversions.GUI
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(333, 72);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(333, 78);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // gbFiltreAny
@@ -637,7 +642,7 @@ namespace Inversions.GUI
             this.gbFiltreAny.Name = "gbFiltreAny";
             this.gbFiltreAny.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbFiltreAny.Size = new System.Drawing.Size(78, 54);
-            this.gbFiltreAny.TabIndex = 6;
+            this.gbFiltreAny.TabIndex = 0;
             this.gbFiltreAny.TabStop = false;
             this.gbFiltreAny.Text = "Any";
             // 
@@ -661,7 +666,7 @@ namespace Inversions.GUI
             this.ckFiltreCompresAny.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
             this.ckFiltreCompresAny.Name = "ckFiltreCompresAny";
             this.ckFiltreCompresAny.Size = new System.Drawing.Size(77, 45);
-            this.ckFiltreCompresAny.TabIndex = 4;
+            this.ckFiltreCompresAny.TabIndex = 1;
             this.ckFiltreCompresAny.Text = "Compres";
             this.ckFiltreCompresAny.UseVisualStyleBackColor = true;
             this.ckFiltreCompresAny.CheckedChanged += new System.EventHandler(this.ckFiltreAny_CheckedChanged);
@@ -674,7 +679,7 @@ namespace Inversions.GUI
             this.ckFiltreVendesAny.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
             this.ckFiltreVendesAny.Name = "ckFiltreVendesAny";
             this.ckFiltreVendesAny.Size = new System.Drawing.Size(68, 45);
-            this.ckFiltreVendesAny.TabIndex = 5;
+            this.ckFiltreVendesAny.TabIndex = 2;
             this.ckFiltreVendesAny.Text = "Vendes";
             this.ckFiltreVendesAny.UseVisualStyleBackColor = true;
             this.ckFiltreVendesAny.CheckedChanged += new System.EventHandler(this.ckFiltreAny_CheckedChanged);
@@ -688,7 +693,7 @@ namespace Inversions.GUI
             this.ckFiltreTraspasAny.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
             this.ckFiltreTraspasAny.Name = "ckFiltreTraspasAny";
             this.ckFiltreTraspasAny.Size = new System.Drawing.Size(70, 45);
-            this.ckFiltreTraspasAny.TabIndex = 8;
+            this.ckFiltreTraspasAny.TabIndex = 3;
             this.ckFiltreTraspasAny.Text = "Traspàs";
             this.ckFiltreTraspasAny.UseVisualStyleBackColor = true;
             this.ckFiltreTraspasAny.CheckedChanged += new System.EventHandler(this.ckFiltreAny_CheckedChanged);
@@ -701,7 +706,7 @@ namespace Inversions.GUI
             this.ckFiltreDivAny.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
             this.ckFiltreDivAny.Name = "ckFiltreDivAny";
             this.ckFiltreDivAny.Size = new System.Drawing.Size(35, 45);
-            this.ckFiltreDivAny.TabIndex = 7;
+            this.ckFiltreDivAny.TabIndex = 4;
             this.ckFiltreDivAny.Text = "Div";
             this.ckFiltreDivAny.UseVisualStyleBackColor = true;
             this.ckFiltreDivAny.CheckedChanged += new System.EventHandler(this.ckFiltreAny_CheckedChanged);
@@ -716,7 +721,7 @@ namespace Inversions.GUI
             this.ckNomesAmbParticipacions.Location = new System.Drawing.Point(92, 3);
             this.ckNomesAmbParticipacions.Margin = new System.Windows.Forms.Padding(0);
             this.ckNomesAmbParticipacions.Name = "ckNomesAmbParticipacions";
-            this.ckNomesAmbParticipacions.Size = new System.Drawing.Size(111, 74);
+            this.ckNomesAmbParticipacions.Size = new System.Drawing.Size(111, 80);
             this.ckNomesAmbParticipacions.TabIndex = 1;
             this.ckNomesAmbParticipacions.Text = "Amb\r\nParticipacions";
             this.ckNomesAmbParticipacions.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -732,18 +737,50 @@ namespace Inversions.GUI
             this.ckAmbMoviments.Location = new System.Drawing.Point(3, 3);
             this.ckAmbMoviments.Margin = new System.Windows.Forms.Padding(0);
             this.ckAmbMoviments.Name = "ckAmbMoviments";
-            this.ckAmbMoviments.Size = new System.Drawing.Size(89, 74);
+            this.ckAmbMoviments.Size = new System.Drawing.Size(89, 80);
             this.ckAmbMoviments.TabIndex = 0;
             this.ckAmbMoviments.Text = "Amb\r\nMoviments";
             this.ckAmbMoviments.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTip1.SetToolTip(this.ckAmbMoviments, "Filtre productes que no han tingut moviments pel usuari.");
             this.ckAmbMoviments.UseVisualStyleBackColor = true;
             // 
+            // gbFiltreText
+            // 
+            this.gbFiltreText.Controls.Add(this.tbFiltreNom);
+            this.gbFiltreText.Controls.Add(this.label2);
+            this.gbFiltreText.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.gbFiltreText.Location = new System.Drawing.Point(3, 111);
+            this.gbFiltreText.Name = "gbFiltreText";
+            this.gbFiltreText.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            this.gbFiltreText.Size = new System.Drawing.Size(696, 33);
+            this.gbFiltreText.TabIndex = 4;
+            this.gbFiltreText.Text = "Filtre Text";
+            // 
+            // tbFiltreNom
+            // 
+            this.tbFiltreNom.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbFiltreNom.Location = new System.Drawing.Point(92, 3);
+            this.tbFiltreNom.Margin = new System.Windows.Forms.Padding(0);
+            this.tbFiltreNom.Name = "tbFiltreNom";
+            this.tbFiltreNom.Size = new System.Drawing.Size(599, 26);
+            this.tbFiltreNom.TabIndex = 1;
+            this.tbFiltreNom.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbFiltreNom_KeyPress);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label2.Location = new System.Drawing.Point(5, 3);
+            this.label2.Name = "label2";
+            this.label2.Padding = new System.Windows.Forms.Padding(0, 4, 9, 0);
+            this.label2.Size = new System.Drawing.Size(87, 24);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Filtre Text";
+            // 
             // btFiltra
             // 
             this.btFiltra.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btFiltra.Location = new System.Drawing.Point(3, 99);
-            this.btFiltra.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btFiltra.Location = new System.Drawing.Point(3, 144);
             this.btFiltra.Name = "btFiltra";
             this.btFiltra.Size = new System.Drawing.Size(696, 39);
             this.btFiltra.TabIndex = 0;
@@ -896,6 +933,8 @@ namespace Inversions.GUI
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.gbFiltreAny.ResumeLayout(false);
+            this.gbFiltreText.ResumeLayout(false);
+            this.gbFiltreText.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.gbFons.ResumeLayout(false);
             this.gbEmpresa.ResumeLayout(false);
@@ -959,5 +998,8 @@ namespace Inversions.GUI
         private CheckBox ckFiltreVendesAny;
         private CheckBox ckFiltreDivAny;
         private CheckBox ckFiltreTraspasAny;
+        private TextBox tbFiltreNom;
+        private Panel gbFiltreText;
+        private Label label2;
     }
 }
