@@ -255,7 +255,8 @@ namespace Inversions
             string descripcio, DateTime dataHoraCompra, Producte prodCompra, double participacionsCompra, bool afegeigPreuAValoracions = true)
         {
             desaTraspas(connexio, dataHoraVenda, participacionsVenda, preuParticipacioVenda,
-                descripcio, dataHoraCompra, prodCompra, participacionsCompra, afegeigPreuAValoracions);
+                descripcio, dataHoraCompra, prodCompra, participacionsCompra, (participacionsVenda * preuParticipacioVenda / participacionsCompra), 0,
+                afegeigPreuAValoracions);
         }
 
         /// <summary>
@@ -270,8 +271,9 @@ namespace Inversions
         /// <param name="prodCompra"></param>
         /// <param name="participacionsCompra"></param>
         /// <param name="afegeigPreuAValoracions"></param>
-        internal void desaTraspas(InversionsBDContext connexio, DateTime dataHoraVenda, double participacionsVenda, double preuParticipacioVenda, 
-            string descripcio, DateTime dataHoraCompra, Producte prodCompra, double participacionsCompra, bool afegeigPreuAValoracions = true)
+        internal void desaTraspas(InversionsBDContext connexio, DateTime dataHoraVenda, double participacionsVenda, double preuParticipacioVenda,
+            string descripcio, DateTime dataHoraCompra, Producte prodCompra, double participacionsCompra, double preuParticipacioCompra, double despeses,
+            bool afegeigPreuAValoracions = true)
         {
             dataHoraVenda = Utilitats.ArrodoneixoDataASegons(dataHoraVenda);
             dataHoraCompra = Utilitats.ArrodoneixoDataASegons(dataHoraCompra);
@@ -280,11 +282,11 @@ namespace Inversions
                 dataHoraCompra = dataHoraCompra.AddSeconds(1);
 
 
-            double preuParticipacioCompra = preuParticipacioVenda * participacionsVenda / participacionsCompra;
+            //double preuParticipacioCompra = preuParticipacioVenda * participacionsVenda / participacionsCompra;
 
-            var venda = this.desaVenda(connexio, dataHoraVenda, participacionsVenda, preuParticipacioVenda, 1, null, descripcio, afegeigPreuAValoracions, 
+            var venda = this.desaVenda(connexio, dataHoraVenda, participacionsVenda, preuParticipacioVenda, 1, null, descripcio, afegeigPreuAValoracions,
                 true);
-            var compra = prodCompra.desaCompra(connexio, dataHoraCompra, participacionsCompra, preuParticipacioCompra, 1, null, descripcio, venda, 
+            var compra = prodCompra.desaCompra(connexio, dataHoraCompra, participacionsCompra, preuParticipacioCompra, 1, despeses, descripcio, venda,
                 afegeigPreuAValoracions, true);
         }
 

@@ -237,8 +237,8 @@ namespace Inversions.GUI
                     else
                     {
                         var dataDesti = ckActivaDataDesti.Checked ? cDataDesti.Value : data1;
-                        prodOrigenContext.desaTraspas(conn, data1, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, tbDescripcio.Text, dataDesti,
-                            prodDestiContext, tbNumParticipacionsDesti._DoubleValue);
+                        prodOrigenContext.desaTraspas(conn, data1, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, tbDescripcio.Text, 
+                            dataDesti, prodDestiContext, tbNumParticipacionsDesti._DoubleValue, ntbPreuParticipacioFonsCompra.Valor, ntbDespeses.Valor);
                     }
 
                     //var contextConn = ((IObjectContextAdapter)conn).ObjectContext;
@@ -390,6 +390,19 @@ namespace Inversions.GUI
             gbDescripcio.Visible = !esUnaAccio || tipusMov == TipusMoviment.Dividends;
 
             gbEdicio.Visible = true;
+        }
+
+
+        private void calculaPreuPartTraspasCompra()
+        {
+            ntbPreuParticipacioFonsCompra.Valor = tbImportTotal.Valor / tbNumParticipacionsDesti.Valor;
+        }
+        
+        private void calculaDespesesTraspas()
+        {
+            var impTotalCompra = ntbPreuParticipacioFonsCompra.Valor * tbNumParticipacionsDesti.Valor;
+
+            ntbDespeses.Valor = tbImportTotal.Valor == impTotalCompra ? 0 : tbImportTotal.Valor - impTotalCompra;
         }
 
 
@@ -565,6 +578,32 @@ namespace Inversions.GUI
             }
         }
 
+
+        private void tbNumParticipacionsDesti_Leave(object sender, EventArgs e)
+        {
+            calculaPreuPartTraspasCompra();
+        }
+
+        private void tbNumParticipacionsDesti_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+                calculaPreuPartTraspasCompra();
+        }
+
         #endregion *** Events ***
+
+        private void ntbPreuParticipacioFonsCompra_Leave(object sender, EventArgs e)
+        {
+            calculaDespesesTraspas();
+
+        }
+
+        private void ntbPreuParticipacioFonsCompra_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+                calculaDespesesTraspas();
+
+        }
+
     }
 }

@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle43 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle44 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle45 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle46 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle47 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle48 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cDataGridView1 = new System.Windows.Forms.DataGridView();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTipusMoviment = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -73,12 +73,16 @@
             this.tbDescripcio = new System.Windows.Forms.TextBox();
             this.gbEdicio = new System.Windows.Forms.GroupBox();
             this.gbTraspas = new System.Windows.Forms.GroupBox();
-            this.gbProducteTraspas = new System.Windows.Forms.GroupBox();
-            this.cProducteTraspas = new System.Windows.Forms.ComboBox();
             this.gbDataDesti = new System.Windows.Forms.GroupBox();
             this.cDataDesti = new System.Windows.Forms.DateTimePicker();
             this.gbNumParticipacionsDesti = new System.Windows.Forms.GroupBox();
             this.tbNumParticipacionsDesti = new Controls.NumericTextBox2();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.ntbPreuParticipacioFonsCompra = new Controls.NumericTextBox2();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.ntbDespeses = new Controls.NumericTextBox2();
+            this.gbProducteTraspas = new System.Windows.Forms.GroupBox();
+            this.cProducteTraspas = new System.Windows.Forms.ComboBox();
             this.pnMovBotons = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -97,9 +101,11 @@
             this.gbDescripcio.SuspendLayout();
             this.gbEdicio.SuspendLayout();
             this.gbTraspas.SuspendLayout();
-            this.gbProducteTraspas.SuspendLayout();
             this.gbDataDesti.SuspendLayout();
             this.gbNumParticipacionsDesti.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.gbProducteTraspas.SuspendLayout();
             this.pnMovBotons.SuspendLayout();
             this.panel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -171,10 +177,10 @@
             // 
             this.colData.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colData.DataPropertyName = "Data";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.Format = "d";
-            dataGridViewCellStyle1.NullValue = null;
-            this.colData.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle43.Format = "d";
+            dataGridViewCellStyle43.NullValue = null;
+            this.colData.DefaultCellStyle = dataGridViewCellStyle43;
             this.colData.HeaderText = "Data";
             this.colData.Name = "colData";
             this.colData.ReadOnly = true;
@@ -184,10 +190,10 @@
             // 
             this.colParticipacions.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colParticipacions.DataPropertyName = "Participacions";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Format = "N4";
-            dataGridViewCellStyle2.NullValue = null;
-            this.colParticipacions.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle44.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle44.Format = "N4";
+            dataGridViewCellStyle44.NullValue = null;
+            this.colParticipacions.DefaultCellStyle = dataGridViewCellStyle44;
             this.colParticipacions.HeaderText = "Participacions";
             this.colParticipacions.Name = "colParticipacions";
             this.colParticipacions.ReadOnly = true;
@@ -197,10 +203,10 @@
             // 
             this.colPreuUnitari.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colPreuUnitari.DataPropertyName = "_PreuParticipacio";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "c4";
-            dataGridViewCellStyle3.NullValue = null;
-            this.colPreuUnitari.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle45.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle45.Format = "c4";
+            dataGridViewCellStyle45.NullValue = null;
+            this.colPreuUnitari.DefaultCellStyle = dataGridViewCellStyle45;
             this.colPreuUnitari.HeaderText = "Preu Unitari";
             this.colPreuUnitari.Name = "colPreuUnitari";
             this.colPreuUnitari.ReadOnly = true;
@@ -210,9 +216,9 @@
             // 
             this.ImportBrut.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.ImportBrut.DataPropertyName = "_ImportBrut";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "C2";
-            this.ImportBrut.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle46.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle46.Format = "C2";
+            this.ImportBrut.DefaultCellStyle = dataGridViewCellStyle46;
             this.ImportBrut.HeaderText = "Import Brut";
             this.ImportBrut.Name = "ImportBrut";
             this.ImportBrut.ReadOnly = true;
@@ -222,10 +228,10 @@
             // 
             this.colImport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colImport.DataPropertyName = "_ImportNet";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Format = "C2";
-            dataGridViewCellStyle5.NullValue = null;
-            this.colImport.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle47.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle47.Format = "C2";
+            dataGridViewCellStyle47.NullValue = null;
+            this.colImport.DefaultCellStyle = dataGridViewCellStyle47;
             this.colImport.HeaderText = "Import Net";
             this.colImport.Name = "colImport";
             this.colImport.ReadOnly = true;
@@ -242,9 +248,9 @@
             // 
             this.colDespeses.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colDespeses.DataPropertyName = "Despeses";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "c2";
-            this.colDespeses.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle48.Format = "c2";
+            this.colDespeses.DefaultCellStyle = dataGridViewCellStyle48;
             this.colDespeses.HeaderText = "Despeses";
             this.colDespeses.Name = "colDespeses";
             this.colDespeses.ReadOnly = true;
@@ -286,7 +292,7 @@
             this.gbPreuPartic.Name = "gbPreuPartic";
             this.gbPreuPartic.Padding = new System.Windows.Forms.Padding(6);
             this.gbPreuPartic.Size = new System.Drawing.Size(125, 62);
-            this.gbPreuPartic.TabIndex = 4;
+            this.gbPreuPartic.TabIndex = 5;
             this.gbPreuPartic.TabStop = false;
             this.gbPreuPartic.Text = "Preu Partic.";
             this.toolTip1.SetToolTip(this.gbPreuPartic, "Import brut sense despeses");
@@ -294,7 +300,7 @@
             // ntbPreuParticipacio
             // 
             this.ntbPreuParticipacio._CapturaEscape = true;
-            this.ntbPreuParticipacio._Format = "#,##0.############ €";
+            this.ntbPreuParticipacio._Format = "#,##0.####### €";
             this.ntbPreuParticipacio._NegatiusEnVermell = false;
             this.ntbPreuParticipacio._PermetDecimals = true;
             this.ntbPreuParticipacio._PermetEspais = false;
@@ -319,7 +325,7 @@
             this.gbFactorConversor.Name = "gbFactorConversor";
             this.gbFactorConversor.Padding = new System.Windows.Forms.Padding(6);
             this.gbFactorConversor.Size = new System.Drawing.Size(142, 62);
-            this.gbFactorConversor.TabIndex = 3;
+            this.gbFactorConversor.TabIndex = 4;
             this.gbFactorConversor.TabStop = false;
             this.gbFactorConversor.Text = "Factor Conversor";
             this.toolTip1.SetToolTip(this.gbFactorConversor, "És el numero pel que les accions se dividiran(Contrasplit) o multiplicaran(Split)" +
@@ -408,7 +414,7 @@
             this.gbDataMoviment.Name = "gbDataMoviment";
             this.gbDataMoviment.Padding = new System.Windows.Forms.Padding(6);
             this.gbDataMoviment.Size = new System.Drawing.Size(142, 62);
-            this.gbDataMoviment.TabIndex = 0;
+            this.gbDataMoviment.TabIndex = 1;
             this.gbDataMoviment.TabStop = false;
             this.gbDataMoviment.Text = "Data";
             // 
@@ -431,7 +437,7 @@
             this.ckActivaDataDesti.Name = "ckActivaDataDesti";
             this.ckActivaDataDesti.Padding = new System.Windows.Forms.Padding(0, 1, 0, 0);
             this.ckActivaDataDesti.Size = new System.Drawing.Size(142, 46);
-            this.ckActivaDataDesti.TabIndex = 1;
+            this.ckActivaDataDesti.TabIndex = 2;
             this.ckActivaDataDesti.Text = "Mostra Data Destí";
             this.ckActivaDataDesti.UseVisualStyleBackColor = true;
             this.ckActivaDataDesti.CheckedChanged += new System.EventHandler(this.ckActivaDataDesti_CheckedChanged);
@@ -444,9 +450,9 @@
             this.gbParticipacions.Name = "gbParticipacions";
             this.gbParticipacions.Padding = new System.Windows.Forms.Padding(6);
             this.gbParticipacions.Size = new System.Drawing.Size(142, 62);
-            this.gbParticipacions.TabIndex = 2;
+            this.gbParticipacions.TabIndex = 3;
             this.gbParticipacions.TabStop = false;
-            this.gbParticipacions.Text = "Participacions";
+            this.gbParticipacions.Text = "Num Parts";
             // 
             // tbNumParticipacions
             // 
@@ -475,7 +481,7 @@
             this.gbCanviAplicat.Name = "gbCanviAplicat";
             this.gbCanviAplicat.Padding = new System.Windows.Forms.Padding(6);
             this.gbCanviAplicat.Size = new System.Drawing.Size(125, 62);
-            this.gbCanviAplicat.TabIndex = 5;
+            this.gbCanviAplicat.TabIndex = 6;
             this.gbCanviAplicat.TabStop = false;
             this.gbCanviAplicat.Text = "Canvi €/x";
             // 
@@ -506,7 +512,7 @@
             this.gbDespeses.Name = "gbDespeses";
             this.gbDespeses.Padding = new System.Windows.Forms.Padding(6);
             this.gbDespeses.Size = new System.Drawing.Size(125, 62);
-            this.gbDespeses.TabIndex = 6;
+            this.gbDespeses.TabIndex = 7;
             this.gbDespeses.TabStop = false;
             this.gbDespeses.Text = "Despeses";
             // 
@@ -537,7 +543,7 @@
             this.gbImportTotal.Name = "gbImportTotal";
             this.gbImportTotal.Padding = new System.Windows.Forms.Padding(6);
             this.gbImportTotal.Size = new System.Drawing.Size(125, 58);
-            this.gbImportTotal.TabIndex = 7;
+            this.gbImportTotal.TabIndex = 0;
             this.gbImportTotal.TabStop = false;
             this.gbImportTotal.Text = "Imp. Total";
             // 
@@ -568,7 +574,7 @@
             this.gbDescripcio.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbDescripcio.Name = "gbDescripcio";
             this.gbDescripcio.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbDescripcio.Size = new System.Drawing.Size(638, 213);
+            this.gbDescripcio.Size = new System.Drawing.Size(638, 154);
             this.gbDescripcio.TabIndex = 1;
             this.gbDescripcio.TabStop = false;
             this.gbDescripcio.Text = "Descripció";
@@ -581,7 +587,7 @@
             this.tbDescripcio.Multiline = true;
             this.tbDescripcio.Name = "tbDescripcio";
             this.tbDescripcio.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.tbDescripcio.Size = new System.Drawing.Size(632, 186);
+            this.tbDescripcio.Size = new System.Drawing.Size(632, 127);
             this.tbDescripcio.TabIndex = 0;
             // 
             // gbEdicio
@@ -603,54 +609,31 @@
             // gbTraspas
             // 
             this.gbTraspas.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.gbTraspas.Controls.Add(this.gbProducteTraspas);
             this.gbTraspas.Controls.Add(this.gbDataDesti);
             this.gbTraspas.Controls.Add(this.gbNumParticipacionsDesti);
+            this.gbTraspas.Controls.Add(this.groupBox3);
+            this.gbTraspas.Controls.Add(this.groupBox2);
+            this.gbTraspas.Controls.Add(this.gbProducteTraspas);
             this.gbTraspas.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.gbTraspas.Location = new System.Drawing.Point(3, 382);
+            this.gbTraspas.Location = new System.Drawing.Point(3, 323);
             this.gbTraspas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbTraspas.Name = "gbTraspas";
             this.gbTraspas.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbTraspas.Size = new System.Drawing.Size(638, 98);
+            this.gbTraspas.Size = new System.Drawing.Size(638, 157);
             this.gbTraspas.TabIndex = 2;
             this.gbTraspas.TabStop = false;
             this.gbTraspas.Text = "Traspàs";
             this.gbTraspas.Visible = false;
             // 
-            // gbProducteTraspas
-            // 
-            this.gbProducteTraspas.Controls.Add(this.cProducteTraspas);
-            this.gbProducteTraspas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbProducteTraspas.Location = new System.Drawing.Point(3, 23);
-            this.gbProducteTraspas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbProducteTraspas.Name = "gbProducteTraspas";
-            this.gbProducteTraspas.Padding = new System.Windows.Forms.Padding(6);
-            this.gbProducteTraspas.Size = new System.Drawing.Size(379, 71);
-            this.gbProducteTraspas.TabIndex = 0;
-            this.gbProducteTraspas.TabStop = false;
-            this.gbProducteTraspas.Text = "Producte Destí";
-            // 
-            // cProducteTraspas
-            // 
-            this.cProducteTraspas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cProducteTraspas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cProducteTraspas.FormattingEnabled = true;
-            this.cProducteTraspas.Location = new System.Drawing.Point(6, 25);
-            this.cProducteTraspas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.cProducteTraspas.Name = "cProducteTraspas";
-            this.cProducteTraspas.Size = new System.Drawing.Size(367, 28);
-            this.cProducteTraspas.TabIndex = 0;
-            this.cProducteTraspas.SelectedIndexChanged += new System.EventHandler(this.cProducteTraspas_SelectedIndexChanged);
-            // 
             // gbDataDesti
             // 
             this.gbDataDesti.Controls.Add(this.cDataDesti);
             this.gbDataDesti.Dock = System.Windows.Forms.DockStyle.Right;
-            this.gbDataDesti.Location = new System.Drawing.Point(382, 23);
+            this.gbDataDesti.Location = new System.Drawing.Point(126, 94);
             this.gbDataDesti.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbDataDesti.Name = "gbDataDesti";
             this.gbDataDesti.Padding = new System.Windows.Forms.Padding(6);
-            this.gbDataDesti.Size = new System.Drawing.Size(125, 71);
+            this.gbDataDesti.Size = new System.Drawing.Size(125, 59);
             this.gbDataDesti.TabIndex = 1;
             this.gbDataDesti.TabStop = false;
             this.gbDataDesti.Text = "Data";
@@ -669,11 +652,11 @@
             // 
             this.gbNumParticipacionsDesti.Controls.Add(this.tbNumParticipacionsDesti);
             this.gbNumParticipacionsDesti.Dock = System.Windows.Forms.DockStyle.Right;
-            this.gbNumParticipacionsDesti.Location = new System.Drawing.Point(507, 23);
+            this.gbNumParticipacionsDesti.Location = new System.Drawing.Point(251, 94);
             this.gbNumParticipacionsDesti.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbNumParticipacionsDesti.Name = "gbNumParticipacionsDesti";
             this.gbNumParticipacionsDesti.Padding = new System.Windows.Forms.Padding(6);
-            this.gbNumParticipacionsDesti.Size = new System.Drawing.Size(128, 71);
+            this.gbNumParticipacionsDesti.Size = new System.Drawing.Size(128, 59);
             this.gbNumParticipacionsDesti.TabIndex = 2;
             this.gbNumParticipacionsDesti.TabStop = false;
             this.gbNumParticipacionsDesti.Text = "Num Parts";
@@ -695,6 +678,98 @@
             this.tbNumParticipacionsDesti.Text = "0";
             this.tbNumParticipacionsDesti.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.tbNumParticipacionsDesti.Valor = 0D;
+            this.tbNumParticipacionsDesti.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbNumParticipacionsDesti_KeyPress);
+            this.tbNumParticipacionsDesti.Leave += new System.EventHandler(this.tbNumParticipacionsDesti_Leave);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.ntbPreuParticipacioFonsCompra);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Right;
+            this.groupBox3.Location = new System.Drawing.Point(379, 94);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(6);
+            this.groupBox3.Size = new System.Drawing.Size(128, 59);
+            this.groupBox3.TabIndex = 3;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Preu Partic";
+            // 
+            // ntbPreuParticipacioFonsCompra
+            // 
+            this.ntbPreuParticipacioFonsCompra._CapturaEscape = true;
+            this.ntbPreuParticipacioFonsCompra._Format = "#,##0.####### €";
+            this.ntbPreuParticipacioFonsCompra._NegatiusEnVermell = false;
+            this.ntbPreuParticipacioFonsCompra._PermetDecimals = true;
+            this.ntbPreuParticipacioFonsCompra._PermetEspais = false;
+            this.ntbPreuParticipacioFonsCompra._PermetNegatius = false;
+            this.ntbPreuParticipacioFonsCompra.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbPreuParticipacioFonsCompra.Location = new System.Drawing.Point(6, 25);
+            this.ntbPreuParticipacioFonsCompra.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ntbPreuParticipacioFonsCompra.Name = "ntbPreuParticipacioFonsCompra";
+            this.ntbPreuParticipacioFonsCompra.Size = new System.Drawing.Size(116, 26);
+            this.ntbPreuParticipacioFonsCompra.TabIndex = 0;
+            this.ntbPreuParticipacioFonsCompra.Text = "0 €";
+            this.ntbPreuParticipacioFonsCompra.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbPreuParticipacioFonsCompra.Valor = 0D;
+            this.ntbPreuParticipacioFonsCompra.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ntbPreuParticipacioFonsCompra_KeyPress);
+            this.ntbPreuParticipacioFonsCompra.Leave += new System.EventHandler(this.ntbPreuParticipacioFonsCompra_Leave);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.ntbDespeses);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.groupBox2.Location = new System.Drawing.Point(507, 94);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(6);
+            this.groupBox2.Size = new System.Drawing.Size(128, 59);
+            this.groupBox2.TabIndex = 4;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Despeses";
+            // 
+            // ntbDespeses
+            // 
+            this.ntbDespeses._CapturaEscape = true;
+            this.ntbDespeses._Format = "#,##0.00 €";
+            this.ntbDespeses._NegatiusEnVermell = false;
+            this.ntbDespeses._PermetDecimals = true;
+            this.ntbDespeses._PermetEspais = false;
+            this.ntbDespeses._PermetNegatius = false;
+            this.ntbDespeses.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbDespeses.Location = new System.Drawing.Point(6, 25);
+            this.ntbDespeses.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ntbDespeses.Name = "ntbDespeses";
+            this.ntbDespeses.ReadOnly = true;
+            this.ntbDespeses.Size = new System.Drawing.Size(116, 26);
+            this.ntbDespeses.TabIndex = 0;
+            this.ntbDespeses.Text = "0 €";
+            this.ntbDespeses.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbDespeses.Valor = 0D;
+            // 
+            // gbProducteTraspas
+            // 
+            this.gbProducteTraspas.Controls.Add(this.cProducteTraspas);
+            this.gbProducteTraspas.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gbProducteTraspas.Location = new System.Drawing.Point(3, 23);
+            this.gbProducteTraspas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gbProducteTraspas.Name = "gbProducteTraspas";
+            this.gbProducteTraspas.Padding = new System.Windows.Forms.Padding(6);
+            this.gbProducteTraspas.Size = new System.Drawing.Size(632, 71);
+            this.gbProducteTraspas.TabIndex = 0;
+            this.gbProducteTraspas.TabStop = false;
+            this.gbProducteTraspas.Text = "Producte Destí";
+            // 
+            // cProducteTraspas
+            // 
+            this.cProducteTraspas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cProducteTraspas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cProducteTraspas.FormattingEnabled = true;
+            this.cProducteTraspas.Location = new System.Drawing.Point(6, 25);
+            this.cProducteTraspas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.cProducteTraspas.Name = "cProducteTraspas";
+            this.cProducteTraspas.Size = new System.Drawing.Size(620, 28);
+            this.cProducteTraspas.TabIndex = 0;
+            this.cProducteTraspas.SelectedIndexChanged += new System.EventHandler(this.cProducteTraspas_SelectedIndexChanged);
             // 
             // pnMovBotons
             // 
@@ -770,7 +845,7 @@
             this.gestioProductesTabMoviments.MinimumSize = new System.Drawing.Size(824, 493);
             this.gestioProductesTabMoviments.Name = "gestioProductesTabMoviments";
             this.gestioProductesTabMoviments.Size = new System.Drawing.Size(1139, 566);
-            this.gestioProductesTabMoviments.TabIndex = 1;
+            this.gestioProductesTabMoviments.TabIndex = 0;
             this.gestioProductesTabMoviments.ProducteSeleccionat += new System.EventHandler(this.gestioProductes1_ProducteSeleccionat);
             // 
             // MovimentsTab
@@ -803,10 +878,14 @@
             this.gbEdicio.ResumeLayout(false);
             this.gbEdicio.PerformLayout();
             this.gbTraspas.ResumeLayout(false);
-            this.gbProducteTraspas.ResumeLayout(false);
             this.gbDataDesti.ResumeLayout(false);
             this.gbNumParticipacionsDesti.ResumeLayout(false);
             this.gbNumParticipacionsDesti.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.gbProducteTraspas.ResumeLayout(false);
             this.pnMovBotons.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
@@ -869,5 +948,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colTraspasOrigen;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTraspasDesti;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDescripcio;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private Controls.NumericTextBox2 ntbPreuParticipacioFonsCompra;
+        private Controls.NumericTextBox2 ntbDespeses;
     }
 }
