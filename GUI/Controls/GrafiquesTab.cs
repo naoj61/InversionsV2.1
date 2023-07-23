@@ -32,7 +32,7 @@ namespace Inversions.GUI
 
         private void creaGraficaDelProducte(Producte producte, DateTime dataInici, DateTime dataFinal)
         {
-            Dictionary<Valoracio, double> valoracions = producte.valoracionsPonderades(ckPonderat.Checked, dataInici, dataFinal);
+            Dictionary<Valoracio, decimal> valoracions = producte.valoracionsPonderades(ckPonderat.Checked, dataInici, dataFinal);
 
             if (valoracions == null)
             {
@@ -112,7 +112,7 @@ namespace Inversions.GUI
         {
             btgActualitzaGrafiques.Enabled = false;
 
-            vChartArea.AxisY.Interval = ntbIntervalEixY.Valor;
+            vChartArea.AxisY.Interval = (double) ntbIntervalEixY.Valor;
 
             // Troba la data d'inici de les gràfiques.
             DateTime dataInici = dtpInici.Value.GetValueOrDefault(DateTime.MinValue);

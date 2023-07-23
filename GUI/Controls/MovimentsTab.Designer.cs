@@ -313,7 +313,7 @@
             this.ntbPreuParticipacio.TabIndex = 0;
             this.ntbPreuParticipacio.Text = "0 €";
             this.ntbPreuParticipacio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPreuParticipacio.Valor = 0D;
+            this.ntbPreuParticipacio.Valor = 0;
             this.ntbPreuParticipacio.Leave += new System.EventHandler(this.tbPreuParticipacio_Leave);
             // 
             // gbFactorConversor
@@ -347,7 +347,7 @@
             this.ntbFactorConversor.TabIndex = 0;
             this.ntbFactorConversor.Text = "0";
             this.ntbFactorConversor.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbFactorConversor.Valor = 0D;
+            this.ntbFactorConversor.Valor = 0;
             this.ntbFactorConversor.Leave += new System.EventHandler(this.tbNumParticipacions_Leave);
             // 
             // btDesaMoviment
@@ -470,7 +470,7 @@
             this.tbNumParticipacions.TabIndex = 0;
             this.tbNumParticipacions.Text = "0";
             this.tbNumParticipacions.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbNumParticipacions.Valor = 0D;
+            this.tbNumParticipacions.Valor = 0;
             this.tbNumParticipacions.Leave += new System.EventHandler(this.tbNumParticipacions_Leave);
             // 
             // gbCanviAplicat
@@ -501,7 +501,7 @@
             this.tbCanviAplicat.TabIndex = 0;
             this.tbCanviAplicat.Text = "1 €";
             this.tbCanviAplicat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbCanviAplicat.Valor = 1D;
+            this.tbCanviAplicat.Valor = 1;
             this.tbCanviAplicat.Leave += new System.EventHandler(this.tbPreuParticipacio_Leave);
             // 
             // gbDespeses
@@ -532,7 +532,7 @@
             this.tbDespeses.TabIndex = 0;
             this.tbDespeses.Text = "0 €";
             this.tbDespeses.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbDespeses.Valor = 0D;
+            this.tbDespeses.Valor = 0;
             this.tbDespeses.Leave += new System.EventHandler(this.tbDespeses_Leave);
             // 
             // gbImportTotal
@@ -564,7 +564,7 @@
             this.tbImportTotal.TabIndex = 0;
             this.tbImportTotal.Text = "0 €";
             this.tbImportTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbImportTotal.Valor = 0D;
+            this.tbImportTotal.Valor = 0;
             // 
             // gbDescripcio
             // 
@@ -677,7 +677,7 @@
             this.tbNumParticipacionsDesti.TabIndex = 0;
             this.tbNumParticipacionsDesti.Text = "0";
             this.tbNumParticipacionsDesti.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbNumParticipacionsDesti.Valor = 0D;
+            this.tbNumParticipacionsDesti.Valor = 0;
             this.tbNumParticipacionsDesti.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbNumParticipacionsDesti_KeyPress);
             this.tbNumParticipacionsDesti.Leave += new System.EventHandler(this.tbNumParticipacionsDesti_Leave);
             // 
@@ -710,7 +710,7 @@
             this.ntbPreuParticipacioFonsCompra.TabIndex = 0;
             this.ntbPreuParticipacioFonsCompra.Text = "0 €";
             this.ntbPreuParticipacioFonsCompra.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPreuParticipacioFonsCompra.Valor = 0D;
+            this.ntbPreuParticipacioFonsCompra.Valor = 0;
             this.ntbPreuParticipacioFonsCompra.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ntbPreuParticipacioFonsCompra_KeyPress);
             this.ntbPreuParticipacioFonsCompra.Leave += new System.EventHandler(this.ntbPreuParticipacioFonsCompra_Leave);
             // 
@@ -744,7 +744,7 @@
             this.ntbDespeses.TabIndex = 0;
             this.ntbDespeses.Text = "0 €";
             this.ntbDespeses.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbDespeses.Valor = 0D;
+            this.ntbDespeses.Valor = 0;
             // 
             // gbProducteTraspas
             // 

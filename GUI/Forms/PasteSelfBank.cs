@@ -129,7 +129,7 @@ namespace Inversions.GUI
                         // *** Elimina el simbol de moneda al inici ***
                         string valor = Char.IsNumber(items[i][0]) ? items[i] : items[i].Substring(1);
 
-                        double preuPart = Convert.ToDouble(valor, CultureInfo.InvariantCulture);
+                        decimal preuPart = Convert.ToDecimal(valor, CultureInfo.InvariantCulture);
                         creaValoracio(data, prod, preuPart, ref avis);
 
                         contPos = 0;
@@ -171,7 +171,7 @@ namespace Inversions.GUI
                             if (prod != null)
                             {
                                 i += posPreuPart;
-                                double preuPart = Convert.ToDouble(items[i], CultureInfo.InvariantCulture);
+                                decimal preuPart = Convert.ToDecimal(items[i], CultureInfo.InvariantCulture);
 
                                 creaValoracio(data, prod, preuPart, ref avis);
                             }
@@ -249,7 +249,7 @@ namespace Inversions.GUI
 
                         if (pos == posPreuPart.Value)
                         {
-                            double preuPart = Convert.ToDouble(item.Replace("€", ""), CultureInfo.CurrentCulture);
+                            decimal preuPart = Convert.ToDecimal(item.Replace("€", ""), CultureInfo.CurrentCulture);
 
                             item = items[++index];
 
@@ -292,7 +292,7 @@ namespace Inversions.GUI
         /// <param name="preuPart"></param>
         /// <param name="avis"></param>
         /// <returns></returns>
-        private void creaValoracio(DateTime? data, Producte prod, double preuPart, ref bool avis)
+        private void creaValoracio(DateTime? data, Producte prod, decimal preuPart, ref bool avis)
         {
             if (!data.HasValue)
                 throw new Exception("Falta la data");
@@ -348,7 +348,7 @@ namespace Inversions.GUI
 
                         var producte = (Producte) row.Cells[colNomFons.Name].Value;
                         DateTime data = ckDataUnica.Checked ? dtpDataUnica.Value : (DateTime) row.Cells[colData.Name].Value;
-                        var preuPart = (double) row.Cells[colValorNou.Name].Value;
+                        var preuPart = (decimal) row.Cells[colValorNou.Name].Value;
 
                         var val = connexio.Valoracions.SingleOrDefault(w => w.ProdId == producte.Id && w.Data == data);
                         if (val == null)

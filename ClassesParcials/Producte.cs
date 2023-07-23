@@ -50,7 +50,7 @@ namespace Inversions
         /// <summary>
         /// Torna les participacions actuals.
         /// </summary>
-        public double _Participacions
+        public decimal _Participacions
         {
             get
             {
@@ -63,7 +63,7 @@ namespace Inversions
         /// <summary>
         /// És el valor de les participacions avui.
         /// </summary>
-        public double _ValorActualEnCartera
+        public decimal _ValorActualEnCartera
         {
             get { return valorEnCartera(); }
         }
@@ -73,12 +73,12 @@ namespace Inversions
 
         #region Mètodes
         
-        internal double dividends()
+        internal decimal dividends()
         {
             return dividends(DateTime.MinValue, DateTime.Today);
         }
 
-        private double dividends(DateTime dataInici, DateTime dataFi)
+        private decimal dividends(DateTime dataInici, DateTime dataFi)
         {
             return MovimentsProducteUsuari
                 .Where(w => w._EsDividents && w.Data >= dataInici && w.Data <= dataFi)
@@ -90,7 +90,7 @@ namespace Inversions
         /// Torna el valor de l'accio inmediatament anterior a la data hora actual.
         /// </summary>
         /// <returns></returns>
-        public double _PreuParticipacioActual
+        public decimal _PreuParticipacioActual
         {
             get { return valorParticipacio(DateTime.Now); }
         }
@@ -101,7 +101,7 @@ namespace Inversions
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        private double valorParticipacio(DateTime data)
+        private decimal valorParticipacio(DateTime data)
         {
             var valoracions = ValoracionsProducte.Where(w => w.Data <= data).Select(val => new { val.Data, val.PreuParticipacio }).ToList();
 
@@ -125,7 +125,7 @@ namespace Inversions
         /// </summary>
         /// <param name="any"></param>
         /// <returns></returns>
-        internal double calculaDividents(int any)
+        internal decimal calculaDividents(int any)
         {
             return calculaDividents(new DateTime(any, 1, 1), Utilitats.PosoHora(new DateTime(any, 12, 31)));
         }
@@ -137,7 +137,7 @@ namespace Inversions
         /// <param name="dInici"></param>
         /// <param name="dFinal"></param>
         /// <returns></returns>
-        private double calculaDividents(DateTime dInici, DateTime dFinal)
+        private decimal calculaDividents(DateTime dInici, DateTime dFinal)
         {
             return MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w._EsDividents).Sum(s => s.PreuParticipacio);
         }
@@ -150,7 +150,7 @@ namespace Inversions
         /// <param name="numPartsMax">Limita el cost a num de participacions</param>
         /// <param name="preuParticipacio">Si no null, utilitza aquest preu en lloc del actual a la data.</param>
         /// <returns></returns>
-        public double valorEnCartera(DateTime? data = null, double? numPartsMax = null, double? preuParticipacio = null)
+        public decimal valorEnCartera(DateTime? data = null, decimal? numPartsMax = null, decimal? preuParticipacio = null)
         {
             var dFinal = Utilitats.PosoHora(data);
 
@@ -176,7 +176,7 @@ namespace Inversions
         /// <param name="dataInici"></param>
         /// <param name="dataFinal"></param>
         /// <returns></returns>
-        internal Dictionary<Valoracio, double> valoracionsPonderades(bool ponderar, DateTime dataInici, DateTime dataFinal)
+        internal Dictionary<Valoracio, decimal> valoracionsPonderades(bool ponderar, DateTime dataInici, DateTime dataFinal)
         {
             var valsProd = ValoracionsProducte
                 .Where(w => w.Data >= dataInici && w.Data <= dataFinal)
@@ -204,9 +204,9 @@ namespace Inversions
                     // Sense ponderar.
                     return valsProd.ToDictionary(x => x, x => x.PreuParticipacio);
 
-                const double pond = 10;
+                const decimal pond = 10;
                 
-                double valorPonderacio = pond / valsProd.First().PreuParticipacio;
+                decimal valorPonderacio = pond / valsProd.First().PreuParticipacio;
                 return valsProd.ToDictionary(x => x, x => (x.PreuParticipacio * valorPonderacio) - pond);
             }
 
@@ -225,7 +225,7 @@ namespace Inversions
         /// <param name="dataHora"></param>
         /// <param name="participacions"></param>
         /// <param name="mostraFinestraAdvertencia"></param>
-        private void validacionsCompraVenda(InversionsBDContext connexio, DateTime dataHora, double participacions, bool mostraFinestraAdvertencia)
+        private void validacionsCompraVenda(InversionsBDContext connexio, DateTime dataHora, decimal participacions, bool mostraFinestraAdvertencia)
         {
             if (connexio == null)
                 throw new ArgumentNullException("connexio");
@@ -251,8 +251,8 @@ namespace Inversions
                 throw new ArgumentException("El valor ha de ser major de zero", "numParticipacions");
         }
 
-        public void desaTraspasTest(InversionsBDContext connexio, DateTime dataHoraVenda, double participacionsVenda, double preuParticipacioVenda,
-            string descripcio, DateTime dataHoraCompra, Producte prodCompra, double participacionsCompra, bool afegeigPreuAValoracions = true)
+        public void desaTraspasTest(InversionsBDContext connexio, DateTime dataHoraVenda, decimal participacionsVenda, decimal preuParticipacioVenda,
+            string descripcio, DateTime dataHoraCompra, Producte prodCompra, decimal participacionsCompra, bool afegeigPreuAValoracions = true)
         {
             desaTraspas(connexio, dataHoraVenda, participacionsVenda, preuParticipacioVenda,
                 descripcio, dataHoraCompra, prodCompra, participacionsCompra, (participacionsVenda * preuParticipacioVenda / participacionsCompra), 0,
@@ -271,8 +271,8 @@ namespace Inversions
         /// <param name="prodCompra"></param>
         /// <param name="participacionsCompra"></param>
         /// <param name="afegeigPreuAValoracions"></param>
-        internal void desaTraspas(InversionsBDContext connexio, DateTime dataHoraVenda, double participacionsVenda, double preuParticipacioVenda,
-            string descripcio, DateTime dataHoraCompra, Producte prodCompra, double participacionsCompra, double preuParticipacioCompra, double despeses,
+        internal void desaTraspas(InversionsBDContext connexio, DateTime dataHoraVenda, decimal participacionsVenda, decimal preuParticipacioVenda,
+            string descripcio, DateTime dataHoraCompra, Producte prodCompra, decimal participacionsCompra, decimal preuParticipacioCompra, decimal despeses,
             bool afegeigPreuAValoracions = true)
         {
             dataHoraVenda = Utilitats.ArrodoneixoDataASegons(dataHoraVenda);
@@ -282,7 +282,7 @@ namespace Inversions
                 dataHoraCompra = dataHoraCompra.AddSeconds(1);
 
 
-            //double preuParticipacioCompra = preuParticipacioVenda * participacionsVenda / participacionsCompra;
+            //decimal preuParticipacioCompra = preuParticipacioVenda * participacionsVenda / participacionsCompra;
 
             var venda = this.desaVenda(connexio, dataHoraVenda, participacionsVenda, preuParticipacioVenda, 1, null, descripcio, afegeigPreuAValoracions,
                 true);
@@ -305,8 +305,8 @@ namespace Inversions
         /// <param name="afegeigPreuAValoracions"></param>
         /// <param name="mostraFinestraAdvertencia"></param>
         /// <returns></returns>
-        public Moviment desaCompra(InversionsBDContext connexio, DateTime data, TimeSpan hora, double participacions, double preuParticipacio, double canviAplicat,
-            double? despeses, string descripcio, bool afegeigPreuAValoracions = true, bool mostraFinestraAdvertencia = true)
+        public Moviment desaCompra(InversionsBDContext connexio, DateTime data, TimeSpan hora, decimal participacions, decimal preuParticipacio, decimal canviAplicat,
+            decimal? despeses, string descripcio, bool afegeigPreuAValoracions = true, bool mostraFinestraAdvertencia = true)
         {
             DateTime dataHora = Utilitats.FormaData(data, hora);
 
@@ -328,8 +328,8 @@ namespace Inversions
         /// <param name="afegeigPreuAValoracions"></param>
         /// <param name="mostraFinestraAdvertencia"></param>
         /// <returns></returns>
-        private Moviment desaCompra(InversionsBDContext connexio, DateTime dataHora, double participacions, double preuParticipacio, double canviAplicat,
-            double? despeses, string descripcio, Moviment movimentVendaVinculatTraspas, bool afegeigPreuAValoracions, bool mostraFinestraAdvertencia)
+        private Moviment desaCompra(InversionsBDContext connexio, DateTime dataHora, decimal participacions, decimal preuParticipacio, decimal canviAplicat,
+            decimal? despeses, string descripcio, Moviment movimentVendaVinculatTraspas, bool afegeigPreuAValoracions, bool mostraFinestraAdvertencia)
         {
             validacionsCompraVenda(connexio, dataHora, participacions, mostraFinestraAdvertencia);
 
@@ -385,8 +385,8 @@ namespace Inversions
         /// <param name="afegeigPreuAValoracions"></param>
         /// <param name="mostraFinestraAdvertencia"></param>
         /// <returns></returns>
-        internal Moviment desaVenda(InversionsBDContext connexio, DateTime data, TimeSpan hora, double participacions, double preuParticipacio
-            , double canviAplicat, double? despeses, string descripcio, bool afegeigPreuAValoracions = true, bool mostraFinestraAdvertencia = true)
+        internal Moviment desaVenda(InversionsBDContext connexio, DateTime data, TimeSpan hora, decimal participacions, decimal preuParticipacio
+            , decimal canviAplicat, decimal? despeses, string descripcio, bool afegeigPreuAValoracions = true, bool mostraFinestraAdvertencia = true)
         {
             DateTime dataHora = Utilitats.FormaData(data, hora);
 
@@ -408,8 +408,8 @@ namespace Inversions
         /// <param name="afegeigPreuAValoracions"></param>
         /// <param name="mostraFinestraAdvertencia"></param>
         /// <returns></returns>
-        private Moviment desaVenda(InversionsBDContext connexio, DateTime dataHora, double participacions, double preuParticipacio, double canviAplicat,
-            double? despeses, string descripcio, bool afegeigPreuAValoracions, bool mostraFinestraAdvertencia)
+        private Moviment desaVenda(InversionsBDContext connexio, DateTime dataHora, decimal participacions, decimal preuParticipacio, decimal canviAplicat,
+            decimal? despeses, string descripcio, bool afegeigPreuAValoracions, bool mostraFinestraAdvertencia)
         {
             validacionsCompraVenda(connexio, dataHora, participacions, mostraFinestraAdvertencia);
 
@@ -435,7 +435,7 @@ namespace Inversions
         }
 
 
-        internal Moviment desaDividend(InversionsBDContext connexio, DateTime dataHora, double importTotalDividend, double canviAplicat, double? despeses, string descripcio)
+        internal Moviment desaDividend(InversionsBDContext connexio, DateTime dataHora, decimal importTotalDividend, decimal canviAplicat, decimal? despeses, string descripcio)
         {
             Moviment moviment = connexio.Moviments.Create();
             moviment.UsuariId = Usuari.Seleccionat.Id;
@@ -481,7 +481,7 @@ namespace Inversions
                 int particSplit = (int)compraExt._PartsUtilitzades;
                 int particSenseSplit = (int)mov1.Participacions - particSplit;
 
-                double despesesSenseSplit = 0;
+                decimal despesesSenseSplit = 0;
 
                 if (particSenseSplit > 0)
                 {
@@ -495,8 +495,8 @@ namespace Inversions
                 // Calculo el nou preu i les participacions del Split i creo una compra amb les participacions afectades.
                 data1 = data1.AddSeconds(1);
                 int participacions = particSplit * factorConversor;
-                double preuParticipacio = Math.Round(mov1.PreuParticipacio / factorConversor, 4);
-                double despesesSplit = Math.Round(mov1.Despeses.GetValueOrDefault() - despesesSenseSplit, 4);
+                decimal preuParticipacio = Math.Round(mov1.PreuParticipacio / factorConversor, 4);
+                decimal despesesSplit = Math.Round(mov1.Despeses.GetValueOrDefault() - despesesSenseSplit, 4);
                 desaCompra(connexio, data1, participacions, preuParticipacio, mov1.CanviAplicat, despesesSplit, descripcio, null, false, false);
             }
 
@@ -516,7 +516,7 @@ namespace Inversions
         /// <param name="factorConversor"></param>
         /// <param name="preuOperacio"></param>
         /// <param name="canviAplicat"></param>
-        internal void contraSplit(InversionsBDContext connexio, DateTime dataHora, int factorConversor, double preuOperacio, double canviAplicat)
+        internal void contraSplit(InversionsBDContext connexio, DateTime dataHora, int factorConversor, decimal preuOperacio, decimal canviAplicat)
         {
             if (!(this is ProdAccions))
                 throw new ApplicationException("No és una acció. Només es pot fer l'split si és una acció.");
@@ -537,7 +537,7 @@ namespace Inversions
                 int particContraSplit = (int)compraExt._PartsUtilitzades - partRestants;
                 int particSenseContraSplit = (int)mov1.Participacions - particContraSplit;
 
-                double despesesSenseContraSplit = 0;
+                decimal despesesSenseContraSplit = 0;
 
                 if (particSenseContraSplit > 0)
                 {
@@ -563,7 +563,7 @@ namespace Inversions
                     data1 = data1.AddSeconds(1);
                     int participacions = particContraSplit / factorConversor;
                     var preuParticipacio = Math.Round(mov1.PreuParticipacio * factorConversor, 4); // Calculo el nou preu i les participacions del contraSplit
-                    double despesesContraSplit = Math.Round(mov1.Despeses.GetValueOrDefault() - despesesSenseContraSplit, 4);
+                    decimal despesesContraSplit = Math.Round(mov1.Despeses.GetValueOrDefault() - despesesSenseContraSplit, 4);
                     desaCompra(connexio, data1, participacions, preuParticipacio, mov1.CanviAplicat, despesesContraSplit, descripcio, null, false, false);
                 }
             }
@@ -583,7 +583,7 @@ namespace Inversions
         /// <param name="dataHora"></param>
         /// <param name="preuParticipacio"></param>
         /// <param name="sobreescriuSiExisteix">Indica que se sobreescriurà la valoració si ja existeix.</param>
-        private void afegeigPreuAValoracions(InversionsBDContext connexio, DateTime dataHora, double preuParticipacio, bool sobreescriuSiExisteix)
+        private void afegeigPreuAValoracions(InversionsBDContext connexio, DateTime dataHora, decimal preuParticipacio, bool sobreescriuSiExisteix)
         {
             // Crea una valoració amb el preu del moviment
             Valoracio val = ValoracionsProducte.SingleOrDefault(a => a.Data.Date == dataHora.Date);

@@ -81,9 +81,9 @@ namespace Inversions.GUI
             get { return cData.Value; }
         }
 
-        public double _Import
+        public decimal _Import
         {
-            get { return tbImport._DoubleValue; }
+            get { return tbImport._DecimalValue; }
         }
 
 
@@ -165,9 +165,9 @@ namespace Inversions.GUI
         {
             chart1.ChartAreas[0].AxisY.LabelStyle.Format = "#,##0.00";
 
-            chart1.ChartAreas[0].AxisY.Minimum = valoracionsProducte.Min(m => m.PreuParticipacio) / 1.02;
+            chart1.ChartAreas[0].AxisY.Minimum = (double) (valoracionsProducte.Min(m => m.PreuParticipacio) / 1.02M);
 
-            chart1.ChartAreas[0].AxisY.Maximum = valoracionsProducte.Max(m => m.PreuParticipacio) * 1.02;
+            chart1.ChartAreas[0].AxisY.Maximum = (double) (valoracionsProducte.Max(m => m.PreuParticipacio) * 1.02M);
 
             chart1.DataSource = valoracionsProducte;
             chart1.DataBind();
@@ -269,16 +269,16 @@ namespace Inversions.GUI
                 return;
 
 
-            double maxVal = 0;
-            double minVal = double.MaxValue;
+            decimal maxVal = 0;
+            decimal minVal = decimal.MaxValue;
 
-            double pigPerDataAnt = 0;
+            decimal pigPerDataAnt = 0;
             foreach (var valoracio in valMovs)
             {
                 DateTime data = Utilitats.DataHoraFinalDia(valoracio.Key);
 
-                double pigPerData = 0;
-                double saldo = 0;
+                decimal pigPerData = 0;
+                decimal saldo = 0;
 
                 if (accions || criptos)
                 {
@@ -298,12 +298,14 @@ namespace Inversions.GUI
                     saldo += ProdFons.Valor(data, TipusFons.RF);
                 }
 
-                var percentVariacio = (pigPerData / pigPerDataAnt - 1);
+                var percentVariacio = pigPerDataAnt == 0 ? 1 :(pigPerData / pigPerDataAnt - 1);
                 var variacio = pigPerData - pigPerDataAnt;
-                
-                int numFila = double.IsInfinity(percentVariacio) 
-                    ? dgvValoracionsPerData.Rows.Add(data, pigPerData, null, null, saldo) 
-                    : dgvValoracionsPerData.Rows.Add(data, pigPerData, percentVariacio, variacio, saldo);
+
+                //int numFila = double.IsInfinity(percentVariacio)
+                //    ? dgvValoracionsPerData.Rows.Add(data, pigPerData, null, null, saldo)
+                //    : dgvValoracionsPerData.Rows.Add(data, pigPerData, percentVariacio, variacio, saldo);
+
+                int numFila = dgvValoracionsPerData.Rows.Add(data, pigPerData, percentVariacio, variacio, saldo);
 
                 if ((pigPerData - pigPerDataAnt) < 0)
                 {
@@ -329,8 +331,8 @@ namespace Inversions.GUI
             if (ultimaFila >= 0)
                 dgvValoracionsPerData.FirstDisplayedScrollingRowIndex = ultimaFila;
 
-            chart2.ChartAreas[0].AxisY.Minimum = minVal;
-            chart2.ChartAreas[0].AxisY.Maximum = maxVal;
+            chart2.ChartAreas[0].AxisY.Minimum = (double) minVal;
+            chart2.ChartAreas[0].AxisY.Maximum = (double) maxVal;
             chart2.Update();
         }
 
@@ -412,11 +414,11 @@ namespace Inversions.GUI
                         {
                             if (vEsNouValor)
                             {
-                                Valoracio.Nova(conn, gestioProductesTabValoracions._ProducteSeleccionat, cData.Value, tbImport._DoubleValue);
+                                Valoracio.Nova(conn, gestioProductesTabValoracions._ProducteSeleccionat, cData.Value, tbImport._DecimalValue);
                             }
                             else
                             {
-                                vValoracioSeleccionada.modifica(conn, cData.Value, tbImport._DoubleValue);
+                                vValoracioSeleccionada.modifica(conn, cData.Value, tbImport._DecimalValue);
                             }
 
                             conn.SaveChanges();
@@ -548,7 +550,7 @@ namespace Inversions.GUI
         {
             if (e.ColumnIndex == colVariacioPercent.Index || e.ColumnIndex == colVariacioEuros.Index)
             {
-                var ss = (double) e.Value;
+                var ss = (decimal) e.Value;
                 if (ss < 0)
                 {
                     e.CellStyle.ForeColor=Color.Red;

@@ -193,6 +193,7 @@ namespace Inversions.GUI
             // 
             this.ntbIntervalEixY._CapturaEscape = true;
             this.ntbIntervalEixY._Format = "0";
+            this.ntbIntervalEixY._NegatiusEnVermell = false;
             this.ntbIntervalEixY._PermetDecimals = true;
             this.ntbIntervalEixY._PermetEspais = false;
             this.ntbIntervalEixY._PermetNegatius = true;
@@ -202,7 +203,12 @@ namespace Inversions.GUI
             this.ntbIntervalEixY.TabIndex = 0;
             this.ntbIntervalEixY.Text = "1";
             this.ntbIntervalEixY.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbIntervalEixY.Valor = 1D;
+            this.ntbIntervalEixY.Valor = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.ntbIntervalEixY.ValorDouble = 1D;
             this.ntbIntervalEixY.TextChanged += new System.EventHandler(this.ntbIntervalEixY_TextChanged);
             // 
             // panel3

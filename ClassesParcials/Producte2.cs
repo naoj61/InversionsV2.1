@@ -26,7 +26,7 @@ namespace Inversions
         /// <param name="inclouCartera"></param>
         /// <param name="inclouDividends">En la tributació a la renda els dividends tributen a part de les PiG de les accions. </param>
         /// <returns></returns>
-        public static double Pig2(TipusProducte tipusProducte, int any, bool inclouCartera, bool inclouDividends)
+        public static decimal Pig2(TipusProducte tipusProducte, int any, bool inclouCartera, bool inclouDividends)
         {
             return Pig2(tipusProducte, null, new DateTime(any, 1, 1), new DateTime(any + 1, 1, 1).AddMilliseconds(-1), inclouCartera, inclouDividends);
         }
@@ -44,7 +44,7 @@ namespace Inversions
         /// <param name="inclouCartera"></param>
         /// <param name="inclouDividends">En la tributació a la renda els dividends tributen a part de les PiG de les accions. </param>
         /// <returns></returns>
-        internal static double Pig2(TipusProducte tipusProducte, TipusFons? tipusFons,
+        internal static decimal Pig2(TipusProducte tipusProducte, TipusFons? tipusFons,
             DateTime dataInici, DateTime dataFinal, bool inclouCartera, bool inclouDividends)
         {
             IEnumerable<Producte> prods = SeleccionaProds(tipusProducte, tipusFons);
@@ -62,21 +62,21 @@ namespace Inversions
         /// <param name="pigOrigen">Calcula el PiG respecte el valor de compra original.</param>
         /// <param name="ambDespeses">Afegeig les despeses.</param>
         /// <returns></returns>
-        internal static double Pig2Cartera(TipusProducte tipusProducte, TipusFons? tipusFons, uint any, bool pigOrigen, bool ambDespeses)
+        internal static decimal Pig2Cartera(TipusProducte tipusProducte, TipusFons? tipusFons, uint any, bool pigOrigen, bool ambDespeses)
         {
             var prods = SeleccionaProds(tipusProducte, tipusFons);
             return prods.Sum(prod => prod.pig2Cartera(any, pigOrigen, ambDespeses));
         }
 
-        internal static double PigTributa(TipusProducte tipusProducte, TipusFons? tipusFons, uint any, bool inclouDividends)
+        internal static decimal PigTributa(TipusProducte tipusProducte, TipusFons? tipusFons, uint any, bool inclouDividends)
         {
             IEnumerable<Producte> prods = SeleccionaProds(tipusProducte, tipusFons).ToList();
 
-            double pig = Program.Sessio.MovimentsUsuari
+            decimal pig = Program.Sessio.MovimentsUsuari
                 .Where(w => w.Data.Year == any && prods.Contains(w.Prod) && w._EsVendaReal)
                 .Sum(s => s.pigVenda(true));
 
-            double div = inclouDividends ? Program.Sessio.MovimentsUsuari
+            decimal div = inclouDividends ? Program.Sessio.MovimentsUsuari
                 .Where(w => w.Data.Year == any && prods.Contains(w.Prod) && w._EsDividents)
                 .Sum(s => s._ImportBrut) : 0;
 
@@ -88,13 +88,13 @@ namespace Inversions
         /// </summary>
         /// <param name="anyRenda"></param>
         /// <returns></returns>
-        internal static double PerduesDarrersQuatreAnys(int? anyRenda = null)
+        internal static decimal PerduesDarrersQuatreAnys(int? anyRenda = null)
         {
             if (!anyRenda.HasValue || anyRenda.Value == 0)
                 return 0;
 
             var any = anyRenda.Value - 4;
-            double pigT = 0;
+            decimal pigT = 0;
 
             for (int i = 0; i < 4; i++)
             {
@@ -154,7 +154,7 @@ namespace Inversions
         /// <summary>
         /// Calcula perdues i guanys de les vendes reals més els dividents entre les dates, inclou participacions en cartera si -> inclouCartera=true.
         /// </summary>
-        internal double pig2Total()
+        internal decimal pig2Total()
         {
             return pig2Total(DateTime.MinValue, DateTime.MaxValue, true, true);
         }
@@ -168,7 +168,7 @@ namespace Inversions
         /// <param name="inclouCartera">Indica si s'ha d'incloure els dividents.</param>
         /// <param name="inclouDividends">En la tributació a la renda els dividends tributen a part de les PiG de les accions. </param>
         /// <returns></returns>
-        public double pig2Total(DateTime? dataHoraInici, DateTime? dataHoraFinal, bool inclouCartera, bool inclouDividends)
+        public decimal pig2Total(DateTime? dataHoraInici, DateTime? dataHoraFinal, bool inclouCartera, bool inclouDividends)
         {
             var dataIni = dataHoraInici.GetValueOrDefault(DateTime.MinValue);
             var dataFi = dataHoraFinal.GetValueOrDefault(DateTime.MaxValue);
@@ -189,7 +189,7 @@ namespace Inversions
         /// <param name="inclouCartera">Indica si s'ha d'incloure els dividents.</param>
         /// <param name="inclouDividends">En la tributació a la renda els dividends tributen a part de les PiG de les accions. </param>
         /// <returns></returns>
-        internal double pig3Total(uint anyVendes, bool inclouCartera, bool inclouDividends)
+        internal decimal pig3Total(uint anyVendes, bool inclouCartera, bool inclouDividends)
         {
             var vendesRealsAny = MovimentsProducteUsuari.Where(w => w._EsVendaReal && w.Data.Year == anyVendes).ToList();
 
@@ -204,7 +204,7 @@ namespace Inversions
                 }
             }
 
-            double sum = 0;
+            decimal sum = 0;
             foreach (var compra in compres)
             {
                 sum += compra.pigCompra(inclouCartera, true, anyVendes, true, inclouDividends);
@@ -219,7 +219,7 @@ namespace Inversions
         /// </summary>
         /// <param name="dataHoraFinal"></param>
         /// <returns></returns>
-        internal double pig2Producte(DateTime? dataHoraFinal = null)
+        internal decimal pig2Producte(DateTime? dataHoraFinal = null)
         {
             return pig2Producte(dataHoraFinal.GetValueOrDefault(DateTime.MaxValue));
         }
@@ -230,7 +230,7 @@ namespace Inversions
         /// </summary>
         /// <param name="dataHoraFinal"></param>
         /// <returns></returns>
-        private double pig2Producte(DateTime dataHoraFinal)
+        private decimal pig2Producte(DateTime dataHoraFinal)
         {
             var movimentsData = MovimentsProducteUsuari.Where(w => w.Data <= dataHoraFinal).ToList();
 
@@ -251,7 +251,7 @@ namespace Inversions
         /// <param name="numParts"></param>
         /// <param name="preuParticipacio">Si null, preu de la participació en la data "dataFinal"</param>
         /// <returns></returns>
-        internal double pig2EnCartera(DateTime? dataHoraFinal = null, double? numParts = null, double? preuParticipacio = null)
+        internal decimal pig2EnCartera(DateTime? dataHoraFinal = null, decimal? numParts = null, decimal? preuParticipacio = null)
         {
             return pig2EnCartera(dataHoraFinal.GetValueOrDefault(DateTime.MaxValue), numParts, preuParticipacio);
         }
@@ -264,7 +264,7 @@ namespace Inversions
         /// <param name="numParts"></param>
         /// <param name="preuParticipacio">Si null, preu de la participació en la data "dataFinal"</param>
         /// <returns></returns>
-        private double pig2EnCartera(DateTime dataHoraFinal, double? numParts, double? preuParticipacio)
+        private decimal pig2EnCartera(DateTime dataHoraFinal, decimal? numParts, decimal? preuParticipacio)
         {
             var parts = numParts.GetValueOrDefault(numParticipacionsEnData(dataHoraFinal));
 
@@ -282,7 +282,7 @@ namespace Inversions
         /// <param name="pigOrigen">Calcula el PiG respecte el valor de compra original.</param>
         /// <param name="ambDespeses">Afegeig les despeses.</param>
         /// <returns></returns>
-        private double pig2Cartera(uint any, bool pigOrigen, bool ambDespeses)
+        private decimal pig2Cartera(uint any, bool pigOrigen, bool ambDespeses)
         {
             var compres = MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data.Year <= any).ToList();
             return compres.Sum(compra => compra.pigEnCartera(pigOrigen, ambDespeses));
@@ -294,7 +294,7 @@ namespace Inversions
         /// </summary>
         /// <param name="any"></param>
         /// <returns></returns>
-        internal double pigVariacioCartera(int any)
+        internal decimal pigVariacioCartera(int any)
         {
             DateTime dataHoraInicial = new DateTime(any, 1, 1);
             DateTime dataHoraFinal = Utilitats.DataHoraFinalAny(any);
@@ -308,7 +308,7 @@ namespace Inversions
         /// <param name="dataHoraInicial"></param>
         /// <param name="dataHoraFinal"></param>
         /// <returns></returns>
-        internal double pigVariacioCartera(DateTime dataHoraInicial, DateTime dataHoraFinal)
+        internal decimal pigVariacioCartera(DateTime dataHoraInicial, DateTime dataHoraFinal)
         {
             var preuPartInici = valorParticipacio(dataHoraInicial);
             var preuPartFinal = valorParticipacio(dataHoraFinal);
@@ -327,7 +327,7 @@ namespace Inversions
 
             partsFinal -= compres.Sum(s=>s.Participacions); // Elimino les parts comprades perque calcularé el seu PiG a part.
 
-            double pigCompres = 0;
+            decimal pigCompres = 0;
             if (compres.Any())
             {
                 if (Utilitats.EsZero(preuPartInici))
@@ -336,7 +336,7 @@ namespace Inversions
                 pigCompres += compres.Sum(compra => (preuPartFinal - compra.PreuParticipacio) * compra.Participacions);
             }
 
-            double pigVendes = 0;
+            decimal pigVendes = 0;
             if (vendes.Any())
             {
                 pigVendes += vendes.Sum(venda => (venda.PreuParticipacio - preuPartInici) * venda.Participacions);
@@ -359,7 +359,7 @@ namespace Inversions
         /// <param name="dataHoraFinal"></param>
         /// <param name="nomesVendesReals">Si true, només de les vendes reals.</param>
         /// <returns></returns>
-        private double pig2Vendes(DateTime dataHoraInici, DateTime dataHoraFinal, bool nomesVendesReals)
+        private decimal pig2Vendes(DateTime dataHoraInici, DateTime dataHoraFinal, bool nomesVendesReals)
         {
             //var vendesReals = MovimentsProducteUsuari.Where(w => w._EsVendaReal && w.Data >= dataIni && w.Data <= dataFi).ToList();
 
@@ -378,7 +378,7 @@ namespace Inversions
         /// </summary>
         /// <param name="dataHora">Si null, data d'avui.</param>
         /// <returns></returns>
-        private double partsEnCartera(DateTime? dataHora)
+        private decimal partsEnCartera(DateTime? dataHora)
         {
             var dataH = dataHora.GetValueOrDefault(DateTime.Now);
             var partsComprades = MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data <= dataH).Sum(s => s.Participacions);
@@ -394,7 +394,7 @@ namespace Inversions
         /// <param name="dataHoraFinal">Si null calcula les participacions avui, sinò les que hi havia a la data.</param>
         /// <param name="numPartsMax">Limita el cost a num de participacions</param>
         /// <returns></returns>
-        public double costOriginalEnCartera4(DateTime? dataHoraFinal = null, double? numPartsMax = null)
+        public decimal costOriginalEnCartera4(DateTime? dataHoraFinal = null, decimal? numPartsMax = null)
         {
             var dataH = dataHoraFinal.GetValueOrDefault(DateTime.Now);
             var numParts = numPartsMax.GetValueOrDefault(numParticipacionsEnData(dataH));
@@ -408,7 +408,7 @@ namespace Inversions
         /// </summary>
         /// <param name="dataHora">Si null, data hora actual.</param>
         /// <returns></returns>
-        internal double numParticipacionsEnData(DateTime? dataHora = null)
+        internal decimal numParticipacionsEnData(DateTime? dataHora = null)
         {
             var data = dataHora.GetValueOrDefault(DateTime.Now);
 
@@ -421,39 +421,39 @@ namespace Inversions
 
         #region **** Mètodes cridats des de Test *****
         
-        public static double Pig2CarteraTest(TipusProducte tipusProducte, TipusFons? tipusFons, uint any, bool pigOrigen, bool ambDespeses)
+        public static decimal Pig2CarteraTest(TipusProducte tipusProducte, TipusFons? tipusFons, uint any, bool pigOrigen, bool ambDespeses)
         {
             return Pig2Cartera(tipusProducte, tipusFons, any, pigOrigen, ambDespeses);
         }
 
 
-        public double pig2EnCarteraTest(DateTime? dataHoraFinal = null, double? numParts = null, double? preuParticipacio = null)
+        public decimal pig2EnCarteraTest(DateTime? dataHoraFinal = null, decimal? numParts = null, decimal? preuParticipacio = null)
         {
             return pig2EnCartera(dataHoraFinal, numParts, preuParticipacio);
         }
 
-        public double numParticipacionsEnDataTest(DateTime? data = null)
+        public decimal numParticipacionsEnDataTest(DateTime? data = null)
         {
             return numParticipacionsEnData(data);
         }
 
-        public double costOriginalEnCartera2Test(double? numPartsMax = null)
+        public decimal costOriginalEnCartera2Test(decimal? numPartsMax = null)
         {
             return costOriginalEnCartera4(null, numPartsMax);
         }
 
 
-        public double pig3TotalTest(uint any, bool inclouCartera, bool inclouDividends)
+        public decimal pig3TotalTest(uint any, bool inclouCartera, bool inclouDividends)
         {
             return pig3Total(any, inclouCartera, inclouDividends);
         }
 
-        public double pig2TotalTest(DateTime? dataHoraInici = null, DateTime? dataHoraFinal = null, bool inclouCartera = true, bool inclouDividends = false)
+        public decimal pig2TotalTest(DateTime? dataHoraInici = null, DateTime? dataHoraFinal = null, bool inclouCartera = true, bool inclouDividends = false)
         {
             return pig2Total(dataHoraInici, dataHoraFinal, inclouCartera, inclouDividends);
         }
 
-        public double pig2ProducteTest(DateTime? dataHoraFinal = null)
+        public decimal pig2ProducteTest(DateTime? dataHoraFinal = null)
         {
             return pig2Producte(dataHoraFinal);
         }

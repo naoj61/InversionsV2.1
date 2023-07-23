@@ -635,7 +635,7 @@
             this.ntbMinimContribuent.TabIndex = 2;
             this.ntbMinimContribuent.Text = "8.550,00 €";
             this.ntbMinimContribuent.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbMinimContribuent.Valor = 8550D;
+            this.ntbMinimContribuent.Valor = 8550;
             this.ntbMinimContribuent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ntbMinimContribuent_KeyDown);
             this.ntbMinimContribuent.Validated += new System.EventHandler(this.ntbMinimContribuent_Validated);
             // 
@@ -666,7 +666,7 @@
             this.ntbPerduesAnysAnteriors.TabIndex = 2;
             this.ntbPerduesAnysAnteriors.Text = "0,00 €";
             this.ntbPerduesAnysAnteriors.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPerduesAnysAnteriors.Valor = 0D;
+            this.ntbPerduesAnysAnteriors.Valor = 0;
             // 
             // groupBox3
             // 
@@ -695,7 +695,7 @@
             this.ntbPiG.TabIndex = 2;
             this.ntbPiG.Text = "0,00 €";
             this.ntbPiG.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPiG.Valor = 0D;
+            this.ntbPiG.Valor = 0;
             // 
             // groupBox4
             // 
@@ -724,7 +724,7 @@
             this.ntbTotalTributar.TabIndex = 2;
             this.ntbTotalTributar.Text = "0,00 €";
             this.ntbTotalTributar.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbTotalTributar.Valor = 0D;
+            this.ntbTotalTributar.Valor = 0;
             // 
             // label2
             // 
@@ -764,7 +764,7 @@
             this.ntbDividents.TabIndex = 2;
             this.ntbDividents.Text = "0,00 €";
             this.ntbDividents.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbDividents.Valor = 0D;
+            this.ntbDividents.Valor = 0;
             // 
             // panel1
             // 

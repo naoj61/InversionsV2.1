@@ -78,7 +78,7 @@ namespace Inversions.GUI
                 var ultimAny = DateTime.Today.Year;
 
                 dgvPiGAnualsTributen.Rows.Clear();
-                double pigTotalTributa = 0;
+                decimal pigTotalTributa = 0;
                 for (uint any = (uint) Program.PrimerAny; any <= ultimAny; any++)
                 {
                     // *** PiG Tributa ***
@@ -146,8 +146,8 @@ namespace Inversions.GUI
             {
                 dgvPiGProductePerAny.SuspendLayout();
 
-                Dictionary<uint, double> anysPigTributa = new Dictionary<uint, double>();
-                double pigTotal = 0;
+                Dictionary<uint, decimal> anysPigTributa = new Dictionary<uint, decimal>();
+                decimal pigTotal = 0;
                 int fila;
 
                 for (uint any = (uint) primerMovimentX.Data.Year; any <= DateTime.Today.Year; any++)
@@ -163,7 +163,7 @@ namespace Inversions.GUI
 
                     foreach (var anyPig in anysPigTributa.Where(w => !Utilitats.EsZero(w.Value)))
                     {
-                        double pig = anyPig.Value;
+                        decimal pig = anyPig.Value;
                         if (anyPig.Key == DateTime.Today.Year)
                             pig += ntbDiferencia.Valor;
 
@@ -231,7 +231,7 @@ namespace Inversions.GUI
             }
 
             var anyDades = (int) cbAnysPiGEnCartera.SelectedItem;
-            double pigTotalEncartera = 0;
+            decimal pigTotalEncartera = 0;
             dgvPiGEnCartera.Rows.Clear();
             foreach (var prod in productes)
             {
@@ -323,8 +323,8 @@ namespace Inversions.GUI
 
         private void dgvCompresProducte_SelectionChanged(object sender, EventArgs e)
         {
-            double pig = 0;
-            double pigOrig = 0;
+            decimal pig = 0;
+            decimal pigOrig = 0;
             foreach (DataGridViewRow selectedRow in dgvCompresProducte.SelectedRows)
             {
                 pig += ((Moviment) selectedRow.DataBoundItem).pigCompra(ckAmbCartera.Checked, false, null, true, ckAmbDividends.Checked);

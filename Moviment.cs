@@ -27,10 +27,10 @@ namespace Inversions
         public TipusMoviment TipusMoviment { get; set; }
         public Nullable<int> RefTraspasId { get; set; }
         public System.DateTime Data { get; set; }
-        public double Participacions { get; set; }
-        public double PreuParticipacio { get; set; }
-        public double CanviAplicat { get; set; }
-        public Nullable<double> Despeses { get; set; }
+        public decimal Participacions { get; set; }
+        public decimal PreuParticipacio { get; set; }
+        public decimal CanviAplicat { get; set; }
+        public Nullable<decimal> Despeses { get; set; }
         public string Descripcio { get; set; }
         public byte[] RowVersion { get; set; }
     

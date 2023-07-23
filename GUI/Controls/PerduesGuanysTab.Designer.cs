@@ -208,6 +208,7 @@ namespace Inversions.GUI
             // 
             this.ntbPigRealMesCartera._CapturaEscape = true;
             this.ntbPigRealMesCartera._Format = "#,#0.00 €";
+            this.ntbPigRealMesCartera._NegatiusEnVermell = false;
             this.ntbPigRealMesCartera._PermetDecimals = true;
             this.ntbPigRealMesCartera._PermetEspais = false;
             this.ntbPigRealMesCartera._PermetNegatius = true;
@@ -223,7 +224,12 @@ namespace Inversions.GUI
             this.ntbPigRealMesCartera.Text = "0,00 €";
             this.ntbPigRealMesCartera.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.toolTip1.SetToolTip(this.ntbPigRealMesCartera, "PiG actual de les participacions en cartera");
-            this.ntbPigRealMesCartera.Valor = 0D;
+            this.ntbPigRealMesCartera.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.ntbPigRealMesCartera.ValorDouble = 0D;
             // 
             // label3
             // 
@@ -241,6 +247,7 @@ namespace Inversions.GUI
             // 
             this.ntbPigActualPartsEnCartera._CapturaEscape = true;
             this.ntbPigActualPartsEnCartera._Format = "#,#0.00 €";
+            this.ntbPigActualPartsEnCartera._NegatiusEnVermell = false;
             this.ntbPigActualPartsEnCartera._PermetDecimals = true;
             this.ntbPigActualPartsEnCartera._PermetEspais = false;
             this.ntbPigActualPartsEnCartera._PermetNegatius = true;
@@ -256,7 +263,12 @@ namespace Inversions.GUI
             this.ntbPigActualPartsEnCartera.Text = "0,00 €";
             this.ntbPigActualPartsEnCartera.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.toolTip1.SetToolTip(this.ntbPigActualPartsEnCartera, "PiG actual de les participacions en cartera");
-            this.ntbPigActualPartsEnCartera.Valor = 0D;
+            this.ntbPigActualPartsEnCartera.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.ntbPigActualPartsEnCartera.ValorDouble = 0D;
             // 
             // label1
             // 
@@ -754,6 +766,7 @@ namespace Inversions.GUI
             // 
             this.ntbPigCompra._CapturaEscape = true;
             this.ntbPigCompra._Format = "#,#0.00 €";
+            this.ntbPigCompra._NegatiusEnVermell = false;
             this.ntbPigCompra._PermetDecimals = true;
             this.ntbPigCompra._PermetEspais = false;
             this.ntbPigCompra._PermetNegatius = true;
@@ -767,7 +780,12 @@ namespace Inversions.GUI
             this.ntbPigCompra.TabIndex = 2;
             this.ntbPigCompra.Text = "0,00 €";
             this.ntbPigCompra.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPigCompra.Valor = 0D;
+            this.ntbPigCompra.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.ntbPigCompra.ValorDouble = 0D;
             // 
             // gbPigCompraOrig
             // 
@@ -787,6 +805,7 @@ namespace Inversions.GUI
             // 
             this.ntbPigCompraOrig._CapturaEscape = true;
             this.ntbPigCompraOrig._Format = "#,#0.00 €";
+            this.ntbPigCompraOrig._NegatiusEnVermell = false;
             this.ntbPigCompraOrig._PermetDecimals = true;
             this.ntbPigCompraOrig._PermetEspais = false;
             this.ntbPigCompraOrig._PermetNegatius = true;
@@ -800,7 +819,12 @@ namespace Inversions.GUI
             this.ntbPigCompraOrig.TabIndex = 2;
             this.ntbPigCompraOrig.Text = "0,00 €";
             this.ntbPigCompraOrig.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPigCompraOrig.Valor = 0D;
+            this.ntbPigCompraOrig.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.ntbPigCompraOrig.ValorDouble = 0D;
             // 
             // label4
             // 
@@ -870,6 +894,7 @@ namespace Inversions.GUI
             // 
             this.ntbDiferencia._CapturaEscape = true;
             this.ntbDiferencia._Format = "#,##0.00 €";
+            this.ntbDiferencia._NegatiusEnVermell = false;
             this.ntbDiferencia._PermetDecimals = true;
             this.ntbDiferencia._PermetEspais = false;
             this.ntbDiferencia._PermetNegatius = true;
@@ -883,7 +908,12 @@ namespace Inversions.GUI
             this.ntbDiferencia.TabIndex = 0;
             this.ntbDiferencia.Text = "0,00 €";
             this.ntbDiferencia.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbDiferencia.Valor = 0D;
+            this.ntbDiferencia.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.ntbDiferencia.ValorDouble = 0D;
             // 
             // groupBox1
             // 
@@ -901,6 +931,7 @@ namespace Inversions.GUI
             // 
             this.ntbPiG._CapturaEscape = true;
             this.ntbPiG._Format = "#,##0.00 €";
+            this.ntbPiG._NegatiusEnVermell = false;
             this.ntbPiG._PermetDecimals = true;
             this.ntbPiG._PermetEspais = false;
             this.ntbPiG._PermetNegatius = true;
@@ -913,7 +944,12 @@ namespace Inversions.GUI
             this.ntbPiG.TabIndex = 0;
             this.ntbPiG.Text = "0,00 €";
             this.ntbPiG.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPiG.Valor = 0D;
+            this.ntbPiG.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.ntbPiG.ValorDouble = 0D;
             // 
             // gbPreuPartic
             // 
@@ -931,6 +967,7 @@ namespace Inversions.GUI
             // 
             this.ntbPreuParticipacio._CapturaEscape = true;
             this.ntbPreuParticipacio._Format = "#,##0.###### €";
+            this.ntbPreuParticipacio._NegatiusEnVermell = false;
             this.ntbPreuParticipacio._PermetDecimals = true;
             this.ntbPreuParticipacio._PermetEspais = false;
             this.ntbPreuParticipacio._PermetNegatius = false;
@@ -942,7 +979,12 @@ namespace Inversions.GUI
             this.ntbPreuParticipacio.TabIndex = 0;
             this.ntbPreuParticipacio.Text = "0 €";
             this.ntbPreuParticipacio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPreuParticipacio.Valor = 0D;
+            this.ntbPreuParticipacio.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.ntbPreuParticipacio.ValorDouble = 0D;
             // 
             // gbFiltreDates
             // 
@@ -978,6 +1020,7 @@ namespace Inversions.GUI
             // 
             this.tbPigEntreDates._CapturaEscape = true;
             this.tbPigEntreDates._Format = "#,#0.00 €";
+            this.tbPigEntreDates._NegatiusEnVermell = false;
             this.tbPigEntreDates._PermetDecimals = true;
             this.tbPigEntreDates._PermetEspais = false;
             this.tbPigEntreDates._PermetNegatius = true;
@@ -990,7 +1033,12 @@ namespace Inversions.GUI
             this.tbPigEntreDates.TabIndex = 2;
             this.tbPigEntreDates.Text = "0,00 €";
             this.tbPigEntreDates.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbPigEntreDates.Valor = 0D;
+            this.tbPigEntreDates.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.tbPigEntreDates.ValorDouble = 0D;
             // 
             // dtpFiltreDataInici
             // 

@@ -27,11 +27,11 @@ namespace Inversions
         }
 
         [Description("S'utilitza en un DataGrid")]
-        public double _ImportBrut
+        public decimal _ImportBrut
         {
             get
             {
-                double result;
+                decimal result;
                 if (Utilitats.EsZero(Participacions))
                 {
                     result = PreuParticipacio;
@@ -45,11 +45,11 @@ namespace Inversions
         }
 
         [Description("S'utilitza en un DataGrid")]
-        public double _ImportNet
+        public decimal _ImportNet
         {
             get
             {
-                double result;
+                decimal result;
                 if (Utilitats.EsZero(Participacions))
                 {
                     result = PreuParticipacio;
@@ -71,13 +71,13 @@ namespace Inversions
         static internal bool AmbDividents;
 
         [Description("S'utilitza en un DataGrid")]
-        public double __PigDeLaCompra
+        public decimal __PigDeLaCompra
         {
             get { return pigCompra(AmbCartera, false, null, true, AmbDividents); }
         }
 
         [Description("S'utilitza en un DataGrid")]
-        public double __PigDeLaCompraOrigen
+        public decimal __PigDeLaCompraOrigen
         {
             get { return pigCompra(AmbCartera, true, null, true, AmbDividents); }
         }
@@ -167,7 +167,7 @@ namespace Inversions
             get { return TipusMoviment == TipusMoviment.Dividends; }
         }
 
-        public double _PreuParticipacio
+        public decimal _PreuParticipacio
         {
             get { return PreuParticipacio; }
         }
@@ -226,7 +226,7 @@ namespace Inversions
         /// </summary>
         /// <param name="dataHora">Vendes amb data menor o igual a dataHora. Si null, totes les vendes.</param>
         /// <returns></returns>
-        private double partsEnCarteraCompra(DateTime? dataHora = null)
+        private decimal partsEnCarteraCompra(DateTime? dataHora = null)
         {
             if (!_EsCompra)
                 throw new Exception(String.Format("L'Id:{0}. Ha de ser una compra", Id));
@@ -256,12 +256,12 @@ namespace Inversions
         /// Pot ser que hi hagi més d'un divident o que algun divident no correspongui completament a les accions de la compra.
         /// </summary>
         /// <returns></returns>
-        private double dividentsDeLaCompra()
+        private decimal dividentsDeLaCompra()
         {
             if (!_EsCompra)
                 throw new Exception(String.Format("L'Id:{0}. Ha de ser una compra", Id));
             
-            double divident = 0;
+            decimal divident = 0;
             var dataIni = Data;
             var dataFi = vendesDeLaCompra().Any() ? vendesDeLaCompra().Last()._Data : DateTime.Now;
             var dividents = Program.Sessio.MovimentsUsuari.Where(w => w._EsDividents && w.Data >= dataIni && w.Data <= dataFi).ToList();
@@ -397,7 +397,7 @@ namespace Inversions
         /// <param name="ambDespeses">Inclou despeses.</param>
         /// <param name="ambDividents">Inclou dividents.</param>
         /// <returns></returns>
-        internal double pigCompra(bool ambCartera, bool pigOrigen, uint? anyVenda, bool ambDespeses = true, bool ambDividents = true)
+        internal decimal pigCompra(bool ambCartera, bool pigOrigen, uint? anyVenda, bool ambDespeses = true, bool ambDividents = true)
         {
             // Todo: PiG Intermig.
 
@@ -408,11 +408,11 @@ namespace Inversions
             if (Prod is ProdAccions)
                 pigOrigen = false;
 
-            double pigVendesReals = pigCompraNomesVendesReals(pigOrigen, ambDespeses, anyVenda);
+            decimal pigVendesReals = pigCompraNomesVendesReals(pigOrigen, ambDespeses, anyVenda);
 
-            double pigEncartera = ambCartera ? pigEnCartera(pigOrigen, ambDespeses) : 0;
+            decimal pigEncartera = ambCartera ? pigEnCartera(pigOrigen, ambDespeses) : 0;
 
-            double divident = ambDividents ? dividentsDeLaCompra() : 0;
+            decimal divident = ambDividents ? dividentsDeLaCompra() : 0;
 
             return pigVendesReals + pigEncartera + divident;
         }
@@ -425,7 +425,7 @@ namespace Inversions
         /// <param name="ambDespeses">Afegeig les despeses.</param>
         /// <param name="anyVenda">Si no és null només selecciona les vendes del any.</param>
         /// <returns></returns>
-        private double pigCompraNomesVendesReals(bool pigOrigen, bool ambDespeses, uint? anyVenda)
+        private decimal pigCompraNomesVendesReals(bool pigOrigen, bool ambDespeses, uint? anyVenda)
         {
             if (!_EsCompra)
                 throw new Exception(String.Format("L'Id:{0}. Ha de ser una compra", Id));
@@ -440,13 +440,13 @@ namespace Inversions
 
             var desgloçCompra = new Queue<DesglosCompra>(DesglosCompres.OrderBy(o => o._DataOrig));
 
-            double importCostCompra = 0;
-            double importVendesReals = 0;
+            decimal importCostCompra = 0;
+            decimal importVendesReals = 0;
 
             VendaExt venda = vendesCompra.Dequeue();
             DesglosCompra desgloç = desgloçCompra.Dequeue();
-            double partsVendesResten = venda._PartsUtilitzades;
-            double partsDesgloçResten = desgloç.Participacions; // No utilitzo "_ParticipacionsUtilitzades"
+            decimal partsVendesResten = venda._PartsUtilitzades;
+            decimal partsDesgloçResten = desgloç.Participacions; // No utilitzo "_ParticipacionsUtilitzades"
 
             while (true)
             {
@@ -489,7 +489,7 @@ namespace Inversions
                     continue;
                 }
 
-                double parts = 0;
+                decimal parts = 0;
 
                 parts = Utilitats.ComparaNumeros(partsDesgloçResten, partsVendesResten) >= 0 ? partsVendesResten : partsDesgloçResten;
 
@@ -525,7 +525,7 @@ namespace Inversions
         /// <param name="pigOrigen">Calcula el PiG respecte el valor de compra original.</param>
         /// <param name="ambDespeses">Afegeig les despeses.</param>
         /// <returns></returns>
-        internal double pigEnCartera(bool pigOrigen, bool ambDespeses)
+        internal decimal pigEnCartera(bool pigOrigen, bool ambDespeses)
         {
             if (!_EsCompra)
                 throw new Exception(String.Format("L'Id:{0}. Ha de ser una compra", Id));
@@ -536,11 +536,11 @@ namespace Inversions
                 return 0;
 
             var partsEnCarteraResten = partsEnCartera;
-            double importCostCompra = 0;
+            decimal importCostCompra = 0;
 
             foreach (var desglosCompra in DesglosCompres.OrderByDescending(o => o._DataOrig))
             {
-                double parts;
+                decimal parts;
                 if (Utilitats.ComparaNumeros(desglosCompra.Participacions, partsEnCarteraResten) >= 0)
                 {
                     parts = pigOrigen ? partsEnCarteraResten / desglosCompra.Participacions * desglosCompra.ParticipacionsOrig : partsEnCarteraResten;
@@ -558,10 +558,10 @@ namespace Inversions
                     break;
             }
 
-            double importActualParticsEnCartera = partsEnCartera * Prod._PreuParticipacioActual;
+            decimal importActualParticsEnCartera = partsEnCartera * Prod._PreuParticipacioActual;
 
             // Despeses de la compra.
-            double despeses = ambDespeses ? Despeses.GetValueOrDefault() / Participacions * partsEnCartera : 0;
+            decimal despeses = ambDespeses ? Despeses.GetValueOrDefault() / Participacions * partsEnCartera : 0;
 
             return importActualParticsEnCartera - importCostCompra - despeses;
         }
@@ -571,7 +571,7 @@ namespace Inversions
         /// Pig d'una venda.
         /// </summary>
         /// <returns></returns>
-        internal double pigVenda(bool inclouDespeses)
+        internal decimal pigVenda(bool inclouDespeses)
         {
             // todo: Repassant
 
@@ -590,7 +590,7 @@ namespace Inversions
 
         #region **** Mètodes cridats des de Test *****
 
-        public double pigCompraTest(bool ambCartera, bool pigOrigen, uint? any, bool ambDespeses = true, bool ambDividents = true)
+        public decimal pigCompraTest(bool ambCartera, bool pigOrigen, uint? any, bool ambDespeses = true, bool ambDividents = true)
         {
             return pigCompra(ambCartera, pigOrigen, any, ambDespeses, ambDividents);
         }
@@ -602,13 +602,13 @@ namespace Inversions
         }
 
 
-        public double pigVendaTest(bool inclouDespeses)
+        public decimal pigVendaTest(bool inclouDespeses)
         {
             return pigVenda(inclouDespeses);
         }
 
 
-        public double dividentsDeLaCompraTest()
+        public decimal dividentsDeLaCompraTest()
         {
             return dividentsDeLaCompra();
         }

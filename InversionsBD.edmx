@@ -12,8 +12,8 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MovCompraId" Type="int" Nullable="false" />
           <Property Name="MovCompraOrigId" Type="int" Nullable="false" />
-          <Property Name="Participacions" Type="float" Nullable="false" />
-          <Property Name="ParticipacionsOrig" Type="float" Nullable="false" />
+          <Property Name="Participacions" Type="decimal" Precision="20" Scale="13" Nullable="false" />
+          <Property Name="ParticipacionsOrig" Type="decimal" Precision="20" Scale="13" Nullable="false" />
           <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
         <EntityType Name="Empreses">
@@ -53,10 +53,10 @@
           <Property Name="TipusMoviment" Type="int" Nullable="false" />
           <Property Name="RefTraspasId" Type="int" />
           <Property Name="Data" Type="datetime" Nullable="false" />
-          <Property Name="Participacions" Type="float" Nullable="false" />
-          <Property Name="PreuParticipacio" Type="float" Nullable="false" />
-          <Property Name="CanviAplicat" Type="float" Nullable="false" />
-          <Property Name="Despeses" Type="float" />
+          <Property Name="Participacions" Type="decimal" Precision="20" Scale="13" Nullable="false" />
+          <Property Name="PreuParticipacio" Type="decimal" Precision="20" Scale="13" Nullable="false" />
+          <Property Name="CanviAplicat" Type="decimal" Precision="20" Scale="13" Nullable="false" />
+          <Property Name="Despeses" Type="decimal" Precision="20" Scale="13" />
           <Property Name="Descripcio" Type="nvarchar(max)" />
           <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
@@ -109,13 +109,9 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProdId" Type="int" Nullable="false" />
           <Property Name="Data" Type="date" Nullable="false" />
-          <Property Name="PreuParticipacio" Type="float" Nullable="false" />
+          <Property Name="PreuParticipacio" Type="decimal" Precision="20" Scale="13" Nullable="false" />
           <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJECTS\MEUS\INVERSIONSV2\BD\INVERSIONSBD.MDF.dbo.View_MovimentsCompraVendaAccions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJECTS\MEUS\INVERSIONSV2\BD\INVERSIONSBD.MDF.dbo.View_MovimentsCompraVendaFons' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <Association Name="FK_EmpresaGestor">
           <End Role="Empreses" Type="Self.Empreses" Multiplicity="1" />
           <End Role="Gestors" Type="Self.Gestors" Multiplicity="*" />
@@ -429,7 +425,7 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
           <Property Name="ProdId" Type="Int32" Nullable="false" />
           <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Prod" Relationship="InversionsBD.ProdValoracio" FromRole="Valoracio" ToRole="Prod" />
-          <Property Name="PreuParticipacio" Type="Double" Nullable="false" />
+          <Property Name="PreuParticipacio" Type="Decimal" Nullable="false" Precision="20" Scale="13" />
           <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" cg:SetterAccess="Private" ConcurrencyMode="Fixed" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" />
         </EntityType>
         <Association Name="FK_EmpresaGestor">
@@ -555,10 +551,10 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
             </Documentation>
           </Property>
           <Property Name="Data" Nullable="false" Precision="3" Type="DateTime" />
-          <Property Name="Participacions" Nullable="false" Type="Double" />
-          <Property Name="PreuParticipacio" Nullable="false" Type="Double" />
-          <Property Name="CanviAplicat" Nullable="false" Type="Double" />
-          <Property Name="Despeses" Type="Double" />
+          <Property Name="Participacions" Nullable="false" Type="Decimal" Precision="20" Scale="13" />
+          <Property Name="PreuParticipacio" Nullable="false" Type="Decimal" Precision="20" Scale="13" />
+          <Property Name="CanviAplicat" Nullable="false" Type="Decimal" Precision="20" Scale="13" />
+          <Property Name="Despeses" Type="Decimal" Precision="20" Scale="13" />
           <Property Name="Descripcio" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
           <Property Name="RowVersion" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" Type="Binary" />
           <NavigationProperty Name="Prod" Relationship="InversionsBD.FK_ProdMov" FromRole="Moviment" ToRole="Producte" />
@@ -611,8 +607,8 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MovCompraId" Type="Int32" Nullable="false" />
           <Property Name="MovCompraOrigId" Type="Int32" Nullable="false" />
-          <Property Name="Participacions" Type="Double" Nullable="false" />
-          <Property Name="ParticipacionsOrig" Type="Double" Nullable="false" />
+          <Property Name="Participacions" Type="Decimal" Nullable="false" Precision="20" Scale="13" />
+          <Property Name="ParticipacionsOrig" Type="Decimal" Nullable="false" Precision="20" Scale="13" />
           <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="MovCompra" Relationship="InversionsBD.FK_MovCompra" FromRole="DesglosCompre" ToRole="Moviment" />
           <NavigationProperty Name="MovCompraOrig" Relationship="InversionsBD.FK_MovCompraOrig" FromRole="DesglosCompre" ToRole="Moviment" />

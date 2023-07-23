@@ -52,7 +52,7 @@ namespace Inversions
         /// <param name="data"></param>
         /// <param name="tipusFons"></param>
         /// <returns></returns>
-        public static double Valor(DateTime data, TipusFons tipusFons)
+        public static decimal Valor(DateTime data, TipusFons tipusFons)
         {
             var prods = tipusFons == TipusFons.Tots ? Program.Sessio.ProdFons : Program.Sessio.ProdFons.Where(w => w.Tipus == tipusFons);
 

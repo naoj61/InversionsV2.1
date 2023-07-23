@@ -212,7 +212,7 @@ namespace Inversions.GUI
                         }
                         else if (tipusMoviment == TipusMoviment.ContraSplit)
                         {
-                            prodOrigenContext.contraSplit(conn, data1, ntbFactorConversor._IntValue, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue);
+                            prodOrigenContext.contraSplit(conn, data1, ntbFactorConversor._IntValue, ntbPreuParticipacio._DecimalValue, tbCanviAplicat._DecimalValue);
                         }
                         else
                         {
@@ -220,25 +220,25 @@ namespace Inversions.GUI
                             //    tbDespeses._DoubleValue, tbDescripcio.Text);
                             if (tipusMoviment == TipusMoviment.Compra)
                             {
-                                prodOrigenContext.desaCompra(conn, data1, DateTime.Now.TimeOfDay, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue,
-                                    tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
+                                prodOrigenContext.desaCompra(conn, data1, DateTime.Now.TimeOfDay, tbNumParticipacions._DecimalValue, ntbPreuParticipacio._DecimalValue,
+                                    tbCanviAplicat._DecimalValue, tbDespeses._DecimalValue, tbDescripcio.Text);
                             }
                             else if (tipusMoviment == TipusMoviment.Venda)
                             {
-                                prodOrigenContext.desaVenda(conn, data1, DateTime.Now.TimeOfDay, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue,
-                                    tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
+                                prodOrigenContext.desaVenda(conn, data1, DateTime.Now.TimeOfDay, tbNumParticipacions._DecimalValue, ntbPreuParticipacio._DecimalValue,
+                                    tbCanviAplicat._DecimalValue, tbDespeses._DecimalValue, tbDescripcio.Text);
                             }
                             else if (tipusMoviment == TipusMoviment.Dividends)
                             {
-                                prodOrigenContext.desaDividend(conn, data1, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue, tbDespeses._DoubleValue, tbDescripcio.Text);
+                                prodOrigenContext.desaDividend(conn, data1, ntbPreuParticipacio._DecimalValue, tbCanviAplicat._DecimalValue, tbDespeses._DecimalValue, tbDescripcio.Text);
                             }
                         }
                     }
                     else
                     {
                         var dataDesti = ckActivaDataDesti.Checked ? cDataDesti.Value : data1;
-                        prodOrigenContext.desaTraspas(conn, data1, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, tbDescripcio.Text, 
-                            dataDesti, prodDestiContext, tbNumParticipacionsDesti._DoubleValue, ntbPreuParticipacioFonsCompra.Valor, ntbDespeses.Valor);
+                        prodOrigenContext.desaTraspas(conn, data1, tbNumParticipacions._DecimalValue, ntbPreuParticipacio._DecimalValue, tbDescripcio.Text,
+                            dataDesti, prodDestiContext, tbNumParticipacionsDesti._DecimalValue, ntbPreuParticipacioFonsCompra.Valor, ntbDespeses.Valor);
                     }
 
                     //var contextConn = ((IObjectContextAdapter)conn).ObjectContext;

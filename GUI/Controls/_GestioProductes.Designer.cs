@@ -203,7 +203,12 @@ namespace Inversions.GUI
             this.tbDividends.Text = "0,00 €";
             this.tbDividends.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.toolTip1.SetToolTip(this.tbDividends, "Dividends historics");
-            this.tbDividends.Valor = 0D;
+            this.tbDividends.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.tbDividends.ValorDouble = 0D;
             // 
             // gbMoneda
             // 
@@ -262,7 +267,12 @@ namespace Inversions.GUI
             this.tbPigReal.Text = "0,00 €";
             this.tbPigReal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.toolTip1.SetToolTip(this.tbPigReal, "Valor actual - Valor compra real (No compra traspàs)");
-            this.tbPigReal.Valor = 0D;
+            this.tbPigReal.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.tbPigReal.ValorDouble = 0D;
             // 
             // gbIsinMercat
             // 
@@ -338,7 +348,12 @@ namespace Inversions.GUI
             this.tbPigProducte.Text = "0,00 €";
             this.tbPigProducte.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.toolTip1.SetToolTip(this.tbPigProducte, "PiG històric. No inclou dividends");
-            this.tbPigProducte.Valor = 0D;
+            this.tbPigProducte.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.tbPigProducte.ValorDouble = 0D;
             // 
             // groupBox7
             // 
@@ -373,7 +388,12 @@ namespace Inversions.GUI
             this.tbCostOrigPartActual.Text = "0,00 €";
             this.tbCostOrigPartActual.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.toolTip1.SetToolTip(this.tbCostOrigPartActual, "Cost original total de les participacions actualment en cartera");
-            this.tbCostOrigPartActual.Valor = 0D;
+            this.tbCostOrigPartActual.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.tbCostOrigPartActual.ValorDouble = 0D;
             // 
             // groupBox4
             // 
@@ -409,7 +429,12 @@ namespace Inversions.GUI
             this.tbPiGActual.Text = "0,00 €";
             this.tbPiGActual.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.toolTip1.SetToolTip(this.tbPiGActual, "PiG de la cartera actual.");
-            this.tbPiGActual.Valor = 0D;
+            this.tbPiGActual.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.tbPiGActual.ValorDouble = 0D;
             // 
             // groupBox15
             // 
@@ -445,7 +470,12 @@ namespace Inversions.GUI
             this.tbValorActual.Text = "0,00 €";
             this.tbValorActual.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.toolTip1.SetToolTip(this.tbValorActual, "Valor de les participacions en cartera segons l\'últim valor");
-            this.tbValorActual.Valor = 0D;
+            this.tbValorActual.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.tbValorActual.ValorDouble = 0D;
             // 
             // groupBox1
             // 
@@ -463,7 +493,7 @@ namespace Inversions.GUI
             // ntbPreuPartActual
             // 
             this.ntbPreuPartActual._CapturaEscape = true;
-            this.ntbPreuPartActual._Format = "#,#0.00 €";
+            this.ntbPreuPartActual._Format = "#,#0.00###### €";
             this.ntbPreuPartActual._NegatiusEnVermell = false;
             this.ntbPreuPartActual._PermetDecimals = true;
             this.ntbPreuPartActual._PermetEspais = false;
@@ -479,7 +509,12 @@ namespace Inversions.GUI
             this.ntbPreuPartActual.TabIndex = 0;
             this.ntbPreuPartActual.Text = "0,00 €";
             this.ntbPreuPartActual.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPreuPartActual.Valor = 0D;
+            this.ntbPreuPartActual.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.ntbPreuPartActual.ValorDouble = 0D;
             // 
             // groupBox13
             // 
@@ -498,7 +533,7 @@ namespace Inversions.GUI
             // tbParticipacions
             // 
             this.tbParticipacions._CapturaEscape = true;
-            this.tbParticipacions._Format = "#,#0.####";
+            this.tbParticipacions._Format = "#,#0.00###### €";
             this.tbParticipacions._NegatiusEnVermell = false;
             this.tbParticipacions._PermetDecimals = true;
             this.tbParticipacions._PermetEspais = false;
@@ -513,10 +548,15 @@ namespace Inversions.GUI
             this.tbParticipacions.ReadOnly = true;
             this.tbParticipacions.Size = new System.Drawing.Size(164, 25);
             this.tbParticipacions.TabIndex = 0;
-            this.tbParticipacions.Text = "0";
+            this.tbParticipacions.Text = "0,00 €";
             this.tbParticipacions.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.toolTip1.SetToolTip(this.tbParticipacions, "Número de participacions en cartera");
-            this.tbParticipacions.Valor = 0D;
+            this.tbParticipacions.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.tbParticipacions.ValorDouble = 0D;
             // 
             // panel2
             // 

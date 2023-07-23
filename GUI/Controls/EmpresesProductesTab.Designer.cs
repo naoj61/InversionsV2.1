@@ -353,7 +353,7 @@ namespace Inversions.GUI
             this.ntbOrdreGridProducte.TabIndex = 0;
             this.ntbOrdreGridProducte.Text = "999";
             this.ntbOrdreGridProducte.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbOrdreGridProducte.Valor = 999D;
+            this.ntbOrdreGridProducte.Valor = 999;
             this.ntbOrdreGridProducte.TextChanged += new System.EventHandler(this.ntbOrdreGridProducte_TextChanged);
             // 
             // grNomProducte

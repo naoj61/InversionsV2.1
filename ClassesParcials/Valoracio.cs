@@ -26,7 +26,7 @@ namespace Inversions
         /// <summary>
         /// Número de participacions en la data de la valoració.
         /// </summary>
-        public double _NumParticipacions
+        public decimal _NumParticipacions
         {
             get
             {
@@ -34,7 +34,7 @@ namespace Inversions
             }
         }
 
-        public double _VariacioPercentatge
+        public decimal _VariacioPercentatge
         {
             get
             {
@@ -45,11 +45,11 @@ namespace Inversions
                 if (v1.Count == 0)
                     return 0;
 
-                return PreuParticipacio / v1.Last().PreuParticipacio - 1;
+                return v1.Last().PreuParticipacio > 0 ? PreuParticipacio / v1.Last().PreuParticipacio - 1 : 0;
             }
         }
 
-        public double _VariacioEuros
+        public decimal _VariacioEuros
         {
             get
             {
@@ -69,7 +69,7 @@ namespace Inversions
         /// <summary>
         /// Valoració total en funció de les participacions
         /// </summary>
-        public double _ValoracioTotal
+        public decimal _ValoracioTotal
         {
             get
             {
@@ -87,7 +87,7 @@ namespace Inversions
         /// <param name="producte"></param>
         /// <param name="data"></param>
         /// <param name="import"></param>
-        internal static Valoracio Nova(InversionsBDContext conn, Producte producte, DateTime data, double import)
+        internal static Valoracio Nova(InversionsBDContext conn, Producte producte, DateTime data, decimal import)
         {
             // Alta
             Valoracio val = null;
@@ -129,7 +129,7 @@ namespace Inversions
         /// <param name="conn"></param>
         /// <param name="data"></param>
         /// <param name="import"></param>
-        internal void modifica(InversionsBDContext conn, DateTime data, double import)
+        internal void modifica(InversionsBDContext conn, DateTime data, decimal import)
         {
             Valoracio val = null;
             try

@@ -50,9 +50,9 @@ namespace Inversions
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static double Valor(DateTime data)
+        public static decimal Valor(DateTime data)
         {
-            double saldo = 0;
+            decimal saldo = 0;
 
             foreach (Producte producte in Program.Sessio.Productes.Where(w=>w is ProdAccions))
             {

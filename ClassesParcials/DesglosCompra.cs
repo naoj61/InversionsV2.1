@@ -12,12 +12,12 @@ namespace Inversions
 
         #region *** Atributs ***
 
-        public double _PreuParticipacioOrig
+        public decimal _PreuParticipacioOrig
         {
             get { return MovCompraOrig.PreuParticipacio; }
         }
 
-        public double _PreuParticipacio
+        public decimal _PreuParticipacio
         {
             get { return MovCompra.PreuParticipacio; }
         }

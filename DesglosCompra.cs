@@ -17,8 +17,8 @@ namespace Inversions
         public int Id { get; set; }
         public int MovCompraId { get; set; }
         public int MovCompraOrigId { get; set; }
-        public double Participacions { get; set; }
-        public double ParticipacionsOrig { get; set; }
+        public decimal Participacions { get; set; }
+        public decimal ParticipacionsOrig { get; set; }
         public byte[] RowVersion { get; set; }
     
         public virtual Moviment MovCompra { get; set; }

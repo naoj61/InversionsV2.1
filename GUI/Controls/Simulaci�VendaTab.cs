@@ -15,7 +15,7 @@ namespace Inversions.GUI
 
     struct FilaCompresOriginals
     {
-        private static double? PreuPartActual;
+        private static decimal? PreuPartActual;
 
         private readonly DesglosCompraExt vDesglosCompra;
 
@@ -27,12 +27,12 @@ namespace Inversions.GUI
         }
 
 
-        internal static double? _PreuPartActual
+        internal static decimal? _PreuPartActual
         {
             set { PreuPartActual = value; }
         }
 
-        private double preuPartActual()
+        private decimal preuPartActual()
         {
             return PreuPartActual.GetValueOrDefault(vDesglosCompra._Compra.Prod._PreuParticipacioActual);
         }
@@ -62,19 +62,19 @@ namespace Inversions.GUI
         }
 
         [Description("S'utilitza en un DataGrid")]
-        public double _Participacions
+        public decimal _Participacions
         {
             get { return vDesglosCompra._Participacions; }
         }
 
         [Description("S'utilitza en un DataGrid")]
-        public double _ParticipacionsUtilitzades
+        public decimal _ParticipacionsUtilitzades
         {
             get { return vDesglosCompra._PartsUtilitzades; }
         }
 
         [Description("S'utilitza en un DataGrid")]
-        public double _PigDeLaCompraOrigen
+        public decimal _PigDeLaCompraOrigen
         {
             get
             {
@@ -86,7 +86,7 @@ namespace Inversions.GUI
         }
 
         [Description("S'utilitza en un DataGrid")]
-        public double _PigDeLaCompra
+        public decimal _PigDeLaCompra
         {
             get
             {
@@ -98,7 +98,7 @@ namespace Inversions.GUI
         }
 
         [Description("S'utilitza en un DataGrid")]
-        public double _ValorActual
+        public decimal _ValorActual
         {
             get
             {
@@ -177,7 +177,7 @@ namespace Inversions.GUI
         }
 
 
-        private void ompleDgvCompres(double? preuPartActual)
+        private void ompleDgvCompres(decimal? preuPartActual)
         {
             if (vProducteSeleccionat == null)
                 return;

@@ -47,7 +47,7 @@ namespace Inversions.GUI.Forms
             // ReSharper disable MemberCanBePrivate.Local
             // ReSharper disable UnusedAutoPropertyAccessor.Local
             public Producte _Prod { get; private set; }
-            public double _Divident { get; private set; }
+            public decimal _Divident { get; private set; }
             // ReSharper restore MemberCanBePrivate.Local
             // ReSharper restore UnusedAutoPropertyAccessor.Local
         }
@@ -88,32 +88,32 @@ namespace Inversions.GUI.Forms
                 get { return _Venda.Prod; }
             }
 
-            public double _Parts
+            public decimal _Parts
             {
                 get { return _Venda.Participacions; }
             }
 
-            public double _PreuUnitari
+            public decimal _PreuUnitari
             {
                 get { return _Venda.PreuParticipacio; }
             }
 
-            public double _Despeses
+            public decimal _Despeses
             {
                 get { return _Venda.Despeses.GetValueOrDefault(); }
             }
 
-            public double _ImportBrut
+            public decimal _ImportBrut
             {
                 get { return _Venda._ImportBrut; }
             }
 
-            public double _ImportNet
+            public decimal _ImportNet
             {
                 get { return _Venda._ImportNet; }
             }
 
-            public double _PiG
+            public decimal _PiG
             {
                 get { return _Venda.pigVenda(true); }
             }
@@ -141,20 +141,20 @@ namespace Inversions.GUI.Forms
 
             private readonly Moviment vVenda;
             private readonly CompraExt vCompra;
-            private double vParticipacionsUtilitzades;
+            private decimal vParticipacionsUtilitzades;
 
-            private double _DespesesCompraUtil
+            private decimal _DespesesCompraUtil
             {
                 get { return vCompra._DespesesPartsUtilitzades / vCompra._Participacions * vParticipacionsUtilitzades; }
             }
 
-            private double _DespesesVendaUtil
+            private decimal _DespesesVendaUtil
             {
                 get { return vVenda.Despeses.GetValueOrDefault() / vVenda.Participacions * vParticipacionsUtilitzades; }
             }
 
 
-            public void afegeigParticipacionsUtilitzades(double participacionsUtilitzades)
+            public void afegeigParticipacionsUtilitzades(decimal participacionsUtilitzades)
             {
                 vParticipacionsUtilitzades += participacionsUtilitzades;
             }
@@ -162,22 +162,22 @@ namespace Inversions.GUI.Forms
             // ReSharper disable MemberCanBePrivate.Local
             // ReSharper disable UnusedAutoPropertyAccessor.Local
 
-            public double _ParticipacionsUtilitzades
+            public decimal _ParticipacionsUtilitzades
             {
                 get { return vParticipacionsUtilitzades; }
             }
 
-            public double _DespesesUtil
+            public decimal _DespesesUtil
             {
                 get { return _DespesesCompraUtil + _DespesesVendaUtil; }
             }
 
-            public double _DespesesCompra
+            public decimal _DespesesCompra
             {
                 get { return vCompra._Despeses; }
             }
 
-            public double _DespesesVenda
+            public decimal _DespesesVenda
             {
                 get { return vVenda.Despeses.GetValueOrDefault(); }
             }
@@ -207,37 +207,37 @@ namespace Inversions.GUI.Forms
                 get { return _CompraExt._Data; }
             }
 
-            public double _Participacions
+            public decimal _Participacions
             {
                 get { return _CompraExt._Participacions; }
             }
 
-            public double _PreuUnitari
+            public decimal _PreuUnitari
             {
                 get { return _CompraExt._PreuParticipacio; }
             }
 
-            public double _ImportCompraBrutUtil
+            public decimal _ImportCompraBrutUtil
             {
                 get { return _ParticipacionsUtilitzades * vCompra._PreuParticipacio; }
             }
 
-            public double _ImportVendaBrutUtil
+            public decimal _ImportVendaBrutUtil
             {
                 get { return _ParticipacionsUtilitzades * vVenda.PreuParticipacio; }
             }
 
-            public double _ImportCompraNetUtil
+            public decimal _ImportCompraNetUtil
             {
                 get { return _ImportCompraBrutUtil + _DespesesCompraUtil; }
             }
 
-            public double _ImportVendaNetUtil
+            public decimal _ImportVendaNetUtil
             {
                 get { return _ImportVendaBrutUtil - _DespesesVendaUtil; }
             }
 
-            public double _PiG
+            public decimal _PiG
             {
                 get { return _ImportVendaNetUtil - _ImportCompraNetUtil; }
             }

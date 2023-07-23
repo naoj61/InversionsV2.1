@@ -318,7 +318,7 @@ namespace Inversions.GUI
             this.ntbDeduccioIrpf.Text = "5.500,00";
             this.ntbDeduccioIrpf.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.toolTip1.SetToolTip(this.ntbDeduccioIrpf, "Import que no tributa al IRPF");
-            this.ntbDeduccioIrpf.Valor = 5500D;
+            this.ntbDeduccioIrpf.Valor = 5500;
             this.ntbDeduccioIrpf.Validating += new System.ComponentModel.CancelEventHandler(this.ntbDeduccioIrpf_Validating);
             // 
             // label1
@@ -359,7 +359,7 @@ namespace Inversions.GUI
             this.ntbNumParticipacions.TabIndex = 3;
             this.ntbNumParticipacions.Text = "0,0000";
             this.ntbNumParticipacions.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbNumParticipacions.Valor = 0D;
+            this.ntbNumParticipacions.Valor = 0;
             this.ntbNumParticipacions.Enter += new System.EventHandler(this.ntbNumParticipacions_Enter);
             // 
             // groupBox3
@@ -390,7 +390,7 @@ namespace Inversions.GUI
             this.ntbPreuParticipacio.TabIndex = 3;
             this.ntbPreuParticipacio.Text = "0,000";
             this.ntbPreuParticipacio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPreuParticipacio.Valor = 0D;
+            this.ntbPreuParticipacio.Valor = 0;
             this.ntbPreuParticipacio.Enter += new System.EventHandler(this.ntbPreuParticipacio_Enter);
             // 
             // groupBox9
@@ -422,7 +422,7 @@ namespace Inversions.GUI
             this.ntbTributaRenda.TabIndex = 4;
             this.ntbTributaRenda.Text = "0,00";
             this.ntbTributaRenda.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbTributaRenda.Valor = 0D;
+            this.ntbTributaRenda.Valor = 0;
             // 
             // groupBox5
             // 
@@ -453,7 +453,7 @@ namespace Inversions.GUI
             this.ntbPigTributa.TabIndex = 4;
             this.ntbPigTributa.Text = "0,00";
             this.ntbPigTributa.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPigTributa.Valor = 0D;
+            this.ntbPigTributa.Valor = 0;
             // 
             // groupBox4
             // 
@@ -484,7 +484,7 @@ namespace Inversions.GUI
             this.ntbPerduesAnteriors.TabIndex = 3;
             this.ntbPerduesAnteriors.Text = "0,00";
             this.ntbPerduesAnteriors.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPerduesAnteriors.Valor = 0D;
+            this.ntbPerduesAnteriors.Valor = 0;
             // 
             // groupBox7
             // 
@@ -515,7 +515,7 @@ namespace Inversions.GUI
             this.ntbImportBrut.Tag = "";
             this.ntbImportBrut.Text = "0,00";
             this.ntbImportBrut.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbImportBrut.Valor = 0D;
+            this.ntbImportBrut.Valor = 0;
             // 
             // groupBox6
             // 
@@ -544,7 +544,7 @@ namespace Inversions.GUI
             this.ntbAnyRenda.TabIndex = 3;
             this.ntbAnyRenda.Text = "0";
             this.ntbAnyRenda.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbAnyRenda.Valor = 0D;
+            this.ntbAnyRenda.Valor = 0;
             this.ntbAnyRenda.Enter += new System.EventHandler(this.ntbAnyRenda_Enter);
             this.ntbAnyRenda.Validating += new System.ComponentModel.CancelEventHandler(this.ntbAnyRenda_Validating);
             // 
@@ -578,7 +578,7 @@ namespace Inversions.GUI
             this.ntbPig.Tag = "";
             this.ntbPig.Text = "0,00";
             this.ntbPig.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPig.Valor = 0D;
+            this.ntbPig.Valor = 0;
             // 
             // btSimulacio
             // 
