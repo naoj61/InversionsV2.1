@@ -58,6 +58,8 @@ namespace Inversions.GUI
             var cursor = Cursor;
             Cursor = Cursors.WaitCursor;
 
+            data = data ?? DateTime.Now;
+
             try
             {
                 dataGridView1.Rows.Clear();
@@ -73,33 +75,21 @@ namespace Inversions.GUI
 
                 // *** Format nou de Kraken ***
 
-                data = null;
-
                 bool terraClassic = false, terraUsd = false, terra2 = false;
                 int contPos = 0;
                 decimal valorInversio = 0;
 
                 for (int i = 0; i < items.Count(); i++)
                 {
-                    if (!data.HasValue)
-                    {
-                        try
-                        {
-                            // En el web de Kraken no apareix la data, agafo l'última data que apareix en la gràfica del web.
-                            data = DateTime.Parse(items[i]);
-                        }
-                        catch (Exception) {} 
-                    }
-
-                    if (items[i] == "Terra Classic")
+                   if (items[i] == "LUNA")
                     {
                         terraClassic = true;
                     }
-                    else if (items[i] == "TerraUSD Classic")
+                    else if (items[i] == "UST")
                     {
                         terraUsd = true;
                     }
-                    else if (items[i] == "Terra 2.0")
+                    else if (items[i] == "LUNA2")
                     {
                         terra2 = true;
                     }
@@ -107,36 +97,71 @@ namespace Inversions.GUI
                     if (terraClassic || terraUsd || terra2)
                         contPos++;
 
-                    // Per obtenir més precisió en el valor de la criptomoneda(Kraken no la dona) divideixo valor de la inversió actual per numparts.
-                    if (contPos == 4) // Valor actual de la inversió
+                    if (items[0] == "Kraken")
                     {
-                        // *** Elimina el simbol de euro al inici ***
-                        string valor = Char.IsNumber(items[i][0]) ? items[i] : items[i].Substring(1);
-                        valorInversio = Convert.ToDecimal(valor, CultureInfo.InvariantCulture);
-
-                        if (terraClassic)
+                        if (contPos == 2) // Valor actual de la inversió
                         {
-                            prod = Program.Sessio.ProdAccions.Single(w => w.Empresa.Nom == "Terra Classic (LUNA)");
+                            // *** Elimina el simbol de euro al inici ***
+                            string valor = Char.IsNumber(items[i][0]) ? items[i] : items[i].Substring(1);
+                            var preuToken = Convert.ToDecimal(valor, CultureInfo.InvariantCulture);
 
-                            terraClassic = false;
+                            if (terraClassic)
+                            {
+                                prod = Program.Sessio.ProdAccions.Single(w => w.Empresa.Nom == "Terra Classic (LUNA)");
+
+                                terraClassic = false;
+                            }
+                            else if (terraUsd)
+                            {
+                                prod = Program.Sessio.ProdAccions.Single(w => w.Empresa.Nom == "TerraUSD Classic (UST)");
+
+                                terraUsd = false;
+                            }
+                            else if (terra2)
+                            {
+                                prod = Program.Sessio.ProdAccions.Single(w => w.Empresa.Nom == "Terra 2.0 (LUNA2)");
+
+                                terra2 = false;
+                            }
+
+                            creaValoracio(data.GetValueOrDefault(DateTime.Now), prod, preuToken, ref avis);
+
+                            contPos = 0;
                         }
-                        else if (terraUsd)
-                        {
-                            prod = Program.Sessio.ProdAccions.Single(w => w.Empresa.Nom == "TerraUSD Classic (UST)");
-
-                            terraUsd = false;
-                        }
-                        else if (terra2)
-                        {
-                            prod = Program.Sessio.ProdAccions.Single(w => w.Empresa.Nom == "Terra 2.0 (LUNA2)");
-
-                            terra2 = false;
-                        }
-
-                        creaValoracio(data.GetValueOrDefault(DateTime.Now), prod, valorInversio / prod._Participacions, ref avis);
-
-                        contPos = 0;
                     }
+                    else
+                    {
+                        // Per obtenir més precisió en el valor de la criptomoneda(Kraken no la dona) divideixo valor de la inversió actual per numparts.
+                        if (contPos == 5) // Valor actual de la inversió
+                        {
+                            // *** Elimina el simbol de euro al inici ***
+                            string valor = Char.IsNumber(items[i][0]) ? items[i] : items[i].Substring(1);
+                            valorInversio = Convert.ToDecimal(valor, CultureInfo.InvariantCulture);
+
+                            if (terraClassic)
+                            {
+                                prod = Program.Sessio.ProdAccions.Single(w => w.Empresa.Nom == "Terra Classic (LUNA)");
+
+                                terraClassic = false;
+                            }
+                            else if (terraUsd)
+                            {
+                                prod = Program.Sessio.ProdAccions.Single(w => w.Empresa.Nom == "TerraUSD Classic (UST)");
+
+                                terraUsd = false;
+                            }
+                            else if (terra2)
+                            {
+                                prod = Program.Sessio.ProdAccions.Single(w => w.Empresa.Nom == "Terra 2.0 (LUNA2)");
+
+                                terra2 = false;
+                            }
+
+                            creaValoracio(data.GetValueOrDefault(DateTime.Now), prod, valorInversio / prod._Participacions, ref avis);
+
+                            contPos = 0;
+                        }
+                    } 
                 }
 
 
