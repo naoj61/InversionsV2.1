@@ -31,10 +31,6 @@ namespace Inversions.GUI
             bool pasteSelfBankTancaAlDesar = Convert.ToBoolean(Program.LlegeigVariableEnRegistreWindows(NomVarRegTancaAlDesar, true));
             ckTancaAlDesar.Checked = pasteSelfBankTancaAlDesar;
             ckTancaAlDesar.CheckedChanged += ckTancaAlDesar_CheckedChanged;
-
-            bool pasteSelfBankCapturaAutomaticament = Convert.ToBoolean(Program.LlegeigVariableEnRegistreWindows(NomVarRegCapturaAutomaticament, true));
-            ckCapturaAutomaticament.Checked = pasteSelfBankCapturaAutomaticament;
-            ckCapturaAutomaticament_CheckedChanged(ckCapturaAutomaticament, new EventArgs());
         }
 
         private const string NomVarRegTancaAlDesar = "PasteSelfBankTancaAlDesar";
@@ -61,108 +57,55 @@ namespace Inversions.GUI
 
             try
             {
+                bool avis = false;
+
                 data = data ?? DateTime.Now;
               
                 dataGridView1.Rows.Clear();
 
                 var text1 = tbPaste.Text.Replace(Environment.NewLine, "\t");
                 var items = text1.Split(new char[] {'\t',}, StringSplitOptions.RemoveEmptyEntries);
+
                 ProdAccions prod = null;
-
-                bool avis = false;
-
-
-                // *** Format nou de Kraken ***
-
-                int contPos = 0;
+                var pos = items[0] == "Kraken" ? 1 : 4;
 
                 for (int i = 0; i < items.Count(); i++)
                 {
-                    if (items[i] == "LUNA")
+                    switch (items[i])
                     {
-                        prod = Program.Sessio.ProdAccions.Single(w => w.Empresa.Nom == "Terra Classic (LUNA)");
-                    }
-                    else if (items[i] == "UST")
-                    {
-                        prod = Program.Sessio.ProdAccions.Single(w => w.Empresa.Nom == "TerraUSD Classic (UST)");
-                    }
-                    else if (items[i] == "LUNA2")
-                    {
-                        prod = Program.Sessio.ProdAccions.Single(w => w.Empresa.Nom == "Terra 2.0 (LUNA2)");
+                        case "LUNA":
+                            prod = Program.Sessio.ProdAccions.Single(w => w.Empresa.Nom == "Terra Classic (LUNA)");
+                            break;
+                        case "UST":
+                            prod = Program.Sessio.ProdAccions.Single(w => w.Empresa.Nom == "TerraUSD Classic (UST)");
+                            break;
+                        case "LUNA2":
+                            prod = Program.Sessio.ProdAccions.Single(w => w.Empresa.Nom == "Terra 2.0 (LUNA2)");
+                            break;
                     }
 
                     if (prod != null)
                     {
-                        contPos++;
+                        i += pos;
 
-                        if (items[0] == "Kraken" && contPos == 2 || items[0] != "Kraken" && contPos == 5)
-                        {
-                            // *** Elimina el simbol de euro al inici ***
-                            string valorStr = Char.IsNumber(items[i][0]) ? items[i] : items[i].Substring(1);
+                        // *** Elimina el simbol de euro al inici ***
+                        string valorStr = Char.IsNumber(items[i][0]) ? items[i] : items[i].Substring(1);
 
-                            // Si contPos = 2 -> valor = Preu moneda. Si contPos = 5 -> valor = Valor inversió.
-                            var valor = Convert.ToDecimal(valorStr, CultureInfo.InvariantCulture);
+                        // Si pos = 1 -> valor = Preu moneda. Si pos = 4 -> valor = Valor inversió.
+                        var valor = Convert.ToDecimal(valorStr, CultureInfo.InvariantCulture);
 
-                            if (items[0] == "Kraken")
-                                // *** Paste a partir de la pantalla de preus, sense fer login.
-                                // 'valor' és el preu de la moneda.
-                                creaValoracio(data.GetValueOrDefault(DateTime.Now), prod, valor, ref avis);
-                            else
-                                // Per obtenir més precisió en el valor de la criptomoneda(Kraken no la dona) divideixo valor de la inversió actual per numparts.
-                                // 'valor' és el valor de la inversió.
-                                creaValoracio(data.GetValueOrDefault(DateTime.Now), prod, valor / prod._Participacions, ref avis);
+                        if (items[0] == "Kraken")
+                            // *** Paste a partir de la pantalla de preus, sense fer login.
+                            // 'valor' és el preu de la moneda.
+                            creaValoracio(data.GetValueOrDefault(DateTime.Now), prod, valor, ref avis);
+                        else
+                            // Per obtenir més precisió en el valor de la criptomoneda(Kraken no la dona) divideixo valor de la inversió actual per numparts.
+                            // 'valor' és el valor de la inversió.
+                            creaValoracio(data.GetValueOrDefault(DateTime.Now), prod, valor / prod._Participacions, ref avis);
 
-                            contPos = 0;
-                            prod = null;
-                        }
+                        prod = null;
                     }
                 }
-
-
-                #region *** Format antic de Kraken ***
-
-                /*
-                int posPreuPart = 4;
-
-                for (int i = 0; i < items.Count(); i++)
-                {
-                    if (!data.HasValue && items[i].IndexOf("Current time:", StringComparison.OrdinalIgnoreCase) == 0)
-                    {
-                        string sData = items[i].Substring(14, 17);
-                        try
-                        {
-                            data = Convert.ToDateTime(sData, CultureInfo.InvariantCulture);
-                        }
-                        catch (FormatException)
-                        {
-                            data = Convert.ToDateTime(sData, CultureInfo.CurrentCulture);
-                        }
-                        var difDiesDataActualIDataPaste = ((TimeSpan) (data - DateTime.Now)).Days;
-
-                        if (Math.Abs(difDiesDataActualIDataPaste) > 7)
-                        {
-                            if (MessageBox.Show(String.Format("Diferència de dies {0} en la data {1} és massa gran. És correcte?"
-                                , difDiesDataActualIDataPaste, data.Value.ToShortDateString()), "Atenció", MessageBoxButtons.YesNo) == DialogResult.No)
-                                return;
-                        }
-                    }
-                    else
-                    {
-                        var nom = items[i];
-                        prod = Program.Sessio.ProdAccions.SingleOrDefault(w => w.Empresa.Nom == nom);
-                        if (prod != null)
-                        {
-                            i += posPreuPart;
-                            decimal preuPart = Convert.ToDecimal(items[i], CultureInfo.InvariantCulture);
-
-                            creaValoracio(data, prod, preuPart, ref avis);
-                        }
-                    }
-                }
-                */
-
-                #endregion
-
 
                 btDesa.Enabled = dataGridView1.Rows.Count > 0;
 
@@ -297,7 +240,7 @@ namespace Inversions.GUI
                 dataGridView1.Rows[numFila].Cells[colDif.Name].Style.ForeColor = Color.Red;
             }
 
-            if (Math.Abs(difPercent) >= DiferenciaMaimaxPreu)
+            if (Math.Abs(difPercent) >= DiferenciaMaimaxPreu / 100M)
             {
                 // Diferència superior al 10% en el preu.
                 dataGridView1.Rows[numFila].Cells[colEstatOriginalCheckBox.Name].Value = false;
@@ -377,17 +320,6 @@ namespace Inversions.GUI
             Program.DesaVariableEnRegistreWindows(NomVarRegTancaAlDesar, ckTancaAlDesar.Checked.ToString(), true);
         }
 
-        private void ckCapturaAutomaticament_CheckedChanged(object sender, EventArgs e)
-        {
-            Program.DesaVariableEnRegistreWindows(NomVarRegCapturaAutomaticament, ckCapturaAutomaticament.Checked.ToString(), true);
-            btCapturaValors.Enabled = !ckCapturaAutomaticament.Checked;
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            if (ckCapturaAutomaticament.Checked)
-                capturaValorsPaste();
-        }
 
         private void cbColumnaPreuParticio_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -430,9 +362,18 @@ namespace Inversions.GUI
 
         private void validaDataUnica()
         {
-
             // Comprovar si s'han de sobreescriure valors per la data.
             capturaValorsPaste(ckDataUnica.Checked ? dtpDataUnica.Value : (DateTime?) null);
+        }
+        
+
+        private void PasteSelfBank_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+            {
+                capturaValorsPaste();
+                e.Handled = true;
+            }
         }
     }
 }

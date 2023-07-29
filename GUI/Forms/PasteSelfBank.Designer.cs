@@ -28,17 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tbPaste = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.ckTancaAlDesar = new System.Windows.Forms.CheckBox();
             this.btDesa = new System.Windows.Forms.Button();
-            this.ckCapturaAutomaticament = new System.Windows.Forms.CheckBox();
-            this.btCapturaValors = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dtpDataUnica = new System.Windows.Forms.DateTimePicker();
             this.ckDataUnica = new System.Windows.Forms.CheckBox();
@@ -74,15 +72,12 @@
             this.tbPaste.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tbPaste.Size = new System.Drawing.Size(433, 722);
             this.tbPaste.TabIndex = 0;
-            this.tbPaste.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.Controls.Add(this.ckTancaAlDesar);
             this.flowLayoutPanel1.Controls.Add(this.btDesa);
-            this.flowLayoutPanel1.Controls.Add(this.ckCapturaAutomaticament);
-            this.flowLayoutPanel1.Controls.Add(this.btCapturaValors);
             this.flowLayoutPanel1.Controls.Add(this.panel1);
             this.flowLayoutPanel1.Controls.Add(this.groupBox1);
             this.flowLayoutPanel1.Controls.Add(this.ckSobreescriuValoracions);
@@ -121,36 +116,11 @@
             this.btDesa.UseVisualStyleBackColor = true;
             this.btDesa.Click += new System.EventHandler(this.btDesa_Click);
             // 
-            // ckCapturaAutomaticament
-            // 
-            this.ckCapturaAutomaticament.AutoSize = true;
-            this.ckCapturaAutomaticament.Checked = true;
-            this.ckCapturaAutomaticament.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ckCapturaAutomaticament.Location = new System.Drawing.Point(892, 26);
-            this.ckCapturaAutomaticament.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
-            this.ckCapturaAutomaticament.Name = "ckCapturaAutomaticament";
-            this.ckCapturaAutomaticament.Size = new System.Drawing.Size(176, 24);
-            this.ckCapturaAutomaticament.TabIndex = 2;
-            this.ckCapturaAutomaticament.Text = "Captura al fer Paste";
-            this.ckCapturaAutomaticament.UseVisualStyleBackColor = true;
-            this.ckCapturaAutomaticament.CheckedChanged += new System.EventHandler(this.ckCapturaAutomaticament_CheckedChanged);
-            // 
-            // btCapturaValors
-            // 
-            this.btCapturaValors.Location = new System.Drawing.Point(777, 10);
-            this.btCapturaValors.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btCapturaValors.Name = "btCapturaValors";
-            this.btCapturaValors.Size = new System.Drawing.Size(109, 55);
-            this.btCapturaValors.TabIndex = 0;
-            this.btCapturaValors.Text = "Captura Valors";
-            this.btCapturaValors.UseVisualStyleBackColor = true;
-            this.btCapturaValors.Click += new System.EventHandler(this.btCapturaValors_Click);
-            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.dtpDataUnica);
             this.panel1.Controls.Add(this.ckDataUnica);
-            this.panel1.Location = new System.Drawing.Point(637, 9);
+            this.panel1.Location = new System.Drawing.Point(934, 9);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(134, 61);
             this.panel1.TabIndex = 4;
@@ -181,7 +151,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.cbColumnaPreuParticio);
-            this.groupBox1.Location = new System.Drawing.Point(431, 9);
+            this.groupBox1.Location = new System.Drawing.Point(728, 9);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(200, 60);
             this.groupBox1.TabIndex = 3;
@@ -210,7 +180,7 @@
             // 
             // ckSobreescriuValoracions
             // 
-            this.ckSobreescriuValoracions.Location = new System.Drawing.Point(296, 9);
+            this.ckSobreescriuValoracions.Location = new System.Drawing.Point(593, 9);
             this.ckSobreescriuValoracions.Name = "ckSobreescriuValoracions";
             this.ckSobreescriuValoracions.Size = new System.Drawing.Size(129, 61);
             this.ckSobreescriuValoracions.TabIndex = 2;
@@ -222,7 +192,7 @@
             // 
             this.panel2.Controls.Add(this.textBox3);
             this.panel2.Controls.Add(this.textBox2);
-            this.panel2.Location = new System.Drawing.Point(67, 9);
+            this.panel2.Location = new System.Drawing.Point(364, 9);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(223, 58);
             this.panel2.TabIndex = 5;
@@ -305,9 +275,9 @@
             // colData
             // 
             this.colData.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle1.Format = "d";
-            dataGridViewCellStyle1.NullValue = null;
-            this.colData.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle11.Format = "d";
+            dataGridViewCellStyle11.NullValue = null;
+            this.colData.DefaultCellStyle = dataGridViewCellStyle11;
             this.colData.HeaderText = "Data";
             this.colData.Name = "colData";
             this.colData.ReadOnly = true;
@@ -318,10 +288,10 @@
             // colValorActual
             // 
             this.colValorActual.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Format = "#,#0.00###### €";
-            dataGridViewCellStyle2.NullValue = null;
-            this.colValorActual.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle12.Format = "#,#0.00###### €";
+            dataGridViewCellStyle12.NullValue = null;
+            this.colValorActual.DefaultCellStyle = dataGridViewCellStyle12;
             this.colValorActual.HeaderText = "Valor Act";
             this.colValorActual.Name = "colValorActual";
             this.colValorActual.ReadOnly = true;
@@ -332,10 +302,10 @@
             // colValorNou
             // 
             this.colValorNou.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "#,#0.00###### €";
-            dataGridViewCellStyle3.NullValue = "0";
-            this.colValorNou.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle13.Format = "#,#0.00###### €";
+            dataGridViewCellStyle13.NullValue = "0";
+            this.colValorNou.DefaultCellStyle = dataGridViewCellStyle13;
             this.colValorNou.HeaderText = "Valor Nou";
             this.colValorNou.Name = "colValorNou";
             this.colValorNou.ReadOnly = true;
@@ -346,10 +316,10 @@
             // colPercentatge
             // 
             this.colPercentatge.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "#0.000 %";
-            dataGridViewCellStyle4.NullValue = null;
-            this.colPercentatge.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle14.Format = "#0.000 %";
+            dataGridViewCellStyle14.NullValue = null;
+            this.colPercentatge.DefaultCellStyle = dataGridViewCellStyle14;
             this.colPercentatge.HeaderText = "%";
             this.colPercentatge.Name = "colPercentatge";
             this.colPercentatge.ReadOnly = true;
@@ -360,10 +330,10 @@
             // colDif
             // 
             this.colDif.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Format = "#,#0.00 €";
-            dataGridViewCellStyle5.NullValue = null;
-            this.colDif.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle15.Format = "#,#0.00 €";
+            dataGridViewCellStyle15.NullValue = null;
+            this.colDif.DefaultCellStyle = dataGridViewCellStyle15;
             this.colDif.HeaderText = "Dif";
             this.colDif.Name = "colDif";
             this.colDif.ReadOnly = true;
@@ -379,11 +349,13 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.tbPaste);
             this.Controls.Add(this.flowLayoutPanel1);
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "PasteSelfBank";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "PasteSelfBank";
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PasteSelfBank_KeyPress);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -401,12 +373,10 @@
 
         private System.Windows.Forms.TextBox tbPaste;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Button btCapturaValors;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button btDesa;
         private System.Windows.Forms.DateTimePicker dtpDataUnica;
         private System.Windows.Forms.CheckBox ckTancaAlDesar;
-        private System.Windows.Forms.CheckBox ckCapturaAutomaticament;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.CheckBox ckDataUnica;
         private System.Windows.Forms.CheckBox ckSobreescriuValoracions;
