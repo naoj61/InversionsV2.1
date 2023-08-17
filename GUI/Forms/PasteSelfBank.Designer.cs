@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tbPaste = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.ckTancaAlDesar = new System.Windows.Forms.CheckBox();
@@ -46,6 +46,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.btCapturaValorPaste = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.colEstatOriginalCheckBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colNomFons = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -82,6 +83,7 @@
             this.flowLayoutPanel1.Controls.Add(this.groupBox1);
             this.flowLayoutPanel1.Controls.Add(this.ckSobreescriuValoracions);
             this.flowLayoutPanel1.Controls.Add(this.panel2);
+            this.flowLayoutPanel1.Controls.Add(this.btCapturaValorPaste);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 722);
@@ -224,6 +226,17 @@
             this.textBox2.TabIndex = 0;
             this.textBox2.Text = "Diferència superior al 10%";
             // 
+            // btCapturaValorPaste
+            // 
+            this.btCapturaValorPaste.Location = new System.Drawing.Point(249, 10);
+            this.btCapturaValorPaste.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btCapturaValorPaste.Name = "btCapturaValorPaste";
+            this.btCapturaValorPaste.Size = new System.Drawing.Size(109, 55);
+            this.btCapturaValorPaste.TabIndex = 0;
+            this.btCapturaValorPaste.Text = "Captura Paste";
+            this.btCapturaValorPaste.UseVisualStyleBackColor = true;
+            this.btCapturaValorPaste.Click += new System.EventHandler(this.btCapturaValorPaste_Click);
+            // 
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
@@ -275,9 +288,9 @@
             // colData
             // 
             this.colData.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle11.Format = "d";
-            dataGridViewCellStyle11.NullValue = null;
-            this.colData.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle1.Format = "d";
+            dataGridViewCellStyle1.NullValue = null;
+            this.colData.DefaultCellStyle = dataGridViewCellStyle1;
             this.colData.HeaderText = "Data";
             this.colData.Name = "colData";
             this.colData.ReadOnly = true;
@@ -288,10 +301,10 @@
             // colValorActual
             // 
             this.colValorActual.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle12.Format = "#,#0.00###### €";
-            dataGridViewCellStyle12.NullValue = null;
-            this.colValorActual.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Format = "#,#0.00###### €";
+            dataGridViewCellStyle2.NullValue = null;
+            this.colValorActual.DefaultCellStyle = dataGridViewCellStyle2;
             this.colValorActual.HeaderText = "Valor Act";
             this.colValorActual.Name = "colValorActual";
             this.colValorActual.ReadOnly = true;
@@ -302,10 +315,10 @@
             // colValorNou
             // 
             this.colValorNou.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle13.Format = "#,#0.00###### €";
-            dataGridViewCellStyle13.NullValue = "0";
-            this.colValorNou.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Format = "#,#0.00###### €";
+            dataGridViewCellStyle3.NullValue = "0";
+            this.colValorNou.DefaultCellStyle = dataGridViewCellStyle3;
             this.colValorNou.HeaderText = "Valor Nou";
             this.colValorNou.Name = "colValorNou";
             this.colValorNou.ReadOnly = true;
@@ -316,10 +329,10 @@
             // colPercentatge
             // 
             this.colPercentatge.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle14.Format = "#0.000 %";
-            dataGridViewCellStyle14.NullValue = null;
-            this.colPercentatge.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle4.Format = "#0.000 %";
+            dataGridViewCellStyle4.NullValue = null;
+            this.colPercentatge.DefaultCellStyle = dataGridViewCellStyle4;
             this.colPercentatge.HeaderText = "%";
             this.colPercentatge.Name = "colPercentatge";
             this.colPercentatge.ReadOnly = true;
@@ -330,10 +343,10 @@
             // colDif
             // 
             this.colDif.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle15.Format = "#,#0.00 €";
-            dataGridViewCellStyle15.NullValue = null;
-            this.colDif.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Format = "#,#0.00 €";
+            dataGridViewCellStyle5.NullValue = null;
+            this.colDif.DefaultCellStyle = dataGridViewCellStyle5;
             this.colDif.HeaderText = "Dif";
             this.colDif.Name = "colDif";
             this.colDif.ReadOnly = true;
@@ -343,6 +356,7 @@
             // 
             // PasteSelfBank
             // 
+            this.AcceptButton = this.btCapturaValorPaste;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1343, 801);
@@ -355,7 +369,6 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "PasteSelfBank";
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PasteSelfBank_KeyPress);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -393,5 +406,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colValorNou;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPercentatge;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDif;
+        private System.Windows.Forms.Button btCapturaValorPaste;
     }
 }

@@ -366,14 +366,9 @@ namespace Inversions.GUI
             capturaValorsPaste(ckDataUnica.Checked ? dtpDataUnica.Value : (DateTime?) null);
         }
         
-
-        private void PasteSelfBank_KeyPress(object sender, KeyPressEventArgs e)
+        private void btCapturaValorPaste_Click(object sender, EventArgs e)
         {
-            if (e.KeyChar == 13)
-            {
-                capturaValorsPaste();
-                e.Handled = true;
-            }
+            capturaValorsPaste();
         }
     }
 }
