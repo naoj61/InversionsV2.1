@@ -31,6 +31,10 @@ namespace Inversions.GUI
             bool pasteSelfBankTancaAlDesar = Convert.ToBoolean(Program.LlegeigVariableEnRegistreWindows(NomVarRegTancaAlDesar, true));
             ckTancaAlDesar.Checked = pasteSelfBankTancaAlDesar;
             ckTancaAlDesar.CheckedChanged += ckTancaAlDesar_CheckedChanged;
+
+
+            tbPaste.Text = Clipboard.GetText();
+            // tbPaste.Select(0, 0);
         }
 
         private const string NomVarRegTancaAlDesar = "PasteSelfBankTancaAlDesar";
@@ -251,13 +255,7 @@ namespace Inversions.GUI
                 avis = true;
             }
         }
-
-
-        private void btCapturaValors_Click(object sender, EventArgs e)
-        {
-            capturaValorsPaste();
-        }
-
+        
 
         private void btDesa_Click(object sender, EventArgs e)
         {
