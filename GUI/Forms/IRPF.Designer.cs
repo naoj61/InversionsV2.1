@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -90,6 +91,8 @@
             this.ckAgrupaCompres = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ntbMinimContribuent = new Controls.NumericTextBox2();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.ntbIngressosForaApp = new Controls.NumericTextBox2();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.ntbPerduesAnysAnteriors = new Controls.NumericTextBox2();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -99,7 +102,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.ntbDividents = new Controls.NumericTextBox2();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.btDesa = new System.Windows.Forms.Button();
+            this.btCancela = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.gbDividents.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProductes)).BeginInit();
             this.gbVendes.SuspendLayout();
@@ -108,10 +115,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvCompresVenda)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -123,7 +132,7 @@
             this.label1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(39, 20);
-            this.label1.TabIndex = 8;
+            this.label1.TabIndex = 0;
             this.label1.Text = "Any";
             // 
             // cbAny
@@ -133,7 +142,7 @@
             this.cbAny.Location = new System.Drawing.Point(51, 3);
             this.cbAny.Name = "cbAny";
             this.cbAny.Size = new System.Drawing.Size(121, 28);
-            this.cbAny.TabIndex = 4;
+            this.cbAny.TabIndex = 1;
             this.cbAny.SelectedIndexChanged += new System.EventHandler(this.cbAny_SelectedIndexChanged);
             // 
             // gbDividents
@@ -147,7 +156,7 @@
             this.gbDividents.Name = "gbDividents";
             this.gbDividents.Padding = new System.Windows.Forms.Padding(3, 5, 3, 0);
             this.gbDividents.Size = new System.Drawing.Size(1728, 122);
-            this.gbDividents.TabIndex = 11;
+            this.gbDividents.TabIndex = 1;
             this.gbDividents.TabStop = false;
             this.gbDividents.Text = "Dividents del any";
             // 
@@ -174,7 +183,7 @@
             this.dgvProductes.RowTemplate.Height = 28;
             this.dgvProductes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvProductes.Size = new System.Drawing.Size(1722, 79);
-            this.dgvProductes.TabIndex = 3;
+            this.dgvProductes.TabIndex = 0;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -214,7 +223,7 @@
             this.gbVendes.Name = "gbVendes";
             this.gbVendes.Padding = new System.Windows.Forms.Padding(3, 5, 3, 3);
             this.gbVendes.Size = new System.Drawing.Size(1728, 255);
-            this.gbVendes.TabIndex = 9;
+            this.gbVendes.TabIndex = 2;
             this.gbVendes.TabStop = false;
             this.gbVendes.Text = "Vendes del any";
             // 
@@ -373,8 +382,8 @@
             this.gbCompres.Margin = new System.Windows.Forms.Padding(3, 9, 3, 3);
             this.gbCompres.Name = "gbCompres";
             this.gbCompres.Padding = new System.Windows.Forms.Padding(3, 5, 3, 3);
-            this.gbCompres.Size = new System.Drawing.Size(1728, 290);
-            this.gbCompres.TabIndex = 10;
+            this.gbCompres.Size = new System.Drawing.Size(1728, 259);
+            this.gbCompres.TabIndex = 3;
             this.gbCompres.TabStop = false;
             this.gbCompres.Text = "Compres de la venda";
             // 
@@ -409,7 +418,7 @@
             this.dgvCompresVenda.Location = new System.Drawing.Point(3, 24);
             this.dgvCompresVenda.Name = "dgvCompresVenda";
             this.dgvCompresVenda.RowTemplate.Height = 28;
-            this.dgvCompresVenda.Size = new System.Drawing.Size(1722, 263);
+            this.dgvCompresVenda.Size = new System.Drawing.Size(1722, 232);
             this.dgvCompresVenda.TabIndex = 0;
             // 
             // Column5
@@ -584,17 +593,19 @@
             // 
             this.flowLayoutPanel1.Controls.Add(this.ckAgrupaCompres);
             this.flowLayoutPanel1.Controls.Add(this.groupBox1);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox6);
             this.flowLayoutPanel1.Controls.Add(this.groupBox2);
             this.flowLayoutPanel1.Controls.Add(this.groupBox3);
             this.flowLayoutPanel1.Controls.Add(this.groupBox4);
             this.flowLayoutPanel1.Controls.Add(this.label2);
             this.flowLayoutPanel1.Controls.Add(this.groupBox5);
+            this.flowLayoutPanel1.Controls.Add(this.panel2);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 709);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 678);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1728, 66);
-            this.flowLayoutPanel1.TabIndex = 12;
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1728, 97);
+            this.flowLayoutPanel1.TabIndex = 4;
             // 
             // ckAgrupaCompres
             // 
@@ -604,7 +615,7 @@
             this.ckAgrupaCompres.Location = new System.Drawing.Point(3, 8);
             this.ckAgrupaCompres.Name = "ckAgrupaCompres";
             this.ckAgrupaCompres.Size = new System.Drawing.Size(147, 45);
-            this.ckAgrupaCompres.TabIndex = 4;
+            this.ckAgrupaCompres.TabIndex = 0;
             this.ckAgrupaCompres.Text = "Agrupa Compres";
             this.ckAgrupaCompres.UseVisualStyleBackColor = true;
             this.ckAgrupaCompres.CheckedChanged += new System.EventHandler(this.ckAgrupaCompres_CheckedChanged);
@@ -613,98 +624,163 @@
             // 
             this.groupBox1.Controls.Add(this.ntbMinimContribuent);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(156, 8);
+            this.groupBox1.Location = new System.Drawing.Point(158, 8);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(5, 3, 3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(223, 53);
-            this.groupBox1.TabIndex = 3;
+            this.groupBox1.Size = new System.Drawing.Size(148, 80);
+            this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Import mínim contribuent";
+            this.toolTip1.SetToolTip(this.groupBox1, "És l\'import que està lliure de tributar");
             // 
             // ntbMinimContribuent
             // 
             this.ntbMinimContribuent._CapturaEscape = true;
             this.ntbMinimContribuent._Format = "#,##0.00 €";
+            this.ntbMinimContribuent._NegatiusEnVermell = false;
             this.ntbMinimContribuent._PermetDecimals = true;
             this.ntbMinimContribuent._PermetEspais = false;
             this.ntbMinimContribuent._PermetNegatius = true;
-            this.ntbMinimContribuent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbMinimContribuent.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.ntbMinimContribuent.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbMinimContribuent.Location = new System.Drawing.Point(3, 22);
+            this.ntbMinimContribuent.Location = new System.Drawing.Point(3, 51);
             this.ntbMinimContribuent.Name = "ntbMinimContribuent";
-            this.ntbMinimContribuent.Size = new System.Drawing.Size(217, 26);
-            this.ntbMinimContribuent.TabIndex = 2;
+            this.ntbMinimContribuent.Size = new System.Drawing.Size(142, 26);
+            this.ntbMinimContribuent.TabIndex = 0;
             this.ntbMinimContribuent.Text = "8.550,00 €";
             this.ntbMinimContribuent.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbMinimContribuent.Valor = 8550;
+            this.ntbMinimContribuent.Valor = new decimal(new int[] {
+            855000,
+            0,
+            0,
+            131072});
+            this.ntbMinimContribuent.ValorDouble = 8550D;
             this.ntbMinimContribuent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ntbMinimContribuent_KeyDown);
             this.ntbMinimContribuent.Validated += new System.EventHandler(this.ntbMinimContribuent_Validated);
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.ntbIngressosForaApp);
+            this.groupBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox6.Location = new System.Drawing.Point(314, 8);
+            this.groupBox6.Margin = new System.Windows.Forms.Padding(5, 3, 3, 3);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(159, 80);
+            this.groupBox6.TabIndex = 2;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Ingressos fora de l\'aplicació";
+            this.toolTip1.SetToolTip(this.groupBox6, "Son els interressos dels comptes o dels diposits");
+            // 
+            // ntbIngressosForaApp
+            // 
+            this.ntbIngressosForaApp._CapturaEscape = true;
+            this.ntbIngressosForaApp._Format = "#,##0.00 €";
+            this.ntbIngressosForaApp._NegatiusEnVermell = false;
+            this.ntbIngressosForaApp._PermetDecimals = true;
+            this.ntbIngressosForaApp._PermetEspais = false;
+            this.ntbIngressosForaApp._PermetNegatius = true;
+            this.ntbIngressosForaApp.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.ntbIngressosForaApp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbIngressosForaApp.Location = new System.Drawing.Point(3, 51);
+            this.ntbIngressosForaApp.Name = "ntbIngressosForaApp";
+            this.ntbIngressosForaApp.Size = new System.Drawing.Size(153, 26);
+            this.ntbIngressosForaApp.TabIndex = 0;
+            this.ntbIngressosForaApp.Text = "1.184,41 €";
+            this.ntbIngressosForaApp.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbIngressosForaApp.Valor = new decimal(new int[] {
+            118441,
+            0,
+            0,
+            131072});
+            this.ntbIngressosForaApp.ValorDouble = 1184.41D;
+            this.ntbIngressosForaApp.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ntbMinimContribuent_KeyDown);
+            this.ntbIngressosForaApp.Validated += new System.EventHandler(this.ntbIngressosForaApp_Validated);
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.ntbPerduesAnysAnteriors);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(385, 8);
+            this.groupBox2.Location = new System.Drawing.Point(481, 8);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(5, 3, 3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(223, 53);
+            this.groupBox2.Size = new System.Drawing.Size(148, 80);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Perdues anys anteriors";
+            this.toolTip1.SetToolTip(this.groupBox2, "Perdues pendents d\'amortitzar");
             // 
             // ntbPerduesAnysAnteriors
             // 
             this.ntbPerduesAnysAnteriors._CapturaEscape = true;
             this.ntbPerduesAnysAnteriors._Format = "#,##0.00 €";
+            this.ntbPerduesAnysAnteriors._NegatiusEnVermell = false;
             this.ntbPerduesAnysAnteriors._PermetDecimals = true;
             this.ntbPerduesAnysAnteriors._PermetEspais = false;
             this.ntbPerduesAnysAnteriors._PermetNegatius = true;
-            this.ntbPerduesAnysAnteriors.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbPerduesAnysAnteriors.BackColor = System.Drawing.SystemColors.Menu;
+            this.ntbPerduesAnysAnteriors.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.ntbPerduesAnysAnteriors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbPerduesAnysAnteriors.Location = new System.Drawing.Point(3, 22);
+            this.ntbPerduesAnysAnteriors.Location = new System.Drawing.Point(3, 51);
             this.ntbPerduesAnysAnteriors.Name = "ntbPerduesAnysAnteriors";
             this.ntbPerduesAnysAnteriors.ReadOnly = true;
-            this.ntbPerduesAnysAnteriors.Size = new System.Drawing.Size(217, 26);
-            this.ntbPerduesAnysAnteriors.TabIndex = 2;
+            this.ntbPerduesAnysAnteriors.Size = new System.Drawing.Size(142, 26);
+            this.ntbPerduesAnysAnteriors.TabIndex = 0;
             this.ntbPerduesAnysAnteriors.Text = "0,00 €";
             this.ntbPerduesAnysAnteriors.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPerduesAnysAnteriors.Valor = 0;
+            this.ntbPerduesAnysAnteriors.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.ntbPerduesAnysAnteriors.ValorDouble = 0D;
             // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.ntbPiG);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(614, 8);
+            this.groupBox3.Location = new System.Drawing.Point(637, 8);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(5, 3, 3, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(223, 53);
-            this.groupBox3.TabIndex = 3;
+            this.groupBox3.Size = new System.Drawing.Size(148, 80);
+            this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "PiG";
+            this.toolTip1.SetToolTip(this.groupBox3, "PiG de l\'any");
             // 
             // ntbPiG
             // 
             this.ntbPiG._CapturaEscape = true;
             this.ntbPiG._Format = "#,##0.00 €";
+            this.ntbPiG._NegatiusEnVermell = false;
             this.ntbPiG._PermetDecimals = true;
             this.ntbPiG._PermetEspais = false;
             this.ntbPiG._PermetNegatius = true;
-            this.ntbPiG.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbPiG.BackColor = System.Drawing.SystemColors.Menu;
+            this.ntbPiG.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.ntbPiG.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbPiG.Location = new System.Drawing.Point(3, 22);
+            this.ntbPiG.Location = new System.Drawing.Point(3, 51);
             this.ntbPiG.Name = "ntbPiG";
             this.ntbPiG.ReadOnly = true;
-            this.ntbPiG.Size = new System.Drawing.Size(217, 26);
-            this.ntbPiG.TabIndex = 2;
+            this.ntbPiG.Size = new System.Drawing.Size(142, 26);
+            this.ntbPiG.TabIndex = 0;
             this.ntbPiG.Text = "0,00 €";
             this.ntbPiG.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPiG.Valor = 0;
+            this.ntbPiG.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.ntbPiG.ValorDouble = 0D;
             // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.ntbTotalTributar);
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox4.Location = new System.Drawing.Point(843, 8);
+            this.groupBox4.Location = new System.Drawing.Point(793, 8);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(5, 3, 3, 3);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(223, 53);
-            this.groupBox4.TabIndex = 3;
+            this.groupBox4.Size = new System.Drawing.Size(148, 80);
+            this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Total a tributar";
             // 
@@ -712,25 +788,32 @@
             // 
             this.ntbTotalTributar._CapturaEscape = true;
             this.ntbTotalTributar._Format = "#,##0.00 €";
+            this.ntbTotalTributar._NegatiusEnVermell = true;
             this.ntbTotalTributar._PermetDecimals = true;
             this.ntbTotalTributar._PermetEspais = false;
             this.ntbTotalTributar._PermetNegatius = true;
-            this.ntbTotalTributar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbTotalTributar.BackColor = System.Drawing.SystemColors.Menu;
+            this.ntbTotalTributar.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.ntbTotalTributar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbTotalTributar.Location = new System.Drawing.Point(3, 22);
+            this.ntbTotalTributar.Location = new System.Drawing.Point(3, 51);
             this.ntbTotalTributar.Name = "ntbTotalTributar";
             this.ntbTotalTributar.ReadOnly = true;
-            this.ntbTotalTributar.Size = new System.Drawing.Size(217, 26);
-            this.ntbTotalTributar.TabIndex = 2;
+            this.ntbTotalTributar.Size = new System.Drawing.Size(142, 26);
+            this.ntbTotalTributar.TabIndex = 0;
             this.ntbTotalTributar.Text = "0,00 €";
             this.ntbTotalTributar.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbTotalTributar.Valor = 0;
+            this.ntbTotalTributar.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.ntbTotalTributar.ValorDouble = 0D;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(1077, 27);
+            this.label2.Location = new System.Drawing.Point(952, 27);
             this.label2.Margin = new System.Windows.Forms.Padding(8, 22, 3, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(261, 26);
@@ -741,10 +824,11 @@
             // 
             this.groupBox5.Controls.Add(this.ntbDividents);
             this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox5.Location = new System.Drawing.Point(1344, 8);
+            this.groupBox5.Location = new System.Drawing.Point(1221, 8);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(5, 3, 3, 3);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(223, 53);
-            this.groupBox5.TabIndex = 5;
+            this.groupBox5.Size = new System.Drawing.Size(148, 80);
+            this.groupBox5.TabIndex = 7;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Dividents";
             // 
@@ -752,19 +836,62 @@
             // 
             this.ntbDividents._CapturaEscape = true;
             this.ntbDividents._Format = "#,##0.00 €";
+            this.ntbDividents._NegatiusEnVermell = false;
             this.ntbDividents._PermetDecimals = true;
             this.ntbDividents._PermetEspais = false;
             this.ntbDividents._PermetNegatius = true;
-            this.ntbDividents.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbDividents.BackColor = System.Drawing.SystemColors.Menu;
+            this.ntbDividents.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.ntbDividents.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbDividents.Location = new System.Drawing.Point(3, 22);
+            this.ntbDividents.Location = new System.Drawing.Point(3, 51);
             this.ntbDividents.Name = "ntbDividents";
             this.ntbDividents.ReadOnly = true;
-            this.ntbDividents.Size = new System.Drawing.Size(217, 26);
-            this.ntbDividents.TabIndex = 2;
+            this.ntbDividents.Size = new System.Drawing.Size(142, 26);
+            this.ntbDividents.TabIndex = 0;
             this.ntbDividents.Text = "0,00 €";
             this.ntbDividents.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbDividents.Valor = 0;
+            this.ntbDividents.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.ntbDividents.ValorDouble = 0D;
+            // 
+            // panel2
+            // 
+            this.panel2.AutoSize = true;
+            this.panel2.Controls.Add(this.btDesa);
+            this.panel2.Controls.Add(this.btCancela);
+            this.panel2.Location = new System.Drawing.Point(1375, 8);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(137, 75);
+            this.panel2.TabIndex = 8;
+            // 
+            // btDesa
+            // 
+            this.btDesa.Enabled = false;
+            this.btDesa.ForeColor = System.Drawing.Color.Green;
+            this.btDesa.Location = new System.Drawing.Point(6, 41);
+            this.btDesa.Margin = new System.Windows.Forms.Padding(9, 0, 0, 0);
+            this.btDesa.Name = "btDesa";
+            this.btDesa.Size = new System.Drawing.Size(122, 34);
+            this.btDesa.TabIndex = 7;
+            this.btDesa.Text = "Desa";
+            this.btDesa.UseVisualStyleBackColor = true;
+            this.btDesa.Click += new System.EventHandler(this.btDesa_Click);
+            // 
+            // btCancela
+            // 
+            this.btCancela.Enabled = false;
+            this.btCancela.ForeColor = System.Drawing.Color.Red;
+            this.btCancela.Location = new System.Drawing.Point(6, -1);
+            this.btCancela.Margin = new System.Windows.Forms.Padding(9);
+            this.btCancela.Name = "btCancela";
+            this.btCancela.Size = new System.Drawing.Size(122, 34);
+            this.btCancela.TabIndex = 8;
+            this.btCancela.Text = "Cancela";
+            this.btCancela.UseVisualStyleBackColor = true;
+            this.btCancela.Click += new System.EventHandler(this.btCancela_Click);
             // 
             // panel1
             // 
@@ -774,7 +901,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1728, 42);
-            this.panel1.TabIndex = 13;
+            this.panel1.TabIndex = 0;
             // 
             // IRPF
             // 
@@ -790,6 +917,7 @@
             this.Name = "IRPF";
             this.ShowInTaskbar = false;
             this.Text = "IRPF";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Shown += new System.EventHandler(this.IRPF_Shown);
             this.gbDividents.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvProductes)).EndInit();
@@ -801,6 +929,8 @@
             this.flowLayoutPanel1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -809,6 +939,7 @@
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.panel2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
@@ -868,5 +999,11 @@
         private System.Windows.Forms.GroupBox groupBox5;
         private Controls.NumericTextBox2 ntbDividents;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private Controls.NumericTextBox2 ntbIngressosForaApp;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button btDesa;
+        private System.Windows.Forms.Button btCancela;
     }
 }

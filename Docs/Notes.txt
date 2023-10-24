@@ -1,11 +1,17 @@
-﻿-Nova pestanya IRPF
-Perdues pendents anys anteriors
-PiG any
-Vendes any. Id; Data; Prod; Parts; PU; Desp; Brut; Net.
-Desgloç compres de les vendes any. Id; Data; Parts; PU; Desp; Brut; Net.
-Import a tributar. Guanys - perdues anys anteriors.
-Import mínim contribuent. 2021->8.550€
+﻿-Simulació vendes
+	- Afegir Els ingressos de cada any aconseguits fora de les inversions(P.Ex. Interessos diposits).
+	- Desar l'import de la desgravació per anys. P. Ex. al 2023 és de 8.550€. Per defecte s'agafa la del últim any que s'hagi informat.
+	
 
+-Nova pestanya IRPF
+	Perdues pendents anys anteriors
+	PiG any
+	Vendes any. Id; Data; Prod; Parts; PU; Desp; Brut; Net.
+	Desgloç compres de les vendes any. Id; Data; Parts; PU; Desp; Brut; Net.
+	Import a tributar. Guanys - perdues anys anteriors.
+	Import mínim contribuent. 2021->8.550€
+
+	
 _Compra
 _Id
 _Data
@@ -40,7 +46,7 @@ _ImportVendaNetUtil
 4-Thailand A-USD
 5-Deutschland
 
-
+	
             // Todo: PiG Intermig.
 
 LU0122376428-BGF World Energy A2

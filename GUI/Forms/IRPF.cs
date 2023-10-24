@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Comuns;
+using Microsoft.Win32;
 
 namespace Inversions.GUI.Forms
 {
@@ -328,10 +330,19 @@ namespace Inversions.GUI.Forms
 
         private void calculaTotalATributar()
         {
-            var totATributar = ntbPiG.Valor - ntbPerduesAnysAnteriors.Valor - ntbMinimContribuent.Valor;
-            ntbTotalTributar.Valor = totATributar <= 0 ? 0 : totATributar;
+            ntbTotalTributar.Valor = ntbPiG.Valor + ntbIngressosForaApp.Valor + ntbDividents.Valor 
+                - ntbPerduesAnysAnteriors.Valor - ntbMinimContribuent.Valor;
+
+            var activaBotons = vImportMinimContribuent != ntbMinimContribuent.Valor || vIngressosForaApp != ntbIngressosForaApp.Valor;
+
+            btCancela.Enabled = activaBotons;
+            btDesa.Enabled = activaBotons;
         }
 
+        private const string RegImportMinimContribuent = "ImportMinimContribuent";
+        private const string RegIngressosForaApp = "IngressosForaApp";
+        private decimal vImportMinimContribuent, vIngressosForaApp;
+        private string vClauReg;
 
         private void cbAny_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -346,6 +357,18 @@ namespace Inversions.GUI.Forms
             ntbPerduesAnysAnteriors.Valor = -Producte.PerduesDarrersQuatreAnys(vAny);
 
             seleccionaFilesDataGrid();
+
+            vClauReg = Utilitats.CreaClauRegistre() + "\\" + Usuari.Seleccionat.Nom + "\\" + cbAny.Text;
+
+            var dd1 = Utilitats.LlegeixVariableRegistre(Registry.CurrentUser, vClauReg, RegImportMinimContribuent);
+            Decimal.TryParse(dd1, out vImportMinimContribuent);
+            ntbMinimContribuent.Valor = vImportMinimContribuent;
+
+            var dd2 = Utilitats.LlegeixVariableRegistre(Registry.CurrentUser, vClauReg, RegIngressosForaApp);
+            Decimal.TryParse(dd2, out vIngressosForaApp);
+            ntbIngressosForaApp.Valor = vIngressosForaApp;
+
+            calculaTotalATributar();
         }
 
         private void seleccionaFilesDataGrid()
@@ -402,11 +425,6 @@ namespace Inversions.GUI.Forms
             ompleGridCompresDeLaVenda();
         }
 
-        private void ntbMinimContribuent_Validated(object sender, EventArgs e)
-        {
-            calculaTotalATributar();
-        }
-
         private void ntbMinimContribuent_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -416,6 +434,42 @@ namespace Inversions.GUI.Forms
                 if (String.IsNullOrEmpty(ntbMinimContribuent.Text))
                     ntbMinimContribuent.Text = "0";
             }
+        }
+
+        private void btCancela_Click(object sender, EventArgs e)
+        {
+            ntbMinimContribuent.Valor = vImportMinimContribuent;
+            ntbIngressosForaApp.Valor = vIngressosForaApp;
+
+            calculaTotalATributar();
+
+            btCancela.Enabled = false;
+            btDesa.Enabled = false;
+        }
+
+        private void btDesa_Click(object sender, EventArgs e)
+        {
+            Utilitats.GravaVariableRegistre(Registry.CurrentUser, vClauReg, RegImportMinimContribuent, ntbMinimContribuent.Valor);
+            Utilitats.GravaVariableRegistre(Registry.CurrentUser, vClauReg, RegIngressosForaApp, ntbIngressosForaApp.Valor);
+
+            vImportMinimContribuent = ntbMinimContribuent.Valor;
+            vIngressosForaApp = ntbIngressosForaApp.Valor;
+
+            btCancela.Enabled = false;
+            btDesa.Enabled = false;
+        }
+
+        private void ntbMinimContribuent_Validated(object sender, EventArgs e)
+        {
+            if (vImportMinimContribuent != ntbMinimContribuent.Valor)
+                calculaTotalATributar();
+        }
+
+
+        private void ntbIngressosForaApp_Validated(object sender, EventArgs e)
+        {
+            if (vIngressosForaApp != ntbIngressosForaApp.Valor)
+                calculaTotalATributar();
         }
     }
 }
