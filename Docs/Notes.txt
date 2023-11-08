@@ -1,4 +1,8 @@
-﻿-Simulació vendes
+﻿-Nova ponderació en les gràfiques.
+
+- Al mostrar les valoracions, eliminar les dates en que no hi ha participacions.
+
+-Simulació vendes
 	- Afegir Els ingressos de cada any aconseguits fora de les inversions(P.Ex. Interessos diposits).
 	- Desar l'import de la desgravació per anys. P. Ex. al 2023 és de 8.550€. Per defecte s'agafa la del últim any que s'hagi informat.
 	
