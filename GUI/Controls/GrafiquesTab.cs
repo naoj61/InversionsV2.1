@@ -30,26 +30,6 @@ namespace Inversions.GUI
             gestioProductesTabValoracions.aplicaFiltre();
         }
 
-        private void creaGraficaDelProducte(Producte producte, DateTime dataInici, DateTime dataFinal)
-        {
-            Dictionary<Valoracio, decimal> valoracions = producte.valoracionsPonderades(ckPonderat.Checked, dataInici, dataFinal);
-
-            if (valoracions == null)
-            {
-                MessageBox.Show(String.Format("No hi ha cap valoració pel producte: {0} amb data d'inici: {1}", producte._NomProducte, dataInici.ToShortDateString()),
-                    "Atenció", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            chart1.DataBindTable(valoracions.Select(x => new { x.Value, x.Key.Data }).ToList(), "Data");
-
-            Series series1 = chart1.Series["Value"]; // És el nom de la variable del eix X.
-            series1.XValueType = ChartValueType.Date;
-            series1.ChartType = SeriesChartType.Line;
-            series1.Name = producte._NomProducte;
-            series1.Tag = producte;
-            //series1.Legend = "Legend1";
-        }
 
         private void activaBotoGrafiques(bool forçaActivacio = false)
         {
@@ -60,6 +40,84 @@ namespace Inversions.GUI
                 acceptButton(btgActualitzaGrafiques);
                 if (Utilitats.TeFocus(gestioProductesTabValoracions))
                     panel2.Focus();
+            }
+        }
+
+
+        private void creaGrafica()
+        {
+            var dataInici = dtpInici.Value.GetValueOrDefault(DateTime.MinValue);
+
+            // *** Troba la data comun mínima ***
+            var dataIniciMin = dataInici;
+            foreach (var prodSelect in gestioProductesTabValoracions.productesSeleccionats())
+            {
+                var vals = prodSelect.ValoracionsProducte.Where(w => w.Data >= dataInici && w.PreuParticipacio > 0)
+                    .OrderBy(o => o.Data);
+
+                dataIniciMin = new DateTime(Math.Max(dataIniciMin.Ticks, vals.First().Data.Ticks));
+            }
+
+            if (ckDataIniciComu.Checked)
+                dataInici = dataIniciMin;
+
+
+            // *** Troba el primer valor minim
+            var primerValorMinim = Decimal.MaxValue;
+            foreach (var prodSelect in gestioProductesTabValoracions.productesSeleccionats())
+            {
+                var vals = prodSelect.ValoracionsProducte.Where(w => w.Data >= dataInici && w.PreuParticipacio > 0)
+                    .OrderBy(o => o.Data);
+
+                primerValorMinim = Math.Min(primerValorMinim, vals.First().PreuParticipacio);
+            }
+
+
+            // ******* Crea gràfica **********
+
+            var siPonderar = ckPonderat.Checked && gestioProductesTabValoracions.productesSeleccionats().Count() > 1;
+            var valorMinim = Decimal.MaxValue;
+            var valorMaxim = Decimal.MinValue;
+
+            chart1.Series.Clear();
+
+            foreach (var prodSelect in gestioProductesTabValoracions.productesSeleccionats())
+            {
+                var vals = prodSelect.ValoracionsProducte.Where(w => w.Data >= dataInici && w.PreuParticipacio > 0).OrderBy(o => o.Data);
+
+                if (!vals.Any())
+                {
+                    MessageBox.Show(String.Format("No hi ha cap valoració pel producte: {0} amb data d'inici: {1}", prodSelect._NomProducte,
+                        dataInici.ToShortDateString()), "Atenció", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                Dictionary<Valoracio, decimal> valoracions = new Dictionary<Valoracio, decimal>(vals.Count());
+
+                var coeficient = primerValorMinim / vals.First().PreuParticipacio;
+
+                foreach (var valoracio in vals)
+                {
+                    var valorPonderat = Math.Round((siPonderar
+                        ? (valoracio.PreuParticipacio * coeficient - primerValorMinim)
+                        : valoracio.PreuParticipacio), 5);
+
+                    valoracions.Add(valoracio, valorPonderat);
+
+                    valorMinim = Math.Min(valorMinim, valorPonderat);
+                    valorMaxim = Math.Max(valorMaxim, valorPonderat);
+                }
+
+                vChartArea.AxisY.Interval = (double)(ckIntervalAutomatic.Checked ? (valorMaxim - valorMinim) / 10 : ntbIntervalEixY.Valor);
+                vChartArea.AxisY.Minimum = (double)valorMinim;
+                vChartArea.AxisY.Maximum = (double)valorMaxim;
+                chart1.DataBindTable(valoracions.Select(x => new { x.Value, x.Key.Data }).ToList(), "Data");
+                Series series1 = chart1.Series["Value"]; // És el nom de la variable del eix X.
+                series1.XValueType = ChartValueType.Date;
+                series1.ChartType = SeriesChartType.Line;
+                series1.Name = prodSelect._NomProducte;
+                series1.Tag = prodSelect;
+                //series1.Legend = "Legend1";
             }
         }
 
@@ -80,26 +138,15 @@ namespace Inversions.GUI
         {
             if (e.HitTestResult.ChartElementType == ChartElementType.DataPoint)
             {
-                var producte = (Producte)e.HitTestResult.Series.Tag;
+                var producte = (Producte) e.HitTestResult.Series.Tag;
                 if (producte == null) return;
 
                 lbNomProducte.Text = e.HitTestResult.Series.Name;
 
-                var puntSenyalatGrafica = ((DataPoint)(e.HitTestResult.Object));
+                var puntSenyalatGrafica = ((DataPoint) (e.HitTestResult.Object));
                 //lbValorActual.Text = producte.valorEnCartera().ToString("#,##0.00€");
                 lbValorActual.Text = puntSenyalatGrafica.YValues[0].ToString("#,##0.00€");
                 lbData.Text = DateTime.FromOADate(puntSenyalatGrafica.XValue).ToShortDateString();
-
-                //var vals = producte.valoracionsPonderades(false, dtpInici.Value.GetValueOrDefault(DateTime.MinValue), dtpFinal.Value);
-                //var valIni = vals.First().Value;
-                //var valMax = vals.Last().Value;
-                //lbData.Text = (valMax / valIni - 1).ToString("#0.00%");
-            }
-            else
-            {
-                //lbNomProducte.Text = String.Empty;
-                //lbValorActual.Text = String.Empty;
-                //lbData.Text = String.Empty;
             }
         }
 
@@ -111,8 +158,6 @@ namespace Inversions.GUI
         private void btgActualitzaGrafiques_Click(object sender, EventArgs e)
         {
             btgActualitzaGrafiques.Enabled = false;
-
-            vChartArea.AxisY.Interval = (double) ntbIntervalEixY.Valor;
 
             // Troba la data d'inici de les gràfiques.
             DateTime dataInici = dtpInici.Value.GetValueOrDefault(DateTime.MinValue);
@@ -127,12 +172,7 @@ namespace Inversions.GUI
                 }
             }
 
-            chart1.Series.Clear();
-
-            foreach (var producteSeleccionat in gestioProductesTabValoracions.productesSeleccionats())
-            {
-                creaGraficaDelProducte(producteSeleccionat, dataInici, dtpFinal.Value);
-            }
+            creaGrafica();
         }
 
         private void ck_CheckedChanged(object sender, EventArgs e)
@@ -151,5 +191,6 @@ namespace Inversions.GUI
         }
 
         #endregion *** Events ***
+
     }
 }

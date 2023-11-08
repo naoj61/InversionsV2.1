@@ -47,6 +47,7 @@ namespace Inversions.GUI
             this.panel3 = new System.Windows.Forms.GroupBox();
             this.dtpFinal = new System.Windows.Forms.DateTimePicker();
             this.dtpInici = new Controls.DateTimePickerNullable();
+            this.ckIntervalAutomatic = new System.Windows.Forms.CheckBox();
             this.ckDataIniciComu = new System.Windows.Forms.CheckBox();
             this.ckPonderat = new System.Windows.Forms.CheckBox();
             this.btgActualitzaGrafiques = new System.Windows.Forms.Button();
@@ -83,7 +84,7 @@ namespace Inversions.GUI
             this.panel4.Controls.Add(this.lbValorActual);
             this.panel4.Controls.Add(this.label1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel4.Location = new System.Drawing.Point(3, 684);
+            this.panel4.Location = new System.Drawing.Point(3, 724);
             this.panel4.Name = "panel4";
             this.panel4.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
             this.panel4.Size = new System.Drawing.Size(475, 34);
@@ -146,7 +147,7 @@ namespace Inversions.GUI
             this.lbNomProducte.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lbNomProducte.Dock = System.Windows.Forms.DockStyle.Top;
             this.lbNomProducte.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbNomProducte.Location = new System.Drawing.Point(3, 658);
+            this.lbNomProducte.Location = new System.Drawing.Point(3, 698);
             this.lbNomProducte.Name = "lbNomProducte";
             this.lbNomProducte.Size = new System.Drawing.Size(475, 26);
             this.lbNomProducte.TabIndex = 2;
@@ -159,7 +160,7 @@ namespace Inversions.GUI
             this.gestioProductesTabValoracions._MostraLlistaAmbChecks = true;
             this.gestioProductesTabValoracions._NomesAmbParticipacions = true;
             this.gestioProductesTabValoracions.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gestioProductesTabValoracions.Location = new System.Drawing.Point(3, 164);
+            this.gestioProductesTabValoracions.Location = new System.Drawing.Point(3, 204);
             this.gestioProductesTabValoracions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gestioProductesTabValoracions.Name = "gestioProductesTabValoracions";
             this.gestioProductesTabValoracions.Size = new System.Drawing.Size(475, 494);
@@ -170,19 +171,20 @@ namespace Inversions.GUI
             // 
             this.panel2.Controls.Add(this.groupBox1);
             this.panel2.Controls.Add(this.panel3);
+            this.panel2.Controls.Add(this.ckIntervalAutomatic);
             this.panel2.Controls.Add(this.ckDataIniciComu);
             this.panel2.Controls.Add(this.ckPonderat);
             this.panel2.Controls.Add(this.btgActualitzaGrafiques);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(3, 36);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(475, 128);
+            this.panel2.Size = new System.Drawing.Size(475, 168);
             this.panel2.TabIndex = 0;
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.ntbIntervalEixY);
-            this.groupBox1.Location = new System.Drawing.Point(311, 65);
+            this.groupBox1.Location = new System.Drawing.Point(311, 103);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(90, 55);
             this.groupBox1.TabIndex = 4;
@@ -192,22 +194,22 @@ namespace Inversions.GUI
             // ntbIntervalEixY
             // 
             this.ntbIntervalEixY._CapturaEscape = true;
-            this.ntbIntervalEixY._Format = "0";
+            this.ntbIntervalEixY._Format = "0.00";
             this.ntbIntervalEixY._NegatiusEnVermell = false;
             this.ntbIntervalEixY._PermetDecimals = true;
-            this.ntbIntervalEixY._PermetEspais = false;
-            this.ntbIntervalEixY._PermetNegatius = true;
+            this.ntbIntervalEixY._PermetEspais = true;
+            this.ntbIntervalEixY._PermetNegatius = false;
             this.ntbIntervalEixY.Location = new System.Drawing.Point(1, 25);
             this.ntbIntervalEixY.Name = "ntbIntervalEixY";
             this.ntbIntervalEixY.Size = new System.Drawing.Size(85, 26);
             this.ntbIntervalEixY.TabIndex = 0;
-            this.ntbIntervalEixY.Text = "1";
+            this.ntbIntervalEixY.Text = "1,00";
             this.ntbIntervalEixY.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbIntervalEixY.Valor = new decimal(new int[] {
-            1,
+            100,
             0,
             0,
-            0});
+            131072});
             this.ntbIntervalEixY.ValorDouble = 1D;
             this.ntbIntervalEixY.TextChanged += new System.EventHandler(this.ntbIntervalEixY_TextChanged);
             // 
@@ -215,7 +217,7 @@ namespace Inversions.GUI
             // 
             this.panel3.Controls.Add(this.dtpFinal);
             this.panel3.Controls.Add(this.dtpInici);
-            this.panel3.Location = new System.Drawing.Point(8, 59);
+            this.panel3.Location = new System.Drawing.Point(8, 97);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(297, 65);
             this.panel3.TabIndex = 1;
@@ -241,6 +243,19 @@ namespace Inversions.GUI
             this.dtpInici.TabIndex = 0;
             this.dtpInici.Value = null;
             this.dtpInici.ValueChanged += new System.EventHandler(this.dtpInici_ValueChanged);
+            // 
+            // ckIntervalAutomatic
+            // 
+            this.ckIntervalAutomatic.AutoSize = true;
+            this.ckIntervalAutomatic.Checked = true;
+            this.ckIntervalAutomatic.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ckIntervalAutomatic.Location = new System.Drawing.Point(299, 65);
+            this.ckIntervalAutomatic.Name = "ckIntervalAutomatic";
+            this.ckIntervalAutomatic.Size = new System.Drawing.Size(161, 24);
+            this.ckIntervalAutomatic.TabIndex = 3;
+            this.ckIntervalAutomatic.Text = "Interval automàtic";
+            this.ckIntervalAutomatic.UseVisualStyleBackColor = true;
+            this.ckIntervalAutomatic.CheckedChanged += new System.EventHandler(this.ck_CheckedChanged);
             // 
             // ckDataIniciComu
             // 
@@ -353,5 +368,6 @@ namespace Inversions.GUI
         private Label label1;
         private Label lbData;
         private Label label4;
+        private CheckBox ckIntervalAutomatic;
     }
 }
