@@ -45,6 +45,7 @@ namespace Inversions.GUI
             cData.Value = DateTime.Today;
 
             dtpDataIniciLlista.Value = DateTime.Now.AddMonths(-6);
+            dtpDataIniciValoracions.Value = DateTime.Now.AddMonths(-6);
 
             gestioProductesTabValoracions.refrescaDadesControl();
         }
@@ -142,38 +143,56 @@ namespace Inversions.GUI
 
         private void actualitzaLlistaValoracionsPerProducte()
         {
-            var valoracionsProducte = Program.Sessio.Valoracions
-                .Where(w => w.Prod.Id == gestioProductesTabValoracions._ProducteSeleccionat.Id && w.Data > dtpDataIniciLlista.Value)
-                .OrderBy(o => o.Data).ToList();
+            var cursor = Cursor;
+            Cursor = Cursors.WaitCursor;
 
-            dgvValoracions.SuspendLayout();
-            dgvValoracions.DataSource = valoracionsProducte;
-            var xx = dgvValoracions.Rows.GetLastRow(DataGridViewElementStates.Visible);
-            if (xx >= 0)
+            try
             {
-                dgvValoracions.FirstDisplayedScrollingRowIndex = xx;
-                ompleGrafica1(valoracionsProducte);
+                // ** He de er el ToList() dos cops **
+                var valoracionsProducte = Program.Sessio.Valoracions
+                    .Where(w => w.Prod.Id == gestioProductesTabValoracions._ProducteSeleccionat.Id
+                        && w.Data > dtpDataIniciValoracions.Value)
+                    .OrderBy(o => o.Data).ToList();
+
+                if (ckValsAmbParticipacions.Checked)
+                    valoracionsProducte = valoracionsProducte.Where(w => w._NumParticipacions > 0)
+                    .OrderBy(o => o.Data).ToList();
+
+                dgvValoracions.SuspendLayout();
+                dgvValoracions.DataSource = valoracionsProducte;
+
+                // Ajusta l'amplada de la taula.
+                var wi = dgvValoracions.Columns.Cast<DataGridViewColumn>().Where(w => w.Visible).Sum(column => column.Width + 3);
+                wi += dgvValoracions.RowHeadersWidth;
+                dgvValoracions.ClientSize = new Size(wi, dgvValoracions.Height);
+
+                var ultimaFila = dgvValoracions.Rows.GetLastRow(DataGridViewElementStates.Visible);
+                if (ultimaFila >= 0)
+                {
+                    dgvValoracions.FirstDisplayedScrollingRowIndex = ultimaFila;
+                    ompleGrafica1(valoracionsProducte);
+                }
+
+
+                dgvValoracions.ResumeLayout();
             }
-            else
+            finally
             {
-                chart1.Visible = false;
+                Cursor = cursor;
             }
-            dgvValoracions.ResumeLayout();
         }
 
         private void ompleGrafica1(List<Valoracio> valoracionsProducte)
         {
             chart1.ChartAreas[0].AxisY.LabelStyle.Format = "#,##0.00";
-
-            chart1.ChartAreas[0].AxisY.Minimum = (double) (valoracionsProducte.Min(m => m.PreuParticipacio) / 1.02M);
-
-            chart1.ChartAreas[0].AxisY.Maximum = (double) (valoracionsProducte.Max(m => m.PreuParticipacio) * 1.02M);
+            chart1.ChartAreas[0].AxisX.LabelStyle.Enabled = false;
+            
+            chart1.ChartAreas[0].AxisY.Minimum = (double)(valoracionsProducte.Min(m => m.PreuParticipacio) / 1.02M);
+            chart1.ChartAreas[0].AxisY.Maximum = (double)(valoracionsProducte.Max(m => m.PreuParticipacio) * 1.02M);
 
             chart1.DataSource = valoracionsProducte;
             chart1.DataBind();
             chart1.Update();
-
-            chart1.Visible = true;
         }
 
         private void actualitzaLlistaValoracionsTotal()
@@ -559,5 +578,10 @@ namespace Inversions.GUI
         }
 
         #endregion *** Events ***
+
+        private void ckValsAmbParticipacions_CheckedChanged(object sender, EventArgs e)
+        {
+            actualitzaLlistaValoracionsPerProducte();
+        }
     }
 }

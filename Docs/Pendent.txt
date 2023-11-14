@@ -1,3 +1,0 @@
-﻿- Nova ponderació en les gràfiques.
-
-- Al mostrar les valoracions, eliminar les dates en que no hi ha participacions.

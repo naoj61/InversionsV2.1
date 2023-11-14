@@ -1,4 +1,10 @@
-﻿-Nova ponderació en les gràfiques.
+﻿
+
+------------------------------ Fet!!!! ------------------------------
+
+- 2.13.09.00 Al mostrar les valoracions, eliminar les dates en que no hi ha participacions.
+
+-Nova ponderació en les gràfiques.
 
 - Al mostrar les valoracions, eliminar les dates en que no hi ha participacions.
 
