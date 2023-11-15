@@ -35,6 +35,11 @@ namespace Inversions.GUI
             chart1.GetToolTipText += chart1_GetToolTipText;
 
             dgvValoracions.AutoGenerateColumns = false;
+
+            chart1.ChartAreas[0].AxisY.LabelStyle.Format = "#,##0.00";
+            chart1.ChartAreas[0].AxisX.LabelStyle.Enabled = false;
+            
+            chart2.ChartAreas[0].AxisX.LabelStyle.Enabled = false;
         }
 
 
@@ -173,7 +178,6 @@ namespace Inversions.GUI
                     ompleGrafica1(valoracionsProducte);
                 }
 
-
                 dgvValoracions.ResumeLayout();
             }
             finally
@@ -184,11 +188,8 @@ namespace Inversions.GUI
 
         private void ompleGrafica1(List<Valoracio> valoracionsProducte)
         {
-            chart1.ChartAreas[0].AxisY.LabelStyle.Format = "#,##0.00";
-            chart1.ChartAreas[0].AxisX.LabelStyle.Enabled = false;
-            
-            chart1.ChartAreas[0].AxisY.Minimum = (double)(valoracionsProducte.Min(m => m.PreuParticipacio) / 1.02M);
-            chart1.ChartAreas[0].AxisY.Maximum = (double)(valoracionsProducte.Max(m => m.PreuParticipacio) * 1.02M);
+            chart1.ChartAreas[0].AxisY.Minimum = (double)(valoracionsProducte.Min(m => m.PreuParticipacio));// / 1.02M);
+            chart1.ChartAreas[0].AxisY.Maximum = (double) (valoracionsProducte.Max(m => m.PreuParticipacio));// * 1.02M);
 
             chart1.DataSource = valoracionsProducte;
             chart1.DataBind();
@@ -577,11 +578,22 @@ namespace Inversions.GUI
             }
         }
 
-        #endregion *** Events ***
-
         private void ckValsAmbParticipacions_CheckedChanged(object sender, EventArgs e)
         {
             actualitzaLlistaValoracionsPerProducte();
         }
+
+        private void dtpDataIniciValoracions_Validating(object sender, CancelEventArgs e)
+        {
+            actualitzaLlistaValoracionsPerProducte();
+        }
+
+        private void dtpDataIniciValoracions_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+                actualitzaLlistaValoracionsPerProducte();
+        }
+
+        #endregion *** Events ***
     }
 }
