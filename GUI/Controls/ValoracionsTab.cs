@@ -153,11 +153,11 @@ namespace Inversions.GUI
 
             try
             {
-                var valoracionsProducteSelec = Program.Sessio.Valoracions
-                    .Where(val => val.Prod.Id == gestioProductesTabValoracions._ProducteSeleccionat.Id
-                        && val.Data > dtpDataIniciValoracions.Value).ToList();
-
+                var valoracionsProducteSelec = gestioProductesTabValoracions._ProducteSeleccionat.ValoracionsProducte
+                    .Where(val => val.Data >= dtpDataIniciValoracions.Value).ToList();
+                
                 if (ckValsAmbParticipacions.Checked)
+                    // Elimina valoracions sense participacions.
                     valoracionsProducteSelec = valoracionsProducteSelec.Where(val => val._NumParticipacions > 0).ToList();
 
                 valoracionsProducteSelec= valoracionsProducteSelec.OrderBy(val => val.Data).ToList();
@@ -478,7 +478,7 @@ namespace Inversions.GUI
             btModifica.Enabled = false;
             btEsborra.Enabled = false;
 
-            Valoracio val = Program.Sessio.Valoracions.ToList().LastOrDefault(l => l.Prod == gestioProductesTabValoracions._ProducteSeleccionat);
+            Valoracio val = gestioProductesTabValoracions._ProducteSeleccionat.ValoracionsProducte.LastOrDefault();
             if (val == null)
             {
                 tbImport.Valor = 0;
