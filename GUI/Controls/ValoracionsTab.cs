@@ -153,29 +153,27 @@ namespace Inversions.GUI
 
             try
             {
-                // ** He de er el ToList() dos cops **
-                var valoracionsProducte = Program.Sessio.Valoracions
-                    .Where(w => w.Prod.Id == gestioProductesTabValoracions._ProducteSeleccionat.Id
-                        && w.Data > dtpDataIniciValoracions.Value)
-                    .OrderBy(o => o.Data).ToList();
+                var valoracionsProducteSelec = Program.Sessio.Valoracions
+                    .Where(val => val.Prod.Id == gestioProductesTabValoracions._ProducteSeleccionat.Id
+                        && val.Data > dtpDataIniciValoracions.Value).ToList();
 
                 if (ckValsAmbParticipacions.Checked)
-                    valoracionsProducte = valoracionsProducte.Where(w => w._NumParticipacions > 0)
-                    .OrderBy(o => o.Data).ToList();
+                    valoracionsProducteSelec = valoracionsProducteSelec.Where(val => val._NumParticipacions > 0).ToList();
+
+                valoracionsProducteSelec= valoracionsProducteSelec.OrderBy(val => val.Data).ToList();
 
                 dgvValoracions.SuspendLayout();
-                dgvValoracions.DataSource = valoracionsProducte;
+                dgvValoracions.DataSource = valoracionsProducteSelec;
 
                 // Ajusta l'amplada de la taula.
-                var wi = dgvValoracions.Columns.Cast<DataGridViewColumn>().Where(w => w.Visible).Sum(column => column.Width + 3);
-                wi += dgvValoracions.RowHeadersWidth;
-                dgvValoracions.ClientSize = new Size(wi, dgvValoracions.Height);
+                Utilitats.AjustaAmpladaDataGridView(dgvValoracions);
+
 
                 var ultimaFila = dgvValoracions.Rows.GetLastRow(DataGridViewElementStates.Visible);
                 if (ultimaFila >= 0)
                 {
                     dgvValoracions.FirstDisplayedScrollingRowIndex = ultimaFila;
-                    ompleGrafica1(valoracionsProducte);
+                    ompleGrafica1(valoracionsProducteSelec);
                 }
 
                 dgvValoracions.ResumeLayout();
