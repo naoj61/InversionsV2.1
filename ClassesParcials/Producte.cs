@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -72,7 +73,19 @@ namespace Inversions
 
 
         #region Mètodes
-        
+
+        public static DbSet<Producte> Tuples
+        {
+            get { return Program.Sessio.Productes;}
+        }
+
+
+        public static void RefrescaTaula()
+        {
+            Program.Sessio.refrescaTaula(typeof (Producte));
+        }
+
+
         internal decimal dividends()
         {
             return dividends(DateTime.MinValue, DateTime.Today);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -9,6 +10,16 @@ namespace Inversions
 {
     public partial class DesglosCompra
     {
+
+        public static DbSet<DesglosCompra> Tuples
+        {
+            get { return Program.Sessio.DesglosCompras; }
+        }
+
+        public static void RefrescaTaula()
+        {
+            Program.Sessio.refrescaTaula(typeof(DesglosCompra));
+        }
 
         #region *** Atributs ***
 

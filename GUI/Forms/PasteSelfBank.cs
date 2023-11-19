@@ -78,13 +78,13 @@ namespace Inversions.GUI
                     switch (items[i])
                     {
                         case "LUNA":
-                            prod = Program.Sessio.ProdAccions.Single(w => w.Empresa.Nom == "Terra Classic (LUNA)");
+                            prod = ProdAccions.Tuples.Single(w => w.Empresa.Nom == "Terra Classic (LUNA)");
                             break;
                         case "UST":
-                            prod = Program.Sessio.ProdAccions.Single(w => w.Empresa.Nom == "TerraUSD Classic (UST)");
+                            prod = ProdAccions.Tuples.Single(w => w.Empresa.Nom == "TerraUSD Classic (UST)");
                             break;
                         case "LUNA2":
-                            prod = Program.Sessio.ProdAccions.Single(w => w.Empresa.Nom == "Terra 2.0 (LUNA2)");
+                            prod = ProdAccions.Tuples.Single(w => w.Empresa.Nom == "Terra 2.0 (LUNA2)");
                             break;
                     }
 
@@ -170,7 +170,7 @@ namespace Inversions.GUI
                     {
                         if (!pos.HasValue)
                         {
-                            prod = Program.Sessio.ProdFons.SingleOrDefault(w => w.ISIN == item);
+                            prod = ProdFons.Tuples.SingleOrDefault(w => w.ISIN == item);
                             if (prod != null)
                                 pos = 2;
                             continue;
@@ -228,7 +228,7 @@ namespace Inversions.GUI
 
             var dataVal = data.Value.Date;
 
-            var existeisValoracio = Program.Sessio.Valoracio.SingleOrDefault(w => w.Prod.Id == prod.Id && w.Data == dataVal) != null;
+            var existeisValoracio = Valoracio.Tuples.SingleOrDefault(w => w.Prod.Id == prod.Id && w.Data == dataVal) != null;
             var difPercent = (preuPart / prod._PreuParticipacioActual - 1);
             var difValor = ((preuPart - prod._PreuParticipacioActual) * prod._Participacions);
 
@@ -294,7 +294,7 @@ namespace Inversions.GUI
                     connexio.SaveChanges();
 
                     if (hiHaUpdate)
-                        Program.Sessio.refrescaTaula(typeof (Valoracio));
+                        Valoracio.RefrescaTaula();
 
                     btDesa.Enabled = false;
 

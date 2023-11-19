@@ -5,17 +5,17 @@ namespace Inversions
     using System;
     using System.Collections.Generic;
 
-    public partial class Mercat
+    public partial class Empresa
     {
 
-        public static DbSet<Mercat> Tuples
+        public static DbSet<Empresa> Tuples
         {
-            get { return Program.Sessio.Mercats; }
+            get { return Program.Sessio.Empreses; }
         }
 
         public static void RefrescaTaula()
         {
-            Program.Sessio.refrescaTaula(typeof(Mercat));
+            Program.Sessio.refrescaTaula(typeof(Empresa));
         }
 
         #region Overrides
@@ -25,7 +25,7 @@ namespace Inversions
             return Id;
         }
 
-        public static bool operator ==(Mercat a, Mercat b)
+        public static bool operator ==(Empresa a, Empresa b)
         {
             // If both are null, or both are same instance, return true.
             if (ReferenceEquals(a, b))
@@ -42,17 +42,17 @@ namespace Inversions
             return a.Id == b.Id;
         }
 
-        public static bool operator !=(Mercat a, Mercat b)
+        public static bool operator !=(Empresa a, Empresa b)
         {
             return !(a == b);
         }
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Mercat))
+            if (!(obj is Empresa))
                 return false;
 
-            return this == (Mercat)obj;
+            return this == (Empresa)obj;
         }
 
         public override string ToString()

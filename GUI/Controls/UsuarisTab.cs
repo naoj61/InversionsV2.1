@@ -26,7 +26,7 @@ namespace Inversions.GUI
             if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
                 cbUsuaris.DisplayMember = "Nom";
-                cbUsuaris.DataSource = Program.Sessio.Usuaris.ToList();
+                cbUsuaris.DataSource = Usuari.Tuples.ToList();
                 cbUsuaris.SelectedItem = Usuari.Seleccionat;
                 cbUsuaris.SelectedIndexChanged += cbUsuaris_SelectedIndexChanged;
             }

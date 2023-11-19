@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using Comuns;
 
@@ -7,6 +8,16 @@ namespace Inversions
 {
     public partial class ProdAccions
     {
+        public static DbSet<ProdAccions> Tuples
+        {
+            get { return Program.Sessio.ProdAccions; }
+        }
+
+        public new static void RefrescaTaula()
+        {
+            Program.Sessio.refrescaTaula(typeof(ProdAccions));
+        }
+
         public override TipusProducte _TipusProducte
         {
             get { return TipusProducte.Accions; }
@@ -52,15 +63,7 @@ namespace Inversions
         /// <returns></returns>
         public static decimal Valor(DateTime data)
         {
-            decimal saldo = 0;
-
-            foreach (Producte producte in Program.Sessio.Productes.Where(w=>w is ProdAccions))
-            {
-                saldo += producte.valorEnCartera(data);
-            }
-
-            return saldo;
+            return Tuples.ToList().Sum(producte => producte.valorEnCartera(data));
         }
-
     }
 }

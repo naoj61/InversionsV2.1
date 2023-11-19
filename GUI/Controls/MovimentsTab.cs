@@ -93,7 +93,7 @@ namespace Inversions.GUI
 
         private void ompleTaulaMovimentsProducte(Producte prod)
         {
-            var movimentsProducte = Program.Sessio.MovimentsUsuari.Where(w => w.Prod.Id == prod.Id).ToList();
+            var movimentsProducte = Moviment.MovimentsUsuari.Where(w => w.Prod.Id == prod.Id).ToList();
 
             cDataGridView1.SuspendLayout();
             cDataGridView1.DataSource = movimentsProducte.OrderBy(o => o.Data).ToList();
@@ -134,7 +134,7 @@ namespace Inversions.GUI
             {
                 cProducteTraspas.SuspendLayout();
                 cProducteTraspas.DisplayMember = "_NomProducte";
-                cProducteTraspas.DataSource = Program.Sessio.Productes.Where(w => w is ProdFons && w.Id != prod.Id).ToList();
+                cProducteTraspas.DataSource = Producte.Tuples.Where(w => w is ProdFons && w.Id != prod.Id).ToList();
                 cProducteTraspas.ResumeLayout();
             }
 
@@ -241,81 +241,10 @@ namespace Inversions.GUI
                             dataDesti, prodDestiContext, tbNumParticipacionsDesti._DecimalValue, ntbPreuParticipacioFonsCompra.Valor, ntbDespeses.Valor);
                     }
 
-                    //var contextConn = ((IObjectContextAdapter)conn).ObjectContext;
-                    //var contextSess = ((IObjectContextAdapter)Program.Sessio).ObjectContext;
-
-                    //var objectsConn = (contextConn.ObjectStateManager.GetObjectStateEntries(
-                    //    EntityState.Added)
-                    //    .Where(entry => entry.EntityKey != null)
-                    //    .Select(entry => entry.Entity)).ToList();
-
-                    //var mov1 = (Moviment)objectsConn.First();
-
-                    //var objectsSess = (contextSess.ObjectStateManager.GetObjectStateEntries(
-                    //    EntityState.Added |
-                    //    EntityState.Deleted |
-                    //    EntityState.Modified |
-                    //    EntityState.Unchanged)
-                    //    .Where(entry => entry.EntityKey != null)
-                    //    .Select(entry => entry.Entity)).ToList();
-
 
                     conn.SaveChanges();
 
-
-
-                    //Program.Sessio.Moviments.Attach(mov1);
-
-                    //contextConn = ((IObjectContextAdapter)conn).ObjectContext;
-                    //contextSess = ((IObjectContextAdapter)Program.Sessio).ObjectContext;
-
-                    //objectsConn = (contextConn.ObjectStateManager.GetObjectStateEntries(
-                    //    EntityState.Added |
-                    //    EntityState.Deleted |
-                    //    EntityState.Modified |
-                    //    EntityState.Unchanged)
-                    //    .Where(entry => entry.EntityKey != null)
-                    //    .Select(entry => entry.Entity)).ToList();
-
-
-                    //objectsSess = (contextSess.ObjectStateManager.GetObjectStateEntries(
-                    //    EntityState.Added |
-                    //    EntityState.Deleted |
-                    //    EntityState.Modified |
-                    //    EntityState.Unchanged)
-                    //    .Where(entry => entry.EntityKey != null)
-                    //    .Select(entry => entry.Entity)).ToList();
-
-                    //Program.Sessio.refrescaTot();
-
-                    //contextConn = ((IObjectContextAdapter)conn).ObjectContext;
-                    //contextSess = ((IObjectContextAdapter)Program.Sessio).ObjectContext;
-
-                    //objectsConn = (contextConn.ObjectStateManager.GetObjectStateEntries(
-                    //    EntityState.Added |
-                    //    EntityState.Deleted |
-                    //    EntityState.Modified |
-                    //    EntityState.Unchanged)
-                    //    .Where(entry => entry.EntityKey != null)
-                    //    .Select(entry => entry.Entity)).ToList();
-
-
-                    //objectsSess = (contextSess.ObjectStateManager.GetObjectStateEntries(
-                    //    EntityState.Added |
-                    //    EntityState.Deleted |
-                    //    EntityState.Modified |
-                    //    EntityState.Unchanged)
-                    //    .Where(entry => entry.EntityKey != null)
-                    //    .Select(entry => entry.Entity)).ToList();
-
-
                     dbContextTransaction.Commit();
-                    //}
-                    //catch (Exception)
-                    //{
-                    //    dbContextTransaction.Rollback();
-                    //    throw;
-                    //}
                 }
             }
 

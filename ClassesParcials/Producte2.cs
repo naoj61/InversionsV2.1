@@ -72,11 +72,11 @@ namespace Inversions
         {
             IEnumerable<Producte> prods = SeleccionaProds(tipusProducte, tipusFons).ToList();
 
-            decimal pig = Program.Sessio.MovimentsUsuari
+            decimal pig = Moviment.MovimentsUsuari
                 .Where(w => w.Data.Year == any && prods.Contains(w.Prod) && w._EsVendaReal)
                 .Sum(s => s.pigVenda(true));
 
-            decimal div = inclouDividends ? Program.Sessio.MovimentsUsuari
+            decimal div = inclouDividends ? Moviment.MovimentsUsuari
                 .Where(w => w.Data.Year == any && prods.Contains(w.Prod) && w._EsDividents)
                 .Sum(s => s._ImportBrut) : 0;
 
@@ -121,7 +121,7 @@ namespace Inversions
             switch (tipusProducte)
             {
                 case TipusProducte.Accions:
-                    prods = new List<Producte>(Program.Sessio.ProdAccions);
+                    prods = new List<Producte>(ProdAccions.Tuples);
                     break;
                 case TipusProducte.Fons:
                     if (tipusFons.HasValue)
@@ -129,21 +129,21 @@ namespace Inversions
                         switch (tipusFons.Value)
                         {
                             case TipusFons.RF:
-                                prods = new List<Producte>(Program.Sessio.ProdFons.Where(w => w.Tipus == TipusFons.RF));
+                                prods = new List<Producte>(ProdFons.Tuples.Where(w => w.Tipus == TipusFons.RF));
                                 break;
                             case TipusFons.RV:
-                                prods = new List<Producte>(Program.Sessio.ProdFons.Where(w => w.Tipus == TipusFons.RV));
+                                prods = new List<Producte>(ProdFons.Tuples.Where(w => w.Tipus == TipusFons.RV));
                                 break;
                             default:
-                                prods = new List<Producte>(Program.Sessio.ProdFons);
+                                prods = new List<Producte>(ProdFons.Tuples);
                                 break;
                         }
                     }
                     else
-                        prods = new List<Producte>(Program.Sessio.ProdFons);
+                        prods = new List<Producte>(ProdFons.Tuples);
                     break;
                 default:
-                    prods = Program.Sessio.Productes.ToList();
+                    prods = Producte.Tuples.ToList();
                     break;
             }
 

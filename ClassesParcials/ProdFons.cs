@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Windows.Forms.VisualStyles;
 using Comuns;
@@ -8,6 +9,15 @@ namespace Inversions
 {
     public partial class ProdFons
     {
+        public new static DbSet<ProdFons> Tuples
+        {
+            get { return Program.Sessio.ProdFons; }
+        }
+
+        public new static void RefrescaTaula()
+        {
+            Program.Sessio.refrescaTaula(typeof(ProdFons));
+        }
 
         public override TipusProducte _TipusProducte
         {
@@ -54,7 +64,7 @@ namespace Inversions
         /// <returns></returns>
         public static decimal Valor(DateTime data, TipusFons tipusFons)
         {
-            var prods = tipusFons == TipusFons.Tots ? Program.Sessio.ProdFons : Program.Sessio.ProdFons.Where(w => w.Tipus == tipusFons);
+            var prods = tipusFons == TipusFons.Tots ? Tuples : Tuples.Where(w => w.Tipus == tipusFons);
 
             return prods.ToList().Sum(producte => producte.valorEnCartera(data));
         }

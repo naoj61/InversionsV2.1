@@ -34,7 +34,7 @@ namespace Inversions.GUI
 
             cbMercatProducte.SuspendLayout();
             cbMercatProducte.DisplayMember = "Nom";
-            cbMercatProducte.DataSource = Program.Sessio.Mercats.ToList();
+            cbMercatProducte.DataSource = Mercat.Tuples.ToList();
             cbMercatProducte.SelectedItem = null;
             cbMercatProducte.ResumeLayout();
 
@@ -319,9 +319,9 @@ namespace Inversions.GUI
 
                 vConnProductes.SaveChanges();
 
-                Program.Sessio.refrescaTaula(typeof (Producte));
-                Program.Sessio.refrescaTaula(typeof (ProdAccions));
-                Program.Sessio.refrescaTaula(typeof (ProdFons));
+                Producte.RefrescaTaula();
+                ProdAccions.RefrescaTaula();
+                ProdFons.RefrescaTaula();
 
                 if (esProdNou)
                 {
@@ -485,7 +485,7 @@ namespace Inversions.GUI
         {
             try
             {
-                if (Program.Sessio.Moviments.Any(a => a.ProdId == vProducteSeleccionat.Id))
+                if (Moviment.Tuples.Any(a => a.ProdId == vProducteSeleccionat.Id))
                     throw new ApplicationException("No es pot esborrar el producte perquè té moviments");
 
                 var prod = vProducteSeleccionat;
@@ -496,10 +496,10 @@ namespace Inversions.GUI
 
                 vConnProductes.SaveChanges();
 
-                Program.Sessio.refrescaTaula(typeof (Valoracio));
-                Program.Sessio.refrescaTaula(typeof (Producte));
-                Program.Sessio.refrescaTaula(typeof (ProdAccions));
-                Program.Sessio.refrescaTaula(typeof (ProdFons));
+                Valoracio.RefrescaTaula();
+                Producte.RefrescaTaula();
+                ProdAccions.RefrescaTaula();
+                ProdFons.RefrescaTaula();
             }
             catch (Exception ex1)
             {
@@ -536,7 +536,7 @@ namespace Inversions.GUI
             {
                 vConnEmpreses.SaveChanges();
 
-                Program.Sessio.refrescaTaula(typeof (Empresa));
+                Empresa.RefrescaTaula();
 
                 pnDesaCanvisEmpreses.Enabled = false;
             }

@@ -236,15 +236,15 @@ namespace Inversions.GUI
                     lbTitolValoracionsPerData.Text = lbTitolValoracionsPerData.Text.Remove(0, 2);
             }
 
-            var valData = Program.Sessio.Valoracions.Where(w => w.Data >= dtpDataIniciLlista.Value).ToList();
-            var movData = Program.Sessio.MovimentsUsuari.Where(w => w.Data >= dtpDataIniciLlista.Value).ToList();
+            var valData = Valoracio.Tuples.Where(w => w.Data >= dtpDataIniciLlista.Value).ToList();
+            var movData = Moviment.MovimentsUsuari.Where(w => w.Data >= dtpDataIniciLlista.Value).ToList();
 
             List<Valoracio> valoracions = new List<Valoracio>();
             List<Moviment> moviments = new List<Moviment>();
 
             if (accions || criptos)
             {
-                Mercat mercatCriptos = Program.Sessio.Mercats.Single(w => w.Nom == TipusProd.Criptos.ToString());
+                Mercat mercatCriptos = Mercat.Tuples.Single(w => w.Nom == TipusProd.Criptos.ToString());
 
                 if (accions)
                 {
@@ -407,7 +407,7 @@ namespace Inversions.GUI
                     }
                 }
 
-                Program.Sessio.refrescaTaula(typeof (Valoracio));
+                Valoracio.RefrescaTaula();
                 actualitzaLlistaValoracionsPerProducte();
             }
         }
@@ -454,7 +454,7 @@ namespace Inversions.GUI
                 }
 
                 if (vValoracioSeleccionada != null)
-                    Program.Sessio.Entry(vValoracioSeleccionada).Reload();
+                    Valoracio.Reload(vValoracioSeleccionada);
 
                 gestioProductesTabValoracions.refrescaDadesControl();
 

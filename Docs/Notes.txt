@@ -1,4 +1,6 @@
 ﻿
+- Crear una nova pestanya per modificar valors taules
+
 - A les llistes de valoracions, barrejar els preu de compra del usuari.
 
 ------------------------------ Fet!!!! ------------------------------

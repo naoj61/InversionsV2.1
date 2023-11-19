@@ -74,7 +74,6 @@ namespace Inversions.GUI
             {
                 Producte.TipusProducte tipusProducte = (Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem;
 
-                //var primerAny = Program.Sessio.MovimentsUsuari.OrderBy(o => o.Data).First().Data.Year;
                 var ultimAny = DateTime.Today.Year;
 
                 dgvPiGAnualsTributen.Rows.Clear();
@@ -218,13 +217,13 @@ namespace Inversions.GUI
             switch ((Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem)
             {
                 case Producte.TipusProducte.Tots:
-                    productes = Program.Sessio.Productes.ToList();
+                    productes = Producte.Tuples.ToList();
                     break;
                 case Producte.TipusProducte.Accions:
-                    productes = new List<Producte>(Program.Sessio.ProdAccions);
+                    productes = new List<Producte>(ProdAccions.Tuples);
                     break;
                 case Producte.TipusProducte.Fons:
-                    productes = new List<Producte>(Program.Sessio.ProdFons);
+                    productes = new List<Producte>(ProdFons.Tuples);
                     break;
                 default:
                     return;

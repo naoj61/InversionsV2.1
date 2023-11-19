@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Windows.Forms;
 
 namespace Inversions
@@ -9,6 +11,17 @@ namespace Inversions
         {
             Joan = 1,
             Carme = 2
+        }
+
+
+        public static DbSet<Usuari> Tuples
+        {
+            get { return Program.Sessio.Usuaris; }
+        }
+
+        public static void RefrescaTaula()
+        {
+            Program.Sessio.refrescaTaula(typeof(Usuari));
         }
 
         public static Usuari Seleccionat { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 using System.Globalization;
@@ -12,6 +13,23 @@ namespace Inversions
 {
     public partial class Valoracio : IComparable<Valoracio>
     {
+
+        public static DbSet<Valoracio> Tuples
+        {
+            get { return Program.Sessio.Valoracions; }
+        }
+
+        public static void RefrescaTaula()
+        {
+            Program.Sessio.refrescaTaula(typeof(Valoracio));
+        }
+
+        public static void Reload(Valoracio valoracio)
+        {
+            Program.Sessio.Entry(valoracio).Reload();
+        }
+
+
         /// <summary>
         /// Expressió per seleccionar pendents en un LINQ.
         /// </summary>
@@ -41,7 +59,7 @@ namespace Inversions
                 if (Prod == null)
                     return 0;
 
-                var v1 = Program.Sessio.Valoracions.Where(w => w.Prod.Id == Prod.Id && w.Data < Data).OrderBy(o => o.Data).ToList();
+                var v1 = Valoracio.Tuples.Where(w => w.Prod.Id == Prod.Id && w.Data < Data).OrderBy(o => o.Data).ToList();
                 if (v1.Count == 0)
                     return 0;
 
@@ -56,8 +74,7 @@ namespace Inversions
                 if (Prod == null)
                     return 0;
 
-                //var v1 = MyClass.Sessio.Valoracions.Where(w => w.Prod.Id == Prod.Id && w.Id < Id).OrderBy(o => o.Data).ToList();
-                var v1 = Program.Sessio.Valoracions.Where(w => w.Prod.Id == Prod.Id && w.Data < Data).OrderBy(o => o.Data).ToList();
+                var v1 = Valoracio.Tuples.Where(w => w.Prod.Id == Prod.Id && w.Data < Data).OrderBy(o => o.Data).ToList();
                 if (v1.Count == 0)
                     return 0;
 

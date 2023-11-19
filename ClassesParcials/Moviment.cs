@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
@@ -199,6 +200,22 @@ namespace Inversions
 
         #region *** Mètodes ***
 
+        public static DbSet<Moviment> Tuples
+        {
+            get { return Program.Sessio.Moviments; }
+        }
+
+        public static void RefrescaTaula()
+        {
+            Program.Sessio.refrescaTaula(typeof(Moviment));
+        }
+
+        public static IEnumerable<Moviment> MovimentsUsuari
+        {
+            get { return Tuples.Where(w => w.UsuariId == Usuari.Seleccionat.Id); }
+        }
+
+
         private IEnumerable<VendaExt> vendesDeLaCompra()
         {
             if (!_EsCompra)
@@ -237,10 +254,10 @@ namespace Inversions
                 return 0;
 
             // Suma de les participacions comprades incloses les d'aquesta compra.
-            var partsC = Program.Sessio.MovimentsUsuari.Where(w => w.Prod == Prod && w._EsCompra && w.Data <= Data).Sum(s => s.Participacions);
+            var partsC = Moviment.MovimentsUsuari.Where(w => w.Prod == Prod && w._EsCompra && w.Data <= Data).Sum(s => s.Participacions);
 
             // Suma de les participacions venudes amb data <= 'dataH'
-            var partsV = Program.Sessio.MovimentsUsuari.Where(w => w.Prod == Prod && w._EsVenda && w.Data <= dataH).Sum(s => s.Participacions);
+            var partsV = Moviment.MovimentsUsuari.Where(w => w.Prod == Prod && w._EsVenda && w.Data <= dataH).Sum(s => s.Participacions);
 
             var partsComprades = partsC - partsV;
 
@@ -264,7 +281,7 @@ namespace Inversions
             decimal divident = 0;
             var dataIni = Data;
             var dataFi = vendesDeLaCompra().Any() ? vendesDeLaCompra().Last()._Data : DateTime.Now;
-            var dividents = Program.Sessio.MovimentsUsuari.Where(w => w._EsDividents && w.Data >= dataIni && w.Data <= dataFi).ToList();
+            var dividents = Moviment.MovimentsUsuari.Where(w => w._EsDividents && w.Data >= dataIni && w.Data <= dataFi).ToList();
             foreach (var div in dividents)
             {
                 var partsVenudes = vendesDeLaCompra().Where(w => w._Data < div.Data).Sum(s => s._PartsUtilitzades);
@@ -333,23 +350,6 @@ namespace Inversions
                 connexio.SaveChanges();
             }
         }
-
-
-
-        //internal List<Moviment> llistaMovimentsOrigEnCartera()
-        //{
-        //    List<Moviment> llista = new List<Moviment>();
-
-        //    foreach (var mov in Program.Sessio.MovimentsUsuari)
-        //    {
-        //        if(mov._EsOrigen)
-        //        {
-
-        //        }
-        //    }
-
-        //    return llista;
-        //}
 
 
         /// <summary>

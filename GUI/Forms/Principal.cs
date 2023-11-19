@@ -122,7 +122,7 @@ namespace Inversions.GUI
             if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
                 if (Usuari.Seleccionat == null)
-                    Program.CanviUsuari(Program.Sessio.Usuaris.First());
+                    Program.CanviUsuari(Usuari.Tuples.First());
 
                 var ultimaPestanyaSeleccionada = Program.LlegeigVariableEnRegistreWindows(NomVarReg, true);
                 try
@@ -220,7 +220,7 @@ namespace Inversions.GUI
             var usuariId = Convert.ToInt32(Utilitats.LlegeixVariableRegistre(Registry.CurrentUser, Program.Claureg, Program.NomVarReg));
             if (usuariId != Usuari.Seleccionat.Id)
             {
-                var usuari = Program.Sessio.Usuaris.Find(usuariId);
+                var usuari = Usuari.Tuples.Find(usuariId);
                 if (usuari != null)
                 {
                     canviUsuari(usuari);

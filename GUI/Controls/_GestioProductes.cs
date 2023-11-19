@@ -167,15 +167,15 @@ namespace Inversions.GUI
 
             if ((Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem == Producte.TipusProducte.Accions)
             {
-                prods = Program.Sessio.ProdAccions;
+                prods = ProdAccions.Tuples;
             }
             else if ((Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem == Producte.TipusProducte.Fons)
             {
-                prods = Program.Sessio.ProdFons;
+                prods = ProdFons.Tuples;
             }
             else
             {
-                prods = Program.Sessio.Productes;
+                prods = Producte.Tuples;
             }
 
             //if (Program.RuntimeMode)
@@ -192,7 +192,7 @@ namespace Inversions.GUI
 
                 if (ckFiltreCompresAny.Checked || ckFiltreVendesAny.Checked || ckFiltreDivAny.Checked)
                 {
-                    var movs = Program.Sessio.MovimentsUsuari.Where(w => w.Data.Year == (int) cbFiltreAny.SelectedItem                                                                         
+                    var movs = Moviment.MovimentsUsuari.Where(w => w.Data.Year == (int)cbFiltreAny.SelectedItem                                                                         
                         && ((ckFiltreCompresAny.Checked && w.TipusMoviment == TipusMoviment.Compra) 
                         || (ckFiltreVendesAny.Checked && w.TipusMoviment == TipusMoviment.Venda)
                         || (ckFiltreDivAny.Checked && w.TipusMoviment == TipusMoviment.Dividends)));
@@ -300,10 +300,10 @@ namespace Inversions.GUI
 
         private void GestioProductes_Load(object sender, EventArgs e)
         {
-            //if(!Comuns.Utilitats.IsInDesignMode())
+            //if (!Comuns.Utilitats.IsInDesignMode())
             //{
             //    // Aquí només s'executa al entrar en la perstanya.
-            //    for (int any = Program.Sessio.Moviments.OrderBy(o => o.Data).First().Data.Year; any <= DateTime.Today.Year; any++)
+            //    for (int any = Moviment.Tuples.OrderBy(o => o.Data).First().Data.Year; any <= DateTime.Today.Year; any++)
             //    {
             //        cbFiltreAny.Items.Add(any);
             //    }
