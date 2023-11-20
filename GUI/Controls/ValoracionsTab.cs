@@ -474,19 +474,15 @@ namespace Inversions.GUI
 
         private void gestioProductesTabValoracions_ProducteSeleccionat(object sender, EventArgs e)
         {
-            btNouValor.Enabled = gestioProductesTabValoracions.productesSeleccionats().Any();
+            var hiHaUnProducteSeleccionat = sender != null;
+
+            btNouValor.Enabled = hiHaUnProducteSeleccionat;
             btModifica.Enabled = false;
             btEsborra.Enabled = false;
+            tbImport.Valor = 0;
+            pnEdicio.Visible = hiHaUnProducteSeleccionat;
 
-            Valoracio val = gestioProductesTabValoracions._ProducteSeleccionat.ValoracionsProducte.LastOrDefault();
-            if (val == null)
-            {
-                tbImport.Valor = 0;
-            }
-
-            pnEdicio.Visible = sender != null;
-
-            if (sender != null)
+            if (hiHaUnProducteSeleccionat)
             {
                 actualitzaLlistaValoracionsPerProducte();
             }
