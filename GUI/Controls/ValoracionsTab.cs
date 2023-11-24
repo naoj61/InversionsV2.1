@@ -153,27 +153,31 @@ namespace Inversions.GUI
 
             try
             {
-                var valoracionsProducteSelec = gestioProductesTabValoracions._ProducteSeleccionat.ValoracionsProducte
-                    .Where(val => val.Data >= dtpDataIniciValoracions.Value).ToList();
-                
-                if (ckValsAmbParticipacions.Checked)
-                    // Elimina valoracions sense participacions.
-                    valoracionsProducteSelec = valoracionsProducteSelec.Where(val => val._NumParticipacions > 0).ToList();
-
-                valoracionsProducteSelec= valoracionsProducteSelec.OrderBy(val => val.Data).ToList();
-
-                dgvValoracions.SuspendLayout();
-                dgvValoracions.DataSource = valoracionsProducteSelec;
-
-                // Ajusta l'amplada de la taula.
-                Utilitats.AjustaAmpladaDataGridView(dgvValoracions);
-
-
-                var ultimaFila = dgvValoracions.Rows.GetLastRow(DataGridViewElementStates.Visible);
-                if (ultimaFila >= 0)
+                if (gestioProductesTabValoracions != null
+                    && gestioProductesTabValoracions._ProducteSeleccionat != null
+                    && gestioProductesTabValoracions._ProducteSeleccionat.ValoracionsProducte != null)
                 {
-                    dgvValoracions.FirstDisplayedScrollingRowIndex = ultimaFila;
-                    ompleGrafica1(valoracionsProducteSelec);
+                    var valoracionsProducteSelec = gestioProductesTabValoracions._ProducteSeleccionat.ValoracionsProducte
+                        .Where(val => val.Data >= dtpDataIniciValoracions.Value).ToList();
+
+                    if (ckValsAmbParticipacions.Checked)
+                        // Elimina valoracions sense participacions.
+                        valoracionsProducteSelec = valoracionsProducteSelec.Where(val => val._NumParticipacions > 0).ToList();
+
+                    valoracionsProducteSelec = valoracionsProducteSelec.OrderBy(val => val.Data).ToList();
+
+                    dgvValoracions.SuspendLayout();
+                    dgvValoracions.DataSource = valoracionsProducteSelec;
+
+                    // Ajusta l'amplada de la taula.
+                    Utilitats.AjustaAmpladaDataGridView(dgvValoracions);
+
+                    var ultimaFila = dgvValoracions.Rows.GetLastRow(DataGridViewElementStates.Visible);
+                    if (ultimaFila >= 0)
+                    {
+                        dgvValoracions.FirstDisplayedScrollingRowIndex = ultimaFila;
+                        ompleGrafica1(valoracionsProducteSelec);
+                    }
                 }
 
                 dgvValoracions.ResumeLayout();

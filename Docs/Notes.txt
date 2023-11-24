@@ -2,6 +2,10 @@
 - Crear una nova pestanya per modificar valors taules
 
 - A les llistes de valoracions, barrejar els preu de compra del usuari.
+	-(Com que pot ser que el preu de compra no coincideixi amb la valoració real degut a les comissions).
+		- Al crear un moviment no gravar la valoracio a "Valoracions", potser només en el cas que no hi hagi cap valoració prèvia.
+		- Al consultar les valoracion fer merge amb el valor dels moviments del usuari seleccionat.
+		- Si hi ha valoració i moviment en la mateixa data, mostrar valoració.
 
 ------------------------------ Fet!!!! ------------------------------
 
