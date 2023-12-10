@@ -255,7 +255,7 @@ namespace Inversions.GUI
                 avis = true;
             }
         }
-        
+
 
         private void btDesa_Click(object sender, EventArgs e)
         {
@@ -263,7 +263,6 @@ namespace Inversions.GUI
             {
                 try
                 {
-                    bool hiHaUpdate = false;
                     foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
                         if (!(bool) (row.Cells[colSeleccionat.Name]).Value)
@@ -283,18 +282,13 @@ namespace Inversions.GUI
 
                             connexio.Valoracions.Add(val);
                         }
-                        else if (ckSobreescriuValoracions.Checked)
-                        {
-                            hiHaUpdate = true;
-                        }
-
+                        
                         val.PreuParticipacio = preuPart;
                     }
 
                     connexio.SaveChanges();
 
-                    if (hiHaUpdate)
-                        Valoracio.RefrescaTaula();
+                    Valoracio.RefrescaTaula();
 
                     btDesa.Enabled = false;
 

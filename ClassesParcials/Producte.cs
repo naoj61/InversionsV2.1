@@ -83,6 +83,9 @@ namespace Inversions
         public static void RefrescaTaula()
         {
             Program.Sessio.refrescaTaula(typeof (Producte));
+
+            // Fa que es recarreguin el "ICollection" de la taula.
+            var xx = Tuples.ToList();
         }
 
 

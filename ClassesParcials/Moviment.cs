@@ -208,6 +208,9 @@ namespace Inversions
         public static void RefrescaTaula()
         {
             Program.Sessio.refrescaTaula(typeof(Moviment));
+
+            // Fa que es recarreguin el "ICollection" de la taula.
+            var xx = Tuples.ToList();
         }
 
         public static IEnumerable<Moviment> MovimentsUsuari

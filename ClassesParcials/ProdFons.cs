@@ -16,7 +16,7 @@ namespace Inversions
 
         public new static void RefrescaTaula()
         {
-            Program.Sessio.refrescaTaula(typeof(ProdFons));
+            Producte.RefrescaTaula();
         }
 
         public override TipusProducte _TipusProducte

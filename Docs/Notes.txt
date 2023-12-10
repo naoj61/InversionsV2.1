@@ -1,4 +1,5 @@
-﻿
+﻿- En la finestra IRPF, l'apartat "Ingressos fora de l'aplicació" crear una taula amb els imports i la descripció per any.
+
 - Crear una nova pestanya per modificar valors taules
 
 - A les llistes de valoracions, barrejar els preu de compra del usuari.

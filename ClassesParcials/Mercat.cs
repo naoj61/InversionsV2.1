@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Linq;
 
 namespace Inversions
 {
@@ -16,6 +17,9 @@ namespace Inversions
         public static void RefrescaTaula()
         {
             Program.Sessio.refrescaTaula(typeof(Mercat));
+
+            // Fa que es recarreguin el "ICollection" de la taula.
+            var xx = Tuples.ToList();
         }
 
         #region Overrides

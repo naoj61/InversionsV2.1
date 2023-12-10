@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Inversions
@@ -22,6 +23,9 @@ namespace Inversions
         public static void RefrescaTaula()
         {
             Program.Sessio.refrescaTaula(typeof(Usuari));
+
+            // Fa que es recarreguin el "ICollection" de la taula.
+            var xx = Tuples.ToList();
         }
 
         public static Usuari Seleccionat { get; set; }
