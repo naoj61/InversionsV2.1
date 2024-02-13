@@ -35,6 +35,20 @@
           <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJECTS\MEUS\INVERSIONSV2\BD\INVERSIONSBD.MDF.dbo.IngressosExterns' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="IngressosExterns">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Any" />
+            <PropertyRef Name="Rao" />
+            <PropertyRef Name="Import" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Any" Type="smallint" Nullable="false" />
+          <Property Name="Rao" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Import" Type="decimal" Precision="20" Scale="13" Nullable="false" />
+        </EntityType>
         <EntityType Name="Mercats">
           <Key>
             <PropertyRef Name="Id" />
@@ -284,6 +298,14 @@
           <EntitySet Name="Productes_ProdFons" EntityType="Self.Productes_ProdFons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuaris" EntityType="Self.Usuaris" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Valoracions" EntityType="Self.Valoracions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IngressosExterns" EntityType="Self.IngressosExterns" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [IngressosExterns].[Id] AS [Id], 
+    [IngressosExterns].[Any] AS [Any], 
+    [IngressosExterns].[Rao] AS [Rao], 
+    [IngressosExterns].[Import] AS [Import]
+    FROM [dbo].[IngressosExterns] AS [IngressosExterns]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_EmpresaGestor" Association="Self.FK_EmpresaGestor">
             <End Role="Empreses" EntitySet="Empreses" />
             <End Role="Gestors" EntitySet="Gestors" />
@@ -390,6 +412,7 @@
             <End Role="Moviment" EntitySet="Moviments" />
             <End Role="DesglosCompre" EntitySet="DesglosCompras" />
           </AssociationSet>
+          <EntitySet Name="IngressosExterns" EntityType="InversionsBD.IngresExtern" />
           </EntityContainer>
         <EntityType Name="Empresa">
           <Key>
@@ -642,6 +665,18 @@
           <Member Name="RV" />
           <Member Name="Tots" />
         </EnumType>
+        <EntityType Name="IngresExtern">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Any" />
+            <PropertyRef Name="Rao" />
+            <PropertyRef Name="Import" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Any" Type="Int16" Nullable="false" />
+          <Property Name="Rao" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Import" Type="Decimal" Nullable="false" Precision="20" Scale="13" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -757,6 +792,16 @@
                 <ScalarProperty Name="Participacions" ColumnName="Participacions" />
                 <ScalarProperty Name="MovCompraOrigId" ColumnName="MovCompraOrigId" />
                 <ScalarProperty Name="MovCompraId" ColumnName="MovCompraId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IngressosExterns">
+            <EntityTypeMapping TypeName="InversionsBD.IngresExtern">
+              <MappingFragment StoreEntitySet="IngressosExterns">
+                <ScalarProperty Name="Import" ColumnName="Import" />
+                <ScalarProperty Name="Rao" ColumnName="Rao" />
+                <ScalarProperty Name="Any" ColumnName="Any" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

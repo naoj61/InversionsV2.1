@@ -5,10 +5,12 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Comuns;
+using Controls;
 using Microsoft.Win32;
 
 namespace Inversions.GUI.Forms
@@ -27,6 +29,7 @@ namespace Inversions.GUI.Forms
             dgvProductes.AutoGenerateColumns = false;
             dgvVendes.AutoGenerateColumns = false;
             dgvCompresVenda.AutoGenerateColumns = false;
+            dgvIngressosForaAplicacio.AutoGenerateColumns = false;
 
             dgvProductes.AutoSize = true;
 
@@ -330,8 +333,8 @@ namespace Inversions.GUI.Forms
 
         private void calculaTotalATributar()
         {
-            ntbTotalTributar.Valor = ntbPiG.Valor + ntbIngressosForaApp.Valor + ntbDividents.Valor 
-                - ntbPerduesAnysAnteriors.Valor - ntbMinimContribuent.Valor;
+            ntbTotalTributar.Valor = ntbPiG.Valor + ntbIngressosForaApp.Valor + ntbDividents.Valor
+                                     - ntbPerduesAnysAnteriors.Valor - ntbMinimContribuent.Valor;
 
             var activaBotons = vImportMinimContribuent != ntbMinimContribuent.Valor || vIngressosForaApp != ntbIngressosForaApp.Valor;
 
@@ -344,9 +347,14 @@ namespace Inversions.GUI.Forms
         private decimal vImportMinimContribuent, vIngressosForaApp;
         private string vClauReg;
 
+        private List<IngresExtern> vDespesesExt;
+
         private void cbAny_SelectedIndexChanged(object sender, EventArgs e)
         {
             vAny = (int) cbAny.SelectedItem;
+
+            vDespesesExt = Program.Sessio.IngressosExterns.Where(w => w.Any == vAny).ToList();
+            dgvIngressosForaAplicacio.DataSource = vDespesesExt;
 
             vVendesAny = Moviment.MovimentsUsuari.Where(w => w._EsVendaReal && w.Data.Year == vAny).OrderBy(o => o.Prod).ThenBy(t => t.Data).ToList();
             vProdsAmbVendesAny = vVendesAny.Select(s => s.Prod).Distinct().Select(i => new StProductes(vAny, i)).ToList();
@@ -470,6 +478,202 @@ namespace Inversions.GUI.Forms
         {
             if (vIngressosForaApp != ntbIngressosForaApp.Valor)
                 calculaTotalATributar();
+        }
+
+
+        #region *** Gestiona Ingressos fora de l'aplicació ***
+
+        private void btDesaIngresExtern_Click(object sender, EventArgs e)
+        {
+            // Desa totes les modificacions.
+            throw new NotImplementedException();
+
+            
+            btDesaIngresExtern.Enabled = false;
+            btCancelaIngresExtern.Enabled = false;
+
+            tbImportIngresExtern.Enabled = false;
+            ntbImportIngresExtern.Enabled = true;
+
+            dgvIngressosForaAplicacio.Enabled = true;
+        }
+
+        private void btCancelaIngresExtern_Click(object sender, EventArgs e)
+        {
+            // Elimina totes les modificacions i deixa l'estat inicial.
+            //throw new NotImplementedException();
+
+
+            btDesaIngresExtern.Enabled = false;
+            btCancelaIngresExtern.Enabled = false;
+
+            tbImportIngresExtern.Enabled = false;
+            ntbImportIngresExtern.Enabled = true;
+
+            dgvIngressosForaAplicacio.Enabled = true;
+        }
+
+
+        #region *** Controla events de "dgvIngressosForaAplicacio" ***
+
+        private void dgvIngressosForaAplicacio_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            // Obté el control d'edició actual
+            TextBox textBox = e.Control as TextBox;
+
+            if (textBox != null)
+            {
+                // Només apliquem la validació a les cel·les de columnes del tipus"NumericTextBoxColumn"
+                if (dgvIngressosForaAplicacio.Columns[dgvIngressosForaAplicacio.CurrentCell.ColumnIndex] is NumericTextBoxColumn)
+                {
+                    // Afegim un esdeveniment de validació de text quan es produeix l'entrada
+                    textBox.KeyPress -= numericTextBox_KeyPress;
+                    textBox.KeyPress += numericTextBox_KeyPress;
+                }
+                else
+                {
+                    textBox.KeyPress -= numericTextBox_KeyPress;
+                } 
+            }
+
+            // Deshabilito els botons Desar i Cancel·lar temporalment
+            btDesaIngresExtern.Enabled = false;
+            btCancelaIngresExtern.Enabled = false;
+        }
+
+        /// <summary>
+        /// Només permetem dígits, coma i tecla de retrocés
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void numericTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Només permetem dígits, coma i tecla de retrocés
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != ',' && e.KeyChar != '.')
+            {
+                e.Handled = true; // S'ignora el caràcter
+            }
+
+            if (e.KeyChar == '.')
+                e.KeyChar = ','; // Converteix el punt en coma
+
+            // Només permetem una coma decimal
+            if (e.KeyChar == ',')
+            {
+                TextBox textBox = sender as TextBox;
+                if (textBox != null && textBox.Text.Contains(","))
+                {
+                    e.Handled = true; // S'ignora la coma si ja existeix una
+                }
+            }
+        }
+
+        private void dgvIngressosForaAplicacio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Elimina la fila si és nova i es pulsa la tecla "Esc"
+            if (e.KeyChar == (char)27 && dgvIngressosForaAplicacio.IsCurrentRowDirty)
+            {
+                dgvIngressosForaAplicacio.Rows.Remove(dgvIngressosForaAplicacio.CurrentRow);
+
+
+                if(comprovaSiHiHaModificacions())
+                {
+                    // Habilito els botons Desar i Cancel·lar
+                    btDesaIngresExtern.Enabled = true;
+                    btCancelaIngresExtern.Enabled = true;
+                }
+            }
+        }
+
+        private bool comprovaSiHiHaModificacions()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void dgvIngressosForaAplicacio_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            DataGridView dataGridView = sender as DataGridView;
+
+            if (dataGridView != null && dataGridView.IsCurrentRowDirty)
+            {
+                var rao = dataGridView.Rows[e.RowIndex].Cells["ColumnaRao"].Value;
+                var import = dataGridView.Rows[e.RowIndex].Cells["ColumnaImport"].Value;
+
+                if (rao != null || import != null)
+                {
+                    if (rao == null)
+                    {
+                        e.Cancel = true;
+                        MessageBox.Show("La Raó és obligatòria.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        dataGridView.Rows[e.RowIndex].Cells[1].Selected = true;
+                    }
+                    else if (import == null)
+                    {
+                        e.Cancel = true;
+                        MessageBox.Show("L'import és obligatòri.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        dataGridView.Rows[e.RowIndex].Cells[2].Selected = true;
+                    }
+                    else
+                    {
+                        // Habilito els botons Desar i Cancel·lar
+                        btDesaIngresExtern.Enabled = true;
+                        btCancelaIngresExtern.Enabled = true;
+                    }
+                }
+            }
+        }
+
+        private void dgvIngressosForaAplicacio_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            // Aquí pots gestionar l'error de dades com vulguis
+            MessageBox.Show("Error de dades: " + e.Exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            // Si vols controlar l'error i evitar que es propagui, pots fer-ho assignant la propietat Handled a true
+            e.ThrowException = false; // Opcional: indiques que ja has gestionat l'error
+            e.Cancel = true; // Opcional: indiques que cancel·les l'operació que va provocar l'error
+        }
+        
+        #endregion *** Controla events de "dgvIngressosForaAplicacio" ***
+
+        private void btNovaDespesaExterna_Click(object sender, EventArgs e)
+        {
+            IngresExtern de = new IngresExtern();
+            de.Any = (short) vAny;
+            vDespesesExt.Add(de);
+
+            dgvIngressosForaAplicacio.DataSource = null;
+            dgvIngressosForaAplicacio.DataSource = vDespesesExt;
+        }
+
+
+
+
+        #endregion *** Gestiona Ingressos fora de l'aplicació ***
+
+        private void btEsborraDespesaExterna_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvIngressosForaAplicacio_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.KeyData & Keys.KeyCode) == Keys.Delete)
+            {
+                DataGridView dataGridView = sender as DataGridView;
+
+                foreach (DataGridViewRow row in dataGridView.SelectedRows)
+                {
+                    IngresExtern desp = (IngresExtern)row.DataBoundItem;
+
+                    vDespesesExt.Remove(desp);
+                } 
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Form1 ff = new Form1();
+            ff.Show();
         }
     }
 }

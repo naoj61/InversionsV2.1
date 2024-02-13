@@ -1,4 +1,6 @@
-﻿namespace Inversions.GUI.Forms
+﻿using System.Windows.Forms;
+
+namespace Inversions.GUI.Forms
 {
     sealed partial class IRPF
     {
@@ -51,6 +53,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.cbAny = new System.Windows.Forms.ComboBox();
             this.gbDividents = new System.Windows.Forms.GroupBox();
@@ -87,7 +90,7 @@
             this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flpTotals = new System.Windows.Forms.FlowLayoutPanel();
             this.ckAgrupaCompres = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ntbMinimContribuent = new Controls.NumericTextBox2();
@@ -105,15 +108,30 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.btDesa = new System.Windows.Forms.Button();
             this.btCancela = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.pnAny = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.ntbImportIngresExtern = new Controls.NumericTextBox2();
+            this.gbIngressosForaAplicacio = new System.Windows.Forms.GroupBox();
+            this.dgvIngressosForaAplicacio = new System.Windows.Forms.DataGridView();
+            this.ColumnsId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnaRao = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnaImport = new Controls.NumericTextBoxColumn();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btEsborraDespesaExterna = new System.Windows.Forms.Button();
+            this.btNovaDespesaExterna = new System.Windows.Forms.Button();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.tbImportIngresExtern = new System.Windows.Forms.TextBox();
+            this.btCancelaIngresExtern = new System.Windows.Forms.Button();
+            this.btDesaIngresExtern = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.gbDividents.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProductes)).BeginInit();
             this.gbVendes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVendes)).BeginInit();
             this.gbCompres.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCompresVenda)).BeginInit();
-            this.flowLayoutPanel1.SuspendLayout();
+            this.flpTotals.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -121,14 +139,19 @@
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.pnAny.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            this.gbIngressosForaAplicacio.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvIngressosForaAplicacio)).BeginInit();
             this.panel1.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(6, 5);
+            this.label1.Location = new System.Drawing.Point(6, 9);
             this.label1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(39, 20);
@@ -139,7 +162,7 @@
             // 
             this.cbAny.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbAny.FormattingEnabled = true;
-            this.cbAny.Location = new System.Drawing.Point(51, 3);
+            this.cbAny.Location = new System.Drawing.Point(51, 7);
             this.cbAny.Name = "cbAny";
             this.cbAny.Size = new System.Drawing.Size(121, 28);
             this.cbAny.TabIndex = 1;
@@ -147,16 +170,14 @@
             // 
             // gbDividents
             // 
-            this.gbDividents.AutoSize = true;
-            this.gbDividents.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.gbDividents.Controls.Add(this.dgvProductes);
             this.gbDividents.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbDividents.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbDividents.Location = new System.Drawing.Point(0, 42);
+            this.gbDividents.Location = new System.Drawing.Point(0, 43);
             this.gbDividents.Name = "gbDividents";
-            this.gbDividents.Padding = new System.Windows.Forms.Padding(3, 5, 3, 0);
-            this.gbDividents.Size = new System.Drawing.Size(1728, 122);
-            this.gbDividents.TabIndex = 1;
+            this.gbDividents.Padding = new System.Windows.Forms.Padding(5);
+            this.gbDividents.Size = new System.Drawing.Size(1367, 101);
+            this.gbDividents.TabIndex = 2;
             this.gbDividents.TabStop = false;
             this.gbDividents.Text = "Dividents del any";
             // 
@@ -167,14 +188,13 @@
             this.dgvProductes.AllowUserToOrderColumns = true;
             this.dgvProductes.AllowUserToResizeColumns = false;
             this.dgvProductes.AllowUserToResizeRows = false;
-            this.dgvProductes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvProductes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvProductes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn6});
-            this.dgvProductes.Location = new System.Drawing.Point(3, 24);
+            this.dgvProductes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvProductes.Location = new System.Drawing.Point(5, 24);
             this.dgvProductes.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.dgvProductes.MaximumSize = new System.Drawing.Size(1800, 200);
             this.dgvProductes.MinimumSize = new System.Drawing.Size(100, 50);
@@ -182,7 +202,7 @@
             this.dgvProductes.ReadOnly = true;
             this.dgvProductes.RowTemplate.Height = 28;
             this.dgvProductes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvProductes.Size = new System.Drawing.Size(1722, 79);
+            this.dgvProductes.Size = new System.Drawing.Size(1357, 72);
             this.dgvProductes.TabIndex = 0;
             // 
             // dataGridViewTextBoxColumn1
@@ -216,14 +236,14 @@
             // gbVendes
             // 
             this.gbVendes.Controls.Add(this.dgvVendes);
-            this.gbVendes.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gbVendes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbVendes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbVendes.Location = new System.Drawing.Point(0, 164);
-            this.gbVendes.Margin = new System.Windows.Forms.Padding(3, 9, 3, 3);
+            this.gbVendes.Location = new System.Drawing.Point(0, 144);
+            this.gbVendes.Margin = new System.Windows.Forms.Padding(0);
             this.gbVendes.Name = "gbVendes";
-            this.gbVendes.Padding = new System.Windows.Forms.Padding(3, 5, 3, 3);
-            this.gbVendes.Size = new System.Drawing.Size(1728, 255);
-            this.gbVendes.TabIndex = 2;
+            this.gbVendes.Padding = new System.Windows.Forms.Padding(5);
+            this.gbVendes.Size = new System.Drawing.Size(1367, 311);
+            this.gbVendes.TabIndex = 3;
             this.gbVendes.TabStop = false;
             this.gbVendes.Text = "Vendes del any";
             // 
@@ -245,12 +265,12 @@
             this.cDespesesCompra,
             this.Column2});
             this.dgvVendes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvVendes.Location = new System.Drawing.Point(3, 24);
+            this.dgvVendes.Location = new System.Drawing.Point(5, 24);
             this.dgvVendes.Name = "dgvVendes";
             this.dgvVendes.ReadOnly = true;
             this.dgvVendes.RowTemplate.Height = 28;
             this.dgvVendes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvVendes.Size = new System.Drawing.Size(1722, 228);
+            this.dgvVendes.Size = new System.Drawing.Size(1357, 282);
             this.dgvVendes.TabIndex = 0;
             this.dgvVendes.SelectionChanged += new System.EventHandler(this.dgvVendes_SelectionChanged);
             // 
@@ -376,14 +396,14 @@
             // gbCompres
             // 
             this.gbCompres.Controls.Add(this.dgvCompresVenda);
-            this.gbCompres.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbCompres.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.gbCompres.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbCompres.Location = new System.Drawing.Point(0, 419);
+            this.gbCompres.Location = new System.Drawing.Point(0, 455);
             this.gbCompres.Margin = new System.Windows.Forms.Padding(3, 9, 3, 3);
             this.gbCompres.Name = "gbCompres";
-            this.gbCompres.Padding = new System.Windows.Forms.Padding(3, 5, 3, 3);
-            this.gbCompres.Size = new System.Drawing.Size(1728, 259);
-            this.gbCompres.TabIndex = 3;
+            this.gbCompres.Padding = new System.Windows.Forms.Padding(5);
+            this.gbCompres.Size = new System.Drawing.Size(1728, 223);
+            this.gbCompres.TabIndex = 4;
             this.gbCompres.TabStop = false;
             this.gbCompres.Text = "Compres de la venda";
             // 
@@ -415,10 +435,10 @@
             this.Column8,
             this.Column9});
             this.dgvCompresVenda.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvCompresVenda.Location = new System.Drawing.Point(3, 24);
+            this.dgvCompresVenda.Location = new System.Drawing.Point(5, 24);
             this.dgvCompresVenda.Name = "dgvCompresVenda";
             this.dgvCompresVenda.RowTemplate.Height = 28;
-            this.dgvCompresVenda.Size = new System.Drawing.Size(1722, 232);
+            this.dgvCompresVenda.Size = new System.Drawing.Size(1718, 194);
             this.dgvCompresVenda.TabIndex = 0;
             // 
             // Column5
@@ -589,23 +609,23 @@
             this.Column9.MinimumWidth = 100;
             this.Column9.Name = "Column9";
             // 
-            // flowLayoutPanel1
+            // flpTotals
             // 
-            this.flowLayoutPanel1.Controls.Add(this.ckAgrupaCompres);
-            this.flowLayoutPanel1.Controls.Add(this.groupBox1);
-            this.flowLayoutPanel1.Controls.Add(this.groupBox6);
-            this.flowLayoutPanel1.Controls.Add(this.groupBox2);
-            this.flowLayoutPanel1.Controls.Add(this.groupBox3);
-            this.flowLayoutPanel1.Controls.Add(this.groupBox4);
-            this.flowLayoutPanel1.Controls.Add(this.label2);
-            this.flowLayoutPanel1.Controls.Add(this.groupBox5);
-            this.flowLayoutPanel1.Controls.Add(this.panel2);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 678);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1728, 97);
-            this.flowLayoutPanel1.TabIndex = 4;
+            this.flpTotals.Controls.Add(this.ckAgrupaCompres);
+            this.flpTotals.Controls.Add(this.groupBox1);
+            this.flpTotals.Controls.Add(this.groupBox6);
+            this.flpTotals.Controls.Add(this.groupBox2);
+            this.flpTotals.Controls.Add(this.groupBox3);
+            this.flpTotals.Controls.Add(this.groupBox4);
+            this.flpTotals.Controls.Add(this.label2);
+            this.flpTotals.Controls.Add(this.groupBox5);
+            this.flpTotals.Controls.Add(this.panel2);
+            this.flpTotals.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.flpTotals.Location = new System.Drawing.Point(0, 678);
+            this.flpTotals.Name = "flpTotals";
+            this.flpTotals.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.flpTotals.Size = new System.Drawing.Size(1728, 97);
+            this.flpTotals.TabIndex = 5;
             // 
             // ckAgrupaCompres
             // 
@@ -875,7 +895,7 @@
             this.btDesa.Margin = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.btDesa.Name = "btDesa";
             this.btDesa.Size = new System.Drawing.Size(122, 34);
-            this.btDesa.TabIndex = 7;
+            this.btDesa.TabIndex = 1;
             this.btDesa.Text = "Desa";
             this.btDesa.UseVisualStyleBackColor = true;
             this.btDesa.Click += new System.EventHandler(this.btDesa_Click);
@@ -888,31 +908,221 @@
             this.btCancela.Margin = new System.Windows.Forms.Padding(9);
             this.btCancela.Name = "btCancela";
             this.btCancela.Size = new System.Drawing.Size(122, 34);
-            this.btCancela.TabIndex = 8;
+            this.btCancela.TabIndex = 0;
             this.btCancela.Text = "Cancela";
             this.btCancela.UseVisualStyleBackColor = true;
             this.btCancela.Click += new System.EventHandler(this.btCancela_Click);
             // 
+            // pnAny
+            // 
+            this.pnAny.Controls.Add(this.cbAny);
+            this.pnAny.Controls.Add(this.label1);
+            this.pnAny.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnAny.Location = new System.Drawing.Point(0, 0);
+            this.pnAny.Name = "pnAny";
+            this.pnAny.Size = new System.Drawing.Size(1367, 43);
+            this.pnAny.TabIndex = 0;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.ntbImportIngresExtern);
+            this.groupBox7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox7.Location = new System.Drawing.Point(246, 7);
+            this.groupBox7.Margin = new System.Windows.Forms.Padding(5, 3, 3, 3);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(105, 52);
+            this.groupBox7.TabIndex = 4;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Import";
+            this.toolTip1.SetToolTip(this.groupBox7, "Son els interressos dels comptes o dels diposits");
+            // 
+            // ntbImportIngresExtern
+            // 
+            this.ntbImportIngresExtern._CapturaEscape = true;
+            this.ntbImportIngresExtern._Format = "#,##0.00";
+            this.ntbImportIngresExtern._NegatiusEnVermell = false;
+            this.ntbImportIngresExtern._PermetDecimals = true;
+            this.ntbImportIngresExtern._PermetEspais = false;
+            this.ntbImportIngresExtern._PermetNegatius = true;
+            this.ntbImportIngresExtern.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbImportIngresExtern.Enabled = false;
+            this.ntbImportIngresExtern.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbImportIngresExtern.Location = new System.Drawing.Point(3, 22);
+            this.ntbImportIngresExtern.Name = "ntbImportIngresExtern";
+            this.ntbImportIngresExtern.Size = new System.Drawing.Size(99, 26);
+            this.ntbImportIngresExtern.TabIndex = 0;
+            this.ntbImportIngresExtern.Text = "0,00";
+            this.ntbImportIngresExtern.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbImportIngresExtern.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.ntbImportIngresExtern.ValorDouble = 0D;
+            // 
+            // gbIngressosForaAplicacio
+            // 
+            this.gbIngressosForaAplicacio.Controls.Add(this.dgvIngressosForaAplicacio);
+            this.gbIngressosForaAplicacio.Controls.Add(this.panel1);
+            this.gbIngressosForaAplicacio.Dock = System.Windows.Forms.DockStyle.Right;
+            this.gbIngressosForaAplicacio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
+            this.gbIngressosForaAplicacio.Location = new System.Drawing.Point(1367, 0);
+            this.gbIngressosForaAplicacio.Name = "gbIngressosForaAplicacio";
+            this.gbIngressosForaAplicacio.Size = new System.Drawing.Size(361, 455);
+            this.gbIngressosForaAplicacio.TabIndex = 1;
+            this.gbIngressosForaAplicacio.TabStop = false;
+            this.gbIngressosForaAplicacio.Text = "Ingressos fora app";
+            // 
+            // dgvIngressosForaAplicacio
+            // 
+            this.dgvIngressosForaAplicacio.AllowUserToResizeColumns = false;
+            this.dgvIngressosForaAplicacio.AllowUserToResizeRows = false;
+            this.dgvIngressosForaAplicacio.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvIngressosForaAplicacio.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ColumnsId,
+            this.ColumnaRao,
+            this.ColumnaImport});
+            this.dgvIngressosForaAplicacio.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvIngressosForaAplicacio.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
+            this.dgvIngressosForaAplicacio.Location = new System.Drawing.Point(3, 22);
+            this.dgvIngressosForaAplicacio.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.dgvIngressosForaAplicacio.MinimumSize = new System.Drawing.Size(100, 50);
+            this.dgvIngressosForaAplicacio.Name = "dgvIngressosForaAplicacio";
+            this.dgvIngressosForaAplicacio.RowTemplate.Height = 28;
+            this.dgvIngressosForaAplicacio.Size = new System.Drawing.Size(355, 309);
+            this.dgvIngressosForaAplicacio.TabIndex = 0;
+            this.dgvIngressosForaAplicacio.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvIngressosForaAplicacio_DataError);
+            this.dgvIngressosForaAplicacio.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgvIngressosForaAplicacio_EditingControlShowing);
+            this.dgvIngressosForaAplicacio.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvIngressosForaAplicacio_RowValidating);
+            this.dgvIngressosForaAplicacio.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvIngressosForaAplicacio_KeyDown);
+            this.dgvIngressosForaAplicacio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dgvIngressosForaAplicacio_KeyPress);
+            // 
+            // ColumnsId
+            // 
+            this.ColumnsId.DataPropertyName = "Id";
+            this.ColumnsId.HeaderText = "Id";
+            this.ColumnsId.Name = "ColumnsId";
+            this.ColumnsId.Visible = false;
+            // 
+            // ColumnaRao
+            // 
+            this.ColumnaRao.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnaRao.DataPropertyName = "Rao";
+            this.ColumnaRao.HeaderText = "Raó";
+            this.ColumnaRao.Name = "ColumnaRao";
+            // 
+            // ColumnaImport
+            // 
+            this.ColumnaImport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ColumnaImport.DataPropertyName = "Import";
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle23.Format = "C2";
+            dataGridViewCellStyle23.NullValue = null;
+            this.ColumnaImport.DefaultCellStyle = dataGridViewCellStyle23;
+            this.ColumnaImport.HeaderText = "Import";
+            this.ColumnaImport.Name = "ColumnaImport";
+            this.ColumnaImport.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.ColumnaImport.Width = 97;
+            // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.cbAny);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Controls.Add(this.btEsborraDespesaExterna);
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.btNovaDespesaExterna);
+            this.panel1.Controls.Add(this.groupBox8);
+            this.panel1.Controls.Add(this.groupBox7);
+            this.panel1.Controls.Add(this.btCancelaIngresExtern);
+            this.panel1.Controls.Add(this.btDesaIngresExtern);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(3, 331);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1728, 42);
-            this.panel1.TabIndex = 0;
+            this.panel1.Size = new System.Drawing.Size(355, 121);
+            this.panel1.TabIndex = 1;
+            // 
+            // btEsborraDespesaExterna
+            // 
+            this.btEsborraDespesaExterna.Location = new System.Drawing.Point(75, 71);
+            this.btEsborraDespesaExterna.Name = "btEsborraDespesaExterna";
+            this.btEsborraDespesaExterna.Size = new System.Drawing.Size(69, 41);
+            this.btEsborraDespesaExterna.TabIndex = 5;
+            this.btEsborraDespesaExterna.Text = "Esborra";
+            this.btEsborraDespesaExterna.UseVisualStyleBackColor = true;
+            this.btEsborraDespesaExterna.Click += new System.EventHandler(this.btEsborraDespesaExterna_Click);
+            // 
+            // btNovaDespesaExterna
+            // 
+            this.btNovaDespesaExterna.Location = new System.Drawing.Point(0, 72);
+            this.btNovaDespesaExterna.Name = "btNovaDespesaExterna";
+            this.btNovaDespesaExterna.Size = new System.Drawing.Size(69, 41);
+            this.btNovaDespesaExterna.TabIndex = 5;
+            this.btNovaDespesaExterna.Text = "Nova";
+            this.btNovaDespesaExterna.UseVisualStyleBackColor = true;
+            this.btNovaDespesaExterna.Click += new System.EventHandler(this.btNovaDespesaExterna_Click);
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.tbImportIngresExtern);
+            this.groupBox8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox8.Location = new System.Drawing.Point(107, 7);
+            this.groupBox8.Margin = new System.Windows.Forms.Padding(5, 3, 3, 3);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(136, 52);
+            this.groupBox8.TabIndex = 4;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Raó";
+            // 
+            // tbImportIngresExtern
+            // 
+            this.tbImportIngresExtern.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbImportIngresExtern.Enabled = false;
+            this.tbImportIngresExtern.Location = new System.Drawing.Point(3, 22);
+            this.tbImportIngresExtern.Name = "tbImportIngresExtern";
+            this.tbImportIngresExtern.Size = new System.Drawing.Size(130, 26);
+            this.tbImportIngresExtern.TabIndex = 0;
+            // 
+            // btCancelaIngresExtern
+            // 
+            this.btCancelaIngresExtern.Enabled = false;
+            this.btCancelaIngresExtern.Location = new System.Drawing.Point(260, 72);
+            this.btCancelaIngresExtern.Name = "btCancelaIngresExtern";
+            this.btCancelaIngresExtern.Size = new System.Drawing.Size(91, 41);
+            this.btCancelaIngresExtern.TabIndex = 2;
+            this.btCancelaIngresExtern.Text = "Cancel·la";
+            this.btCancelaIngresExtern.UseVisualStyleBackColor = true;
+            this.btCancelaIngresExtern.Click += new System.EventHandler(this.btCancelaIngresExtern_Click);
+            // 
+            // btDesaIngresExtern
+            // 
+            this.btDesaIngresExtern.Enabled = false;
+            this.btDesaIngresExtern.Location = new System.Drawing.Point(175, 72);
+            this.btDesaIngresExtern.Name = "btDesaIngresExtern";
+            this.btDesaIngresExtern.Size = new System.Drawing.Size(79, 41);
+            this.btDesaIngresExtern.TabIndex = 1;
+            this.btDesaIngresExtern.Text = "Desa";
+            this.btDesaIngresExtern.UseVisualStyleBackColor = true;
+            this.btDesaIngresExtern.Click += new System.EventHandler(this.btDesaIngresExtern_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(5, 18);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(69, 41);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Prova";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // IRPF
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1728, 775);
-            this.Controls.Add(this.gbCompres);
             this.Controls.Add(this.gbVendes);
             this.Controls.Add(this.gbDividents);
-            this.Controls.Add(this.flowLayoutPanel1);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.pnAny);
+            this.Controls.Add(this.gbIngressosForaAplicacio);
+            this.Controls.Add(this.gbCompres);
+            this.Controls.Add(this.flpTotals);
             this.MinimumSize = new System.Drawing.Size(1750, 830);
             this.Name = "IRPF";
             this.ShowInTaskbar = false;
@@ -925,8 +1135,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvVendes)).EndInit();
             this.gbCompres.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCompresVenda)).EndInit();
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
+            this.flpTotals.ResumeLayout(false);
+            this.flpTotals.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox6.ResumeLayout(false);
@@ -940,10 +1150,16 @@
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.panel2.ResumeLayout(false);
+            this.pnAny.ResumeLayout(false);
+            this.pnAny.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            this.gbIngressosForaAplicacio.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvIngressosForaAplicacio)).EndInit();
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -970,7 +1186,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.GroupBox gbCompres;
         private System.Windows.Forms.DataGridView dgvCompresVenda;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel flpTotals;
         private System.Windows.Forms.GroupBox groupBox1;
         private Controls.NumericTextBox2 ntbMinimContribuent;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -979,7 +1195,7 @@
         private Controls.NumericTextBox2 ntbPiG;
         private System.Windows.Forms.GroupBox groupBox4;
         private Controls.NumericTextBox2 ntbTotalTributar;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel pnAny;
         private System.Windows.Forms.CheckBox ckAgrupaCompres;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
@@ -1005,5 +1221,20 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btDesa;
         private System.Windows.Forms.Button btCancela;
+        private System.Windows.Forms.GroupBox gbIngressosForaAplicacio;
+        private System.Windows.Forms.DataGridView dgvIngressosForaAplicacio;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btCancelaIngresExtern;
+        private System.Windows.Forms.Button btDesaIngresExtern;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.TextBox tbImportIngresExtern;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private Controls.NumericTextBox2 ntbImportIngresExtern;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnsId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnaRao;
+        private Controls.NumericTextBoxColumn ColumnaImport;
+        private System.Windows.Forms.Button btNovaDespesaExterna;
+        private System.Windows.Forms.Button btEsborraDespesaExterna;
+        private System.Windows.Forms.Button button1;
     }
 }
