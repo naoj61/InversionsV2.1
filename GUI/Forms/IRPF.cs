@@ -473,15 +473,17 @@ namespace Inversions.GUI.Forms
         private void dgvVendes_SelectionChanged(object sender, EventArgs e)
         {
             if (dgvVendes.SelectedRows.Count == 0)
+            {
                 dgvVendes.DataSource = null;
+                ntbPiG.Valor = 0;
+            }
             else
             {
                 ompleGridCompresDeLaVenda();
 
                 ntbPiG.Valor = dgvVendes.SelectedRows.Cast<DataGridViewRow>().Sum(row => ((StVendesAny) row.DataBoundItem)._PiG);
-
-                calculaTotalATributar();
             }
+            calculaTotalATributar();
         }
 
         private void ckAgrupaCompres_CheckedChanged(object sender, EventArgs e)
