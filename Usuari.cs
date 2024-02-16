@@ -17,11 +17,13 @@ namespace Inversions
         public Usuari()
         {
             this.Moviments = new HashSet<Moviment>();
+            this.IngressosExterns = new HashSet<IngresExtern>();
         }
     
         public int Id { get; set; }
         public string Nom { get; set; }
     
         public virtual ICollection<Moviment> Moviments { get; set; }
+        public virtual ICollection<IngresExtern> IngressosExterns { get; set; }
     }
 }

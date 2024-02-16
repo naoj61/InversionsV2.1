@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using DevExpress.Utils.CodedUISupport;
 
 namespace Inversions.GUI.Forms
 {
@@ -110,21 +111,13 @@ namespace Inversions.GUI.Forms
             this.btCancela = new System.Windows.Forms.Button();
             this.pnAny = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.ntbImportIngresExtern = new Controls.NumericTextBox2();
             this.gbIngressosForaAplicacio = new System.Windows.Forms.GroupBox();
-            this.dgvIngressosForaAplicacio = new System.Windows.Forms.DataGridView();
+            this.dgvIngressosForaAplicacio = new Controls.DataGridView2();
             this.ColumnsId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnaUsuari = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnaAny = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnaRao = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnaImport = new Controls.NumericTextBoxColumn();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.btEsborraDespesaExterna = new System.Windows.Forms.Button();
-            this.btNovaDespesaExterna = new System.Windows.Forms.Button();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.tbImportIngresExtern = new System.Windows.Forms.TextBox();
-            this.btCancelaIngresExtern = new System.Windows.Forms.Button();
-            this.btDesaIngresExtern = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.gbDividents.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProductes)).BeginInit();
             this.gbVendes.SuspendLayout();
@@ -140,11 +133,8 @@ namespace Inversions.GUI.Forms
             this.groupBox5.SuspendLayout();
             this.panel2.SuspendLayout();
             this.pnAny.SuspendLayout();
-            this.groupBox7.SuspendLayout();
             this.gbIngressosForaAplicacio.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvIngressosForaAplicacio)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -675,8 +665,8 @@ namespace Inversions.GUI.Forms
             0,
             131072});
             this.ntbMinimContribuent.ValorDouble = 8550D;
+            this.ntbMinimContribuent.ValorChanged += new System.EventHandler(this.ntbMinimContribuent_ValorChanged);
             this.ntbMinimContribuent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ntbMinimContribuent_KeyDown);
-            this.ntbMinimContribuent.Validated += new System.EventHandler(this.ntbMinimContribuent_Validated);
             // 
             // groupBox6
             // 
@@ -703,6 +693,7 @@ namespace Inversions.GUI.Forms
             this.ntbIngressosForaApp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ntbIngressosForaApp.Location = new System.Drawing.Point(3, 51);
             this.ntbIngressosForaApp.Name = "ntbIngressosForaApp";
+            this.ntbIngressosForaApp.ReadOnly = true;
             this.ntbIngressosForaApp.Size = new System.Drawing.Size(153, 26);
             this.ntbIngressosForaApp.TabIndex = 0;
             this.ntbIngressosForaApp.Text = "1.184,41 €";
@@ -713,8 +704,6 @@ namespace Inversions.GUI.Forms
             0,
             131072});
             this.ntbIngressosForaApp.ValorDouble = 1184.41D;
-            this.ntbIngressosForaApp.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ntbMinimContribuent_KeyDown);
-            this.ntbIngressosForaApp.Validated += new System.EventHandler(this.ntbIngressosForaApp_Validated);
             // 
             // groupBox2
             // 
@@ -923,47 +912,9 @@ namespace Inversions.GUI.Forms
             this.pnAny.Size = new System.Drawing.Size(1367, 43);
             this.pnAny.TabIndex = 0;
             // 
-            // groupBox7
-            // 
-            this.groupBox7.Controls.Add(this.ntbImportIngresExtern);
-            this.groupBox7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox7.Location = new System.Drawing.Point(246, 7);
-            this.groupBox7.Margin = new System.Windows.Forms.Padding(5, 3, 3, 3);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(105, 52);
-            this.groupBox7.TabIndex = 4;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Import";
-            this.toolTip1.SetToolTip(this.groupBox7, "Son els interressos dels comptes o dels diposits");
-            // 
-            // ntbImportIngresExtern
-            // 
-            this.ntbImportIngresExtern._CapturaEscape = true;
-            this.ntbImportIngresExtern._Format = "#,##0.00";
-            this.ntbImportIngresExtern._NegatiusEnVermell = false;
-            this.ntbImportIngresExtern._PermetDecimals = true;
-            this.ntbImportIngresExtern._PermetEspais = false;
-            this.ntbImportIngresExtern._PermetNegatius = true;
-            this.ntbImportIngresExtern.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ntbImportIngresExtern.Enabled = false;
-            this.ntbImportIngresExtern.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbImportIngresExtern.Location = new System.Drawing.Point(3, 22);
-            this.ntbImportIngresExtern.Name = "ntbImportIngresExtern";
-            this.ntbImportIngresExtern.Size = new System.Drawing.Size(99, 26);
-            this.ntbImportIngresExtern.TabIndex = 0;
-            this.ntbImportIngresExtern.Text = "0,00";
-            this.ntbImportIngresExtern.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbImportIngresExtern.Valor = new decimal(new int[] {
-            0,
-            0,
-            0,
-            131072});
-            this.ntbImportIngresExtern.ValorDouble = 0D;
-            // 
             // gbIngressosForaAplicacio
             // 
             this.gbIngressosForaAplicacio.Controls.Add(this.dgvIngressosForaAplicacio);
-            this.gbIngressosForaAplicacio.Controls.Add(this.panel1);
             this.gbIngressosForaAplicacio.Dock = System.Windows.Forms.DockStyle.Right;
             this.gbIngressosForaAplicacio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
             this.gbIngressosForaAplicacio.Location = new System.Drawing.Point(1367, 0);
@@ -980,6 +931,8 @@ namespace Inversions.GUI.Forms
             this.dgvIngressosForaAplicacio.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvIngressosForaAplicacio.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnsId,
+            this.ColumnaUsuari,
+            this.ColumnaAny,
             this.ColumnaRao,
             this.ColumnaImport});
             this.dgvIngressosForaAplicacio.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -989,13 +942,11 @@ namespace Inversions.GUI.Forms
             this.dgvIngressosForaAplicacio.MinimumSize = new System.Drawing.Size(100, 50);
             this.dgvIngressosForaAplicacio.Name = "dgvIngressosForaAplicacio";
             this.dgvIngressosForaAplicacio.RowTemplate.Height = 28;
-            this.dgvIngressosForaAplicacio.Size = new System.Drawing.Size(355, 309);
+            this.dgvIngressosForaAplicacio.Size = new System.Drawing.Size(355, 430);
             this.dgvIngressosForaAplicacio.TabIndex = 0;
             this.dgvIngressosForaAplicacio.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvIngressosForaAplicacio_DataError);
-            this.dgvIngressosForaAplicacio.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgvIngressosForaAplicacio_EditingControlShowing);
+            this.dgvIngressosForaAplicacio.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dgvIngressosForaAplicacio_RowsRemoved);
             this.dgvIngressosForaAplicacio.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvIngressosForaAplicacio_RowValidating);
-            this.dgvIngressosForaAplicacio.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvIngressosForaAplicacio_KeyDown);
-            this.dgvIngressosForaAplicacio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dgvIngressosForaAplicacio_KeyPress);
             // 
             // ColumnsId
             // 
@@ -1003,6 +954,19 @@ namespace Inversions.GUI.Forms
             this.ColumnsId.HeaderText = "Id";
             this.ColumnsId.Name = "ColumnsId";
             this.ColumnsId.Visible = false;
+            // 
+            // ColumnaUsuari
+            // 
+            this.ColumnaUsuari.DataPropertyName = "Usuari";
+            this.ColumnaUsuari.HeaderText = "Usuari";
+            this.ColumnaUsuari.Name = "ColumnaUsuari";
+            this.ColumnaUsuari.Visible = false;
+            // 
+            // ColumnaAny
+            // 
+            this.ColumnaAny.HeaderText = "Any";
+            this.ColumnaAny.Name = "ColumnaAny";
+            this.ColumnaAny.Visible = false;
             // 
             // ColumnaRao
             // 
@@ -1024,94 +988,6 @@ namespace Inversions.GUI.Forms
             this.ColumnaImport.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.ColumnaImport.Width = 97;
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.btEsborraDespesaExterna);
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.btNovaDespesaExterna);
-            this.panel1.Controls.Add(this.groupBox8);
-            this.panel1.Controls.Add(this.groupBox7);
-            this.panel1.Controls.Add(this.btCancelaIngresExtern);
-            this.panel1.Controls.Add(this.btDesaIngresExtern);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(3, 331);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(355, 121);
-            this.panel1.TabIndex = 1;
-            // 
-            // btEsborraDespesaExterna
-            // 
-            this.btEsborraDespesaExterna.Location = new System.Drawing.Point(75, 71);
-            this.btEsborraDespesaExterna.Name = "btEsborraDespesaExterna";
-            this.btEsborraDespesaExterna.Size = new System.Drawing.Size(69, 41);
-            this.btEsborraDespesaExterna.TabIndex = 5;
-            this.btEsborraDespesaExterna.Text = "Esborra";
-            this.btEsborraDespesaExterna.UseVisualStyleBackColor = true;
-            this.btEsborraDespesaExterna.Click += new System.EventHandler(this.btEsborraDespesaExterna_Click);
-            // 
-            // btNovaDespesaExterna
-            // 
-            this.btNovaDespesaExterna.Location = new System.Drawing.Point(0, 72);
-            this.btNovaDespesaExterna.Name = "btNovaDespesaExterna";
-            this.btNovaDespesaExterna.Size = new System.Drawing.Size(69, 41);
-            this.btNovaDespesaExterna.TabIndex = 5;
-            this.btNovaDespesaExterna.Text = "Nova";
-            this.btNovaDespesaExterna.UseVisualStyleBackColor = true;
-            this.btNovaDespesaExterna.Click += new System.EventHandler(this.btNovaDespesaExterna_Click);
-            // 
-            // groupBox8
-            // 
-            this.groupBox8.Controls.Add(this.tbImportIngresExtern);
-            this.groupBox8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox8.Location = new System.Drawing.Point(107, 7);
-            this.groupBox8.Margin = new System.Windows.Forms.Padding(5, 3, 3, 3);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(136, 52);
-            this.groupBox8.TabIndex = 4;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Raó";
-            // 
-            // tbImportIngresExtern
-            // 
-            this.tbImportIngresExtern.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbImportIngresExtern.Enabled = false;
-            this.tbImportIngresExtern.Location = new System.Drawing.Point(3, 22);
-            this.tbImportIngresExtern.Name = "tbImportIngresExtern";
-            this.tbImportIngresExtern.Size = new System.Drawing.Size(130, 26);
-            this.tbImportIngresExtern.TabIndex = 0;
-            // 
-            // btCancelaIngresExtern
-            // 
-            this.btCancelaIngresExtern.Enabled = false;
-            this.btCancelaIngresExtern.Location = new System.Drawing.Point(260, 72);
-            this.btCancelaIngresExtern.Name = "btCancelaIngresExtern";
-            this.btCancelaIngresExtern.Size = new System.Drawing.Size(91, 41);
-            this.btCancelaIngresExtern.TabIndex = 2;
-            this.btCancelaIngresExtern.Text = "Cancel·la";
-            this.btCancelaIngresExtern.UseVisualStyleBackColor = true;
-            this.btCancelaIngresExtern.Click += new System.EventHandler(this.btCancelaIngresExtern_Click);
-            // 
-            // btDesaIngresExtern
-            // 
-            this.btDesaIngresExtern.Enabled = false;
-            this.btDesaIngresExtern.Location = new System.Drawing.Point(175, 72);
-            this.btDesaIngresExtern.Name = "btDesaIngresExtern";
-            this.btDesaIngresExtern.Size = new System.Drawing.Size(79, 41);
-            this.btDesaIngresExtern.TabIndex = 1;
-            this.btDesaIngresExtern.Text = "Desa";
-            this.btDesaIngresExtern.UseVisualStyleBackColor = true;
-            this.btDesaIngresExtern.Click += new System.EventHandler(this.btDesaIngresExtern_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(5, 18);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(69, 41);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Prova";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // IRPF
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1128,6 +1004,7 @@ namespace Inversions.GUI.Forms
             this.ShowInTaskbar = false;
             this.Text = "IRPF";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.IRPF_FormClosing);
             this.Shown += new System.EventHandler(this.IRPF_Shown);
             this.gbDividents.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvProductes)).EndInit();
@@ -1152,13 +1029,8 @@ namespace Inversions.GUI.Forms
             this.panel2.ResumeLayout(false);
             this.pnAny.ResumeLayout(false);
             this.pnAny.PerformLayout();
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
             this.gbIngressosForaAplicacio.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvIngressosForaAplicacio)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.groupBox8.ResumeLayout(false);
-            this.groupBox8.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1222,19 +1094,11 @@ namespace Inversions.GUI.Forms
         private System.Windows.Forms.Button btDesa;
         private System.Windows.Forms.Button btCancela;
         private System.Windows.Forms.GroupBox gbIngressosForaAplicacio;
-        private System.Windows.Forms.DataGridView dgvIngressosForaAplicacio;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button btCancelaIngresExtern;
-        private System.Windows.Forms.Button btDesaIngresExtern;
-        private System.Windows.Forms.GroupBox groupBox8;
-        private System.Windows.Forms.TextBox tbImportIngresExtern;
-        private System.Windows.Forms.GroupBox groupBox7;
-        private Controls.NumericTextBox2 ntbImportIngresExtern;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnsId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnaRao;
+        private Controls.DataGridView2 dgvIngressosForaAplicacio;
+        private DataGridViewTextBoxColumn ColumnsId;
+        private DataGridViewTextBoxColumn ColumnaUsuari;
+        private DataGridViewTextBoxColumn ColumnaAny;
+        private DataGridViewTextBoxColumn ColumnaRao;
         private Controls.NumericTextBoxColumn ColumnaImport;
-        private System.Windows.Forms.Button btNovaDespesaExterna;
-        private System.Windows.Forms.Button btEsborraDespesaExterna;
-        private System.Windows.Forms.Button button1;
     }
 }

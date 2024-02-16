@@ -35,16 +35,12 @@
           <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJECTS\MEUS\INVERSIONSV2\BD\INVERSIONSBD.MDF.dbo.IngressosExterns' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="IngressosExterns">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Any" />
-            <PropertyRef Name="Rao" />
-            <PropertyRef Name="Import" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UsuariId" Type="int" Nullable="false" />
           <Property Name="Any" Type="smallint" Nullable="false" />
           <Property Name="Rao" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Import" Type="decimal" Precision="20" Scale="13" Nullable="false" />
@@ -147,6 +143,18 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
             </Principal>
             <Dependent Role="Productes">
               <PropertyRef Name="EmpresaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngressosUsuaris">
+          <End Role="Usuaris" Type="Self.Usuaris" Multiplicity="1" />
+          <End Role="IngressosExterns" Type="Self.IngressosExterns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuaris">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IngressosExterns">
+              <PropertyRef Name="UsuariId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -290,6 +298,7 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
           <EntitySet Name="DesglosCompres" EntityType="Self.DesglosCompres" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empreses" EntityType="Self.Empreses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gestors" EntityType="Self.Gestors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IngressosExterns" EntityType="Self.IngressosExterns" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Mercats" EntityType="Self.Mercats" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Moviments" EntityType="Self.Moviments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProdFonsGestor" EntityType="Self.ProdFonsGestor" Schema="dbo" store:Type="Tables" />
@@ -298,14 +307,6 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
           <EntitySet Name="Productes_ProdFons" EntityType="Self.Productes_ProdFons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuaris" EntityType="Self.Usuaris" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Valoracions" EntityType="Self.Valoracions" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="IngressosExterns" EntityType="Self.IngressosExterns" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [IngressosExterns].[Id] AS [Id], 
-    [IngressosExterns].[Any] AS [Any], 
-    [IngressosExterns].[Rao] AS [Rao], 
-    [IngressosExterns].[Import] AS [Import]
-    FROM [dbo].[IngressosExterns] AS [IngressosExterns]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_EmpresaGestor" Association="Self.FK_EmpresaGestor">
             <End Role="Empreses" EntitySet="Empreses" />
             <End Role="Gestors" EntitySet="Gestors" />
@@ -313,6 +314,10 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
           <AssociationSet Name="FK_EmpresaP2" Association="Self.FK_EmpresaP2">
             <End Role="Empreses" EntitySet="Empreses" />
             <End Role="Productes" EntitySet="Productes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngressosUsuaris" Association="Self.FK_IngressosUsuaris">
+            <End Role="Usuaris" EntitySet="Usuaris" />
+            <End Role="IngressosExterns" EntitySet="IngressosExterns" />
           </AssociationSet>
           <AssociationSet Name="FK_MercatProdAccions" Association="Self.FK_MercatProdAccions">
             <End Role="Mercats" EntitySet="Mercats" />
@@ -413,6 +418,10 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
             <End Role="DesglosCompre" EntitySet="DesglosCompras" />
           </AssociationSet>
           <EntitySet Name="IngressosExterns" EntityType="InversionsBD.IngresExtern" />
+          <AssociationSet Name="FK_IngressosUsuaris" Association="InversionsBD.FK_IngressosUsuaris">
+            <End Role="Usuari" EntitySet="Usuaris" />
+            <End Role="IngressosExtern" EntitySet="IngressosExterns" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Empresa">
           <Key>
@@ -558,6 +567,7 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Nom" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Moviments" Relationship="InversionsBD.FK_Usuaris" FromRole="Usuari" ToRole="Moviment" />
+          <NavigationProperty Name="IngressosExterns" Relationship="InversionsBD.FK_IngressosUsuaris" FromRole="Usuari" ToRole="IngressosExtern" />
         </EntityType>
         <EntityType Name="Moviment">
           <Key>
@@ -668,15 +678,26 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
         <EntityType Name="IngresExtern">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Any" />
-            <PropertyRef Name="Rao" />
-            <PropertyRef Name="Import" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UsuariId" Type="Int32" Nullable="false" />
           <Property Name="Any" Type="Int16" Nullable="false" />
           <Property Name="Rao" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Import" Type="Decimal" Nullable="false" Precision="20" Scale="13" />
+          <NavigationProperty Name="Usuari" Relationship="InversionsBD.FK_IngressosUsuaris" FromRole="IngressosExtern" ToRole="Usuari" />
         </EntityType>
+        <Association Name="FK_IngressosUsuaris">
+          <End Type="InversionsBD.Usuari" Role="Usuari" Multiplicity="1" />
+          <End Type="InversionsBD.IngresExtern" Role="IngressosExtern" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuari">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IngressosExtern">
+              <PropertyRef Name="UsuariId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -802,6 +823,7 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
                 <ScalarProperty Name="Import" ColumnName="Import" />
                 <ScalarProperty Name="Rao" ColumnName="Rao" />
                 <ScalarProperty Name="Any" ColumnName="Any" />
+                <ScalarProperty Name="UsuariId" ColumnName="UsuariId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

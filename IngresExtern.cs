@@ -15,8 +15,11 @@ namespace Inversions
     public partial class IngresExtern
     {
         public int Id { get; set; }
+        public int UsuariId { get; set; }
         public short Any { get; set; }
         public string Rao { get; set; }
         public decimal Import { get; set; }
+    
+        public virtual Usuari Usuari { get; set; }
     }
 }
