@@ -32,48 +32,29 @@ namespace Inversions.GUI.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cbAny = new System.Windows.Forms.ComboBox();
-            this.gbDividents = new System.Windows.Forms.GroupBox();
-            this.dgvProductes = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gbVendes = new System.Windows.Forms.GroupBox();
-            this.dgvVendes = new System.Windows.Forms.DataGridView();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cAny = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cProd = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cVendesNet = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cTotalNet = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cImportCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cImportVenda = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cDespesesCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle47 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle48 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle49 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle50 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle51 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle52 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle53 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle54 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle55 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle56 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle57 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle58 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle59 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle61 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle62 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle63 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle64 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle65 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle66 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle67 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle68 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle69 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle60 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gbCompres = new System.Windows.Forms.GroupBox();
             this.dgvCompresVenda = new System.Windows.Forms.DataGridView();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -109,8 +90,28 @@ namespace Inversions.GUI.Forms
             this.panel2 = new System.Windows.Forms.Panel();
             this.btDesa = new System.Windows.Forms.Button();
             this.btCancela = new System.Windows.Forms.Button();
-            this.pnAny = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.gbVendes = new System.Windows.Forms.GroupBox();
+            this.dgvVendes = new System.Windows.Forms.DataGridView();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cAny = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cProd = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cVendesNet = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cTotalNet = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cImportCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cImportVenda = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cDespesesCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gbDividents = new System.Windows.Forms.GroupBox();
+            this.dgvProductes = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pnAny = new System.Windows.Forms.Panel();
+            this.cbAny = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.gbIngressosForaAplicacio = new System.Windows.Forms.GroupBox();
             this.dgvIngressosForaAplicacio = new Controls.DataGridView2();
             this.ColumnsId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -118,10 +119,6 @@ namespace Inversions.GUI.Forms
             this.ColumnaAny = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnaRao = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnaImport = new Controls.NumericTextBoxColumn();
-            this.gbDividents.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvProductes)).BeginInit();
-            this.gbVendes.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvVendes)).BeginInit();
             this.gbCompres.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCompresVenda)).BeginInit();
             this.flpTotals.SuspendLayout();
@@ -132,256 +129,18 @@ namespace Inversions.GUI.Forms
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            this.gbVendes.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVendes)).BeginInit();
+            this.gbDividents.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProductes)).BeginInit();
             this.pnAny.SuspendLayout();
             this.gbIngressosForaAplicacio.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvIngressosForaAplicacio)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(6, 9);
-            this.label1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(39, 20);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Any";
-            // 
-            // cbAny
-            // 
-            this.cbAny.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbAny.FormattingEnabled = true;
-            this.cbAny.Location = new System.Drawing.Point(51, 7);
-            this.cbAny.Name = "cbAny";
-            this.cbAny.Size = new System.Drawing.Size(121, 28);
-            this.cbAny.TabIndex = 1;
-            this.cbAny.SelectedIndexChanged += new System.EventHandler(this.cbAny_SelectedIndexChanged);
-            // 
-            // gbDividents
-            // 
-            this.gbDividents.Controls.Add(this.dgvProductes);
-            this.gbDividents.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbDividents.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbDividents.Location = new System.Drawing.Point(0, 43);
-            this.gbDividents.Name = "gbDividents";
-            this.gbDividents.Padding = new System.Windows.Forms.Padding(5);
-            this.gbDividents.Size = new System.Drawing.Size(1367, 101);
-            this.gbDividents.TabIndex = 2;
-            this.gbDividents.TabStop = false;
-            this.gbDividents.Text = "Dividents del any";
-            // 
-            // dgvProductes
-            // 
-            this.dgvProductes.AllowUserToAddRows = false;
-            this.dgvProductes.AllowUserToDeleteRows = false;
-            this.dgvProductes.AllowUserToOrderColumns = true;
-            this.dgvProductes.AllowUserToResizeColumns = false;
-            this.dgvProductes.AllowUserToResizeRows = false;
-            this.dgvProductes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvProductes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn2,
-            this.dataGridViewTextBoxColumn6});
-            this.dgvProductes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvProductes.Location = new System.Drawing.Point(5, 24);
-            this.dgvProductes.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.dgvProductes.MaximumSize = new System.Drawing.Size(1800, 200);
-            this.dgvProductes.MinimumSize = new System.Drawing.Size(100, 50);
-            this.dgvProductes.Name = "dgvProductes";
-            this.dgvProductes.ReadOnly = true;
-            this.dgvProductes.RowTemplate.Height = 28;
-            this.dgvProductes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvProductes.Size = new System.Drawing.Size(1357, 72);
-            this.dgvProductes.TabIndex = 0;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "_Any";
-            this.dataGridViewTextBoxColumn1.HeaderText = "Any";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Visible = false;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "_Prod";
-            this.dataGridViewTextBoxColumn2.HeaderText = "Producte";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            this.dataGridViewTextBoxColumn2.Width = 117;
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            this.dataGridViewTextBoxColumn6.DataPropertyName = "_Divident";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle1.Format = "C2";
-            dataGridViewCellStyle1.NullValue = null;
-            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridViewTextBoxColumn6.HeaderText = "Dividents";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            this.dataGridViewTextBoxColumn6.ReadOnly = true;
-            // 
-            // gbVendes
-            // 
-            this.gbVendes.Controls.Add(this.dgvVendes);
-            this.gbVendes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbVendes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbVendes.Location = new System.Drawing.Point(0, 144);
-            this.gbVendes.Margin = new System.Windows.Forms.Padding(0);
-            this.gbVendes.Name = "gbVendes";
-            this.gbVendes.Padding = new System.Windows.Forms.Padding(5);
-            this.gbVendes.Size = new System.Drawing.Size(1367, 311);
-            this.gbVendes.TabIndex = 3;
-            this.gbVendes.TabStop = false;
-            this.gbVendes.Text = "Vendes del any";
-            // 
-            // dgvVendes
-            // 
-            this.dgvVendes.AllowUserToAddRows = false;
-            this.dgvVendes.AllowUserToDeleteRows = false;
-            this.dgvVendes.AllowUserToResizeRows = false;
-            this.dgvVendes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvVendes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column4,
-            this.cAny,
-            this.cProd,
-            this.Column1,
-            this.cVendesNet,
-            this.cTotalNet,
-            this.cImportCompra,
-            this.cImportVenda,
-            this.cDespesesCompra,
-            this.Column2});
-            this.dgvVendes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvVendes.Location = new System.Drawing.Point(5, 24);
-            this.dgvVendes.Name = "dgvVendes";
-            this.dgvVendes.ReadOnly = true;
-            this.dgvVendes.RowTemplate.Height = 28;
-            this.dgvVendes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvVendes.Size = new System.Drawing.Size(1357, 282);
-            this.dgvVendes.TabIndex = 0;
-            this.dgvVendes.SelectionChanged += new System.EventHandler(this.dgvVendes_SelectionChanged);
-            // 
-            // Column4
-            // 
-            this.Column4.DataPropertyName = "_Venda";
-            this.Column4.HeaderText = "Venda";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            this.Column4.Visible = false;
-            // 
-            // cAny
-            // 
-            this.cAny.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.cAny.DataPropertyName = "_Id";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.Format = "N0";
-            dataGridViewCellStyle2.NullValue = null;
-            this.cAny.DefaultCellStyle = dataGridViewCellStyle2;
-            this.cAny.HeaderText = "Id";
-            this.cAny.Name = "cAny";
-            this.cAny.ReadOnly = true;
-            this.cAny.Width = 61;
-            // 
-            // cProd
-            // 
-            this.cProd.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.cProd.DataPropertyName = "_Prod";
-            this.cProd.HeaderText = "Producte";
-            this.cProd.Name = "cProd";
-            this.cProd.ReadOnly = true;
-            this.cProd.Width = 117;
-            // 
-            // Column1
-            // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Column1.DataPropertyName = "_Data";
-            dataGridViewCellStyle3.Format = "d";
-            dataGridViewCellStyle3.NullValue = null;
-            this.Column1.DefaultCellStyle = dataGridViewCellStyle3;
-            this.Column1.HeaderText = "Data";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.Width = 84;
-            // 
-            // cVendesNet
-            // 
-            this.cVendesNet.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.cVendesNet.DataPropertyName = "_Parts";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "N4";
-            dataGridViewCellStyle4.NullValue = null;
-            this.cVendesNet.DefaultCellStyle = dataGridViewCellStyle4;
-            this.cVendesNet.HeaderText = "Participacions";
-            this.cVendesNet.Name = "cVendesNet";
-            this.cVendesNet.ReadOnly = true;
-            this.cVendesNet.Width = 157;
-            // 
-            // cTotalNet
-            // 
-            this.cTotalNet.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.cTotalNet.DataPropertyName = "_PreuUnitari";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Format = "C4";
-            dataGridViewCellStyle5.NullValue = null;
-            this.cTotalNet.DefaultCellStyle = dataGridViewCellStyle5;
-            this.cTotalNet.HeaderText = "PU";
-            this.cTotalNet.Name = "cTotalNet";
-            this.cTotalNet.ReadOnly = true;
-            this.cTotalNet.Width = 69;
-            // 
-            // cImportCompra
-            // 
-            this.cImportCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.cImportCompra.DataPropertyName = "_Despeses";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "C2";
-            dataGridViewCellStyle6.NullValue = null;
-            this.cImportCompra.DefaultCellStyle = dataGridViewCellStyle6;
-            this.cImportCompra.HeaderText = "Despeses";
-            this.cImportCompra.Name = "cImportCompra";
-            this.cImportCompra.ReadOnly = true;
-            this.cImportCompra.Width = 125;
-            // 
-            // cImportVenda
-            // 
-            this.cImportVenda.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.cImportVenda.DataPropertyName = "_ImportBrut";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle7.Format = "C2";
-            dataGridViewCellStyle7.NullValue = null;
-            this.cImportVenda.DefaultCellStyle = dataGridViewCellStyle7;
-            this.cImportVenda.HeaderText = "Brut";
-            this.cImportVenda.Name = "cImportVenda";
-            this.cImportVenda.ReadOnly = true;
-            this.cImportVenda.Width = 79;
-            // 
-            // cDespesesCompra
-            // 
-            this.cDespesesCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.cDespesesCompra.DataPropertyName = "_ImportNet";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle8.Format = "C2";
-            dataGridViewCellStyle8.NullValue = null;
-            this.cDespesesCompra.DefaultCellStyle = dataGridViewCellStyle8;
-            this.cDespesesCompra.HeaderText = "Net";
-            this.cDespesesCompra.Name = "cDespesesCompra";
-            this.cDespesesCompra.ReadOnly = true;
-            this.cDespesesCompra.Width = 73;
-            // 
-            // Column2
-            // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Column2.DataPropertyName = "_PiG";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle9.Format = "C2";
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle9;
-            this.Column2.HeaderText = "PiG";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            this.Column2.Width = 74;
             // 
             // gbCompres
             // 
@@ -399,14 +158,14 @@ namespace Inversions.GUI.Forms
             // 
             // dgvCompresVenda
             // 
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvCompresVenda.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle47.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle47.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle47.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle47.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle47.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle47.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle47.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvCompresVenda.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle47;
             this.dgvCompresVenda.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCompresVenda.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column5,
@@ -460,10 +219,10 @@ namespace Inversions.GUI.Forms
             // 
             this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
             this.dataGridViewTextBoxColumn5.DataPropertyName = "_Data";
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle11.Format = "d";
-            dataGridViewCellStyle11.NullValue = null;
-            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle48.Format = "d";
+            dataGridViewCellStyle48.NullValue = null;
+            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle48;
             this.dataGridViewTextBoxColumn5.HeaderText = "Data Compra";
             this.dataGridViewTextBoxColumn5.MinimumWidth = 75;
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
@@ -473,10 +232,10 @@ namespace Inversions.GUI.Forms
             // 
             this.dataGridViewTextBoxColumn8.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dataGridViewTextBoxColumn8.DataPropertyName = "_PreuUnitari";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle12.Format = "C4";
-            dataGridViewCellStyle12.NullValue = null;
-            this.dataGridViewTextBoxColumn8.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle49.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle49.Format = "C4";
+            dataGridViewCellStyle49.NullValue = null;
+            this.dataGridViewTextBoxColumn8.DefaultCellStyle = dataGridViewCellStyle49;
             this.dataGridViewTextBoxColumn8.HeaderText = "PU";
             this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
             this.dataGridViewTextBoxColumn8.Width = 69;
@@ -485,10 +244,10 @@ namespace Inversions.GUI.Forms
             // 
             this.dataGridViewTextBoxColumn7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dataGridViewTextBoxColumn7.DataPropertyName = "_Participacions";
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle13.Format = "N4";
-            dataGridViewCellStyle13.NullValue = null;
-            this.dataGridViewTextBoxColumn7.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle50.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle50.Format = "N4";
+            dataGridViewCellStyle50.NullValue = null;
+            this.dataGridViewTextBoxColumn7.DefaultCellStyle = dataGridViewCellStyle50;
             this.dataGridViewTextBoxColumn7.HeaderText = "Parts";
             this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
             this.dataGridViewTextBoxColumn7.Width = 87;
@@ -497,10 +256,10 @@ namespace Inversions.GUI.Forms
             // 
             this.ColDespesesCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
             this.ColDespesesCompra.DataPropertyName = "_DespesesCompra";
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle14.Format = "C2";
-            dataGridViewCellStyle14.NullValue = null;
-            this.ColDespesesCompra.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle51.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle51.Format = "C2";
+            dataGridViewCellStyle51.NullValue = null;
+            this.ColDespesesCompra.DefaultCellStyle = dataGridViewCellStyle51;
             this.ColDespesesCompra.HeaderText = "Desp Compra";
             this.ColDespesesCompra.MinimumWidth = 75;
             this.ColDespesesCompra.Name = "ColDespesesCompra";
@@ -510,9 +269,9 @@ namespace Inversions.GUI.Forms
             // 
             this.ColDespesesVenda.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
             this.ColDespesesVenda.DataPropertyName = "_DespesesVenda";
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle15.Format = "C2";
-            this.ColDespesesVenda.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle52.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle52.Format = "C2";
+            this.ColDespesesVenda.DefaultCellStyle = dataGridViewCellStyle52;
             this.ColDespesesVenda.HeaderText = "Desp Venda";
             this.ColDespesesVenda.MinimumWidth = 75;
             this.ColDespesesVenda.Name = "ColDespesesVenda";
@@ -522,9 +281,9 @@ namespace Inversions.GUI.Forms
             // 
             this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
             this.Column3.DataPropertyName = "_ParticipacionsUtilitzades";
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle16.Format = "N4";
-            this.Column3.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle53.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle53.Format = "N4";
+            this.Column3.DefaultCellStyle = dataGridViewCellStyle53;
             this.Column3.HeaderText = "Parts Util";
             this.Column3.MinimumWidth = 60;
             this.Column3.Name = "Column3";
@@ -534,10 +293,10 @@ namespace Inversions.GUI.Forms
             // 
             this.dataGridViewTextBoxColumn9.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
             this.dataGridViewTextBoxColumn9.DataPropertyName = "_DespesesUtil";
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle17.Format = "C2";
-            dataGridViewCellStyle17.NullValue = null;
-            this.dataGridViewTextBoxColumn9.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle54.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle54.Format = "C2";
+            dataGridViewCellStyle54.NullValue = null;
+            this.dataGridViewTextBoxColumn9.DefaultCellStyle = dataGridViewCellStyle54;
             this.dataGridViewTextBoxColumn9.HeaderText = "Despeses Ut";
             this.dataGridViewTextBoxColumn9.MinimumWidth = 100;
             this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
@@ -546,10 +305,10 @@ namespace Inversions.GUI.Forms
             // 
             this.dataGridViewTextBoxColumn10.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dataGridViewTextBoxColumn10.DataPropertyName = "_ImportCompraBrutUtil";
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle18.Format = "C2";
-            dataGridViewCellStyle18.NullValue = null;
-            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle55.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle55.Format = "C2";
+            dataGridViewCellStyle55.NullValue = null;
+            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle55;
             this.dataGridViewTextBoxColumn10.HeaderText = "Compra Brut Ut";
             this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
             this.dataGridViewTextBoxColumn10.Width = 139;
@@ -558,9 +317,9 @@ namespace Inversions.GUI.Forms
             // 
             this.Column7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Column7.DataPropertyName = "_ImportVendaBrutUtil";
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle19.Format = "C2";
-            this.Column7.DefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle56.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle56.Format = "C2";
+            this.Column7.DefaultCellStyle = dataGridViewCellStyle56;
             this.Column7.HeaderText = "Venda Brut Ut";
             this.Column7.Name = "Column7";
             this.Column7.Width = 130;
@@ -569,10 +328,10 @@ namespace Inversions.GUI.Forms
             // 
             this.dataGridViewTextBoxColumn11.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dataGridViewTextBoxColumn11.DataPropertyName = "_ImportCompraNetUtil";
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle20.Format = "C2";
-            dataGridViewCellStyle20.NullValue = null;
-            this.dataGridViewTextBoxColumn11.DefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle57.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle57.Format = "C2";
+            dataGridViewCellStyle57.NullValue = null;
+            this.dataGridViewTextBoxColumn11.DefaultCellStyle = dataGridViewCellStyle57;
             this.dataGridViewTextBoxColumn11.HeaderText = "Compra Net Ut";
             this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
             this.dataGridViewTextBoxColumn11.Width = 134;
@@ -581,9 +340,9 @@ namespace Inversions.GUI.Forms
             // 
             this.Column8.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Column8.DataPropertyName = "_ImportVendaNetUtil";
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle21.Format = "C2";
-            this.Column8.DefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle58.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle58.Format = "C2";
+            this.Column8.DefaultCellStyle = dataGridViewCellStyle58;
             this.Column8.HeaderText = "Venda Net Ut";
             this.Column8.Name = "Column8";
             this.Column8.Width = 125;
@@ -592,9 +351,9 @@ namespace Inversions.GUI.Forms
             // 
             this.Column9.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
             this.Column9.DataPropertyName = "_PiG";
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle22.Format = "C2";
-            this.Column9.DefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle59.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle59.Format = "C2";
+            this.Column9.DefaultCellStyle = dataGridViewCellStyle59;
             this.Column9.HeaderText = "P i G";
             this.Column9.MinimumWidth = 100;
             this.Column9.Name = "Column9";
@@ -902,25 +661,291 @@ namespace Inversions.GUI.Forms
             this.btCancela.UseVisualStyleBackColor = true;
             this.btCancela.Click += new System.EventHandler(this.btCancela_Click);
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.gbVendes);
+            this.splitContainer1.Panel1.Controls.Add(this.gbDividents);
+            this.splitContainer1.Panel1.Controls.Add(this.pnAny);
+            this.splitContainer1.Panel1.Padding = new System.Windows.Forms.Padding(3);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.gbIngressosForaAplicacio);
+            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(3);
+            this.splitContainer1.Size = new System.Drawing.Size(1728, 455);
+            this.splitContainer1.SplitterDistance = 1405;
+            this.splitContainer1.SplitterWidth = 9;
+            this.splitContainer1.TabIndex = 6;
+            // 
+            // gbVendes
+            // 
+            this.gbVendes.Controls.Add(this.dgvVendes);
+            this.gbVendes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbVendes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbVendes.Location = new System.Drawing.Point(3, 147);
+            this.gbVendes.Margin = new System.Windows.Forms.Padding(0);
+            this.gbVendes.Name = "gbVendes";
+            this.gbVendes.Padding = new System.Windows.Forms.Padding(5);
+            this.gbVendes.Size = new System.Drawing.Size(1399, 305);
+            this.gbVendes.TabIndex = 6;
+            this.gbVendes.TabStop = false;
+            this.gbVendes.Text = "Vendes del any";
+            // 
+            // dgvVendes
+            // 
+            this.dgvVendes.AllowUserToAddRows = false;
+            this.dgvVendes.AllowUserToDeleteRows = false;
+            this.dgvVendes.AllowUserToResizeRows = false;
+            this.dgvVendes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvVendes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column4,
+            this.cAny,
+            this.cProd,
+            this.Column1,
+            this.cVendesNet,
+            this.cTotalNet,
+            this.cImportCompra,
+            this.cImportVenda,
+            this.cDespesesCompra,
+            this.Column2});
+            this.dgvVendes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvVendes.Location = new System.Drawing.Point(5, 24);
+            this.dgvVendes.Name = "dgvVendes";
+            this.dgvVendes.ReadOnly = true;
+            this.dgvVendes.RowTemplate.Height = 28;
+            this.dgvVendes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvVendes.Size = new System.Drawing.Size(1389, 276);
+            this.dgvVendes.TabIndex = 0;
+            // 
+            // Column4
+            // 
+            this.Column4.DataPropertyName = "_Venda";
+            this.Column4.HeaderText = "Venda";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            this.Column4.Visible = false;
+            // 
+            // cAny
+            // 
+            this.cAny.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.cAny.DataPropertyName = "_Id";
+            dataGridViewCellStyle61.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle61.Format = "N0";
+            dataGridViewCellStyle61.NullValue = null;
+            this.cAny.DefaultCellStyle = dataGridViewCellStyle61;
+            this.cAny.HeaderText = "Id";
+            this.cAny.Name = "cAny";
+            this.cAny.ReadOnly = true;
+            this.cAny.Width = 61;
+            // 
+            // cProd
+            // 
+            this.cProd.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.cProd.DataPropertyName = "_Prod";
+            this.cProd.HeaderText = "Producte";
+            this.cProd.Name = "cProd";
+            this.cProd.ReadOnly = true;
+            this.cProd.Width = 117;
+            // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Column1.DataPropertyName = "_Data";
+            dataGridViewCellStyle62.Format = "d";
+            dataGridViewCellStyle62.NullValue = null;
+            this.Column1.DefaultCellStyle = dataGridViewCellStyle62;
+            this.Column1.HeaderText = "Data";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.Width = 84;
+            // 
+            // cVendesNet
+            // 
+            this.cVendesNet.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.cVendesNet.DataPropertyName = "_Parts";
+            dataGridViewCellStyle63.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle63.Format = "N4";
+            dataGridViewCellStyle63.NullValue = null;
+            this.cVendesNet.DefaultCellStyle = dataGridViewCellStyle63;
+            this.cVendesNet.HeaderText = "Participacions";
+            this.cVendesNet.Name = "cVendesNet";
+            this.cVendesNet.ReadOnly = true;
+            this.cVendesNet.Width = 157;
+            // 
+            // cTotalNet
+            // 
+            this.cTotalNet.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.cTotalNet.DataPropertyName = "_PreuUnitari";
+            dataGridViewCellStyle64.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle64.Format = "C4";
+            dataGridViewCellStyle64.NullValue = null;
+            this.cTotalNet.DefaultCellStyle = dataGridViewCellStyle64;
+            this.cTotalNet.HeaderText = "PU";
+            this.cTotalNet.Name = "cTotalNet";
+            this.cTotalNet.ReadOnly = true;
+            this.cTotalNet.Width = 69;
+            // 
+            // cImportCompra
+            // 
+            this.cImportCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.cImportCompra.DataPropertyName = "_Despeses";
+            dataGridViewCellStyle65.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle65.Format = "C2";
+            dataGridViewCellStyle65.NullValue = null;
+            this.cImportCompra.DefaultCellStyle = dataGridViewCellStyle65;
+            this.cImportCompra.HeaderText = "Despeses";
+            this.cImportCompra.Name = "cImportCompra";
+            this.cImportCompra.ReadOnly = true;
+            this.cImportCompra.Width = 125;
+            // 
+            // cImportVenda
+            // 
+            this.cImportVenda.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.cImportVenda.DataPropertyName = "_ImportBrut";
+            dataGridViewCellStyle66.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle66.Format = "C2";
+            dataGridViewCellStyle66.NullValue = null;
+            this.cImportVenda.DefaultCellStyle = dataGridViewCellStyle66;
+            this.cImportVenda.HeaderText = "Brut";
+            this.cImportVenda.Name = "cImportVenda";
+            this.cImportVenda.ReadOnly = true;
+            this.cImportVenda.Width = 79;
+            // 
+            // cDespesesCompra
+            // 
+            this.cDespesesCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.cDespesesCompra.DataPropertyName = "_ImportNet";
+            dataGridViewCellStyle67.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle67.Format = "C2";
+            dataGridViewCellStyle67.NullValue = null;
+            this.cDespesesCompra.DefaultCellStyle = dataGridViewCellStyle67;
+            this.cDespesesCompra.HeaderText = "Net";
+            this.cDespesesCompra.Name = "cDespesesCompra";
+            this.cDespesesCompra.ReadOnly = true;
+            this.cDespesesCompra.Width = 73;
+            // 
+            // Column2
+            // 
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Column2.DataPropertyName = "_PiG";
+            dataGridViewCellStyle68.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle68.Format = "C2";
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle68;
+            this.Column2.HeaderText = "PiG";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            this.Column2.Width = 74;
+            // 
+            // gbDividents
+            // 
+            this.gbDividents.Controls.Add(this.dgvProductes);
+            this.gbDividents.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gbDividents.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbDividents.Location = new System.Drawing.Point(3, 46);
+            this.gbDividents.Name = "gbDividents";
+            this.gbDividents.Padding = new System.Windows.Forms.Padding(5);
+            this.gbDividents.Size = new System.Drawing.Size(1399, 101);
+            this.gbDividents.TabIndex = 5;
+            this.gbDividents.TabStop = false;
+            this.gbDividents.Text = "Dividents del any";
+            // 
+            // dgvProductes
+            // 
+            this.dgvProductes.AllowUserToAddRows = false;
+            this.dgvProductes.AllowUserToDeleteRows = false;
+            this.dgvProductes.AllowUserToOrderColumns = true;
+            this.dgvProductes.AllowUserToResizeColumns = false;
+            this.dgvProductes.AllowUserToResizeRows = false;
+            this.dgvProductes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvProductes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn2,
+            this.dataGridViewTextBoxColumn6});
+            this.dgvProductes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvProductes.Location = new System.Drawing.Point(5, 24);
+            this.dgvProductes.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.dgvProductes.MaximumSize = new System.Drawing.Size(1800, 200);
+            this.dgvProductes.MinimumSize = new System.Drawing.Size(100, 50);
+            this.dgvProductes.Name = "dgvProductes";
+            this.dgvProductes.ReadOnly = true;
+            this.dgvProductes.RowTemplate.Height = 28;
+            this.dgvProductes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvProductes.Size = new System.Drawing.Size(1389, 72);
+            this.dgvProductes.TabIndex = 0;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "_Any";
+            this.dataGridViewTextBoxColumn1.HeaderText = "Any";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "_Prod";
+            this.dataGridViewTextBoxColumn2.HeaderText = "Producte";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            this.dataGridViewTextBoxColumn2.Width = 117;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.DataPropertyName = "_Divident";
+            dataGridViewCellStyle69.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle69.Format = "C2";
+            dataGridViewCellStyle69.NullValue = null;
+            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle69;
+            this.dataGridViewTextBoxColumn6.HeaderText = "Dividents";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.ReadOnly = true;
+            // 
             // pnAny
             // 
             this.pnAny.Controls.Add(this.cbAny);
             this.pnAny.Controls.Add(this.label1);
             this.pnAny.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnAny.Location = new System.Drawing.Point(0, 0);
+            this.pnAny.Location = new System.Drawing.Point(3, 3);
             this.pnAny.Name = "pnAny";
-            this.pnAny.Size = new System.Drawing.Size(1367, 43);
-            this.pnAny.TabIndex = 0;
+            this.pnAny.Size = new System.Drawing.Size(1399, 43);
+            this.pnAny.TabIndex = 4;
+            // 
+            // cbAny
+            // 
+            this.cbAny.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbAny.FormattingEnabled = true;
+            this.cbAny.Location = new System.Drawing.Point(51, 7);
+            this.cbAny.Name = "cbAny";
+            this.cbAny.Size = new System.Drawing.Size(121, 28);
+            this.cbAny.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(6, 9);
+            this.label1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(39, 20);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Any";
             // 
             // gbIngressosForaAplicacio
             // 
             this.gbIngressosForaAplicacio.Controls.Add(this.dgvIngressosForaAplicacio);
-            this.gbIngressosForaAplicacio.Dock = System.Windows.Forms.DockStyle.Right;
+            this.gbIngressosForaAplicacio.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbIngressosForaAplicacio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
-            this.gbIngressosForaAplicacio.Location = new System.Drawing.Point(1367, 0);
+            this.gbIngressosForaAplicacio.Location = new System.Drawing.Point(3, 3);
             this.gbIngressosForaAplicacio.Name = "gbIngressosForaAplicacio";
-            this.gbIngressosForaAplicacio.Size = new System.Drawing.Size(361, 455);
-            this.gbIngressosForaAplicacio.TabIndex = 1;
+            this.gbIngressosForaAplicacio.Size = new System.Drawing.Size(308, 449);
+            this.gbIngressosForaAplicacio.TabIndex = 2;
             this.gbIngressosForaAplicacio.TabStop = false;
             this.gbIngressosForaAplicacio.Text = "Ingressos fora app";
             // 
@@ -942,11 +967,8 @@ namespace Inversions.GUI.Forms
             this.dgvIngressosForaAplicacio.MinimumSize = new System.Drawing.Size(100, 50);
             this.dgvIngressosForaAplicacio.Name = "dgvIngressosForaAplicacio";
             this.dgvIngressosForaAplicacio.RowTemplate.Height = 28;
-            this.dgvIngressosForaAplicacio.Size = new System.Drawing.Size(355, 430);
+            this.dgvIngressosForaAplicacio.Size = new System.Drawing.Size(302, 424);
             this.dgvIngressosForaAplicacio.TabIndex = 0;
-            this.dgvIngressosForaAplicacio.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvIngressosForaAplicacio_DataError);
-            this.dgvIngressosForaAplicacio.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dgvIngressosForaAplicacio_RowsRemoved);
-            this.dgvIngressosForaAplicacio.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvIngressosForaAplicacio_RowValidating);
             // 
             // ColumnsId
             // 
@@ -979,10 +1001,10 @@ namespace Inversions.GUI.Forms
             // 
             this.ColumnaImport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.ColumnaImport.DataPropertyName = "Import";
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle23.Format = "C2";
-            dataGridViewCellStyle23.NullValue = null;
-            this.ColumnaImport.DefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle60.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle60.Format = "C2";
+            dataGridViewCellStyle60.NullValue = null;
+            this.ColumnaImport.DefaultCellStyle = dataGridViewCellStyle60;
             this.ColumnaImport.HeaderText = "Import";
             this.ColumnaImport.Name = "ColumnaImport";
             this.ColumnaImport.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -993,10 +1015,7 @@ namespace Inversions.GUI.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1728, 775);
-            this.Controls.Add(this.gbVendes);
-            this.Controls.Add(this.gbDividents);
-            this.Controls.Add(this.pnAny);
-            this.Controls.Add(this.gbIngressosForaAplicacio);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.gbCompres);
             this.Controls.Add(this.flpTotals);
             this.MinimumSize = new System.Drawing.Size(1750, 830);
@@ -1005,11 +1024,8 @@ namespace Inversions.GUI.Forms
             this.Text = "IRPF";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.IRPF_FormClosing);
+            this.Load += new System.EventHandler(this.IRPF_Load);
             this.Shown += new System.EventHandler(this.IRPF_Shown);
-            this.gbDividents.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvProductes)).EndInit();
-            this.gbVendes.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvVendes)).EndInit();
             this.gbCompres.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCompresVenda)).EndInit();
             this.flpTotals.ResumeLayout(false);
@@ -1027,6 +1043,14 @@ namespace Inversions.GUI.Forms
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.panel2.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            this.gbVendes.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVendes)).EndInit();
+            this.gbDividents.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProductes)).EndInit();
             this.pnAny.ResumeLayout(false);
             this.pnAny.PerformLayout();
             this.gbIngressosForaAplicacio.ResumeLayout(false);
@@ -1037,25 +1061,6 @@ namespace Inversions.GUI.Forms
 
         #endregion
 
-        private System.Windows.Forms.ComboBox cbAny;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox gbDividents;
-        private System.Windows.Forms.DataGridView dgvProductes;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private System.Windows.Forms.GroupBox gbVendes;
-        private System.Windows.Forms.DataGridView dgvVendes;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cAny;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cProd;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cVendesNet;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cTotalNet;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cImportCompra;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cImportVenda;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cDespesesCompra;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.GroupBox gbCompres;
         private System.Windows.Forms.DataGridView dgvCompresVenda;
         private System.Windows.Forms.FlowLayoutPanel flpTotals;
@@ -1067,7 +1072,6 @@ namespace Inversions.GUI.Forms
         private Controls.NumericTextBox2 ntbPiG;
         private System.Windows.Forms.GroupBox groupBox4;
         private Controls.NumericTextBox2 ntbTotalTributar;
-        private System.Windows.Forms.Panel pnAny;
         private System.Windows.Forms.CheckBox ckAgrupaCompres;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
@@ -1093,7 +1097,28 @@ namespace Inversions.GUI.Forms
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btDesa;
         private System.Windows.Forms.Button btCancela;
-        private System.Windows.Forms.GroupBox gbIngressosForaAplicacio;
+        private SplitContainer splitContainer1;
+        private GroupBox gbVendes;
+        private DataGridView dgvVendes;
+        private DataGridViewTextBoxColumn Column4;
+        private DataGridViewTextBoxColumn cAny;
+        private DataGridViewTextBoxColumn cProd;
+        private DataGridViewTextBoxColumn Column1;
+        private DataGridViewTextBoxColumn cVendesNet;
+        private DataGridViewTextBoxColumn cTotalNet;
+        private DataGridViewTextBoxColumn cImportCompra;
+        private DataGridViewTextBoxColumn cImportVenda;
+        private DataGridViewTextBoxColumn cDespesesCompra;
+        private DataGridViewTextBoxColumn Column2;
+        private GroupBox gbDividents;
+        private DataGridView dgvProductes;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private Panel pnAny;
+        private ComboBox cbAny;
+        private Label label1;
+        private GroupBox gbIngressosForaAplicacio;
         private Controls.DataGridView2 dgvIngressosForaAplicacio;
         private DataGridViewTextBoxColumn ColumnsId;
         private DataGridViewTextBoxColumn ColumnaUsuari;

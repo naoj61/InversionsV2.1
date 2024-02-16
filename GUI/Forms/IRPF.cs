@@ -28,6 +28,8 @@ namespace Inversions.GUI.Forms
         {
             InitializeComponent();
 
+            dgvIngressosForaAplicacio.RowsRemoved -= dgvIngressosForaAplicacio_RowsRemoved;
+
             dgvProductes.AutoGenerateColumns = false;
             dgvVendes.AutoGenerateColumns = false;
             dgvCompresVenda.AutoGenerateColumns = false;
@@ -35,10 +37,12 @@ namespace Inversions.GUI.Forms
 
             dgvProductes.AutoSize = true;
 
+            cbAny.SelectedIndexChanged -= cbAny_SelectedIndexChanged;
             for (int i = 2013; i <= DateTime.Today.Year; i++)
             {
                 cbAny.Items.Add(i);
             }
+            cbAny.SelectedIndexChanged += cbAny_SelectedIndexChanged;
 
             cbAny.SelectedItem = any;
         }
@@ -281,14 +285,19 @@ namespace Inversions.GUI.Forms
             #endregion
         }
 
-
         private void IRPF_Shown(object sender, EventArgs e)
+        {
+          
+        }
+
+        private void IRPF_Load(object sender, EventArgs e)
         {
             ckAgrupaCompres.Checked = true;
 
             dgvProductes.ClearSelection();
 
             dgvProductes.SelectionChanged += dgvProductes_SelectionChanged;
+            dgvIngressosForaAplicacio.RowsRemoved += dgvIngressosForaAplicacio_RowsRemoved;
 
             seleccionaFilesDataGrid();
         }
@@ -634,6 +643,5 @@ namespace Inversions.GUI.Forms
             Form1 ff = new Form1();
             ff.Show();
         }
-
     }
 }
