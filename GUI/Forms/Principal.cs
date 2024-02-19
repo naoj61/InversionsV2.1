@@ -30,6 +30,7 @@ namespace Inversions.GUI
         readonly GrafiquesTab vGrafiquesTab = new GrafiquesTab();
         readonly SimulacióVendaTab vSimulacióVendaTab = new SimulacióVendaTab();
         readonly UsuarisTab vUsuarisTab = new UsuarisTab();
+        readonly EdicioTaulesTab vEdicioTaulesTab = new EdicioTaulesTab();
 
         public Principal()
         {
@@ -179,6 +180,12 @@ namespace Inversions.GUI
                 tabSimulacióVenda.Controls.Add(vSimulacióVendaTab);
                 vSimulacióVendaTab.Dock = DockStyle.Fill;
                 tabSimulacióVenda.ResumeLayout();
+
+                // Afegeig EdicioTaulesTab
+                tabEdicioTaules.SuspendLayout();
+                tabEdicioTaules.Controls.Add(vEdicioTaulesTab);
+                tabEdicioTaules.Dock = DockStyle.Fill;
+                tabEdicioTaules.ResumeLayout();
 
                 ResumeLayout();
 
