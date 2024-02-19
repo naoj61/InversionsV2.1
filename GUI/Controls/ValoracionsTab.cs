@@ -161,8 +161,8 @@ namespace Inversions.GUI
                         .Where(val => val.Data >= dtpDataIniciValoracions.Value).ToList();
 
                     if (ckValsAmbParticipacions.Checked)
-                        // Elimina valoracions sense participacions.
-                        valoracionsProducteSelec = valoracionsProducteSelec.Where(val => val._NumParticipacions > 0).ToList();
+                        // Elimina valoracions sense participacions o amb preu participacio = 0.
+                        valoracionsProducteSelec = valoracionsProducteSelec.Where(val => val._NumParticipacions > 0 && val.PreuParticipacio > 0).ToList();
 
                     valoracionsProducteSelec = valoracionsProducteSelec.OrderBy(val => val.Data).ToList();
 
