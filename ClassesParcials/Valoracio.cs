@@ -27,9 +27,28 @@ namespace Inversions
             var xx = Tuples.ToList();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="valoracio"></param>
         public static void Reload(Valoracio valoracio)
         {
             Program.Sessio.Entry(valoracio).Reload();
+        }
+
+        /// <summary>
+        /// La valoració anterior amb pre superior a 0.
+        /// </summary>
+        /// <param name="preuMajorQueCero"></param>
+        /// <returns></returns>
+        private Valoracio trobaValoracioAnterior(bool preuMajorQueCero)
+        {
+            var valoracionsAnteriors = Valoracio.Tuples.Where(w => w.Prod.Id == Prod.Id && w.Data < Data);
+
+            if (preuMajorQueCero)
+                valoracionsAnteriors = valoracionsAnteriors.Where(w => w.PreuParticipacio > 0);
+
+            return valoracionsAnteriors.OrderByDescending(e => e.Data).FirstOrDefault();
         }
 
 
@@ -55,6 +74,10 @@ namespace Inversions
             }
         }
 
+
+        /// <summary>
+        /// Variacio en % respecte a la valoració anterior amb preu > 0.
+        /// </summary>
         public decimal _VariacioPercentatge
         {
             get
@@ -62,14 +85,19 @@ namespace Inversions
                 if (Prod == null)
                     return 0;
 
-                var v1 = Valoracio.Tuples.Where(w => w.Prod.Id == Prod.Id && w.Data < Data).OrderBy(o => o.Data).ToList();
-                if (v1.Count == 0)
+                Valoracio valoracioAnterior = trobaValoracioAnterior(true);
+                
+                if (valoracioAnterior == null)
                     return 0;
 
-                return v1.Last().PreuParticipacio > 0 ? PreuParticipacio / v1.Last().PreuParticipacio - 1 : 0;
+                return valoracioAnterior.PreuParticipacio > 0 ? PreuParticipacio / valoracioAnterior.PreuParticipacio - 1 : 0;
             }
         }
 
+
+        /// <summary>
+        /// Variacio en Euros respecte a la valoració anterior amb preu > 0.
+        /// </summary>
         public decimal _VariacioEuros
         {
             get
@@ -77,12 +105,12 @@ namespace Inversions
                 if (Prod == null)
                     return 0;
 
-                var v1 = Valoracio.Tuples.Where(w => w.Prod.Id == Prod.Id && w.Data < Data).OrderBy(o => o.Data).ToList();
-                if (v1.Count == 0)
+                Valoracio valoracioAnterior = trobaValoracioAnterior(true);
+
+                if (valoracioAnterior == null)
                     return 0;
 
-
-                return (PreuParticipacio * Prod._Participacions) - (v1.Last().PreuParticipacio * Prod._Participacions);
+                return _ValoracioTotal - valoracioAnterior._ValoracioTotal;
             }
         }
 
