@@ -184,7 +184,7 @@ namespace Inversions.GUI
                 // Afegeig EdicioTaulesTab
                 tabEdicioTaules.SuspendLayout();
                 tabEdicioTaules.Controls.Add(vEdicioTaulesTab);
-                tabEdicioTaules.Dock = DockStyle.Fill;
+                vEdicioTaulesTab.Dock = DockStyle.Fill;
                 tabEdicioTaules.ResumeLayout();
 
                 ResumeLayout();
