@@ -13,96 +13,6 @@ namespace Inversions.GUI
 {
     public partial class EdicioTaulesTab : TabX
     {
-        private struct Panell
-        {
-            private readonly Panel vPanell;
-            private readonly Label vEtiqueta;
-            private readonly DataGridView vDataGridView;
-            private bool vEstaModificat;
-
-            public Panell(Panel panell, Label etiqueta, DataGridView dataGridView) : this()
-            {
-                vPanell = panell;
-                vEtiqueta = etiqueta;
-                vDataGridView = dataGridView;
-                _EstaModificat = false;
-            }
-
-            public Panel _Panell
-            {
-                get { return vPanell; }
-            }
-
-            public Label _Etiqueta
-            {
-                get { return vEtiqueta; }
-            }
-
-            public DataGridView _DataGridView
-            {
-                get { return vDataGridView; }
-            }
-
-            public bool _EstaModificat
-            {
-                get { return vEstaModificat; }
-                set
-                {
-                    if (value && !vEstaModificat)
-                        vEtiqueta.Text = "* " + vEtiqueta.Text;
-                    else if (!value && vEstaModificat)
-                        vEtiqueta.Text = vEtiqueta.Text.Substring(2);
-
-                    vEstaModificat = value;
-                }
-            }
-
-
-            #region Overrides
-
-            public override int GetHashCode()
-            {
-                return _Panell.GetHashCode();
-            }
-
-            public static bool operator ==(Panell a, Panell b)
-            {
-                // If both are null, or both are same instance, return true.
-                if (ReferenceEquals(a, b))
-                {
-                    return true;
-                }
-
-                // If one is null,return false.
-                if ((object) a == null || (object) b == null)
-                {
-                    return false;
-                }
-
-                return a._Panell == b._Panell;
-            }
-
-            public static bool operator !=(Panell a, Panell b)
-            {
-                return !(a == b);
-            }
-
-            public override bool Equals(object obj)
-            {
-                if (!(obj is Panell))
-                    return false;
-
-                return this == (Panell) obj;
-            }
-
-            public override string ToString()
-            {
-                return _Etiqueta.Text;
-            }
-
-            #endregion
-        }
-
         private const string NomControlPanellTaula = "Panell1";
         private const string NomControlDataGridViewTaula = "DgvTaula";
         private const string NomControlEtiquetaNomTaula = "EtiquetaNomTaula";
@@ -260,17 +170,6 @@ namespace Inversions.GUI
             return pnTaula;
         }
 
-
-        private void datagridView_CellValidated(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridView datagridView = (DataGridView) sender;
-
-            if (datagridView.IsCurrentRowDirty)
-            {
-                marcaTaulaModificada();
-            }
-        }
-
         bool estaTaulaModificada(Panel panell)
         {
             var ff = TrobaControlFill(panell, NomControlEtiquetaNomTaula);
@@ -287,11 +186,6 @@ namespace Inversions.GUI
                 ff.Text = "* " + ff.Text;
                 modeEdicio();
             }
-        }
-
-        private void datagridView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
-        {
-            marcaTaulaModificada();
         }
 
         private void carregaTaula(Panel panell, string taula = null)
@@ -325,6 +219,8 @@ namespace Inversions.GUI
             var etiquetaNomTaula = TrobaControlFill(panell, NomControlEtiquetaNomTaula);
             if (etiquetaNomTaula != null)
                 etiquetaNomTaula.Text = taula;
+
+            modeConsulta();
         }
 
         private void desaTaula()
@@ -358,6 +254,8 @@ namespace Inversions.GUI
                     if (ff.Text.StartsWith("* "))
                         ff.Text = taula;
 
+                    modeConsulta();
+
                     MessageBox.Show("Modificacions taula: " + taula + ". Ok.");
                 }
                 catch (Exception ex)
@@ -369,7 +267,32 @@ namespace Inversions.GUI
             }
         }
 
+        protected override void modeConsulta()
+        {
+            bool hiHaModificacions = vControlsTaula.Values
+                .Select(panell => TrobaControlFill(panell, NomControlEtiquetaNomTaula))
+                .Any(etiqueta => etiqueta != null && etiqueta.Text.StartsWith("*"));
+            
+            if (!hiHaModificacions)
+                base.modeConsulta();
+        }
+
         #region *** Events ***
+
+        private void datagridView_CellValidated(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView datagridView = (DataGridView)sender;
+
+            if (datagridView.IsCurrentRowDirty)
+            {
+                marcaTaulaModificada();
+            }
+        }
+
+        private void datagridView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            marcaTaulaModificada();
+        }
 
         private void edicioTaulesTab_Load(object sender, EventArgs e)
         {
