@@ -68,11 +68,12 @@ namespace Inversions.GUI
             /// <param name="nouPanellActiu"></param>
             internal static void NouPanellActiu(string nouPanellActiu)
             {
-                if (NomPanellActiu != null)
+                if (NomPanellActiu != null && Panells.ContainsKey(NomPanellActiu))
                     Panells[NomPanellActiu].vPanell.BackColor = Color.PowderBlue;
 
                 NomPanellActiu = nouPanellActiu;
-                Panells[NomPanellActiu].vPanell.BackColor = Color.Red;
+                if (NomPanellActiu != null && Panells.ContainsKey(NomPanellActiu))
+                    Panells[NomPanellActiu].vPanell.BackColor = Color.Red;
             }
 
             internal static void Esborra(Panell panell)
@@ -329,7 +330,6 @@ namespace Inversions.GUI
             #region *** Activa events ***
 
             pnTaula.Enter += pnTaula_Enter;
-            pnTaula.Leave += pnTaula_Leave;
             btTancaPanell.Click += btTancaPanell_Click;
             dataGridView.DataError += dataGridView_DataError;
 
