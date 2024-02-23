@@ -124,6 +124,12 @@
     <Compile Include="Gestor.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\EdicioTaulesTab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\EdicioTaulesTab.Designer.cs">
+      <DependentUpon>EdicioTaulesTab.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Controls\UsuarisTab.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -174,12 +180,6 @@
     </Compile>
     <Compile Include="GUI\Controls\ValoracionsTab.Designer.cs">
       <DependentUpon>ValoracionsTab.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Forms\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\Forms\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Forms\PasteSelfBank.cs">
       <SubType>Form</SubType>
@@ -257,6 +257,10 @@
     <Compile Include="Valoracio.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="GUI\Controls\EdicioTaulesTab.resx">
+      <DependentUpon>EdicioTaulesTab.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\UsuarisTab.resx">
       <DependentUpon>UsuarisTab.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -286,9 +290,6 @@
     <EmbeddedResource Include="GUI\Controls\ValoracionsTab.resx">
       <DependentUpon>ValoracionsTab.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Forms\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Forms\PasteSelfBank.resx">
       <DependentUpon>PasteSelfBank.cs</DependentUpon>

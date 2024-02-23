@@ -103,8 +103,8 @@ namespace Inversions
         {
             if (_EnModeEdicio)
             {
-                MessageBox.Show("Està en mode edició");
-                e.Cancel = true;
+                if (MessageBox.Show("Està en mode edició. Tanco igualment?", "Avís", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                    e.Cancel = true;
             }
         }
 

@@ -287,7 +287,7 @@ namespace Inversions.GUI.Forms
 
         private void IRPF_Shown(object sender, EventArgs e)
         {
-          
+
         }
 
         private void IRPF_Load(object sender, EventArgs e)
@@ -520,7 +520,7 @@ namespace Inversions.GUI.Forms
 
         private void modeEdicio(bool? modeEdicioOn = null)
         {
-            if(!modeEdicioOn.HasValue)
+            if (!modeEdicioOn.HasValue)
             {
                 var filesModif = ((DataTable) dgvIngressosForaAplicacio.DataSource).GetChanges();
 
@@ -614,7 +614,6 @@ namespace Inversions.GUI.Forms
             }
         }
 
-
         private void dgvIngressosForaAplicacio_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
             // Habilito els botons Desar i Cancel·lar
@@ -636,12 +635,5 @@ namespace Inversions.GUI.Forms
         }
 
         #endregion *** Gestiona Ingressos fora de l'aplicació ***
-
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Form1 ff = new Form1();
-            ff.Show();
-        }
     }
 }

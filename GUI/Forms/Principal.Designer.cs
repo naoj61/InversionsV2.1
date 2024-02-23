@@ -37,6 +37,7 @@
             this.tabEmpresesProductes = new System.Windows.Forms.TabPage();
             this.tabUsuari = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabEdicioTaules = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -122,6 +123,7 @@
             this.tabControl1.Controls.Add(this.tabPerduesGuanys);
             this.tabControl1.Controls.Add(this.tabGrafiques);
             this.tabControl1.Controls.Add(this.tabSimulacióVenda);
+            this.tabControl1.Controls.Add(this.tabEdicioTaules);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -131,6 +133,16 @@
             this.tabControl1.TabIndex = 0;
             this.tabControl1.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl1_Selected);
             this.tabControl1.Deselecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl1_Deselecting);
+            // 
+            // tabEdicioTaules
+            // 
+            this.tabEdicioTaules.Location = new System.Drawing.Point(4, 29);
+            this.tabEdicioTaules.Name = "tabEdicioTaules";
+            this.tabEdicioTaules.Padding = new System.Windows.Forms.Padding(3);
+            this.tabEdicioTaules.Size = new System.Drawing.Size(1522, 886);
+            this.tabEdicioTaules.TabIndex = 9;
+            this.tabEdicioTaules.Text = "Edició Taules BD";
+            this.tabEdicioTaules.UseVisualStyleBackColor = true;
             // 
             // Principal
             // 
@@ -165,5 +177,6 @@
         private System.Windows.Forms.TabPage tabEmpresesProductes;
         private System.Windows.Forms.TabPage tabUsuari;
         private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabEdicioTaules;
     }
 }
