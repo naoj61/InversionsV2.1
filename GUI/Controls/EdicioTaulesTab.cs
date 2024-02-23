@@ -17,9 +17,6 @@ namespace Inversions.GUI
         private struct Panell
         {
             private static readonly Dictionary<string, Panell> Panells = new Dictionary<string, Panell>();
-            private const string NomControlPanellTaula = "Panell1";
-            private const string NomControlDataGridViewTaula = "DgvTaula";
-            private const string NomControlEtiquetaNomTaula = "EtiquetaNomTaula";
 
             private static string NomPanellActiu;
 
@@ -38,12 +35,9 @@ namespace Inversions.GUI
                 vNomTaula = nomTaula;
                 vEstaModificat = false;
 
-                vPanell.Name = NomControlPanellTaula;
-                vEtiqueta.Name = NomControlEtiquetaNomTaula;
-                vDataGridView.Name = NomControlDataGridViewTaula;
-
                 Panells.Add(nomTaula, this);
             }
+
 
             internal static Panell? PanellActiu
             {
@@ -76,20 +70,39 @@ namespace Inversions.GUI
                     Panells[NomPanellActiu].vPanell.BackColor = Color.Red;
             }
 
+            /// <summary>
+            /// Elimina el panell del diccionari de panells creats.
+            /// </summary>
+            /// <param name="panell"></param>
             internal static void Esborra(Panell panell)
             {
                 Panells.Remove(panell._NomTaula);
             }
 
+            /// <summary>
+            /// Troba un panell en el diccionari de panells creats.
+            /// </summary>
+            /// <param name="nomTaula"></param>
+            /// <returns></returns>
             internal static Panell? TrobaElPanell(string nomTaula)
             {
                 return Panells.ContainsKey(nomTaula) ? (Panell?) Panells[nomTaula] : null;
             }
 
+            /// <summary>
+            /// Busca a tots els panells creats si n'hi ha algun amb modificacions pendents.
+            /// </summary>
+            /// <returns></returns>
             internal static bool HiHaModificacionsPendents()
             {
                 return Panells.Any(a => a.Value._EstaModificat);
             }
+
+            internal static int Count
+            {
+                get { return Panells.Count; }
+            }
+
 
             internal Panel _Panell
             {
@@ -119,8 +132,9 @@ namespace Inversions.GUI
                 get { return !Equals(default(Panell)); }
             }
 
+
             /// <summary>
-            /// Indica si s'ha modificat el DataGridView.
+            /// Canvia l'estat del panell indicant si s'ha modificat el DataGridView.
             /// </summary>
             /// <param name="nouEstat"></param>
             internal void modificaEstat(bool nouEstat)
@@ -132,9 +146,10 @@ namespace Inversions.GUI
 
                 vEstaModificat = nouEstat;
 
-                // Aixo és perque el panell de en Panells és una còpia, no una referència i per tant el valor no s'actualitza directament.
+                // Aixo és perque el panell en Panells és una còpia, no una referència i per tant el valor no s'actualitza directament.
                 Panells[_NomTaula] = this;
             }
+
 
             #region Overrides
 
@@ -153,8 +168,8 @@ namespace Inversions.GUI
                 //    return true;
                 //}
 
-                //// If one is null,return false.
-                //if ((object) a == null || (object) b == null)
+                // If one is null,return false.
+                //if ((object)a == null || (object)b == null)
                 //{
                 //    return false;
                 //}
@@ -181,7 +196,6 @@ namespace Inversions.GUI
             }
 
             #endregion
-
         }
 
         private static readonly string StringConexio = Program.Sessio.Database.Connection.ConnectionString;
@@ -259,6 +273,7 @@ namespace Inversions.GUI
             Splitter splitter2 = new Splitter();
             splitter2.Name = "splitter2";
             splitter2.Dock = DockStyle.Left;
+            splitter2.Width = 9;
             pnTaules.Controls.Add(splitter2);
 
             pnTaula.BringToFront();
@@ -434,6 +449,20 @@ namespace Inversions.GUI
 
         #region *** Events ***
 
+        private void edicioTaulesTab_Load(object sender, EventArgs e)
+        {
+            // Obté una llista de les taules disponibles a la base de dades
+            var tables = Program.Sessio.Database
+                .SqlQuery<string>("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'").ToList();
+
+            // Omple un desplegable amb les taules
+            comboBoxTaules.DataSource = tables;
+            comboBoxTaules.SelectedItem = null;
+
+            comboBoxTaules.SelectedIndexChanged -= comboBoxTables_SelectedIndexChanged;
+            comboBoxTaules.SelectedIndexChanged += comboBoxTables_SelectedIndexChanged;
+        }
+
         private void datagridView_CellValidated(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView datagridView = (DataGridView) sender;
@@ -450,20 +479,6 @@ namespace Inversions.GUI
 
             if (datagridView != null && datagridView.IsCurrentRowDirty)
                 modeEdicio();
-        }
-
-        private void edicioTaulesTab_Load(object sender, EventArgs e)
-        {
-            // Obté una llista de les taules disponibles a la base de dades
-            var tables = Program.Sessio.Database
-                .SqlQuery<string>("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'").ToList();
-
-            // Omple un desplegable amb les taules
-            comboBoxTaules.DataSource = tables;
-            comboBoxTaules.SelectedItem = null;
-
-            comboBoxTaules.SelectedIndexChanged -= comboBoxTables_SelectedIndexChanged;
-            comboBoxTaules.SelectedIndexChanged += comboBoxTables_SelectedIndexChanged;
         }
 
         private void comboBoxTables_SelectedIndexChanged(object sender, EventArgs e)
@@ -515,6 +530,11 @@ namespace Inversions.GUI
                     pnTaules.Controls.Remove(Panell.PanellActiu.Value._Panell);
                     Panell.Esborra(Panell.PanellActiu.Value);
                     Panell.NouPanellActiu((string) null);
+                    if(Panell.Count == 0)
+                    {
+                        btDesa.Enabled = false;
+                        btCancela.Enabled = false;
+                    }
                 }
             }
         }
