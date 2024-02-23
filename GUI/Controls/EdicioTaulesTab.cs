@@ -348,18 +348,16 @@ namespace Inversions.GUI
             btTancaPanell.Click += btTancaPanell_Click;
             dataGridView.DataError += dataGridView_DataError;
 
-            dataGridView.CellValidated += datagridView_CellValidated;
-            dataGridView.RowsRemoved += datagridView_RowsRemoved;
-
             #endregion *** Activa events ***
 
 
             pnTaula.Focus();
 
             this.ResumeLayout();
-
+                
             return new Panell(pnTaula, etiquetaNomTaula, dataGridView, nomPaula);
         }
+
 
         private void carregaTaula(Panell panell)
         {
@@ -368,25 +366,36 @@ namespace Inversions.GUI
             if (dataGridView == null)
                 return;
 
-            using (SqlConnection connection = new SqlConnection(StringConexio))
+            try
             {
-                // Consulta SQL para seleccionar todos los registros de la tabla
-                string query = "SELECT * FROM " + panell._NomTaula;
+                dataGridView.CellValidated -= datagridView_CellValidated;
+                dataGridView.RowsRemoved -= datagridView_RowsRemoved;
 
-                SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
-                DataTable table = new DataTable();
+                using (SqlConnection connection = new SqlConnection(StringConexio))
+                {
+                    // Consulta SQL para seleccionar todos los registros de la tabla
+                    string query = "SELECT * FROM " + panell._NomTaula;
 
-                adapter.Fill(table);
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+                    DataTable table = new DataTable();
 
-                // Asignar la tabla como origen de datos del DataGridView
-                dataGridView.DataSource = table;
+                    adapter.Fill(table);
 
-                panell._Panell.Width = Utilitats.AjustaAmpladaDataGridView(dataGridView) + 20;
+                    // Asignar la tabla como origen de datos del DataGridView
+                    dataGridView.DataSource = table;
+
+                    panell._Panell.Width = Utilitats.AjustaAmpladaDataGridView(dataGridView) + 20;
+                }
+
+                modeConsulta();
+
+                Panell.PanellActiu.Value._Panell.Focus();
             }
-
-            modeConsulta();
-
-            Panell.PanellActiu.Value._Panell.Focus();
+            finally
+            {
+                dataGridView.CellValidated += datagridView_CellValidated;
+                dataGridView.RowsRemoved += datagridView_RowsRemoved;
+            }
         }
 
         private void desaTaula(Panell panell)
@@ -396,40 +405,54 @@ namespace Inversions.GUI
             if (dataGridView == null)
                 return;
 
-            string taula = panell._NomTaula;
-
-            // Guardar cambios en la base de datos al hacer clic en el botón "Guardar"
-            using (SqlConnection connection = new SqlConnection(StringConexio))
+            try
             {
-                SqlDataAdapter adapter = new SqlDataAdapter();
+                dataGridView.CellValidated -= datagridView_CellValidated;
+                dataGridView.RowsRemoved -= datagridView_RowsRemoved;
 
-                // Crear comandos SQL para actualizar los cambios en la base de datos
-                SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
-                adapter.SelectCommand = new SqlCommand("SELECT * FROM " + taula, connection);
-                connection.Open();
+                string taula = panell._NomTaula;
 
-                // Actualizar los cambios en la base de datos
-                var files = (DataTable) dataGridView.DataSource;
-
-                try
+                // Guardar cambios en la base de datos al hacer clic en el botón "Guardar"
+                using (SqlConnection connection = new SqlConnection(StringConexio))
                 {
-                    adapter.Update(files);
+                    SqlDataAdapter adapter = new SqlDataAdapter();
 
-                    panell.modificaEstat(false);
+                    // Crear comandos SQL para actualizar los cambios en la base de datos
+                    SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
+                    adapter.SelectCommand = new SqlCommand("SELECT * FROM " + taula, connection);
+                    connection.Open();
 
-                    modeConsulta();
+                    // Actualizar los cambios en la base de datos
+                    var files = (DataTable) dataGridView.DataSource;
 
-                    MessageBox.Show("Modificacions taula: " + taula + ". Ok.");
+                    try
+                    {
+                        adapter.Update(files);
+
+                        panell.modificaEstat(false);
+
+                        modeConsulta();
+
+                        _ActivaRefresca = true;
+
+                        MessageBox.Show("Modificacions taula: " + taula + ". Ok.");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
+                    }
+
+                    connection.Close();
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message);
-                }
 
-                connection.Close();
+                Panell.PanellActiu.Value._Panell.Focus();
+
             }
-
-            Panell.PanellActiu.Value._Panell.Focus();
+            finally
+            {
+                dataGridView.CellValidated += datagridView_CellValidated;
+                dataGridView.RowsRemoved += datagridView_RowsRemoved;
+            }
         }
 
         protected override void modeEdicio()
@@ -475,32 +498,31 @@ namespace Inversions.GUI
 
         private void datagridView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
-            var datagridView = (DataGridView) sender;
-
-            if (datagridView != null && datagridView.IsCurrentRowDirty)
-                modeEdicio();
+            modeEdicio();
         }
 
         private void comboBoxTables_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var nomTaula = comboBoxTaules.SelectedItem.ToString();
-
-            Panell? panell = Panell.TrobaElPanell(nomTaula);
-
-            if (panell.HasValue)
+            if (comboBoxTaules.SelectedItem != null)
             {
-                panell.Value._Panell.Focus();
-            }
-            else
-            {
-                panell = InicialitzaControlsTaula(nomTaula);
-                Panell.NouPanellActiu(panell);
-                carregaTaula(panell.Value);
-                DataGridView dgv = panell.Value._DataGridView;
-            }
+                var nomTaula = comboBoxTaules.SelectedItem.ToString();
 
-            btDesa.Enabled = true;
-            btCancela.Enabled = true;
+                Panell? panell = Panell.TrobaElPanell(nomTaula);
+
+                if (panell.HasValue)
+                {
+                    panell.Value._Panell.Focus();
+                }
+                else
+                {
+                    panell = InicialitzaControlsTaula(nomTaula);
+                    Panell.NouPanellActiu(panell);
+                    carregaTaula(panell.Value);
+                }
+
+                btDesa.Enabled = true;
+                btCancela.Enabled = true;
+            }
         }
 
         private void btDesa_Click(object sender, EventArgs e)
@@ -527,13 +549,24 @@ namespace Inversions.GUI
                     MessageBox.Show("No es pot tancar la finestra, la taula s'està modificant");
                 else
                 {
-                    pnTaules.Controls.Remove(Panell.PanellActiu.Value._Panell);
-                    Panell.Esborra(Panell.PanellActiu.Value);
-                    Panell.NouPanellActiu((string) null);
-                    if(Panell.Count == 0)
+                    try
                     {
-                        btDesa.Enabled = false;
-                        btCancela.Enabled = false;
+                        Panell.PanellActiu.Value._DataGridView.CellValidated -= datagridView_CellValidated;
+                        Panell.PanellActiu.Value._DataGridView.RowsRemoved -= datagridView_RowsRemoved;
+
+                        pnTaules.Controls.Remove(Panell.PanellActiu.Value._Panell);
+                        Panell.Esborra(Panell.PanellActiu.Value);
+                        Panell.NouPanellActiu((string)null);
+                        if (Panell.Count == 0)
+                        {
+                            btDesa.Enabled = false;
+                            btCancela.Enabled = false;
+                        }
+                    }
+                    finally
+                    {
+                        Panell.PanellActiu.Value._DataGridView.CellValidated += datagridView_CellValidated;
+                        Panell.PanellActiu.Value._DataGridView.RowsRemoved += datagridView_RowsRemoved;
                     }
                 }
             }

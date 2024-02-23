@@ -1,8 +1,5 @@
-﻿- En perdues i Guanys, en l ataula PiG Que tributen, afegir l'any actual(Encara que sigui 0).
-
-- En la finestra IRPF, l'apartat "Ingressos fora de l'aplicació" crear una taula amb els imports i la descripció per any.
-
-- Crear una nova pestanya per modificar valors taules
+﻿
+- Afegir filtres en Edició Taules BD
 
 - A les llistes de valoracions, barrejar els preu de compra del usuari.
 	-(Com que pot ser que el preu de compra no coincideixi amb la valoració real degut a les comissions).
@@ -11,6 +8,12 @@
 		- Si hi ha valoració i moviment en la mateixa data, mostrar valoració.
 
 ------------------------------ Fet!!!! ------------------------------
+
+- Crear una nova pestanya per modificar valors taules
+
+- En la finestra IRPF, l'apartat "Ingressos fora de l'aplicació" crear una taula amb els imports i la descripció per any.
+
+- En perdues i Guanys, en la taula PiG Que tributen, afegir l'any actual(Encara que sigui 0).
 
 - 2.13.09.00 
 	- Al mostrar les valoracions, eliminar les dates en que no hi ha participacions.
