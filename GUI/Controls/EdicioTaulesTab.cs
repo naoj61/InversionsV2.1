@@ -2,26 +2,188 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Comuns;
-
+using Microsoft.SqlServer.Server;
 
 
 namespace Inversions.GUI
 {
     public partial class EdicioTaulesTab : TabX
     {
-        private const string NomControlPanellTaula = "Panell1";
-        private const string NomControlDataGridViewTaula = "DgvTaula";
-        private const string NomControlEtiquetaNomTaula = "EtiquetaNomTaula";
+        private struct Panell
+        {
+            private static readonly Dictionary<string, Panell> Panells = new Dictionary<string, Panell>();
+            private const string NomControlPanellTaula = "Panell1";
+            private const string NomControlDataGridViewTaula = "DgvTaula";
+            private const string NomControlEtiquetaNomTaula = "EtiquetaNomTaula";
+
+            private static string NomPanellActiu;
+
+            private readonly Panel vPanell;
+            private readonly Label vEtiqueta;
+            private readonly DataGridView vDataGridView;
+            private readonly string vNomTaula;
+            private bool vEstaModificat;
+
+            internal Panell(Panel panell, Label etiqueta, DataGridView dataGridView, string nomTaula)
+                : this()
+            {
+                vPanell = panell;
+                vEtiqueta = etiqueta;
+                vDataGridView = dataGridView;
+                vNomTaula = nomTaula;
+                vEstaModificat = false;
+
+                vPanell.Name = NomControlPanellTaula;
+                vEtiqueta.Name = NomControlEtiquetaNomTaula;
+                vDataGridView.Name = NomControlDataGridViewTaula;
+
+                Panells.Add(nomTaula, this);
+            }
+
+            internal static Panell? PanellActiu
+            {
+                get { return Panells.ContainsKey(NomPanellActiu) ? Panells[NomPanellActiu] : (Panell?) null; }
+            }
+
+            /// <summary>
+            /// Per desar el panell actiu, Només deso el nom de la taula.
+            /// </summary>
+            /// <param name="panell"></param>
+            internal static void NouPanellActiu(Panell? panell)
+            {
+                if (panell.HasValue)
+                    NouPanellActiu(panell.Value.vNomTaula);
+                else
+                    NouPanellActiu((string) null);
+            }
+
+            /// <summary>
+            /// Per desar el panell actiu, Només deso el nom de la taula.
+            /// </summary>
+            /// <param name="nouPanellActiu"></param>
+            internal static void NouPanellActiu(string nouPanellActiu)
+            {
+                if (NomPanellActiu != null)
+                    Panells[NomPanellActiu].vPanell.BackColor = Color.PowderBlue;
+
+                NomPanellActiu = nouPanellActiu;
+                Panells[NomPanellActiu].vPanell.BackColor = Color.Red;
+            }
+
+            internal static void Esborra(Panell panell)
+            {
+                Panells.Remove(panell._NomTaula);
+            }
+
+            internal static Panell? TrobaElPanell(string nomTaula)
+            {
+                return Panells.ContainsKey(nomTaula) ? (Panell?) Panells[nomTaula] : null;
+            }
+
+            internal static bool HiHaModificacionsPendents()
+            {
+                return Panells.Any(a => a.Value._EstaModificat);
+            }
+
+            internal Panel _Panell
+            {
+                get { return vPanell; }
+            }
+
+            internal DataGridView _DataGridView
+            {
+                get { return vDataGridView; }
+            }
+
+            internal string _NomTaula
+            {
+                get { return vNomTaula; }
+            }
+
+            internal bool _EstaModificat
+            {
+                get { return vEstaModificat; }
+            }
+
+            /// <summary>
+            /// Com que un struc no pot ser null, així comprovo si s'ha inicialitzat.
+            /// </summary>
+            internal bool _PanellCarregatOk
+            {
+                get { return !Equals(default(Panell)); }
+            }
+
+            /// <summary>
+            /// Indica si s'ha modificat el DataGridView.
+            /// </summary>
+            /// <param name="nouEstat"></param>
+            internal void modificaEstat(bool nouEstat)
+            {
+                if (nouEstat && !vEstaModificat)
+                    vEtiqueta.Text = "* " + vEtiqueta.Text;
+                else if (!nouEstat && vEstaModificat)
+                    vEtiqueta.Text = vEtiqueta.Text.Substring(2);
+
+                vEstaModificat = nouEstat;
+
+                // Aixo és perque el panell de en Panells és una còpia, no una referència i per tant el valor no s'actualitza directament.
+                Panells[_NomTaula] = this;
+            }
+
+            #region Overrides
+
+            public override int GetHashCode()
+            {
+                return _Panell.GetHashCode();
+            }
+
+            public static bool operator ==(Panell a, Panell b)
+            {
+                // Aquest codi no cal en un struc perque mai pot ser null.
+
+                //// If both are null, or both are same instance, return true.
+                //if (ReferenceEquals(a, b))
+                //{
+                //    return true;
+                //}
+
+                //// If one is null,return false.
+                //if ((object) a == null || (object) b == null)
+                //{
+                //    return false;
+                //}
+
+                return a.vNomTaula == b.vNomTaula;
+            }
+
+            public static bool operator !=(Panell a, Panell b)
+            {
+                return !(a == b);
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (!(obj is Panell))
+                    return false;
+
+                return this == (Panell) obj;
+            }
+
+            public override string ToString()
+            {
+                return vEtiqueta.Text;
+            }
+
+            #endregion
+
+        }
 
         private static readonly string StringConexio = Program.Sessio.Database.Connection.ConnectionString;
-        private readonly Dictionary<string, Panel> vControlsTaula = new Dictionary<string, Panel>();
-
-        private Panel vPanellActiu;
-        private Panel vPanellAnteriorActiu;
 
         public EdicioTaulesTab()
         {
@@ -75,21 +237,38 @@ namespace Inversions.GUI
             return null; // Retorna null si no s'ha trobat cap control amb el nom especificat
         }
 
-        private Panel InicialitzaControlsTaula()
+
+        /// <summary>
+        /// Crea el panell per una nova taula.
+        /// </summary>
+        /// <returns></returns>
+        private Panell InicialitzaControlsTaula(string nomPaula)
         {
             this.SuspendLayout();
 
-            #region *** Control Panell Taula ***
+            #region *** Controls Panell Taula pnTaules ***
 
             Panel pnTaula = new Panel();
-            pnTaula.Name = NomControlPanellTaula;
             pnTaula.Dock = DockStyle.Left;
             pnTaula.Padding = new Padding(9);
             pnTaula.HorizontalScroll.Enabled = true;
-            pnTaula.VerticalScroll.Enabled = true;
+            pnTaula.Tag = nomPaula;
             pnTaules.Controls.Add(pnTaula);
 
-            #region *** EtiquetaNomTaula ***
+            Splitter splitter2 = new Splitter();
+            splitter2.Name = "splitter2";
+            splitter2.Dock = DockStyle.Left;
+            pnTaules.Controls.Add(splitter2);
+
+            pnTaula.BringToFront();
+            splitter2.BringToFront();
+
+            #endregion *** Control Panell Taula ***
+
+
+            #region *** Controls pnTaula ***
+
+            #region *** EtiquetaNomTaula pnEtiqueta ***
 
             Panel pnEtiqueta = new Panel();
             pnEtiqueta.Dock = DockStyle.Top;
@@ -97,7 +276,7 @@ namespace Inversions.GUI
             pnTaula.Controls.Add(pnEtiqueta);
 
             Label etiquetaNomTaula = new Label();
-            etiquetaNomTaula.Name = NomControlEtiquetaNomTaula;
+            etiquetaNomTaula.Text = nomPaula;
             etiquetaNomTaula.Dock = DockStyle.Fill;
             etiquetaNomTaula.BackColor = Color.DarkGray;
             etiquetaNomTaula.AutoSize = false;
@@ -116,43 +295,36 @@ namespace Inversions.GUI
 
             #endregion *** EtiquetaNomTaula ***
 
-            #region *** DataGridView ***
+            #region *** DataGridView dataGridView ***
 
-            DataGridViewTextBoxColumn column = new DataGridViewTextBoxColumn();
-            column.DataPropertyName = "RowVersion";
-            column.HeaderText = "RowVersion";
-            column.Name = "RowVersion";
-            column.Visible = false;
+            DataGridViewTextBoxColumn column1 = new DataGridViewTextBoxColumn();
+            column1.DataPropertyName = "Id";
+            column1.HeaderText = "Id";
+            column1.Name = "Id";
+            column1.Visible = true;
+            column1.ReadOnly = true;
+
+            DataGridViewTextBoxColumn column2 = new DataGridViewTextBoxColumn();
+            column2.DataPropertyName = "RowVersion";
+            column2.HeaderText = "RowVersion";
+            column2.Name = "RowVersion";
+            column2.Visible = false;
 
             DataGridView dataGridView = new DataGridView();
-            dataGridView.Name = NomControlDataGridViewTaula;
             dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView.Columns.AddRange(new DataGridViewColumn[] {column});
+            dataGridView.Columns.AddRange(new DataGridViewColumn[] {column1});
+            dataGridView.Columns.AddRange(new DataGridViewColumn[] {column2});
             dataGridView.RowTemplate.Height = 28;
             dataGridView.Dock = DockStyle.Fill;
             pnTaula.Controls.Add(dataGridView);
 
             #endregion *** DataGridView ***
 
-            Splitter splitter2 = new Splitter();
-            splitter2.Name = "splitter2";
-            splitter2.Dock = DockStyle.Left;
-            pnTaules.Controls.Add(splitter2);
+            pnEtiqueta.SendToBack();
+            dataGridView.BringToFront();
 
-            #endregion *** Control Panell Taula ***
+            #endregion *** Controls pnTaula ***
 
-            Panell panell = new Panell(pnTaula, etiquetaNomTaula, dataGridView);
-
-
-            #region *** Ordena controls ***
-
-            pnTaula.BringToFront();
-            pnEtiqueta.BringToFront();
-            btTancaPanell.BringToFront();
-            etiquetaNomTaula.BringToFront();
-            splitter2.BringToFront();
-
-            #endregion *** Ordena controls ***
 
             #region *** Activa events ***
 
@@ -161,49 +333,30 @@ namespace Inversions.GUI
             btTancaPanell.Click += btTancaPanell_Click;
             dataGridView.DataError += dataGridView_DataError;
 
+            dataGridView.CellValidated += datagridView_CellValidated;
+            dataGridView.RowsRemoved += datagridView_RowsRemoved;
 
             #endregion *** Activa events ***
 
+
             pnTaula.Focus();
+
             this.ResumeLayout();
 
-            return pnTaula;
+            return new Panell(pnTaula, etiquetaNomTaula, dataGridView, nomPaula);
         }
 
-        bool estaTaulaModificada(Panel panell)
+        private void carregaTaula(Panell panell)
         {
-            var ff = TrobaControlFill(panell, NomControlEtiquetaNomTaula);
+            var dataGridView = panell._DataGridView;
 
-            return ff.Text.StartsWith("* ");
-        }
-
-        private void marcaTaulaModificada()
-        {
-            var ff = TrobaControlFill(vPanellActiu, NomControlEtiquetaNomTaula);
-
-            if (!ff.Text.StartsWith("* "))
-            {
-                ff.Text = "* " + ff.Text;
-                modeEdicio();
-            }
-        }
-
-        private void carregaTaula(Panel panell, string taula = null)
-        {
-            var dgvActiu = (DataGridView)TrobaControlFill(panell, NomControlDataGridViewTaula);
-
-            if (dgvActiu == null)
+            if (dataGridView == null)
                 return;
-
-            if (taula == null)
-                taula = (string) dgvActiu.Tag;
-            else
-                dgvActiu.Tag = taula;
 
             using (SqlConnection connection = new SqlConnection(StringConexio))
             {
                 // Consulta SQL para seleccionar todos los registros de la tabla
-                string query = "SELECT * FROM " + taula;
+                string query = "SELECT * FROM " + panell._NomTaula;
 
                 SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
                 DataTable table = new DataTable();
@@ -211,26 +364,24 @@ namespace Inversions.GUI
                 adapter.Fill(table);
 
                 // Asignar la tabla como origen de datos del DataGridView
-                dgvActiu.DataSource = table;
+                dataGridView.DataSource = table;
 
-                vPanellActiu.Width = Utilitats.AjustaAmpladaDataGridView(dgvActiu) + 20;
+                panell._Panell.Width = Utilitats.AjustaAmpladaDataGridView(dataGridView) + 20;
             }
 
-            var etiquetaNomTaula = TrobaControlFill(panell, NomControlEtiquetaNomTaula);
-            if (etiquetaNomTaula != null)
-                etiquetaNomTaula.Text = taula;
-
             modeConsulta();
+
+            Panell.PanellActiu.Value._Panell.Focus();
         }
 
-        private void desaTaula()
+        private void desaTaula(Panell panell)
         {
-            var dgvActiu = (DataGridView) TrobaControlFill(vPanellActiu, NomControlDataGridViewTaula);
+            var dataGridView = panell._DataGridView;
 
-            if (dgvActiu == null)
+            if (dataGridView == null)
                 return;
 
-            string taula = (string) dgvActiu.Tag;
+            string taula = panell._NomTaula;
 
             // Guardar cambios en la base de datos al hacer clic en el botón "Guardar"
             using (SqlConnection connection = new SqlConnection(StringConexio))
@@ -243,16 +394,13 @@ namespace Inversions.GUI
                 connection.Open();
 
                 // Actualizar los cambios en la base de datos
-                var files = (DataTable) dgvActiu.DataSource;
+                var files = (DataTable) dataGridView.DataSource;
 
                 try
                 {
                     adapter.Update(files);
 
-                    var ff = TrobaControlFill(vPanellActiu, NomControlEtiquetaNomTaula);
-
-                    if (ff.Text.StartsWith("* "))
-                        ff.Text = taula;
+                    panell.modificaEstat(false);
 
                     modeConsulta();
 
@@ -265,15 +413,22 @@ namespace Inversions.GUI
 
                 connection.Close();
             }
+
+            Panell.PanellActiu.Value._Panell.Focus();
+        }
+
+        protected override void modeEdicio()
+        {
+            base.modeEdicio();
+
+            Panell.PanellActiu.Value.modificaEstat(true);
         }
 
         protected override void modeConsulta()
         {
-            bool hiHaModificacions = vControlsTaula.Values
-                .Select(panell => TrobaControlFill(panell, NomControlEtiquetaNomTaula))
-                .Any(etiqueta => etiqueta != null && etiqueta.Text.StartsWith("*"));
-            
-            if (!hiHaModificacions)
+            Panell.PanellActiu.Value.modificaEstat(false);
+
+            if (!Panell.HiHaModificacionsPendents())
                 base.modeConsulta();
         }
 
@@ -281,17 +436,20 @@ namespace Inversions.GUI
 
         private void datagridView_CellValidated(object sender, DataGridViewCellEventArgs e)
         {
-            DataGridView datagridView = (DataGridView)sender;
+            DataGridView datagridView = (DataGridView) sender;
 
-            if (datagridView.IsCurrentRowDirty)
+            if (datagridView != null && datagridView.IsCurrentRowDirty)
             {
-                marcaTaulaModificada();
+                modeEdicio();
             }
         }
 
         private void datagridView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
-            marcaTaulaModificada();
+            var datagridView = (DataGridView) sender;
+
+            if (datagridView != null && datagridView.IsCurrentRowDirty)
+                modeEdicio();
         }
 
         private void edicioTaulesTab_Load(object sender, EventArgs e)
@@ -311,57 +469,56 @@ namespace Inversions.GUI
         private void comboBoxTables_SelectedIndexChanged(object sender, EventArgs e)
         {
             var nomTaula = comboBoxTaules.SelectedItem.ToString();
-            Panel panell;
 
-            if (vControlsTaula.ContainsKey(nomTaula))
+            Panell? panell = Panell.TrobaElPanell(nomTaula);
+
+            if (panell.HasValue)
             {
-                panell = vControlsTaula[nomTaula];
-                panell.Focus();
+                panell.Value._Panell.Focus();
             }
             else
             {
-                panell = InicialitzaControlsTaula();
-                vControlsTaula.Add(nomTaula, panell);
-                carregaTaula(panell, nomTaula);
-                DataGridView dgv = (DataGridView)TrobaControlFill(panell, NomControlDataGridViewTaula);
-                dgv.CellValidated += datagridView_CellValidated;
-                dgv.RowsRemoved += datagridView_RowsRemoved;
+                panell = InicialitzaControlsTaula(nomTaula);
+                Panell.NouPanellActiu(panell);
+                carregaTaula(panell.Value);
+                DataGridView dgv = panell.Value._DataGridView;
             }
-           
+
             btDesa.Enabled = true;
             btCancela.Enabled = true;
         }
 
         private void btDesa_Click(object sender, EventArgs e)
         {
-            desaTaula();
+            if (Panell.PanellActiu.HasValue)
+                desaTaula(Panell.PanellActiu.Value);
+            else
+                MessageBox.Show("No hi ha cap taula seleccionada");
         }
 
         private void btCancela_Click(object sender, EventArgs e)
         {
-            carregaTaula(vPanellActiu);
+            if (Panell.PanellActiu.HasValue)
+                carregaTaula(Panell.PanellActiu.Value);
+            else
+                MessageBox.Show("No hi ha cap taula seleccionada");
         }
 
         private void btTancaPanell_Click(object sender, EventArgs e)
         {
-            Panel panell1 = (Panel) TrobaControlParent((Control) sender, NomControlPanellTaula);
-
-            if (panell1 != null)
+            if (Panell.PanellActiu.HasValue)
             {
-                if (estaTaulaModificada(panell1))
+                if (Panell.PanellActiu.Value._EstaModificat)
                     MessageBox.Show("No es pot tancar la finestra, la taula s'està modificant");
                 else
                 {
-                    pnTaules.Controls.Remove(panell1);
-                    vControlsTaula.Remove(vControlsTaula.Single(s => s.Value == panell1).Key);
+                    pnTaules.Controls.Remove(Panell.PanellActiu.Value._Panell);
+                    Panell.Esborra(Panell.PanellActiu.Value);
+                    Panell.NouPanellActiu((string) null);
                 }
             }
         }
 
-        private void pnTaula_Leave(object sender, EventArgs e)
-        {
-            vPanellAnteriorActiu = (Panel) sender;
-        }
 
         private void pnTaula_Enter(object sender, EventArgs e)
         {
@@ -369,13 +526,7 @@ namespace Inversions.GUI
 
             if (panel != null)
             {
-                vPanellActiu = panel;
-
-                panel.BackColor = Color.Red;
-
-                // No poso el panell que ha perdut el focus en blau fins que entro en un altre panell.
-                if (vPanellAnteriorActiu != null)
-                    vPanellAnteriorActiu.BackColor = Color.PowderBlue;
+                Panell.NouPanellActiu((string) panel.Tag);
             }
         }
 
