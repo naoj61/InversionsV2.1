@@ -480,7 +480,7 @@ namespace Inversions.GUI
         {
             // Obté una llista de les taules disponibles a la base de dades
             var tables = Program.Sessio.Database
-                .SqlQuery<string>("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'").ToList();
+                .SqlQuery<string>("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' ORDER BY TABLE_NAME").ToList();
 
             // Omple un desplegable amb les taules
             comboBoxTaules.DataSource = tables;
