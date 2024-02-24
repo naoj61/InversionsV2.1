@@ -19,26 +19,39 @@ namespace Inversions
 
 
         /// <summary>
-        /// Refresca totes les taules de la BD
+        /// Troba l'entity type a partir del nom de la taula. Ex Valoracions --> Valoracio
         /// </summary>
-        public void refrescaTot()
+        /// <param name="nomTaula"></param>
+        /// <returns></returns>
+        private Type GetEntityType(string nomTaula)
         {
-            var context = ((IObjectContextAdapter) this).ObjectContext;
+            // Busquem la propietat DbSet corresponent al nom del conjunt d'entitats utilitzant reflexió
+            var dbSetProperty = this.GetType().GetProperties()
+                .FirstOrDefault(p => p.PropertyType.IsGenericType &&
+                                     p.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>) &&
+                                     p.Name == nomTaula);
 
-            var objects = (context.ObjectStateManager.GetObjectStateEntries(
-                EntityState.Added |
-                EntityState.Deleted |
-                EntityState.Modified |
-                EntityState.Unchanged)
-                .Where(entry => entry.EntityKey != null)
-                .Select(entry => entry.Entity));
+            return dbSetProperty != null ? dbSetProperty.PropertyType.GetGenericArguments().FirstOrDefault() : null;
 
-            context.Refresh(RefreshMode.StoreWins, objects);
+            // Si no s'ha trobat cap coincidència, retornem null
         }
 
+        /// <summary>
+        /// Refresca només una taula a partir del nom.
+        /// </summary>
+        /// <param name="nomTaula"></param>
+        public void refrescaTaula(string nomTaula)
+        {
+            var entityType = GetEntityType(nomTaula);
+           
+            if (entityType == null)
+                throw new Exception("La taula: " + nomTaula + " no existeix");
+
+            refrescaTaula(entityType);
+        }
 
         /// <summary>
-        /// Refresca només una taula.
+        /// Refresca només una taula a partir del Type.
         /// </summary>
         /// <param name="entityType"></param>
         public void refrescaTaula(Type entityType)
@@ -56,6 +69,23 @@ namespace Inversions
             context.Refresh(RefreshMode.StoreWins, objects);
         }
 
+        /// <summary>
+        /// Refresca totes les taules de la BD
+        /// </summary>
+        public void refrescaTot()
+        {
+            var context = ((IObjectContextAdapter)this).ObjectContext;
+
+            var objects = (context.ObjectStateManager.GetObjectStateEntries(
+                EntityState.Added |
+                EntityState.Deleted |
+                EntityState.Modified |
+                EntityState.Unchanged)
+                .Where(entry => entry.EntityKey != null)
+                .Select(entry => entry.Entity));
+
+            context.Refresh(RefreshMode.StoreWins, objects);
+        }
 
         /// <summary>
         /// Desfà els canvis pendents de "entity"
