@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using Comuns;
 using Microsoft.SqlServer.Server;
@@ -41,7 +43,7 @@ namespace Inversions.GUI
 
             internal static Panell? PanellActiu
             {
-                get { return Panells.ContainsKey(NomPanellActiu) ? Panells[NomPanellActiu] : (Panell?) null; }
+                get { return NomPanellActiu != null && Panells.ContainsKey(NomPanellActiu) ? Panells[NomPanellActiu] : (Panell?)null; }
             }
 
             /// <summary>
@@ -433,8 +435,10 @@ namespace Inversions.GUI
 
                         modeConsulta();
 
-                        _ActivaRefresca = true;
+                        ((Principal)ParentForm).activaRefrescaEnTabs(this);
 
+                        Program.Sessio.refrescaTaula(taula);
+                        
                         MessageBox.Show("Modificacions taula: " + taula + ". Ok.");
                     }
                     catch (Exception ex)
@@ -549,24 +553,16 @@ namespace Inversions.GUI
                     MessageBox.Show("No es pot tancar la finestra, la taula s'està modificant");
                 else
                 {
-                    try
-                    {
-                        Panell.PanellActiu.Value._DataGridView.CellValidated -= datagridView_CellValidated;
-                        Panell.PanellActiu.Value._DataGridView.RowsRemoved -= datagridView_RowsRemoved;
+                    Panell.PanellActiu.Value._DataGridView.CellValidated -= datagridView_CellValidated;
+                    Panell.PanellActiu.Value._DataGridView.RowsRemoved -= datagridView_RowsRemoved;
 
-                        pnTaules.Controls.Remove(Panell.PanellActiu.Value._Panell);
-                        Panell.Esborra(Panell.PanellActiu.Value);
-                        Panell.NouPanellActiu((string)null);
-                        if (Panell.Count == 0)
-                        {
-                            btDesa.Enabled = false;
-                            btCancela.Enabled = false;
-                        }
-                    }
-                    finally
+                    pnTaules.Controls.Remove(Panell.PanellActiu.Value._Panell);
+                    Panell.Esborra(Panell.PanellActiu.Value);
+                    Panell.NouPanellActiu((string) null);
+                    if (Panell.Count == 0)
                     {
-                        Panell.PanellActiu.Value._DataGridView.CellValidated += datagridView_CellValidated;
-                        Panell.PanellActiu.Value._DataGridView.RowsRemoved += datagridView_RowsRemoved;
+                        btDesa.Enabled = false;
+                        btCancela.Enabled = false;
                     }
                 }
             }
