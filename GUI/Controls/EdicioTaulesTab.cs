@@ -43,7 +43,7 @@ namespace Inversions.GUI
 
             internal static Panell? PanellActiu
             {
-                get { return NomPanellActiu != null && Panells.ContainsKey(NomPanellActiu) ? Panells[NomPanellActiu] : (Panell?)null; }
+                get { return NomPanellActiu != null && Panells.ContainsKey(NomPanellActiu) ? Panells[NomPanellActiu] : (Panell?) null; }
             }
 
             /// <summary>
@@ -356,106 +356,126 @@ namespace Inversions.GUI
             pnTaula.Focus();
 
             this.ResumeLayout();
-                
+
             return new Panell(pnTaula, etiquetaNomTaula, dataGridView, nomPaula);
         }
 
 
         private void carregaTaula(Panell panell)
         {
-            var dataGridView = panell._DataGridView;
-
-            if (dataGridView == null)
-                return;
+            Cursor cursor = this.Cursor;
+            Cursor = Cursors.WaitCursor;
 
             try
             {
-                dataGridView.CellValidated -= datagridView_CellValidated;
-                dataGridView.RowsRemoved -= datagridView_RowsRemoved;
+                var dataGridView = panell._DataGridView;
 
-                using (SqlConnection connection = new SqlConnection(StringConexio))
+                if (dataGridView == null)
+                    return;
+
+                try
                 {
-                    // Consulta SQL para seleccionar todos los registros de la tabla
-                    string query = "SELECT * FROM " + panell._NomTaula;
+                    dataGridView.CellValidated -= datagridView_CellValidated;
+                    dataGridView.RowsRemoved -= datagridView_RowsRemoved;
 
-                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
-                    DataTable table = new DataTable();
+                    using (SqlConnection connection = new SqlConnection(StringConexio))
+                    {
+                        // Consulta SQL para seleccionar todos los registros de la tabla
+                        string query = "SELECT * FROM " + panell._NomTaula;
 
-                    adapter.Fill(table);
+                        SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+                        DataTable table = new DataTable();
 
-                    // Asignar la tabla como origen de datos del DataGridView
-                    dataGridView.DataSource = table;
+                        adapter.Fill(table);
 
-                    panell._Panell.Width = Utilitats.AjustaAmpladaDataGridView(dataGridView) + 20;
+                        // Asignar la tabla como origen de datos del DataGridView
+                        dataGridView.DataSource = table;
+
+                        panell._Panell.Width = Utilitats.AjustaAmpladaDataGridView(dataGridView) + 20;
+                    }
+
+                    modeConsulta();
+
+                    Panell.PanellActiu.Value._Panell.Focus();
                 }
-
-                modeConsulta();
-
-                Panell.PanellActiu.Value._Panell.Focus();
+                finally
+                {
+                    dataGridView.CellValidated += datagridView_CellValidated;
+                    dataGridView.RowsRemoved += datagridView_RowsRemoved;
+                }
             }
             finally
             {
-                dataGridView.CellValidated += datagridView_CellValidated;
-                dataGridView.RowsRemoved += datagridView_RowsRemoved;
+                Cursor = cursor;
             }
         }
 
         private void desaTaula(Panell panell)
         {
-            var dataGridView = panell._DataGridView;
-
-            if (dataGridView == null)
-                return;
+            Cursor cursor = this.Cursor;
+            Cursor = Cursors.WaitCursor;
 
             try
             {
-                dataGridView.CellValidated -= datagridView_CellValidated;
-                dataGridView.RowsRemoved -= datagridView_RowsRemoved;
+                var dataGridView = panell._DataGridView;
 
-                string taula = panell._NomTaula;
+                if (dataGridView == null)
+                    return;
 
-                // Guardar cambios en la base de datos al hacer clic en el botón "Guardar"
-                using (SqlConnection connection = new SqlConnection(StringConexio))
+                try
                 {
-                    SqlDataAdapter adapter = new SqlDataAdapter();
+                    dataGridView.CellValidated -= datagridView_CellValidated;
+                    dataGridView.RowsRemoved -= datagridView_RowsRemoved;
 
-                    // Crear comandos SQL para actualizar los cambios en la base de datos
-                    SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
-                    adapter.SelectCommand = new SqlCommand("SELECT * FROM " + taula, connection);
-                    connection.Open();
+                    string taula = panell._NomTaula;
 
-                    // Actualizar los cambios en la base de datos
-                    var files = (DataTable) dataGridView.DataSource;
-
-                    try
+                    // Guardar cambios en la base de datos al hacer clic en el botón "Guardar"
+                    using (SqlConnection connection = new SqlConnection(StringConexio))
                     {
-                        adapter.Update(files);
+                        SqlDataAdapter adapter = new SqlDataAdapter();
 
-                        panell.modificaEstat(false);
+                        // Crear comandos SQL para actualizar los cambios en la base de datos
+                        SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
+                        adapter.SelectCommand = new SqlCommand("SELECT * FROM " + taula, connection);
+                        connection.Open();
 
-                        modeConsulta();
+                        // Actualizar los cambios en la base de datos
+                        var files = (DataTable) dataGridView.DataSource;
 
-                        TabX.ActivaRefrescaEnTabs(this);
+                        try
+                        {
+                            adapter.Update(files);
 
-                        Program.Sessio.refrescaTaula(taula);
-                        
-                        MessageBox.Show("Modificacions taula: " + taula + ". Ok.");
+                            panell.modificaEstat(false);
+
+                            modeConsulta();
+
+                            TabX.ActivaRefrescaEnTabs(this);
+
+                            Program.Sessio.refrescaTaula(taula);
+
+                            MessageBox.Show("Modificacions taula: " + taula + ". Ok.");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error: " + ex.Message);
+                        }
+
+                        connection.Close();
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error: " + ex.Message);
-                    }
 
-                    connection.Close();
+                    Panell.PanellActiu.Value._Panell.Focus();
+
                 }
-
-                Panell.PanellActiu.Value._Panell.Focus();
-
+                finally
+                {
+                    dataGridView.CellValidated += datagridView_CellValidated;
+                    dataGridView.RowsRemoved += datagridView_RowsRemoved;
+                }
             }
             finally
             {
-                dataGridView.CellValidated += datagridView_CellValidated;
-                dataGridView.RowsRemoved += datagridView_RowsRemoved;
+                Cursor = cursor;
             }
         }
 

@@ -29,19 +29,10 @@ namespace Inversions.GUI
             gestioProductesTabMoviments.refrescaDadesControl();
             cDataGridView1.DataSource = null;
 
-            refresca(true);
+            refresca();
         }
 
-        internal override void refresca(bool? refrescaActivat)
-        {
-            base.refresca(refrescaActivat);
-
-            if (_ActivaRefresca)
-            {
-                _ActivaRefresca = false;
-            }
-        }
-
+       
         /// <summary>
         /// Canvia les dades del control a les del nou producte
         /// </summary>

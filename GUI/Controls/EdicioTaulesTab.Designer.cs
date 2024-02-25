@@ -53,12 +53,12 @@ namespace Inversions.GUI
             // 
             // comboBoxTaules
             // 
-            this.comboBoxTaules.Dock = System.Windows.Forms.DockStyle.Left;
+            this.comboBoxTaules.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxTaules.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             this.comboBoxTaules.FormattingEnabled = true;
             this.comboBoxTaules.Location = new System.Drawing.Point(0, 0);
             this.comboBoxTaules.Name = "comboBoxTaules";
-            this.comboBoxTaules.Size = new System.Drawing.Size(326, 763);
+            this.comboBoxTaules.Size = new System.Drawing.Size(339, 768);
             this.comboBoxTaules.TabIndex = 11;
             // 
             // pnButons
@@ -66,9 +66,9 @@ namespace Inversions.GUI
             this.pnButons.Controls.Add(this.btDesa);
             this.pnButons.Controls.Add(this.btCancela);
             this.pnButons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnButons.Location = new System.Drawing.Point(0, 763);
+            this.pnButons.Location = new System.Drawing.Point(0, 768);
             this.pnButons.Name = "pnButons";
-            this.pnButons.Size = new System.Drawing.Size(339, 56);
+            this.pnButons.Size = new System.Drawing.Size(339, 51);
             this.pnButons.TabIndex = 13;
             // 
             // btDesa

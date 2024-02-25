@@ -46,25 +46,28 @@ namespace Inversions.GUI
         {
             dgvCompresProducte.DataSource = null;
 
-            refresca(true);
+            recalculaValorsControls();
         }
 
-        internal override void refresca(bool? refrescaActivat)
+        internal override void refresca()
         {
-            base.refresca(refrescaActivat);
+            base.refresca();
 
-            if (_ActivaRefresca)
-            {
-                _ActivaRefresca = false;
+            recalculaValorsControls();
+        }
 
-                if (cbTipusProducteFiltreTab2.SelectedItem != null)
-                    calculaPiG();
+        /// <summary>
+        /// S'executa si s'han canviat les dades a la BD o els filtres en la pestanya.
+        /// </summary>
+        private void recalculaValorsControls()
+        {
+            if (cbTipusProducteFiltreTab2.SelectedItem != null)
+                calculaPiG();
 
-                if (cbAnysPiGEnCartera.SelectedItem != null)
-                    ompleDgvPiGEnCartera();
+            if (cbAnysPiGEnCartera.SelectedItem != null)
+                ompleDgvPiGEnCartera();
 
-                gestioProductesTabValoracions.refrescaDadesControl();
-            }
+            gestioProductesTabValoracions.refrescaDadesControl();
         }
 
         private void calculaPiG()
@@ -260,7 +263,7 @@ namespace Inversions.GUI
 
         private void cbTipusProducteFiltreTab2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            refresca(true);
+            recalculaValorsControls();
         }
 
         private void gestioProductesTabValoracions_ProducteSeleccionat(object sender, EventArgs e)

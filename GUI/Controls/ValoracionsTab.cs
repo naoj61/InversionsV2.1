@@ -55,21 +55,16 @@ namespace Inversions.GUI
             gestioProductesTabValoracions.refrescaDadesControl();
         }
 
-        internal override void refresca(bool? refrescaActivat)
+        internal override void refresca()
         {
-            base.refresca(refrescaActivat);
+            base.refresca();
 
-            if (_ActivaRefresca)
-            {
-                _ActivaRefresca = false;
+            if (dgvValoracionsPerData.Rows.Count > 0)
+                actualitzaLlistaValoracionsTotal();
 
-                if (dgvValoracionsPerData.Rows.Count > 0)
-                    actualitzaLlistaValoracionsTotal();
+            gestioProductesTabValoracions.refrescaDadesControl();
 
-                gestioProductesTabValoracions.refrescaDadesControl();
-
-                modeConsulta();
-            }
+            modeConsulta();
         }
 
         internal override void canviUsuari(Usuari usuari)
@@ -78,7 +73,7 @@ namespace Inversions.GUI
             dgvValoracions.DataSource = null;
             pnEdicio.Visible = false;
 
-            refresca(true);
+            refresca();
         }
 
 

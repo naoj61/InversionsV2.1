@@ -27,7 +27,7 @@ namespace Inversions
             components = new Container();
             AutoScaleMode = AutoScaleMode.Font;
 
-            _ActivaRefresca = true;
+            _PendentRefrescar = false;
             _PendentCarregaInicial = true;
 
             TabsX.Add(this);
@@ -43,7 +43,7 @@ namespace Inversions
             // Marca pel refresc totes les pestanyes excepte la que s'acaba de modificar.
             foreach (TabX tabX in TabsX.Where(tabX => tabX != null))
             {
-                tabX._ActivaRefresca = noActivarAquestTabX != tabX;
+                tabX._PendentRefrescar = noActivarAquestTabX != tabX;
             }
         }
 
@@ -52,12 +52,15 @@ namespace Inversions
         /// </summary>
         public bool _EnModeEdicio { get; private set; }
 
+        /// <summary>
+        /// Indica si ja s'ha carregat la pestanya.
+        /// </summary>
         public bool _PendentCarregaInicial { get; private set; }
 
         /// <summary>
-        /// Indica que s'han de recarregar les dades de la pestanya
+        /// Indica que s'han de recarregar les dades de la pestanya.
         /// </summary>
-        internal bool _ActivaRefresca { get; set ; }
+        internal bool _PendentRefrescar { get; private set ; }
 
         protected void acceptButton(Button botoAccept)
         {
@@ -71,19 +74,20 @@ namespace Inversions
                 ParentForm.CancelButton = botoCancel;
         }
 
+        /// <summary>
+        /// Càrrega inicial de la pestanya. Marca com a fet.
+        /// </summary>
         internal virtual void carregaInicial()
         {
             _PendentCarregaInicial = false;
         }
 
         /// <summary>
-        /// Refresca les dades de la pestanya.
+        /// Refresca les dades de la pestanya i marco com refrescat.
         /// </summary>
-        /// <param name="refrescaActivat"> Si no null canvia el valor de 'activaRefresca' en la pestanya seleccionada.</param>
-        internal virtual void refresca(bool? refrescaActivat)
+        internal virtual void refresca()
         {
-            if (refrescaActivat.HasValue)
-                _ActivaRefresca = refrescaActivat.Value;
+            _PendentRefrescar = false;
         }
 
         /// <summary>
@@ -92,7 +96,7 @@ namespace Inversions
         /// <param name="usuari">Usuari seleccionat</param>
         internal virtual void canviUsuari(Usuari usuari)
         {
-            refresca(true);
+            _PendentRefrescar = true;
         }
 
         /// <summary>

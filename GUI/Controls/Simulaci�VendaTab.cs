@@ -161,19 +161,14 @@ namespace Inversions.GUI
             ntbPig.Valor = 0;
             ntbImportBrut.Valor = 0;
 
-            refresca(true);
+            refresca();
         }
 
-        internal override void refresca(bool? refrescaActivat)
+        internal override void refresca()
         {
-            base.refresca(refrescaActivat);
+            base.refresca();
 
-            if (_ActivaRefresca)
-            {
-                _ActivaRefresca = false;
-
-                productes.refrescaDadesControl();
-            }
+            productes.refrescaDadesControl();
         }
 
 

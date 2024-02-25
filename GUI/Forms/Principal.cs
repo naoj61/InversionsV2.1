@@ -196,7 +196,7 @@ namespace Inversions.GUI
             {
                 var tabX = tornaTabX();
                 if (tabX != null)
-                    tabX.refresca(true);
+                    tabX.refresca();
             }
             else if (e.KeyCode == Keys.Escape)
             {
@@ -246,9 +246,11 @@ namespace Inversions.GUI
 
             if (tabX != null)
             {
-            if (tabX._PendentCarregaInicial)
-                tabX.carregaInicial();
-                tabX.refresca(null);
+                if (tabX._PendentCarregaInicial)
+                    tabX.carregaInicial();
+
+                if (tabX._PendentRefrescar)
+                    tabX.refresca();
             }
         }
 
