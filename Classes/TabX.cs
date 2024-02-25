@@ -18,6 +18,8 @@ namespace Inversions
         /// </summary>
         private readonly IContainer components = null;
 
+        private static readonly List<TabX> TabsX = new List<TabX>();
+
         protected TabX()
         {
             // Required method for Designer support - do not modify 
@@ -25,8 +27,24 @@ namespace Inversions
             components = new Container();
             AutoScaleMode = AutoScaleMode.Font;
 
-           _ActivaRefresca = true;
+            _ActivaRefresca = true;
             _PendentCarregaInicial = true;
+
+            TabsX.Add(this);
+        }
+
+        ~TabX()
+        {
+            TabsX.Remove(this);
+        }
+
+        protected static void ActivaRefrescaEnTabs(TabX noActivarAquestTabX)
+        {
+            // Marca pel refresc totes les pestanyes excepte la que s'acaba de modificar.
+            foreach (TabX tabX in TabsX.Where(tabX => tabX != null))
+            {
+                tabX._ActivaRefresca = noActivarAquestTabX != tabX;
+            }
         }
 
         /// <summary>
@@ -39,11 +57,11 @@ namespace Inversions
         /// <summary>
         /// Indica que s'han de recarregar les dades de la pestanya
         /// </summary>
-        internal bool _ActivaRefresca { get; set; }
-        
+        internal bool _ActivaRefresca { get; set ; }
+
         protected void acceptButton(Button botoAccept)
         {
-            if (ParentForm != null) 
+            if (ParentForm != null)
                 ParentForm.AcceptButton = botoAccept;
         }
 
@@ -57,7 +75,7 @@ namespace Inversions
         {
             _PendentCarregaInicial = false;
         }
-   
+
         /// <summary>
         /// Refresca les dades de la pestanya.
         /// </summary>
@@ -72,7 +90,7 @@ namespace Inversions
         /// Quan Principal detecta canvi d'usuari, crida el mètode de la pestanya seleccionada.
         /// </summary>
         /// <param name="usuari">Usuari seleccionat</param>
-        internal virtual void canviUsuari(Usuari usuari) 
+        internal virtual void canviUsuari(Usuari usuari)
         {
             refresca(true);
         }
@@ -82,7 +100,9 @@ namespace Inversions
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        internal virtual void escape(object sender, KeyEventArgs e) { }
+        internal virtual void escape(object sender, KeyEventArgs e)
+        {
+        }
 
         protected virtual void modeEdicio()
         {

@@ -435,7 +435,7 @@ namespace Inversions.GUI
 
                         modeConsulta();
 
-                        ((Principal)ParentForm).activaRefrescaEnTabs(this);
+                        TabX.ActivaRefrescaEnTabs(this);
 
                         Program.Sessio.refrescaTaula(taula);
                         

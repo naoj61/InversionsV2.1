@@ -419,7 +419,7 @@ namespace Inversions.GUI
                 return;
             }
 
-            ((Principal)ParentForm).activaRefrescaEnTabs(this);
+            TabX.ActivaRefrescaEnTabs(this);
 
             modeConsulta();
         }

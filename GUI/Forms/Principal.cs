@@ -49,21 +49,6 @@ namespace Inversions.GUI
 
 
         #region *** Mètodes ***
-
-        /// <summary>
-        /// Activa l'indicador per refrescar al entrar en totes les pestanyes.
-        /// </summary>
-        /// <param name="tabx"></param>
-        internal void activaRefrescaEnTabs(TabX tabx)
-        {
-            foreach (TabPage tabPage in tabControl1.TabPages)
-            {
-                var tab = tabPage.Controls.OfType<TabX>().FirstOrDefault();
-
-                if (tab != null)
-                    tab._ActivaRefresca = tab != tabx;
-            }
-        }
         
         private void titolFinestra()
         {

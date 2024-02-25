@@ -462,7 +462,7 @@ namespace Inversions.GUI
 
                 gestioProductesTabValoracions.refrescaDadesControl();
 
-                ((Principal) ParentForm).activaRefrescaEnTabs(this);
+                TabX.ActivaRefrescaEnTabs(this);
 
                 modeConsulta();
 
@@ -512,7 +512,7 @@ namespace Inversions.GUI
             PasteSelfBank pSelf = new PasteSelfBank();
             if (pSelf.ShowDialog(this) == DialogResult.OK)
             {
-                ((Principal) ParentForm).activaRefrescaEnTabs(this);
+                TabX.ActivaRefrescaEnTabs(this);
                 gestioProductesTabValoracions.refrescaDadesControl();
             }
         }
