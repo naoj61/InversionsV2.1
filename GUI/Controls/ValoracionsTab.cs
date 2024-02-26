@@ -52,7 +52,7 @@ namespace Inversions.GUI
             dtpDataIniciLlista.Value = DateTime.Now.AddMonths(-6);
             dtpDataIniciValoracions.Value = DateTime.Now.AddMonths(-6);
 
-            gestioProductesTabValoracions.refrescaDadesControl();
+            gestioProductesTabValoracions.refrescaDadesControl(true);
         }
 
         internal override void refresca()
@@ -62,18 +62,20 @@ namespace Inversions.GUI
             if (dgvValoracionsPerData.Rows.Count > 0)
                 actualitzaLlistaValoracionsTotal();
 
-            gestioProductesTabValoracions.refrescaDadesControl();
+            gestioProductesTabValoracions.refrescaDadesControl(_PendentCanviUsuari);
 
             modeConsulta();
         }
 
-        internal override void canviUsuari(Usuari usuari)
+        internal override void canviUsuari()
         {
             dgvValoracionsPerData.Rows.Clear();
             dgvValoracions.DataSource = null;
             pnEdicio.Visible = false;
 
             refresca();
+         
+            base.canviUsuari();
         }
 
 
@@ -455,7 +457,7 @@ namespace Inversions.GUI
                 if (vValoracioSeleccionada != null)
                     Valoracio.Reload(vValoracioSeleccionada);
 
-                gestioProductesTabValoracions.refrescaDadesControl();
+                gestioProductesTabValoracions.refrescaDadesControl(false);
 
                 TabX.ActivaRefrescaEnTabs(this);
 
@@ -508,7 +510,7 @@ namespace Inversions.GUI
             if (pSelf.ShowDialog(this) == DialogResult.OK)
             {
                 TabX.ActivaRefrescaEnTabs(this);
-                gestioProductesTabValoracions.refrescaDadesControl();
+                gestioProductesTabValoracions.refrescaDadesControl(false);
             }
         }
 

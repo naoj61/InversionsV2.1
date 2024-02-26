@@ -42,11 +42,13 @@ namespace Inversions.GUI
             cbAnysPiGEnCartera.SelectedItem = DateTime.Today.Year;
         }
 
-        internal override void canviUsuari(Usuari usuari)
+        internal override void canviUsuari()
         {
             dgvCompresProducte.DataSource = null;
 
-            recalculaValorsControls();
+            refresca();
+
+            base.canviUsuari();
         }
 
         internal override void refresca()
@@ -61,13 +63,15 @@ namespace Inversions.GUI
         /// </summary>
         private void recalculaValorsControls()
         {
+            dgvCompresProducte.DataSource = null;
+
             if (cbTipusProducteFiltreTab2.SelectedItem != null)
                 calculaPiG();
 
             if (cbAnysPiGEnCartera.SelectedItem != null)
                 ompleDgvPiGEnCartera();
 
-            gestioProductesTabValoracions.refrescaDadesControl();
+            gestioProductesTabValoracions.refrescaDadesControl(false);
         }
 
         private void calculaPiG()

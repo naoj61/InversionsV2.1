@@ -32,25 +32,15 @@ namespace Inversions.GUI
             }
         }
 
-        internal override void canviUsuari(Usuari usuari)
+        internal override void canviUsuari()
         {
-            cbUsuaris.SelectedItem = usuari;
-        }
+            base.canviUsuari();
 
-        /// <summary>
-        /// Torna l'usuari següent al seleccionat.
-        /// </summary>
-        /// <returns></returns>
-        internal Usuari tornaUsuariSeguent()
-        {
-            var ind = cbUsuaris.SelectedIndex + 1;
-         
-            if (ind >= cbUsuaris.Items.Count)
-                ind = 0;
-
-            return (Usuari) cbUsuaris.Items[ind];
+            cbUsuaris.SelectedIndexChanged -= cbUsuaris_SelectedIndexChanged;
+            cbUsuaris.SelectedItem = Usuari.Seleccionat;
+            cbUsuaris.SelectedIndexChanged += cbUsuaris_SelectedIndexChanged;
         }
-        
+       
 
         void cbUsuaris_SelectedIndexChanged(object sender, EventArgs e)
         {

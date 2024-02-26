@@ -24,9 +24,11 @@ namespace Inversions.GUI
             }
         }
 
-        internal override void canviUsuari(Usuari usuari)
+        internal override void canviUsuari()
         {
-            gestioProductesTabMoviments.refrescaDadesControl();
+            base.canviUsuari();
+            
+            gestioProductesTabMoviments.refrescaDadesControl(true);
             cDataGridView1.DataSource = null;
 
             refresca();
@@ -241,7 +243,7 @@ namespace Inversions.GUI
 
             Program.ConnectaSessio(); // Per refrescar les dades modificades.
 
-            gestioProductesTabMoviments.refrescaDadesControl();
+            gestioProductesTabMoviments.refrescaDadesControl(false);
             ompleTaulaMovimentsProducte(prodDesti ?? prodOrigen);
         }
 

@@ -112,13 +112,15 @@ namespace Inversions.GUI
         /// <summary>
         /// Refresca les dades que mostra el control.
         /// </summary>
-        public void refrescaDadesControl()
+        /// <param name="noSeleccionarCapProducte"> Si false, torna a seleccionar el producte.</param>
+        public void refrescaDadesControl(bool noSeleccionarCapProducte)
         {
             var index = vLbProductes.SelectedIndex;
             aplicaFiltre();
-            if (!Principal.SestaCanviantLusuari)
+            // Si s'està canviant l'usuari el producte seleccionat es descarta.
+            //if (!Principal.SestaCanviantLusuari)
+            if (!noSeleccionarCapProducte)
             {
-                // Si s'està canviant l'usuari el producte seleccionat es descarta.
                 try
                 {
                     vLbProductes.SelectedIndex = index;
@@ -126,7 +128,7 @@ namespace Inversions.GUI
                 catch (ArgumentOutOfRangeException)
                 {
                     vLbProductes.SelectedItem = null;
-                } 
+                }
             }
 
             if(vLbProductes.SelectedItem == null)

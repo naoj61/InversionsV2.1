@@ -149,7 +149,7 @@ namespace Inversions.GUI
             InitializeComponent();
         }
 
-        internal override void canviUsuari(Usuari usuari)
+        internal override void canviUsuari()
         {
             dgvCompresOriginals.DataSource = null;
             
@@ -160,15 +160,17 @@ namespace Inversions.GUI
             ntbTributaRenda.Valor = 0;
             ntbPig.Valor = 0;
             ntbImportBrut.Valor = 0;
-
+          
             refresca();
+           
+            base.canviUsuari();
         }
 
         internal override void refresca()
         {
             base.refresca();
 
-            productes.refrescaDadesControl();
+            productes.refrescaDadesControl(_PendentCanviUsuari);
         }
 
 

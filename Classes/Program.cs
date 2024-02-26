@@ -169,7 +169,7 @@ namespace Inversions
         private static void DesaIdUsuariEnRegistreWindows(Usuari usuari)
         {
             if (usuari == null)
-                throw new ArgumentNullException("usuari", "No es pot canviar a un uduari Null");
+                throw new ArgumentNullException("usuari", "No es pot canviar a un usuari Null");
 
             Utilitats.GravaVariableRegistre(Registry.CurrentUser, Claureg, NomVarReg, usuari.Id);
         }

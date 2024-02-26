@@ -27,7 +27,7 @@ namespace Inversions.GUI.Forms
         public IRPF(int any)
         {
             InitializeComponent();
-
+            
             dgvIngressosForaAplicacio.RowsRemoved -= dgvIngressosForaAplicacio_RowsRemoved;
 
             dgvProductes.AutoGenerateColumns = false;

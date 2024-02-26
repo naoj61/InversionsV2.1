@@ -38,12 +38,21 @@ namespace Inversions
             TabsX.Remove(this);
         }
 
-        protected static void ActivaRefrescaEnTabs(TabX noActivarAquestTabX)
+        internal static void ActivaRefrescaEnTabs(TabX noActivarAquestTabX = null)
         {
             // Marca pel refresc totes les pestanyes excepte la que s'acaba de modificar.
             foreach (TabX tabX in TabsX.Where(tabX => tabX != null))
             {
-                tabX._PendentRefrescar = noActivarAquestTabX != tabX;
+                tabX._PendentRefrescar = noActivarAquestTabX == null || noActivarAquestTabX != tabX;
+            }
+        }
+
+        internal static void ActivaPendentCanviUsuariEnTabs()
+        {
+            // Marca pel refresc totes les pestanyes.
+            foreach (TabX tabX in TabsX.Where(tabX => tabX != null))
+            {
+                tabX._PendentCanviUsuari = true;
             }
         }
 
@@ -60,7 +69,12 @@ namespace Inversions
         /// <summary>
         /// Indica que s'han de recarregar les dades de la pestanya.
         /// </summary>
-        internal bool _PendentRefrescar { get; private set ; }
+        internal bool _PendentRefrescar { get; private set; }
+        
+        /// <summary>
+        /// Indica que s'ha canviat d'usuari i la pestanya stà pendent d'actualitzar;
+        /// </summary>
+        internal bool _PendentCanviUsuari { get; private set; }
 
         protected void acceptButton(Button botoAccept)
         {
@@ -93,10 +107,9 @@ namespace Inversions
         /// <summary>
         /// Quan Principal detecta canvi d'usuari, crida el mètode de la pestanya seleccionada.
         /// </summary>
-        /// <param name="usuari">Usuari seleccionat</param>
-        internal virtual void canviUsuari(Usuari usuari)
+        internal virtual void canviUsuari()
         {
-            _PendentRefrescar = true;
+            _PendentCanviUsuari = false;
         }
 
         /// <summary>
@@ -106,6 +119,7 @@ namespace Inversions
         /// <param name="e"></param>
         internal virtual void escape(object sender, KeyEventArgs e)
         {
+            refresca();
         }
 
         protected virtual void modeEdicio()
