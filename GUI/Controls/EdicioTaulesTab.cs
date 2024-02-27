@@ -360,7 +360,6 @@ namespace Inversions.GUI
             return new Panell(pnTaula, etiquetaNomTaula, dataGridView, nomPaula);
         }
 
-
         private void carregaTaula(Panell panell)
         {
             Cursor cursor = this.Cursor;
@@ -378,6 +377,11 @@ namespace Inversions.GUI
                     dataGridView.CellValidated -= datagridView_CellValidated;
                     dataGridView.RowsRemoved -= datagridView_RowsRemoved;
 
+                    // Guarda la posicio del dataGridView i la cel·la seleccionada.
+                    var filaSelec = dataGridView.CurrentRow == null ? 0 : dataGridView.CurrentCell.RowIndex;
+                    var colSelec = dataGridView.CurrentRow == null ? 0 : dataGridView.CurrentCell.ColumnIndex;
+                    var primeraFilaMostrada = dataGridView.FirstDisplayedScrollingRowIndex;
+
                     using (SqlConnection connection = new SqlConnection(StringConexio))
                     {
                         // Consulta SQL para seleccionar todos los registros de la tabla
@@ -394,6 +398,17 @@ namespace Inversions.GUI
                         panell._Panell.Width = Utilitats.AjustaAmpladaDataGridView(dataGridView) + 20;
                     }
 
+                    try
+                    {
+                        // Restaura la posicio del dataGridView i la cel·la seleccionada.
+                        dataGridView.CurrentCell = dataGridView.Rows[filaSelec].Cells[colSelec];
+                        dataGridView.FirstDisplayedScrollingRowIndex = primeraFilaMostrada;
+                    }
+                    catch (Exception)
+                    {
+                        // Si dona error no passa res.
+                    }
+                    
                     modeConsulta();
 
                     Panell.PanellActiu.Value._Panell.Focus();
@@ -427,6 +442,7 @@ namespace Inversions.GUI
                     dataGridView.CellValidated -= datagridView_CellValidated;
                     dataGridView.RowsRemoved -= datagridView_RowsRemoved;
 
+
                     string taula = panell._NomTaula;
 
                     // Guardar cambios en la base de datos al hacer clic en el botón "Guardar"
@@ -454,6 +470,8 @@ namespace Inversions.GUI
 
                             Program.Sessio.refrescaTaula(taula);
 
+                            carregaTaula(panell);
+
                             MessageBox.Show("Modificacions taula: " + taula + ". Ok.");
                         }
                         catch (Exception ex)
@@ -479,6 +497,39 @@ namespace Inversions.GUI
             }
         }
 
+
+        internal override void carregaInicial()
+        {
+            base.carregaInicial();
+
+            // Obté una llista de les taules disponibles a la base de dades
+            var tables = Program.Sessio.Database
+                .SqlQuery<string>("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' ORDER BY TABLE_NAME").ToList();
+
+            // Omple un desplegable amb les taules
+            comboBoxTaules.DataSource = tables;
+            comboBoxTaules.SelectedItem = null;
+
+            comboBoxTaules.SelectedIndexChanged -= comboBoxTables_SelectedIndexChanged;
+            comboBoxTaules.SelectedIndexChanged += comboBoxTables_SelectedIndexChanged;
+        }
+
+        internal override void refresca()
+        {
+            base.refresca();
+
+            foreach (var control in pnTaules.Controls)
+            {
+                Panel ctrl = control as Panel;
+                if (ctrl != null)
+                {
+                    var panell = Panell.TrobaElPanell((string)ctrl.Tag);
+                    if (panell.HasValue)
+                        carregaTaula(panell.Value);
+                }
+            }
+        }
+
         protected override void modeEdicio()
         {
             base.modeEdicio();
@@ -493,23 +544,10 @@ namespace Inversions.GUI
             if (!Panell.HiHaModificacionsPendents())
                 base.modeConsulta();
         }
+        
 
         #region *** Events ***
-
-        private void edicioTaulesTab_Load(object sender, EventArgs e)
-        {
-            // Obté una llista de les taules disponibles a la base de dades
-            var tables = Program.Sessio.Database
-                .SqlQuery<string>("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' ORDER BY TABLE_NAME").ToList();
-
-            // Omple un desplegable amb les taules
-            comboBoxTaules.DataSource = tables;
-            comboBoxTaules.SelectedItem = null;
-
-            comboBoxTaules.SelectedIndexChanged -= comboBoxTables_SelectedIndexChanged;
-            comboBoxTaules.SelectedIndexChanged += comboBoxTables_SelectedIndexChanged;
-        }
-
+        
         private void datagridView_CellValidated(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView datagridView = (DataGridView) sender;

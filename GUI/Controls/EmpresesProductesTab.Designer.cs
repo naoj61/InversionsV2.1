@@ -32,15 +32,18 @@ namespace Inversions.GUI
         {
             this.grEmpresa = new System.Windows.Forms.GroupBox();
             this.dgvEmpreses = new System.Windows.Forms.DataGridView();
+            this._Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._Nom = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._TipusEmpresa = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnDesaCanvisEmpreses = new System.Windows.Forms.Panel();
             this.btCancelaCanvisEmpreses = new System.Windows.Forms.Button();
             this.btDesaCanvisEmpreses = new System.Windows.Forms.Button();
             this.grProductes = new System.Windows.Forms.GroupBox();
             this.dgvProductes = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._IdProd = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._OrdreGrid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colIsin = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._NomProducte = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnCampsProductes = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.gbTipusProducte = new System.Windows.Forms.GroupBox();
@@ -64,9 +67,6 @@ namespace Inversions.GUI
             this.btNouProducte = new System.Windows.Forms.Button();
             this.btDesaProducte = new System.Windows.Forms.Button();
             this.ckTotesLesEmpreses = new System.Windows.Forms.CheckBox();
-            this._Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._Nom = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._TipusEmpresa = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grEmpresa.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmpreses)).BeginInit();
             this.pnDesaCanvisEmpreses.SuspendLayout();
@@ -117,6 +117,30 @@ namespace Inversions.GUI
             this.dgvEmpreses.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEmpreses_RowEnter);
             this.dgvEmpreses.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvEmpreses_RowValidating);
             this.dgvEmpreses.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dgvEmpreses_UserDeletedRow);
+            // 
+            // _Id
+            // 
+            this._Id.DataPropertyName = "Id";
+            this._Id.HeaderText = "Id";
+            this._Id.Name = "_Id";
+            this._Id.ReadOnly = true;
+            this._Id.Width = 50;
+            // 
+            // _Nom
+            // 
+            this._Nom.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this._Nom.DataPropertyName = "Nom";
+            this._Nom.HeaderText = "Nom";
+            this._Nom.Name = "_Nom";
+            // 
+            // _TipusEmpresa
+            // 
+            this._TipusEmpresa.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this._TipusEmpresa.DataPropertyName = "TipusEmpresa";
+            this._TipusEmpresa.HeaderText = "Tipus";
+            this._TipusEmpresa.Name = "_TipusEmpresa";
+            this._TipusEmpresa.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._TipusEmpresa.Width = 88;
             // 
             // pnDesaCanvisEmpreses
             // 
@@ -178,10 +202,10 @@ namespace Inversions.GUI
             this.dgvProductes.AllowUserToDeleteRows = false;
             this.dgvProductes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvProductes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
+            this._IdProd,
             this._OrdreGrid,
             this.colIsin,
-            this.dataGridViewTextBoxColumn2});
+            this._NomProducte});
             this.dgvProductes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvProductes.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvProductes.Location = new System.Drawing.Point(3, 22);
@@ -192,14 +216,14 @@ namespace Inversions.GUI
             this.dgvProductes.TabIndex = 0;
             this.dgvProductes.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProductes_RowEnter);
             // 
-            // dataGridViewTextBoxColumn1
+            // _IdProd
             // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "Id";
-            this.dataGridViewTextBoxColumn1.HeaderText = "Id";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 61;
+            this._IdProd.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this._IdProd.DataPropertyName = "Id";
+            this._IdProd.HeaderText = "Id";
+            this._IdProd.Name = "_IdProd";
+            this._IdProd.ReadOnly = true;
+            this._IdProd.Width = 61;
             // 
             // _OrdreGrid
             // 
@@ -215,12 +239,12 @@ namespace Inversions.GUI
             this.colIsin.Name = "colIsin";
             this.colIsin.Width = 81;
             // 
-            // dataGridViewTextBoxColumn2
+            // _NomProducte
             // 
-            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "_NomProducte";
-            this.dataGridViewTextBoxColumn2.HeaderText = "Nom";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this._NomProducte.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this._NomProducte.DataPropertyName = "_NomProducte";
+            this._NomProducte.HeaderText = "Nom";
+            this._NomProducte.Name = "_NomProducte";
             // 
             // pnCampsProductes
             // 
@@ -353,7 +377,12 @@ namespace Inversions.GUI
             this.ntbOrdreGridProducte.TabIndex = 0;
             this.ntbOrdreGridProducte.Text = "999";
             this.ntbOrdreGridProducte.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbOrdreGridProducte.Valor = 999;
+            this.ntbOrdreGridProducte.Valor = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
+            this.ntbOrdreGridProducte.ValorDouble = 999D;
             this.ntbOrdreGridProducte.TextChanged += new System.EventHandler(this.ntbOrdreGridProducte_TextChanged);
             // 
             // grNomProducte
@@ -511,30 +540,6 @@ namespace Inversions.GUI
             this.ckTotesLesEmpreses.UseVisualStyleBackColor = true;
             this.ckTotesLesEmpreses.CheckedChanged += new System.EventHandler(this.ckTotesLesEmpreses_CheckedChanged);
             // 
-            // _Id
-            // 
-            this._Id.DataPropertyName = "Id";
-            this._Id.HeaderText = "Id";
-            this._Id.Name = "_Id";
-            this._Id.ReadOnly = true;
-            this._Id.Width = 50;
-            // 
-            // _Nom
-            // 
-            this._Nom.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._Nom.DataPropertyName = "Nom";
-            this._Nom.HeaderText = "Nom";
-            this._Nom.Name = "_Nom";
-            // 
-            // _TipusEmpresa
-            // 
-            this._TipusEmpresa.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this._TipusEmpresa.DataPropertyName = "TipusEmpresa";
-            this._TipusEmpresa.HeaderText = "Tipus";
-            this._TipusEmpresa.Name = "_TipusEmpresa";
-            this._TipusEmpresa.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this._TipusEmpresa.Width = 88;
-            // 
             // EmpresesProductesTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -602,14 +607,14 @@ namespace Inversions.GUI
         private System.Windows.Forms.Button btEditaProducte;
         private System.Windows.Forms.Button btNouProducte;
         private System.Windows.Forms.Button btDesaProducte;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _OrdreGrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colIsin;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.CheckBox ckTotesLesEmpreses;
         private System.Windows.Forms.DataGridViewTextBoxColumn _Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn _Nom;
         private System.Windows.Forms.DataGridViewTextBoxColumn _TipusEmpresa;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _IdProd;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _OrdreGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colIsin;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _NomProducte;
 
     }
 }

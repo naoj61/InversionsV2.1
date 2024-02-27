@@ -25,15 +25,18 @@ namespace Inversions
         /// <returns></returns>
         private Type GetEntityType(string nomTaula)
         {
+            // Si el nom taula conté '_' és que es una taula amb herencia, la part esquerra de '_' s'ha de descartar.
+            if (nomTaula.Contains("_"))
+                nomTaula = nomTaula.Substring(nomTaula.IndexOf('_') + 1);
+
             // Busquem la propietat DbSet corresponent al nom del conjunt d'entitats utilitzant reflexió
             var dbSetProperty = this.GetType().GetProperties()
                 .FirstOrDefault(p => p.PropertyType.IsGenericType &&
                                      p.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>) &&
                                      p.Name == nomTaula);
 
-            return dbSetProperty != null ? dbSetProperty.PropertyType.GetGenericArguments().FirstOrDefault() : null;
-
             // Si no s'ha trobat cap coincidència, retornem null
+            return dbSetProperty != null ? dbSetProperty.PropertyType.GetGenericArguments().FirstOrDefault() : null;
         }
 
         /// <summary>

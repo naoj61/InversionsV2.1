@@ -24,12 +24,23 @@ namespace Inversions.GUI
             base.carregaInicial();
 
             if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
-            {
-                cbUsuaris.DisplayMember = "Nom";
-                cbUsuaris.DataSource = Usuari.Tuples.ToList();
-                cbUsuaris.SelectedItem = Usuari.Seleccionat;
-                cbUsuaris.SelectedIndexChanged += cbUsuaris_SelectedIndexChanged;
-            }
+                carregaCombo();
+        }
+
+        private void carregaCombo()
+        {
+            cbUsuaris.SelectedIndexChanged -= cbUsuaris_SelectedIndexChanged;
+            cbUsuaris.DisplayMember = "Nom";
+            cbUsuaris.DataSource = Usuari.Tuples.ToList();
+            cbUsuaris.SelectedItem = Usuari.Seleccionat;
+            cbUsuaris.SelectedIndexChanged += cbUsuaris_SelectedIndexChanged;
+        }
+
+        internal override void refresca()
+        {
+            carregaCombo();
+
+            base.refresca();
         }
 
         internal override void canviUsuari()

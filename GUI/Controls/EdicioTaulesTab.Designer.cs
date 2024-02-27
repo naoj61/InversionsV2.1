@@ -89,7 +89,7 @@ namespace Inversions.GUI
             this.btCancela.Name = "btCancela";
             this.btCancela.Size = new System.Drawing.Size(98, 40);
             this.btCancela.TabIndex = 7;
-            this.btCancela.Text = "Cancel·la";
+            this.btCancela.Text = "Recarrega";
             this.btCancela.UseVisualStyleBackColor = true;
             this.btCancela.Click += new System.EventHandler(this.btCancela_Click);
             // 
@@ -112,7 +112,6 @@ namespace Inversions.GUI
             this.MinimumSize = new System.Drawing.Size(1464, 819);
             this.Name = "EdicioTaulesTab";
             this.Size = new System.Drawing.Size(1642, 819);
-            this.Load += new System.EventHandler(this.edicioTaulesTab_Load);
             this.pnCombo.ResumeLayout(false);
             this.pnButons.ResumeLayout(false);
             this.ResumeLayout(false);

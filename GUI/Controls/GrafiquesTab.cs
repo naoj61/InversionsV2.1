@@ -18,18 +18,22 @@ namespace Inversions.GUI
         {
             InitializeComponent();
 
-            dtpFinal.Value = DateTime.Now;
-
             vChartArea = chart1.ChartAreas[0];
             vChartArea.AxisX.LabelStyle.Angle = 45;
             vChartArea.AxisX.IntervalType = DateTimeIntervalType.Months;
             vChartArea.AxisX.IsStartedFromZero = false;
             vChartArea.AxisX.Interval = 1;
             vChartArea.AxisY.IsStartedFromZero = false;
+        }
+
+        internal override void carregaInicial()
+        {
+            base.carregaInicial();
+
+            dtpFinal.Value = DateTime.Now;
 
             gestioProductesTabValoracions.aplicaFiltre();
         }
-
 
         private void activaBotoGrafiques(bool forçaActivacio = false)
         {
@@ -42,7 +46,6 @@ namespace Inversions.GUI
                     panel2.Focus();
             }
         }
-
 
         private void creaGrafica()
         {
@@ -121,6 +124,12 @@ namespace Inversions.GUI
             }
         }
 
+        internal override void refresca()
+        {
+            base.refresca();
+
+            creaGrafica();
+        }
 
         #region *** Events ***
 

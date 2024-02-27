@@ -24,14 +24,19 @@ namespace Inversions.GUI
             }
         }
 
+        internal override void refresca()
+        {
+            gestioProductesTabMoviments.refrescaDadesControl(false);
+           
+            base.refresca();
+        }
+
         internal override void canviUsuari()
         {
             base.canviUsuari();
             
             gestioProductesTabMoviments.refrescaDadesControl(true);
             cDataGridView1.DataSource = null;
-
-            refresca();
         }
 
        

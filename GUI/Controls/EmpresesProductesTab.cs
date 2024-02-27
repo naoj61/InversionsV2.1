@@ -17,7 +17,6 @@ namespace Inversions.GUI
 {
     public partial class EmpresesProductesTab : TabX
     {
-
         private const string NomVarReg = "UltimaPestanyaSeleccionada";
         private InversionsBDContext vConnEmpreses;
         private InversionsBDContext vConnProductes;
@@ -27,37 +26,7 @@ namespace Inversions.GUI
         public EmpresesProductesTab()
         {
             InitializeComponent();
-
-            dgvEmpreses.AutoGenerateColumns = false;
-            dgvProductes.AutoGenerateColumns = false;
-
-
-            cbMercatProducte.SuspendLayout();
-            cbMercatProducte.DisplayMember = "Nom";
-            cbMercatProducte.DataSource = Mercat.Tuples.ToList();
-            cbMercatProducte.SelectedItem = null;
-            cbMercatProducte.ResumeLayout();
-
-            cbMonedaProducte.SuspendLayout();
-            cbMonedaProducte.DataSource = Enum.GetValues(typeof (Comuns.Utilitats.Monedes));
-            cbMonedaProducte.SelectedItem = null;
-            cbMonedaProducte.ResumeLayout();
-
-
-            cbTipusProducte.SuspendLayout();
-            cbTipusProducte.DataSource = Enum.GetValues(typeof (TipusFons));
-            cbTipusProducte.SelectedItem = null;
-            cbTipusProducte.ResumeLayout();
-
-            modeConsulta();
-        }
-
-        internal override void escape(object sender, KeyEventArgs e)
-        {
-            base.escape(sender, e);
-        
-            teclaEscapeEdicioProducte();
-        }
+            }
 
 
         #region *** Mètodes ***
@@ -100,50 +69,6 @@ namespace Inversions.GUI
 
                 tbNomProducte.Focus();
             }
-        }
-
-
-        protected override void modeEdicio()
-        {
-            base.modeEdicio();
-        
-            btDesaProducte.Enabled = true;
-            btCancelaProducte.Enabled = true;
-            btNouProducte.Enabled = false;
-            btEsborraProducte.Enabled = false;
-            btEditaProducte.Enabled = false;
-            grEmpresa.Enabled = false;
-            dgvProductes.Enabled = false;
-            cbMonedaProducte.Enabled = true;
-            cbMercatProducte.Enabled = true;
-            cbTipusProducte.Enabled = true;
-            //pnCampsProductes.Enabled = true;
-            tbNomProducte.ReadOnly = false;
-            ntbOrdreGridProducte.ReadOnly = false;
-            tbIsinProducte.ReadOnly = false;
-            tbDescripcioProducte.ReadOnly = false;
-        }
-
-        protected override void modeConsulta()
-        {
-            base.modeConsulta();
-        
-            btDesaProducte.Enabled = false;
-            btCancelaProducte.Enabled = false;
-            //btNouProducte.Enabled = vProducteSeleccionat != null;
-            btNouProducte.Enabled = true;
-            btEsborraProducte.Enabled = vProducteSeleccionat != null;
-            btEditaProducte.Enabled = vProducteSeleccionat != null;
-            grEmpresa.Enabled = true;
-            dgvProductes.Enabled = true;
-            cbMonedaProducte.Enabled = false;
-            cbMercatProducte.Enabled = false;
-            cbTipusProducte.Enabled = false;
-            //pnCampsProductes.Enabled = false;
-            tbNomProducte.ReadOnly = true;
-            ntbOrdreGridProducte.ReadOnly = true;
-            tbIsinProducte.ReadOnly = true;
-            tbDescripcioProducte.ReadOnly = true;
         }
 
         private void carregaGridProductes(Empresa empresa)
@@ -191,7 +116,6 @@ namespace Inversions.GUI
                     btNouProducte.Enabled = empresa.TipusEmpresa == TipusEmpresa.GestoraFons;
             }
         }
-
 
         private void ompleCampsProducte(Producte producte)
         {
@@ -252,6 +176,127 @@ namespace Inversions.GUI
             }
         }
 
+        internal override void carregaInicial()
+        {
+            base.carregaInicial();
+
+            dgvEmpreses.AutoGenerateColumns = false;
+            dgvProductes.AutoGenerateColumns = false;
+
+
+            cbMercatProducte.SuspendLayout();
+            cbMercatProducte.DisplayMember = "Nom";
+            cbMercatProducte.DataSource = Mercat.Tuples.ToList();
+            cbMercatProducte.SelectedItem = null;
+            cbMercatProducte.ResumeLayout();
+
+            cbMonedaProducte.SuspendLayout();
+            cbMonedaProducte.DataSource = Enum.GetValues(typeof(Comuns.Utilitats.Monedes));
+            cbMonedaProducte.SelectedItem = null;
+            cbMonedaProducte.ResumeLayout();
+
+
+            cbTipusProducte.SuspendLayout();
+            cbTipusProducte.DataSource = Enum.GetValues(typeof(TipusFons));
+            cbTipusProducte.SelectedItem = null;
+            cbTipusProducte.ResumeLayout();
+
+            modeConsulta();
+        }
+
+        protected override void modeEdicio()
+        {
+            base.modeEdicio();
+
+            btDesaProducte.Enabled = true;
+            btCancelaProducte.Enabled = true;
+            btNouProducte.Enabled = false;
+            btEsborraProducte.Enabled = false;
+            btEditaProducte.Enabled = false;
+            grEmpresa.Enabled = false;
+            dgvProductes.Enabled = false;
+            cbMonedaProducte.Enabled = true;
+            cbMercatProducte.Enabled = true;
+            cbTipusProducte.Enabled = true;
+            //pnCampsProductes.Enabled = true;
+            tbNomProducte.ReadOnly = false;
+            ntbOrdreGridProducte.ReadOnly = false;
+            tbIsinProducte.ReadOnly = false;
+            tbDescripcioProducte.ReadOnly = false;
+        }
+
+        protected override void modeConsulta()
+        {
+            base.modeConsulta();
+
+            btDesaProducte.Enabled = false;
+            btCancelaProducte.Enabled = false;
+            //btNouProducte.Enabled = vProducteSeleccionat != null;
+            btNouProducte.Enabled = true;
+            btEsborraProducte.Enabled = vProducteSeleccionat != null;
+            btEditaProducte.Enabled = vProducteSeleccionat != null;
+            grEmpresa.Enabled = true;
+            dgvProductes.Enabled = true;
+            cbMonedaProducte.Enabled = false;
+            cbMercatProducte.Enabled = false;
+            cbTipusProducte.Enabled = false;
+            //pnCampsProductes.Enabled = false;
+            tbNomProducte.ReadOnly = true;
+            ntbOrdreGridProducte.ReadOnly = true;
+            tbIsinProducte.ReadOnly = true;
+            tbDescripcioProducte.ReadOnly = true;
+        }
+
+        internal override void escape(object sender, KeyEventArgs e)
+        {
+            base.escape(sender, e);
+
+            teclaEscapeEdicioProducte();
+        }
+
+        internal override void refresca()
+        {
+            base.refresca();
+
+            if (dgvEmpreses.CurrentRow == null)
+            {
+                carregaGridEmpreses();
+                return;
+            }
+
+            var currentEmpreses = dgvEmpreses.CurrentRow.DataBoundItem;
+            var currentProductes = dgvProductes.CurrentRow != null ? dgvProductes.CurrentRow.DataBoundItem : null;
+
+            carregaGridEmpreses();
+
+            foreach (DataGridViewRow row in dgvEmpreses.Rows)
+            {
+                if (currentEmpreses.Equals(row.DataBoundItem))
+                {
+                    dgvEmpreses.CurrentCell = row.Cells[0];
+                    row.Selected = true;
+                    break;
+                }
+            }
+
+            if (dgvEmpreses.CurrentRow != null && currentEmpreses.Equals(dgvEmpreses.CurrentRow.DataBoundItem))
+            {
+                if (currentProductes == null)
+                    return;
+
+                foreach (DataGridViewRow row in dgvProductes.Rows)
+                {
+                    if (currentProductes.Equals(row.DataBoundItem))
+                    {
+                        dgvProductes.CurrentCell = row.Cells[0];
+                        row.Selected = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+
         #endregion *** Mètodes ***
 
 
@@ -283,7 +328,7 @@ namespace Inversions.GUI
                 vProducteSeleccionat.Moneda = Utilitats.Monedes.EUR.ToString();
                 vProducteSeleccionat.OrdreGrid = 999;
             }
-            
+
             ompleCampsProducte(vProducteSeleccionat);
             modeEdicio();
         }
@@ -364,7 +409,7 @@ namespace Inversions.GUI
             catch (DbEntityValidationException ex)
             {
                 string message = "\nValidation Errors: ";
-                    
+
                 foreach (var error in ex.EntityValidationErrors.SelectMany(entity => entity.ValidationErrors))
                 {
                     message += String.Format("\nNom camp: {0}, Missatge: {1}", error.PropertyName, error.ErrorMessage);
