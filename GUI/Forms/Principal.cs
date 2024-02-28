@@ -188,8 +188,6 @@ namespace Inversions.GUI
                 {
                     tabControl1.SelectTab(tabValoracions.Name);
                 }
-
-                vUsuarisTab.carregaInicial();
             }
         }
 

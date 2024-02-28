@@ -38,10 +38,14 @@ namespace Inversions
             TabsX.Remove(this);
         }
 
+        /// <summary>
+        /// Marca les pestanyes per refrescar.
+        /// </summary>
+        /// <param name="noActivarAquestTabX">No activa la pestanya del paràmetre.</param>
         internal static void ActivaRefrescaEnTabs(TabX noActivarAquestTabX = null)
         {
-            // Marca pel refresc totes les pestanyes excepte la que s'acaba de modificar.
-            foreach (TabX tabX in TabsX.Where(tabX => tabX != null))
+            // Marca pel refresc totes les pestanyes excepte la que s'acaba de modificar i les que encara no s'ha fet la càrrega inicial.
+            foreach (TabX tabX in TabsX.Where(tabX => tabX != null && !tabX._PendentCarregaInicial))
             {
                 tabX._PendentRefrescar = noActivarAquestTabX == null || noActivarAquestTabX != tabX;
             }
