@@ -408,14 +408,14 @@
             <End EntitySet="Usuaris" Role="Usuari" />
             <End EntitySet="Moviments" Role="Moviment" />
           </AssociationSet>
-          <EntitySet Name="DesglosCompras" EntityType="InversionsBD.DesglosCompra" />
+          <EntitySet Name="DesglosCompres" EntityType="InversionsBD.DesglosCompra" />
           <AssociationSet Name="FK_MovCompra" Association="InversionsBD.FK_MovCompra">
             <End Role="Moviment" EntitySet="Moviments" />
-            <End Role="DesglosCompre" EntitySet="DesglosCompras" />
+            <End Role="DesglosCompre" EntitySet="DesglosCompres" />
           </AssociationSet>
           <AssociationSet Name="FK_MovCompraOrig" Association="InversionsBD.FK_MovCompraOrig">
             <End Role="Moviment" EntitySet="Moviments" />
-            <End Role="DesglosCompre" EntitySet="DesglosCompras" />
+            <End Role="DesglosCompre" EntitySet="DesglosCompres" />
           </AssociationSet>
           <EntitySet Name="IngressosExterns" EntityType="InversionsBD.IngresExtern" />
           <AssociationSet Name="FK_IngressosUsuaris" Association="InversionsBD.FK_IngressosUsuaris">
@@ -805,7 +805,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="DesglosCompras">
+          <EntitySetMapping Name="DesglosCompres">
             <EntityTypeMapping TypeName="InversionsBD.DesglosCompra">
               <MappingFragment StoreEntitySet="DesglosCompres">
                 <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />

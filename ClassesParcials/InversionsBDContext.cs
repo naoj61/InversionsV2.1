@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
@@ -48,7 +49,7 @@ namespace Inversions
             var entityType = GetEntityType(nomTaula);
            
             if (entityType == null)
-                throw new Exception("La taula: " + nomTaula + " no existeix");
+                throw new InvalidExpressionException("La taula: " + nomTaula + " no existeix");
 
             refrescaTaula(entityType);
         }

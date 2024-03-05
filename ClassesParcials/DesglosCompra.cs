@@ -13,7 +13,7 @@ namespace Inversions
 
         public static DbSet<DesglosCompra> Tuples
         {
-            get { return Program.Sessio.DesglosCompras; }
+            get { return Program.Sessio.DesglosCompres; }
         }
 
         public static void RefrescaTaula()

@@ -31,34 +31,36 @@ namespace Inversions.GUI
         /// </summary>
         private void InitializeComponent()
         {
-            this.pnCombo = new System.Windows.Forms.Panel();
+            this.pnEsquerra = new System.Windows.Forms.Panel();
             this.comboBoxTaules = new System.Windows.Forms.ComboBox();
             this.pnButons = new System.Windows.Forms.Panel();
             this.btDesa = new System.Windows.Forms.Button();
             this.btCancela = new System.Windows.Forms.Button();
             this.pnTaules = new System.Windows.Forms.Panel();
-            this.pnCombo.SuspendLayout();
+            this.pnCombo = new System.Windows.Forms.Panel();
+            this.pnEsquerra.SuspendLayout();
             this.pnButons.SuspendLayout();
+            this.pnCombo.SuspendLayout();
             this.SuspendLayout();
             // 
-            // pnCombo
+            // pnEsquerra
             // 
-            this.pnCombo.Controls.Add(this.comboBoxTaules);
-            this.pnCombo.Controls.Add(this.pnButons);
-            this.pnCombo.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pnCombo.Location = new System.Drawing.Point(0, 0);
-            this.pnCombo.Name = "pnCombo";
-            this.pnCombo.Size = new System.Drawing.Size(339, 819);
-            this.pnCombo.TabIndex = 5;
+            this.pnEsquerra.Controls.Add(this.pnCombo);
+            this.pnEsquerra.Controls.Add(this.pnButons);
+            this.pnEsquerra.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pnEsquerra.Location = new System.Drawing.Point(0, 0);
+            this.pnEsquerra.Name = "pnEsquerra";
+            this.pnEsquerra.Padding = new System.Windows.Forms.Padding(3);
+            this.pnEsquerra.Size = new System.Drawing.Size(339, 819);
+            this.pnEsquerra.TabIndex = 5;
             // 
             // comboBoxTaules
             // 
             this.comboBoxTaules.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxTaules.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
-            this.comboBoxTaules.FormattingEnabled = true;
             this.comboBoxTaules.Location = new System.Drawing.Point(0, 0);
             this.comboBoxTaules.Name = "comboBoxTaules";
-            this.comboBoxTaules.Size = new System.Drawing.Size(339, 768);
+            this.comboBoxTaules.Size = new System.Drawing.Size(333, 755);
             this.comboBoxTaules.TabIndex = 11;
             // 
             // pnButons
@@ -66,15 +68,15 @@ namespace Inversions.GUI
             this.pnButons.Controls.Add(this.btDesa);
             this.pnButons.Controls.Add(this.btCancela);
             this.pnButons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnButons.Location = new System.Drawing.Point(0, 768);
+            this.pnButons.Location = new System.Drawing.Point(3, 758);
             this.pnButons.Name = "pnButons";
-            this.pnButons.Size = new System.Drawing.Size(339, 51);
+            this.pnButons.Size = new System.Drawing.Size(333, 58);
             this.pnButons.TabIndex = 13;
             // 
             // btDesa
             // 
             this.btDesa.Enabled = false;
-            this.btDesa.Location = new System.Drawing.Point(3, 6);
+            this.btDesa.Location = new System.Drawing.Point(3, 10);
             this.btDesa.Name = "btDesa";
             this.btDesa.Size = new System.Drawing.Size(98, 40);
             this.btDesa.TabIndex = 7;
@@ -85,7 +87,7 @@ namespace Inversions.GUI
             // btCancela
             // 
             this.btCancela.Enabled = false;
-            this.btCancela.Location = new System.Drawing.Point(107, 6);
+            this.btCancela.Location = new System.Drawing.Point(107, 10);
             this.btCancela.Name = "btCancela";
             this.btCancela.Size = new System.Drawing.Size(98, 40);
             this.btCancela.TabIndex = 7;
@@ -99,33 +101,46 @@ namespace Inversions.GUI
             this.pnTaules.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnTaules.Location = new System.Drawing.Point(339, 0);
             this.pnTaules.Name = "pnTaules";
+            this.pnTaules.Padding = new System.Windows.Forms.Padding(3);
             this.pnTaules.Size = new System.Drawing.Size(1303, 819);
             this.pnTaules.TabIndex = 6;
+            // 
+            // pnCombo
+            // 
+            this.pnCombo.Controls.Add(this.comboBoxTaules);
+            this.pnCombo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnCombo.Location = new System.Drawing.Point(3, 3);
+            this.pnCombo.Margin = new System.Windows.Forms.Padding(3, 3, 3, 9);
+            this.pnCombo.Name = "pnCombo";
+            this.pnCombo.Size = new System.Drawing.Size(333, 755);
+            this.pnCombo.TabIndex = 14;
             // 
             // EdicioTaulesTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.pnTaules);
-            this.Controls.Add(this.pnCombo);
+            this.Controls.Add(this.pnEsquerra);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MinimumSize = new System.Drawing.Size(1464, 819);
             this.Name = "EdicioTaulesTab";
             this.Size = new System.Drawing.Size(1642, 819);
-            this.pnCombo.ResumeLayout(false);
+            this.pnEsquerra.ResumeLayout(false);
             this.pnButons.ResumeLayout(false);
+            this.pnCombo.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private Panel pnCombo;
+        private Panel pnEsquerra;
         private ComboBox comboBoxTaules;
         private Panel pnButons;
         private Button btDesa;
         private Button btCancela;
         private Panel pnTaules;
+        private Panel pnCombo;
 
 
     }

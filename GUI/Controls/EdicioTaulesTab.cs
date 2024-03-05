@@ -467,8 +467,14 @@ namespace Inversions.GUI
                             modeConsulta();
 
                             TabX.ActivaRefrescaEnTabs(this);
-
-                            Program.Sessio.refrescaTaula(taula);
+                            try
+                            {
+                                Program.Sessio.refrescaTaula(taula);
+                            }
+                            catch (InvalidExpressionException)
+                            {
+                                MessageBox.Show(taula + " No s'ha pogut refrescar en Entity Framework");
+                            }
 
                             carregaTaula(panell);
 

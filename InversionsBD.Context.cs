@@ -32,7 +32,7 @@ namespace Inversions
         public virtual DbSet<Mercat> Mercats { get; set; }
         public virtual DbSet<Usuari> Usuaris { get; set; }
         public virtual DbSet<Moviment> Moviments { get; set; }
-        public virtual DbSet<DesglosCompra> DesglosCompras { get; set; }
+        public virtual DbSet<DesglosCompra> DesglosCompres { get; set; }
         public virtual DbSet<IngresExtern> IngressosExterns { get; set; }
     }
 }

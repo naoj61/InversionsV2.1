@@ -325,7 +325,7 @@ namespace Inversions
                     if (Utilitats.EsZero(grup.sumPartsUtil))
                         continue;
 
-                    DesglosCompra desglosCompra = connexio.DesglosCompras.Create();
+                    DesglosCompra desglosCompra = connexio.DesglosCompres.Create();
 
                     // ** Per obtenir parts desgloç Traspas C
                     desglosCompra.Participacions = Math.Round(grup.sumPartsUtil / vendaTraspas.Participacions * Participacions, 4);
@@ -342,7 +342,7 @@ namespace Inversions
             else
             {
                 // ** El desgloç és una fila lligada al propi moviment.
-                DesglosCompra desglosCompra = connexio.DesglosCompras.Create();
+                DesglosCompra desglosCompra = connexio.DesglosCompres.Create();
 
                 desglosCompra.Participacions = Math.Round(this.Participacions, 4);
                 desglosCompra.ParticipacionsOrig = Math.Round(this.Participacions, 4);
