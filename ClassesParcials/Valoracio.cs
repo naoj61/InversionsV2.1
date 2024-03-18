@@ -110,7 +110,15 @@ namespace Inversions
                 if (valoracioAnterior == null)
                     return 0;
 
-                return _ValoracioTotal - valoracioAnterior._ValoracioTotal;
+                if (Prod._Participacions == 0)
+                    return 0;
+
+                // Si en la data hi ha hagut moviments elimino els imports d'aquests per calcular la variació en Euros.
+                var movsEnData = Prod.MovimentsProducteUsuari.Where(w => w.Data.Date == Data.Date).ToList();
+                var importCompresVendes = 
+                    movsEnData.Where(w => w._EsCompra).Sum(s => s._ImportBrut) - movsEnData.Where(w => w._EsVenda).Sum(s => s._ImportBrut);
+
+                return _ValoracioTotal - valoracioAnterior._ValoracioTotal - importCompresVendes;
             }
         }
 
