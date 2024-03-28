@@ -16,69 +16,58 @@ namespace Inversions.GUI
 {
     public partial class EdicioTaulesTab : TabX
     {
-        private struct Panell
+        private class Panell
         {
-            private static readonly Dictionary<string, Panell> Panells = new Dictionary<string, Panell>();
+            private static readonly Dictionary<Panel, Panell> Panells = new Dictionary<Panel, Panell>();
 
-            private static string NomPanellActiu;
-
-            private readonly Panel vPanell;
+            private readonly Panel vPanel;
             private readonly Label vEtiqueta;
             private readonly DataGridView vDataGridView;
             private readonly string vNomTaula;
             private bool vEstaModificat;
 
-            internal Panell(Panel panell, Label etiqueta, DataGridView dataGridView, string nomTaula)
-                : this()
+            internal Panell(Panel panel, Label etiqueta, DataGridView dataGridView)
             {
-                vPanell = panell;
+                vPanel = panel;
                 vEtiqueta = etiqueta;
                 vDataGridView = dataGridView;
-                vNomTaula = nomTaula;
+                vNomTaula = etiqueta.Text;
                 vEstaModificat = false;
 
-                Panells.Add(nomTaula, this);
+                Panells.Add(panel, this);
             }
 
 
-            internal static Panell? PanellActiu
-            {
-                get { return NomPanellActiu != null && Panells.ContainsKey(NomPanellActiu) ? Panells[NomPanellActiu] : (Panell?) null; }
-            }
+            internal static Panell _PanellActiu { get; private set; }
 
             /// <summary>
             /// Per desar el panell actiu, Només deso el nom de la taula.
             /// </summary>
             /// <param name="panell"></param>
-            internal static void NouPanellActiu(Panell? panell)
+            internal static void PanellActiu(Panell panell)
             {
-                if (panell.HasValue)
-                    NouPanellActiu(panell.Value.vNomTaula);
-                else
-                    NouPanellActiu((string) null);
+                if (_PanellActiu != panell)
+                {
+                    if (_PanellActiu != null)
+                        _PanellActiu.vPanel.BackColor = Color.PowderBlue;
+
+                    if (panell != null)
+                        panell.vPanel.BackColor = Color.Red;
+
+                    _PanellActiu = panell;
+                }
             }
-
-            /// <summary>
-            /// Per desar el panell actiu, Només deso el nom de la taula.
-            /// </summary>
-            /// <param name="nouPanellActiu"></param>
-            internal static void NouPanellActiu(string nouPanellActiu)
-            {
-                if (NomPanellActiu != null && Panells.ContainsKey(NomPanellActiu))
-                    Panells[NomPanellActiu].vPanell.BackColor = Color.PowderBlue;
-
-                NomPanellActiu = nouPanellActiu;
-                if (NomPanellActiu != null && Panells.ContainsKey(NomPanellActiu))
-                    Panells[NomPanellActiu].vPanell.BackColor = Color.Red;
-            }
-
+            
             /// <summary>
             /// Elimina el panell del diccionari de panells creats.
             /// </summary>
             /// <param name="panell"></param>
             internal static void Esborra(Panell panell)
             {
-                Panells.Remove(panell._NomTaula);
+                if (panell._EsActiu)
+                    PanellActiu(null);
+
+                Panells.Remove(panell._Panel);
             }
 
             /// <summary>
@@ -86,9 +75,29 @@ namespace Inversions.GUI
             /// </summary>
             /// <param name="nomTaula"></param>
             /// <returns></returns>
-            internal static Panell? TrobaElPanell(string nomTaula)
+            internal static Panell TrobaElPanell(string nomTaula)
             {
-                return Panells.ContainsKey(nomTaula) ? (Panell?) Panells[nomTaula] : null;
+                return Panells.Values.FirstOrDefault(f => f._NomTaula == nomTaula);
+            }
+
+            /// <summary>
+            /// Troba un panell en el diccionari de panells creats.
+            /// </summary>
+            /// <param name="panel"></param>
+            /// <returns></returns>
+            internal static Panell TrobaElPanell(Panel panel)
+            {
+                return Panells.ContainsKey(panel) ? Panells[panel] : null;
+            }
+
+            /// <summary>
+            /// Troba un panell en el diccionari de panells creats.
+            /// </summary>
+            /// <param name="dataGridView"></param>
+            /// <returns></returns>
+            internal static Panell TrobaPanell(DataGridView dataGridView)
+            {
+                return Panells.Values.FirstOrDefault(f => f._DataGridView == dataGridView);
             }
 
             /// <summary>
@@ -106,9 +115,9 @@ namespace Inversions.GUI
             }
 
 
-            internal Panel _Panell
+            internal Panel _Panel
             {
-                get { return vPanell; }
+                get { return vPanel; }
             }
 
             internal DataGridView _DataGridView
@@ -126,14 +135,11 @@ namespace Inversions.GUI
                 get { return vEstaModificat; }
             }
 
-            /// <summary>
-            /// Com que un struc no pot ser null, així comprovo si s'ha inicialitzat.
-            /// </summary>
-            internal bool _PanellCarregatOk
+            internal bool _EsActiu
             {
-                get { return !Equals(default(Panell)); }
+                get { return this == _PanellActiu; }
             }
-
+            
 
             /// <summary>
             /// Canvia l'estat del panell indicant si s'ha modificat el DataGridView.
@@ -147,9 +153,6 @@ namespace Inversions.GUI
                     vEtiqueta.Text = vEtiqueta.Text.Substring(2);
 
                 vEstaModificat = nouEstat;
-
-                // Aixo és perque el panell en Panells és una còpia, no una referència i per tant el valor no s'actualitza directament.
-                Panells[_NomTaula] = this;
             }
 
 
@@ -157,24 +160,24 @@ namespace Inversions.GUI
 
             public override int GetHashCode()
             {
-                return _Panell.GetHashCode();
+                return _Panel.GetHashCode();
             }
 
             public static bool operator ==(Panell a, Panell b)
             {
                 // Aquest codi no cal en un struc perque mai pot ser null.
 
-                //// If both are null, or both are same instance, return true.
-                //if (ReferenceEquals(a, b))
-                //{
-                //    return true;
-                //}
+                // If both are null, or both are same instance, return true.
+                if (ReferenceEquals(a, b))
+                {
+                    return true;
+                }
 
                 // If one is null,return false.
-                //if ((object)a == null || (object)b == null)
-                //{
-                //    return false;
-                //}
+                if ((object)a == null || (object)b == null)
+                {
+                    return false;
+                }
 
                 return a.vNomTaula == b.vNomTaula;
             }
@@ -266,10 +269,10 @@ namespace Inversions.GUI
             #region *** Controls Panell Taula pnTaules ***
 
             Panel pnTaula = new Panel();
+            pnTaula.Name = "pnTaula";
             pnTaula.Dock = DockStyle.Left;
             pnTaula.Padding = new Padding(9);
             pnTaula.HorizontalScroll.Enabled = true;
-            pnTaula.Tag = nomPaula;
             pnTaules.Controls.Add(pnTaula);
 
             Splitter splitter2 = new Splitter();
@@ -300,6 +303,7 @@ namespace Inversions.GUI
             etiquetaNomTaula.AutoSize = false;
             etiquetaNomTaula.TextAlign = ContentAlignment.MiddleCenter;
             etiquetaNomTaula.Font = new Font(FontFamily.GenericSansSerif, 8F, FontStyle.Bold);
+            etiquetaNomTaula.TabStop = true;
             pnEtiqueta.Controls.Add(etiquetaNomTaula);
 
             Button btTancaPanell = new Button();
@@ -343,21 +347,21 @@ namespace Inversions.GUI
 
             #endregion *** Controls pnTaula ***
 
+            Panell panell = new Panell(pnTaula, etiquetaNomTaula, dataGridView);
 
             #region *** Activa events ***
 
-            pnTaula.Enter += pnTaula_Enter;
             btTancaPanell.Click += btTancaPanell_Click;
+            dataGridView.Enter += dataGridView_Enter;
             dataGridView.DataError += dataGridView_DataError;
 
             #endregion *** Activa events ***
-
 
             pnTaula.Focus();
 
             this.ResumeLayout();
 
-            return new Panell(pnTaula, etiquetaNomTaula, dataGridView, nomPaula);
+            return panell;
         }
 
         private void carregaTaula(Panell panell)
@@ -395,7 +399,7 @@ namespace Inversions.GUI
                         // Asignar la tabla como origen de datos del DataGridView
                         dataGridView.DataSource = table;
 
-                        panell._Panell.Width = Utilitats.AjustaAmpladaDataGridView(dataGridView) + 20;
+                        panell._Panel.Width = Utilitats.AjustaAmpladaDataGridView(dataGridView) + 20;
                     }
 
                     try
@@ -411,7 +415,8 @@ namespace Inversions.GUI
                     
                     modeConsulta();
 
-                    Panell.PanellActiu.Value._Panell.Focus();
+                    if (Panell._PanellActiu != null)
+                        Panell._PanellActiu._Panel.Focus();
                 }
                 finally
                 {
@@ -488,7 +493,7 @@ namespace Inversions.GUI
                         connection.Close();
                     }
 
-                    Panell.PanellActiu.Value._Panell.Focus();
+                    Panell._PanellActiu._Panel.Focus();
 
                 }
                 finally
@@ -513,11 +518,11 @@ namespace Inversions.GUI
                 .SqlQuery<string>("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' ORDER BY TABLE_NAME").ToList();
 
             // Omple un desplegable amb les taules
-            comboBoxTaules.DataSource = tables;
-            comboBoxTaules.SelectedItem = null;
+            cbBoxTaules.DataSource = tables;
+            cbBoxTaules.SelectedItem = null;
 
-            comboBoxTaules.SelectedIndexChanged -= comboBoxTables_SelectedIndexChanged;
-            comboBoxTaules.SelectedIndexChanged += comboBoxTables_SelectedIndexChanged;
+            cbBoxTaules.SelectedIndexChanged -= cbTaules_SelectedIndexChanged;
+            cbBoxTaules.SelectedIndexChanged += cbTaules_SelectedIndexChanged;
         }
 
         internal override void refresca()
@@ -529,9 +534,9 @@ namespace Inversions.GUI
                 Panel ctrl = control as Panel;
                 if (ctrl != null)
                 {
-                    var panell = Panell.TrobaElPanell((string)ctrl.Tag);
-                    if (panell.HasValue)
-                        carregaTaula(panell.Value);
+                    var panell = Panell.TrobaElPanell(ctrl);
+                    if (panell != null)
+                        carregaTaula(panell);
                 }
             }
         }
@@ -540,17 +545,23 @@ namespace Inversions.GUI
         {
             base.modeEdicio();
 
-            Panell.PanellActiu.Value.modificaEstat(true);
+            Panell._PanellActiu.modificaEstat(true);
+
+            btDesa.Enabled = true;
+            btCancela.Enabled = true;
         }
 
         protected override void modeConsulta()
         {
-            Panell.PanellActiu.Value.modificaEstat(false);
+            if (Panell._PanellActiu != null)
+                Panell._PanellActiu.modificaEstat(false);
 
             if (!Panell.HiHaModificacionsPendents())
                 base.modeConsulta();
+         
+            btDesa.Enabled = false;
+            btCancela.Enabled = false;
         }
-        
 
         #region *** Events ***
         
@@ -569,77 +580,81 @@ namespace Inversions.GUI
             modeEdicio();
         }
 
-        private void comboBoxTables_SelectedIndexChanged(object sender, EventArgs e)
+        private void cbTaules_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxTaules.SelectedItem != null)
+            if (cbBoxTaules.SelectedItem != null)
             {
-                var nomTaula = comboBoxTaules.SelectedItem.ToString();
+                var nomTaula = cbBoxTaules.SelectedItem.ToString();
 
-                Panell? panell = Panell.TrobaElPanell(nomTaula);
+                Panell panell = Panell.TrobaElPanell(nomTaula);
 
-                if (panell.HasValue)
+                if (panell != null)
                 {
-                    panell.Value._Panell.Focus();
+                    panell._DataGridView.Focus();
                 }
                 else
                 {
                     panell = InicialitzaControlsTaula(nomTaula);
-                    Panell.NouPanellActiu(panell);
-                    carregaTaula(panell.Value);
+                    Panell.PanellActiu(panell);
+                    carregaTaula(panell);
                 }
-
-                btDesa.Enabled = true;
-                btCancela.Enabled = true;
             }
         }
 
         private void btDesa_Click(object sender, EventArgs e)
         {
-            if (Panell.PanellActiu.HasValue)
-                desaTaula(Panell.PanellActiu.Value);
+            if (Panell._PanellActiu != null)
+                desaTaula(Panell._PanellActiu);
             else
                 MessageBox.Show("No hi ha cap taula seleccionada");
         }
 
         private void btCancela_Click(object sender, EventArgs e)
         {
-            if (Panell.PanellActiu.HasValue)
-                carregaTaula(Panell.PanellActiu.Value);
+            if (Panell._PanellActiu != null)
+                carregaTaula(Panell._PanellActiu);
             else
                 MessageBox.Show("No hi ha cap taula seleccionada");
         }
 
         private void btTancaPanell_Click(object sender, EventArgs e)
         {
-            if (Panell.PanellActiu.HasValue)
+            var panel = (Panel) TrobaControlParent((Control)sender, "pnTaula");
+
+            var panell = Panell.TrobaElPanell(panel);
+
+            if (panell != null)
             {
-                if (Panell.PanellActiu.Value._EstaModificat)
+                if (panell._EstaModificat)
                     MessageBox.Show("No es pot tancar la finestra, la taula s'està modificant");
                 else
                 {
-                    Panell.PanellActiu.Value._DataGridView.CellValidated -= datagridView_CellValidated;
-                    Panell.PanellActiu.Value._DataGridView.RowsRemoved -= datagridView_RowsRemoved;
+                    panell._DataGridView.CellValidated -= datagridView_CellValidated;
+                    panell._DataGridView.RowsRemoved -= datagridView_RowsRemoved;
 
-                    pnTaules.Controls.Remove(Panell.PanellActiu.Value._Panell);
-                    Panell.Esborra(Panell.PanellActiu.Value);
-                    Panell.NouPanellActiu((string) null);
-                    if (Panell.Count == 0)
-                    {
-                        btDesa.Enabled = false;
-                        btCancela.Enabled = false;
-                    }
+                    pnTaules.Controls.Remove(panell._Panel);
+                    Panell.Esborra(panell);
                 }
             }
         }
 
 
-        private void pnTaula_Enter(object sender, EventArgs e)
+        private void dataGridView_Enter(object sender, EventArgs e)
         {
-            Panel panel = (Panel) sender;
+            var panell = Panell.TrobaPanell((DataGridView)sender);
 
-            if (panel != null)
+            if (panell != null)
             {
-                Panell.NouPanellActiu((string) panel.Tag);
+                Panell.PanellActiu(panell);
+
+                if (Panell._PanellActiu != null && Panell._PanellActiu._EstaModificat)
+                {
+                    modeEdicio();
+                }
+                else
+                {
+                    modeConsulta();
+                }
             }
         }
 

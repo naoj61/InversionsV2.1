@@ -367,6 +367,8 @@ namespace Inversions.GUI
                 Producte.RefrescaTaula();
                 ProdAccions.RefrescaTaula();
                 ProdFons.RefrescaTaula();
+                
+                TabX.ActivaRefrescaEnTabs(this);
 
                 if (esProdNou)
                 {
@@ -582,6 +584,8 @@ namespace Inversions.GUI
                 vConnEmpreses.SaveChanges();
 
                 Empresa.RefrescaTaula();
+                
+                TabX.ActivaRefrescaEnTabs(this);
 
                 pnDesaCanvisEmpreses.Enabled = false;
             }
