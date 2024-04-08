@@ -303,7 +303,8 @@ namespace Inversions.GUI
             ntbAnyRenda.Valor = Utilitats.EsNumeric(anyRenda) ? Convert.ToInt32(anyRenda) : DateTime.Today.Year;
 
             var deduccioIrpf = Program.LlegeigVariableEnRegistreWindows(NomVarRegDeduccioIrpf, true);
-            ntbDeduccioIrpf.Valor = Utilitats.EsNumeric(deduccioIrpf) ? Convert.ToInt32(deduccioIrpf) : DateTime.Today.Year;
+            ntbDeduccioIrpf.Valor = Utilitats.EsNumeric(deduccioIrpf) 
+                ? Convert.ToDecimal(deduccioIrpf, CultureInfo.InvariantCulture) : 0;
 
             calculaPerdues();
         }
