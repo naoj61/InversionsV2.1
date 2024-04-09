@@ -137,17 +137,22 @@ namespace Inversions.GUI
 
         public void seleccionaProducte(Producte prod)
         {
-            if(vLbProductes.Items.Contains(prod))
+            if (prod == null)
+            {
+                vLbProductes.ClearSelected();
+                netejaCamps();
+            }
+            else if (vLbProductes.Items.Contains(prod))
                 vLbProductes.SelectedItem = prod;
             else
             {
                 // Si el producte no existeix, l'afegeixo. 
                 // Aixó passa quan salto d'un traspàs a un altre que no compleix el filtre de productes mostrats.
-                var prods = (List<Producte>)vLbProductes.DataSource;
+                var prods = (List<Producte>) vLbProductes.DataSource;
                 prods.Add(prod);
                 vLbProductes.DataSource = null; // Perquè refresqui la llista.
                 vLbProductes.DataSource = prods;
-                
+
                 vLbProductes.SelectedItem = prod;
             }
         }
