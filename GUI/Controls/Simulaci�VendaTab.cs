@@ -140,29 +140,32 @@ namespace Inversions.GUI
 
     public partial class SimulacióVendaTab : TabX
     {
-        private const string NomVarRegAnyRenda = "AnyRenda";
-        private const string NomVarRegDeduccioIrpf = "DeduccioIrpf";
+        private const string RegImportMinimContribuent = "ImportMinimContribuent";
         private Producte vProducteSeleccionat = null;
-
+        private string vClauReg;
+        
         public SimulacióVendaTab()
         {
             InitializeComponent();
         }
 
+        private int _AnySeleccionat
+        {
+            get { return Convert.ToInt32(cbAny.SelectedItem); }
+        }
+
         internal override void canviUsuari()
         {
             dgvCompresOriginals.DataSource = null;
-            
+
             ntbNumParticipacions.Valor = 0;
             ntbPreuParticipacio.Valor = 0;
-            ntbPerduesAnteriors.Valor = 0;
-            ntbPigTributa.Valor = 0;
             ntbTributaRenda.Valor = 0;
-            ntbPig.Valor = 0;
+            ntbPigSimulacio.Valor = 0;
             ntbImportBrut.Valor = 0;
-          
+
             refresca();
-           
+
             base.canviUsuari();
         }
 
@@ -170,7 +173,20 @@ namespace Inversions.GUI
         {
             base.refresca();
 
-            productes.refrescaDadesControl(_PendentCanviUsuari);
+            ctrProductes.refrescaDadesControl(_PendentCanviUsuari);
+
+            calculaTotalATributar();
+        }
+
+
+        private decimal carregaValorTramExent()
+        {
+            decimal tramExentAnual;
+            vClauReg = Utilitats.CreaClauRegistre() + "\\" + Usuari.Seleccionat.Nom + "\\" + _AnySeleccionat;
+            var dd1 = Utilitats.LlegeixVariableRegistre(Registry.CurrentUser, vClauReg, RegImportMinimContribuent);
+            Decimal.TryParse(dd1, out tramExentAnual);
+
+            return tramExentAnual;
         }
 
 
@@ -194,58 +210,85 @@ namespace Inversions.GUI
             ResumeLayout();
         }
 
-        private void calculaPerdues()
-        {
-            Program.DesaVariableEnRegistreWindows(NomVarRegAnyRenda, ntbAnyRenda._IntValue.ToString(CultureInfo.InvariantCulture), true);
-
-            ntbPerduesAnteriors.Valor = Producte.PerduesDarrersQuatreAnys(ntbAnyRenda._IntValue);
-        }
 
         private void ompleValors()
         {
-            var costParts = vProducteSeleccionat.costOriginalEnCartera4(numPartsMax: ntbNumParticipacions.Valor);
-            var valorParts = vProducteSeleccionat.valorEnCartera(numPartsMax: ntbNumParticipacions.Valor, preuParticipacio: ntbPreuParticipacio.Valor);
+            decimal costParts = 0;
+            decimal valorParts = 0;
 
-            ntbPig.Valor = valorParts - costParts;
+            if (vProducteSeleccionat != null)
+            {
+                costParts = vProducteSeleccionat.costOriginalEnCartera4(numPartsMax: ntbNumParticipacions.Valor);
+                valorParts = vProducteSeleccionat.valorEnCartera(numPartsMax: ntbNumParticipacions.Valor, preuParticipacio: ntbPreuParticipacio.Valor);
+            }
 
-            if (-ntbPerduesAnteriors.Valor > ntbPig.Valor)
-                ntbPigTributa.Valor = 0;
-            else
-                ntbPigTributa.Valor = ntbPig.Valor + ntbPerduesAnteriors.Valor;
-
-            ntbTributaRenda.Valor = ntbDeduccioIrpf.Valor > ntbPigTributa.Valor ? 0 : ntbPigTributa.Valor - ntbDeduccioIrpf.Valor;
+            ntbPigSimulacio.Valor = valorParts - costParts;
 
             ntbImportBrut.Valor = valorParts;
+
+            calculaTotalATributar();
+        }
+
+
+
+        /// <summary>
+        /// Calcula el valor a tributar. Si negatiu és que no s'ha arribat al límit que no tributa.
+        /// </summary>
+        /// <returns></returns>
+        private void calculaTotalATributar()
+        {
+            var any = _AnySeleccionat;
+
+            var sessio = Program.Sessio;
+            var pigAny = Moviment.MovimentsUsuari.Where(w => w._EsVendaReal && w.Data.Year == any).ToList().Sum(s => s.pigVenda(true));
+
+            var ingressosExterns = sessio.IngressosExterns.Where(w => w.Any == any).ToList().Sum(s => s.Import);
+
+            var dividents = sessio.Moviments.Where(w => w.Data.Year == any && w.TipusMoviment == TipusMoviment.Dividends).ToList().Sum(s => s.PreuParticipacio);
+
+            var perduesAnysAnteriors = Math.Abs(Producte.PerduesDarrersQuatreAnys(any));
+
+            var restaTramNoTributa = (ntbTramExentAnual.Valor + perduesAnysAnteriors) - (pigAny + ingressosExterns + dividents);
+
+            var tributaRenda = ntbPigSimulacio.Valor - restaTramNoTributa;
+
+            ntbPiGActual.Valor = pigAny;
+            ntbPerduesAnysAnteriors.Valor = perduesAnysAnteriors;
+            ntbIngressosExterns.Valor = ingressosExterns;
+            ntbDividents.Valor = dividents;
+
+            // Si "tributaRenda" és negatiu significa que encara és pot seguir venent sense tributar. Passo el valor a positiu.
+            // Si "tributaRenda" és positiu significa que ja s'ha sobrepasat el límit que no tributa. Poso "ntbRestaTramNoTributa" a 0.
+            ntbRestaTramNoTributa.Valor = tributaRenda < 0 ? Math.Abs(tributaRenda) : 0;
+            ntbTributaRenda.Valor = tributaRenda < 0 ? 0 : tributaRenda;
         }
 
 
         #region *** Events ***
 
+        private void SimulacióVendaTab_Load(object sender, EventArgs e)
+        {
+            cbAny.SelectedIndexChanged -= cbAny_SelectedIndexChanged;
+            for (int i = 2001; i <= DateTime.Today.Year; i++)
+            {
+                cbAny.Items.Add(i);
+            }
+            cbAny.SelectedIndexChanged += cbAny_SelectedIndexChanged;
+
+            cbAny.SelectedItem = Convert.ToInt32(DateTime.Today.Year);
+        }
+
         private void ntbNumParticipacions_Enter(object sender, EventArgs e)
-        {
-            acceptButton(btSimulacio);
-        }
-
-        private void ntbPreuParticipacio_Enter(object sender, EventArgs e)
-        {
-            acceptButton(btSimulacio);
-        }
-
-        private void ntbAnyRenda_Enter(object sender, EventArgs e)
         {
             acceptButton(btRecalcula);
         }
 
-        private void ntbAnyRenda_Validating(object sender, CancelEventArgs e)
+        private void ntbPreuParticipacio_Enter(object sender, EventArgs e)
         {
-            if (ntbAnyRenda.Valor > 0 && ntbAnyRenda.Valor < 2000)
-            {
-                MessageBox.Show(this, "L'any no pot ser inferior al 2000", "Atenció", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                e.Cancel = true;
-            }
+            acceptButton(btRecalcula);
         }
 
-        private void btSimulacio_Click(object sender, EventArgs e)
+        private void btRecalcula_Click(object sender, EventArgs e)
         {
             if (ntbNumParticipacions.Valor > vProducteSeleccionat._Participacions)
             {
@@ -255,14 +298,9 @@ namespace Inversions.GUI
 
             ompleValors();
             ompleDgvCompres(ntbPreuParticipacio.Valor);
-        }
 
-        private void btRecalcula_Click(object sender, EventArgs e)
-        {
-            calculaPerdues();
-
-            if (btSimulacio.Enabled)
-                ompleValors();
+            calculaTotalATributar();
+            //ntbTributaRenda.Valor = ntbPigSimulacio.Valor < ntbRestaTramNoTributa.Valor ? 0 : ntbPigSimulacio.Valor - ntbRestaTramNoTributa.Valor;
         }
 
         private void productes_ProducteSeleccionat(object sender, EventArgs e)
@@ -271,21 +309,15 @@ namespace Inversions.GUI
 
             if (vProducteSeleccionat == null)
             {
-                btSimulacio.Enabled = false;
-
                 ntbNumParticipacions.Enabled = false;
                 ntbPreuParticipacio.Enabled = false;
 
                 ntbNumParticipacions.Valor = 0;
                 ntbPreuParticipacio.Valor = 0;
-                ntbPerduesAnteriors.Valor = 0;
-                ntbPigTributa.Valor = 0;
                 ntbTributaRenda.Valor = 0;
             }
             else
             {
-                btSimulacio.Enabled = true;
-
                 ntbNumParticipacions.Enabled = vProducteSeleccionat._Participacions > 0;
                 ntbPreuParticipacio.Enabled = vProducteSeleccionat._Participacions > 0;
 
@@ -295,23 +327,55 @@ namespace Inversions.GUI
                 ompleValors();
             }
             ompleDgvCompres(null);
+
+            ntbNumParticipacions.Focus();
         }
 
-        private void SimulacióVendaTab_Load(object sender, EventArgs e)
+        private void cbAny_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var anyRenda = Program.LlegeigVariableEnRegistreWindows(NomVarRegAnyRenda, true);
-            ntbAnyRenda.Valor = Utilitats.EsNumeric(anyRenda) ? Convert.ToInt32(anyRenda) : DateTime.Today.Year;
+            if (cbAny.SelectedItem != null)
+            {
+                if(_AnySeleccionat != DateTime.Today.Year)
+                {
+                    ctrProductes.seleccionaProducte(null);
+                    dgvCompresOriginals.DataSource = null;
+                    ompleValors();
+                    btRecalcula.Enabled = false;
+                    ctrProductes.Enabled = false;
+                    ntbTramExentAnual.ReadOnly = true;
+                }
+                else
+                {
+                    btRecalcula.Enabled = true;
+                    ctrProductes.Enabled = true;
+                    ntbTramExentAnual.ReadOnly = false;
+                }
 
-            var deduccioIrpf = Program.LlegeigVariableEnRegistreWindows(NomVarRegDeduccioIrpf, true);
-            ntbDeduccioIrpf.Valor = Utilitats.EsNumeric(deduccioIrpf) 
-                ? Convert.ToDecimal(deduccioIrpf, CultureInfo.InvariantCulture) : 0;
+                ntbTramExentAnual.Valor = carregaValorTramExent();
+                
 
-            calculaPerdues();
+                calculaTotalATributar();
+            }
         }
 
-        private void ntbDeduccioIrpf_Validating(object sender, CancelEventArgs e)
+        private void ntbTramExentAnual_Validating(object sender, CancelEventArgs e)
         {
-            Program.DesaVariableEnRegistreWindows(NomVarRegDeduccioIrpf, ntbDeduccioIrpf._DoubleValue.ToString(CultureInfo.InvariantCulture), true);
+            if (ntbTramExentAnual.Modified)
+            {
+                if (MessageBox.Show("S'ha modificat el valor del 'Tram Exent Anual'. Vols desar el nou valor al registre de Windows?"
+                    , "Avís", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    Utilitats.GravaVariableRegistre(Registry.CurrentUser, vClauReg, RegImportMinimContribuent, ntbTramExentAnual._DecimalValue);
+                    calculaTotalATributar();
+                    
+                    ntbTramExentAnual.Modified = false;
+                }
+                else
+                {
+                    ntbTramExentAnual.Valor = carregaValorTramExent();
+                    e.Cancel = true;
+                }
+            }
         }
 
         #endregion *** Events ***
