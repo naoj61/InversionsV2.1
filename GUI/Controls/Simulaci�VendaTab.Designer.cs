@@ -59,6 +59,8 @@ namespace Inversions.GUI
             this.ntbIngressosExterns = new Controls.NumericTextBox2();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.ntbPerduesAnysAnteriors = new Controls.NumericTextBox2();
+            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.ntbPiGAltresProductes = new Controls.NumericTextBox2();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.ntbTramExentAnual = new Controls.NumericTextBox2();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
@@ -86,6 +88,7 @@ namespace Inversions.GUI
             this.groupBox10.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox13.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox12.SuspendLayout();
             this.groupBox8.SuspendLayout();
@@ -283,6 +286,7 @@ namespace Inversions.GUI
             this.panel2.Controls.Add(this.groupBox10);
             this.panel2.Controls.Add(this.groupBox5);
             this.panel2.Controls.Add(this.groupBox4);
+            this.panel2.Controls.Add(this.groupBox13);
             this.panel2.Controls.Add(this.groupBox11);
             this.panel2.Controls.Add(this.groupBox12);
             this.panel2.Controls.Add(this.groupBox8);
@@ -303,7 +307,7 @@ namespace Inversions.GUI
             // 
             this.groupBox10.Controls.Add(this.ntbDividents);
             this.groupBox10.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox10.Location = new System.Drawing.Point(331, 141);
+            this.groupBox10.Location = new System.Drawing.Point(504, 142);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(156, 57);
             this.groupBox10.TabIndex = 10;
@@ -338,10 +342,10 @@ namespace Inversions.GUI
             // 
             this.groupBox5.Controls.Add(this.ntbIngressosExterns);
             this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox5.Location = new System.Drawing.Point(504, 76);
+            this.groupBox5.Location = new System.Drawing.Point(504, 77);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(156, 57);
-            this.groupBox5.TabIndex = 9;
+            this.groupBox5.TabIndex = 7;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Ingressos Externs";
             // 
@@ -376,7 +380,7 @@ namespace Inversions.GUI
             this.groupBox4.Location = new System.Drawing.Point(504, 12);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(156, 57);
-            this.groupBox4.TabIndex = 7;
+            this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Perdues Anteriors";
             // 
@@ -404,14 +408,51 @@ namespace Inversions.GUI
             131072});
             this.ntbPerduesAnysAnteriors.ValorDouble = 0D;
             // 
+            // groupBox13
+            // 
+            this.groupBox13.Controls.Add(this.ntbPiGAltresProductes);
+            this.groupBox13.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox13.Location = new System.Drawing.Point(331, 142);
+            this.groupBox13.Name = "groupBox13";
+            this.groupBox13.Size = new System.Drawing.Size(156, 57);
+            this.groupBox13.TabIndex = 9;
+            this.groupBox13.TabStop = false;
+            this.groupBox13.Text = "PiG D\'altre producte";
+            this.toolTip1.SetToolTip(this.groupBox13, "Si vull acumular els PiGs de més d\'un producte, poso aquí limport dels altres.");
+            // 
+            // ntbPiGAltresProductes
+            // 
+            this.ntbPiGAltresProductes._CapturaEscape = true;
+            this.ntbPiGAltresProductes._Format = "#,##0.00";
+            this.ntbPiGAltresProductes._NegatiusEnVermell = false;
+            this.ntbPiGAltresProductes._PermetDecimals = true;
+            this.ntbPiGAltresProductes._PermetEspais = false;
+            this.ntbPiGAltresProductes._PermetNegatius = true;
+            this.ntbPiGAltresProductes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbPiGAltresProductes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPiGAltresProductes.Location = new System.Drawing.Point(3, 19);
+            this.ntbPiGAltresProductes.Name = "ntbPiGAltresProductes";
+            this.ntbPiGAltresProductes.Size = new System.Drawing.Size(150, 26);
+            this.ntbPiGAltresProductes.TabIndex = 0;
+            this.ntbPiGAltresProductes.Text = "0,00";
+            this.ntbPiGAltresProductes.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbPiGAltresProductes.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.ntbPiGAltresProductes.ValorDouble = 0D;
+            this.ntbPiGAltresProductes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ntb_KeyPress);
+            this.ntbPiGAltresProductes.Leave += new System.EventHandler(this.ntb_Leave);
+            // 
             // groupBox11
             // 
             this.groupBox11.Controls.Add(this.ntbTramExentAnual);
             this.groupBox11.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox11.Location = new System.Drawing.Point(331, 12);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(156, 56);
-            this.groupBox11.TabIndex = 6;
+            this.groupBox11.Size = new System.Drawing.Size(156, 57);
+            this.groupBox11.TabIndex = 4;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Exent Anual";
             this.toolTip1.SetToolTip(this.groupBox11, "És l\'import que no tributa marcat per Hidenda");
@@ -444,10 +485,10 @@ namespace Inversions.GUI
             // 
             this.groupBox12.Controls.Add(this.ntbPiGActual);
             this.groupBox12.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox12.Location = new System.Drawing.Point(331, 76);
+            this.groupBox12.Location = new System.Drawing.Point(331, 77);
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.Size = new System.Drawing.Size(156, 57);
-            this.groupBox12.TabIndex = 8;
+            this.groupBox12.TabIndex = 6;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "PiG Actual";
             this.toolTip1.SetToolTip(this.groupBox12, "És el PiG de les vendes realitzades en l\'any");
@@ -480,10 +521,10 @@ namespace Inversions.GUI
             // 
             this.groupBox8.Controls.Add(this.ntbRestaTramNoTributa);
             this.groupBox8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox8.Location = new System.Drawing.Point(331, 206);
+            this.groupBox8.Location = new System.Drawing.Point(331, 207);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(156, 57);
-            this.groupBox8.TabIndex = 11;
+            this.groupBox8.TabIndex = 12;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Exent Restant";
             this.toolTip1.SetToolTip(this.groupBox8, "Import restant de la part exent de tributar.");
@@ -517,9 +558,9 @@ namespace Inversions.GUI
             // 
             this.groupBox1.Controls.Add(this.ntbNumParticipacions);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(11, 76);
+            this.groupBox1.Location = new System.Drawing.Point(11, 77);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(135, 55);
+            this.groupBox1.Size = new System.Drawing.Size(135, 57);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Num, Partic.";
@@ -547,15 +588,16 @@ namespace Inversions.GUI
             0,
             262144});
             this.ntbNumParticipacions.ValorDouble = 0D;
-            this.ntbNumParticipacions.Enter += new System.EventHandler(this.ntbNumParticipacions_Enter);
+            this.ntbNumParticipacions.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ntb_KeyPress);
+            this.ntbNumParticipacions.Leave += new System.EventHandler(this.ntb_Leave);
             // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.ntbPreuParticipacio);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(166, 76);
+            this.groupBox3.Location = new System.Drawing.Point(166, 77);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(135, 55);
+            this.groupBox3.Size = new System.Drawing.Size(135, 57);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Preu Partic.";
@@ -583,16 +625,17 @@ namespace Inversions.GUI
             0,
             196608});
             this.ntbPreuParticipacio.ValorDouble = 0D;
-            this.ntbPreuParticipacio.Enter += new System.EventHandler(this.ntbPreuParticipacio_Enter);
+            this.ntbPreuParticipacio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ntb_KeyPress);
+            this.ntbPreuParticipacio.Leave += new System.EventHandler(this.ntb_Leave);
             // 
             // groupBox9
             // 
             this.groupBox9.Controls.Add(this.ntbTributaRenda);
             this.groupBox9.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox9.Location = new System.Drawing.Point(504, 206);
+            this.groupBox9.Location = new System.Drawing.Point(504, 207);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(156, 57);
-            this.groupBox9.TabIndex = 12;
+            this.groupBox9.TabIndex = 13;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Tributa Renda";
             this.toolTip1.SetToolTip(this.groupBox9, "Tram exent + Perdues Ant. - PiG Actual - Dividents - PiG Simulació");
@@ -625,10 +668,10 @@ namespace Inversions.GUI
             // 
             this.groupBox7.Controls.Add(this.ntbImportBrut);
             this.groupBox7.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox7.Location = new System.Drawing.Point(166, 141);
+            this.groupBox7.Location = new System.Drawing.Point(166, 142);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(135, 57);
-            this.groupBox7.TabIndex = 4;
+            this.groupBox7.TabIndex = 8;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Import Brut";
             this.toolTip1.SetToolTip(this.groupBox7, "Import de la venda");
@@ -684,10 +727,10 @@ namespace Inversions.GUI
             // 
             this.groupBox2.Controls.Add(this.ntbPigSimulacio);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(166, 206);
+            this.groupBox2.Location = new System.Drawing.Point(166, 207);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(135, 57);
-            this.groupBox2.TabIndex = 4;
+            this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "P i G";
             this.toolTip1.SetToolTip(this.groupBox2, "PiG de les participacions de la simulació");
@@ -719,7 +762,7 @@ namespace Inversions.GUI
             // 
             // btRecalcula
             // 
-            this.btRecalcula.Location = new System.Drawing.Point(183, 20);
+            this.btRecalcula.Location = new System.Drawing.Point(183, 21);
             this.btRecalcula.Name = "btRecalcula";
             this.btRecalcula.Size = new System.Drawing.Size(102, 39);
             this.btRecalcula.TabIndex = 1;
@@ -762,6 +805,8 @@ namespace Inversions.GUI
             this.groupBox5.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox13.ResumeLayout(false);
+            this.groupBox13.PerformLayout();
             this.groupBox11.ResumeLayout(false);
             this.groupBox11.PerformLayout();
             this.groupBox12.ResumeLayout(false);
@@ -824,5 +869,7 @@ namespace Inversions.GUI
         private System.Windows.Forms.DataGridViewTextBoxColumn PigOrigen;
         private System.Windows.Forms.DataGridViewTextBoxColumn PigDeLaCompra;
         private System.Windows.Forms.DataGridViewTextBoxColumn ValorAct;
+        private System.Windows.Forms.GroupBox groupBox13;
+        private Controls.NumericTextBox2 ntbPiGAltresProductes;
     }
 }

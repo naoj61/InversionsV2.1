@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using Comuns;
+using Controls;
 using Inversions.GUI.Forms;
 using Microsoft.Win32;
 
@@ -15,7 +13,7 @@ namespace Inversions.GUI
 
     struct FilaCompresOriginals
     {
-        private static decimal? PreuPartActual;
+        private static decimal? PreuPart;
 
         private readonly DesglosCompraExt vDesglosCompra;
 
@@ -26,16 +24,16 @@ namespace Inversions.GUI
             vDesglosCompra = desglosCompra;
         }
 
-
-        internal static decimal? _PreuPartActual
+        internal static void DesaPreuPart(decimal? preuPart)
         {
-            set { PreuPartActual = value; }
+            PreuPart = preuPart;
         }
 
-        private decimal preuPartActual()
+        private decimal _PreuParticipacio
         {
-            return PreuPartActual.GetValueOrDefault(vDesglosCompra._Compra.Prod._PreuParticipacioActual);
+            get { return PreuPart.GetValueOrDefault(vDesglosCompra._Compra.Prod._PreuParticipacioActual); }
         }
+
 
         [Description("S'utilitza en un DataGrid")]
         public int _IdOrig
@@ -79,7 +77,7 @@ namespace Inversions.GUI
             get
             {
                 var costOrig = vDesglosCompra._CompraOrig.PreuParticipacio * vDesglosCompra._PartsUtilitzadesOrig;
-                var valorAct = preuPartActual() * vDesglosCompra._PartsUtilitzades;
+                var valorAct = _PreuParticipacio * vDesglosCompra._PartsUtilitzades;
 
                 return valorAct - costOrig;
             }
@@ -91,7 +89,7 @@ namespace Inversions.GUI
             get
             {
                 var cost = vDesglosCompra._Compra.PreuParticipacio * vDesglosCompra._PartsUtilitzades;
-                var valorAct = preuPartActual() * vDesglosCompra._PartsUtilitzades;
+                var valorAct = _PreuParticipacio * vDesglosCompra._PartsUtilitzades;
 
                 return valorAct - cost;
             }
@@ -102,7 +100,7 @@ namespace Inversions.GUI
         {
             get
             {
-                var valorAct = preuPartActual() * vDesglosCompra._PartsUtilitzades;
+                var valorAct = _PreuParticipacio * vDesglosCompra._PartsUtilitzades;
 
                 return valorAct;
             }
@@ -178,7 +176,6 @@ namespace Inversions.GUI
             calculaTotalATributar();
         }
 
-
         private decimal carregaValorTramExent()
         {
             decimal tramExentAnual;
@@ -189,15 +186,20 @@ namespace Inversions.GUI
             return tramExentAnual;
         }
 
+        private void recalcula()
+        {
+            ompleDgvCompres(ntbPreuParticipacio.Valor);
+            ompleValors();
+        }
 
-        private void ompleDgvCompres(decimal? preuPartActual)
+        private void ompleDgvCompres(decimal? preuPart)
         {
             if (vProducteSeleccionat == null)
                 return;
 
             var desgloçPartsEnCartera = vProducteSeleccionat.desglosCompresDeParticipacionsEnData(DateTime.Now, ntbNumParticipacions.Valor);
 
-            FilaCompresOriginals._PreuPartActual = preuPartActual;
+            FilaCompresOriginals.DesaPreuPart(preuPart);
 
             List<FilaCompresOriginals> compresProdSelecionat =
                 desgloçPartsEnCartera.Select(desglosCompra => new FilaCompresOriginals(desglosCompra)).ToList();
@@ -209,7 +211,6 @@ namespace Inversions.GUI
             dgvCompresOriginals.ResumeLayout();
             ResumeLayout();
         }
-
 
         private void ompleValors()
         {
@@ -228,8 +229,6 @@ namespace Inversions.GUI
 
             calculaTotalATributar();
         }
-
-
 
         /// <summary>
         /// Calcula el valor a tributar. Si negatiu és que no s'ha arribat al límit que no tributa.
@@ -250,7 +249,7 @@ namespace Inversions.GUI
 
             var restaTramNoTributa = (ntbTramExentAnual.Valor + perduesAnysAnteriors) - (pigAny + ingressosExterns + dividents);
 
-            var tributaRenda = ntbPigSimulacio.Valor - restaTramNoTributa;
+            var tributaRenda = ntbPigSimulacio.Valor + ntbPiGAltresProductes.Valor - restaTramNoTributa;
 
             ntbPiGActual.Valor = pigAny;
             ntbPerduesAnysAnteriors.Valor = perduesAnysAnteriors;
@@ -277,17 +276,7 @@ namespace Inversions.GUI
 
             cbAny.SelectedItem = Convert.ToInt32(DateTime.Today.Year);
         }
-
-        private void ntbNumParticipacions_Enter(object sender, EventArgs e)
-        {
-            acceptButton(btRecalcula);
-        }
-
-        private void ntbPreuParticipacio_Enter(object sender, EventArgs e)
-        {
-            acceptButton(btRecalcula);
-        }
-
+        
         private void btRecalcula_Click(object sender, EventArgs e)
         {
             if (ntbNumParticipacions.Valor > vProducteSeleccionat._Participacions)
@@ -296,11 +285,7 @@ namespace Inversions.GUI
                 return;
             }
 
-            ompleValors();
-            ompleDgvCompres(ntbPreuParticipacio.Valor);
-
-            calculaTotalATributar();
-            //ntbTributaRenda.Valor = ntbPigSimulacio.Valor < ntbRestaTramNoTributa.Valor ? 0 : ntbPigSimulacio.Valor - ntbRestaTramNoTributa.Valor;
+            recalcula();
         }
 
         private void productes_ProducteSeleccionat(object sender, EventArgs e)
@@ -326,6 +311,7 @@ namespace Inversions.GUI
 
                 ompleValors();
             }
+
             ompleDgvCompres(null);
 
             ntbNumParticipacions.Focus();
@@ -352,7 +338,6 @@ namespace Inversions.GUI
                 }
 
                 ntbTramExentAnual.Valor = carregaValorTramExent();
-                
 
                 calculaTotalATributar();
             }
@@ -376,6 +361,19 @@ namespace Inversions.GUI
                     e.Cancel = true;
                 }
             }
+        }
+
+        private void ntb_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                recalcula();
+            }
+        }
+
+        private void ntb_Leave(object sender, EventArgs e)
+        {
+            recalcula();
         }
 
         #endregion *** Events ***
