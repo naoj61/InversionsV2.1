@@ -13,8 +13,6 @@ namespace Inversions.GUI
 
     struct FilaCompresOriginals
     {
-        private static decimal? PreuPart;
-
         private readonly DesglosCompraExt vDesglosCompra;
 
 
@@ -22,18 +20,22 @@ namespace Inversions.GUI
             : this()
         {
             vDesglosCompra = desglosCompra;
+            PreuParticipacio = vDesglosCompra._Compra.Prod._PreuParticipacioActual;
         }
 
-        internal static void DesaPreuPart(decimal? preuPart)
+        private static decimal PreuParticipacio;
+        internal static decimal _PreuParticipacio
         {
-            PreuPart = preuPart;
+            get { return PreuParticipacio; }
+            set { PreuParticipacio = value; }
         }
 
-        private decimal _PreuParticipacio
+
+        [Description("S'utilitza en un DataGrid")]
+        public int _Id
         {
-            get { return PreuPart.GetValueOrDefault(vDesglosCompra._Compra.Prod._PreuParticipacioActual); }
+            get { return vDesglosCompra._Compra.Id; }
         }
-
 
         [Description("S'utilitza en un DataGrid")]
         public int _IdOrig
@@ -199,7 +201,8 @@ namespace Inversions.GUI
 
             var desgloçPartsEnCartera = vProducteSeleccionat.desglosCompresDeParticipacionsEnData(DateTime.Now, ntbNumParticipacions.Valor);
 
-            FilaCompresOriginals.DesaPreuPart(preuPart);
+            if (preuPart.HasValue) 
+                FilaCompresOriginals._PreuParticipacio = preuPart.Value;
 
             List<FilaCompresOriginals> compresProdSelecionat =
                 desgloçPartsEnCartera.Select(desglosCompra => new FilaCompresOriginals(desglosCompra)).ToList();
