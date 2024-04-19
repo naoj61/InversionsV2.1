@@ -161,6 +161,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Principal_FormClosing);
             this.Load += new System.EventHandler(this.Principal_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Principal_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Principal_KeyUp);
             this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
 

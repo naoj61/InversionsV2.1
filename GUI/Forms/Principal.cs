@@ -20,21 +20,21 @@ namespace Inversions.GUI
 {
     public partial class Principal : Form
     {
-        const string NomVarReg = "UltimaPestanyaSeleccionada";
+        private const string NomVarReg = "UltimaPestanyaSeleccionada";
 
-        readonly EmpresesProductesTab vEmpresesProductesTab = new EmpresesProductesTab();
-        readonly MovimentsTab vMovimentsTab = new MovimentsTab();
-        readonly ValoracionsTab vValoracionsTab = new ValoracionsTab();
-        readonly PerduesGuanysTab vPerduesGuanysTab = new PerduesGuanysTab();
-        readonly GrafiquesTab vGrafiquesTab = new GrafiquesTab();
-        readonly SimulacióVendaTab vSimulacióVendaTab = new SimulacióVendaTab();
-        readonly UsuarisTab vUsuarisTab = new UsuarisTab();
-        readonly EdicioTaulesTab vEdicioTaulesTab = new EdicioTaulesTab();
+        private readonly EmpresesProductesTab vEmpresesProductesTab = new EmpresesProductesTab();
+        private readonly MovimentsTab vMovimentsTab = new MovimentsTab();
+        private readonly ValoracionsTab vValoracionsTab = new ValoracionsTab();
+        private readonly PerduesGuanysTab vPerduesGuanysTab = new PerduesGuanysTab();
+        private readonly GrafiquesTab vGrafiquesTab = new GrafiquesTab();
+        private readonly SimulacióVendaTab vSimulacióVendaTab = new SimulacióVendaTab();
+        private readonly UsuarisTab vUsuarisTab = new UsuarisTab();
+        private readonly EdicioTaulesTab vEdicioTaulesTab = new EdicioTaulesTab();
 
         public Principal()
         {
             InitializeComponent();
-            
+
             titolFinestra();
         }
 
@@ -54,7 +54,7 @@ namespace Inversions.GUI
             return tabPage.Controls.OfType<TabX>().FirstOrDefault();
         }
 
-        
+
         private void titolFinestra()
         {
             Text = String.Format("Inversions. Ver: {0}. Usuari: {1}", Application.ProductVersion, Usuari.Seleccionat.Nom);
@@ -70,13 +70,13 @@ namespace Inversions.GUI
         {
             var usuaris = Program.Sessio.Usuaris.OrderBy(o => o.Id);
 
-            if(usuari == null)
+            if (usuari == null)
                 return usuaris.First();
 
             return usuaris.FirstOrDefault(f => f.Id > usuari.Id) ?? usuaris.First();
         }
 
-        
+
         private void canviUsuari(Usuari usuari = null)
         {
             var cursor = this.Cursor;
@@ -101,7 +101,7 @@ namespace Inversions.GUI
                 TabX.ActivaPendentCanviUsuariEnTabs();
 
                 tabPageX.canviUsuari();
-                
+
                 titolFinestra();
             }
             finally
@@ -240,7 +240,7 @@ namespace Inversions.GUI
                 // Impideix canviar de pastanya si la pestanya seleccionada està en mode edició.
                 tabX.validating(sender, e);
         }
-        
+
 
         private void tabControl1_Deselecting(object sender, TabControlCancelEventArgs e)
         {
@@ -263,7 +263,7 @@ namespace Inversions.GUI
                 if (tabXSeleccionada._PendentCarregaInicial)
                     tabXSeleccionada.carregaInicial();
 
-                if(tabXSeleccionada._PendentCanviUsuari)
+                if (tabXSeleccionada._PendentCanviUsuari)
                     tabXSeleccionada.canviUsuari();
 
                 if (tabXSeleccionada._PendentRefrescar)
@@ -271,11 +271,49 @@ namespace Inversions.GUI
             }
         }
 
-        void usuarisTab_SelectedIndexChanged(object sender, EventArgs e)
+        private void usuarisTab_SelectedIndexChanged(object sender, EventArgs e)
         {
-            canviUsuari((Usuari)sender);
+            canviUsuari((Usuari) sender);
         }
 
         #endregion *** Events ***
+
+        private void Principal_KeyUp(object sender, KeyEventArgs e)
+        {
+#if DEBUG
+            if (e.KeyCode == Keys.Tab)
+            {
+                Control aa = GetActiveControlInPanel((Control) ActiveControl);
+                Text = aa.Name;
+            }
+#endif
+        }
+
+        /// <summary>
+        /// Mètode per saber quin control te el focus real.
+        /// </summary>
+        /// <param name="control"></param>
+        /// <returns></returns>
+        private static Control GetActiveControlInPanel(Control control)
+        {
+            // Check if the panel itself has focus
+            if (control.Focused)
+            {
+                return control;
+            }
+
+            // Recursively search for active control within child controls
+            foreach (Control child in control.Controls)
+            {
+                Control activeChild = GetActiveControlInPanel(child);
+                if (activeChild != null)
+                {
+                    return activeChild;
+                }
+            }
+
+            return null;
+        }
     }
 }
+ 
