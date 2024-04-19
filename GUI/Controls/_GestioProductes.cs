@@ -283,6 +283,9 @@ namespace Inversions.GUI
                     gbIsinMercat.Text = "ISIN";
                     tbIsin.BringToFront();
 
+                    tbIsin.TabStop = true;
+                    tbMercat.TabStop = false;
+
                     gbFons.Visible = true;
                     lbFons.Text = String.Format("{0}-{1}", prod.Id, prod._NomProducte);
                     pnDescripcioFons.Visible = true;
@@ -294,7 +297,10 @@ namespace Inversions.GUI
 
                     gbIsinMercat.Text = "Mercat";
                     tbMercat.BringToFront();
-                    
+
+                    tbIsin.TabStop = false;
+                    tbMercat.TabStop = true;
+
                     gbFons.Visible = false;
                     pnDescripcioFons.Visible = false;
                 }
