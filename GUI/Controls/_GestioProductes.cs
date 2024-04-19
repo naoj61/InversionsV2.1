@@ -185,50 +185,44 @@ namespace Inversions.GUI
                 prods = Producte.Tuples;
             }
 
-            //if (Program.RuntimeMode)
-            if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
+            if (ckNomesAmbParticipacions.Checked)
+                // Filtra els productes amb participacions actualment pel usuari seleccionat.
+                prods = prods.Where(w => w._Participacions > 0);
+
+            if (ckAmbMoviments.Checked)
+                // Filtra els productes amb algun moviment en algun moment pel usuari seleccionat.
+                prods = prods.Where(w => w.MovimentsProducteUsuari.Any());
+
+
+            if (ckFiltreCompresAny.Checked || ckFiltreVendesAny.Checked || ckFiltreDivAny.Checked)
             {
-                if (ckNomesAmbParticipacions.Checked)
-                    // Filtra els productes amb participacions actualment pel usuari seleccionat.
-                    prods = prods.Where(w => w._Participacions > 0);
+                var movs = Moviment.MovimentsUsuari.Where(w => w.Data.Year == (int) cbFiltreAny.SelectedItem
+                                                               && ((ckFiltreCompresAny.Checked && w.TipusMoviment == TipusMoviment.Compra)
+                                                                   || (ckFiltreVendesAny.Checked && w.TipusMoviment == TipusMoviment.Venda)
+                                                                   || (ckFiltreDivAny.Checked && w.TipusMoviment == TipusMoviment.Dividends)));
 
-                if (ckAmbMoviments.Checked)
-                    // Filtra els productes amb algun moviment en algun moment pel usuari seleccionat.
-                    prods = prods.Where(w => w.MovimentsProducteUsuari.Any());
+                if (!ckFiltreTraspasAny.Checked)
+                    movs = movs.Where(w => !w._EsTraspas);
 
+                prods = prods.Where(prod => movs.Any(mov => mov.ProdId == prod.Id));
+            }
 
-                if (ckFiltreCompresAny.Checked || ckFiltreVendesAny.Checked || ckFiltreDivAny.Checked)
-                {
-                    var movs = Moviment.MovimentsUsuari.Where(w => w.Data.Year == (int)cbFiltreAny.SelectedItem                                                                         
-                        && ((ckFiltreCompresAny.Checked && w.TipusMoviment == TipusMoviment.Compra) 
-                        || (ckFiltreVendesAny.Checked && w.TipusMoviment == TipusMoviment.Venda)
-                        || (ckFiltreDivAny.Checked && w.TipusMoviment == TipusMoviment.Dividends)));
+            if (!String.IsNullOrEmpty(tbFiltreNom.Text))
+            {
+                prods = prods.Where(w => (w._NomProducte + w._NomEmpresa).IndexOf(tbFiltreNom.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+            }
 
-                    if (!ckFiltreTraspasAny.Checked)
-                        movs = movs.Where(w => !w._EsTraspas);
-
-                    prods = prods.Where(prod => movs.Any(mov => mov.ProdId == prod.Id));
-                }
-
-                if (!String.IsNullOrEmpty(tbFiltreNom.Text))
-                {
-                    prods = prods.Where(w => (w._NomProducte + w._NomEmpresa).IndexOf(tbFiltreNom.Text, StringComparison.OrdinalIgnoreCase) >= 0);
-                }
-
-                var llistaProds = prods.OrderBy(o => o.OrdreGrid).ToList();
-                if (_MostraLlistaAmbChecks)
-                {
-                    vLbProductes.DataSource = llistaProds;
-                }
-                else
-                {
-                    vLbProductes.SelectedIndexChanged -= lbProductesTab2_SelectedIndexChanged;
-                    vLbProductes.DataSource = llistaProds;
-                    vLbProductes.SelectedIndexChanged += lbProductesTab2_SelectedIndexChanged;
-                    vLbProductes.SelectedItem = null;
-                }
-
-
+            var llistaProds = prods.OrderBy(o => o.OrdreGrid).ToList();
+            if (_MostraLlistaAmbChecks)
+            {
+                vLbProductes.DataSource = llistaProds;
+            }
+            else
+            {
+                vLbProductes.SelectedIndexChanged -= lbProductesTab2_SelectedIndexChanged;
+                vLbProductes.DataSource = llistaProds;
+                vLbProductes.SelectedIndexChanged += lbProductesTab2_SelectedIndexChanged;
+                vLbProductes.SelectedItem = null;
             }
         }
 

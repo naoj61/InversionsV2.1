@@ -17,11 +17,7 @@ namespace Inversions.GUI
         {
             InitializeComponent();
 
-            // if (Program.RuntimeMode)
-            if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
-            {
-                cDataGridView1.AutoGenerateColumns = false;
-            }
+            cDataGridView1.AutoGenerateColumns = false;
         }
 
         internal override void refresca()

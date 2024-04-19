@@ -76,37 +76,33 @@ namespace Inversions.GUI
 
         private void calculaPiG()
         {
-            //if (Program.RuntimeMode)
-            if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
+            Producte.TipusProducte tipusProducte = (Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem;
+
+            var ultimAny = DateTime.Today.Year;
+
+            dgvPiGAnualsTributen.Rows.Clear();
+            decimal pigTotalTributa = 0;
+            for (uint any = (uint) Program.PrimerAny; any <= ultimAny; any++)
             {
-                Producte.TipusProducte tipusProducte = (Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem;
-
-                var ultimAny = DateTime.Today.Year;
-
-                dgvPiGAnualsTributen.Rows.Clear();
-                decimal pigTotalTributa = 0;
-                for (uint any = (uint) Program.PrimerAny; any <= ultimAny; any++)
+                // *** PiG Tributa ***
+                var pigTributa = Producte.PigTributa(tipusProducte, null, any, true);
+                pigTotalTributa += pigTributa;
+                if (!Utilitats.EsZero(pigTributa) || any == ultimAny)
                 {
-                    // *** PiG Tributa ***
-                    var pigTributa = Producte.PigTributa(tipusProducte, null, any, true);
-                    pigTotalTributa += pigTributa;
-                    if (!Utilitats.EsZero(pigTributa) || any == ultimAny)
-                    {
-                        // Hi ha vendes reals en l'any.
-                        var ff = dgvPiGAnualsTributen.Rows.Add(any, 0, 0, pigTributa);
-                        dgvPiGAnualsTributen.Rows[ff].Cells[3].Style.ForeColor = pigTributa < 0 ? Color.Red : Color.Black;
-                    }
+                    // Hi ha vendes reals en l'any.
+                    var ff = dgvPiGAnualsTributen.Rows.Add(any, 0, 0, pigTributa);
+                    dgvPiGAnualsTributen.Rows[ff].Cells[3].Style.ForeColor = pigTributa < 0 ? Color.Red : Color.Black;
                 }
-
-
-                int fila = dgvPiGAnualsTributen.Rows.Add(vProdTotal, 0, 0, pigTotalTributa);
-                dgvPiGAnualsTributen.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTributen.Font, FontStyle.Bold);
-                dgvPiGAnualsTributen.Rows[fila].Cells[3].Style.ForeColor = pigTotalTributa < 0 ? Color.Red : Color.Black;
-                dgvPiGAnualsTributen.FirstDisplayedScrollingRowIndex = fila;
-
-                ntbPigActualPartsEnCartera.Valor = Producte.Pig2Cartera(tipusProducte, null, (uint) ultimAny, true, true);
-                ntbPigRealMesCartera.Valor = ntbPigActualPartsEnCartera.Valor + pigTotalTributa;
             }
+
+
+            int fila = dgvPiGAnualsTributen.Rows.Add(vProdTotal, 0, 0, pigTotalTributa);
+            dgvPiGAnualsTributen.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTributen.Font, FontStyle.Bold);
+            dgvPiGAnualsTributen.Rows[fila].Cells[3].Style.ForeColor = pigTotalTributa < 0 ? Color.Red : Color.Black;
+            dgvPiGAnualsTributen.FirstDisplayedScrollingRowIndex = fila;
+
+            ntbPigActualPartsEnCartera.Valor = Producte.Pig2Cartera(tipusProducte, null, (uint) ultimAny, true, true);
+            ntbPigRealMesCartera.Valor = ntbPigActualPartsEnCartera.Valor + pigTotalTributa;
         }
 
 

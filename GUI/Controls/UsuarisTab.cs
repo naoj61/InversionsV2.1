@@ -23,8 +23,7 @@ namespace Inversions.GUI
         {
             base.carregaInicial();
 
-            if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
-                carregaCombo();
+            carregaCombo();
         }
 
         private void carregaCombo()

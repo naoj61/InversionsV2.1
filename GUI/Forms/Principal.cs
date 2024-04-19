@@ -117,77 +117,74 @@ namespace Inversions.GUI
 
         private void Principal_Load(object sender, EventArgs e)
         {
-            if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
+            #region *** Crea les pestanyes ***
+
+            SuspendLayout();
+
+            // Afegeix EmpresesProductesTab
+            tabUsuari.SuspendLayout();
+            tabUsuari.Controls.Add(vUsuarisTab);
+            tabUsuari.Dock = DockStyle.Fill;
+            tabUsuari.ResumeLayout();
+            vUsuarisTab._SelectedIndexChanged += usuarisTab_SelectedIndexChanged;
+
+            // Afegeix EmpresesProductesTab
+            tabEmpresesProductes.SuspendLayout();
+            tabEmpresesProductes.Controls.Add(vEmpresesProductesTab);
+            vEmpresesProductesTab.Dock = DockStyle.Fill;
+            tabEmpresesProductes.ResumeLayout();
+
+            // Afegeig MovimentsTab
+            tabMoviments.SuspendLayout();
+            tabMoviments.Controls.Add(vMovimentsTab);
+            vMovimentsTab.Dock = DockStyle.Fill;
+            tabMoviments.ResumeLayout();
+
+            // Afegeig ValoracionsTab
+            tabValoracions.SuspendLayout();
+            tabValoracions.Controls.Add(vValoracionsTab);
+            vValoracionsTab.Dock = DockStyle.Fill;
+            tabValoracions.ResumeLayout();
+
+            // Afegeig PerduesGuanysTab
+            tabPerduesGuanys.SuspendLayout();
+            tabPerduesGuanys.Controls.Add(vPerduesGuanysTab);
+            vPerduesGuanysTab.Dock = DockStyle.Fill;
+            tabPerduesGuanys.ResumeLayout();
+
+            // Afegeig GrafiquesTab
+            tabGrafiques.SuspendLayout();
+            tabGrafiques.Controls.Add(vGrafiquesTab);
+            vGrafiquesTab.Dock = DockStyle.Fill;
+            tabGrafiques.ResumeLayout();
+
+            // Afegeig SimulacióVendaTab
+            tabSimulacióVenda.SuspendLayout();
+            tabSimulacióVenda.Controls.Add(vSimulacióVendaTab);
+            vSimulacióVendaTab.Dock = DockStyle.Fill;
+            tabSimulacióVenda.ResumeLayout();
+
+            // Afegeig EdicioTaulesTab
+            tabEdicioTaules.SuspendLayout();
+            tabEdicioTaules.Controls.Add(vEdicioTaulesTab);
+            vEdicioTaulesTab.Dock = DockStyle.Fill;
+            tabEdicioTaules.ResumeLayout();
+
+            ResumeLayout();
+
+            #endregion *** Crea les pestanyes ***
+
+            if (Usuari.Seleccionat == null)
+                Program.CanviUsuari(Usuari.Tuples.First());
+
+            var ultimaPestanyaSeleccionada = Program.LlegeigVariableEnRegistreWindows(NomVarReg, true);
+            try
             {
-                #region *** Crea les pestanyes ***
-
-                SuspendLayout();
-
-                // Afegeix EmpresesProductesTab
-                tabUsuari.SuspendLayout();
-                tabUsuari.Controls.Add(vUsuarisTab);
-                tabUsuari.Dock = DockStyle.Fill;
-                tabUsuari.ResumeLayout();
-                vUsuarisTab._SelectedIndexChanged += usuarisTab_SelectedIndexChanged;
-
-                // Afegeix EmpresesProductesTab
-                tabEmpresesProductes.SuspendLayout();
-                tabEmpresesProductes.Controls.Add(vEmpresesProductesTab);
-                vEmpresesProductesTab.Dock = DockStyle.Fill;
-                tabEmpresesProductes.ResumeLayout();
-
-                // Afegeig MovimentsTab
-                tabMoviments.SuspendLayout();
-                tabMoviments.Controls.Add(vMovimentsTab);
-                vMovimentsTab.Dock = DockStyle.Fill;
-                tabMoviments.ResumeLayout();
-
-                // Afegeig ValoracionsTab
-                tabValoracions.SuspendLayout();
-                tabValoracions.Controls.Add(vValoracionsTab);
-                vValoracionsTab.Dock = DockStyle.Fill;
-                tabValoracions.ResumeLayout();
-
-                // Afegeig PerduesGuanysTab
-                tabPerduesGuanys.SuspendLayout();
-                tabPerduesGuanys.Controls.Add(vPerduesGuanysTab);
-                vPerduesGuanysTab.Dock = DockStyle.Fill;
-                tabPerduesGuanys.ResumeLayout();
-
-                // Afegeig GrafiquesTab
-                tabGrafiques.SuspendLayout();
-                tabGrafiques.Controls.Add(vGrafiquesTab);
-                vGrafiquesTab.Dock = DockStyle.Fill;
-                tabGrafiques.ResumeLayout();
-
-                // Afegeig SimulacióVendaTab
-                tabSimulacióVenda.SuspendLayout();
-                tabSimulacióVenda.Controls.Add(vSimulacióVendaTab);
-                vSimulacióVendaTab.Dock = DockStyle.Fill;
-                tabSimulacióVenda.ResumeLayout();
-
-                // Afegeig EdicioTaulesTab
-                tabEdicioTaules.SuspendLayout();
-                tabEdicioTaules.Controls.Add(vEdicioTaulesTab);
-                vEdicioTaulesTab.Dock = DockStyle.Fill;
-                tabEdicioTaules.ResumeLayout();
-
-                ResumeLayout();
-
-                #endregion *** Crea les pestanyes ***
-
-                if (Usuari.Seleccionat == null)
-                    Program.CanviUsuari(Usuari.Tuples.First());
-
-                var ultimaPestanyaSeleccionada = Program.LlegeigVariableEnRegistreWindows(NomVarReg, true);
-                try
-                {
-                    tabControl1.SelectTab(ultimaPestanyaSeleccionada);
-                }
-                catch (ArgumentNullException)
-                {
-                    tabControl1.SelectTab(tabValoracions.Name);
-                }
+                tabControl1.SelectTab(ultimaPestanyaSeleccionada);
+            }
+            catch (ArgumentNullException)
+            {
+                tabControl1.SelectTab(tabValoracions.Name);
             }
         }
 

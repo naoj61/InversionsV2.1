@@ -157,13 +157,10 @@ namespace Inversions.GUI
 
         private void carregaGridEmpreses()
         {
-            if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
-            {
-                vConnEmpreses = new InversionsBDContext(); // Creo la connexió per si he fet cancel rellegeixi les dades de la taula.
-                vConnEmpreses.Empreses.Load();
+            vConnEmpreses = new InversionsBDContext(); // Creo la connexió per si he fet cancel rellegeixi les dades de la taula.
+            vConnEmpreses.Empreses.Load();
 
-                dgvEmpreses.DataSource = vConnEmpreses.Empreses.Local.ToBindingList();
-            }
+            dgvEmpreses.DataSource = vConnEmpreses.Empreses.Local.ToBindingList();
         }
 
         private void teclaEscapeEdicioProducte()
@@ -670,10 +667,7 @@ namespace Inversions.GUI
 
         private void EmpresesProductesTab_Load(object sender, EventArgs e)
         {
-            if (!this.DesignMode && LicenseManager.UsageMode == LicenseUsageMode.Runtime)
-            {
-                carregaGridEmpreses();
-            }
+            carregaGridEmpreses();
         }
 
         private void ckTotesLesEmpreses_CheckedChanged(object sender, EventArgs e)

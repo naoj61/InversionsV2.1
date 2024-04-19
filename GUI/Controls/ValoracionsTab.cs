@@ -197,9 +197,6 @@ namespace Inversions.GUI
 
         private void actualitzaLlistaValoracionsTotal()
         {
-            if (this.DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Designtime)
-                return;
-
             dgvValoracionsPerData.Rows.Clear();
             chart2.Series[0].Points.Clear();
 
