@@ -280,7 +280,7 @@ namespace Inversions.GUI
 #if DEBUG
             if (e.KeyCode == Keys.Tab)
             {
-                Control aa = GetActiveControlInPanel((Control) ActiveControl);
+                Control aa = GetActiveControl(ActiveControl);
                 Text = aa.Name;
             }
 #endif
@@ -291,7 +291,7 @@ namespace Inversions.GUI
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
-        private static Control GetActiveControlInPanel(Control control)
+        private static Control GetActiveControl(Control control)
         {
             // Check if the panel itself has focus
             if (control.Focused)
@@ -302,7 +302,7 @@ namespace Inversions.GUI
             // Recursively search for active control within child controls
             foreach (Control child in control.Controls)
             {
-                Control activeChild = GetActiveControlInPanel(child);
+                Control activeChild = GetActiveControl(child);
                 if (activeChild != null)
                 {
                     return activeChild;
