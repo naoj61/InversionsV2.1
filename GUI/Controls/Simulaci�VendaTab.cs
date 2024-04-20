@@ -15,21 +15,18 @@ namespace Inversions.GUI
     {
         private readonly DesglosCompraExt vDesglosCompra;
 
-
         public FilaCompresOriginals(DesglosCompraExt desglosCompra)
             : this()
         {
             vDesglosCompra = desglosCompra;
-            PreuParticipacio = vDesglosCompra._Compra.Prod._PreuParticipacioActual;
+            _PreuParticipacio = vDesglosCompra._Compra.Prod._PreuParticipacioActual;
         }
 
-        private static decimal PreuParticipacio;
-        internal static decimal _PreuParticipacio
-        {
-            get { return PreuParticipacio; }
-            set { PreuParticipacio = value; }
-        }
 
+        internal static decimal _PreuParticipacio { private get; set; }
+
+
+        #region *** Propietats per mostrar en dataGridView ***
 
         [Description("S'utilitza en un DataGrid")]
         public int _Id
@@ -108,6 +105,7 @@ namespace Inversions.GUI
             }
         }
 
+        #endregion *** Propietats per mostrar en dataGridView ***
 
 
         #region *** Mètodes sobreescrits ***
@@ -143,15 +141,20 @@ namespace Inversions.GUI
         private const string RegImportMinimContribuent = "ImportMinimContribuent";
         private Producte vProducteSeleccionat = null;
         private string vClauReg;
-        
+
         public SimulacióVendaTab()
         {
             InitializeComponent();
         }
 
-        private int _AnySeleccionat
+
+        #region *** Overrides ***
+
+        internal override void carregaInicial()
         {
-            get { return Convert.ToInt32(cbAny.SelectedItem); }
+            base.carregaInicial();
+
+            ctrProductes.refrescaDadesControl(true);
         }
 
         internal override void canviUsuari()
@@ -178,6 +181,14 @@ namespace Inversions.GUI
             calculaTotalATributar();
         }
 
+        #endregion *** Overrides ***
+
+
+        private int _AnySeleccionat
+        {
+            get { return Convert.ToInt32(cbAny.SelectedItem); }
+        }
+
         private decimal carregaValorTramExent()
         {
             decimal tramExentAnual;
@@ -201,17 +212,19 @@ namespace Inversions.GUI
 
             var desgloçPartsEnCartera = vProducteSeleccionat.desglosCompresDeParticipacionsEnData(DateTime.Now, ntbNumParticipacions.Valor);
 
-            if (preuPart.HasValue) 
+            if (preuPart.HasValue)
                 FilaCompresOriginals._PreuParticipacio = preuPart.Value;
 
             List<FilaCompresOriginals> compresProdSelecionat =
                 desgloçPartsEnCartera.Select(desglosCompra => new FilaCompresOriginals(desglosCompra)).ToList();
 
             SuspendLayout();
+
             dgvCompresOriginals.SuspendLayout();
             dgvCompresOriginals.DataSource = compresProdSelecionat.OrderBy(o => o._DataOrig).ToList();
             dgvCompresOriginals.ClearSelection();
             dgvCompresOriginals.ResumeLayout();
+
             ResumeLayout();
         }
 
@@ -268,7 +281,7 @@ namespace Inversions.GUI
 
         #region *** Events ***
 
-        private void SimulacióVendaTab_Load(object sender, EventArgs e)
+        private void simulacióVendaTab_Load(object sender, EventArgs e)
         {
             cbAny.SelectedIndexChanged -= cbAny_SelectedIndexChanged;
             for (int i = 2001; i <= DateTime.Today.Year; i++)
@@ -279,7 +292,7 @@ namespace Inversions.GUI
 
             cbAny.SelectedItem = Convert.ToInt32(DateTime.Today.Year);
         }
-        
+
         private void btRecalcula_Click(object sender, EventArgs e)
         {
             if (ntbNumParticipacions.Valor > vProducteSeleccionat._Participacions)
@@ -324,7 +337,7 @@ namespace Inversions.GUI
         {
             if (cbAny.SelectedItem != null)
             {
-                if(_AnySeleccionat != DateTime.Today.Year)
+                if (_AnySeleccionat != DateTime.Today.Year)
                 {
                     ctrProductes.seleccionaProducte(null);
                     dgvCompresOriginals.DataSource = null;
@@ -355,7 +368,7 @@ namespace Inversions.GUI
                 {
                     Utilitats.GravaVariableRegistre(Registry.CurrentUser, vClauReg, RegImportMinimContribuent, ntbTramExentAnual._DecimalValue);
                     calculaTotalATributar();
-                    
+
                     ntbTramExentAnual.Modified = false;
                 }
                 else
@@ -368,7 +381,7 @@ namespace Inversions.GUI
 
         private void ntb_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char)Keys.Enter)
+            if (e.KeyChar == (char) Keys.Enter)
             {
                 recalcula();
             }
