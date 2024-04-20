@@ -266,33 +266,51 @@ namespace Inversions.GUI
             recalculaValorsControls();
         }
 
+        private Producte vProdSelAnt;
         private void gestioProductesTabValoracions_ProducteSeleccionat(object sender, EventArgs e)
         {
-            ckAmbDividends.Visible = gestioProductesTabValoracions._ProducteSeleccionat is ProdAccions;
-            PigOrigen.Visible = ckAmbCartera.Checked && gestioProductesTabValoracions._ProducteSeleccionat is ProdFons;
-            gbPigCompraOrig.Visible = PigOrigen.Visible;
-
-            ompleLlistaCompres(gestioProductesTabValoracions._ProducteSeleccionat);
-
-            if (gestioProductesTabValoracions._ProducteSeleccionat != null)
+            var prodSel = (Producte) sender;
+            
+            if (vProdSelAnt != prodSel)
             {
-                dgvPiGProductePerAny.ResumeLayout();
-                if (Utilitats.EsZero(ntbPreuParticipacio.Valor))
+                var cursor = Cursor;
+                Cursor = Cursors.WaitCursor;
+
+                try
                 {
-                    // Si cambio de producte i el PiP Simulat té valor, el poso a 0.
-                    ntbPreuParticipacio.Valor = 0;
-                    calculaPigSimulat();
+                    vProdSelAnt = prodSel;
+
+                    ckAmbDividends.Visible = gestioProductesTabValoracions._ProducteSeleccionat is ProdAccions;
+                    PigOrigen.Visible = ckAmbCartera.Checked && gestioProductesTabValoracions._ProducteSeleccionat is ProdFons;
+                    gbPigCompraOrig.Visible = PigOrigen.Visible;
+
+                    ompleLlistaCompres(gestioProductesTabValoracions._ProducteSeleccionat);
+
+                    if (gestioProductesTabValoracions._ProducteSeleccionat != null)
+                    {
+                        dgvPiGProductePerAny.ResumeLayout();
+                        if (Utilitats.EsZero(ntbPreuParticipacio.Valor))
+                        {
+                            // Si cambio de producte i el PiP Simulat té valor, el poso a 0.
+                            ntbPreuParticipacio.Valor = 0;
+                            calculaPigSimulat();
+                        }
+                        else
+                            actualitzaLlistaPerduesGuanys();
+
+                        ckPiGEntreDatesNomesProdSel.Enabled = true;
+                        tbPigEntreDates.Valor = 0;
+                    }
+                    else
+                        ckPiGEntreDatesNomesProdSel.Enabled = false;
+
+                    gbSimulacioPig.Enabled = gestioProductesTabValoracions._ProducteSeleccionat != null;
                 }
-                else
-                    actualitzaLlistaPerduesGuanys();
-
-                ckPiGEntreDatesNomesProdSel.Enabled = true;
-                tbPigEntreDates.Valor = 0;
+                finally
+                {
+                    Cursor = cursor;
+                }
             }
-            else
-                ckPiGEntreDatesNomesProdSel.Enabled = false;
-
-            gbSimulacioPig.Enabled = gestioProductesTabValoracions._ProducteSeleccionat != null;
         }
 
         private void btFiltreDates_Click(object sender, EventArgs e)

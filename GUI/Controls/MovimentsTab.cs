@@ -41,47 +41,57 @@ namespace Inversions.GUI
         /// </summary>
         private void canviProducteSeleccionat()
         {
-            Producte prod = gestioProductesTabMoviments._ProducteSeleccionat;
+            var cursor = Cursor;
+            Cursor = Cursors.WaitCursor;
 
-            if (prod == null)
+            try
             {
-                cbTipusMoviment.Enabled = false;
-                btCancelaMoviment.Enabled = false;
-                //btFes.Enabled = false;
-                btDesaMoviment.Enabled = false;
-            }
-            else
-            {
-                ompleTaulaMovimentsProducte(prod);
+                Producte prod = gestioProductesTabMoviments._ProducteSeleccionat;
 
-                gbTraspas.Visible = false;
-                gbNumParticipacionsDesti.Visible = prod._TipusProducte == Producte.TipusProducte.Fons;
-                gbEdicio.Visible = false;
-
-                cbTipusMoviment.Enabled = true;
-                //btFes.Enabled = prod._TipusProducte == Producte.TipusProducte.Accions && prod._Participacions > 0;
-                btCancelaMoviment.Enabled = false;
-                btDesaMoviment.Enabled = false;
-
-
-                cbTipusMoviment.SuspendLayout();
-                cbTipusMoviment.Items.Clear();
-                cbTipusMoviment.Items.Add(TipusMoviment.Compra);
-                if (prod._Participacions > 0)
+                if (prod == null)
                 {
-                    cbTipusMoviment.Items.Add(TipusMoviment.Venda);
-                    cbTipusMoviment.Items.Add(TipusMoviment.Dividends);
-                    if (prod._TipusProducte == Producte.TipusProducte.Accions)
-                    {
-                        cbTipusMoviment.Items.Add(TipusMoviment.Split);
-                        cbTipusMoviment.Items.Add(TipusMoviment.ContraSplit);
-                    }
-                    else
-                        cbTipusMoviment.Items.Add(TipusMoviment.Traspàs);
+                    cbTipusMoviment.Enabled = false;
+                    btCancelaMoviment.Enabled = false;
+                    //btFes.Enabled = false;
+                    btDesaMoviment.Enabled = false;
                 }
+                else
+                {
+                    ompleTaulaMovimentsProducte(prod);
 
-                cbTipusMoviment.SelectedItem = null;
-                cbTipusMoviment.ResumeLayout();
+                    gbTraspas.Visible = false;
+                    gbNumParticipacionsDesti.Visible = prod._TipusProducte == Producte.TipusProducte.Fons;
+                    gbEdicio.Visible = false;
+
+                    cbTipusMoviment.Enabled = true;
+                    //btFes.Enabled = prod._TipusProducte == Producte.TipusProducte.Accions && prod._Participacions > 0;
+                    btCancelaMoviment.Enabled = false;
+                    btDesaMoviment.Enabled = false;
+
+
+                    cbTipusMoviment.SuspendLayout();
+                    cbTipusMoviment.Items.Clear();
+                    cbTipusMoviment.Items.Add(TipusMoviment.Compra);
+                    if (prod._Participacions > 0)
+                    {
+                        cbTipusMoviment.Items.Add(TipusMoviment.Venda);
+                        cbTipusMoviment.Items.Add(TipusMoviment.Dividends);
+                        if (prod._TipusProducte == Producte.TipusProducte.Accions)
+                        {
+                            cbTipusMoviment.Items.Add(TipusMoviment.Split);
+                            cbTipusMoviment.Items.Add(TipusMoviment.ContraSplit);
+                        }
+                        else
+                            cbTipusMoviment.Items.Add(TipusMoviment.Traspàs);
+                    }
+
+                    cbTipusMoviment.SelectedItem = null;
+                    cbTipusMoviment.ResumeLayout();
+                }
+            }
+            finally
+            {
+                Cursor = cursor;
             }
         }
 

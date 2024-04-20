@@ -230,73 +230,76 @@ namespace Inversions.GUI
         private Producte vProducteSeleccioatAnt;
         private void lbProductesTab2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (vProducteSeleccioatAnt == _ProducteSeleccionat)
-                return; // No ha canviat el producte seleccionat.
-
-            vProducteSeleccioatAnt = _ProducteSeleccionat;
-
             Producte prod = _ProducteSeleccionat;
-            if (prod == null)
+            
+            if (vProducteSeleccioatAnt != _ProducteSeleccionat)
             {
-                //lbIsin.Visible = true;
-                //lbMercat.Visible = false;
-                gbIsinMercat.Text = "ISIN";
-                tbIsin.BringToFront();
-            }
-            else
-            {
-                gbDividents.Visible = prod is ProdAccions;
+                //return; // No ha canviat el producte seleccionat.
 
-                lbEmpresa.Text = prod._NomEmpresa;
-                lbMoneda.Text = prod.Moneda;
+                vProducteSeleccioatAnt = _ProducteSeleccionat;
 
-                tbParticipacions.Valor = prod._Participacions;
-                ntbPreuPartActual.Valor = prod._PreuParticipacioActual;
-                tbDividends.Valor = prod.dividends();
-                tbValorActual.Valor = prod._ValorActualEnCartera;
-
-                tbCostOrigPartActual.Valor = prod.costOriginalEnCartera4();
-
-                //tbPiGActual.Valor = prod.pigValorat(Producte.DateTimeFinalDia.Today);
-                //tbPiGReal.Valor = prod.pigReal(Producte.DateTimeFinalDia.Today);
-                
-                tbPigProducte.Valor = prod.pig2Producte(); // PiG cartera + vendes reals + vendesT + dividents - despeses, sense tenir en compte el preu original en cas de traspàs.
-                tbPigReal.Valor = prod.pig2Total();        // PiG cartera + vendes reals + dividents - despeses, tenint en compte el preu original.
-                tbPiGActual.Valor = prod.pig2EnCartera();  // PiG participacions en cartera tenint en compte el preu original.
-
-                gbPigProducte.Visible = prod is ProdFons;
-
-                if (prod is ProdFons)
+                if (prod == null)
                 {
-                    var prodFons = (ProdFons) prod;
-                    tbIsin.Text = prodFons.ISIN;
-                    vDescripcioFons = prodFons.Descripcio;
-
                     //lbIsin.Visible = true;
                     //lbMercat.Visible = false;
                     gbIsinMercat.Text = "ISIN";
                     tbIsin.BringToFront();
-
-                    tbIsin.TabStop = true;
-                    tbMercat.TabStop = false;
-
-                    gbFons.Visible = true;
-                    lbFons.Text = String.Format("{0}-{1}", prod.Id, prod._NomProducte);
-                    pnDescripcioFons.Visible = true;
                 }
-                else if (prod is ProdAccions)
+                else
                 {
-                    var prodAccions = (ProdAccions) prod;
-                    tbMercat.Text = prodAccions.Mercat.Nom;
+                    gbDividents.Visible = prod is ProdAccions;
 
-                    gbIsinMercat.Text = "Mercat";
-                    tbMercat.BringToFront();
+                    lbEmpresa.Text = prod._NomEmpresa;
+                    lbMoneda.Text = prod.Moneda;
 
-                    tbIsin.TabStop = false;
-                    tbMercat.TabStop = true;
+                    tbParticipacions.Valor = prod._Participacions;
+                    ntbPreuPartActual.Valor = prod._PreuParticipacioActual;
+                    tbDividends.Valor = prod.dividends();
+                    tbValorActual.Valor = prod._ValorActualEnCartera;
 
-                    gbFons.Visible = false;
-                    pnDescripcioFons.Visible = false;
+                    tbCostOrigPartActual.Valor = prod.costOriginalEnCartera4();
+
+                    //tbPiGActual.Valor = prod.pigValorat(Producte.DateTimeFinalDia.Today);
+                    //tbPiGReal.Valor = prod.pigReal(Producte.DateTimeFinalDia.Today);
+
+                    tbPigProducte.Valor = prod.pig2Producte(); // PiG cartera + vendes reals + vendesT + dividents - despeses, sense tenir en compte el preu original en cas de traspàs.
+                    tbPigReal.Valor = prod.pig2Total(); // PiG cartera + vendes reals + dividents - despeses, tenint en compte el preu original.
+                    tbPiGActual.Valor = prod.pig2EnCartera(); // PiG participacions en cartera tenint en compte el preu original.
+
+                    gbPigProducte.Visible = prod is ProdFons;
+
+                    if (prod is ProdFons)
+                    {
+                        var prodFons = (ProdFons) prod;
+                        tbIsin.Text = prodFons.ISIN;
+                        vDescripcioFons = prodFons.Descripcio;
+
+                        //lbIsin.Visible = true;
+                        //lbMercat.Visible = false;
+                        gbIsinMercat.Text = "ISIN";
+                        tbIsin.BringToFront();
+
+                        tbIsin.TabStop = true;
+                        tbMercat.TabStop = false;
+
+                        gbFons.Visible = true;
+                        lbFons.Text = String.Format("{0}-{1}", prod.Id, prod._NomProducte);
+                        pnDescripcioFons.Visible = true;
+                    }
+                    else if (prod is ProdAccions)
+                    {
+                        var prodAccions = (ProdAccions) prod;
+                        tbMercat.Text = prodAccions.Mercat.Nom;
+
+                        gbIsinMercat.Text = "Mercat";
+                        tbMercat.BringToFront();
+
+                        tbIsin.TabStop = false;
+                        tbMercat.TabStop = true;
+
+                        gbFons.Visible = false;
+                        pnDescripcioFons.Visible = false;
+                    }
                 }
             }
 

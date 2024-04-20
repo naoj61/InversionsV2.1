@@ -470,6 +470,7 @@ namespace Inversions.GUI
             }
         }
 
+        private Producte vProdAnt;
         private void gestioProductesTabValoracions_ProducteSeleccionat(object sender, EventArgs e)
         {
             var hiHaUnProducteSeleccionat = sender != null;
@@ -482,7 +483,13 @@ namespace Inversions.GUI
 
             if (hiHaUnProducteSeleccionat)
             {
-                actualitzaLlistaValoracionsPerProducte();
+                var prodSelect = (Producte)sender;
+
+                if (vProdAnt != prodSelect)
+                {
+                    actualitzaLlistaValoracionsPerProducte();
+                    vProdAnt = prodSelect;
+                }
             }
         }
 
