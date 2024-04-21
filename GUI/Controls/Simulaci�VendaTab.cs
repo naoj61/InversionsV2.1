@@ -14,16 +14,14 @@ namespace Inversions.GUI
     struct FilaCompresOriginals
     {
         private readonly DesglosCompraExt vDesglosCompra;
+        private static decimal PreuParticipacioSimulacio;
 
-        public FilaCompresOriginals(DesglosCompraExt desglosCompra)
+        public FilaCompresOriginals(DesglosCompraExt desglosCompra, decimal? preuPart)
             : this()
         {
             vDesglosCompra = desglosCompra;
-            _PreuParticipacio = vDesglosCompra._Compra.Prod._PreuParticipacioActual;
+            PreuParticipacioSimulacio = preuPart.GetValueOrDefault(vDesglosCompra._Compra.Prod._PreuParticipacioActual);
         }
-
-
-        internal static decimal _PreuParticipacio { private get; set; }
 
 
         #region *** Propietats per mostrar en dataGridView ***
@@ -76,9 +74,9 @@ namespace Inversions.GUI
             get
             {
                 var costOrig = vDesglosCompra._CompraOrig.PreuParticipacio * vDesglosCompra._PartsUtilitzadesOrig;
-                var valorAct = _PreuParticipacio * vDesglosCompra._PartsUtilitzades;
+                var valorSim = PreuParticipacioSimulacio * vDesglosCompra._PartsUtilitzades;
 
-                return valorAct - costOrig;
+                return valorSim - costOrig;
             }
         }
 
@@ -88,21 +86,16 @@ namespace Inversions.GUI
             get
             {
                 var cost = vDesglosCompra._Compra.PreuParticipacio * vDesglosCompra._PartsUtilitzades;
-                var valorAct = _PreuParticipacio * vDesglosCompra._PartsUtilitzades;
+                var valorSim = PreuParticipacioSimulacio * vDesglosCompra._PartsUtilitzades;
 
-                return valorAct - cost;
+                return valorSim - cost;
             }
         }
 
         [Description("S'utilitza en un DataGrid")]
         public decimal _ValorActual
         {
-            get
-            {
-                var valorAct = _PreuParticipacio * vDesglosCompra._PartsUtilitzades;
-
-                return valorAct;
-            }
+            get { return PreuParticipacioSimulacio * vDesglosCompra._PartsUtilitzades; }
         }
 
         #endregion *** Propietats per mostrar en dataGridView ***
@@ -136,6 +129,7 @@ namespace Inversions.GUI
         #endregion *** Mètodes sobreescrits ***
     }
 
+
     public partial class SimulacióVendaTab : TabX
     {
         private const string RegImportMinimContribuent = "ImportMinimContribuent";
@@ -165,6 +159,7 @@ namespace Inversions.GUI
             ntbPreuParticipacio.Valor = 0;
             ntbTributaRenda.Valor = 0;
             ntbPigSimulacio.Valor = 0;
+            ntbPigOrigSimulacio.Valor = 0;
             ntbImportBrut.Valor = 0;
 
             refresca();
@@ -202,7 +197,7 @@ namespace Inversions.GUI
         private void recalcula()
         {
             ompleDgvCompres(ntbPreuParticipacio.Valor);
-            ompleValors();
+            calculaTotalATributar();
         }
 
         private void ompleDgvCompres(decimal? preuPart)
@@ -210,15 +205,16 @@ namespace Inversions.GUI
             if (vProducteSeleccionat == null)
                 return;
 
-            var desgloçPartsEnCartera = vProducteSeleccionat.desglosCompresDeParticipacionsEnData(DateTime.Now, ntbNumParticipacions.Valor);
-
-            if (preuPart.HasValue)
-                FilaCompresOriginals._PreuParticipacio = preuPart.Value;
+            var desgloçPartsEnCartera = vProducteSeleccionat.desglosCompresDeParticipacionsEnData(DateTime.Now, ntbNumParticipacions.Valor).ToList();
 
             List<FilaCompresOriginals> compresProdSelecionat =
-                desgloçPartsEnCartera.Select(desglosCompra => new FilaCompresOriginals(desglosCompra)).ToList();
+                desgloçPartsEnCartera.Select(desglosCompra => new FilaCompresOriginals(desglosCompra, preuPart)).ToList();
 
             SuspendLayout();
+
+            ntbImportBrut.Valor = compresProdSelecionat.Sum(s => s._ValorActual);
+            ntbPigSimulacio.Valor = compresProdSelecionat.Sum(s => s._PigDeLaCompra);
+            ntbPigOrigSimulacio.Valor = compresProdSelecionat.Sum(s => s._PigDeLaCompraOrigen);
 
             dgvCompresOriginals.SuspendLayout();
             dgvCompresOriginals.DataSource = compresProdSelecionat.OrderBy(o => o._DataOrig).ToList();
@@ -228,23 +224,6 @@ namespace Inversions.GUI
             ResumeLayout();
         }
 
-        private void ompleValors()
-        {
-            decimal costParts = 0;
-            decimal valorParts = 0;
-
-            if (vProducteSeleccionat != null)
-            {
-                costParts = vProducteSeleccionat.costOriginalEnCartera4(numPartsMax: ntbNumParticipacions.Valor);
-                valorParts = vProducteSeleccionat.valorEnCartera(numPartsMax: ntbNumParticipacions.Valor, preuParticipacio: ntbPreuParticipacio.Valor);
-            }
-
-            ntbPigSimulacio.Valor = valorParts - costParts;
-
-            ntbImportBrut.Valor = valorParts;
-
-            calculaTotalATributar();
-        }
 
         /// <summary>
         /// Calcula el valor a tributar. Si negatiu és que no s'ha arribat al límit que no tributa.
@@ -265,7 +244,7 @@ namespace Inversions.GUI
 
             var restaTramNoTributa = (ntbTramExentAnual.Valor + perduesAnysAnteriors) - (pigAny + ingressosExterns + dividents);
 
-            var tributaRenda = ntbPigSimulacio.Valor + ntbPiGAltresProductes.Valor - restaTramNoTributa;
+            var tributaRenda = ntbPigOrigSimulacio.Valor + ntbPiGAltresProductes.Valor - restaTramNoTributa;
 
             ntbPiGActual.Valor = pigAny;
             ntbPerduesAnysAnteriors.Valor = perduesAnysAnteriors;
@@ -324,8 +303,6 @@ namespace Inversions.GUI
 
                 ntbNumParticipacions.Valor = vProducteSeleccionat._Participacions;
                 ntbPreuParticipacio.Valor = vProducteSeleccionat.ValoracionsProducte.Last().PreuParticipacio;
-
-                ompleValors();
             }
 
             ompleDgvCompres(null);
@@ -337,21 +314,29 @@ namespace Inversions.GUI
         {
             if (cbAny.SelectedItem != null)
             {
+                gbPigRealAny.Text = "PiG Any: " + cbAny.Text;
+
                 if (_AnySeleccionat != DateTime.Today.Year)
                 {
                     ctrProductes.seleccionaProducte(null);
                     dgvCompresOriginals.DataSource = null;
-                    ompleValors();
                     btRecalcula.Enabled = false;
                     ctrProductes.Enabled = false;
                     ntbTramExentAnual.ReadOnly = true;
+                    ntbPiGAltresProductes.ReadOnly = true;
                 }
                 else
                 {
                     btRecalcula.Enabled = true;
                     ctrProductes.Enabled = true;
                     ntbTramExentAnual.ReadOnly = false;
+                    ntbPiGAltresProductes.ReadOnly = false;
                 }
+
+                ntbImportBrut.Valor = 0;
+                ntbPigSimulacio.Valor = 0;
+                ntbPigOrigSimulacio.Valor = 0;
+                ntbPiGAltresProductes.Valor = 0;
 
                 ntbTramExentAnual.Valor = carregaValorTramExent();
 
@@ -383,13 +368,25 @@ namespace Inversions.GUI
         {
             if (e.KeyChar == (char) Keys.Enter)
             {
-                recalcula();
+                var ntb = (NumericTextBox2) sender;
+
+                if (ntb.Modified)
+                {
+                    recalcula();
+                    ntb.Modified = false;
+                }
             }
         }
 
         private void ntb_Leave(object sender, EventArgs e)
         {
-            recalcula();
+            var ntb = (NumericTextBox2)sender;
+
+            if (ntb.Modified)
+            {
+                recalcula();
+                ntb.Modified = false;
+            }
         }
 
         #endregion *** Events ***
