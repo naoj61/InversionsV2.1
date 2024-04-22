@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Comuns;
+using Controls;
 using Inversions.GUI.Forms;
 
 namespace Inversions.GUI
@@ -127,7 +128,11 @@ namespace Inversions.GUI
             dgvCompresProducte.DataSource = compres;
             dgvCompresProducte.ClearSelection();
             dgvCompresProducte.SelectionChanged += dgvCompresProducte_SelectionChanged;
+
+            Utilitats.PosaCellesNegativesEnVermell(dgvCompresProducte);
+            
             dgvCompresProducte.ResumeLayout();
+            
             ResumeLayout();
 
             ntbPigCompra.Valor = compres.Sum(s => s.__PigDeLaCompra);
@@ -267,10 +272,11 @@ namespace Inversions.GUI
         }
 
         private Producte vProdSelAnt;
+
         private void gestioProductesTabValoracions_ProducteSeleccionat(object sender, EventArgs e)
         {
             var prodSel = (Producte) sender;
-            
+
             if (vProdSelAnt != prodSel)
             {
                 var cursor = Cursor;
@@ -377,8 +383,8 @@ namespace Inversions.GUI
         {
             // *** Faig que la línia "Total" sempre surti al final. ***
 
-            var r1 = (Producte)dgvPiGEnCartera[0, e.RowIndex1].Value;
-            var r2 = (Producte)dgvPiGEnCartera[0, e.RowIndex2].Value;
+            var r1 = (Producte) dgvPiGEnCartera[0, e.RowIndex1].Value;
+            var r2 = (Producte) dgvPiGEnCartera[0, e.RowIndex2].Value;
 
             if (r1._NomProducte == "Total")
             {
@@ -393,6 +399,5 @@ namespace Inversions.GUI
         }
 
         #endregion *** Events ***
-
     }
 }
