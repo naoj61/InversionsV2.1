@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Comuns;
@@ -10,8 +11,7 @@ using Microsoft.Win32;
 
 namespace Inversions.GUI
 {
-
-    struct FilaCompresOriginals
+    internal struct FilaCompresOriginals
     {
         private readonly DesglosCompraExt vDesglosCompra;
         private static decimal PreuParticipacioSimulacio;
@@ -118,7 +118,7 @@ namespace Inversions.GUI
             if (!(obj is FilaCompresOriginals))
                 return false;
 
-            return _IdOrig == ((FilaCompresOriginals)obj)._IdOrig;
+            return _IdOrig == ((FilaCompresOriginals) obj)._IdOrig;
         }
 
         public override int GetHashCode()
@@ -380,13 +380,18 @@ namespace Inversions.GUI
 
         private void ntb_Leave(object sender, EventArgs e)
         {
-            var ntb = (NumericTextBox2)sender;
+            var ntb = (NumericTextBox2) sender;
 
             if (ntb.Modified)
             {
                 recalcula();
                 ntb.Modified = false;
             }
+        }
+
+        private void dgvCompresOriginals_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            Utilitats.PosaCellesNegativesEnVermell(((DataGridView)sender)[e.ColumnIndex, e.RowIndex]);
         }
 
         #endregion *** Events ***

@@ -12,7 +12,6 @@ namespace Inversions.GUI
 {
     public partial class PerduesGuanysTab : TabX
     {
-
         private readonly Producte vProdTotal = new ProdFons();
 
         public PerduesGuanysTab()
@@ -128,8 +127,6 @@ namespace Inversions.GUI
             dgvCompresProducte.DataSource = compres;
             dgvCompresProducte.ClearSelection();
             dgvCompresProducte.SelectionChanged += dgvCompresProducte_SelectionChanged;
-
-            Utilitats.PosaCellesNegativesEnVermell(dgvCompresProducte);
             
             dgvCompresProducte.ResumeLayout();
             
@@ -396,6 +393,16 @@ namespace Inversions.GUI
                 e.SortResult = 0; // Pensava que hauria de ser -1 però no funciona,
                 e.Handled = true;
             }
+        }
+
+        private void dgvCompresProducte_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            Utilitats.PosaCellesNegativesEnVermell(((DataGridView)sender)[e.ColumnIndex, e.RowIndex]);
+        }
+
+        private void vvaav(DataGridViewCell cell)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion *** Events ***

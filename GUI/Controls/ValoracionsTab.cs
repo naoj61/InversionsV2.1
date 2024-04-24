@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Comuns;
+using Controls;
 using DevExpress.XtraEditors.Controls;
 
 namespace Inversions.GUI
@@ -38,7 +39,7 @@ namespace Inversions.GUI
 
             chart1.ChartAreas[0].AxisY.LabelStyle.Format = "#,##0.00";
             chart1.ChartAreas[0].AxisX.LabelStyle.Enabled = false;
-            
+
             chart2.ChartAreas[0].AxisX.LabelStyle.Enabled = false;
         }
 
@@ -74,7 +75,7 @@ namespace Inversions.GUI
             pnEdicio.Visible = false;
 
             refresca();
-         
+
             base.canviUsuari();
         }
 
@@ -164,6 +165,7 @@ namespace Inversions.GUI
                     valoracionsProducteSelec = valoracionsProducteSelec.OrderBy(val => val.Data).ToList();
 
                     dgvValoracions.SuspendLayout();
+
                     dgvValoracions.DataSource = valoracionsProducteSelec;
 
                     // Ajusta l'amplada de la taula.
@@ -187,8 +189,8 @@ namespace Inversions.GUI
 
         private void ompleGrafica1(List<Valoracio> valoracionsProducte)
         {
-            chart1.ChartAreas[0].AxisY.Minimum = (double)(valoracionsProducte.Min(m => m.PreuParticipacio));// / 1.02M);
-            chart1.ChartAreas[0].AxisY.Maximum = (double) (valoracionsProducte.Max(m => m.PreuParticipacio));// * 1.02M);
+            chart1.ChartAreas[0].AxisY.Minimum = (double) (valoracionsProducte.Min(m => m.PreuParticipacio)); // / 1.02M);
+            chart1.ChartAreas[0].AxisY.Maximum = (double) (valoracionsProducte.Max(m => m.PreuParticipacio)); // * 1.02M);
 
             chart1.DataSource = valoracionsProducte;
             chart1.DataBind();
@@ -256,7 +258,7 @@ namespace Inversions.GUI
                     moviments.AddRange(movData.Where(w => w.Prod is ProdAccions && w.Participacions > 0 && w.Prod._Mercat == mercatCriptos).ToList());
                 }
             }
-            
+
             if (rv && rf)
             {
                 valoracions.AddRange(valData.Where(w => w.Prod is ProdFons).ToList());
@@ -301,7 +303,7 @@ namespace Inversions.GUI
                     pigPerData += Producte.Pig2(Producte.TipusProducte.Accions, null, DateTime.MinValue, data, true, true);
                     saldo += ProdAccions.Valor(data);
                 }
-              
+
                 if (rv)
                 {
                     pigPerData += Producte.Pig2(Producte.TipusProducte.Fons, TipusFons.RV, DateTime.MinValue, data, true, true);
@@ -314,7 +316,7 @@ namespace Inversions.GUI
                     saldo += ProdFons.Valor(data, TipusFons.RF);
                 }
 
-                var percentVariacio = pigPerDataAnt == 0 ? 1 :(pigPerData / pigPerDataAnt - 1);
+                var percentVariacio = pigPerDataAnt == 0 ? 1 : (pigPerData / pigPerDataAnt - 1);
                 var variacio = pigPerData - pigPerDataAnt;
 
                 //int numFila = double.IsInfinity(percentVariacio)
@@ -352,7 +354,7 @@ namespace Inversions.GUI
             chart2.Update();
         }
 
-          
+
 
         #region *** Events ***
 
@@ -471,6 +473,7 @@ namespace Inversions.GUI
         }
 
         private Producte vProdAnt;
+
         private void gestioProductesTabValoracions_ProducteSeleccionat(object sender, EventArgs e)
         {
             var hiHaUnProducteSeleccionat = sender != null;
@@ -483,7 +486,7 @@ namespace Inversions.GUI
 
             if (hiHaUnProducteSeleccionat)
             {
-                var prodSelect = (Producte)sender;
+                var prodSelect = (Producte) sender;
 
                 if (vProdAnt != prodSelect)
                 {
@@ -567,17 +570,11 @@ namespace Inversions.GUI
 
         private void dgvValoracions_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.ColumnIndex == colVariacioPercent.Index || e.ColumnIndex == colVariacioEuros.Index)
-            {
-                var ss = (decimal) e.Value;
-                if (ss < 0)
-                {
-                    e.CellStyle.ForeColor=Color.Red;
-                }
-            }
+            Utilitats.PosaCellesNegativesEnVermell(((DataGridView)sender)[e.ColumnIndex, e.RowIndex]);
         }
 
-        private void ckValsAmbParticipacions_CheckedChanged(object sender, EventArgs e)
+        private
+            void ckValsAmbParticipacions_CheckedChanged(object sender, EventArgs e)
         {
             actualitzaLlistaValoracionsPerProducte();
         }
@@ -589,7 +586,7 @@ namespace Inversions.GUI
 
         private void dtpDataIniciValoracions_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char)Keys.Enter)
+            if (e.KeyChar == (char) Keys.Enter)
                 actualitzaLlistaValoracionsPerProducte();
         }
 
