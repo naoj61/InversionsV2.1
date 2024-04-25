@@ -193,13 +193,7 @@ namespace Inversions.GUI
 
             return tramExentAnual;
         }
-
-        private void recalcula()
-        {
-            ompleDgvCompres(ntbPreuParticipacio.Valor);
-            calculaTotalATributar();
-        }
-
+        
         private void ompleDgvCompres(decimal? preuPart)
         {
             if (vProducteSeleccionat == null)
@@ -222,6 +216,8 @@ namespace Inversions.GUI
             dgvCompresOriginals.ClearSelection();
             dgvCompresOriginals.CellFormatting -= dgv_CellFormatting;
             dgvCompresOriginals.ResumeLayout();
+
+            calculaTotalATributar();
 
             ResumeLayout();
         }
@@ -282,7 +278,7 @@ namespace Inversions.GUI
                 return;
             }
 
-            recalcula();
+            ompleDgvCompres(ntbPreuParticipacio.Valor);
         }
 
         private void productes_ProducteSeleccionat(object sender, EventArgs e)
@@ -374,7 +370,7 @@ namespace Inversions.GUI
 
                 if (ntb.Modified)
                 {
-                    recalcula();
+                    ompleDgvCompres(ntbPreuParticipacio.Valor);
                     ntb.Modified = false;
                 }
             }
@@ -386,7 +382,7 @@ namespace Inversions.GUI
 
             if (ntb.Modified)
             {
-                recalcula();
+                ompleDgvCompres(ntbPreuParticipacio.Valor);
                 ntb.Modified = false;
             }
         }
