@@ -166,7 +166,11 @@ namespace Inversions.GUI
 
                     dgvValoracions.SuspendLayout();
 
+                    dgvValoracions.CellFormatting += dgv_CellFormatting;
+
                     dgvValoracions.DataSource = valoracionsProducteSelec;
+
+                    dgvValoracions.CellFormatting -= dgv_CellFormatting;
 
                     // Ajusta l'amplada de la taula.
                     Utilitats.AjustaAmpladaDataGridView(dgvValoracions);
@@ -568,13 +572,7 @@ namespace Inversions.GUI
             }
         }
 
-        private void dgvValoracions_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            Utilitats.PosaCellesNegativesEnVermell(((DataGridView)sender)[e.ColumnIndex, e.RowIndex]);
-        }
-
-        private
-            void ckValsAmbParticipacions_CheckedChanged(object sender, EventArgs e)
+        private void ckValsAmbParticipacions_CheckedChanged(object sender, EventArgs e)
         {
             actualitzaLlistaValoracionsPerProducte();
         }

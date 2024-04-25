@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Controls;
 using Inversions.GUI;
 
 namespace Inversions
@@ -90,6 +91,17 @@ namespace Inversions
         {
             if (ParentForm != null)
                 ParentForm.CancelButton = botoCancel;
+        }
+
+        protected void dgv_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            var cell = ((DataGridView) sender)[e.ColumnIndex, e.RowIndex];
+
+            // Si és negatiu, establim el color del text a vermell
+            if (cell is NumericCell)
+            {
+                cell.Style.ForeColor = Convert.ToDecimal(cell.Value) < 0 ? Color.Red : Color.Black;
+            }
         }
 
         /// <summary>

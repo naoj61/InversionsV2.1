@@ -123,10 +123,12 @@ namespace Inversions.GUI
             SuspendLayout();
             dgvCompresProducte.SuspendLayout();
             dgvCompresProducte.SelectionChanged -= dgvCompresProducte_SelectionChanged;
+            dgvCompresProducte.CellFormatting += dgv_CellFormatting;
             dgvCompresProducte.ClearSelection();
             dgvCompresProducte.DataSource = compres;
             dgvCompresProducte.ClearSelection();
             dgvCompresProducte.SelectionChanged += dgvCompresProducte_SelectionChanged;
+            dgvCompresProducte.CellFormatting -= dgv_CellFormatting;
             
             dgvCompresProducte.ResumeLayout();
             
@@ -394,12 +396,7 @@ namespace Inversions.GUI
                 e.Handled = true;
             }
         }
-
-        private void dgvCompresProducte_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            Utilitats.PosaCellesNegativesEnVermell(((DataGridView)sender)[e.ColumnIndex, e.RowIndex]);
-        }
-
+        
         private void vvaav(DataGridViewCell cell)
         {
             throw new NotImplementedException();

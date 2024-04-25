@@ -161,7 +161,6 @@ namespace Inversions.GUI
             this.dgvCompresOriginals.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvCompresOriginals.Size = new System.Drawing.Size(786, 329);
             this.dgvCompresOriginals.TabIndex = 1;
-            this.dgvCompresOriginals.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvCompresOriginals_CellFormatting);
             // 
             // IdOrig
             // 

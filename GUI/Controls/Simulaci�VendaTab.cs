@@ -217,8 +217,10 @@ namespace Inversions.GUI
             ntbPigOrigSimulacio.Valor = compresProdSelecionat.Sum(s => s._PigDeLaCompraOrigen);
 
             dgvCompresOriginals.SuspendLayout();
+            dgvCompresOriginals.CellFormatting += dgv_CellFormatting;
             dgvCompresOriginals.DataSource = compresProdSelecionat.OrderBy(o => o._DataOrig).ToList();
             dgvCompresOriginals.ClearSelection();
+            dgvCompresOriginals.CellFormatting -= dgv_CellFormatting;
             dgvCompresOriginals.ResumeLayout();
 
             ResumeLayout();
@@ -388,12 +390,7 @@ namespace Inversions.GUI
                 ntb.Modified = false;
             }
         }
-
-        private void dgvCompresOriginals_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            Utilitats.PosaCellesNegativesEnVermell(((DataGridView)sender)[e.ColumnIndex, e.RowIndex]);
-        }
-
+        
         #endregion *** Events ***
     }
 }
