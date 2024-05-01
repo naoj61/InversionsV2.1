@@ -31,17 +31,17 @@ namespace Inversions.GUI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle44 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle41 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle42 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle43 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dgvCompresOriginals = new System.Windows.Forms.DataGridView();
             this.IdOrig = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -69,6 +69,8 @@ namespace Inversions.GUI
             this.ntbPiGActual = new Controls.NumericTextBox2();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.ntbRestaTramNoTributa = new Controls.NumericTextBox2();
+            this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.ntbPartsSaltades = new Controls.NumericTextBox2();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ntbNumParticipacions = new Controls.NumericTextBox2();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -96,6 +98,7 @@ namespace Inversions.GUI
             this.groupBox11.SuspendLayout();
             this.gbPigRealAny.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            this.groupBox14.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox9.SuspendLayout();
@@ -121,14 +124,14 @@ namespace Inversions.GUI
             this.dgvCompresOriginals.AllowUserToDeleteRows = false;
             this.dgvCompresOriginals.AllowUserToOrderColumns = true;
             this.dgvCompresOriginals.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvCompresOriginals.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle34.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle34.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle34.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle34.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle34.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle34.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvCompresOriginals.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle34;
             this.dgvCompresOriginals.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCompresOriginals.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.IdOrig,
@@ -141,14 +144,14 @@ namespace Inversions.GUI
             this.PigOrigen,
             this.PigDeLaCompra,
             this.ValorAct});
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvCompresOriginals.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle44.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle44.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle44.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle44.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle44.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle44.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle44.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvCompresOriginals.DefaultCellStyle = dataGridViewCellStyle44;
             this.dgvCompresOriginals.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvCompresOriginals.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvCompresOriginals.Location = new System.Drawing.Point(673, 0);
@@ -166,9 +169,9 @@ namespace Inversions.GUI
             // 
             this.IdOrig.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
             this.IdOrig.DataPropertyName = "_IdOrig";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.NullValue = null;
-            this.IdOrig.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle35.NullValue = null;
+            this.IdOrig.DefaultCellStyle = dataGridViewCellStyle35;
             this.IdOrig.HeaderText = "Id Orig";
             this.IdOrig.MinimumWidth = 40;
             this.IdOrig.Name = "IdOrig";
@@ -179,9 +182,9 @@ namespace Inversions.GUI
             // 
             this.Id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
             this.Id.DataPropertyName = "_Id";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.NullValue = null;
-            this.Id.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle36.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle36.NullValue = null;
+            this.Id.DefaultCellStyle = dataGridViewCellStyle36;
             this.Id.HeaderText = "Id";
             this.Id.Name = "Id";
             this.Id.ReadOnly = true;
@@ -200,10 +203,10 @@ namespace Inversions.GUI
             // 
             this.DataCompraOrig.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
             this.DataCompraOrig.DataPropertyName = "_DataOrig";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.Format = "d";
-            dataGridViewCellStyle4.NullValue = null;
-            this.DataCompraOrig.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle37.Format = "d";
+            dataGridViewCellStyle37.NullValue = null;
+            this.DataCompraOrig.DefaultCellStyle = dataGridViewCellStyle37;
             this.DataCompraOrig.HeaderText = "Data Orig Compra";
             this.DataCompraOrig.MinimumWidth = 75;
             this.DataCompraOrig.Name = "DataCompraOrig";
@@ -215,10 +218,10 @@ namespace Inversions.GUI
             // 
             this.DataCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
             this.DataCompra.DataPropertyName = "_DataCompra";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.Format = "d";
-            dataGridViewCellStyle5.NullValue = null;
-            this.DataCompra.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle38.Format = "d";
+            dataGridViewCellStyle38.NullValue = null;
+            this.DataCompra.DefaultCellStyle = dataGridViewCellStyle38;
             this.DataCompra.HeaderText = "Data Compra";
             this.DataCompra.MinimumWidth = 75;
             this.DataCompra.Name = "DataCompra";
@@ -230,10 +233,10 @@ namespace Inversions.GUI
             // 
             this.Parts.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Parts.DataPropertyName = "_Participacions";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "N3";
-            dataGridViewCellStyle6.NullValue = null;
-            this.Parts.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle39.Format = "N3";
+            dataGridViewCellStyle39.NullValue = null;
+            this.Parts.DefaultCellStyle = dataGridViewCellStyle39;
             this.Parts.HeaderText = "Parts";
             this.Parts.Name = "Parts";
             this.Parts.ReadOnly = true;
@@ -246,10 +249,10 @@ namespace Inversions.GUI
             // 
             this.PartsUtil.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.PartsUtil.DataPropertyName = "_ParticipacionsUtilitzades";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.Lime;
-            dataGridViewCellStyle7.Format = "N5";
-            this.PartsUtil.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle40.BackColor = System.Drawing.Color.Lime;
+            dataGridViewCellStyle40.Format = "N5";
+            this.PartsUtil.DefaultCellStyle = dataGridViewCellStyle40;
             this.PartsUtil.HeaderText = "Parts Util";
             this.PartsUtil.Name = "PartsUtil";
             this.PartsUtil.ReadOnly = true;
@@ -262,9 +265,9 @@ namespace Inversions.GUI
             // 
             this.PigOrigen.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
             this.PigOrigen.DataPropertyName = "_PigDeLaCompraOrigen";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle8.Format = "C2";
-            this.PigOrigen.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle41.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle41.Format = "C2";
+            this.PigOrigen.DefaultCellStyle = dataGridViewCellStyle41;
             this.PigOrigen.HeaderText = "Pig Origen";
             this.PigOrigen.Name = "PigOrigen";
             this.PigOrigen.ReadOnly = true;
@@ -276,10 +279,10 @@ namespace Inversions.GUI
             // 
             this.PigDeLaCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
             this.PigDeLaCompra.DataPropertyName = "_PigDeLaCompra";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle9.Format = "C2";
-            dataGridViewCellStyle9.NullValue = null;
-            this.PigDeLaCompra.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle42.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle42.Format = "C2";
+            dataGridViewCellStyle42.NullValue = null;
+            this.PigDeLaCompra.DefaultCellStyle = dataGridViewCellStyle42;
             this.PigDeLaCompra.HeaderText = "PiG";
             this.PigDeLaCompra.Name = "PigDeLaCompra";
             this.PigDeLaCompra.ReadOnly = true;
@@ -291,9 +294,9 @@ namespace Inversions.GUI
             // 
             this.ValorAct.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.ValorAct.DataPropertyName = "_ValorActual";
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle10.Format = "C2";
-            this.ValorAct.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle43.Format = "C2";
+            this.ValorAct.DefaultCellStyle = dataGridViewCellStyle43;
             this.ValorAct.HeaderText = "Valor Act.";
             this.ValorAct.Name = "ValorAct";
             this.ValorAct.ReadOnly = true;
@@ -310,6 +313,7 @@ namespace Inversions.GUI
             this.panel2.Controls.Add(this.groupBox11);
             this.panel2.Controls.Add(this.gbPigRealAny);
             this.panel2.Controls.Add(this.groupBox8);
+            this.panel2.Controls.Add(this.groupBox14);
             this.panel2.Controls.Add(this.groupBox1);
             this.panel2.Controls.Add(this.groupBox3);
             this.panel2.Controls.Add(this.groupBox9);
@@ -331,7 +335,7 @@ namespace Inversions.GUI
             this.groupBox10.Location = new System.Drawing.Point(504, 142);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(156, 57);
-            this.groupBox10.TabIndex = 12;
+            this.groupBox10.TabIndex = 13;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Dividents";
             // 
@@ -366,7 +370,7 @@ namespace Inversions.GUI
             this.groupBox5.Location = new System.Drawing.Point(504, 77);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(156, 57);
-            this.groupBox5.TabIndex = 10;
+            this.groupBox5.TabIndex = 11;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Ingressos Externs";
             // 
@@ -401,7 +405,7 @@ namespace Inversions.GUI
             this.groupBox4.Location = new System.Drawing.Point(504, 12);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(156, 57);
-            this.groupBox4.TabIndex = 8;
+            this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Perdues Anteriors";
             // 
@@ -436,7 +440,7 @@ namespace Inversions.GUI
             this.groupBox13.Location = new System.Drawing.Point(331, 142);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Size = new System.Drawing.Size(156, 57);
-            this.groupBox13.TabIndex = 11;
+            this.groupBox13.TabIndex = 12;
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "PiG D\'altre producte";
             this.toolTip1.SetToolTip(this.groupBox13, "Si vull acumular els PiGs de més d\'un producte, poso aquí limport dels altres.");
@@ -448,7 +452,7 @@ namespace Inversions.GUI
             this.ntbPiGAltresProductes._NegatiusEnVermell = false;
             this.ntbPiGAltresProductes._PermetDecimals = true;
             this.ntbPiGAltresProductes._PermetEspais = false;
-            this.ntbPiGAltresProductes._PermetNegatius = true;
+            this.ntbPiGAltresProductes._PermetNegatius = false;
             this.ntbPiGAltresProductes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPiGAltresProductes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ntbPiGAltresProductes.Location = new System.Drawing.Point(3, 19);
@@ -464,7 +468,7 @@ namespace Inversions.GUI
             131072});
             this.ntbPiGAltresProductes.ValorDouble = 0D;
             this.ntbPiGAltresProductes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ntb_KeyPress);
-            this.ntbPiGAltresProductes.Leave += new System.EventHandler(this.ntb_Leave);
+            this.ntbPiGAltresProductes.Validating += new System.ComponentModel.CancelEventHandler(this.ntb_Validating);
             // 
             // groupBox11
             // 
@@ -473,7 +477,7 @@ namespace Inversions.GUI
             this.groupBox11.Location = new System.Drawing.Point(331, 12);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Size = new System.Drawing.Size(156, 57);
-            this.groupBox11.TabIndex = 7;
+            this.groupBox11.TabIndex = 8;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Exent Anual";
             this.toolTip1.SetToolTip(this.groupBox11, "És l\'import que no tributa marcat per Hidenda");
@@ -485,7 +489,7 @@ namespace Inversions.GUI
             this.ntbTramExentAnual._NegatiusEnVermell = false;
             this.ntbTramExentAnual._PermetDecimals = true;
             this.ntbTramExentAnual._PermetEspais = false;
-            this.ntbTramExentAnual._PermetNegatius = true;
+            this.ntbTramExentAnual._PermetNegatius = false;
             this.ntbTramExentAnual.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbTramExentAnual.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ntbTramExentAnual.Location = new System.Drawing.Point(3, 19);
@@ -500,7 +504,8 @@ namespace Inversions.GUI
             0,
             131072});
             this.ntbTramExentAnual.ValorDouble = 0D;
-            this.ntbTramExentAnual.Validating += new System.ComponentModel.CancelEventHandler(this.ntbTramExentAnual_Validating);
+            this.ntbTramExentAnual.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ntb_KeyPress);
+            this.ntbTramExentAnual.Validating += new System.ComponentModel.CancelEventHandler(this.ntb_Validating);
             // 
             // gbPigRealAny
             // 
@@ -509,7 +514,7 @@ namespace Inversions.GUI
             this.gbPigRealAny.Location = new System.Drawing.Point(331, 77);
             this.gbPigRealAny.Name = "gbPigRealAny";
             this.gbPigRealAny.Size = new System.Drawing.Size(156, 57);
-            this.gbPigRealAny.TabIndex = 9;
+            this.gbPigRealAny.TabIndex = 10;
             this.gbPigRealAny.TabStop = false;
             this.gbPigRealAny.Text = "PiG Any: ";
             this.toolTip1.SetToolTip(this.gbPigRealAny, "És el PiG de les vendes realitzades en l\'any");
@@ -545,7 +550,7 @@ namespace Inversions.GUI
             this.groupBox8.Location = new System.Drawing.Point(331, 207);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(156, 57);
-            this.groupBox8.TabIndex = 13;
+            this.groupBox8.TabIndex = 14;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Exent Restant";
             this.toolTip1.SetToolTip(this.groupBox8, "Import restant de la part exent de tributar.");
@@ -575,6 +580,45 @@ namespace Inversions.GUI
             131072});
             this.ntbRestaTramNoTributa.ValorDouble = 0D;
             // 
+            // groupBox14
+            // 
+            this.groupBox14.Controls.Add(this.ntbPartsSaltades);
+            this.groupBox14.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox14.Location = new System.Drawing.Point(11, 142);
+            this.groupBox14.Name = "groupBox14";
+            this.groupBox14.Size = new System.Drawing.Size(135, 57);
+            this.groupBox14.TabIndex = 4;
+            this.groupBox14.TabStop = false;
+            this.groupBox14.Text = "Parts Saltades";
+            this.toolTip1.SetToolTip(this.groupBox14, "Salta les participacions més antigues, fa com si estiguessin venudes.\r\nÉs per no " +
+        "haver de fer un traspàs simulat per veure el PiG de les més noves");
+            // 
+            // ntbPartsSaltades
+            // 
+            this.ntbPartsSaltades._CapturaEscape = true;
+            this.ntbPartsSaltades._Format = "#,##0.0000";
+            this.ntbPartsSaltades._NegatiusEnVermell = false;
+            this.ntbPartsSaltades._PermetDecimals = true;
+            this.ntbPartsSaltades._PermetEspais = false;
+            this.ntbPartsSaltades._PermetNegatius = false;
+            this.ntbPartsSaltades.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbPartsSaltades.Enabled = false;
+            this.ntbPartsSaltades.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPartsSaltades.Location = new System.Drawing.Point(3, 19);
+            this.ntbPartsSaltades.Name = "ntbPartsSaltades";
+            this.ntbPartsSaltades.Size = new System.Drawing.Size(129, 26);
+            this.ntbPartsSaltades.TabIndex = 0;
+            this.ntbPartsSaltades.Text = "0,0000";
+            this.ntbPartsSaltades.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbPartsSaltades.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            262144});
+            this.ntbPartsSaltades.ValorDouble = 0D;
+            this.ntbPartsSaltades.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ntb_KeyPress);
+            this.ntbPartsSaltades.Validating += new System.ComponentModel.CancelEventHandler(this.ntb_Validating);
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.ntbNumParticipacions);
@@ -593,7 +637,7 @@ namespace Inversions.GUI
             this.ntbNumParticipacions._NegatiusEnVermell = false;
             this.ntbNumParticipacions._PermetDecimals = true;
             this.ntbNumParticipacions._PermetEspais = false;
-            this.ntbNumParticipacions._PermetNegatius = true;
+            this.ntbNumParticipacions._PermetNegatius = false;
             this.ntbNumParticipacions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbNumParticipacions.Enabled = false;
             this.ntbNumParticipacions.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -610,7 +654,7 @@ namespace Inversions.GUI
             262144});
             this.ntbNumParticipacions.ValorDouble = 0D;
             this.ntbNumParticipacions.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ntb_KeyPress);
-            this.ntbNumParticipacions.Leave += new System.EventHandler(this.ntb_Leave);
+            this.ntbNumParticipacions.Validating += new System.ComponentModel.CancelEventHandler(this.ntb_Validating);
             // 
             // groupBox3
             // 
@@ -630,7 +674,7 @@ namespace Inversions.GUI
             this.ntbPreuParticipacio._NegatiusEnVermell = false;
             this.ntbPreuParticipacio._PermetDecimals = true;
             this.ntbPreuParticipacio._PermetEspais = false;
-            this.ntbPreuParticipacio._PermetNegatius = true;
+            this.ntbPreuParticipacio._PermetNegatius = false;
             this.ntbPreuParticipacio.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPreuParticipacio.Enabled = false;
             this.ntbPreuParticipacio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -647,7 +691,7 @@ namespace Inversions.GUI
             196608});
             this.ntbPreuParticipacio.ValorDouble = 0D;
             this.ntbPreuParticipacio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ntb_KeyPress);
-            this.ntbPreuParticipacio.Leave += new System.EventHandler(this.ntb_Leave);
+            this.ntbPreuParticipacio.Validating += new System.ComponentModel.CancelEventHandler(this.ntb_Validating);
             // 
             // groupBox9
             // 
@@ -656,7 +700,7 @@ namespace Inversions.GUI
             this.groupBox9.Location = new System.Drawing.Point(504, 207);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(156, 57);
-            this.groupBox9.TabIndex = 14;
+            this.groupBox9.TabIndex = 15;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Tributa Renda";
             this.toolTip1.SetToolTip(this.groupBox9, "Tram exent + Perdues Ant. - PiG Actual - Dividents - PiG Simulació");
@@ -692,7 +736,7 @@ namespace Inversions.GUI
             this.groupBox7.Location = new System.Drawing.Point(166, 142);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(135, 57);
-            this.groupBox7.TabIndex = 4;
+            this.groupBox7.TabIndex = 5;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Import Brut";
             this.toolTip1.SetToolTip(this.groupBox7, "Import de la venda");
@@ -751,7 +795,7 @@ namespace Inversions.GUI
             this.groupBox12.Location = new System.Drawing.Point(11, 207);
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.Size = new System.Drawing.Size(135, 57);
-            this.groupBox12.TabIndex = 5;
+            this.groupBox12.TabIndex = 6;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "P i G Prod";
             this.toolTip1.SetToolTip(this.groupBox12, "PiG actual de la simulació");
@@ -788,7 +832,7 @@ namespace Inversions.GUI
             this.groupBox2.Location = new System.Drawing.Point(166, 207);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(135, 57);
-            this.groupBox2.TabIndex = 6;
+            this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "P i G Orig";
             this.toolTip1.SetToolTip(this.groupBox2, "PiG origen de la simulació");
@@ -871,6 +915,8 @@ namespace Inversions.GUI
             this.gbPigRealAny.PerformLayout();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
+            this.groupBox14.ResumeLayout(false);
+            this.groupBox14.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -917,7 +963,6 @@ namespace Inversions.GUI
         private System.Windows.Forms.GroupBox groupBox10;
         private Controls.NumericTextBox2 ntbDividents;
         private System.Windows.Forms.GroupBox groupBox11;
-        private Controls.NumericTextBox2 ntbTramExentAnual;
         private System.Windows.Forms.GroupBox gbPigRealAny;
         private Controls.NumericTextBox2 ntbPiGActual;
         private System.Windows.Forms.GroupBox groupBox13;
@@ -934,5 +979,8 @@ namespace Inversions.GUI
         private Controls.NumericTextBoxColumn PigOrigen;
         private Controls.NumericTextBoxColumn PigDeLaCompra;
         private System.Windows.Forms.DataGridViewTextBoxColumn ValorAct;
+        private System.Windows.Forms.GroupBox groupBox14;
+        private Controls.NumericTextBox2 ntbPartsSaltades;
+        private Controls.NumericTextBox2 ntbTramExentAnual;
     }
 }

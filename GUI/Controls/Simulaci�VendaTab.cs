@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Comuns;
 using Controls;
+using DevExpress.XtraEditors.ButtonPanel;
 using Inversions.GUI.Forms;
 using Microsoft.Win32;
 
@@ -156,6 +157,7 @@ namespace Inversions.GUI
             dgvCompresOriginals.DataSource = null;
 
             ntbNumParticipacions.Valor = 0;
+            ntbPartsSaltades.Valor = 0;
             ntbPreuParticipacio.Valor = 0;
             ntbTributaRenda.Valor = 0;
             ntbPigSimulacio.Valor = 0;
@@ -173,7 +175,7 @@ namespace Inversions.GUI
 
             ctrProductes.refrescaDadesControl(_PendentCanviUsuari);
 
-            calculaTotalATributar();
+            cbAny_SelectedIndexChanged(cbAny, null);
         }
 
         #endregion *** Overrides ***
@@ -193,20 +195,56 @@ namespace Inversions.GUI
 
             return tramExentAnual;
         }
-        
+
         private void ompleDgvCompres(decimal? preuPart)
         {
             if (vProducteSeleccionat == null)
                 return;
 
-            var desgloçPartsEnCartera = vProducteSeleccionat.desglosCompresDeParticipacionsEnData(DateTime.Now, ntbNumParticipacions.Valor).ToList();
+            var desgloçPartsEnCartera = vProducteSeleccionat.desglosCompresDeParticipacionsEnData(DateTime.Now, vProducteSeleccionat._Participacions)
+                .OrderBy(o => o._DataOrig).ToList();
 
-            List<FilaCompresOriginals> compresProdSelecionat =
-                desgloçPartsEnCartera.Select(desglosCompra => new FilaCompresOriginals(desglosCompra, preuPart)).ToList();
+            List<FilaCompresOriginals> compresProdSelecionat = new List<FilaCompresOriginals>();
+
+            /* *** Salta les participacions més antiugues. 
+                 * És per no haver de fer un traspàs simulat per veure el PiG de les més noves */
+            var salt = ntbPartsSaltades.Valor;
+            var xx = ntbNumParticipacions.Valor;
+            foreach (var desglosCompraExt in desgloçPartsEnCartera)
+            {
+                if (salt > 0)
+                {
+                    if (desglosCompraExt._PartsUtilitzades <= salt)
+                    {
+                        salt -= desglosCompraExt._PartsUtilitzades;
+                        continue;
+                    }
+
+                    if (salt > 0)
+                    {
+                        desglosCompraExt._PartsUtilitzades -= salt;
+                        salt = 0;
+                    }
+                }
+
+                if (desglosCompraExt._PartsUtilitzades > xx)
+                {
+                    desglosCompraExt._PartsUtilitzades = xx;
+                    compresProdSelecionat.Add(new FilaCompresOriginals(desglosCompraExt, preuPart));
+                    break;
+                }
+
+                compresProdSelecionat.Add(new FilaCompresOriginals(desglosCompraExt, preuPart));
+
+                xx -= desglosCompraExt._PartsUtilitzades;
+            }
 
             SuspendLayout();
 
-            ntbImportBrut.Valor = compresProdSelecionat.Sum(s => s._ValorActual);
+            //if ((ntbNumParticipacions.Valor + ntbPartsSaltades.Valor) > vProducteSeleccionat._Participacions)
+            //    ntbNumParticipacions.Valor = vProducteSeleccionat._Participacions - ntbPartsSaltades.Valor;
+            //ntbImportBrut.Valor = compresProdSelecionat.Sum(s => s._ValorActual);
+            ntbImportBrut.Valor = ntbNumParticipacions.Valor * ntbPreuParticipacio.Valor;
             ntbPigSimulacio.Valor = compresProdSelecionat.Sum(s => s._PigDeLaCompra);
             ntbPigOrigSimulacio.Valor = compresProdSelecionat.Sum(s => s._PigDeLaCompraOrigen);
 
@@ -289,18 +327,22 @@ namespace Inversions.GUI
             {
                 ntbNumParticipacions.Enabled = false;
                 ntbPreuParticipacio.Enabled = false;
+                ntbPartsSaltades.Enabled = false;
 
                 ntbNumParticipacions.Valor = 0;
                 ntbPreuParticipacio.Valor = 0;
                 ntbTributaRenda.Valor = 0;
+                ntbPartsSaltades.Valor = 0;
             }
             else
             {
                 ntbNumParticipacions.Enabled = vProducteSeleccionat._Participacions > 0;
                 ntbPreuParticipacio.Enabled = vProducteSeleccionat._Participacions > 0;
+                ntbPartsSaltades.Enabled = vProducteSeleccionat._Participacions > 0;
 
                 ntbNumParticipacions.Valor = vProducteSeleccionat._Participacions;
                 ntbPreuParticipacio.Valor = vProducteSeleccionat.ValoracionsProducte.Last().PreuParticipacio;
+                ntbPartsSaltades.Valor = 0;
             }
 
             ompleDgvCompres(null);
@@ -341,52 +383,51 @@ namespace Inversions.GUI
                 calculaTotalATributar();
             }
         }
-
-        private void ntbTramExentAnual_Validating(object sender, CancelEventArgs e)
+        
+        private void ntb_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (ntbTramExentAnual.Modified)
+            if (e.KeyChar == (char) Keys.Enter)
+            {
+                var cancel = new CancelEventArgs();
+                ntb_Validating(sender, cancel);
+                if (cancel.Cancel)
+                    return;
+            }
+        }
+
+        private void ntb_Validating(object sender, CancelEventArgs e)
+        {
+            var ntb = (NumericTextBox2) sender;
+            if (ntb == ntbNumParticipacions || ntb == ntbPartsSaltades)
+            {
+                if ((ntbNumParticipacions.Valor + ntbPartsSaltades.Valor) > vProducteSeleccionat._Participacions)
+                {
+                    MessageBox.Show("La suma de 'Num, Partic.' + 'Parts Saltades' supera les participacions disponibles.","Avís"
+                        , MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    e.Cancel = true;
+                    return;
+                }
+            }
+
+            if (ntb == ntbTramExentAnual && ntb.Valor != carregaValorTramExent())
             {
                 if (MessageBox.Show("S'ha modificat el valor del 'Tram Exent Anual'. Vols desar el nou valor al registre de Windows?"
                     , "Avís", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     Utilitats.GravaVariableRegistre(Registry.CurrentUser, vClauReg, RegImportMinimContribuent, ntbTramExentAnual._DecimalValue);
-                    calculaTotalATributar();
-
-                    ntbTramExentAnual.Modified = false;
                 }
                 else
                 {
-                    ntbTramExentAnual.Valor = carregaValorTramExent();
+                    ntb.Valor = carregaValorTramExent();
                     e.Cancel = true;
+                    return;
                 }
             }
+
+            ompleDgvCompres(ntbPreuParticipacio.Valor);
         }
 
-        private void ntb_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char) Keys.Enter)
-            {
-                var ntb = (NumericTextBox2) sender;
-
-                if (ntb.Modified)
-                {
-                    ompleDgvCompres(ntbPreuParticipacio.Valor);
-                    ntb.Modified = false;
-                }
-            }
-        }
-
-        private void ntb_Leave(object sender, EventArgs e)
-        {
-            var ntb = (NumericTextBox2) sender;
-
-            if (ntb.Modified)
-            {
-                ompleDgvCompres(ntbPreuParticipacio.Valor);
-                ntb.Modified = false;
-            }
-        }
-        
         #endregion *** Events ***
     }
 }

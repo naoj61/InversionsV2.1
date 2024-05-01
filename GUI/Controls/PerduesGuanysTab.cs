@@ -344,6 +344,9 @@ namespace Inversions.GUI
 
             IRPF trib = new IRPF(any);
             trib.ShowDialog(this);
+
+            if(trib._ShaModificat)
+                TabX.ActivaRefrescaEnTabs(this);
         }
 
         private void dgvCompresProducte_SelectionChanged(object sender, EventArgs e)

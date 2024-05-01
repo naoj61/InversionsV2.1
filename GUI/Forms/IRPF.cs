@@ -285,6 +285,11 @@ namespace Inversions.GUI.Forms
             #endregion
         }
 
+        public bool _ShaModificat
+        {
+            get { return vShaModificat; }
+        }
+
         private void IRPF_Shown(object sender, EventArgs e)
         {
 
@@ -553,6 +558,7 @@ namespace Inversions.GUI.Forms
             modeEdicio(false);
         }
 
+        private bool vShaModificat = false;
         private void btDesa_Click(object sender, EventArgs e)
         {
             Utilitats.GravaVariableRegistre(Registry.CurrentUser, vClauReg, RegImportMinimContribuent, ntbMinimContribuent.Valor);
@@ -562,6 +568,8 @@ namespace Inversions.GUI.Forms
             vImportMinimContribuent = ntbMinimContribuent.Valor;
 
             modeEdicio(false);
+
+            vShaModificat = true;
         }
 
 
