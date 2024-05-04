@@ -203,8 +203,6 @@ namespace Inversions.GUI
 
                 using (var dbContextTransaction = conn.Database.BeginTransaction())
                 {
-                    //try
-                    //{
                     // Conserva la data però li posa l'hora actual.
                     DateTime data1 = cData1.Value.Date + DateTime.Now.TimeOfDay;
 
@@ -220,8 +218,6 @@ namespace Inversions.GUI
                         }
                         else
                         {
-                            //prodOrigen.compraVenda(conn, tipusMoviment, data1, tbNumParticipacions._DoubleValue, ntbPreuParticipacio._DoubleValue, tbCanviAplicat._DoubleValue, 
-                            //    tbDespeses._DoubleValue, tbDescripcio.Text);
                             if (tipusMoviment == TipusMoviment.Compra)
                             {
                                 prodOrigenContext.desaCompra(conn, data1, DateTime.Now.TimeOfDay, tbNumParticipacions._DecimalValue, ntbPreuParticipacio._DecimalValue,
@@ -245,10 +241,12 @@ namespace Inversions.GUI
                             dataDesti, prodDestiContext, tbNumParticipacionsDesti._DecimalValue, ntbPreuParticipacioFonsCompra.Valor, ntbDespeses.Valor);
                     }
 
-
                     conn.SaveChanges();
 
                     dbContextTransaction.Commit();
+
+                    Moviment.RefrescaTaula();
+                    DesglosCompra.RefrescaTaula();
                 }
             }
 
