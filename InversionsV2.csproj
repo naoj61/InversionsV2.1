@@ -103,6 +103,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassesParcials\IngresExtern.cs" />
     <Compile Include="ClassesParcials\InversionsBDContext.cs" />
     <Compile Include="ClassesParcials\Empresa.cs" />
     <Compile Include="ClassesParcials\Mercat.cs" />
