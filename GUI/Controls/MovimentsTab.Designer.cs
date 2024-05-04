@@ -846,7 +846,7 @@
             this.gestioProductesTabMoviments.Name = "gestioProductesTabMoviments";
             this.gestioProductesTabMoviments.Size = new System.Drawing.Size(1139, 566);
             this.gestioProductesTabMoviments.TabIndex = 0;
-            this.gestioProductesTabMoviments.ProducteSeleccionat += new System.EventHandler(this.gestioProductes1_ProducteSeleccionat);
+            this.gestioProductesTabMoviments.EventProducteSeleccionat += new System.EventHandler(this.gestioProductes1_ProducteSeleccionat);
             // 
             // MovimentsTab
             // 

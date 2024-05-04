@@ -1088,7 +1088,7 @@ namespace Inversions.GUI
             this.gestioProductesTabValoracions.Name = "gestioProductesTabValoracions";
             this.gestioProductesTabValoracions.Size = new System.Drawing.Size(1029, 493);
             this.gestioProductesTabValoracions.TabIndex = 0;
-            this.gestioProductesTabValoracions.ProducteSeleccionat += new System.EventHandler(this.gestioProductesTabValoracions_ProducteSeleccionat);
+            this.gestioProductesTabValoracions.EventProducteSeleccionat += new System.EventHandler(this.gestioProductesTabValoracions_ProducteSeleccionat);
             // 
             // PerduesGuanysTab
             // 

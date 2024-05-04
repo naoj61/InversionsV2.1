@@ -30,8 +30,8 @@ namespace Inversions.GUI
 
         private ListBox vLbProductes;
         private bool vMostraLlistaAmbChecks;
-        public event EventHandler ProducteSeleccionat;
-        public event ItemCheckEventHandler ItemCheck;
+        public event EventHandler EventProducteSeleccionat;
+        public event ItemCheckEventHandler EventItemCheck;
         private string vDescripcioFons;
 
 
@@ -234,14 +234,10 @@ namespace Inversions.GUI
             
             if (vProducteSeleccioatAnt != _ProducteSeleccionat)
             {
-                //return; // No ha canviat el producte seleccionat.
-
                 vProducteSeleccioatAnt = _ProducteSeleccionat;
 
                 if (prod == null)
                 {
-                    //lbIsin.Visible = true;
-                    //lbMercat.Visible = false;
                     gbIsinMercat.Text = "ISIN";
                     tbIsin.BringToFront();
                 }
@@ -259,9 +255,6 @@ namespace Inversions.GUI
 
                     tbCostOrigPartActual.Valor = prod.costOriginalEnCartera4();
 
-                    //tbPiGActual.Valor = prod.pigValorat(Producte.DateTimeFinalDia.Today);
-                    //tbPiGReal.Valor = prod.pigReal(Producte.DateTimeFinalDia.Today);
-
                     tbPigProducte.Valor = prod.pig2Producte(); // PiG cartera + vendes reals + vendesT + dividents - despeses, sense tenir en compte el preu original en cas de traspàs.
                     tbPigReal.Valor = prod.pig2Total(); // PiG cartera + vendes reals + dividents - despeses, tenint en compte el preu original.
                     tbPiGActual.Valor = prod.pig2EnCartera(); // PiG participacions en cartera tenint en compte el preu original.
@@ -274,8 +267,6 @@ namespace Inversions.GUI
                         tbIsin.Text = prodFons.ISIN;
                         vDescripcioFons = prodFons.Descripcio;
 
-                        //lbIsin.Visible = true;
-                        //lbMercat.Visible = false;
                         gbIsinMercat.Text = "ISIN";
                         tbIsin.BringToFront();
 
@@ -303,23 +294,13 @@ namespace Inversions.GUI
                 }
             }
 
-            if (ProducteSeleccionat != null)
-                ProducteSeleccionat(prod, EventArgs.Empty);
+            if (EventProducteSeleccionat != null)
+                EventProducteSeleccionat(prod, EventArgs.Empty);
         }
 
 
         private void GestioProductes_Load(object sender, EventArgs e)
         {
-            //if (!Comuns.Utilitats.IsInDesignMode())
-            //{
-            //    // Aquí només s'executa al entrar en la perstanya.
-            //    for (int any = Moviment.Tuples.OrderBy(o => o.Data).First().Data.Year; any <= DateTime.Today.Year; any++)
-            //    {
-            //        cbFiltreAny.Items.Add(any);
-            //    }
-            //    cbFiltreAny.SelectedItem = DateTime.Today.Year;
-            //}
-
             // Aquí només s'executa al entrar en la perstanya.
             for (int any = Program.PrimerAny; any <= DateTime.Today.Year; any++)
             {
@@ -372,18 +353,13 @@ namespace Inversions.GUI
             vLbProductes.DisplayMember = "_TipusNomProducte";
             vLbProductes.FormattingEnabled = true;
             vLbProductes.Margin = new Padding(3, 4, 3, 4);
-            //lbProductesTab2.ItemHeight = 20;
-            //lbProductesTab2.Location = new System.Drawing.Point(6, 25);
-            //lbProductesTab2.Name = "lbProductesTab2";
-            //lbProductesTab2.Size = new System.Drawing.Size(594, 528);
-            //lbProductesTab2.TabIndex = 0;
             vLbProductes.ResumeLayout();
         }
 
         void lbProductesTab2_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            if (ItemCheck != null)
-                ItemCheck(sender, e);
+            if (EventItemCheck != null)
+                EventItemCheck(sender, e);
         }
 
         private void btSeleccionaTot_Click(object sender, EventArgs e)

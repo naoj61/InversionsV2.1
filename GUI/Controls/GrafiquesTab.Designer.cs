@@ -165,7 +165,7 @@ namespace Inversions.GUI
             this.gestioProductesTabValoracions.Name = "gestioProductesTabValoracions";
             this.gestioProductesTabValoracions.Size = new System.Drawing.Size(475, 494);
             this.gestioProductesTabValoracions.TabIndex = 1;
-            this.gestioProductesTabValoracions.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.gestioProductesTabValoracions_ItemCheck);
+            this.gestioProductesTabValoracions.EventItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.gestioProductesTabValoracions_ItemCheck);
             // 
             // panel2
             // 
