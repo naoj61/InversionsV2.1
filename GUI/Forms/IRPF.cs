@@ -444,9 +444,16 @@ namespace Inversions.GUI.Forms
                 adapter.Update(files);
 
                 connection.Close();
+
+                IngresExtern.RefrescaTaula();
             }
 
-            MessageBox.Show("Canvis desats correctament.");
+            if(MessageBox.Show("Canvis desats correctament. Tanco la finestra?", "Avís"
+                , MessageBoxButtons.YesNo, MessageBoxIcon.Question)== DialogResult.Yes)
+            {
+                btDesa.Enabled = false;
+                this.Close();
+            }
         }
 
         private void seleccionaFilesDataGrid()
