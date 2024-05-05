@@ -130,6 +130,34 @@ namespace Inversions.GUI
         #endregion *** Mètodes sobreescrits ***
     }
 
+    /*
+    * *** Van amb l'any --> Si canvia l'any inicialitzar la resta ***
+    * ntbTramExentAnual -Exent anual (Modificable)
+    * ntbPerduesAnysAnteriors -Perdues anteriors
+    * ntbPiGActual -PiG Any
+    * ntbIngressosExterns -Ingressos externs
+    * ntbDividents -Dividents
+    * 
+    * 
+    * ****** Només s'utilitzen si any actual ******
+    * 
+    * *** Van amb el producte ***
+    * ntbNumParticipacions -Num Parts (Modificable)(Només visible any actual)
+    * ntbPreuParticipacio -Preu Parts (Modificable)(Només visible any actual)
+    * dgvCompresOriginals -DataGridViaw
+    * 
+    * *** A 0 si canvia el producte o l'any ***
+    * ntbPartsSaltades -Parts Saltades (Modificable)(Només visible any actual)
+    * ntbPiGAltresProductes -PiG d'altre (Modificable)(Només visible any actual)
+    * 
+    * *** Calculats ***
+    * ntbImportBrut -Import Brut (Només visible any actual)
+    * ntbPigSimulacio -PiG Prod (Només visible any actual)
+    * ntbPigOrigSimulacio -PiG Orig (Només visible any actual)
+    * ntbRestaTramNoTributa -Exent Restant (Només visible any actual)
+    * ntbTributaRenda -Tributa Renda
+    * 
+    */
 
     public partial class SimulacióVendaTab : TabX
     {
@@ -149,12 +177,13 @@ namespace Inversions.GUI
         {
             base.carregaInicial();
 
+            // Càrrega el control GestioProductes sense necessitat de clicar "Filtrar".
             ctrProductes.refrescaDadesControl(true);
         }
 
         internal override void canviUsuari()
         {
-            dgvCompresOriginals.DataSource = null;
+            dgvCompresOriginals.DataSource = new List<FilaCompresOriginals>();
 
             ntbNumParticipacions.Valor = 0;
             ntbPartsSaltades.Valor = 0;
@@ -173,9 +202,8 @@ namespace Inversions.GUI
         {
             base.refresca();
 
-            ompleDgvCompres(ntbPreuParticipacio.Valor);
-
-            actualitzaControls(_AnySeleccionat);
+            actualitzaControlsAny();
+            ompleDgvCompres(vProducteSeleccionat, ntbPreuParticipacio.Valor);
         }
 
         internal override void escape(object sender, KeyEventArgs e)
@@ -188,10 +216,7 @@ namespace Inversions.GUI
         #endregion *** Overrides ***
 
 
-        private int _AnySeleccionat
-        {
-            get { return Convert.ToInt32(cbAny.SelectedItem); }
-        }
+        private bool _EsAnyActual { get { return Convert.ToInt32(cbAny.SelectedItem) == DateTime.Today.Year; } }
 
         private decimal valorTramExent(int any)
         {
@@ -210,49 +235,52 @@ namespace Inversions.GUI
         }
 
 
-        private void ompleDgvCompres(decimal? preuPart)
+        private void ompleDgvCompres(Producte prod, decimal? preuPart = null)
         {
-            if (vProducteSeleccionat == null)
+            if (prod == null)
+            {
+                calculaTotalATributar(); // No hi ha prod seleccionat, però s'ha modificat PiG D'altre prod.
                 return;
+            }
 
-            preuPart = preuPart.GetValueOrDefault(vProducteSeleccionat.ValoracionsProducte.Last().PreuParticipacio);
+            preuPart = preuPart.GetValueOrDefault(prod.ValoracionsProducte.Last().PreuParticipacio);
 
-            var desgloçPartsEnCartera = vProducteSeleccionat.desglosCompresDeParticipacionsEnData(DateTime.Now, vProducteSeleccionat._Participacions)
+            var desgloçPartsEnCartera = prod.desglosCompresDeParticipacionsEnData(DateTime.Now, prod._Participacions)
                 .OrderBy(o => o._DataOrig).ToList();
 
             List<FilaCompresOriginals> compresProdSelecionat = new List<FilaCompresOriginals>();
 
             /* *** Salta les participacions més antiugues. 
                  * És per no haver de fer un traspàs simulat per veure el PiG de les més noves */
-            var salt = ntbPartsSaltades.Valor;
-            var xx = ntbNumParticipacions.Valor;
+            var saltResten = ntbPartsSaltades.Valor;
+            var partsResten = ntbNumParticipacions.Valor;
             foreach (var desglosCompraExt in desgloçPartsEnCartera)
             {
-                if (salt > 0)
+                if (saltResten > 0)
                 {
-                    if (desglosCompraExt._PartsUtilitzades <= salt)
+                    if (desglosCompraExt._PartsUtilitzades <= saltResten)
                     {
-                        salt -= desglosCompraExt._PartsUtilitzades;
+                        saltResten -= desglosCompraExt._PartsUtilitzades;
                         continue;
                     }
 
-                    if (salt > 0)
+                    if (saltResten > 0)
                     {
-                        desglosCompraExt._PartsUtilitzades -= salt;
-                        salt = 0;
+                        desglosCompraExt._PartsUtilitzades -= saltResten;
+                        saltResten = 0;
                     }
                 }
 
-                if (desglosCompraExt._PartsUtilitzades > xx)
+                if (desglosCompraExt._PartsUtilitzades > partsResten)
                 {
-                    desglosCompraExt._PartsUtilitzades = xx;
+                    desglosCompraExt._PartsUtilitzades = partsResten;
                     compresProdSelecionat.Add(new FilaCompresOriginals(desglosCompraExt, preuPart.Value));
                     break;
                 }
 
                 compresProdSelecionat.Add(new FilaCompresOriginals(desglosCompraExt, preuPart.Value));
 
-                xx -= desglosCompraExt._PartsUtilitzades;
+                partsResten -= desglosCompraExt._PartsUtilitzades;
             }
 
             SuspendLayout();
@@ -279,29 +307,53 @@ namespace Inversions.GUI
         /// <returns></returns>
         private void calculaTotalATributar()
         {
-            var any = _AnySeleccionat;
+            var tramNoTributa = (ntbTramExentAnual.Valor + ntbPerduesAnysAnteriors.Valor) 
+                - (ntbPiGActual.Valor + ntbIngressosExterns.Valor + ntbDividents.Valor);
 
-            var sessio = Program.Sessio;
-            var pigAny = Moviment.MovimentsUsuari.Where(w => w._EsVendaReal && w.Data.Year == any).ToList().Sum(s => s.pigVenda(true));
-
-            var dividents = sessio.Moviments.Where(w => w.Data.Year == any && w.TipusMoviment == TipusMoviment.Dividends).ToList().Sum(s => s.PreuParticipacio);
-
-            var perduesAnysAnteriors = Math.Abs(Producte.PerduesDarrersQuatreAnys(any));
-
-            var restaTramNoTributa = (ntbTramExentAnual.Valor + perduesAnysAnteriors) - (pigAny + ntbIngressosExterns.Valor + dividents);
-
-            var tributaRenda = ntbPigOrigSimulacio.Valor + ntbPiGAltresProductes.Valor - restaTramNoTributa;
-
-            ntbPiGActual.Valor = pigAny;
-            ntbPerduesAnysAnteriors.Valor = perduesAnysAnteriors;
-            ntbDividents.Valor = dividents;
+            var tributaRenda = ntbPigOrigSimulacio.Valor + ntbPiGAltresProductes.Valor - tramNoTributa;
 
             // Si "tributaRenda" és negatiu significa que encara és pot seguir venent sense tributar. Passo el valor a positiu.
             // Si "tributaRenda" és positiu significa que ja s'ha sobrepasat el límit que no tributa. Poso "ntbRestaTramNoTributa" a 0.
-            ntbRestaTramNoTributa.Valor = tributaRenda < 0 ? Math.Abs(tributaRenda) : 0;
-            ntbTributaRenda.Valor = tributaRenda < 0 ? 0 : tributaRenda;
+            if (_EsAnyActual)
+                ntbRestaTramNoTributa.Valor = tributaRenda <= 0 ? Math.Abs(tributaRenda) : 0;
+            else
+                ntbRestaTramNoTributa.Valor = 0;
+
+            ntbTributaRenda.Valor = tributaRenda <= 0 ? 0 : tributaRenda;
         }
 
+        /// <summary>
+        /// Son els controls que varien al canviar d'any o al refrescar.
+        /// </summary>
+        /// <param name="any"></param>
+        private void actualitzaControlsAny()
+        {
+            ntbTramExentAnual.Valor = valorTramExent(vAny);
+            ntbPerduesAnysAnteriors.Valor = Math.Abs(Producte.PerduesDarrersQuatreAnys(vAny));
+            ntbPiGActual.Valor = Moviment.MovimentsUsuari.Where(w => w._EsVendaReal && w.Data.Year == vAny).ToList().Sum(s => s.pigVenda(true));
+            ntbIngressosExterns.Valor = valorIngressosExterns(vAny);
+            ntbDividents.Valor = Moviment.MovimentsUsuari.Where(w => w.Data.Year == vAny && w.TipusMoviment == TipusMoviment.Dividends)
+                .ToList().Sum(s => s.PreuParticipacio);
+
+            calculaTotalATributar();
+        }
+
+        private void actualitzaControlsProducte(Producte prod)
+        {
+            vProducteSeleccionat = prod;
+
+            ntbNumParticipacions.Enabled = prod != null && prod._Participacions > 0;
+            ntbPreuParticipacio.Enabled = prod != null && prod._Participacions > 0;
+            ntbPartsSaltades.Enabled = prod != null && prod._Participacions > 0;
+
+            ntbNumParticipacions.Valor = prod == null ? 0 : prod._Participacions;
+            ntbPreuParticipacio.Valor = prod == null ? 0 : prod.ValoracionsProducte.Last().PreuParticipacio;
+
+            ntbPartsSaltades.Valor = 0;
+            ntbTributaRenda.Valor = 0;
+
+            ompleDgvCompres(prod);
+        }
 
         #region *** Events ***
 
@@ -328,75 +380,49 @@ namespace Inversions.GUI
 
         private void productes_ProducteSeleccionat(object sender, EventArgs e)
         {
-            vProducteSeleccionat = sender as Producte;
-
-            if (vProducteSeleccionat == null)
-            {
-                ntbNumParticipacions.Enabled = false;
-                ntbPreuParticipacio.Enabled = false;
-                ntbPartsSaltades.Enabled = false;
-
-                ntbNumParticipacions.Valor = 0;
-                ntbPreuParticipacio.Valor = 0;
-                ntbTributaRenda.Valor = 0;
-                ntbPartsSaltades.Valor = 0;
-            }
-            else
-            {
-                ntbNumParticipacions.Enabled = vProducteSeleccionat._Participacions > 0;
-                ntbPreuParticipacio.Enabled = vProducteSeleccionat._Participacions > 0;
-                ntbPartsSaltades.Enabled = vProducteSeleccionat._Participacions > 0;
-
-                ntbNumParticipacions.Valor = vProducteSeleccionat._Participacions;
-                ntbPreuParticipacio.Valor = vProducteSeleccionat.ValoracionsProducte.Last().PreuParticipacio;
-                ntbPartsSaltades.Valor = 0;
-            }
-
-            ompleDgvCompres(null);
+            actualitzaControlsProducte((Producte) sender);
 
             ntbNumParticipacions.Focus();
         }
 
+        private int vAny;
         private void cbAny_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbAny.SelectedItem != null)
+            if (cbAny.SelectedItem != null && vAny != Convert.ToInt32(cbAny.SelectedItem))
             {
+                vAny = Convert.ToInt32(cbAny.SelectedItem);
+
                 gbPigRealAny.Text = "PiG Any: " + cbAny.Text;
 
-                if (_AnySeleccionat != DateTime.Today.Year)
-                {
-                    ctrProductes.seleccionaProducte(null);
-                    dgvCompresOriginals.DataSource = null;
-                    btRecalcula.Enabled = false;
-                    ctrProductes.Enabled = false;
-                    ntbTramExentAnual.ReadOnly = true;
-                    ntbPiGAltresProductes.ReadOnly = true;
-                }
-                else
-                {
-                    btRecalcula.Enabled = true;
-                    ctrProductes.Enabled = true;
-                    ntbTramExentAnual.ReadOnly = false;
-                    ntbPiGAltresProductes.ReadOnly = false;
-                }
+                btRecalcula.Enabled = false;
+                ctrProductes.Enabled = _EsAnyActual;
 
+                ntbTramExentAnual.ReadOnly = !_EsAnyActual;
+                ntbPiGAltresProductes.Enabled = _EsAnyActual;
+
+                // *** Inicialitza valors
+                ctrProductes.seleccionaProducte(null);
+                dgvCompresOriginals.DataSource = new List<FilaCompresOriginals>();
                 ntbImportBrut.Valor = 0;
                 ntbPigSimulacio.Valor = 0;
                 ntbPigOrigSimulacio.Valor = 0;
                 ntbPiGAltresProductes.Valor = 0;
 
-                actualitzaControls(_AnySeleccionat);
+                // *** Si no és l'any actual fa invisibles els groupBox que contenen els ntb ***
+                btRecalcula.Visible = _EsAnyActual;
+                ntbNumParticipacions.Parent.Visible = _EsAnyActual;
+                ntbPreuParticipacio.Parent.Visible = _EsAnyActual;
+                ntbPartsSaltades.Parent.Visible = _EsAnyActual;
+                ntbPiGAltresProductes.Parent.Visible = _EsAnyActual;
+                ntbImportBrut.Parent.Visible = _EsAnyActual;
+                ntbPigSimulacio.Parent.Visible = _EsAnyActual;
+                ntbPigOrigSimulacio.Parent.Visible = _EsAnyActual;
+                ntbRestaTramNoTributa.Parent.Visible = _EsAnyActual;
+
+                actualitzaControlsAny();
             }
         }
-
-        private void actualitzaControls(int any)
-        {
-            ntbTramExentAnual.Valor = valorTramExent(any);
-            ntbIngressosExterns.Valor = valorIngressosExterns(any);
-
-            calculaTotalATributar();
-        }
-
+        
 
         private void ntb_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -405,7 +431,7 @@ namespace Inversions.GUI
                 var cancel = new CancelEventArgs();
                 ntb_Validating(sender, cancel);
                 if (cancel.Cancel)
-                    return;
+                    e.Handled = true;
             }
         }
 
@@ -443,7 +469,7 @@ namespace Inversions.GUI
                 }
             }
 
-            if (ntb == ntbTramExentAnual && ntb.Valor != valorTramExent(_AnySeleccionat))
+            if (ntb == ntbTramExentAnual && ntbTramExentAnual.Valor != valorTramExent(vAny))
             {
                 if (MessageBox.Show("S'ha modificat el valor del 'Tram Exent Anual'. Vols desar el nou valor al registre de Windows?"
                     , "Avís", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -452,13 +478,13 @@ namespace Inversions.GUI
                 }
                 else
                 {
-                    ntb.Valor = valorTramExent(_AnySeleccionat);
+                    ntbTramExentAnual.Valor = valorTramExent(vAny);
                     e.Cancel = true;
                     return;
                 }
             }
 
-            ompleDgvCompres(ntbPreuParticipacio.Valor);
+            ompleDgvCompres(vProducteSeleccionat, ntbPreuParticipacio.Valor);
         }
 
         #endregion *** Events ***
