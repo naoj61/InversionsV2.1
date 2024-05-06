@@ -181,22 +181,20 @@ namespace Inversions.GUI
             ctrProductes.refrescaDadesControl(true);
         }
 
+
+        private bool vNoValidaControlsNtb = false;
         internal override void canviUsuari()
         {
-            dgvCompresOriginals.DataSource = new List<FilaCompresOriginals>();
-
-            ntbNumParticipacions.Valor = 0;
-            ntbPartsSaltades.Valor = 0;
-            ntbPreuParticipacio.Valor = 0;
-            ntbTributaRenda.Valor = 0;
-            ntbPigSimulacio.Valor = 0;
-            ntbPigOrigSimulacio.Valor = 0;
-            ntbImportBrut.Valor = 0;
-
-            refresca();
-
             base.canviUsuari();
+
+            vNoValidaControlsNtb = true; // Evita que es facin les validacions al canviar el focus a 'ctrProductes'
+            ctrProductes.Focus();
+            
+            ctrProductes.refrescaDadesControl(true); //Mostra els productes del nou usuari.
+           
+            actualitzaControlsAny();
         }
+
 
         internal override void refresca()
         {
@@ -231,7 +229,7 @@ namespace Inversions.GUI
 
         private decimal valorIngressosExterns(int any)
         {
-            return Program.Sessio.IngressosExterns.Where(w => w.Any == any).ToList().Sum(s => s.Import);
+            return Program.Sessio.IngressosExterns.Where(w =>w.Usuari.Id == Usuari.Seleccionat.Id && w.Any == any).ToList().Sum(s => s.Import);
         }
 
 
@@ -239,7 +237,15 @@ namespace Inversions.GUI
         {
             if (prod == null)
             {
-                calculaTotalATributar(); // No hi ha prod seleccionat, però s'ha modificat PiG D'altre prod.
+                dgvCompresOriginals.DataSource = new List<FilaCompresOriginals>();
+                
+                ntbImportBrut.Valor = 0;
+                ntbPigSimulacio.Valor = 0;
+                ntbPigOrigSimulacio.Valor = 0;
+                ntbPiGAltresProductes.Valor = 0;
+
+                calculaTotalATributar();
+
                 return;
             }
 
@@ -325,7 +331,6 @@ namespace Inversions.GUI
         /// <summary>
         /// Son els controls que varien al canviar d'any o al refrescar.
         /// </summary>
-        /// <param name="any"></param>
         private void actualitzaControlsAny()
         {
             ntbTramExentAnual.Valor = valorTramExent(vAny);
@@ -338,6 +343,10 @@ namespace Inversions.GUI
             calculaTotalATributar();
         }
 
+        /// <summary>
+        /// Son els controls que varien al canviar de producte.
+        /// </summary>
+        /// <param name="prod"></param>
         private void actualitzaControlsProducte(Producte prod)
         {
             vProducteSeleccionat = prod;
@@ -382,7 +391,8 @@ namespace Inversions.GUI
         {
             actualitzaControlsProducte((Producte) sender);
 
-            ntbNumParticipacions.Focus();
+            if (sender != null)
+                ntbNumParticipacions.Focus();
         }
 
         private int vAny;
@@ -402,11 +412,6 @@ namespace Inversions.GUI
 
                 // *** Inicialitza valors
                 ctrProductes.seleccionaProducte(null);
-                dgvCompresOriginals.DataSource = new List<FilaCompresOriginals>();
-                ntbImportBrut.Valor = 0;
-                ntbPigSimulacio.Valor = 0;
-                ntbPigOrigSimulacio.Valor = 0;
-                ntbPiGAltresProductes.Valor = 0;
 
                 // *** Si no és l'any actual fa invisibles els groupBox que contenen els ntb ***
                 btRecalcula.Visible = _EsAnyActual;
@@ -437,6 +442,13 @@ namespace Inversions.GUI
 
         private void ntb_Validating(object sender, CancelEventArgs e)
         {
+            if (vNoValidaControlsNtb)
+            {
+                // Quan no vull que es facin les validacions. P.ex. si vProducteSeleccionat == null.
+                vNoValidaControlsNtb = false;
+                return;
+            }
+
             var ntb = (NumericTextBox2) sender;
 
             if (ntb == ntbNumParticipacions || ntb == ntbPartsSaltades)
