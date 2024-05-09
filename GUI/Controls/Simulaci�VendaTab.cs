@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -436,7 +437,11 @@ namespace Inversions.GUI
                 var cancel = new CancelEventArgs();
                 ntb_Validating(sender, cancel);
                 if (cancel.Cancel)
+                {
                     e.Handled = true;
+                    return;
+                }
+                ((NumericTextBox2) sender).SelectAll();
             }
         }
 
