@@ -253,13 +253,13 @@ namespace Inversions.GUI
             }
 
 
-
             int fila2 = dgvPiGEnCartera.Rows.Add(vProdTotal, pigTotalEncartera);
             dgvPiGEnCartera.Rows[fila2].DefaultCellStyle.Font = new Font(dgvPiGEnCartera.Font, FontStyle.Bold);
             dgvPiGEnCartera.Rows[fila2].Cells[1].Style.ForeColor = pigTotalEncartera < 0 ? Color.Red : Color.Black;
             dgvPiGEnCartera.FirstDisplayedScrollingRowIndex = fila2;
 
             dgvPiGEnCartera.Rows[0].Selected = false;
+            dgvPiGEnCartera.FirstDisplayedScrollingRowIndex = 0;
         }
 
 

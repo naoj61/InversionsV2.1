@@ -1,5 +1,4 @@
 ﻿
-- Afegir filtres en Edició Taules BD
 
 - A les llistes de valoracions, barrejar els preu de compra del usuari.
 	-(Com que pot ser que el preu de compra no coincideixi amb la valoració real degut a les comissions).
@@ -8,6 +7,8 @@
 		- Si hi ha valoració i moviment en la mateixa data, mostrar valoració.
 
 ------------------------------ Fet!!!! ------------------------------
+
+- Afegir filtres en Edició Taules BD
 
 - Crear una nova pestanya per modificar valors taules
 
