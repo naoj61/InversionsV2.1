@@ -31,15 +31,15 @@ namespace Inversions.GUI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -52,8 +52,16 @@ namespace Inversions.GUI
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnPigRight = new System.Windows.Forms.Panel();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.cbTipusProducteFiltreTab2 = new System.Windows.Forms.ComboBox();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.dgvPiGEnCartera = new System.Windows.Forms.DataGridView();
+            this.colPigEnCarteraProd = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPigEnCarteraPig = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel9 = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lbTotalPigEnCartera = new System.Windows.Forms.Label();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.lbPiGEnCartera = new System.Windows.Forms.Label();
+            this.cbAnysPiGEnCartera = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.ntbPigRealMesCartera = new Controls.NumericTextBox2();
             this.label3 = new System.Windows.Forms.Label();
@@ -65,14 +73,12 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lbTotalPigTributen = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.panel8 = new System.Windows.Forms.Panel();
-            this.dgvPiGEnCartera = new System.Windows.Forms.DataGridView();
-            this.colPigEnCarteraProd = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPigEnCarteraPig = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.lbPiGEnCartera = new System.Windows.Forms.Label();
-            this.cbAnysPiGEnCartera = new System.Windows.Forms.ComboBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.cbTipusProducteFiltreTab2 = new System.Windows.Forms.ComboBox();
             this.pnPigFill = new System.Windows.Forms.Panel();
             this.dgvCompresProducte = new System.Windows.Forms.DataGridView();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -110,20 +116,16 @@ namespace Inversions.GUI
             this.btFiltreDates = new System.Windows.Forms.Button();
             this.dtpFiltreDataFi = new Controls.DateTimePickerNullable();
             this.gestioProductesTabValoracions = new Inversions.GUI.GestioProductes();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.label5 = new System.Windows.Forms.Label();
-            this.lbTotalPigTributen = new System.Windows.Forms.Label();
-            this.panel9 = new System.Windows.Forms.Panel();
-            this.label6 = new System.Windows.Forms.Label();
-            this.lbTotalPigEnCartera = new System.Windows.Forms.Label();
             this.pnPigRight.SuspendLayout();
-            this.groupBox5.SuspendLayout();
+            this.panel8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPiGEnCartera)).BeginInit();
+            this.panel9.SuspendLayout();
+            this.panel6.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPiGAnualsTributen)).BeginInit();
-            this.panel8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvPiGEnCartera)).BeginInit();
-            this.panel6.SuspendLayout();
+            this.panel5.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.pnPigFill.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCompresProducte)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
@@ -137,8 +139,6 @@ namespace Inversions.GUI
             this.groupBox1.SuspendLayout();
             this.gbPreuPartic.SuspendLayout();
             this.gbFiltreDates.SuspendLayout();
-            this.panel5.SuspendLayout();
-            this.panel9.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnPigRight
@@ -155,31 +155,144 @@ namespace Inversions.GUI
             this.pnPigRight.Size = new System.Drawing.Size(430, 822);
             this.pnPigRight.TabIndex = 18;
             // 
-            // groupBox5
+            // panel8
             // 
-            this.groupBox5.Controls.Add(this.cbTipusProducteFiltreTab2);
-            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox5.Location = new System.Drawing.Point(5, 0);
-            this.groupBox5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(6);
-            this.groupBox5.Size = new System.Drawing.Size(420, 66);
-            this.groupBox5.TabIndex = 12;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Tipus Producte";
+            this.panel8.Controls.Add(this.dgvPiGEnCartera);
+            this.panel8.Controls.Add(this.panel9);
+            this.panel8.Controls.Add(this.panel6);
+            this.panel8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel8.Location = new System.Drawing.Point(5, 444);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(420, 378);
+            this.panel8.TabIndex = 22;
             // 
-            // cbTipusProducteFiltreTab2
+            // dgvPiGEnCartera
             // 
-            this.cbTipusProducteFiltreTab2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbTipusProducteFiltreTab2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbTipusProducteFiltreTab2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbTipusProducteFiltreTab2.FormattingEnabled = true;
-            this.cbTipusProducteFiltreTab2.Location = new System.Drawing.Point(6, 24);
-            this.cbTipusProducteFiltreTab2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.cbTipusProducteFiltreTab2.Name = "cbTipusProducteFiltreTab2";
-            this.cbTipusProducteFiltreTab2.Size = new System.Drawing.Size(408, 34);
-            this.cbTipusProducteFiltreTab2.TabIndex = 0;
+            this.dgvPiGEnCartera.AllowUserToAddRows = false;
+            this.dgvPiGEnCartera.AllowUserToDeleteRows = false;
+            this.dgvPiGEnCartera.AllowUserToOrderColumns = true;
+            this.dgvPiGEnCartera.AllowUserToResizeRows = false;
+            this.dgvPiGEnCartera.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvPiGEnCartera.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvPiGEnCartera.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvPiGEnCartera.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colPigEnCarteraProd,
+            this.colPigEnCarteraPig});
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvPiGEnCartera.DefaultCellStyle = dataGridViewCellStyle3;
+            this.dgvPiGEnCartera.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvPiGEnCartera.Location = new System.Drawing.Point(0, 44);
+            this.dgvPiGEnCartera.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgvPiGEnCartera.Name = "dgvPiGEnCartera";
+            this.dgvPiGEnCartera.ReadOnly = true;
+            this.dgvPiGEnCartera.RowHeadersVisible = false;
+            this.dgvPiGEnCartera.RowTemplate.Height = 24;
+            this.dgvPiGEnCartera.Size = new System.Drawing.Size(420, 296);
+            this.dgvPiGEnCartera.TabIndex = 15;
+            this.toolTip1.SetToolTip(this.dgvPiGEnCartera, "Només vendes reals.");
+            this.dgvPiGEnCartera.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvPiGEnCartera_CellMouseClick);
+            this.dgvPiGEnCartera.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dgvPiGEnCartera_SortCompare);
+            // 
+            // colPigEnCarteraProd
+            // 
+            this.colPigEnCarteraProd.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colPigEnCarteraProd.HeaderText = "Producte";
+            this.colPigEnCarteraProd.Name = "colPigEnCarteraProd";
+            this.colPigEnCarteraProd.ReadOnly = true;
+            // 
+            // colPigEnCarteraPig
+            // 
+            this.colPigEnCarteraPig.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Format = "C2";
+            dataGridViewCellStyle2.NullValue = null;
+            this.colPigEnCarteraPig.DefaultCellStyle = dataGridViewCellStyle2;
+            this.colPigEnCarteraPig.HeaderText = "P i G";
+            this.colPigEnCarteraPig.Name = "colPigEnCarteraPig";
+            this.colPigEnCarteraPig.ReadOnly = true;
+            this.colPigEnCarteraPig.Width = 79;
+            // 
+            // panel9
+            // 
+            this.panel9.Controls.Add(this.label6);
+            this.panel9.Controls.Add(this.lbTotalPigEnCartera);
+            this.panel9.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel9.Location = new System.Drawing.Point(0, 340);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(420, 38);
+            this.panel9.TabIndex = 17;
+            // 
+            // label6
+            // 
+            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(0, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(311, 38);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Total";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lbTotalPigEnCartera
+            // 
+            this.lbTotalPigEnCartera.AutoSize = true;
+            this.lbTotalPigEnCartera.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lbTotalPigEnCartera.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTotalPigEnCartera.Location = new System.Drawing.Point(311, 0);
+            this.lbTotalPigEnCartera.Name = "lbTotalPigEnCartera";
+            this.lbTotalPigEnCartera.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
+            this.lbTotalPigEnCartera.Size = new System.Drawing.Size(109, 29);
+            this.lbTotalPigEnCartera.TabIndex = 0;
+            this.lbTotalPigEnCartera.Text = "215.256,00€";
+            this.lbTotalPigEnCartera.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // panel6
+            // 
+            this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel6.Controls.Add(this.lbPiGEnCartera);
+            this.panel6.Controls.Add(this.cbAnysPiGEnCartera);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panel6.Location = new System.Drawing.Point(0, 0);
+            this.panel6.Name = "panel6";
+            this.panel6.Padding = new System.Windows.Forms.Padding(0, 6, 0, 5);
+            this.panel6.Size = new System.Drawing.Size(420, 44);
+            this.panel6.TabIndex = 16;
+            this.panel6.Text = "P i G en cartera en l\'any";
+            this.toolTip1.SetToolTip(this.panel6, "Només vendes reals, amb despeses, sense dividends.");
+            // 
+            // lbPiGEnCartera
+            // 
+            this.lbPiGEnCartera.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbPiGEnCartera.Location = new System.Drawing.Point(0, 6);
+            this.lbPiGEnCartera.Name = "lbPiGEnCartera";
+            this.lbPiGEnCartera.Size = new System.Drawing.Size(321, 29);
+            this.lbPiGEnCartera.TabIndex = 0;
+            this.lbPiGEnCartera.Text = "Variació P i G en cartera any:";
+            this.lbPiGEnCartera.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // cbAnysPiGEnCartera
+            // 
+            this.cbAnysPiGEnCartera.Dock = System.Windows.Forms.DockStyle.Right;
+            this.cbAnysPiGEnCartera.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbAnysPiGEnCartera.FormattingEnabled = true;
+            this.cbAnysPiGEnCartera.Location = new System.Drawing.Point(321, 6);
+            this.cbAnysPiGEnCartera.Name = "cbAnysPiGEnCartera";
+            this.cbAnysPiGEnCartera.Size = new System.Drawing.Size(95, 28);
+            this.cbAnysPiGEnCartera.TabIndex = 1;
             // 
             // panel2
             // 
@@ -374,6 +487,40 @@ namespace Inversions.GUI
             this.Column1.ReadOnly = true;
             this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.label5);
+            this.panel5.Controls.Add(this.lbTotalPigTributen);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel5.Location = new System.Drawing.Point(0, 218);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(420, 38);
+            this.panel5.TabIndex = 15;
+            // 
+            // label5
+            // 
+            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(0, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(311, 38);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Total";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lbTotalPigTributen
+            // 
+            this.lbTotalPigTributen.AutoSize = true;
+            this.lbTotalPigTributen.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lbTotalPigTributen.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTotalPigTributen.Location = new System.Drawing.Point(311, 0);
+            this.lbTotalPigTributen.Name = "lbTotalPigTributen";
+            this.lbTotalPigTributen.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
+            this.lbTotalPigTributen.Size = new System.Drawing.Size(109, 29);
+            this.lbTotalPigTributen.TabIndex = 0;
+            this.lbTotalPigTributen.Text = "215.256,00€";
+            this.lbTotalPigTributen.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // label2
             // 
             this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -387,110 +534,31 @@ namespace Inversions.GUI
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTip1.SetToolTip(this.label2, "Només vendes reals, amb despeses, sense dividends.");
             // 
-            // panel8
+            // groupBox5
             // 
-            this.panel8.Controls.Add(this.dgvPiGEnCartera);
-            this.panel8.Controls.Add(this.panel9);
-            this.panel8.Controls.Add(this.panel6);
-            this.panel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel8.Location = new System.Drawing.Point(5, 444);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(420, 378);
-            this.panel8.TabIndex = 22;
+            this.groupBox5.Controls.Add(this.cbTipusProducteFiltreTab2);
+            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox5.Location = new System.Drawing.Point(5, 0);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(6);
+            this.groupBox5.Size = new System.Drawing.Size(420, 66);
+            this.groupBox5.TabIndex = 12;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Tipus Producte";
             // 
-            // dgvPiGEnCartera
+            // cbTipusProducteFiltreTab2
             // 
-            this.dgvPiGEnCartera.AllowUserToAddRows = false;
-            this.dgvPiGEnCartera.AllowUserToDeleteRows = false;
-            this.dgvPiGEnCartera.AllowUserToOrderColumns = true;
-            this.dgvPiGEnCartera.AllowUserToResizeRows = false;
-            this.dgvPiGEnCartera.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvPiGEnCartera.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvPiGEnCartera.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvPiGEnCartera.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colPigEnCarteraProd,
-            this.colPigEnCarteraPig});
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvPiGEnCartera.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvPiGEnCartera.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvPiGEnCartera.Location = new System.Drawing.Point(0, 44);
-            this.dgvPiGEnCartera.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.dgvPiGEnCartera.Name = "dgvPiGEnCartera";
-            this.dgvPiGEnCartera.ReadOnly = true;
-            this.dgvPiGEnCartera.RowHeadersVisible = false;
-            this.dgvPiGEnCartera.RowTemplate.Height = 24;
-            this.dgvPiGEnCartera.Size = new System.Drawing.Size(420, 296);
-            this.dgvPiGEnCartera.TabIndex = 15;
-            this.toolTip1.SetToolTip(this.dgvPiGEnCartera, "Només vendes reals.");
-            this.dgvPiGEnCartera.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvPiGEnCartera_CellMouseClick);
-            this.dgvPiGEnCartera.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dgvPiGEnCartera_SortCompare);
-            // 
-            // colPigEnCarteraProd
-            // 
-            this.colPigEnCarteraProd.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colPigEnCarteraProd.HeaderText = "Producte";
-            this.colPigEnCarteraProd.Name = "colPigEnCarteraProd";
-            this.colPigEnCarteraProd.ReadOnly = true;
-            // 
-            // colPigEnCarteraPig
-            // 
-            this.colPigEnCarteraPig.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Format = "C2";
-            dataGridViewCellStyle2.NullValue = null;
-            this.colPigEnCarteraPig.DefaultCellStyle = dataGridViewCellStyle2;
-            this.colPigEnCarteraPig.HeaderText = "P i G";
-            this.colPigEnCarteraPig.Name = "colPigEnCarteraPig";
-            this.colPigEnCarteraPig.ReadOnly = true;
-            this.colPigEnCarteraPig.Width = 79;
-            // 
-            // panel6
-            // 
-            this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel6.Controls.Add(this.lbPiGEnCartera);
-            this.panel6.Controls.Add(this.cbAnysPiGEnCartera);
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel6.Location = new System.Drawing.Point(0, 0);
-            this.panel6.Name = "panel6";
-            this.panel6.Padding = new System.Windows.Forms.Padding(0, 6, 0, 5);
-            this.panel6.Size = new System.Drawing.Size(420, 44);
-            this.panel6.TabIndex = 16;
-            this.panel6.Text = "P i G en cartera en l\'any";
-            this.toolTip1.SetToolTip(this.panel6, "Només vendes reals, amb despeses, sense dividends.");
-            // 
-            // lbPiGEnCartera
-            // 
-            this.lbPiGEnCartera.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbPiGEnCartera.Location = new System.Drawing.Point(0, 6);
-            this.lbPiGEnCartera.Name = "lbPiGEnCartera";
-            this.lbPiGEnCartera.Size = new System.Drawing.Size(321, 29);
-            this.lbPiGEnCartera.TabIndex = 0;
-            this.lbPiGEnCartera.Text = "Variació P i G en cartera any:";
-            this.lbPiGEnCartera.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // cbAnysPiGEnCartera
-            // 
-            this.cbAnysPiGEnCartera.Dock = System.Windows.Forms.DockStyle.Right;
-            this.cbAnysPiGEnCartera.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbAnysPiGEnCartera.FormattingEnabled = true;
-            this.cbAnysPiGEnCartera.Location = new System.Drawing.Point(321, 6);
-            this.cbAnysPiGEnCartera.Name = "cbAnysPiGEnCartera";
-            this.cbAnysPiGEnCartera.Size = new System.Drawing.Size(95, 28);
-            this.cbAnysPiGEnCartera.TabIndex = 1;
+            this.cbTipusProducteFiltreTab2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbTipusProducteFiltreTab2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbTipusProducteFiltreTab2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbTipusProducteFiltreTab2.FormattingEnabled = true;
+            this.cbTipusProducteFiltreTab2.Location = new System.Drawing.Point(6, 24);
+            this.cbTipusProducteFiltreTab2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.cbTipusProducteFiltreTab2.Name = "cbTipusProducteFiltreTab2";
+            this.cbTipusProducteFiltreTab2.Size = new System.Drawing.Size(408, 34);
+            this.cbTipusProducteFiltreTab2.TabIndex = 0;
             // 
             // pnPigFill
             // 
@@ -1084,74 +1152,6 @@ namespace Inversions.GUI
             this.gestioProductesTabValoracions.TabIndex = 0;
             this.gestioProductesTabValoracions.EventProducteSeleccionat += new System.EventHandler(this.gestioProductesTabValoracions_ProducteSeleccionat);
             // 
-            // panel5
-            // 
-            this.panel5.Controls.Add(this.label5);
-            this.panel5.Controls.Add(this.lbTotalPigTributen);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel5.Location = new System.Drawing.Point(0, 218);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(420, 38);
-            this.panel5.TabIndex = 15;
-            // 
-            // label5
-            // 
-            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(0, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(311, 38);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Total";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lbTotalPigTributen
-            // 
-            this.lbTotalPigTributen.AutoSize = true;
-            this.lbTotalPigTributen.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbTotalPigTributen.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTotalPigTributen.Location = new System.Drawing.Point(311, 0);
-            this.lbTotalPigTributen.Name = "lbTotalPigTributen";
-            this.lbTotalPigTributen.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
-            this.lbTotalPigTributen.Size = new System.Drawing.Size(109, 29);
-            this.lbTotalPigTributen.TabIndex = 0;
-            this.lbTotalPigTributen.Text = "215.256,00€";
-            this.lbTotalPigTributen.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // panel9
-            // 
-            this.panel9.Controls.Add(this.label6);
-            this.panel9.Controls.Add(this.lbTotalPigEnCartera);
-            this.panel9.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel9.Location = new System.Drawing.Point(0, 340);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(420, 38);
-            this.panel9.TabIndex = 17;
-            // 
-            // label6
-            // 
-            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(0, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(311, 38);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Total";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lbTotalPigEnCartera
-            // 
-            this.lbTotalPigEnCartera.AutoSize = true;
-            this.lbTotalPigEnCartera.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbTotalPigEnCartera.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTotalPigEnCartera.Location = new System.Drawing.Point(311, 0);
-            this.lbTotalPigEnCartera.Name = "lbTotalPigEnCartera";
-            this.lbTotalPigEnCartera.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
-            this.lbTotalPigEnCartera.Size = new System.Drawing.Size(109, 29);
-            this.lbTotalPigEnCartera.TabIndex = 0;
-            this.lbTotalPigEnCartera.Text = "215.256,00€";
-            this.lbTotalPigEnCartera.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // PerduesGuanysTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1165,14 +1165,18 @@ namespace Inversions.GUI
             this.Size = new System.Drawing.Size(1459, 822);
             this.pnPigRight.ResumeLayout(false);
             this.pnPigRight.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
+            this.panel8.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPiGEnCartera)).EndInit();
+            this.panel9.ResumeLayout(false);
+            this.panel9.PerformLayout();
+            this.panel6.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPiGAnualsTributen)).EndInit();
-            this.panel8.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvPiGEnCartera)).EndInit();
-            this.panel6.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
             this.pnPigFill.ResumeLayout(false);
             this.pnPigFill.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCompresProducte)).EndInit();
@@ -1194,10 +1198,6 @@ namespace Inversions.GUI
             this.gbPreuPartic.PerformLayout();
             this.gbFiltreDates.ResumeLayout(false);
             this.gbFiltreDates.PerformLayout();
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
-            this.panel9.ResumeLayout(false);
-            this.panel9.PerformLayout();
             this.ResumeLayout(false);
 
         }

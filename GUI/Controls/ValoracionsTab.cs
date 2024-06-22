@@ -53,7 +53,8 @@ namespace Inversions.GUI
             dtpDataIniciLlista.Value = DateTime.Now.AddMonths(-6);
             dtpDataIniciValoracions.Value = DateTime.Now.AddMonths(-6);
 
-            gestioProductesTabValoracions.refrescaDadesControl(true);
+            //gestioProductesTabValoracions.refrescaDadesControl(true);
+            gestioProductesTabValoracions.refrescaDadesControl(null);
         }
 
         internal override void refresca()
@@ -63,7 +64,8 @@ namespace Inversions.GUI
             if (dgvValoracionsPerData.Rows.Count > 0)
                 actualitzaLlistaValoracionsTotal();
 
-            gestioProductesTabValoracions.refrescaDadesControl(_PendentCanviUsuari);
+            //gestioProductesTabValoracions.refrescaDadesControl(_PendentCanviUsuari);
+            gestioProductesTabValoracions.refrescaDadesControl();
 
             modeConsulta();
         }
@@ -72,6 +74,7 @@ namespace Inversions.GUI
         {
             gestioProductesTabValoracions.refrescaDadesControl(prod);
         }
+
 
         internal override void canviUsuari()
         {
@@ -156,12 +159,16 @@ namespace Inversions.GUI
 
             try
             {
-                if (gestioProductesTabValoracions != null
-                    && gestioProductesTabValoracions._ProducteSeleccionat != null
-                    && gestioProductesTabValoracions._ProducteSeleccionat.ValoracionsProducte != null)
+                if (gestioProductesTabValoracions != null)
                 {
-                    var valoracionsProducteSelec = gestioProductesTabValoracions._ProducteSeleccionat.ValoracionsProducte
-                        .Where(val => val.Data >= dtpDataIniciValoracions.Value).ToList();
+                    List<Valoracio> valoracionsProducteSelec = new List<Valoracio>();
+
+                    if (gestioProductesTabValoracions._ProducteSeleccionat != null
+                        && gestioProductesTabValoracions._ProducteSeleccionat.ValoracionsProducte != null)
+                    {
+                        valoracionsProducteSelec = gestioProductesTabValoracions._ProducteSeleccionat.ValoracionsProducte
+                            .Where(val => val.Data >= dtpDataIniciValoracions.Value).ToList();
+                    }
 
                     if (ckValsAmbParticipacions.Checked)
                         // Elimina valoracions sense participacions o amb preu participacio = 0.
@@ -184,8 +191,9 @@ namespace Inversions.GUI
                     if (ultimaFila >= 0)
                     {
                         dgvValoracions.FirstDisplayedScrollingRowIndex = ultimaFila;
-                        ompleGrafica1(valoracionsProducteSelec);
                     }
+
+                    ompleGrafica1(valoracionsProducteSelec);
                 }
 
                 dgvValoracions.ResumeLayout();
@@ -198,12 +206,20 @@ namespace Inversions.GUI
 
         private void ompleGrafica1(List<Valoracio> valoracionsProducte)
         {
-            chart1.ChartAreas[0].AxisY.Minimum = (double) (valoracionsProducte.Min(m => m.PreuParticipacio)); // / 1.02M);
-            chart1.ChartAreas[0].AxisY.Maximum = (double) (valoracionsProducte.Max(m => m.PreuParticipacio)); // * 1.02M);
+            if (valoracionsProducte == null || valoracionsProducte.Count == 0)
+            {
+                chart1.Series[0].Points.Clear();
+            }
+            else
+            {
+                chart1.ChartAreas[0].AxisY.Minimum = (double) (valoracionsProducte.Min(m => m.PreuParticipacio)); // / 1.02M);
+                chart1.ChartAreas[0].AxisY.Maximum = (double) (valoracionsProducte.Max(m => m.PreuParticipacio)); // * 1.02M);
 
-            chart1.DataSource = valoracionsProducte;
-            chart1.DataBind();
-            chart1.Update();
+                chart1.DataSource = valoracionsProducte;
+
+                chart1.DataBind();
+                chart1.Update();
+            }
         }
 
         private void actualitzaLlistaValoracionsTotal()
@@ -465,7 +481,8 @@ namespace Inversions.GUI
                 if (vValoracioSeleccionada != null)
                     Valoracio.Reload(vValoracioSeleccionada);
 
-                gestioProductesTabValoracions.refrescaDadesControl(false);
+                //gestioProductesTabValoracions.refrescaDadesControl(false);
+                gestioProductesTabValoracions.refrescaDadesControl();
 
                 TabX.ActivaRefrescaEnTabs(this);
 
@@ -493,7 +510,7 @@ namespace Inversions.GUI
             tbImport.Valor = 0;
             pnEdicio.Visible = hiHaUnProducteSeleccionat;
 
-            if (hiHaUnProducteSeleccionat)
+            //if (hiHaUnProducteSeleccionat)
             {
                 var prodSelect = (Producte) sender;
 
@@ -503,6 +520,8 @@ namespace Inversions.GUI
                     vProdAnt = prodSelect;
                 }
             }
+            //else
+            //    dgvValoracions.DataSource = null;
         }
 
         private void cDataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
@@ -526,7 +545,8 @@ namespace Inversions.GUI
             if (pSelf.ShowDialog(this) == DialogResult.OK)
             {
                 TabX.ActivaRefrescaEnTabs(this);
-                gestioProductesTabValoracions.refrescaDadesControl(false);
+                //gestioProductesTabValoracions.refrescaDadesControl(false);
+                gestioProductesTabValoracions.refrescaDadesControl();
             }
         }
 

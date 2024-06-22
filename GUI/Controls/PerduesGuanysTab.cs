@@ -73,7 +73,8 @@ namespace Inversions.GUI
             if (cbAnysPiGEnCartera.SelectedItem != null)
                 ompleDgvPiGEnCartera();
 
-            gestioProductesTabValoracions.refrescaDadesControl(false);
+            //gestioProductesTabValoracions.refrescaDadesControl(false);
+            gestioProductesTabValoracions.refrescaDadesControl();
         }
 
         private void calculaPiG()
@@ -133,9 +134,9 @@ namespace Inversions.GUI
             dgvCompresProducte.ClearSelection();
             dgvCompresProducte.SelectionChanged += dgvCompresProducte_SelectionChanged;
             dgvCompresProducte.CellFormatting -= dgv_CellFormatting;
-            
+
             dgvCompresProducte.ResumeLayout();
-            
+
             ResumeLayout();
 
             ntbPigCompra.Valor = compres.Sum(s => s.__PigDeLaCompra);
@@ -243,7 +244,7 @@ namespace Inversions.GUI
             var anyDades = (int) cbAnysPiGEnCartera.SelectedItem;
             decimal pigTotalEncartera = 0;
             dgvPiGEnCartera.Rows.Clear();
-            foreach (var prod in productes.OrderBy(o=>o.OrdreGrid))
+            foreach (var prod in productes.OrderBy(o => o.OrdreGrid))
             {
                 var pigEnCartera = prod.pigVariacioCartera(anyDades);
                 if (!Utilitats.EsZero(pigEnCartera))
@@ -348,7 +349,7 @@ namespace Inversions.GUI
             IRPF trib = new IRPF(any);
             trib.ShowDialog(this);
 
-            if(trib._ShaModificat)
+            if (trib._ShaModificat)
                 TabX.ActivaRefrescaEnTabs(this);
         }
 
@@ -428,6 +429,7 @@ namespace Inversions.GUI
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem toolStripMenuItem1;
         private ToolStripMenuItem toolStripMenuItem2;
+        private ToolStripMenuItem toolStripMenuItem3;
 
         private void ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -451,6 +453,14 @@ namespace Inversions.GUI
             //MessageBox.Show("Has seleccionat Eliminar");
         }
 
+        private void ToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            var prod = (Producte)dgvPiGEnCartera.SelectedRows[0].Cells[0].Value;
+            var parentForm = (Principal)ParentForm;
+            if (parentForm != null)
+                parentForm.xxx((SimulacióVendaTab)null, prod);
+        }
+
         private void InitializeContextMenu()
         {
             // Crea el ContextMenuStrip
@@ -465,10 +475,15 @@ namespace Inversions.GUI
             toolStripMenuItem2.Text = "Valoracions";
             toolStripMenuItem2.Click += ToolStripMenuItem2_Click;
 
+            toolStripMenuItem3 = new ToolStripMenuItem();
+            toolStripMenuItem3.Text = "Simulació venda";
+            toolStripMenuItem3.Click += ToolStripMenuItem3_Click;
+
             // Afegir els elements al ContextMenuStrip
             contextMenuStrip1.Items.AddRange(new ToolStripItem[] {
                 toolStripMenuItem1,
-                toolStripMenuItem2
+                toolStripMenuItem2,
+                toolStripMenuItem3
             });
         }
 

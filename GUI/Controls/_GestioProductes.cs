@@ -45,7 +45,7 @@ namespace Inversions.GUI
             get { return pnFiltreAny.Visible; }
             set { pnFiltreAny.Visible = value; }
         }
-        
+
         public bool _NomesAmbParticipacions
         {
             get { return ckNomesAmbParticipacions.Checked; }
@@ -77,9 +77,9 @@ namespace Inversions.GUI
         {
             IEnumerable<Producte> prodSel;
 
-            if(vMostraLlistaAmbChecks)
+            if (vMostraLlistaAmbChecks)
             {
-                prodSel = ((CheckedListBox)vLbProductes).CheckedItems.OfType<Producte>();
+                prodSel = ((CheckedListBox) vLbProductes).CheckedItems.OfType<Producte>();
             }
             else
             {
@@ -110,48 +110,39 @@ namespace Inversions.GUI
 
 
         /// <summary>
-        /// Refresca les dades que mostra el control.
+        /// Refresca Dades Control i torna a seleccionar el producte actual.
         /// </summary>
-        /// <param name="noSeleccionarCapProducte"> Si false, torna a seleccionar el producte.</param>
-        public void refrescaDadesControl(bool noSeleccionarCapProducte)
+        internal void refrescaDadesControl()
         {
-            var index = vLbProductes.SelectedIndex;
-            aplicaFiltre();
-            // Si s'està canviant l'usuari el producte seleccionat es descarta.
-            //if (!Principal.SestaCanviantLusuari)
-            if (!noSeleccionarCapProducte)
-            {
-                try
-                {
-                    vLbProductes.SelectedIndex = index;
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                    vLbProductes.SelectedItem = null;
-                }
-            }
-
-            if(vLbProductes.SelectedItem == null)
-                netejaCamps();
+            // Selecciona el producte actual.
+            refrescaDadesControl((Producte) vLbProductes.SelectedItem);
         }
 
-        public void refrescaDadesControl(Producte prod)
+
+        /// <summary>
+        /// Refresca Dades Control i selecciona producte.
+        /// </summary>
+        /// <param name="prod">Si null no selecciona cap producte, sinó no prod.</param>
+        internal void refrescaDadesControl(Producte prod)
         {
             aplicaFiltre();
 
-            if (prod == null)
-                prod = (Producte)vLbProductes.SelectedItem;
-
+            // Si prod és null, no selecciona cap producte.
             try
             {
                 vLbProductes.SelectedItem = prod;
+
+                if (vLbProductes.SelectedItem == null)
+                {
+                    netejaCamps();
+                }
             }
             catch (ArgumentOutOfRangeException)
             {
-                vLbProductes.SelectedItem = null;
-                netejaCamps();
+                refrescaDadesControl(null);
             }
         }
+
 
         public void seleccionaProducte(Producte prod)
         {

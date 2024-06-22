@@ -265,6 +265,12 @@ namespace Inversions.GUI
             vValoracionsTab.xxx(prod);
         }
 
+        public void xxx(SimulacióVendaTab valoracionsTab, Producte prod)
+        {
+            tabControl1.SelectTab(tabSimulacióVenda);
+            vSimulacióVendaTab.xxx(prod);
+        }
+
 
         private void tabControl1_Selected(object sender, TabControlEventArgs e)
         {

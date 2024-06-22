@@ -179,7 +179,8 @@ namespace Inversions.GUI
             base.carregaInicial();
 
             // Càrrega el control GestioProductes sense necessitat de clicar "Filtrar".
-            ctrProductes.refrescaDadesControl(true);
+            //ctrProductes.refrescaDadesControl(true);
+            ctrProductes.refrescaDadesControl(null);
         }
 
 
@@ -190,8 +191,9 @@ namespace Inversions.GUI
 
             vNoValidaControlsNtb = true; // Evita que es facin les validacions al canviar el focus a 'ctrProductes'
             ctrProductes.Focus();
-            
-            ctrProductes.refrescaDadesControl(true); //Mostra els productes del nou usuari.
+
+            //ctrProductes.refrescaDadesControl(true); //Mostra els productes del nou usuari.
+            ctrProductes.refrescaDadesControl(null); //Mostra els productes del nou usuari.
            
             actualitzaControlsAny();
         }
@@ -203,6 +205,11 @@ namespace Inversions.GUI
 
             actualitzaControlsAny();
             ompleDgvCompres(vProducteSeleccionat, ntbPreuParticipacio.Valor);
+        }
+
+        internal override void xxx(Producte prod)
+        {
+            ctrProductes.refrescaDadesControl(prod);
         }
 
         internal override void escape(object sender, KeyEventArgs e)

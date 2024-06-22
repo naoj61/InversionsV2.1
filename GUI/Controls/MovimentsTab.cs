@@ -22,7 +22,7 @@ namespace Inversions.GUI
 
         internal override void refresca()
         {
-            gestioProductesTabMoviments.refrescaDadesControl(false);
+            gestioProductesTabMoviments.refrescaDadesControl();
            
             base.refresca();
         }
@@ -31,7 +31,9 @@ namespace Inversions.GUI
         {
             base.canviUsuari();
 
-            gestioProductesTabMoviments.refrescaDadesControl(true);
+            //gestioProductesTabMoviments.refrescaDadesControl(true);
+            gestioProductesTabMoviments.refrescaDadesControl(null);
+            
             cDataGridView1.DataSource = null;
         }
 
@@ -263,7 +265,9 @@ namespace Inversions.GUI
 
             Program.ConnectaSessio(); // Per refrescar les dades modificades.
 
-            gestioProductesTabMoviments.refrescaDadesControl(false);
+            //gestioProductesTabMoviments.refrescaDadesControl(false);
+            gestioProductesTabMoviments.refrescaDadesControl();
+
             ompleTaulaMovimentsProducte(prodDesti ?? prodOrigen);
         }
 
