@@ -95,11 +95,13 @@ namespace Inversions.GUI
                 }
             }
 
+            if (dgvPiGAnualsTributen.RowCount > 0)
+                dgvPiGAnualsTributen.FirstDisplayedScrollingRowIndex = dgvPiGAnualsTributen.RowCount - 1;
 
-            int fila = dgvPiGAnualsTributen.Rows.Add(vProdTotal, 0, 0, pigTotalTributa);
-            dgvPiGAnualsTributen.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTributen.Font, FontStyle.Bold);
-            dgvPiGAnualsTributen.Rows[fila].Cells[3].Style.ForeColor = pigTotalTributa < 0 ? Color.Red : Color.Black;
-            dgvPiGAnualsTributen.FirstDisplayedScrollingRowIndex = fila;
+            dgvPiGAnualsTributen.ClearSelection();
+
+            lbTotalPigTributen.ForeColor = pigTotalTributa < 0 ? Color.Red : Color.Black;
+            lbTotalPigTributen.Text = pigTotalTributa.ToString("###,##0.00 €");
 
             ntbPigActualPartsEnCartera.Valor = Producte.Pig2Cartera(tipusProducte, null, (uint) ultimAny, true, true);
             ntbPigRealMesCartera.Valor = ntbPigActualPartsEnCartera.Valor + pigTotalTributa;
@@ -129,9 +131,9 @@ namespace Inversions.GUI
             dgvCompresProducte.ClearSelection();
             dgvCompresProducte.SelectionChanged += dgvCompresProducte_SelectionChanged;
             dgvCompresProducte.CellFormatting -= dgv_CellFormatting;
-            
+
             dgvCompresProducte.ResumeLayout();
-            
+
             ResumeLayout();
 
             ntbPigCompra.Valor = compres.Sum(s => s.__PigDeLaCompra);
@@ -239,7 +241,7 @@ namespace Inversions.GUI
             var anyDades = (int) cbAnysPiGEnCartera.SelectedItem;
             decimal pigTotalEncartera = 0;
             dgvPiGEnCartera.Rows.Clear();
-            foreach (var prod in productes)
+            foreach (var prod in productes.OrderBy(o => o.OrdreGrid))
             {
                 var pigEnCartera = prod.pigVariacioCartera(anyDades);
                 if (!Utilitats.EsZero(pigEnCartera))
@@ -252,14 +254,13 @@ namespace Inversions.GUI
                 }
             }
 
+            if (dgvPiGEnCartera.RowCount > 0)
+                dgvPiGEnCartera.FirstDisplayedScrollingRowIndex = 0;
 
-            int fila2 = dgvPiGEnCartera.Rows.Add(vProdTotal, pigTotalEncartera);
-            dgvPiGEnCartera.Rows[fila2].DefaultCellStyle.Font = new Font(dgvPiGEnCartera.Font, FontStyle.Bold);
-            dgvPiGEnCartera.Rows[fila2].Cells[1].Style.ForeColor = pigTotalEncartera < 0 ? Color.Red : Color.Black;
-            dgvPiGEnCartera.FirstDisplayedScrollingRowIndex = fila2;
+            dgvPiGEnCartera.ClearSelection();
 
-            dgvPiGEnCartera.Rows[0].Selected = false;
-            dgvPiGEnCartera.FirstDisplayedScrollingRowIndex = 0;
+            lbTotalPigEnCartera.ForeColor = pigTotalEncartera < 0 ? Color.Red : Color.Black;
+            lbTotalPigEnCartera.Text = pigTotalEncartera.ToString("###,##0.00 €");
         }
 
 
@@ -345,7 +346,7 @@ namespace Inversions.GUI
             IRPF trib = new IRPF(any);
             trib.ShowDialog(this);
 
-            if(trib._ShaModificat)
+            if (trib._ShaModificat)
                 TabX.ActivaRefrescaEnTabs(this);
         }
 
@@ -399,7 +400,7 @@ namespace Inversions.GUI
                 e.Handled = true;
             }
         }
-        
+
         private void vvaav(DataGridViewCell cell)
         {
             throw new NotImplementedException();
