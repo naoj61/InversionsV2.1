@@ -71,7 +71,8 @@ namespace Inversions.GUI
             if (cbAnysPiGEnCartera.SelectedItem != null)
                 ompleDgvPiGEnCartera();
 
-            gestioProductesTabValoracions.refrescaDadesControl(false);
+            //gestioProductesTabValoracions.refrescaDadesControl(false);
+            gestioProductesTabValoracions.refrescaDadesControl();
         }
 
         private void calculaPiG()
