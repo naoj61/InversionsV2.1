@@ -70,7 +70,7 @@ namespace Inversions.GUI
             modeConsulta();
         }
 
-        internal override void xxx(Producte prod)
+        internal override void obrePestanya(Producte prod)
         {
             gestioProductesTabValoracions.refrescaDadesControl(prod);
         }

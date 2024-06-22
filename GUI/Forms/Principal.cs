@@ -179,7 +179,7 @@ namespace Inversions.GUI
 
             var ultimaPestanyaSeleccionada = Program.LlegeigVariableEnRegistreWindows(NomVarReg, true);
             
-            ultimaPestanyaSeleccionada = "tabPerduesGuanys";
+            //ultimaPestanyaSeleccionada = "tabPerduesGuanys";
             
             try
             {
@@ -252,23 +252,22 @@ namespace Inversions.GUI
         }
 
 
-
-        public void xxx(MovimentsTab movimentsTab, Producte prod)
-        {
-            tabControl1.SelectTab(tabMoviments);
-            vMovimentsTab.xxx(prod);
-        }
-
-        public void xxx(ValoracionsTab valoracionsTab, Producte prod)
+        public void obreValoracionsTab(Producte prod)
         {
             tabControl1.SelectTab(tabValoracions);
-            vValoracionsTab.xxx(prod);
+            vValoracionsTab.obrePestanya(prod);
         }
 
-        public void xxx(SimulacióVendaTab valoracionsTab, Producte prod)
+        public void obreMovimentsTab(Producte prod)
+        {
+            tabControl1.SelectTab(tabMoviments);
+            vMovimentsTab.obrePestanya(prod);
+        }
+
+        public void obreSimulacióVendaTab(Producte prod)
         {
             tabControl1.SelectTab(tabSimulacióVenda);
-            vSimulacióVendaTab.xxx(prod);
+            vSimulacióVendaTab.obrePestanya(prod);
         }
 
 

@@ -120,7 +120,11 @@ namespace Inversions
             _PendentRefrescar = false;
         }
 
-        internal virtual void xxx(Producte prod)
+        /// <summary>
+        /// Obre la pestanya amb el producte seleccionat.
+        /// </summary>
+        /// <param name="prod"></param>
+        internal virtual void obrePestanya(Producte prod)
         {
         }
 

@@ -207,7 +207,7 @@ namespace Inversions.GUI
             ompleDgvCompres(vProducteSeleccionat, ntbPreuParticipacio.Valor);
         }
 
-        internal override void xxx(Producte prod)
+        internal override void obrePestanya(Producte prod)
         {
             ctrProductes.refrescaDadesControl(prod);
         }

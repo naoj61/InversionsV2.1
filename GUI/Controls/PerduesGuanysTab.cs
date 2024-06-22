@@ -436,10 +436,7 @@ namespace Inversions.GUI
             var prod = (Producte) dgvPiGEnCartera.SelectedRows[0].Cells[0].Value;
             var parentForm = (Principal)ParentForm;
             if (parentForm != null)
-                parentForm.xxx((MovimentsTab)null, prod);
-
-            // Codi per a l'acció de "Editar"
-            //MessageBox.Show(String.Format("Has seleccionat Editar: '{0}'", prod._NomProducte));
+                parentForm.obreMovimentsTab(prod);
         }
 
         private void ToolStripMenuItem2_Click(object sender, EventArgs e)
@@ -447,10 +444,7 @@ namespace Inversions.GUI
             var prod = (Producte)dgvPiGEnCartera.SelectedRows[0].Cells[0].Value;
             var parentForm = (Principal)ParentForm;
             if (parentForm != null)
-                parentForm.xxx((ValoracionsTab)null, prod);
-
-            // Codi per a l'acció de "Eliminar"
-            //MessageBox.Show("Has seleccionat Eliminar");
+                parentForm.obreValoracionsTab(prod);
         }
 
         private void ToolStripMenuItem3_Click(object sender, EventArgs e)
@@ -458,7 +452,7 @@ namespace Inversions.GUI
             var prod = (Producte)dgvPiGEnCartera.SelectedRows[0].Cells[0].Value;
             var parentForm = (Principal)ParentForm;
             if (parentForm != null)
-                parentForm.xxx((SimulacióVendaTab)null, prod);
+                parentForm.obreSimulacióVendaTab(prod);
         }
 
         private void InitializeContextMenu()
