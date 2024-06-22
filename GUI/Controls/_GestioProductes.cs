@@ -135,6 +135,24 @@ namespace Inversions.GUI
                 netejaCamps();
         }
 
+        public void refrescaDadesControl(Producte prod)
+        {
+            aplicaFiltre();
+
+            if (prod == null)
+                prod = (Producte)vLbProductes.SelectedItem;
+
+            try
+            {
+                vLbProductes.SelectedItem = prod;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                vLbProductes.SelectedItem = null;
+                netejaCamps();
+            }
+        }
+
         public void seleccionaProducte(Producte prod)
         {
             if (prod == null)

@@ -21,6 +21,8 @@ namespace Inversions.GUI
             dgvCompresProducte.AutoGenerateColumns = false;
 
             vProdTotal._NomProducte = "Total";
+
+            InitializeContextMenu();
         }
 
         internal override void carregaInicial()
@@ -95,11 +97,13 @@ namespace Inversions.GUI
                 }
             }
 
+            if (dgvPiGAnualsTributen.RowCount > 0)
+                dgvPiGAnualsTributen.FirstDisplayedScrollingRowIndex = dgvPiGAnualsTributen.RowCount - 1;
 
-            int fila = dgvPiGAnualsTributen.Rows.Add(vProdTotal, 0, 0, pigTotalTributa);
-            dgvPiGAnualsTributen.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGAnualsTributen.Font, FontStyle.Bold);
-            dgvPiGAnualsTributen.Rows[fila].Cells[3].Style.ForeColor = pigTotalTributa < 0 ? Color.Red : Color.Black;
-            dgvPiGAnualsTributen.FirstDisplayedScrollingRowIndex = fila;
+            dgvPiGAnualsTributen.ClearSelection();
+
+            lbTotalPigTributen.ForeColor = pigTotalTributa < 0 ? Color.Red : Color.Black;
+            lbTotalPigTributen.Text = pigTotalTributa.ToString("###,##0.00 €");
 
             ntbPigActualPartsEnCartera.Valor = Producte.Pig2Cartera(tipusProducte, null, (uint) ultimAny, true, true);
             ntbPigRealMesCartera.Valor = ntbPigActualPartsEnCartera.Valor + pigTotalTributa;
@@ -239,7 +243,7 @@ namespace Inversions.GUI
             var anyDades = (int) cbAnysPiGEnCartera.SelectedItem;
             decimal pigTotalEncartera = 0;
             dgvPiGEnCartera.Rows.Clear();
-            foreach (var prod in productes)
+            foreach (var prod in productes.OrderBy(o=>o.OrdreGrid))
             {
                 var pigEnCartera = prod.pigVariacioCartera(anyDades);
                 if (!Utilitats.EsZero(pigEnCartera))
@@ -251,15 +255,14 @@ namespace Inversions.GUI
                     pigTotalEncartera += pigEnCartera;
                 }
             }
+            
+            if (dgvPiGEnCartera.RowCount > 0)
+                dgvPiGEnCartera.FirstDisplayedScrollingRowIndex = 0;
+           
+            dgvPiGEnCartera.ClearSelection();
 
-
-            int fila2 = dgvPiGEnCartera.Rows.Add(vProdTotal, pigTotalEncartera);
-            dgvPiGEnCartera.Rows[fila2].DefaultCellStyle.Font = new Font(dgvPiGEnCartera.Font, FontStyle.Bold);
-            dgvPiGEnCartera.Rows[fila2].Cells[1].Style.ForeColor = pigTotalEncartera < 0 ? Color.Red : Color.Black;
-            dgvPiGEnCartera.FirstDisplayedScrollingRowIndex = fila2;
-
-            dgvPiGEnCartera.Rows[0].Selected = false;
-            dgvPiGEnCartera.FirstDisplayedScrollingRowIndex = 0;
+            lbTotalPigEnCartera.ForeColor = pigTotalEncartera < 0 ? Color.Red : Color.Black;
+            lbTotalPigEnCartera.Text = pigTotalEncartera.ToString("###,##0.00 €");
         }
 
 
@@ -399,12 +402,75 @@ namespace Inversions.GUI
                 e.Handled = true;
             }
         }
-        
-        private void vvaav(DataGridViewCell cell)
-        {
-            throw new NotImplementedException();
-        }
 
         #endregion *** Events ***
+
+
+
+        private void dgvPiGEnCartera_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            // Comprova si s'ha fet clic amb el botó dret
+            if (e.Button == MouseButtons.Right)
+            {
+                if (e.RowIndex >= 0)
+                {
+                    // Selecciona la fila en la qual s'ha fet clic amb el botó dret
+                    dgvPiGEnCartera.ClearSelection();
+                    dgvPiGEnCartera.Rows[e.RowIndex].Selected = true;
+
+                    // Especifica la ubicació on vols que aparegui el menú
+                    Point pt = dgvPiGEnCartera.PointToScreen(e.Location);
+                    contextMenuStrip1.Show(pt);
+                }
+            }
+        }
+
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem toolStripMenuItem1;
+        private ToolStripMenuItem toolStripMenuItem2;
+
+        private void ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            var prod = (Producte) dgvPiGEnCartera.SelectedRows[0].Cells[0].Value;
+            var parentForm = (Principal)ParentForm;
+            if (parentForm != null)
+                parentForm.xxx((MovimentsTab)null, prod);
+
+            // Codi per a l'acció de "Editar"
+            //MessageBox.Show(String.Format("Has seleccionat Editar: '{0}'", prod._NomProducte));
+        }
+
+        private void ToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            var prod = (Producte)dgvPiGEnCartera.SelectedRows[0].Cells[0].Value;
+            var parentForm = (Principal)ParentForm;
+            if (parentForm != null)
+                parentForm.xxx((ValoracionsTab)null, prod);
+
+            // Codi per a l'acció de "Eliminar"
+            //MessageBox.Show("Has seleccionat Eliminar");
+        }
+
+        private void InitializeContextMenu()
+        {
+            // Crea el ContextMenuStrip
+            contextMenuStrip1 = new ContextMenuStrip();
+
+            // Crea els elements del menú contextual
+            toolStripMenuItem1 = new ToolStripMenuItem();
+            toolStripMenuItem1.Text = "Moviments";
+            toolStripMenuItem1.Click += ToolStripMenuItem1_Click;
+
+            toolStripMenuItem2 = new ToolStripMenuItem();
+            toolStripMenuItem2.Text = "Valoracions";
+            toolStripMenuItem2.Click += ToolStripMenuItem2_Click;
+
+            // Afegir els elements al ContextMenuStrip
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] {
+                toolStripMenuItem1,
+                toolStripMenuItem2
+            });
+        }
+
     }
 }

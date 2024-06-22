@@ -120,6 +120,10 @@ namespace Inversions
             _PendentRefrescar = false;
         }
 
+        internal virtual void xxx(Producte prod)
+        {
+        }
+
         /// <summary>
         /// Quan Principal detecta canvi d'usuari, crida el mètode de la pestanya seleccionada.
         /// </summary>

@@ -178,6 +178,9 @@ namespace Inversions.GUI
                 Program.CanviUsuari(Usuari.Tuples.First());
 
             var ultimaPestanyaSeleccionada = Program.LlegeigVariableEnRegistreWindows(NomVarReg, true);
+            
+            ultimaPestanyaSeleccionada = "tabPerduesGuanys";
+            
             try
             {
                 tabControl1.SelectTab(ultimaPestanyaSeleccionada);
@@ -246,6 +249,20 @@ namespace Inversions.GUI
             if (tabX != null)
                 // Impideix canviar de pastanya si la pestanya seleccionada està en mode edició.
                 tabX.validating(sender, e);
+        }
+
+
+
+        public void xxx(MovimentsTab movimentsTab, Producte prod)
+        {
+            tabControl1.SelectTab(tabMoviments);
+            vMovimentsTab.xxx(prod);
+        }
+
+        public void xxx(ValoracionsTab valoracionsTab, Producte prod)
+        {
+            tabControl1.SelectTab(tabValoracions);
+            vValoracionsTab.xxx(prod);
         }
 
 

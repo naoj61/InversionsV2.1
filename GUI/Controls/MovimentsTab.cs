@@ -30,12 +30,23 @@ namespace Inversions.GUI
         internal override void canviUsuari()
         {
             base.canviUsuari();
-            
+
             gestioProductesTabMoviments.refrescaDadesControl(true);
             cDataGridView1.DataSource = null;
         }
 
-       
+        internal override void carregaInicial()
+        {
+            base.carregaInicial();
+            refresca();
+        }
+
+        internal override void xxx(Producte prod)
+        {
+            gestioProductesTabMoviments.seleccionaProducte(prod);
+        }
+
+
         /// <summary>
         /// Canvia les dades del control a les del nou producte
         /// </summary>

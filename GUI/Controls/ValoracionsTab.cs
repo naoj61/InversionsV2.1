@@ -68,6 +68,11 @@ namespace Inversions.GUI
             modeConsulta();
         }
 
+        internal override void xxx(Producte prod)
+        {
+            gestioProductesTabValoracions.refrescaDadesControl(prod);
+        }
+
         internal override void canviUsuari()
         {
             dgvValoracionsPerData.Rows.Clear();
