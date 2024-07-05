@@ -5,9 +5,9 @@ VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InversionsV2", "InversionsV2.csproj", "{641FBA40-BCC0-488C-B3E3-FDB267AF2ED9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comuns", "..\..\Llibreries\Comuns\Comuns.csproj", "{83FFF275-A1A1-4DF4-A669-591CB12DCBB4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comuns", "..\Llibreries\Comuns\Comuns.csproj", "{83FFF275-A1A1-4DF4-A669-591CB12DCBB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestInversionsV2", "C:\Users\joanp\Documents\Visual Studio 2013\Projects\Meus\UnitTestInversionsV2\UnitTestInversionsV2.csproj", "{D667449D-42EA-4604-877C-15F7E9D72DBD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestInversionsV2", "..\UnitTestInversionsV2\UnitTestInversionsV2.csproj", "{D667449D-42EA-4604-877C-15F7E9D72DBD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
