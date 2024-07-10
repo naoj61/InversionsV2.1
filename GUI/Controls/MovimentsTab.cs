@@ -22,9 +22,12 @@ namespace Inversions.GUI
 
         internal override void refresca()
         {
-            gestioProductesTabMoviments.refrescaDadesControl();
-           
-            base.refresca();
+            if (!_EnModeEdicio)
+            {
+                gestioProductesTabMoviments.refrescaDadesControl();
+                
+                base.refresca();
+            }
         }
 
         internal override void canviUsuari()
