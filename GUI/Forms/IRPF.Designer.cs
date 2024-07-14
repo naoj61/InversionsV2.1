@@ -54,7 +54,6 @@ namespace Inversions.GUI.Forms
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gbCompres = new System.Windows.Forms.GroupBox();
             this.dgvCompresVenda = new System.Windows.Forms.DataGridView();
@@ -415,9 +414,10 @@ namespace Inversions.GUI.Forms
             this.ntbMinimContribuent._NegatiusEnVermell = false;
             this.ntbMinimContribuent._PermetDecimals = true;
             this.ntbMinimContribuent._PermetEspais = false;
-            this.ntbMinimContribuent._PermetNegatius = true;
+            this.ntbMinimContribuent._PermetNegatius = false;
             this.ntbMinimContribuent.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.ntbMinimContribuent.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbMinimContribuent.ForeColor = System.Drawing.Color.Black;
             this.ntbMinimContribuent.Location = new System.Drawing.Point(3, 51);
             this.ntbMinimContribuent.Name = "ntbMinimContribuent";
             this.ntbMinimContribuent.Size = new System.Drawing.Size(142, 26);
@@ -455,6 +455,7 @@ namespace Inversions.GUI.Forms
             this.ntbIngressosForaApp._PermetNegatius = true;
             this.ntbIngressosForaApp.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.ntbIngressosForaApp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbIngressosForaApp.ForeColor = System.Drawing.Color.Black;
             this.ntbIngressosForaApp.Location = new System.Drawing.Point(3, 51);
             this.ntbIngressosForaApp.Name = "ntbIngressosForaApp";
             this.ntbIngressosForaApp.ReadOnly = true;
@@ -492,6 +493,7 @@ namespace Inversions.GUI.Forms
             this.ntbPerduesAnysAnteriors.BackColor = System.Drawing.SystemColors.Menu;
             this.ntbPerduesAnysAnteriors.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.ntbPerduesAnysAnteriors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPerduesAnysAnteriors.ForeColor = System.Drawing.Color.Black;
             this.ntbPerduesAnysAnteriors.Location = new System.Drawing.Point(3, 51);
             this.ntbPerduesAnysAnteriors.Name = "ntbPerduesAnysAnteriors";
             this.ntbPerduesAnysAnteriors.ReadOnly = true;
@@ -529,6 +531,7 @@ namespace Inversions.GUI.Forms
             this.ntbPiG.BackColor = System.Drawing.SystemColors.Menu;
             this.ntbPiG.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.ntbPiG.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPiG.ForeColor = System.Drawing.Color.Black;
             this.ntbPiG.Location = new System.Drawing.Point(3, 51);
             this.ntbPiG.Name = "ntbPiG";
             this.ntbPiG.ReadOnly = true;
@@ -565,6 +568,7 @@ namespace Inversions.GUI.Forms
             this.ntbTotalTributar.BackColor = System.Drawing.SystemColors.Menu;
             this.ntbTotalTributar.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.ntbTotalTributar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbTotalTributar.ForeColor = System.Drawing.Color.Black;
             this.ntbTotalTributar.Location = new System.Drawing.Point(3, 51);
             this.ntbTotalTributar.Name = "ntbTotalTributar";
             this.ntbTotalTributar.ReadOnly = true;
@@ -612,6 +616,7 @@ namespace Inversions.GUI.Forms
             this.ntbDividents.BackColor = System.Drawing.SystemColors.Menu;
             this.ntbDividents.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.ntbDividents.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbDividents.ForeColor = System.Drawing.Color.Black;
             this.ntbDividents.Location = new System.Drawing.Point(3, 51);
             this.ntbDividents.Name = "ntbDividents";
             this.ntbDividents.ReadOnly = true;
@@ -978,14 +983,6 @@ namespace Inversions.GUI.Forms
             this.ColumnaAny,
             this.ColumnaRao,
             this.ColumnaImport});
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle24.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle24.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle24.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle24.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle24.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvIngressosForaAplicacio.DefaultCellStyle = dataGridViewCellStyle24;
             this.dgvIngressosForaAplicacio.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvIngressosForaAplicacio.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
             this.dgvIngressosForaAplicacio.Location = new System.Drawing.Point(3, 22);
