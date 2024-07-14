@@ -341,7 +341,7 @@ namespace Inversions.GUI
 
         private void dgvPiGAnualsTributen_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || e.RowIndex == dgvPiGAnualsTributen.Rows.Count - 1)
+            if (e.RowIndex < 0)
                 return;
 
             var any = Convert.ToInt32(dgvPiGAnualsTributen[0, e.RowIndex].Value);

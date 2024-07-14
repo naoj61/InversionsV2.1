@@ -319,6 +319,7 @@ namespace Inversions.GUI
             this.ntbPigRealMesCartera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ntbPigRealMesCartera.Dock = System.Windows.Forms.DockStyle.Top;
             this.ntbPigRealMesCartera.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPigRealMesCartera.ForeColor = System.Drawing.Color.Black;
             this.ntbPigRealMesCartera.Location = new System.Drawing.Point(0, 92);
             this.ntbPigRealMesCartera.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ntbPigRealMesCartera.Name = "ntbPigRealMesCartera";
@@ -357,6 +358,7 @@ namespace Inversions.GUI
             this.ntbPigActualPartsEnCartera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ntbPigActualPartsEnCartera.Dock = System.Windows.Forms.DockStyle.Top;
             this.ntbPigActualPartsEnCartera.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPigActualPartsEnCartera.ForeColor = System.Drawing.Color.Black;
             this.ntbPigActualPartsEnCartera.Location = new System.Drawing.Point(0, 31);
             this.ntbPigActualPartsEnCartera.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ntbPigActualPartsEnCartera.Name = "ntbPigActualPartsEnCartera";
@@ -833,6 +835,7 @@ namespace Inversions.GUI
             this.ntbPigCompra._PermetNegatius = true;
             this.ntbPigCompra.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPigCompra.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPigCompra.ForeColor = System.Drawing.Color.Black;
             this.ntbPigCompra.Location = new System.Drawing.Point(3, 22);
             this.ntbPigCompra.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ntbPigCompra.Name = "ntbPigCompra";
@@ -871,6 +874,7 @@ namespace Inversions.GUI
             this.ntbPigCompraOrig._PermetNegatius = true;
             this.ntbPigCompraOrig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPigCompraOrig.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPigCompraOrig.ForeColor = System.Drawing.Color.Black;
             this.ntbPigCompraOrig.Location = new System.Drawing.Point(3, 22);
             this.ntbPigCompraOrig.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ntbPigCompraOrig.Name = "ntbPigCompraOrig";
@@ -960,6 +964,7 @@ namespace Inversions.GUI
             this.ntbDiferencia.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbDiferencia.Enabled = false;
             this.ntbDiferencia.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbDiferencia.ForeColor = System.Drawing.Color.Black;
             this.ntbDiferencia.Location = new System.Drawing.Point(3, 20);
             this.ntbDiferencia.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ntbDiferencia.Name = "ntbDiferencia";
@@ -995,6 +1000,7 @@ namespace Inversions.GUI
             this.ntbPiG._PermetNegatius = true;
             this.ntbPiG.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPiG.Enabled = false;
+            this.ntbPiG.ForeColor = System.Drawing.Color.Black;
             this.ntbPiG.Location = new System.Drawing.Point(3, 22);
             this.ntbPiG.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ntbPiG.Name = "ntbPiG";
@@ -1029,6 +1035,7 @@ namespace Inversions.GUI
             this.ntbPreuParticipacio._PermetEspais = false;
             this.ntbPreuParticipacio._PermetNegatius = false;
             this.ntbPreuParticipacio.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbPreuParticipacio.ForeColor = System.Drawing.Color.Black;
             this.ntbPreuParticipacio.Location = new System.Drawing.Point(3, 22);
             this.ntbPreuParticipacio.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ntbPreuParticipacio.Name = "ntbPreuParticipacio";
@@ -1081,6 +1088,7 @@ namespace Inversions.GUI
             this.tbPigEntreDates._PermetEspais = false;
             this.tbPigEntreDates._PermetNegatius = true;
             this.tbPigEntreDates.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbPigEntreDates.ForeColor = System.Drawing.Color.Black;
             this.tbPigEntreDates.Location = new System.Drawing.Point(274, 68);
             this.tbPigEntreDates.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tbPigEntreDates.Name = "tbPigEntreDates";
