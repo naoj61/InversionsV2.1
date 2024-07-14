@@ -208,7 +208,6 @@ namespace Inversions.GUI
             0,
             0,
             131072});
-            this.tbDividends.ValorDouble = 0D;
             // 
             // gbMoneda
             // 
@@ -272,7 +271,6 @@ namespace Inversions.GUI
             0,
             0,
             131072});
-            this.tbPigReal.ValorDouble = 0D;
             // 
             // gbIsinMercat
             // 
@@ -354,7 +352,6 @@ namespace Inversions.GUI
             0,
             0,
             131072});
-            this.tbPigProducte.ValorDouble = 0D;
             // 
             // groupBox7
             // 
@@ -394,7 +391,6 @@ namespace Inversions.GUI
             0,
             0,
             131072});
-            this.tbCostOrigPartActual.ValorDouble = 0D;
             // 
             // groupBox4
             // 
@@ -435,7 +431,6 @@ namespace Inversions.GUI
             0,
             0,
             131072});
-            this.tbPiGActual.ValorDouble = 0D;
             // 
             // groupBox15
             // 
@@ -476,7 +471,6 @@ namespace Inversions.GUI
             0,
             0,
             131072});
-            this.tbValorActual.ValorDouble = 0D;
             // 
             // groupBox1
             // 
@@ -515,7 +509,6 @@ namespace Inversions.GUI
             0,
             0,
             131072});
-            this.ntbPreuPartActual.ValorDouble = 0D;
             // 
             // groupBox13
             // 
@@ -557,7 +550,6 @@ namespace Inversions.GUI
             0,
             0,
             131072});
-            this.tbParticipacions.ValorDouble = 0D;
             // 
             // panel2
             // 

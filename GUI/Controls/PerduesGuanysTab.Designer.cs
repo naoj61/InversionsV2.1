@@ -333,7 +333,6 @@ namespace Inversions.GUI
             0,
             0,
             131072});
-            this.ntbPigRealMesCartera.ValorDouble = 0D;
             // 
             // label3
             // 
@@ -372,7 +371,6 @@ namespace Inversions.GUI
             0,
             0,
             131072});
-            this.ntbPigActualPartsEnCartera.ValorDouble = 0D;
             // 
             // label1
             // 
@@ -848,7 +846,6 @@ namespace Inversions.GUI
             0,
             0,
             131072});
-            this.ntbPigCompra.ValorDouble = 0D;
             // 
             // gbPigCompraOrig
             // 
@@ -887,7 +884,6 @@ namespace Inversions.GUI
             0,
             0,
             131072});
-            this.ntbPigCompraOrig.ValorDouble = 0D;
             // 
             // label4
             // 
@@ -976,7 +972,6 @@ namespace Inversions.GUI
             0,
             0,
             131072});
-            this.ntbDiferencia.ValorDouble = 0D;
             // 
             // groupBox1
             // 
@@ -1012,7 +1007,6 @@ namespace Inversions.GUI
             0,
             0,
             131072});
-            this.ntbPiG.ValorDouble = 0D;
             // 
             // gbPreuPartic
             // 
@@ -1047,7 +1041,6 @@ namespace Inversions.GUI
             0,
             0,
             0});
-            this.ntbPreuParticipacio.ValorDouble = 0D;
             // 
             // gbFiltreDates
             // 
@@ -1101,7 +1094,6 @@ namespace Inversions.GUI
             0,
             0,
             131072});
-            this.tbPigEntreDates.ValorDouble = 0D;
             // 
             // dtpFiltreDataInici
             // 

@@ -210,7 +210,6 @@ namespace Inversions.GUI
             0,
             0,
             131072});
-            this.ntbIntervalEixY.ValorDouble = 1D;
             this.ntbIntervalEixY.TextChanged += new System.EventHandler(this.ntbIntervalEixY_TextChanged);
             // 
             // panel3

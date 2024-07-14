@@ -429,7 +429,6 @@ namespace Inversions.GUI.Forms
             0,
             0,
             131072});
-            this.ntbMinimContribuent.ValorDouble = 8550D;
             this.ntbMinimContribuent.ValorChanged += new System.EventHandler(this.ntbMinimContribuent_ValorChanged);
             this.ntbMinimContribuent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ntbMinimContribuent_KeyDown);
             // 
@@ -468,7 +467,6 @@ namespace Inversions.GUI.Forms
             0,
             0,
             131072});
-            this.ntbIngressosForaApp.ValorDouble = 1184.41D;
             // 
             // groupBox2
             // 
@@ -506,7 +504,6 @@ namespace Inversions.GUI.Forms
             0,
             0,
             131072});
-            this.ntbPerduesAnysAnteriors.ValorDouble = 0D;
             // 
             // groupBox3
             // 
@@ -544,7 +541,6 @@ namespace Inversions.GUI.Forms
             0,
             0,
             131072});
-            this.ntbPiG.ValorDouble = 0D;
             // 
             // groupBox4
             // 
@@ -581,7 +577,6 @@ namespace Inversions.GUI.Forms
             0,
             0,
             131072});
-            this.ntbTotalTributar.ValorDouble = 0D;
             // 
             // label2
             // 
@@ -629,7 +624,6 @@ namespace Inversions.GUI.Forms
             0,
             0,
             131072});
-            this.ntbDividents.ValorDouble = 0D;
             // 
             // panel2
             // 

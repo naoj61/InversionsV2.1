@@ -162,7 +162,7 @@ namespace Inversions.GUI
             0,
             0,
             65536});
-            this.tbImport.ValorDouble = 0D;
+            //this.tbImport.Valor = 0m;
             this.tbImport.ValorChanged += new System.EventHandler(this.tbImport_ValorChanged);
             this.tbImport.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbImport_KeyDown);
             // 
