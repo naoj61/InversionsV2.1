@@ -367,7 +367,6 @@ namespace Inversions.GUI
             this.ntbOrdreGridProducte._Format = "0";
             this.ntbOrdreGridProducte._NegatiusEnVermell = false;
             this.ntbOrdreGridProducte._PermetDecimals = true;
-            this.ntbOrdreGridProducte._PermetEspais = false;
             this.ntbOrdreGridProducte._PermetNegatius = true;
             this.ntbOrdreGridProducte.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbOrdreGridProducte.Location = new System.Drawing.Point(6, 24);

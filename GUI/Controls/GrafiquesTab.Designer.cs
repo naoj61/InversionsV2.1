@@ -31,8 +31,8 @@ namespace Inversions.GUI
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.lbData = new System.Windows.Forms.Label();
@@ -197,8 +197,8 @@ namespace Inversions.GUI
             this.ntbIntervalEixY._Format = "0.00";
             this.ntbIntervalEixY._NegatiusEnVermell = false;
             this.ntbIntervalEixY._PermetDecimals = true;
-            this.ntbIntervalEixY._PermetEspais = true;
             this.ntbIntervalEixY._PermetNegatius = false;
+            this.ntbIntervalEixY.ForeColor = System.Drawing.Color.Black;
             this.ntbIntervalEixY.Location = new System.Drawing.Point(1, 25);
             this.ntbIntervalEixY.Name = "ntbIntervalEixY";
             this.ntbIntervalEixY.Size = new System.Drawing.Size(85, 26);
@@ -308,12 +308,12 @@ namespace Inversions.GUI
             // 
             // chart1
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
+            chartArea2.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea2);
             this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
+            legend2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend2.Name = "Legend1";
+            this.chart1.Legends.Add(legend2);
             this.chart1.Location = new System.Drawing.Point(481, 0);
             this.chart1.Name = "chart1";
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;

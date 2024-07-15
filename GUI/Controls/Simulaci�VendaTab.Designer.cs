@@ -345,7 +345,6 @@ namespace Inversions.GUI
             this.ntbDividents._Format = "#,##0.00 €";
             this.ntbDividents._NegatiusEnVermell = false;
             this.ntbDividents._PermetDecimals = true;
-            this.ntbDividents._PermetEspais = false;
             this.ntbDividents._PermetNegatius = true;
             this.ntbDividents.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbDividents.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -379,7 +378,6 @@ namespace Inversions.GUI
             this.ntbIngressosExterns._Format = "#,##0.00 €";
             this.ntbIngressosExterns._NegatiusEnVermell = false;
             this.ntbIngressosExterns._PermetDecimals = true;
-            this.ntbIngressosExterns._PermetEspais = false;
             this.ntbIngressosExterns._PermetNegatius = true;
             this.ntbIngressosExterns.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbIngressosExterns.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -413,7 +411,6 @@ namespace Inversions.GUI
             this.ntbPerduesAnysAnteriors._Format = "#,##0.00 €";
             this.ntbPerduesAnysAnteriors._NegatiusEnVermell = false;
             this.ntbPerduesAnysAnteriors._PermetDecimals = true;
-            this.ntbPerduesAnysAnteriors._PermetEspais = false;
             this.ntbPerduesAnysAnteriors._PermetNegatius = true;
             this.ntbPerduesAnysAnteriors.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPerduesAnysAnteriors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -448,7 +445,6 @@ namespace Inversions.GUI
             this.ntbPiGAltresProductes._Format = "#,##0.00 €";
             this.ntbPiGAltresProductes._NegatiusEnVermell = false;
             this.ntbPiGAltresProductes._PermetDecimals = true;
-            this.ntbPiGAltresProductes._PermetEspais = false;
             this.ntbPiGAltresProductes._PermetNegatius = false;
             this.ntbPiGAltresProductes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPiGAltresProductes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -484,7 +480,6 @@ namespace Inversions.GUI
             this.ntbTramExentAnual._Format = "#,##0.00 €";
             this.ntbTramExentAnual._NegatiusEnVermell = false;
             this.ntbTramExentAnual._PermetDecimals = true;
-            this.ntbTramExentAnual._PermetEspais = false;
             this.ntbTramExentAnual._PermetNegatius = false;
             this.ntbTramExentAnual.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbTramExentAnual.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -520,7 +515,6 @@ namespace Inversions.GUI
             this.ntbPiGActual._Format = "#,##0.00 €";
             this.ntbPiGActual._NegatiusEnVermell = false;
             this.ntbPiGActual._PermetDecimals = true;
-            this.ntbPiGActual._PermetEspais = false;
             this.ntbPiGActual._PermetNegatius = true;
             this.ntbPiGActual.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPiGActual.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -555,7 +549,6 @@ namespace Inversions.GUI
             this.ntbRestaTramNoTributa._Format = "#,##0.00 €";
             this.ntbRestaTramNoTributa._NegatiusEnVermell = false;
             this.ntbRestaTramNoTributa._PermetDecimals = true;
-            this.ntbRestaTramNoTributa._PermetEspais = false;
             this.ntbRestaTramNoTributa._PermetNegatius = true;
             this.ntbRestaTramNoTributa.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbRestaTramNoTributa.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -592,7 +585,6 @@ namespace Inversions.GUI
             this.ntbPartsSaltades._Format = "#,##0.0000";
             this.ntbPartsSaltades._NegatiusEnVermell = false;
             this.ntbPartsSaltades._PermetDecimals = true;
-            this.ntbPartsSaltades._PermetEspais = false;
             this.ntbPartsSaltades._PermetNegatius = false;
             this.ntbPartsSaltades.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPartsSaltades.Enabled = false;
@@ -628,7 +620,6 @@ namespace Inversions.GUI
             this.ntbNumParticipacions._Format = "#,##0.0000";
             this.ntbNumParticipacions._NegatiusEnVermell = false;
             this.ntbNumParticipacions._PermetDecimals = true;
-            this.ntbNumParticipacions._PermetEspais = false;
             this.ntbNumParticipacions._PermetNegatius = false;
             this.ntbNumParticipacions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbNumParticipacions.Enabled = false;
@@ -664,7 +655,6 @@ namespace Inversions.GUI
             this.ntbPreuParticipacio._Format = "#,##0.000 €";
             this.ntbPreuParticipacio._NegatiusEnVermell = false;
             this.ntbPreuParticipacio._PermetDecimals = true;
-            this.ntbPreuParticipacio._PermetEspais = false;
             this.ntbPreuParticipacio._PermetNegatius = false;
             this.ntbPreuParticipacio.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPreuParticipacio.Enabled = false;
@@ -701,7 +691,6 @@ namespace Inversions.GUI
             this.ntbTributaRenda._Format = "#,##0.00 €";
             this.ntbTributaRenda._NegatiusEnVermell = false;
             this.ntbTributaRenda._PermetDecimals = true;
-            this.ntbTributaRenda._PermetEspais = false;
             this.ntbTributaRenda._PermetNegatius = true;
             this.ntbTributaRenda.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbTributaRenda.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -736,7 +725,6 @@ namespace Inversions.GUI
             this.ntbImportBrut._Format = "#,##0.00 €";
             this.ntbImportBrut._NegatiusEnVermell = false;
             this.ntbImportBrut._PermetDecimals = true;
-            this.ntbImportBrut._PermetEspais = false;
             this.ntbImportBrut._PermetNegatius = true;
             this.ntbImportBrut.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbImportBrut.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -794,7 +782,6 @@ namespace Inversions.GUI
             this.ntbPigSimulacio._Format = "#,##0.00 €";
             this.ntbPigSimulacio._NegatiusEnVermell = false;
             this.ntbPigSimulacio._PermetDecimals = true;
-            this.ntbPigSimulacio._PermetEspais = false;
             this.ntbPigSimulacio._PermetNegatius = true;
             this.ntbPigSimulacio.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPigSimulacio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -830,7 +817,6 @@ namespace Inversions.GUI
             this.ntbPigOrigSimulacio._Format = "#,##0.00 €";
             this.ntbPigOrigSimulacio._NegatiusEnVermell = false;
             this.ntbPigOrigSimulacio._PermetDecimals = true;
-            this.ntbPigOrigSimulacio._PermetEspais = false;
             this.ntbPigOrigSimulacio._PermetNegatius = true;
             this.ntbPigOrigSimulacio.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPigOrigSimulacio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

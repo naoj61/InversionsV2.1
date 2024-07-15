@@ -146,7 +146,6 @@ namespace Inversions.GUI
             this.tbImport._Format = "#,##0.0######### €";
             this.tbImport._NegatiusEnVermell = false;
             this.tbImport._PermetDecimals = true;
-            this.tbImport._PermetEspais = false;
             this.tbImport._PermetNegatius = false;
             this.tbImport.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbImport.Enabled = false;

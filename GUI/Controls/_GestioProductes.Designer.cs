@@ -189,7 +189,6 @@ namespace Inversions.GUI
             this.tbDividends._Format = "#,#0.00 €";
             this.tbDividends._NegatiusEnVermell = true;
             this.tbDividends._PermetDecimals = true;
-            this.tbDividends._PermetEspais = false;
             this.tbDividends._PermetNegatius = true;
             this.tbDividends.BackColor = System.Drawing.SystemColors.Window;
             this.tbDividends.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -252,7 +251,6 @@ namespace Inversions.GUI
             this.tbPigReal._Format = "#,#0.00 €";
             this.tbPigReal._NegatiusEnVermell = true;
             this.tbPigReal._PermetDecimals = true;
-            this.tbPigReal._PermetEspais = false;
             this.tbPigReal._PermetNegatius = true;
             this.tbPigReal.BackColor = System.Drawing.SystemColors.Window;
             this.tbPigReal.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -333,7 +331,6 @@ namespace Inversions.GUI
             this.tbPigProducte._Format = "#,#0.00 €";
             this.tbPigProducte._NegatiusEnVermell = true;
             this.tbPigProducte._PermetDecimals = true;
-            this.tbPigProducte._PermetEspais = false;
             this.tbPigProducte._PermetNegatius = true;
             this.tbPigProducte.BackColor = System.Drawing.SystemColors.Window;
             this.tbPigProducte.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -372,7 +369,6 @@ namespace Inversions.GUI
             this.tbCostOrigPartActual._Format = "#,#0.00 €";
             this.tbCostOrigPartActual._NegatiusEnVermell = false;
             this.tbCostOrigPartActual._PermetDecimals = true;
-            this.tbCostOrigPartActual._PermetEspais = false;
             this.tbCostOrigPartActual._PermetNegatius = true;
             this.tbCostOrigPartActual.BackColor = System.Drawing.SystemColors.Window;
             this.tbCostOrigPartActual.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -412,7 +408,6 @@ namespace Inversions.GUI
             this.tbPiGActual._Format = "#,#0.00 €";
             this.tbPiGActual._NegatiusEnVermell = true;
             this.tbPiGActual._PermetDecimals = true;
-            this.tbPiGActual._PermetEspais = false;
             this.tbPiGActual._PermetNegatius = true;
             this.tbPiGActual.BackColor = System.Drawing.SystemColors.Window;
             this.tbPiGActual.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -452,7 +447,6 @@ namespace Inversions.GUI
             this.tbValorActual._Format = "#,#0.00 €";
             this.tbValorActual._NegatiusEnVermell = false;
             this.tbValorActual._PermetDecimals = true;
-            this.tbValorActual._PermetEspais = false;
             this.tbValorActual._PermetNegatius = true;
             this.tbValorActual.BackColor = System.Drawing.SystemColors.Window;
             this.tbValorActual.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -491,7 +485,6 @@ namespace Inversions.GUI
             this.ntbPreuPartActual._Format = "#,#0.00###### €";
             this.ntbPreuPartActual._NegatiusEnVermell = false;
             this.ntbPreuPartActual._PermetDecimals = true;
-            this.ntbPreuPartActual._PermetEspais = false;
             this.ntbPreuPartActual._PermetNegatius = true;
             this.ntbPreuPartActual.BackColor = System.Drawing.SystemColors.Window;
             this.ntbPreuPartActual.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -530,7 +523,6 @@ namespace Inversions.GUI
             this.tbParticipacions._Format = "#,#0.00######";
             this.tbParticipacions._NegatiusEnVermell = false;
             this.tbParticipacions._PermetDecimals = true;
-            this.tbParticipacions._PermetEspais = false;
             this.tbParticipacions._PermetNegatius = true;
             this.tbParticipacions.BackColor = System.Drawing.SystemColors.Window;
             this.tbParticipacions.Dock = System.Windows.Forms.DockStyle.Fill;

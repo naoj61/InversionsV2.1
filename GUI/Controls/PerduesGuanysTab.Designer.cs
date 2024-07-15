@@ -314,7 +314,6 @@ namespace Inversions.GUI
             this.ntbPigRealMesCartera._Format = "#,#0.00 €";
             this.ntbPigRealMesCartera._NegatiusEnVermell = false;
             this.ntbPigRealMesCartera._PermetDecimals = true;
-            this.ntbPigRealMesCartera._PermetEspais = false;
             this.ntbPigRealMesCartera._PermetNegatius = true;
             this.ntbPigRealMesCartera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ntbPigRealMesCartera.Dock = System.Windows.Forms.DockStyle.Top;
@@ -353,7 +352,6 @@ namespace Inversions.GUI
             this.ntbPigActualPartsEnCartera._Format = "#,#0.00 €";
             this.ntbPigActualPartsEnCartera._NegatiusEnVermell = false;
             this.ntbPigActualPartsEnCartera._PermetDecimals = true;
-            this.ntbPigActualPartsEnCartera._PermetEspais = false;
             this.ntbPigActualPartsEnCartera._PermetNegatius = true;
             this.ntbPigActualPartsEnCartera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ntbPigActualPartsEnCartera.Dock = System.Windows.Forms.DockStyle.Top;
@@ -831,7 +829,6 @@ namespace Inversions.GUI
             this.ntbPigCompra._Format = "#,#0.00 €";
             this.ntbPigCompra._NegatiusEnVermell = false;
             this.ntbPigCompra._PermetDecimals = true;
-            this.ntbPigCompra._PermetEspais = false;
             this.ntbPigCompra._PermetNegatius = true;
             this.ntbPigCompra.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPigCompra.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -870,7 +867,6 @@ namespace Inversions.GUI
             this.ntbPigCompraOrig._Format = "#,#0.00 €";
             this.ntbPigCompraOrig._NegatiusEnVermell = false;
             this.ntbPigCompraOrig._PermetDecimals = true;
-            this.ntbPigCompraOrig._PermetEspais = false;
             this.ntbPigCompraOrig._PermetNegatius = true;
             this.ntbPigCompraOrig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPigCompraOrig.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -959,7 +955,6 @@ namespace Inversions.GUI
             this.ntbDiferencia._Format = "#,##0.00 €";
             this.ntbDiferencia._NegatiusEnVermell = false;
             this.ntbDiferencia._PermetDecimals = true;
-            this.ntbDiferencia._PermetEspais = false;
             this.ntbDiferencia._PermetNegatius = true;
             this.ntbDiferencia.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbDiferencia.Enabled = false;
@@ -996,7 +991,6 @@ namespace Inversions.GUI
             this.ntbPiG._Format = "#,##0.00 €";
             this.ntbPiG._NegatiusEnVermell = false;
             this.ntbPiG._PermetDecimals = true;
-            this.ntbPiG._PermetEspais = false;
             this.ntbPiG._PermetNegatius = true;
             this.ntbPiG.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPiG.Enabled = false;
@@ -1032,7 +1026,6 @@ namespace Inversions.GUI
             this.ntbPreuParticipacio._Format = "#,##0.###### €";
             this.ntbPreuParticipacio._NegatiusEnVermell = false;
             this.ntbPreuParticipacio._PermetDecimals = true;
-            this.ntbPreuParticipacio._PermetEspais = false;
             this.ntbPreuParticipacio._PermetNegatius = false;
             this.ntbPreuParticipacio.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPreuParticipacio.ForeColor = System.Drawing.Color.Black;
@@ -1085,7 +1078,6 @@ namespace Inversions.GUI
             this.tbPigEntreDates._Format = "#,#0.00 €";
             this.tbPigEntreDates._NegatiusEnVermell = false;
             this.tbPigEntreDates._PermetDecimals = true;
-            this.tbPigEntreDates._PermetEspais = false;
             this.tbPigEntreDates._PermetNegatius = true;
             this.tbPigEntreDates.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbPigEntreDates.ForeColor = System.Drawing.Color.Black;

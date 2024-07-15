@@ -303,7 +303,6 @@
             this.ntbPreuParticipacio._Format = "#,##0.####### €";
             this.ntbPreuParticipacio._NegatiusEnVermell = false;
             this.ntbPreuParticipacio._PermetDecimals = true;
-            this.ntbPreuParticipacio._PermetEspais = false;
             this.ntbPreuParticipacio._PermetNegatius = false;
             this.ntbPreuParticipacio.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPreuParticipacio.Location = new System.Drawing.Point(6, 25);
@@ -337,7 +336,6 @@
             this.ntbFactorConversor._Format = "#,##0";
             this.ntbFactorConversor._NegatiusEnVermell = false;
             this.ntbFactorConversor._PermetDecimals = false;
-            this.ntbFactorConversor._PermetEspais = false;
             this.ntbFactorConversor._PermetNegatius = false;
             this.ntbFactorConversor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbFactorConversor.Location = new System.Drawing.Point(6, 23);
@@ -460,7 +458,6 @@
             this.tbNumParticipacions._Format = "#,##0.############";
             this.tbNumParticipacions._NegatiusEnVermell = false;
             this.tbNumParticipacions._PermetDecimals = true;
-            this.tbNumParticipacions._PermetEspais = false;
             this.tbNumParticipacions._PermetNegatius = false;
             this.tbNumParticipacions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbNumParticipacions.Location = new System.Drawing.Point(6, 25);
@@ -491,7 +488,6 @@
             this.tbCanviAplicat._Format = "#,##0.######## €";
             this.tbCanviAplicat._NegatiusEnVermell = false;
             this.tbCanviAplicat._PermetDecimals = true;
-            this.tbCanviAplicat._PermetEspais = false;
             this.tbCanviAplicat._PermetNegatius = false;
             this.tbCanviAplicat.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbCanviAplicat.Location = new System.Drawing.Point(6, 25);
@@ -522,7 +518,6 @@
             this.tbDespeses._Format = "#,##0.### €";
             this.tbDespeses._NegatiusEnVermell = false;
             this.tbDespeses._PermetDecimals = true;
-            this.tbDespeses._PermetEspais = false;
             this.tbDespeses._PermetNegatius = false;
             this.tbDespeses.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbDespeses.Location = new System.Drawing.Point(6, 25);
@@ -553,7 +548,6 @@
             this.tbImportTotal._Format = "#,##0.### €";
             this.tbImportTotal._NegatiusEnVermell = false;
             this.tbImportTotal._PermetDecimals = true;
-            this.tbImportTotal._PermetEspais = false;
             this.tbImportTotal._PermetNegatius = false;
             this.tbImportTotal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbImportTotal.Location = new System.Drawing.Point(6, 25);
@@ -667,7 +661,6 @@
             this.tbNumParticipacionsDesti._Format = "#,##0.####";
             this.tbNumParticipacionsDesti._NegatiusEnVermell = false;
             this.tbNumParticipacionsDesti._PermetDecimals = true;
-            this.tbNumParticipacionsDesti._PermetEspais = false;
             this.tbNumParticipacionsDesti._PermetNegatius = false;
             this.tbNumParticipacionsDesti.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbNumParticipacionsDesti.Location = new System.Drawing.Point(6, 25);
@@ -700,7 +693,6 @@
             this.ntbPreuParticipacioFonsCompra._Format = "#,##0.####### €";
             this.ntbPreuParticipacioFonsCompra._NegatiusEnVermell = false;
             this.ntbPreuParticipacioFonsCompra._PermetDecimals = true;
-            this.ntbPreuParticipacioFonsCompra._PermetEspais = false;
             this.ntbPreuParticipacioFonsCompra._PermetNegatius = false;
             this.ntbPreuParticipacioFonsCompra.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPreuParticipacioFonsCompra.Location = new System.Drawing.Point(6, 25);
@@ -733,7 +725,6 @@
             this.ntbDespeses._Format = "#,##0.00 €";
             this.ntbDespeses._NegatiusEnVermell = false;
             this.ntbDespeses._PermetDecimals = true;
-            this.ntbDespeses._PermetEspais = false;
             this.ntbDespeses._PermetNegatius = false;
             this.ntbDespeses.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbDespeses.Location = new System.Drawing.Point(6, 25);

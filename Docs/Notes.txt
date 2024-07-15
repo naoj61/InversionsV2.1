@@ -1,4 +1,7 @@
-﻿
+﻿- NumericTextBox2. 
+	- No permet fer Paste si és un import amb el simbol €
+
+- Al afegir una valoració manualment, no s'actualitza la llista de valoracions del producte.
 
 - A les llistes de valoracions, barrejar els preu de compra del usuari.
 	-(Com que pot ser que el preu de compra no coincideixi amb la valoració real degut a les comissions).
@@ -7,6 +10,8 @@
 		- Si hi ha valoració i moviment en la mateixa data, mostrar valoració.
 
 ------------------------------ Fet!!!! ------------------------------
+
+- 2.12.37.0. NumericTextBox2. Eliminar atribut "_PermetEspais".
 
 - Afegir filtres en Edició Taules BD
 
