@@ -458,13 +458,14 @@ namespace Inversions.GUI
                             if (vEsNouValor)
                             {
                                 Valoracio.Nova(conn, gestioProductesTabValoracions._ProducteSeleccionat, cData.Value, tbImport._DecimalValue);
+                                conn.SaveChanges();
+                                Valoracio.RefrescaTaula();
                             }
                             else
                             {
                                 vValoracioSeleccionada.modifica(conn, cData.Value, tbImport._DecimalValue);
+                                conn.SaveChanges();
                             }
-
-                            conn.SaveChanges();
                         }
                         catch (Exception ex)
                         {
