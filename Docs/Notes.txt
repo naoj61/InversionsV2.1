@@ -1,4 +1,6 @@
-﻿- NumericTextBox2. 
+﻿- En valoracioms, no permetre introduir valors iguals o inferiors a 0.
+
+- NumericTextBox2. 
 	- No permet fer Paste si és un import amb el simbol €
 
 - Al afegir una valoració manualment, no s'actualitza la llista de valoracions del producte.

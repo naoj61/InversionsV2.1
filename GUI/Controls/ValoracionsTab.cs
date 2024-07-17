@@ -448,6 +448,12 @@ namespace Inversions.GUI
             var cursor = this.Cursor;
             this.Cursor = Cursors.WaitCursor;
 
+            if (tbImport.Valor <= 0)
+            {
+                MessageBox.Show(this.ParentForm, "El valor no potser igual o inferior a 0", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             try
             {
                 using (var conn = new InversionsBDContext())
