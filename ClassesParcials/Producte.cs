@@ -397,17 +397,18 @@ namespace Inversions
         /// <param name="preuParticipacio"></param>
         /// <param name="canviAplicat"></param>
         /// <param name="despeses"></param>
+        /// <param name="pigVendaReal"></param>
         /// <param name="descripcio"></param>
         /// <param name="afegeigPreuAValoracions"></param>
         /// <param name="mostraFinestraAdvertencia"></param>
         /// <returns></returns>
         internal Moviment desaVenda(InversionsBDContext connexio, DateTime data, TimeSpan hora, decimal participacions, decimal preuParticipacio
-            , decimal canviAplicat, decimal? despeses, string descripcio, bool afegeigPreuAValoracions = true, bool mostraFinestraAdvertencia = true)
+            , decimal canviAplicat, decimal? despeses, decimal? pigVendaReal, string descripcio, bool afegeigPreuAValoracions = true, bool mostraFinestraAdvertencia = true)
         {
             DateTime dataHora = Utilitats.FormaData(data, hora);
 
             return desaVenda(connexio, dataHora, participacions, preuParticipacio, canviAplicat, despeses, descripcio, afegeigPreuAValoracions
-                , mostraFinestraAdvertencia);
+                , mostraFinestraAdvertencia, pigVendaReal);
         }
 
 
@@ -423,9 +424,11 @@ namespace Inversions
         /// <param name="descripcio"></param>
         /// <param name="afegeigPreuAValoracions"></param>
         /// <param name="mostraFinestraAdvertencia"></param>
+        /// <param name="pigVendaReal"></param>
         /// <returns></returns>
-        private Moviment desaVenda(InversionsBDContext connexio, DateTime dataHora, decimal participacions, decimal preuParticipacio, decimal canviAplicat,
-            decimal? despeses, string descripcio, bool afegeigPreuAValoracions, bool mostraFinestraAdvertencia)
+        private Moviment desaVenda(InversionsBDContext connexio, DateTime dataHora, decimal participacions, decimal preuParticipacio, 
+            decimal canviAplicat, decimal? despeses, string descripcio, bool afegeigPreuAValoracions, bool mostraFinestraAdvertencia, 
+            decimal? pigVendaReal = null)
         {
             validacionsCompraVenda(connexio, dataHora, participacions, mostraFinestraAdvertencia);
 
@@ -436,6 +439,7 @@ namespace Inversions
             moviment.PreuParticipacio = preuParticipacio;
             moviment.CanviAplicat = canviAplicat;
             moviment.Despeses = despeses;
+            moviment.PiGVendaReal = pigVendaReal;
             moviment.Data = dataHora;
             moviment.Descripcio = String.IsNullOrEmpty(descripcio) ? null : descripcio;
 

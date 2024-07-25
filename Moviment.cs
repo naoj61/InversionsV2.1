@@ -31,6 +31,7 @@ namespace Inversions
         public decimal PreuParticipacio { get; set; }
         public decimal CanviAplicat { get; set; }
         public Nullable<decimal> Despeses { get; set; }
+        public Nullable<decimal> PiGVendaReal { get; set; }
         public string Descripcio { get; set; }
         public byte[] RowVersion { get; set; }
     

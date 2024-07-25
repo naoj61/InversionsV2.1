@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle43 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle44 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle45 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle46 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle47 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle48 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cDataGridView1 = new System.Windows.Forms.DataGridView();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTipusMoviment = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -69,6 +69,8 @@
             this.tbDespeses = new Controls.NumericTextBox2();
             this.gbImportTotal = new System.Windows.Forms.GroupBox();
             this.tbImportTotal = new Controls.NumericTextBox2();
+            this.gbPigVendaReal = new System.Windows.Forms.GroupBox();
+            this.ntbPigVendaReal = new Controls.NumericTextBox2();
             this.gbDescripcio = new System.Windows.Forms.GroupBox();
             this.tbDescripcio = new System.Windows.Forms.TextBox();
             this.gbEdicio = new System.Windows.Forms.GroupBox();
@@ -98,6 +100,7 @@
             this.gbCanviAplicat.SuspendLayout();
             this.gbDespeses.SuspendLayout();
             this.gbImportTotal.SuspendLayout();
+            this.gbPigVendaReal.SuspendLayout();
             this.gbDescripcio.SuspendLayout();
             this.gbEdicio.SuspendLayout();
             this.gbTraspas.SuspendLayout();
@@ -177,10 +180,10 @@
             // 
             this.colData.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colData.DataPropertyName = "Data";
-            dataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle43.Format = "d";
-            dataGridViewCellStyle43.NullValue = null;
-            this.colData.DefaultCellStyle = dataGridViewCellStyle43;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.Format = "d";
+            dataGridViewCellStyle1.NullValue = null;
+            this.colData.DefaultCellStyle = dataGridViewCellStyle1;
             this.colData.HeaderText = "Data";
             this.colData.Name = "colData";
             this.colData.ReadOnly = true;
@@ -190,10 +193,10 @@
             // 
             this.colParticipacions.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colParticipacions.DataPropertyName = "Participacions";
-            dataGridViewCellStyle44.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle44.Format = "N4";
-            dataGridViewCellStyle44.NullValue = null;
-            this.colParticipacions.DefaultCellStyle = dataGridViewCellStyle44;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Format = "N4";
+            dataGridViewCellStyle2.NullValue = null;
+            this.colParticipacions.DefaultCellStyle = dataGridViewCellStyle2;
             this.colParticipacions.HeaderText = "Participacions";
             this.colParticipacions.Name = "colParticipacions";
             this.colParticipacions.ReadOnly = true;
@@ -203,10 +206,10 @@
             // 
             this.colPreuUnitari.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colPreuUnitari.DataPropertyName = "_PreuParticipacio";
-            dataGridViewCellStyle45.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle45.Format = "c4";
-            dataGridViewCellStyle45.NullValue = null;
-            this.colPreuUnitari.DefaultCellStyle = dataGridViewCellStyle45;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Format = "c4";
+            dataGridViewCellStyle3.NullValue = null;
+            this.colPreuUnitari.DefaultCellStyle = dataGridViewCellStyle3;
             this.colPreuUnitari.HeaderText = "Preu Unitari";
             this.colPreuUnitari.Name = "colPreuUnitari";
             this.colPreuUnitari.ReadOnly = true;
@@ -216,9 +219,9 @@
             // 
             this.ImportBrut.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.ImportBrut.DataPropertyName = "_ImportBrut";
-            dataGridViewCellStyle46.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle46.Format = "C2";
-            this.ImportBrut.DefaultCellStyle = dataGridViewCellStyle46;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle4.Format = "C2";
+            this.ImportBrut.DefaultCellStyle = dataGridViewCellStyle4;
             this.ImportBrut.HeaderText = "Import Brut";
             this.ImportBrut.Name = "ImportBrut";
             this.ImportBrut.ReadOnly = true;
@@ -228,10 +231,10 @@
             // 
             this.colImport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colImport.DataPropertyName = "_ImportNet";
-            dataGridViewCellStyle47.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle47.Format = "C2";
-            dataGridViewCellStyle47.NullValue = null;
-            this.colImport.DefaultCellStyle = dataGridViewCellStyle47;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Format = "C2";
+            dataGridViewCellStyle5.NullValue = null;
+            this.colImport.DefaultCellStyle = dataGridViewCellStyle5;
             this.colImport.HeaderText = "Import Net";
             this.colImport.Name = "colImport";
             this.colImport.ReadOnly = true;
@@ -248,9 +251,9 @@
             // 
             this.colDespeses.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colDespeses.DataPropertyName = "Despeses";
-            dataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle48.Format = "c2";
-            this.colDespeses.DefaultCellStyle = dataGridViewCellStyle48;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle6.Format = "c2";
+            this.colDespeses.DefaultCellStyle = dataGridViewCellStyle6;
             this.colDespeses.HeaderText = "Despeses";
             this.colDespeses.Name = "colDespeses";
             this.colDespeses.ReadOnly = true;
@@ -291,8 +294,8 @@
             this.gbPreuPartic.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbPreuPartic.Name = "gbPreuPartic";
             this.gbPreuPartic.Padding = new System.Windows.Forms.Padding(6);
-            this.gbPreuPartic.Size = new System.Drawing.Size(125, 62);
-            this.gbPreuPartic.TabIndex = 5;
+            this.gbPreuPartic.Size = new System.Drawing.Size(108, 62);
+            this.gbPreuPartic.TabIndex = 4;
             this.gbPreuPartic.TabStop = false;
             this.gbPreuPartic.Text = "Preu Partic.";
             this.toolTip1.SetToolTip(this.gbPreuPartic, "Import brut sense despeses");
@@ -304,15 +307,21 @@
             this.ntbPreuParticipacio._NegatiusEnVermell = false;
             this.ntbPreuParticipacio._PermetDecimals = true;
             this.ntbPreuParticipacio._PermetNegatius = false;
+            this.ntbPreuParticipacio._PermetTextNull = false;
             this.ntbPreuParticipacio.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbPreuParticipacio.ForeColor = System.Drawing.Color.Black;
             this.ntbPreuParticipacio.Location = new System.Drawing.Point(6, 25);
             this.ntbPreuParticipacio.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ntbPreuParticipacio.Name = "ntbPreuParticipacio";
-            this.ntbPreuParticipacio.Size = new System.Drawing.Size(113, 26);
+            this.ntbPreuParticipacio.Size = new System.Drawing.Size(96, 26);
             this.ntbPreuParticipacio.TabIndex = 0;
             this.ntbPreuParticipacio.Text = "0 €";
             this.ntbPreuParticipacio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPreuParticipacio.Valor = 0;
+            this.ntbPreuParticipacio.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
             this.ntbPreuParticipacio.Leave += new System.EventHandler(this.tbPreuParticipacio_Leave);
             // 
             // gbFactorConversor
@@ -324,7 +333,7 @@
             this.gbFactorConversor.Name = "gbFactorConversor";
             this.gbFactorConversor.Padding = new System.Windows.Forms.Padding(6);
             this.gbFactorConversor.Size = new System.Drawing.Size(142, 62);
-            this.gbFactorConversor.TabIndex = 4;
+            this.gbFactorConversor.TabIndex = 3;
             this.gbFactorConversor.TabStop = false;
             this.gbFactorConversor.Text = "Factor Conversor";
             this.toolTip1.SetToolTip(this.gbFactorConversor, "És el numero pel que les accions se dividiran(Contrasplit) o multiplicaran(Split)" +
@@ -337,7 +346,9 @@
             this.ntbFactorConversor._NegatiusEnVermell = false;
             this.ntbFactorConversor._PermetDecimals = false;
             this.ntbFactorConversor._PermetNegatius = false;
+            this.ntbFactorConversor._PermetTextNull = false;
             this.ntbFactorConversor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbFactorConversor.ForeColor = System.Drawing.Color.Black;
             this.ntbFactorConversor.Location = new System.Drawing.Point(6, 23);
             this.ntbFactorConversor.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ntbFactorConversor.Name = "ntbFactorConversor";
@@ -345,7 +356,11 @@
             this.ntbFactorConversor.TabIndex = 0;
             this.ntbFactorConversor.Text = "0";
             this.ntbFactorConversor.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbFactorConversor.Valor = 0;
+            this.ntbFactorConversor.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
             this.ntbFactorConversor.Leave += new System.EventHandler(this.tbNumParticipacions_Leave);
             // 
             // btDesaMoviment
@@ -396,6 +411,7 @@
             this.pnCompraVenda.Controls.Add(this.gbCanviAplicat);
             this.pnCompraVenda.Controls.Add(this.gbDespeses);
             this.pnCompraVenda.Controls.Add(this.gbImportTotal);
+            this.pnCompraVenda.Controls.Add(this.gbPigVendaReal);
             this.pnCompraVenda.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnCompraVenda.Location = new System.Drawing.Point(3, 23);
             this.pnCompraVenda.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -412,7 +428,7 @@
             this.gbDataMoviment.Name = "gbDataMoviment";
             this.gbDataMoviment.Padding = new System.Windows.Forms.Padding(6);
             this.gbDataMoviment.Size = new System.Drawing.Size(142, 62);
-            this.gbDataMoviment.TabIndex = 1;
+            this.gbDataMoviment.TabIndex = 0;
             this.gbDataMoviment.TabStop = false;
             this.gbDataMoviment.Text = "Data";
             // 
@@ -435,7 +451,7 @@
             this.ckActivaDataDesti.Name = "ckActivaDataDesti";
             this.ckActivaDataDesti.Padding = new System.Windows.Forms.Padding(0, 1, 0, 0);
             this.ckActivaDataDesti.Size = new System.Drawing.Size(142, 46);
-            this.ckActivaDataDesti.TabIndex = 2;
+            this.ckActivaDataDesti.TabIndex = 1;
             this.ckActivaDataDesti.Text = "Mostra Data Destí";
             this.ckActivaDataDesti.UseVisualStyleBackColor = true;
             this.ckActivaDataDesti.CheckedChanged += new System.EventHandler(this.ckActivaDataDesti_CheckedChanged);
@@ -448,7 +464,7 @@
             this.gbParticipacions.Name = "gbParticipacions";
             this.gbParticipacions.Padding = new System.Windows.Forms.Padding(6);
             this.gbParticipacions.Size = new System.Drawing.Size(142, 62);
-            this.gbParticipacions.TabIndex = 3;
+            this.gbParticipacions.TabIndex = 2;
             this.gbParticipacions.TabStop = false;
             this.gbParticipacions.Text = "Num Parts";
             // 
@@ -459,7 +475,9 @@
             this.tbNumParticipacions._NegatiusEnVermell = false;
             this.tbNumParticipacions._PermetDecimals = true;
             this.tbNumParticipacions._PermetNegatius = false;
+            this.tbNumParticipacions._PermetTextNull = false;
             this.tbNumParticipacions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbNumParticipacions.ForeColor = System.Drawing.Color.Black;
             this.tbNumParticipacions.Location = new System.Drawing.Point(6, 25);
             this.tbNumParticipacions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tbNumParticipacions.Name = "tbNumParticipacions";
@@ -467,18 +485,22 @@
             this.tbNumParticipacions.TabIndex = 0;
             this.tbNumParticipacions.Text = "0";
             this.tbNumParticipacions.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbNumParticipacions.Valor = 0;
+            this.tbNumParticipacions.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
             this.tbNumParticipacions.Leave += new System.EventHandler(this.tbNumParticipacions_Leave);
             // 
             // gbCanviAplicat
             // 
             this.gbCanviAplicat.Controls.Add(this.tbCanviAplicat);
-            this.gbCanviAplicat.Location = new System.Drawing.Point(134, 74);
+            this.gbCanviAplicat.Location = new System.Drawing.Point(117, 74);
             this.gbCanviAplicat.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbCanviAplicat.Name = "gbCanviAplicat";
             this.gbCanviAplicat.Padding = new System.Windows.Forms.Padding(6);
-            this.gbCanviAplicat.Size = new System.Drawing.Size(125, 62);
-            this.gbCanviAplicat.TabIndex = 6;
+            this.gbCanviAplicat.Size = new System.Drawing.Size(108, 62);
+            this.gbCanviAplicat.TabIndex = 5;
             this.gbCanviAplicat.TabStop = false;
             this.gbCanviAplicat.Text = "Canvi €/x";
             // 
@@ -489,26 +511,32 @@
             this.tbCanviAplicat._NegatiusEnVermell = false;
             this.tbCanviAplicat._PermetDecimals = true;
             this.tbCanviAplicat._PermetNegatius = false;
+            this.tbCanviAplicat._PermetTextNull = false;
             this.tbCanviAplicat.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbCanviAplicat.ForeColor = System.Drawing.Color.Black;
             this.tbCanviAplicat.Location = new System.Drawing.Point(6, 25);
             this.tbCanviAplicat.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tbCanviAplicat.Name = "tbCanviAplicat";
-            this.tbCanviAplicat.Size = new System.Drawing.Size(113, 26);
+            this.tbCanviAplicat.Size = new System.Drawing.Size(96, 26);
             this.tbCanviAplicat.TabIndex = 0;
             this.tbCanviAplicat.Text = "1 €";
             this.tbCanviAplicat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbCanviAplicat.Valor = 1;
+            this.tbCanviAplicat.Valor = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.tbCanviAplicat.Leave += new System.EventHandler(this.tbPreuParticipacio_Leave);
             // 
             // gbDespeses
             // 
             this.gbDespeses.Controls.Add(this.tbDespeses);
-            this.gbDespeses.Location = new System.Drawing.Point(265, 74);
+            this.gbDespeses.Location = new System.Drawing.Point(231, 74);
             this.gbDespeses.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbDespeses.Name = "gbDespeses";
             this.gbDespeses.Padding = new System.Windows.Forms.Padding(6);
-            this.gbDespeses.Size = new System.Drawing.Size(125, 62);
-            this.gbDespeses.TabIndex = 7;
+            this.gbDespeses.Size = new System.Drawing.Size(108, 62);
+            this.gbDespeses.TabIndex = 6;
             this.gbDespeses.TabStop = false;
             this.gbDespeses.Text = "Despeses";
             // 
@@ -519,26 +547,32 @@
             this.tbDespeses._NegatiusEnVermell = false;
             this.tbDespeses._PermetDecimals = true;
             this.tbDespeses._PermetNegatius = false;
+            this.tbDespeses._PermetTextNull = false;
             this.tbDespeses.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbDespeses.ForeColor = System.Drawing.Color.Black;
             this.tbDespeses.Location = new System.Drawing.Point(6, 25);
             this.tbDespeses.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tbDespeses.Name = "tbDespeses";
-            this.tbDespeses.Size = new System.Drawing.Size(113, 26);
+            this.tbDespeses.Size = new System.Drawing.Size(96, 26);
             this.tbDespeses.TabIndex = 0;
             this.tbDespeses.Text = "0 €";
             this.tbDespeses.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbDespeses.Valor = 0;
+            this.tbDespeses.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
             this.tbDespeses.Leave += new System.EventHandler(this.tbDespeses_Leave);
             // 
             // gbImportTotal
             // 
             this.gbImportTotal.Controls.Add(this.tbImportTotal);
-            this.gbImportTotal.Location = new System.Drawing.Point(396, 74);
+            this.gbImportTotal.Location = new System.Drawing.Point(345, 74);
             this.gbImportTotal.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbImportTotal.Name = "gbImportTotal";
             this.gbImportTotal.Padding = new System.Windows.Forms.Padding(6);
-            this.gbImportTotal.Size = new System.Drawing.Size(125, 58);
-            this.gbImportTotal.TabIndex = 0;
+            this.gbImportTotal.Size = new System.Drawing.Size(108, 62);
+            this.gbImportTotal.TabIndex = 7;
             this.gbImportTotal.TabStop = false;
             this.gbImportTotal.Text = "Imp. Total";
             // 
@@ -549,16 +583,58 @@
             this.tbImportTotal._NegatiusEnVermell = false;
             this.tbImportTotal._PermetDecimals = true;
             this.tbImportTotal._PermetNegatius = false;
+            this.tbImportTotal._PermetTextNull = false;
             this.tbImportTotal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbImportTotal.ForeColor = System.Drawing.Color.Black;
             this.tbImportTotal.Location = new System.Drawing.Point(6, 25);
             this.tbImportTotal.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tbImportTotal.Name = "tbImportTotal";
             this.tbImportTotal.ReadOnly = true;
-            this.tbImportTotal.Size = new System.Drawing.Size(113, 26);
+            this.tbImportTotal.Size = new System.Drawing.Size(96, 26);
             this.tbImportTotal.TabIndex = 0;
             this.tbImportTotal.Text = "0 €";
             this.tbImportTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbImportTotal.Valor = 0;
+            this.tbImportTotal.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            // 
+            // gbPigVendaReal
+            // 
+            this.gbPigVendaReal.Controls.Add(this.ntbPigVendaReal);
+            this.gbPigVendaReal.Dock = System.Windows.Forms.DockStyle.Right;
+            this.gbPigVendaReal.Location = new System.Drawing.Point(459, 74);
+            this.gbPigVendaReal.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gbPigVendaReal.Name = "gbPigVendaReal";
+            this.gbPigVendaReal.Padding = new System.Windows.Forms.Padding(6);
+            this.gbPigVendaReal.Size = new System.Drawing.Size(108, 62);
+            this.gbPigVendaReal.TabIndex = 8;
+            this.gbPigVendaReal.TabStop = false;
+            this.gbPigVendaReal.Text = "PiG Real";
+            // 
+            // ntbPigVendaReal
+            // 
+            this.ntbPigVendaReal._CapturaEscape = true;
+            this.ntbPigVendaReal._Format = "#,##0.0 €";
+            this.ntbPigVendaReal._NegatiusEnVermell = false;
+            this.ntbPigVendaReal._PermetDecimals = true;
+            this.ntbPigVendaReal._PermetNegatius = false;
+            this.ntbPigVendaReal._PermetTextNull = true;
+            this.ntbPigVendaReal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbPigVendaReal.ForeColor = System.Drawing.Color.Black;
+            this.ntbPigVendaReal.Location = new System.Drawing.Point(6, 25);
+            this.ntbPigVendaReal.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ntbPigVendaReal.Name = "ntbPigVendaReal";
+            this.ntbPigVendaReal.Size = new System.Drawing.Size(96, 26);
+            this.ntbPigVendaReal.TabIndex = 0;
+            this.ntbPigVendaReal.Text = "0,0 €";
+            this.ntbPigVendaReal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbPigVendaReal.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            65536});
             // 
             // gbDescripcio
             // 
@@ -662,7 +738,9 @@
             this.tbNumParticipacionsDesti._NegatiusEnVermell = false;
             this.tbNumParticipacionsDesti._PermetDecimals = true;
             this.tbNumParticipacionsDesti._PermetNegatius = false;
+            this.tbNumParticipacionsDesti._PermetTextNull = false;
             this.tbNumParticipacionsDesti.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbNumParticipacionsDesti.ForeColor = System.Drawing.Color.Black;
             this.tbNumParticipacionsDesti.Location = new System.Drawing.Point(6, 25);
             this.tbNumParticipacionsDesti.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tbNumParticipacionsDesti.Name = "tbNumParticipacionsDesti";
@@ -670,7 +748,11 @@
             this.tbNumParticipacionsDesti.TabIndex = 0;
             this.tbNumParticipacionsDesti.Text = "0";
             this.tbNumParticipacionsDesti.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbNumParticipacionsDesti.Valor = 0;
+            this.tbNumParticipacionsDesti.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
             this.tbNumParticipacionsDesti.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbNumParticipacionsDesti_KeyPress);
             this.tbNumParticipacionsDesti.Leave += new System.EventHandler(this.tbNumParticipacionsDesti_Leave);
             // 
@@ -694,7 +776,9 @@
             this.ntbPreuParticipacioFonsCompra._NegatiusEnVermell = false;
             this.ntbPreuParticipacioFonsCompra._PermetDecimals = true;
             this.ntbPreuParticipacioFonsCompra._PermetNegatius = false;
+            this.ntbPreuParticipacioFonsCompra._PermetTextNull = false;
             this.ntbPreuParticipacioFonsCompra.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbPreuParticipacioFonsCompra.ForeColor = System.Drawing.Color.Black;
             this.ntbPreuParticipacioFonsCompra.Location = new System.Drawing.Point(6, 25);
             this.ntbPreuParticipacioFonsCompra.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ntbPreuParticipacioFonsCompra.Name = "ntbPreuParticipacioFonsCompra";
@@ -702,7 +786,11 @@
             this.ntbPreuParticipacioFonsCompra.TabIndex = 0;
             this.ntbPreuParticipacioFonsCompra.Text = "0 €";
             this.ntbPreuParticipacioFonsCompra.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPreuParticipacioFonsCompra.Valor = 0;
+            this.ntbPreuParticipacioFonsCompra.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
             this.ntbPreuParticipacioFonsCompra.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ntbPreuParticipacioFonsCompra_KeyPress);
             this.ntbPreuParticipacioFonsCompra.Leave += new System.EventHandler(this.ntbPreuParticipacioFonsCompra_Leave);
             // 
@@ -726,16 +814,22 @@
             this.ntbDespeses._NegatiusEnVermell = false;
             this.ntbDespeses._PermetDecimals = true;
             this.ntbDespeses._PermetNegatius = false;
+            this.ntbDespeses._PermetTextNull = false;
             this.ntbDespeses.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbDespeses.ForeColor = System.Drawing.Color.Black;
             this.ntbDespeses.Location = new System.Drawing.Point(6, 25);
             this.ntbDespeses.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ntbDespeses.Name = "ntbDespeses";
             this.ntbDespeses.ReadOnly = true;
             this.ntbDespeses.Size = new System.Drawing.Size(116, 26);
             this.ntbDespeses.TabIndex = 0;
-            this.ntbDespeses.Text = "0 €";
+            this.ntbDespeses.Text = "0,00 €";
             this.ntbDespeses.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbDespeses.Valor = 0;
+            this.ntbDespeses.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
             // 
             // gbProducteTraspas
             // 
@@ -864,6 +958,8 @@
             this.gbDespeses.PerformLayout();
             this.gbImportTotal.ResumeLayout(false);
             this.gbImportTotal.PerformLayout();
+            this.gbPigVendaReal.ResumeLayout(false);
+            this.gbPigVendaReal.PerformLayout();
             this.gbDescripcio.ResumeLayout(false);
             this.gbDescripcio.PerformLayout();
             this.gbEdicio.ResumeLayout(false);
@@ -943,5 +1039,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private Controls.NumericTextBox2 ntbPreuParticipacioFonsCompra;
         private Controls.NumericTextBox2 ntbDespeses;
+        private System.Windows.Forms.GroupBox gbPigVendaReal;
+        private Controls.NumericTextBox2 ntbPigVendaReal;
     }
 }

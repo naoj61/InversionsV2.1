@@ -43,6 +43,9 @@ namespace Inversions.GUI
         internal override void carregaInicial()
         {
             base.carregaInicial();
+            
+            gestioProductesTabMoviments._NomesAmbParticipacions = true;
+            
             refresca();
         }
 
@@ -158,6 +161,8 @@ namespace Inversions.GUI
                 cProducteTraspas.ResumeLayout();
             }
 
+            ntbPigVendaReal.Text = string.Empty;
+
             tbNumParticipacions.Valor = prod._Participacions;
 
             ntbPreuParticipacio.Valor = 0;
@@ -241,8 +246,10 @@ namespace Inversions.GUI
                             }
                             else if (tipusMoviment == TipusMoviment.Venda)
                             {
+                                decimal? pigVendaReal = String.IsNullOrEmpty(ntbPigVendaReal.Text) ? (decimal?) null : ntbPigVendaReal.Valor;
+
                                 prodOrigenContext.desaVenda(conn, data1, DateTime.Now.TimeOfDay, tbNumParticipacions._DecimalValue, ntbPreuParticipacio._DecimalValue,
-                                    tbCanviAplicat._DecimalValue, tbDespeses._DecimalValue, tbDescripcio.Text);
+                                    tbCanviAplicat._DecimalValue, tbDespeses._DecimalValue, pigVendaReal, tbDescripcio.Text);
                             }
                             else if (tipusMoviment == TipusMoviment.Dividends)
                             {
@@ -337,6 +344,7 @@ namespace Inversions.GUI
             gbDataDesti.Visible = false;
             gbNumParticipacionsDesti.Visible = tipusMov == TipusMoviment.Traspàs;
             gbDescripcio.Visible = !esUnaAccio || tipusMov == TipusMoviment.Dividends;
+            gbPigVendaReal.Visible = !esUnaAccio && tipusMov == TipusMoviment.Venda;
 
             gbEdicio.Visible = true;
         }
@@ -370,6 +378,17 @@ namespace Inversions.GUI
         private void btDesaMoviment_Click(object sender, EventArgs e)
         {
             TipusMoviment tp = (TipusMoviment)cbTipusMoviment.SelectedItem;
+
+            if (tp == TipusMoviment.Venda && !String.IsNullOrEmpty(ntbPigVendaReal.Text) && ntbPigVendaReal.Valor == 0)
+            {
+                // ntbPigVendaReal conté 0 i el control no està buit..
+                if (MessageBox.Show("El valor de 'PiG Real és 0. Això és correcte?", "Avís",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                {
+                    ntbPigVendaReal.Focus();
+                    return;
+                }
+            }
 
             if ((tp == TipusMoviment.Compra || tp == TipusMoviment.Venda || tp == TipusMoviment.Traspàs) && tbNumParticipacions.Valor <= 0)
             {

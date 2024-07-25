@@ -581,11 +581,19 @@ namespace Inversions
             if (!_EsVenda)
                 throw new Exception("El moviment no és una venda.");
 
-            var preuCost = compresDeLaVenda().Sum(compra => compra.calculaImportCompraOrigen3(inclouDespeses));
-            var despesesVenda = inclouDespeses ? Despeses.GetValueOrDefault() : 0;
-            var preuVenda = Participacions * PreuParticipacio - despesesVenda;
+            decimal pig;
+            if (PiGVendaReal.HasValue)
+                pig = PiGVendaReal.Value;
+            else
+            {
+                var preuCost = compresDeLaVenda().Sum(compra => compra.calculaImportCompraOrigen3(inclouDespeses));
+                var despesesVenda = inclouDespeses ? Despeses.GetValueOrDefault() : 0;
+                var preuVenda = Participacions * PreuParticipacio - despesesVenda;
 
-            return preuVenda - preuCost;
+                pig = preuVenda - preuCost;
+            }
+
+            return pig;
         }
 
         #endregion *** PiG ***

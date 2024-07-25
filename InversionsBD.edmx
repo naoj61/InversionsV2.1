@@ -67,6 +67,7 @@
           <Property Name="PreuParticipacio" Type="decimal" Precision="20" Scale="13" Nullable="false" />
           <Property Name="CanviAplicat" Type="decimal" Precision="20" Scale="13" Nullable="false" />
           <Property Name="Despeses" Type="decimal" Precision="20" Scale="13" />
+          <Property Name="PiGVendaReal" Type="decimal" Precision="20" Scale="13" />
           <Property Name="Descripcio" Type="nvarchar(max)" />
           <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
@@ -588,6 +589,7 @@
           <Property Name="PreuParticipacio" Nullable="false" Type="Decimal" Precision="20" Scale="13" />
           <Property Name="CanviAplicat" Nullable="false" Type="Decimal" Precision="20" Scale="13" />
           <Property Name="Despeses" Type="Decimal" Precision="20" Scale="13" />
+          <Property Name="PiGVendaReal" Type="Decimal" Precision="20" Scale="13" />
           <Property Name="Descripcio" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
           <Property Name="RowVersion" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" Type="Binary" />
           <NavigationProperty Name="Prod" Relationship="InversionsBD.FK_ProdMov" FromRole="Moviment" ToRole="Producte" />
@@ -790,6 +792,7 @@
           <EntitySetMapping Name="Moviments">
             <EntityTypeMapping TypeName="InversionsBD.Moviment">
               <MappingFragment StoreEntitySet="Moviments">
+                <ScalarProperty Name="PiGVendaReal" ColumnName="PiGVendaReal" />
                 <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
                 <ScalarProperty Name="Descripcio" ColumnName="Descripcio" />
                 <ScalarProperty Name="Despeses" ColumnName="Despeses" />

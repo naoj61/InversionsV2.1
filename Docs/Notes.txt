@@ -1,9 +1,4 @@
-﻿- En valoracioms, no permetre introduir valors iguals o inferiors a 0.
-
-- NumericTextBox2. 
-	- No permet fer Paste si és un import amb el simbol €
-
-- Al afegir una valoració manualment, no s'actualitza la llista de valoracions del producte.
+﻿- En cas de venda de fons, és possible que les PiGs originals no coincideix amb el me càlcul, hauria de poder guardar el valor real a mes del calculat per mi.
 
 - A les llistes de valoracions, barrejar els preu de compra del usuari.
 	-(Com que pot ser que el preu de compra no coincideixi amb la valoració real degut a les comissions).
@@ -13,7 +8,11 @@
 
 ------------------------------ Fet!!!! ------------------------------
 
-- 2.12.37.0. NumericTextBox2. Eliminar atribut "_PermetEspais".
+- 2.12.36.08 En valoracioms, no permetre introduir valors iguals o inferiors a 0.
+
+- 2.12.36.07. Al afegir una valoració manualment, no s'actualitza la llista de valoracions del producte.
+
+- 1.1.6.0. NumericTextBox2. Eliminar atribut "_PermetEspais".
 
 - Afegir filtres en Edició Taules BD
 
