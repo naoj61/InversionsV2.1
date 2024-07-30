@@ -147,14 +147,15 @@ namespace Inversions.GUI
                 {
                     var item = items[index];
 
-                    if (item == "FONDOS NACIONALES" || item == "FONDOS INTERNACIONALES")
+                    if (item.Equals("FONDOS NACIONALES", StringComparison.OrdinalIgnoreCase) 
+                        || item.Equals("FONDOS INTERNACIONALES", StringComparison.OrdinalIgnoreCase))
                     {
                         pos = 0;
                         posPreuPart = null;
 
                         for (; index < items.Length; index++)
                         {
-                            if (items[index] == "Precio actual")
+                            if (items[index].Equals("Precio actual", StringComparison.OrdinalIgnoreCase))
                             {
                                 posPreuPart = pos;
                                 pos = null;
