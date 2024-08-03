@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Inversions.GUI
 {
@@ -95,9 +97,9 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.ntbPigCompra = new Controls.NumericTextBox2();
+            this.lbPigCompra = new System.Windows.Forms.Label();
             this.gbPigCompraOrig = new System.Windows.Forms.GroupBox();
-            this.ntbPigCompraOrig = new Controls.NumericTextBox2();
+            this.lbPigCompraOrig = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panel7 = new System.Windows.Forms.Panel();
@@ -315,6 +317,7 @@ namespace Inversions.GUI
             this.ntbPigRealMesCartera._NegatiusEnVermell = false;
             this.ntbPigRealMesCartera._PermetDecimals = true;
             this.ntbPigRealMesCartera._PermetNegatius = true;
+            this.ntbPigRealMesCartera._PermetTextNull = false;
             this.ntbPigRealMesCartera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ntbPigRealMesCartera.Dock = System.Windows.Forms.DockStyle.Top;
             this.ntbPigRealMesCartera.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -353,6 +356,7 @@ namespace Inversions.GUI
             this.ntbPigActualPartsEnCartera._NegatiusEnVermell = false;
             this.ntbPigActualPartsEnCartera._PermetDecimals = true;
             this.ntbPigActualPartsEnCartera._PermetNegatius = true;
+            this.ntbPigActualPartsEnCartera._PermetTextNull = false;
             this.ntbPigActualPartsEnCartera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ntbPigActualPartsEnCartera.Dock = System.Windows.Forms.DockStyle.Top;
             this.ntbPigActualPartsEnCartera.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -779,7 +783,7 @@ namespace Inversions.GUI
             this.dgvPiGProductePerAny.ReadOnly = true;
             this.dgvPiGProductePerAny.RowHeadersVisible = false;
             this.dgvPiGProductePerAny.RowTemplate.Height = 24;
-            this.dgvPiGProductePerAny.Size = new System.Drawing.Size(279, 84);
+            this.dgvPiGProductePerAny.Size = new System.Drawing.Size(279, 100);
             this.dgvPiGProductePerAny.TabIndex = 20;
             // 
             // dataGridViewTextBoxColumn8
@@ -811,79 +815,57 @@ namespace Inversions.GUI
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.ntbPigCompra);
+            this.groupBox3.Controls.Add(this.lbPigCompra);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(5, 113);
+            this.groupBox3.Location = new System.Drawing.Point(5, 129);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 9, 3, 4);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox3.Size = new System.Drawing.Size(279, 57);
+            this.groupBox3.Size = new System.Drawing.Size(279, 49);
             this.groupBox3.TabIndex = 26;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "PiG de la compra";
             // 
-            // ntbPigCompra
+            // lbPigCompra
             // 
-            this.ntbPigCompra._CapturaEscape = true;
-            this.ntbPigCompra._Format = "#,#0.00 €";
-            this.ntbPigCompra._NegatiusEnVermell = false;
-            this.ntbPigCompra._PermetDecimals = true;
-            this.ntbPigCompra._PermetNegatius = true;
-            this.ntbPigCompra.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ntbPigCompra.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbPigCompra.ForeColor = System.Drawing.Color.Black;
-            this.ntbPigCompra.Location = new System.Drawing.Point(3, 22);
-            this.ntbPigCompra.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ntbPigCompra.Name = "ntbPigCompra";
-            this.ntbPigCompra.ReadOnly = true;
-            this.ntbPigCompra.Size = new System.Drawing.Size(273, 25);
-            this.ntbPigCompra.TabIndex = 2;
-            this.ntbPigCompra.Text = "0,00 €";
-            this.ntbPigCompra.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPigCompra.Valor = new decimal(new int[] {
-            0,
-            0,
-            0,
-            131072});
+            this.lbPigCompra.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbPigCompra.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPigCompra.ForeColor = System.Drawing.Color.Black;
+            this.lbPigCompra.Location = new System.Drawing.Point(3, 22);
+            this.lbPigCompra.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.lbPigCompra.Name = "lbPigCompra";
+            this.lbPigCompra.Size = new System.Drawing.Size(273, 23);
+            this.lbPigCompra.TabIndex = 2;
+            this.lbPigCompra.Text = "0,00 €";
+            this.lbPigCompra.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // gbPigCompraOrig
             // 
-            this.gbPigCompraOrig.Controls.Add(this.ntbPigCompraOrig);
+            this.gbPigCompraOrig.Controls.Add(this.lbPigCompraOrig);
             this.gbPigCompraOrig.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.gbPigCompraOrig.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbPigCompraOrig.Location = new System.Drawing.Point(5, 170);
+            this.gbPigCompraOrig.Location = new System.Drawing.Point(5, 178);
             this.gbPigCompraOrig.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbPigCompraOrig.Name = "gbPigCompraOrig";
             this.gbPigCompraOrig.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbPigCompraOrig.Size = new System.Drawing.Size(279, 57);
+            this.gbPigCompraOrig.Size = new System.Drawing.Size(279, 49);
             this.gbPigCompraOrig.TabIndex = 27;
             this.gbPigCompraOrig.TabStop = false;
             this.gbPigCompraOrig.Text = "PiG de la compra Orig";
             // 
-            // ntbPigCompraOrig
+            // lbPigCompraOrig
             // 
-            this.ntbPigCompraOrig._CapturaEscape = true;
-            this.ntbPigCompraOrig._Format = "#,#0.00 €";
-            this.ntbPigCompraOrig._NegatiusEnVermell = false;
-            this.ntbPigCompraOrig._PermetDecimals = true;
-            this.ntbPigCompraOrig._PermetNegatius = true;
-            this.ntbPigCompraOrig.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ntbPigCompraOrig.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbPigCompraOrig.ForeColor = System.Drawing.Color.Black;
-            this.ntbPigCompraOrig.Location = new System.Drawing.Point(3, 22);
-            this.ntbPigCompraOrig.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ntbPigCompraOrig.Name = "ntbPigCompraOrig";
-            this.ntbPigCompraOrig.ReadOnly = true;
-            this.ntbPigCompraOrig.Size = new System.Drawing.Size(273, 25);
-            this.ntbPigCompraOrig.TabIndex = 2;
-            this.ntbPigCompraOrig.Text = "0,00 €";
-            this.ntbPigCompraOrig.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.ntbPigCompraOrig.Valor = new decimal(new int[] {
-            0,
-            0,
-            0,
-            131072});
+            this.lbPigCompraOrig.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbPigCompraOrig.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPigCompraOrig.ForeColor = System.Drawing.Color.Black;
+            this.lbPigCompraOrig.Location = new System.Drawing.Point(3, 22);
+            this.lbPigCompraOrig.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.lbPigCompraOrig.Name = "lbPigCompraOrig";
+            this.lbPigCompraOrig.Size = new System.Drawing.Size(273, 23);
+            this.lbPigCompraOrig.TabIndex = 2;
+            this.lbPigCompraOrig.Text = "0,00 €";
+            this.lbPigCompraOrig.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label4
             // 
@@ -956,6 +938,7 @@ namespace Inversions.GUI
             this.ntbDiferencia._NegatiusEnVermell = false;
             this.ntbDiferencia._PermetDecimals = true;
             this.ntbDiferencia._PermetNegatius = true;
+            this.ntbDiferencia._PermetTextNull = false;
             this.ntbDiferencia.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbDiferencia.Enabled = false;
             this.ntbDiferencia.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -992,6 +975,7 @@ namespace Inversions.GUI
             this.ntbPiG._NegatiusEnVermell = false;
             this.ntbPiG._PermetDecimals = true;
             this.ntbPiG._PermetNegatius = true;
+            this.ntbPiG._PermetTextNull = false;
             this.ntbPiG.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPiG.Enabled = false;
             this.ntbPiG.ForeColor = System.Drawing.Color.Black;
@@ -1027,6 +1011,7 @@ namespace Inversions.GUI
             this.ntbPreuParticipacio._NegatiusEnVermell = false;
             this.ntbPreuParticipacio._PermetDecimals = true;
             this.ntbPreuParticipacio._PermetNegatius = false;
+            this.ntbPreuParticipacio._PermetTextNull = false;
             this.ntbPreuParticipacio.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPreuParticipacio.ForeColor = System.Drawing.Color.Black;
             this.ntbPreuParticipacio.Location = new System.Drawing.Point(3, 22);
@@ -1079,6 +1064,7 @@ namespace Inversions.GUI
             this.tbPigEntreDates._NegatiusEnVermell = false;
             this.tbPigEntreDates._PermetDecimals = true;
             this.tbPigEntreDates._PermetNegatius = true;
+            this.tbPigEntreDates._PermetTextNull = false;
             this.tbPigEntreDates.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbPigEntreDates.ForeColor = System.Drawing.Color.Black;
             this.tbPigEntreDates.Location = new System.Drawing.Point(274, 68);
@@ -1177,9 +1163,7 @@ namespace Inversions.GUI
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPiGProductePerAny)).EndInit();
             this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.gbPigCompraOrig.ResumeLayout(false);
-            this.gbPigCompraOrig.PerformLayout();
             this.panel7.ResumeLayout(false);
             this.gbSimulacioPig.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -1217,9 +1201,9 @@ namespace Inversions.GUI
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.GroupBox groupBox3;
-        private Controls.NumericTextBox2 ntbPigCompra;
+        private System.Windows.Forms.Label lbPigCompra;
         private System.Windows.Forms.GroupBox gbPigCompraOrig;
-        private Controls.NumericTextBox2 ntbPigCompraOrig;
+        private System.Windows.Forms.Label lbPigCompraOrig;
         private System.Windows.Forms.Label label3;
         private Controls.NumericTextBox2 ntbPigRealMesCartera;
         private Controls.NumericTextBox2 ntbPigActualPartsEnCartera;

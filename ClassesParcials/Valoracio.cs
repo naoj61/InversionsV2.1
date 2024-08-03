@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
@@ -37,7 +38,7 @@ namespace Inversions
         }
 
         /// <summary>
-        /// La valoració anterior amb pre superior a 0.
+        /// La valoració anterior amb preu superior a 0.
         /// </summary>
         /// <param name="preuMajorQueCero"></param>
         /// <returns></returns>
@@ -51,6 +52,14 @@ namespace Inversions
             return valoracionsAnteriors.OrderByDescending(e => e.Data).FirstOrDefault();
         }
 
+        /// <summary>
+        /// Comprova si el dia anterior al de la valoració hi havia participacions.
+        /// </summary>
+        /// <returns></returns>
+        bool hiHaviaParticipacionsAhir()
+        {
+            return Prod.numParticipacionsEnData(Utilitats.DataHoraFinalDia(Data.AddDays(-1))) == 0;
+        }
 
         /// <summary>
         /// Expressió per seleccionar pendents en un LINQ.
@@ -78,6 +87,7 @@ namespace Inversions
         /// <summary>
         /// Variacio en % respecte a la valoració anterior amb preu > 0.
         /// </summary>
+        [Description("S'utilitza en un DataGrid")]
         public decimal _VariacioPercentatge
         {
             get
@@ -98,6 +108,7 @@ namespace Inversions
         /// <summary>
         /// Variacio en Euros respecte a la valoració anterior amb preu > 0.
         /// </summary>
+        [Description("S'utilitza en un DataGrid")]
         public decimal _VariacioEuros
         {
             get
@@ -111,6 +122,10 @@ namespace Inversions
                     return 0;
 
                 if (Prod._Participacions == 0)
+                    return 0;
+
+                if (hiHaviaParticipacionsAhir())
+                    // Si ahir no hi havia participacions.
                     return 0;
 
                 // Si en la data hi ha hagut moviments elimino els imports d'aquests per calcular la variació en Euros.

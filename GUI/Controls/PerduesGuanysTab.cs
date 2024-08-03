@@ -139,8 +139,13 @@ namespace Inversions.GUI
 
             ResumeLayout();
 
-            ntbPigCompra.Valor = compres.Sum(s => s.__PigDeLaCompra);
-            ntbPigCompraOrig.Valor = compres.Sum(s => s.__PigDeLaCompraOrigen);
+            var pigCompra = compres.Sum(s => s.__PigDeLaCompra);
+            lbPigCompra.Text = pigCompra.ToString("###,##0.00 €"); ;
+            lbPigCompra.ForeColor = pigCompra < 0 ? Color.Red : Color.Black;
+
+            pigCompra = compres.Sum(s => s.__PigDeLaCompraOrigen);
+            lbPigCompraOrig.Text = pigCompra.ToString("###,##0.00 €"); ;
+            lbPigCompraOrig.ForeColor = pigCompra < 0 ? Color.Red : Color.Black;
         }
 
 
@@ -178,23 +183,29 @@ namespace Inversions.GUI
                         if (anyPig.Key == DateTime.Today.Year)
                             pig += ntbDiferencia.Valor;
 
-                        dgvPiGProductePerAny.Rows.Add(anyPig.Key, pig);
+                        fila = dgvPiGProductePerAny.Rows.Add(anyPig.Key, pig);
 
+                        dgvPiGProductePerAny.Rows[fila].Cells[1].Style.ForeColor = pig < 0 ? Color.Red : Color.Black;
+                        
                         pigTotal += pig;
                     }
 
                     fila = dgvPiGProductePerAny.Rows.Add("SubTotal", pigTotal);
                     dgvPiGProductePerAny.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGProductePerAny.Font, FontStyle.Bold);
+                    dgvPiGProductePerAny.Rows[fila].Cells[1].Style.ForeColor = pigTotal < 0 ? Color.Red : Color.Black;
                 }
 
 
                 var enCartera = proSeleccionat.pig2EnCartera();
-                dgvPiGProductePerAny.Rows.Add("Cartera", enCartera);
+                fila = dgvPiGProductePerAny.Rows.Add("Cartera", enCartera);
+                dgvPiGProductePerAny.Rows[fila].Cells[1].Style.ForeColor = enCartera < 0 ? Color.Red : Color.Black;
 
 
 
                 fila = dgvPiGProductePerAny.Rows.Add(vProdTotal, pigTotal + enCartera);
                 dgvPiGProductePerAny.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGProductePerAny.Font, FontStyle.Bold);
+                dgvPiGProductePerAny.Rows[fila].Cells[1].Style.ForeColor = pigTotal + enCartera < 0 ? Color.Red : Color.Black;
+               
                 dgvPiGProductePerAny.FirstDisplayedScrollingRowIndex = fila;
 
                 dgvPiGProductePerAny.ResumeLayout();
@@ -362,8 +373,15 @@ namespace Inversions.GUI
                 pig += ((Moviment) selectedRow.DataBoundItem).pigCompra(ckAmbCartera.Checked, false, null, true, ckAmbDividends.Checked);
                 pigOrig += ((Moviment) selectedRow.DataBoundItem).pigCompra(ckAmbCartera.Checked, true, null, false, false);
             }
-            ntbPigCompra.Valor = Math.Round(pig, 2);
-            ntbPigCompraOrig.Valor = Math.Round(pigOrig, 2);
+
+            var pigCompra = Math.Round(pig, 2);
+            lbPigCompra.Text = pigCompra.ToString("###,##0.00 €"); ;
+            lbPigCompra.ForeColor = pigCompra < 0 ? Color.Red : Color.Black;
+
+            pigCompra = Math.Round(pigOrig, 2);
+            lbPigCompraOrig.Text = pigCompra.ToString("###,##0.00 €"); ;
+            lbPigCompraOrig.ForeColor = pigCompra < 0 ? Color.Red : Color.Black;
+
         }
 
         private void ckAmbCartera_CheckedChanged(object sender, EventArgs e)
