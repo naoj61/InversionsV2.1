@@ -25,6 +25,7 @@ namespace Inversions.GUI
             private readonly Label vEtiqueta;
             private readonly DataGridView vDataGridView;
             private bool vEstaModificat;
+            private Button vBtTancaPanell;
             public event EventHandler btTancaPanellClick;
             public event EventHandler dataGridViewEnter;
 
@@ -120,14 +121,16 @@ namespace Inversions.GUI
 
                 #endregion *** EtiquetaNomTaula ***
 
-                Button btTancaPanell = new Button();
-                btTancaPanell.Dock = DockStyle.Right;
-                btTancaPanell.Text = "X";
-                btTancaPanell.Font = new Font("Arial", 8);
-                btTancaPanell.BackColor = Color.White;
-                btTancaPanell.FlatStyle = FlatStyle.Flat;
-                btTancaPanell.Size = new Size(22, 22);
-                etiquetaNomTaula.Controls.Add(btTancaPanell);
+                vBtTancaPanell = new Button();
+                vBtTancaPanell.Dock = DockStyle.Right;
+                vBtTancaPanell.Text = "X";
+                vBtTancaPanell.Font = new Font("Arial", 8);
+                vBtTancaPanell.BackColor = Color.LightGray;
+                vBtTancaPanell.ForeColor = Color.Black;
+                vBtTancaPanell.FlatStyle = FlatStyle.Flat;
+                vBtTancaPanell.Size = new Size(26, 22);
+                vBtTancaPanell.TextAlign=ContentAlignment.MiddleCenter;
+                etiquetaNomTaula.Controls.Add(vBtTancaPanell);
 
                 pnEtiqueta.SendToBack();
                 dataGridView.BringToFront();
@@ -136,7 +139,7 @@ namespace Inversions.GUI
 
                 pnTaula.Focus();
 
-                btTancaPanell.Click += btTancaPanell_Click;
+                vBtTancaPanell.Click += btTancaPanell_Click;
                 dataGridView.Enter += dataGridView_Enter;
                 dataGridView.DataError += dataGridView_DataError;
 
@@ -226,8 +229,7 @@ namespace Inversions.GUI
             {
                 return Panells.Any(a => a.Value._EstaModificat);
             }
-            
-
+           
             internal Panel _Panel
             {
                 get { return vPanel; }
@@ -251,9 +253,21 @@ namespace Inversions.GUI
                     vEstaModificat = value;
 
                     if (value)
+                    {
                         vEtiqueta.Text = "* " + vNomTaula;
+                        
+                        // Canvío el color del titol.
+                        vEtiqueta.BackColor = Color.Green;
+                        vEtiqueta.ForeColor = Color.White;
+                    }
                     else
+                    {
                         vEtiqueta.Text = vNomTaula;
+
+                        // Restaura el color del titol.
+                        vEtiqueta.BackColor = Color.DarkGray;
+                        vEtiqueta.ForeColor = Color.Black;
+                    }
                 }
             }
 
