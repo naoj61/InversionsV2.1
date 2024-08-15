@@ -1,4 +1,6 @@
-﻿- En cas de venda de fons, és possible que les PiGs originals no coincideix amb el me càlcul, hauria de poder guardar el valor real a mes del calculat per mi.
+﻿-Afegir plataforma de compra en les accions. (Si compro la mateixa accio a diferents plataformes el fifo no funciona si les barrejo totes.)
+
+- En cas de venda de fons, és possible que les PiGs originals no coincideix amb el me càlcul, hauria de poder guardar el valor real a mes del calculat per mi.
 
 - A les llistes de valoracions, barrejar els preu de compra del usuari.
 	-(Com que pot ser que el preu de compra no coincideixi amb la valoració real degut a les comissions).

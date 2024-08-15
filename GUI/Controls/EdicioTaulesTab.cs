@@ -183,7 +183,7 @@ namespace Inversions.GUI
                         _PanellActiu.vPanel.BackColor = Color.PowderBlue;
 
                     if (panell != null)
-                        panell.vPanel.BackColor = Color.Red;
+                        panell.vPanel.BackColor = Color.Blue;
 
                     _PanellActiu = panell;
                 }
@@ -229,7 +229,7 @@ namespace Inversions.GUI
             {
                 return Panells.Any(a => a.Value._EstaModificat);
             }
-           
+
             internal Panel _Panel
             {
                 get { return vPanel; }
@@ -254,19 +254,19 @@ namespace Inversions.GUI
 
                     if (value)
                     {
-                        vEtiqueta.Text = "* " + vNomTaula;
-                        
                         // Canvío el color del titol.
                         vEtiqueta.BackColor = Color.Green;
                         vEtiqueta.ForeColor = Color.White;
+
+                        vBtTancaPanell.Visible = false;
                     }
                     else
                     {
-                        vEtiqueta.Text = vNomTaula;
-
                         // Restaura el color del titol.
                         vEtiqueta.BackColor = Color.DarkGray;
                         vEtiqueta.ForeColor = Color.Black;
+
+                        vBtTancaPanell.Visible = true;
                     }
                 }
             }
@@ -482,65 +482,57 @@ namespace Inversions.GUI
                 if (dataGridView == null)
                     return;
 
-                try
+                dataGridView.CellValidated -= datagridView_CellValidated;
+                dataGridView.RowsRemoved -= datagridView_RowsRemoved;
+
+
+                string taula = panell._NomTaula;
+
+                // Guardar cambios en la base de datos al hacer clic en el botón "Guardar"
+                using (SqlConnection connection = new SqlConnection(StringConexio))
                 {
-                    dataGridView.CellValidated -= datagridView_CellValidated;
-                    dataGridView.RowsRemoved -= datagridView_RowsRemoved;
+                    SqlDataAdapter adapter = new SqlDataAdapter();
 
+                    // Crear comandos SQL para actualizar los cambios en la base de datos
+                    SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
+                    adapter.SelectCommand = new SqlCommand("SELECT * FROM " + taula, connection);
+                    connection.Open();
 
-                    string taula = panell._NomTaula;
+                    // Actualizar los cambios en la base de datos
+                    var files = (DataTable) dataGridView.DataSource;
 
-                    // Guardar cambios en la base de datos al hacer clic en el botón "Guardar"
-                    using (SqlConnection connection = new SqlConnection(StringConexio))
+                    try
                     {
-                        SqlDataAdapter adapter = new SqlDataAdapter();
+                        adapter.Update(files);
 
-                        // Crear comandos SQL para actualizar los cambios en la base de datos
-                        SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
-                        adapter.SelectCommand = new SqlCommand("SELECT * FROM " + taula, connection);
-                        connection.Open();
+                        panell._EstaModificat = false;
 
-                        // Actualizar los cambios en la base de datos
-                        var files = (DataTable) dataGridView.DataSource;
+                        modeConsulta();
 
+                        TabX.ActivaRefrescaEnTabs(this);
                         try
                         {
-                            adapter.Update(files);
-
-                            panell._EstaModificat = false;
-
-                            modeConsulta();
-
-                            TabX.ActivaRefrescaEnTabs(this);
-                            try
-                            {
-                                Program.Sessio.refrescaTaula(taula);
-                            }
-                            catch (InvalidExpressionException)
-                            {
-                                MessageBox.Show(taula + " No s'ha pogut refrescar en Entity Framework");
-                            }
-
-                            carregaTaula(panell);
-
-                            MessageBox.Show("Modificacions taula: " + taula + ". Ok.");
+                            Program.Sessio.refrescaTaula(taula);
                         }
-                        catch (Exception ex)
+                        catch (InvalidExpressionException)
                         {
-                            MessageBox.Show("Error: " + ex.Message);
+                            MessageBox.Show(taula + " No s'ha pogut refrescar en Entity Framework");
                         }
 
-                        connection.Close();
+                        carregaTaula(panell);
+
+                        MessageBox.Show("Modificacions taula: " + taula + ". Ok.");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
                     }
 
-                    Panell._PanellActiu._Panel.Focus();
+                    connection.Close();
+                }
 
-                }
-                finally
-                {
-                    dataGridView.CellValidated += datagridView_CellValidated;
-                    dataGridView.RowsRemoved += datagridView_RowsRemoved;
-                }
+                Panell._PanellActiu._Panel.Focus();
+
             }
             finally
             {
@@ -674,6 +666,7 @@ namespace Inversions.GUI
                 {
                     panell._DataGridView.CellValidated -= datagridView_CellValidated;
                     panell._DataGridView.RowsRemoved -= datagridView_RowsRemoved;
+                    
 
                     pnTaules.Controls.Remove(panell._Panel);
                     Panell.Esborra(panell);
