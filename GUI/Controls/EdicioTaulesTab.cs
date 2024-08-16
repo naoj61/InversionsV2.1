@@ -335,7 +335,7 @@ namespace Inversions.GUI
             // Configurar el Timer. És per poder ordenar camps sense que es posi en mode edició.
             vCheckSortingTimer = new Timer();
             vCheckSortingTimer.Interval = 50; // Retard de 50 mil·lisegons (ajusta segons necessitis)
-            vCheckSortingTimer.Tick += CheckSortingTimer_Tick;
+            vCheckSortingTimer.Tick += checkSortingTimer_Tick;
         }
 
         #region *** Mètodes que no s'utilitzen, però que poden servir en el futur ***
@@ -636,7 +636,7 @@ namespace Inversions.GUI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void CheckSortingTimer_Tick(object sender, EventArgs e)
+        private void checkSortingTimer_Tick(object sender, EventArgs e)
         {
             // Aturar el temporitzador
             vCheckSortingTimer.Stop();

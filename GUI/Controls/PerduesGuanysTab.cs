@@ -140,11 +140,13 @@ namespace Inversions.GUI
             ResumeLayout();
 
             var pigCompra = compres.Sum(s => s.__PigDeLaCompra);
-            lbPigCompra.Text = pigCompra.ToString("###,##0.00 €"); ;
+            lbPigCompra.Text = pigCompra.ToString("###,##0.00 €");
+            ;
             lbPigCompra.ForeColor = pigCompra < 0 ? Color.Red : Color.Black;
 
             pigCompra = compres.Sum(s => s.__PigDeLaCompraOrigen);
-            lbPigCompraOrig.Text = pigCompra.ToString("###,##0.00 €"); ;
+            lbPigCompraOrig.Text = pigCompra.ToString("###,##0.00 €");
+            ;
             lbPigCompraOrig.ForeColor = pigCompra < 0 ? Color.Red : Color.Black;
         }
 
@@ -186,7 +188,7 @@ namespace Inversions.GUI
                         fila = dgvPiGProductePerAny.Rows.Add(anyPig.Key, pig);
 
                         dgvPiGProductePerAny.Rows[fila].Cells[1].Style.ForeColor = pig < 0 ? Color.Red : Color.Black;
-                        
+
                         pigTotal += pig;
                     }
 
@@ -205,7 +207,7 @@ namespace Inversions.GUI
                 fila = dgvPiGProductePerAny.Rows.Add(vProdTotal, pigTotal + enCartera);
                 dgvPiGProductePerAny.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGProductePerAny.Font, FontStyle.Bold);
                 dgvPiGProductePerAny.Rows[fila].Cells[1].Style.ForeColor = pigTotal + enCartera < 0 ? Color.Red : Color.Black;
-               
+
                 dgvPiGProductePerAny.FirstDisplayedScrollingRowIndex = fila;
 
                 dgvPiGProductePerAny.ResumeLayout();
@@ -217,15 +219,20 @@ namespace Inversions.GUI
         {
             if (ntbPreuParticipacio.Valor == 0)
             {
-                ntbPiG.Valor = 0;
+                ntbPiG.Text = "0,00 €";
                 ntbDiferencia.Valor = 0;
             }
             else
             {
                 var pigActual = gestioProductesTabValoracions._ProducteSeleccionat.pig2EnCartera();
                 var pigCalculat = gestioProductesTabValoracions._ProducteSeleccionat.pig2EnCartera(preuParticipacio: ntbPreuParticipacio.Valor);
-                ntbPiG.Valor = pigCalculat;
+                ntbPiG.Text = pigCalculat.ToString("0.00 €");
                 ntbDiferencia.Valor = pigCalculat - pigActual;
+
+                if (pigCalculat < 0)
+                    ntbPiG.ForeColor = Color.Red;
+                else
+                    ntbPiG.ForeColor = Color.Black;
             }
             actualitzaLlistaPerduesGuanys();
             calculaPiG();
@@ -267,10 +274,10 @@ namespace Inversions.GUI
                     pigTotalEncartera += pigEnCartera;
                 }
             }
-            
+
             if (dgvPiGEnCartera.RowCount > 0)
                 dgvPiGEnCartera.FirstDisplayedScrollingRowIndex = 0;
-           
+
             dgvPiGEnCartera.ClearSelection();
 
             lbTotalPigEnCartera.ForeColor = pigTotalEncartera < 0 ? Color.Red : Color.Black;
@@ -375,11 +382,13 @@ namespace Inversions.GUI
             }
 
             var pigCompra = Math.Round(pig, 2);
-            lbPigCompra.Text = pigCompra.ToString("###,##0.00 €"); ;
+            lbPigCompra.Text = pigCompra.ToString("###,##0.00 €");
+            ;
             lbPigCompra.ForeColor = pigCompra < 0 ? Color.Red : Color.Black;
 
             pigCompra = Math.Round(pigOrig, 2);
-            lbPigCompraOrig.Text = pigCompra.ToString("###,##0.00 €"); ;
+            lbPigCompraOrig.Text = pigCompra.ToString("###,##0.00 €");
+            ;
             lbPigCompraOrig.ForeColor = pigCompra < 0 ? Color.Red : Color.Black;
 
         }
@@ -452,23 +461,23 @@ namespace Inversions.GUI
         private void ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var prod = (Producte) dgvPiGEnCartera.SelectedRows[0].Cells[0].Value;
-            var parentForm = (Principal)ParentForm;
+            var parentForm = (Principal) ParentForm;
             if (parentForm != null)
                 parentForm.obreMovimentsTab(prod);
         }
 
         private void ToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            var prod = (Producte)dgvPiGEnCartera.SelectedRows[0].Cells[0].Value;
-            var parentForm = (Principal)ParentForm;
+            var prod = (Producte) dgvPiGEnCartera.SelectedRows[0].Cells[0].Value;
+            var parentForm = (Principal) ParentForm;
             if (parentForm != null)
                 parentForm.obreValoracionsTab(prod);
         }
 
         private void ToolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            var prod = (Producte)dgvPiGEnCartera.SelectedRows[0].Cells[0].Value;
-            var parentForm = (Principal)ParentForm;
+            var prod = (Producte) dgvPiGEnCartera.SelectedRows[0].Cells[0].Value;
+            var parentForm = (Principal) ParentForm;
             if (parentForm != null)
                 parentForm.obreSimulacióVendaTab(prod);
         }
@@ -492,12 +501,12 @@ namespace Inversions.GUI
             toolStripMenuItem3.Click += ToolStripMenuItem3_Click;
 
             // Afegir els elements al ContextMenuStrip
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] {
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[]
+            {
                 toolStripMenuItem1,
                 toolStripMenuItem2,
                 toolStripMenuItem3
             });
         }
-
     }
 }
