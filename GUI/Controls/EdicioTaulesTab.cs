@@ -325,10 +325,17 @@ namespace Inversions.GUI
         }
 
         private static readonly string StringConexio = Program.Sessio.Database.Connection.ConnectionString;
+        private bool vIsSorting = false;
+        private Timer vCheckSortingTimer;
 
         public EdicioTaulesTab()
         {
             InitializeComponent();
+
+            // Configurar el Timer. És per poder ordenar camps sense que es posi en mode edició.
+            vCheckSortingTimer = new Timer();
+            vCheckSortingTimer.Interval = 50; // Retard de 50 mil·lisegons (ajusta segons necessitis)
+            vCheckSortingTimer.Tick += CheckSortingTimer_Tick;
         }
 
         #region *** Mètodes que no s'utilitzen, però que poden servir en el futur ***
@@ -419,6 +426,7 @@ namespace Inversions.GUI
                 try
                 {
                     dataGridView.CellValidated -= datagridView_CellValidated;
+                    dataGridView.ColumnHeaderMouseClick -= dataGridView_ColumnHeaderMouseClick;
                     dataGridView.RowsRemoved -= datagridView_RowsRemoved;
 
                     // Guarda la posicio del dataGridView i la cel·la seleccionada.
@@ -461,6 +469,7 @@ namespace Inversions.GUI
                 finally
                 {
                     dataGridView.CellValidated += datagridView_CellValidated;
+                    dataGridView.ColumnHeaderMouseClick += dataGridView_ColumnHeaderMouseClick;
                     dataGridView.RowsRemoved += datagridView_RowsRemoved;
                 }
             }
@@ -481,10 +490,6 @@ namespace Inversions.GUI
 
                 if (dataGridView == null)
                     return;
-
-                dataGridView.CellValidated -= datagridView_CellValidated;
-                dataGridView.RowsRemoved -= datagridView_RowsRemoved;
-
 
                 string taula = panell._NomTaula;
 
@@ -612,10 +617,39 @@ namespace Inversions.GUI
             }
         }
 
+        void dataGridView_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            // Indicar que s'està realitzant una operació d'ordenació
+            vIsSorting = true;
+        }
+    
         private void datagridView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
-            modeEdicio();
+            
+            /* Utilitzo el temporitzador perque RowsRemoved s'executa abans que ColumnHeaderMouseClick 
+             * i no puc saber si s'està ordenant o esborrant files. */
+            vCheckSortingTimer.Start(); // Començar el temporitzador per retardar la lògica
         }
+
+        /// <summary>
+        /// Utilitzo el timer per què al ordenar un camp s'executa 'RowsRemoved' i no vull que es posi en mode edició.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CheckSortingTimer_Tick(object sender, EventArgs e)
+        {
+            // Aturar el temporitzador
+            vCheckSortingTimer.Stop();
+
+            // Només executar la lògica si no s'està ordenant
+            if (!vIsSorting)
+
+                // Aquí va la teva lògica quan es remouen files
+                modeEdicio();
+
+            vIsSorting = false;
+        }
+
 
         private void cbTaules_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -665,8 +699,8 @@ namespace Inversions.GUI
                 else
                 {
                     panell._DataGridView.CellValidated -= datagridView_CellValidated;
+                    panell._DataGridView.ColumnHeaderMouseClick -= dataGridView_ColumnHeaderMouseClick;
                     panell._DataGridView.RowsRemoved -= datagridView_RowsRemoved;
-                    
 
                     pnTaules.Controls.Remove(panell._Panel);
                     Panell.Esborra(panell);
