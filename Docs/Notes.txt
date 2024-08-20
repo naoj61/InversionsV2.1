@@ -1,4 +1,19 @@
-﻿-Afegir plataforma de compra en les accions. (Si compro la mateixa accio a diferents plataformes el fifo no funciona si les barrejo totes.)
+﻿*Accions*			*Fons*	
+					PiG Producte	PiG cartera + vendes reals + vendesT + dividents - despeses, sense tenir en compte el preu original en cas de traspàs.
+PiG Real			PiG Real	PiG cartera + vendes reals + dividents - despeses, tenint en compte el preu original.
+PiG des d'Origen	PiG des d'Origen	PiG participacions en cartera tenint en compte el preu original.
+		
+							**** Sempre amb despeses i dividents		
+*Accions*			*Fons*	
+PiG en cartera		PiG en cartera	El PiG de les participacions en cartera.
+Pig Historic		Pig Historic	PiG del producte de totes les compra vendes (Inclou traspassos) + PiG en cartera
+					PiG Orig en cartera	El PiG de les participacions en cartera preus origen
+					PiG Orig historic	PiG de les participacions en cartera mes les vendes reals calculades sobre preu orig.
+
+
+- En les accions sembla que no compto les despeses en el PiG
+
+-Afegir plataforma de compra en les accions. (Si compro la mateixa accio a diferents plataformes el fifo no funciona si les barrejo totes.)
 
 - En cas de venda de fons, és possible que les PiGs originals no coincideix amb el me càlcul, hauria de poder guardar el valor real a mes del calculat per mi.
 

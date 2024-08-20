@@ -106,7 +106,7 @@ namespace Inversions.GUI
             lbTotalPigTributen.ForeColor = pigTotalTributa < 0 ? Color.Red : Color.Black;
             lbTotalPigTributen.Text = pigTotalTributa.ToString("###,##0.00 €");
 
-            ntbPigActualPartsEnCartera.Valor = Producte.Pig2Cartera(tipusProducte, null, (uint) ultimAny, true, true);
+            ntbPigActualPartsEnCartera.Valor = Producte.Pig2Cartera(tipusProducte, null, ultimAny, true, true);
             ntbPigRealMesCartera.Valor = ntbPigActualPartsEnCartera.Valor + pigTotalTributa;
         }
 
@@ -198,7 +198,7 @@ namespace Inversions.GUI
                 }
 
 
-                var enCartera = proSeleccionat.pig2EnCartera();
+                var enCartera = proSeleccionat.pig2EnCarteraOrig();
                 fila = dgvPiGProductePerAny.Rows.Add("Cartera", enCartera);
                 dgvPiGProductePerAny.Rows[fila].Cells[1].Style.ForeColor = enCartera < 0 ? Color.Red : Color.Black;
 
@@ -224,8 +224,8 @@ namespace Inversions.GUI
             }
             else
             {
-                var pigActual = gestioProductesTabValoracions._ProducteSeleccionat.pig2EnCartera();
-                var pigCalculat = gestioProductesTabValoracions._ProducteSeleccionat.pig2EnCartera(preuParticipacio: ntbPreuParticipacio.Valor);
+                var pigActual = gestioProductesTabValoracions._ProducteSeleccionat.pig2EnCarteraOrig();
+                var pigCalculat = gestioProductesTabValoracions._ProducteSeleccionat.pig2EnCarteraOrig(preuParticipacio: ntbPreuParticipacio.Valor);
                 ntbPiG.Text = pigCalculat.ToString("0.00 €");
                 ntbDiferencia.Valor = pigCalculat - pigActual;
 
@@ -344,7 +344,7 @@ namespace Inversions.GUI
         {
             if (ckPiGEntreDatesNomesProdSel.Checked)
                 tbPigEntreDates.Valor = gestioProductesTabValoracions._ProducteSeleccionat
-                    .pig2Total(dtpFiltreDataInici.Value, dtpFiltreDataFi.Value, true, true);
+                    .pig2TotalOrig(dtpFiltreDataInici.Value, dtpFiltreDataFi.Value, true, true);
             else
             {
                 tbPigEntreDates.Valor = Producte.Pig2(Producte.TipusProducte.Tots, null,
