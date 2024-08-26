@@ -180,12 +180,35 @@ namespace Inversions
         /// Calcula perdues i guanys de les vendes reals més els dividents entre les dates, inclou participacions en cartera si -> inclouCartera=true.
         /// </summary>
         /// <param name="anyVendes"></param>
-        /// <param name="inclouCartera">Indica si s'ha d'incloure els dividents.</param>
-        /// <param name="inclouDividends">En la tributació a la renda els dividends tributen a part de les PiG de les accions. </param>
         /// <returns></returns>
-        internal decimal pig3Total(uint anyVendes, bool inclouCartera, bool inclouDividends)
+        internal decimal pig3Total(uint anyVendes)
         {
+            //return pig2TotalOrig(new DateTime((int)anyVendes, 1, 1), new DateTime((int)anyVendes, 12, 31), false, false);
+            
+            
+            
             var vendesRealsAny = MovimentsProducteUsuari.Where(w => w._EsVendaReal && w.Data.Year == anyVendes).ToList();
+
+
+            decimal sum = 0;
+            decimal sum2 = 0;
+            foreach (Moviment vendaReal in vendesRealsAny)
+            {
+                var  xx = vendaReal._ImportBrut - vendaReal.compresDeLaVenda().Sum(compraExt => compraExt._PartsUtilitzades * compraExt._PreuParticipacio);
+                
+                sum2 += vendaReal._ImportBrut - vendaReal.compresDeLaVenda().Sum(compraExt => compraExt._PartsUtilitzades * compraExt._PreuParticipacio);
+
+                decimal ss = 0;
+                foreach (CompraExt compraExt in vendaReal.compresDeLaVenda())
+                {
+                    ss += compraExt._Compra.pigCompra(true, false, compraExt._PartsUtilitzades);
+
+                    // no funciona amb venda 4,5,6
+                    sum += compraExt._Compra.pigCompra(true, false, compraExt._PartsUtilitzades);
+                }
+            }
+
+            return sum;
 
             List<CompraExt> compres = new List<CompraExt>();
             foreach (Moviment vendaReal in vendesRealsAny)
@@ -198,13 +221,13 @@ namespace Inversions
                 }
             }
 
-            decimal sum = 0;
-            foreach (var compraExt in compres)
-            {
-                sum += compraExt._Compra.pigCompra(inclouCartera, true, anyVendes, true, inclouDividends);
-            }
+            //decimal sum = 0;
+            //foreach (var compraExt in compres)
+            //{
+            //    sum += compraExt._Compra.pigCompra(inclouCartera, true, anyVendes, true, inclouDividends);
+            //}
 
-            return sum;
+            //return sum;
         }
 
 
@@ -470,7 +493,7 @@ namespace Inversions
 
         public decimal pig3TotalTest(uint any, bool inclouCartera, bool inclouDividends)
         {
-            return pig3Total(any, inclouCartera, inclouDividends);
+            return pig3Total(any);
         }
 
         public decimal pig2TotalTest(DateTime? dataHoraInici = null, DateTime? dataHoraFinal = null, bool inclouCartera = true, bool inclouDividends = false)

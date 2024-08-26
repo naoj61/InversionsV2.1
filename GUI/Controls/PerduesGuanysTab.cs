@@ -14,6 +14,11 @@ namespace Inversions.GUI
     {
         private readonly Producte vProdTotal = new ProdFons();
 
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem toolStripMenuItem1;
+        private ToolStripMenuItem toolStripMenuItem2;
+        private ToolStripMenuItem toolStripMenuItem3;
+
         public PerduesGuanysTab()
         {
             InitializeComponent();
@@ -23,6 +28,33 @@ namespace Inversions.GUI
             vProdTotal._NomProducte = "Total";
 
             InitializeContextMenu();
+        }
+
+        private void InitializeContextMenu()
+        {
+            // Crea el ContextMenuStrip
+            contextMenuStrip1 = new ContextMenuStrip();
+
+            // Crea els elements del menú contextual
+            toolStripMenuItem1 = new ToolStripMenuItem();
+            toolStripMenuItem1.Text = "Moviments";
+            toolStripMenuItem1.Click += ToolStripMenuItem1_Click;
+
+            toolStripMenuItem2 = new ToolStripMenuItem();
+            toolStripMenuItem2.Text = "Valoracions";
+            toolStripMenuItem2.Click += ToolStripMenuItem2_Click;
+
+            toolStripMenuItem3 = new ToolStripMenuItem();
+            toolStripMenuItem3.Text = "Simulació venda";
+            toolStripMenuItem3.Click += ToolStripMenuItem3_Click;
+
+            // Afegir els elements al ContextMenuStrip
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[]
+            {
+                toolStripMenuItem1,
+                toolStripMenuItem2,
+                toolStripMenuItem3
+            });
         }
 
         internal override void carregaInicial()
@@ -170,7 +202,8 @@ namespace Inversions.GUI
 
                 for (uint any = (uint) primerMovimentX.Data.Year; any <= DateTime.Today.Year; any++)
                 {
-                    anysPigTributa[any] = proSeleccionat.pig3Total(any, false, false);
+                    var dd = proSeleccionat.pig3Total(any);
+                    anysPigTributa[any] = dd;
                 }
 
                 // Grid PiG Tributa del producte.
@@ -431,9 +464,6 @@ namespace Inversions.GUI
             }
         }
 
-        #endregion *** Events ***
-
-
 
         private void dgvPiGEnCartera_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -452,11 +482,6 @@ namespace Inversions.GUI
                 }
             }
         }
-
-        private ContextMenuStrip contextMenuStrip1;
-        private ToolStripMenuItem toolStripMenuItem1;
-        private ToolStripMenuItem toolStripMenuItem2;
-        private ToolStripMenuItem toolStripMenuItem3;
 
         private void ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -482,31 +507,7 @@ namespace Inversions.GUI
                 parentForm.obreSimulacióVendaTab(prod);
         }
 
-        private void InitializeContextMenu()
-        {
-            // Crea el ContextMenuStrip
-            contextMenuStrip1 = new ContextMenuStrip();
+        #endregion *** Events ***
 
-            // Crea els elements del menú contextual
-            toolStripMenuItem1 = new ToolStripMenuItem();
-            toolStripMenuItem1.Text = "Moviments";
-            toolStripMenuItem1.Click += ToolStripMenuItem1_Click;
-
-            toolStripMenuItem2 = new ToolStripMenuItem();
-            toolStripMenuItem2.Text = "Valoracions";
-            toolStripMenuItem2.Click += ToolStripMenuItem2_Click;
-
-            toolStripMenuItem3 = new ToolStripMenuItem();
-            toolStripMenuItem3.Text = "Simulació venda";
-            toolStripMenuItem3.Click += ToolStripMenuItem3_Click;
-
-            // Afegir els elements al ContextMenuStrip
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[]
-            {
-                toolStripMenuItem1,
-                toolStripMenuItem2,
-                toolStripMenuItem3
-            });
-        }
     }
 }

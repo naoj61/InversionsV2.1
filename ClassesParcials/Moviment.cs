@@ -569,6 +569,47 @@ namespace Inversions
             return importActualParticsEnCartera - importCostCompra - despeses;
         }
 
+        internal decimal pigCompra(bool pigOrigen, bool ambDespeses, decimal? participacions = null)
+        {
+            if (!_EsCompra)
+                throw new Exception(String.Format("L'Id:{0}. Ha de ser una compra", Id));
+
+            participacions = participacions.GetValueOrDefault(partsEnCarteraCompra());
+
+            if (Utilitats.EsZero(participacions.Value))
+                return 0;
+
+            var partsEnCarteraResten = participacions.Value;
+            decimal importCostCompra = 0;
+
+            foreach (var desglosCompra in DesglosCompres.OrderByDescending(o => o._DataOrig))
+            {
+                decimal parts;
+                if (Utilitats.ComparaNumeros(desglosCompra.Participacions, partsEnCarteraResten) >= 0)
+                {
+                    parts = pigOrigen ? partsEnCarteraResten / desglosCompra.Participacions * desglosCompra.ParticipacionsOrig : partsEnCarteraResten;
+                    partsEnCarteraResten = 0;
+                }
+                else
+                {
+                    parts = pigOrigen ? desglosCompra.ParticipacionsOrig : desglosCompra.Participacions;
+                    partsEnCarteraResten -= desglosCompra.Participacions;
+                }
+
+                importCostCompra += parts * (pigOrigen ? desglosCompra._PreuParticipacioOrig : desglosCompra._PreuParticipacio);
+
+                if (Utilitats.EsZero(partsEnCarteraResten))
+                    break;
+            }
+
+            decimal importActualParticsEnCartera = participacions.Value * Prod._PreuParticipacioActual;
+
+            // Despeses de la compra.
+            decimal despeses = ambDespeses ? Despeses.GetValueOrDefault() / Participacions * participacions.Value : 0;
+
+            return importActualParticsEnCartera - importCostCompra - despeses;
+        }
+
 
         /// <summary>
         /// Pig d'una venda.
@@ -606,22 +647,24 @@ namespace Inversions
             return pigCompra(ambCartera, pigOrigen, any, ambDespeses, ambDividents);
         }
 
-
         public IEnumerable<VendaExt> vendesDeLaCompraTest()
         {
             return vendesDeLaCompra();
         }
-
 
         public decimal pigVendaTest(bool inclouDespeses)
         {
             return pigVenda(inclouDespeses);
         }
 
-
         public decimal dividentsDeLaCompraTest()
         {
             return dividentsDeLaCompra();
+        }
+
+        public IEnumerable<CompraExt> compresDeLaVendaTest()
+        {
+            return compresDeLaVenda();
         }
 
         #endregion
