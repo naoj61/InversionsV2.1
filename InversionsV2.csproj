@@ -119,6 +119,9 @@
     <Compile Include="DesglosCompra.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
+    <Compile Include="DesgloçCompresMoviments.cs">
+      <DependentUpon>InversionsBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="Empresa.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>

@@ -259,12 +259,12 @@ namespace Inversions.GUI
 
             preuPart = preuPart.GetValueOrDefault(prod.ValoracionsProducte.Last().PreuParticipacio);
 
-            var desgloçPartsEnCartera = prod.desglosCompresDeParticipacionsEnData(DateTime.Now, prod._Participacions)
+            var desgloçPartsEnCartera = prod.desglosCompresDeParticipacionsEnData4(DateTime.Now, prod._Participacions)
                 .OrderBy(o => o._DataOrig).ToList();
 
             List<FilaCompresOriginals> compresProdSelecionat = new List<FilaCompresOriginals>();
 
-            /* *** Salta les participacions més antiugues. 
+            /* *** Salta les participacions més antigues. 
                  * És per no haver de fer un traspàs simulat per veure el PiG de les més noves */
             var saltResten = ntbPartsSaltades.Valor;
             var partsResten = ntbNumParticipacions.Valor;

@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model '\\vmware-host\Shared Folders\Repositoris\C#\_Actiu\InversionsV2\InversionsBD.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\joanp\Documents\Visual Studio 2013\Projects\_Actiu\InversionsV2\InversionsBD.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

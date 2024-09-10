@@ -243,7 +243,7 @@ namespace Inversions.GUI
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(0, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(311, 38);
+            this.label6.Size = new System.Drawing.Size(366, 38);
             this.label6.TabIndex = 0;
             this.label6.Text = "Total";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -253,12 +253,12 @@ namespace Inversions.GUI
             this.lbTotalPigEnCartera.AutoSize = true;
             this.lbTotalPigEnCartera.Dock = System.Windows.Forms.DockStyle.Right;
             this.lbTotalPigEnCartera.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTotalPigEnCartera.Location = new System.Drawing.Point(311, 0);
+            this.lbTotalPigEnCartera.Location = new System.Drawing.Point(366, 0);
             this.lbTotalPigEnCartera.Name = "lbTotalPigEnCartera";
             this.lbTotalPigEnCartera.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
-            this.lbTotalPigEnCartera.Size = new System.Drawing.Size(109, 29);
+            this.lbTotalPigEnCartera.Size = new System.Drawing.Size(54, 29);
             this.lbTotalPigEnCartera.TabIndex = 0;
-            this.lbTotalPigEnCartera.Text = "215.256,00€";
+            this.lbTotalPigEnCartera.Text = "0,00€";
             this.lbTotalPigEnCartera.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // panel6
@@ -505,7 +505,7 @@ namespace Inversions.GUI
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(0, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(311, 38);
+            this.label5.Size = new System.Drawing.Size(366, 38);
             this.label5.TabIndex = 0;
             this.label5.Text = "Total";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -515,12 +515,12 @@ namespace Inversions.GUI
             this.lbTotalPigTributen.AutoSize = true;
             this.lbTotalPigTributen.Dock = System.Windows.Forms.DockStyle.Right;
             this.lbTotalPigTributen.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTotalPigTributen.Location = new System.Drawing.Point(311, 0);
+            this.lbTotalPigTributen.Location = new System.Drawing.Point(366, 0);
             this.lbTotalPigTributen.Name = "lbTotalPigTributen";
             this.lbTotalPigTributen.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
-            this.lbTotalPigTributen.Size = new System.Drawing.Size(109, 29);
+            this.lbTotalPigTributen.Size = new System.Drawing.Size(54, 29);
             this.lbTotalPigTributen.TabIndex = 0;
-            this.lbTotalPigTributen.Text = "215.256,00€";
+            this.lbTotalPigTributen.Text = "0,00€";
             this.lbTotalPigTributen.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label2
@@ -616,10 +616,11 @@ namespace Inversions.GUI
             this.dgvCompresProducte.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvCompresProducte.Size = new System.Drawing.Size(724, 193);
             this.dgvCompresProducte.TabIndex = 21;
+            this.dgvCompresProducte.VirtualMode = true;
             // 
             // Id
             // 
-            this.Id.DataPropertyName = "Id";
+            this.Id.DataPropertyName = "_Id";
             dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle11.Format = "N0";
             dataGridViewCellStyle11.NullValue = null;
@@ -632,7 +633,7 @@ namespace Inversions.GUI
             // dataGridViewTextBoxColumn3
             // 
             this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewTextBoxColumn3.DataPropertyName = "Data";
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "_Data";
             dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle12.Format = "d";
             dataGridViewCellStyle12.NullValue = null;
@@ -647,7 +648,7 @@ namespace Inversions.GUI
             // dataGridViewTextBoxColumn12
             // 
             this.dataGridViewTextBoxColumn12.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
-            this.dataGridViewTextBoxColumn12.DataPropertyName = "PreuParticipacio";
+            this.dataGridViewTextBoxColumn12.DataPropertyName = "_PreuParticipacio";
             dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle13.Format = "C3";
             this.dataGridViewTextBoxColumn12.DefaultCellStyle = dataGridViewCellStyle13;
@@ -662,7 +663,7 @@ namespace Inversions.GUI
             // PigDeLaCompra
             // 
             this.PigDeLaCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
-            this.PigDeLaCompra.DataPropertyName = "__PigDeLaCompra";
+            this.PigDeLaCompra.DataPropertyName = "_PigDeLaCompra";
             dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle14.Format = "C2";
             this.PigDeLaCompra.DefaultCellStyle = dataGridViewCellStyle14;
@@ -677,7 +678,7 @@ namespace Inversions.GUI
             // PigOrigen
             // 
             this.PigOrigen.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
-            this.PigOrigen.DataPropertyName = "__PigDeLaCompraOrigen";
+            this.PigOrigen.DataPropertyName = "_PigDeLaCompraOrigen";
             dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle15.Format = "C2";
             this.PigOrigen.DefaultCellStyle = dataGridViewCellStyle15;
@@ -897,21 +898,21 @@ namespace Inversions.GUI
             this.gbSimulacioPig.Controls.Add(this.groupBox2);
             this.gbSimulacioPig.Controls.Add(this.groupBox1);
             this.gbSimulacioPig.Controls.Add(this.gbPreuPartic);
-            this.gbSimulacioPig.Dock = System.Windows.Forms.DockStyle.Left;
+            this.gbSimulacioPig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbSimulacioPig.Enabled = false;
             this.gbSimulacioPig.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbSimulacioPig.Location = new System.Drawing.Point(420, 0);
             this.gbSimulacioPig.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbSimulacioPig.Name = "gbSimulacioPig";
             this.gbSimulacioPig.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbSimulacioPig.Size = new System.Drawing.Size(471, 102);
+            this.gbSimulacioPig.Size = new System.Drawing.Size(609, 102);
             this.gbSimulacioPig.TabIndex = 25;
             this.gbSimulacioPig.TabStop = false;
             this.gbSimulacioPig.Text = "Simulació PiG";
             // 
             // btSimulacioPiG
             // 
-            this.btSimulacioPiG.Location = new System.Drawing.Point(372, 28);
+            this.btSimulacioPiG.Location = new System.Drawing.Point(420, 29);
             this.btSimulacioPiG.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btSimulacioPiG.Name = "btSimulacioPiG";
             this.btSimulacioPiG.Size = new System.Drawing.Size(93, 56);
@@ -924,11 +925,11 @@ namespace Inversions.GUI
             // 
             this.groupBox2.Controls.Add(this.ntbDiferencia);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(250, 29);
+            this.groupBox2.Location = new System.Drawing.Point(271, 29);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 6, 3, 4);
-            this.groupBox2.Size = new System.Drawing.Size(105, 51);
+            this.groupBox2.Size = new System.Drawing.Size(131, 56);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Dif.PiG Act.";
@@ -948,7 +949,7 @@ namespace Inversions.GUI
             this.ntbDiferencia.Location = new System.Drawing.Point(3, 20);
             this.ntbDiferencia.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ntbDiferencia.Name = "ntbDiferencia";
-            this.ntbDiferencia.Size = new System.Drawing.Size(99, 25);
+            this.ntbDiferencia.Size = new System.Drawing.Size(125, 25);
             this.ntbDiferencia.TabIndex = 0;
             this.ntbDiferencia.Text = "0,00 €";
             this.ntbDiferencia.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -961,23 +962,24 @@ namespace Inversions.GUI
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.ntbPiG);
-            this.groupBox1.Location = new System.Drawing.Point(129, 29);
+            this.groupBox1.Location = new System.Drawing.Point(122, 29);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox1.Size = new System.Drawing.Size(105, 51);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 8);
+            this.groupBox1.Size = new System.Drawing.Size(131, 56);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "PiG";
             // 
             // ntbPiG
             // 
+            this.ntbPiG.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.ntbPiG.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPiG.ForeColor = System.Drawing.Color.Black;
-            this.ntbPiG.Location = new System.Drawing.Point(3, 22);
-            this.ntbPiG.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ntbPiG.Location = new System.Drawing.Point(4, 22);
+            this.ntbPiG.Margin = new System.Windows.Forms.Padding(0);
             this.ntbPiG.Name = "ntbPiG";
-            this.ntbPiG.Size = new System.Drawing.Size(99, 25);
+            this.ntbPiG.Size = new System.Drawing.Size(123, 26);
             this.ntbPiG.TabIndex = 0;
             this.ntbPiG.Text = "0,00 €";
             this.ntbPiG.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -989,7 +991,7 @@ namespace Inversions.GUI
             this.gbPreuPartic.Margin = new System.Windows.Forms.Padding(0);
             this.gbPreuPartic.Name = "gbPreuPartic";
             this.gbPreuPartic.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbPreuPartic.Size = new System.Drawing.Size(105, 51);
+            this.gbPreuPartic.Size = new System.Drawing.Size(96, 56);
             this.gbPreuPartic.TabIndex = 4;
             this.gbPreuPartic.TabStop = false;
             this.gbPreuPartic.Text = "Preu";
@@ -1007,7 +1009,7 @@ namespace Inversions.GUI
             this.ntbPreuParticipacio.Location = new System.Drawing.Point(3, 22);
             this.ntbPreuParticipacio.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ntbPreuParticipacio.Name = "ntbPreuParticipacio";
-            this.ntbPreuParticipacio.Size = new System.Drawing.Size(99, 25);
+            this.ntbPreuParticipacio.Size = new System.Drawing.Size(90, 25);
             this.ntbPreuParticipacio.TabIndex = 0;
             this.ntbPreuParticipacio.Text = "0 €";
             this.ntbPreuParticipacio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -1223,16 +1225,16 @@ namespace Inversions.GUI
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPigEnCarteraProd;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPigEnCarteraPig;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
-        private Controls.NumericTextBoxColumn PigDeLaCompra;
-        private Controls.NumericTextBoxColumn PigOrigen;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label lbTotalPigTributen;
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label lbTotalPigEnCartera;
+        private DataGridViewTextBoxColumn Id;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
+        private Controls.NumericTextBoxColumn PigDeLaCompra;
+        private Controls.NumericTextBoxColumn PigOrigen;
     }
 }

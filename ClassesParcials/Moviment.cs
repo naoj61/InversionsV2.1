@@ -68,21 +68,6 @@ namespace Inversions
             }
         }
 
-        static internal bool AmbCartera;
-        static internal bool AmbDividents;
-
-        [Description("S'utilitza en un DataGrid")]
-        public decimal __PigDeLaCompra
-        {
-            get { return pigCompra(AmbCartera, false, null, true, AmbDividents); }
-        }
-
-        [Description("S'utilitza en un DataGrid")]
-        public decimal __PigDeLaCompraOrigen
-        {
-            get { return pigCompra(AmbCartera, true, null, true, AmbDividents); }
-        }
-
 
         private Producte _ProducteTraspas
         {
@@ -219,12 +204,9 @@ namespace Inversions
         }
 
 
-        private IEnumerable<VendaExt> vendesDeLaCompra()
+        private IEnumerable<VendaExt> vendesDeLaCompra(bool pigOrig = false)
         {
-            if (!_EsCompra)
-                throw new ArgumentException(String.Format("El moviment ha de ser una compra. Id={0}", Id));
-
-            return Prod.vendesDePartipacionsEnDataTest(Data, Participacions);
+            return Prod.vendesDeCompra4(this, pigOrig).ToList();
         }
 
 
@@ -237,7 +219,7 @@ namespace Inversions
             if (!_EsVenda)
                 throw new ArgumentException(String.Format("El moviment ha de ser una venda. Id={0}", Id));
 
-            return Prod.compresDePartipacionsEnData(Data, Participacions);
+            return Prod.compresDePartipacionsEnData4(Data, Participacions);
         }
 
 
@@ -310,7 +292,7 @@ namespace Inversions
             {
                 // ** És un traspàs.
 
-                var desgloçCompresVenda = vendaTraspas.Prod.desglosCompresDeParticipacionsEnData(vendaTraspas.Data, vendaTraspas.Participacions).ToList();
+                var desgloçCompresVenda = vendaTraspas.Prod.desglosCompresDeParticipacionsEnData4(vendaTraspas.Data, vendaTraspas.Participacions, true).ToList();
 
                 var agrupatPerIdOrig = desgloçCompresVenda.OrderBy(o => o._DataOrig).GroupBy(g => g._CompraOrig)
                     .Select(s => new
@@ -390,35 +372,6 @@ namespace Inversions
 
 
         #region *** PiG ***
-
-        /// <summary>
-        /// PiG d'una compra.
-        /// </summary>
-        /// <param name="ambCartera">True: Calcula vendes reals més les participacions en cartera.</param>
-        /// <param name="pigOrigen">True: PiG respecte al preu de compra original. False: Pig  respecte al preu d'aquesta compra.</param>
-        /// <param name="anyVenda">Si no és null només selecciona les vendes del any.</param>
-        /// <param name="ambDespeses">Inclou despeses.</param>
-        /// <param name="ambDividents">Inclou dividents.</param>
-        /// <returns></returns>
-        internal decimal pigCompra(bool ambCartera, bool pigOrigen, uint? anyVenda, bool ambDespeses = true, bool ambDividents = true)
-        {
-            // Todo: PiG Intermig.
-
-            if (Prod is ProdFons)
-                // Si és un fons no té despeses ni dividents.
-                ambDespeses = false;
-
-            if (Prod is ProdAccions)
-                pigOrigen = false;
-
-            decimal pigVendesReals = pigCompraNomesVendesReals(pigOrigen, ambDespeses, anyVenda);
-
-            decimal pigEncartera = ambCartera ? pigEnCartera(pigOrigen, ambDespeses) : 0;
-
-            decimal divident = ambDividents ? dividentsDeLaCompra() : 0;
-
-            return pigVendesReals + pigEncartera + divident;
-        }
 
 
         /// <summary>
@@ -644,7 +597,7 @@ namespace Inversions
 
         public decimal pigCompraTest(bool ambCartera, bool pigOrigen, uint? any, bool ambDespeses = true, bool ambDividents = true)
         {
-            return pigCompra(ambCartera, pigOrigen, any, ambDespeses, ambDividents);
+            return pigCompra4(ambDespeses, pigOrigen, ambCartera, ambDividents);
         }
 
         public IEnumerable<VendaExt> vendesDeLaCompraTest()
@@ -713,5 +666,6 @@ namespace Inversions
         }
 
         #endregion
+
     }
 }

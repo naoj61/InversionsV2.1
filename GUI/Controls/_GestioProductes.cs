@@ -258,7 +258,7 @@ namespace Inversions.GUI
                     tbDividends.Valor = prod.dividends();
                     tbValorActual.Valor = prod._ValorActualEnCartera;
 
-                    tbCostOrigPartActual.Valor = prod.costOriginalEnCartera4();
+                    tbCostOrigPartActual.Valor = prod.costOriginalEnCartera3();
 
                     tbPigHistoric.Valor = prod.pig2Producte(); // PiG cartera + vendes reals + dividents - despeses, sense tenir en compte el preu original en cas de traspàs.
                     tbEnCartera.Valor = prod.pig2Cartera(DateTime.Now, false, true); // PiG cartera + dividents - despeses, sense tenir en  compte el preu original.
