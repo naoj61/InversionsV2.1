@@ -206,7 +206,10 @@ namespace Inversions
 
         private IEnumerable<VendaExt> vendesDeLaCompra(bool pigOrig = false)
         {
-            return Prod.vendesDeCompra4(this, pigOrig).ToList();
+            decimal partsEnCartera;
+            List<DesglosCompraExt> desglosCompraExt;
+
+            return Prod.vendesDeCompra4(this, pigOrig, out partsEnCartera, out desglosCompraExt).ToList();
         }
 
 
@@ -219,7 +222,7 @@ namespace Inversions
             if (!_EsVenda)
                 throw new ArgumentException(String.Format("El moviment ha de ser una venda. Id={0}", Id));
 
-            return Prod.compresDePartipacionsEnData4(Data, Participacions);
+            return Prod.basicCompresDePartipacionsEnData4(Data, Participacions);
         }
 
 
@@ -292,7 +295,7 @@ namespace Inversions
             {
                 // ** És un traspàs.
 
-                var desgloçCompresVenda = vendaTraspas.Prod.desglosCompresDeParticipacionsEnData4(vendaTraspas.Data, vendaTraspas.Participacions, true).ToList();
+                var desgloçCompresVenda = vendaTraspas.Prod.basicDesglosCompresDeParticipacionsEnData4(vendaTraspas.Data, vendaTraspas.Participacions, true).ToList();
 
                 var agrupatPerIdOrig = desgloçCompresVenda.OrderBy(o => o._DataOrig).GroupBy(g => g._CompraOrig)
                     .Select(s => new
@@ -595,9 +598,9 @@ namespace Inversions
 
         #region **** Mètodes cridats des de Test *****
 
-        public decimal pigCompraTest(bool ambCartera, bool pigOrigen, uint? any, bool ambDespeses = true, bool ambDividents = true)
+        public decimal pigCompraTest(bool ambCartera, bool pigOrigen, uint? any, bool ambDespeses = true)
         {
-            return pigCompra4(ambDespeses, pigOrigen, ambCartera, ambDividents);
+            return pigCompra4(ambDespeses, pigOrigen, ambCartera);
         }
 
         public IEnumerable<VendaExt> vendesDeLaCompraTest()

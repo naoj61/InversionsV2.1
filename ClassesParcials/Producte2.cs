@@ -133,21 +133,28 @@ namespace Inversions
         /// <returns></returns>
         internal static decimal Pig2Cartera(TipusProducte tipusProducte, TipusFons? tipusFons, int any, bool pigOrigen, bool ambDespeses)
         {
-            return SeleccionaProds(tipusProducte, tipusFons).Sum(prod => prod.pigActual4(pigOrigen, ambDespeses));
+            var dataFinalAny = new DateTime(any + 1, 1, 1).AddTicks(-1);
+            return SeleccionaProds(tipusProducte, tipusFons).Sum(prod => prod.pigEnCartera4(pigOrigen, ambDespeses, dataFinalAny));
         }
 
         internal static decimal PigTributa(TipusProducte tipusProducte, TipusFons? tipusFons, int any, bool inclouDividends)
         {
             IEnumerable<Producte> prods = SeleccionaProds(tipusProducte, tipusFons).ToList();
 
-            var pig = Moviment.MovimentsUsuari
-                .Where(mov => mov.Data.Year == any && mov._EsVendaReal && prods.Contains(mov.Prod))
-                .Sum(venda => venda.pigVenda4(true, true));
+            var movsAnyProd = Moviment.MovimentsUsuari.Where(mov => mov.Data.Year == any && prods.Contains(mov.Prod)).ToList();
+
+            var pig = movsAnyProd.Where(mov => mov._EsVendaReal).Sum(venda => venda.pigVenda4(true, true, true));
+            decimal div = inclouDividends ? movsAnyProd.Where(mov => mov._EsDividents).Sum(divid => divid._ImportBrut) : 0;
+
+
+            //var pig = Moviment.MovimentsUsuari
+            //    .Where(mov => mov.Data.Year == any && mov._EsVendaReal && prods.Contains(mov.Prod))
+            //    .Sum(venda => venda.pigVenda4(true, true, false));
             
-            decimal div = inclouDividends ? Moviment.MovimentsUsuari
-                .Where(mov => mov.Data.Year == any && mov._EsDividents && prods.Contains(mov.Prod))
-                .Sum(divid => divid._ImportBrut) 
-                : 0;
+            //decimal div = inclouDividends ? Moviment.MovimentsUsuari
+            //    .Where(mov => mov.Data.Year == any && mov._EsDividents && prods.Contains(mov.Prod))
+            //    .Sum(divid => divid._ImportBrut) 
+            //    : 0;
 
             return pig + div;
         }
@@ -348,7 +355,7 @@ namespace Inversions
         internal decimal despeses(DateTime? data = null)
         {
             data = data.GetValueOrDefault(Utilitats.DataHoraFinalDia(DateTime.Today));
-            return compresDePartipacionsEnData4(Utilitats.DataHoraFinalDia(data.Value), numParticipacionsEnData(data))
+            return basicCompresDePartipacionsEnData4(Utilitats.DataHoraFinalDia(data.Value), numParticipacionsEnData(data))
                 .Sum(compra => compra._DespesesPartsUtilitzades);
         }
 
@@ -379,7 +386,7 @@ namespace Inversions
             var dataH = dataHoraFinal.GetValueOrDefault(DateTime.Now);
             var numParts = numPartsMax.GetValueOrDefault(numParticipacionsEnData(dataH));
 
-            return desglosCompresDeParticipacionsEnData4(dataH, numParts).Sum(s => s._PartsUtilitzadesOrig * s._PreuParticipacioOrig);
+            return basicDesglosCompresDeParticipacionsEnData4(dataH, numParts).Sum(s => s._PartsUtilitzadesOrig * s._PreuParticipacioOrig);
         }
 
 
@@ -401,6 +408,11 @@ namespace Inversions
 
         #region **** Mètodes cridats des de Test *****
         
+        public decimal partsEnCarteraTest(DateTime? dataHora = null)
+        {
+            return partsEnCartera(dataHora);
+        }
+
         public static decimal Pig2CarteraTest(TipusProducte tipusProducte, TipusFons? tipusFons, int any, bool pigOrigen, bool ambDespeses)
         {
             return Pig2Cartera(tipusProducte, tipusFons, any, pigOrigen, ambDespeses);

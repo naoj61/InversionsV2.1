@@ -28,8 +28,8 @@ namespace Inversions.GUI
                 _Id = compra.Id;
                 _Data = compra.Data;
                 _PreuParticipacio = compra.PreuParticipacio;
-                _PigDeLaCompra = compra.pigCompra4(true, false, ambCartera, ambDividents);
-                _PigDeLaCompraOrigen = compra.pigCompra4(true, true, ambCartera, ambDividents);
+                _PigDeLaCompra = compra.pigCompra4(true, false, ambCartera);
+                _PigDeLaCompraOrigen = compra.pigCompra4(true, true, ambCartera);
             }
 
             public int _Id { get; private set; }
@@ -236,7 +236,7 @@ namespace Inversions.GUI
 
                 for (int any = primerMovimentX.Data.Year; any <= DateTime.Today.Year; any++)
                 {
-                    anysPigTributa[any] = proSeleccionat.pigHistoric4(any, true, true, true);
+                    anysPigTributa[any] = proSeleccionat.pigEnAny4(any, true, true, true, true);
                 }
 
                 // Grid PiG Tributa del producte.
@@ -263,7 +263,7 @@ namespace Inversions.GUI
                     dgvPiGProductePerAny.Rows[fila].Cells[1].Style.ForeColor = pigTotal < 0 ? Color.Red : Color.Black;
                 }
 
-                var enCartera = proSeleccionat.pigActual4(true, true);
+                var enCartera = proSeleccionat.pigEnCartera4(true, true);
                 fila = dgvPiGProductePerAny.Rows.Add("Cartera", enCartera);
                 dgvPiGProductePerAny.Rows[fila].Cells[1].Style.ForeColor = enCartera < 0 ? Color.Red : Color.Black;
 
@@ -289,8 +289,9 @@ namespace Inversions.GUI
             }
             else
             {
-                var pigActual = gestioProductesTabValoracions._ProducteSeleccionat.pigActual4(true, true);
-                var pigCalculat = gestioProductesTabValoracions._ProducteSeleccionat.pigActual4(true, true, null, ntbPreuParticipacio.Valor);
+                var pigActual = gestioProductesTabValoracions._ProducteSeleccionat.pigEnCartera4(true, true);
+                var pigCalculat = gestioProductesTabValoracions._ProducteSeleccionat
+                    .pigEnCartera4(true, true, null, ntbPreuParticipacio.Valor);
 
                 ntbPiG.Text = pigCalculat.ToString("#,##0.00 €");
                 ntbDiferencia.Valor = pigCalculat - pigActual;
@@ -330,10 +331,8 @@ namespace Inversions.GUI
             dgvPiGEnCartera.Rows.Clear();
             foreach (var prod in productes.OrderBy(o => o.OrdreGrid))
             {
-                var aa = prod.pigEnData4(anyDades, false, false);
-                var bb = prod.pigHistoric4(anyDades, false, true, true);
-
-                var pigProdAny = prod.pigEnData4(anyDades, false, false) + prod.pigHistoric4(anyDades, false, true, true);
+                //var pigProdAny = prod.pigEnAny4(anyDades, false, false) + prod.pigHistoric4(anyDades, false, true, true);
+                var pigProdAny = prod.pigEnAny4(anyDades, false, true, true, true);
                 if (!Utilitats.EsZero(pigProdAny))
                 {
                     int ff = dgvPiGEnCartera.Rows.Add(prod, pigProdAny);

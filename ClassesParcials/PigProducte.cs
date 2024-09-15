@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data.Entity.Migrations;
-using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Security;
-using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 using Comuns;
-using DevExpress.Utils.CodedUISupport;
+
 
 namespace Inversions
 {
@@ -439,123 +430,7 @@ namespace Inversions
     }
 
     #endregion Classes Ext
-
-
-    public partial class Moviment
-    {
-        internal decimal pigVenda4(bool pigOrig, bool inclouDespeses)
-        {
-            if (!_EsVenda)
-                throw new Exception("El moviment no és una venda.");
-
-            decimal pig = pigOrig && PiGVendaReal.HasValue 
-                ? PiGVendaReal.Value 
-                : Math.Round(Prod.pigEnData4(Data, pigOrig, inclouDespeses, Participacions, PreuParticipacio) - Despeses.GetValueOrDefault(), 3);
-            
-            return pig;
-        }
-
-
-        internal decimal pigCompra4(bool inclouDespeses, bool pigOrig, bool ambCartera, bool inclouDividends)
-        {
-            if (!_EsCompra)
-                throw new Exception("El moviment no és una compra");
-            
-            decimal partsEnCartera;
-            List<DesglosCompraExt> desglosCompraExt;
-            var vendes = Prod.vendesDeCompra4(this, pigOrig, out partsEnCartera, out desglosCompraExt).ToList();
-            desglosCompraExt = desglosCompraExt.Where(w => w._Compra == this).ToList();
-
-            decimal importActualPartsEnCartera = 0;
-            if (ambCartera)
-            {
-                // Si les parts venudes son inferiors a les comprades, és que encara hi ha parts en cartera. 
-                //var partsEnCartera = Participacions - vendes.Sum(s => s._PartsUtilitzades);
-                importActualPartsEnCartera = partsEnCartera * Prod._PreuParticipacioActual;
-            }
-
-            var importPartsVenudes = vendes.Sum(s => s._PartsUtilitzades * s._PreuParticipacio);
-
-            decimal importCompra;
-            if (pigOrig)
-                if (ambCartera)
-                {
-                    importCompra = desglosCompraExt.Where(desgC => desgC._Compra == this)
-                        .Sum(desgC => (desgC._PartsDisponiblesOrig + desgC._PartsUtilitzadesOrig) * desgC._PreuParticipacioOrig);
-                }
-                else
-                    importCompra = desglosCompraExt.Sum(s => s._PartsUtilitzadesOrig * s._PreuParticipacioOrig);
-            else
-                if (ambCartera)
-                    importCompra = _ImportBrut;
-                else
-                    importCompra = (Participacions - partsEnCartera) * PreuParticipacio;
-
-            var pig = importActualPartsEnCartera + importPartsVenudes - importCompra;
-
-            var despeses = inclouDespeses
-                ? Math.Round(vendes.Sum(s => s._DespesesPartsUtilitzades) + Despeses.GetValueOrDefault(), 3)
-                : 0;
-
-            var dividends = inclouDividends ? dividendsCompra4() : 0;
-
-            return Math.Round(pig + dividends - despeses, 3);
-        }
-
-
-        /// <summary>
-        /// Torna l'import dels dividents cobrats que corresponen a la compra.
-        /// </summary>
-        /// <returns></returns>
-        internal decimal dividendsCompra4()
-        {
-            if (!_EsCompra)
-                throw new Exception("El moviment no és una compra");
-
-            // Busco els dividents amb data superior a la compra.
-            var divs = MovimentsUsuari.Where(mov => mov.ProdId == ProdId && mov.Data >= Data && mov._EsDividents).ToList();
-
-            if (divs.Count == 0)
-                return 0;
-
-            // A partir de les participacions en cartera a la data de cada divident, miro quines compres li corresponen.
-            decimal divCompra = 0;
-            foreach (var dividend in divs)
-            {
-                var partsEnDataDivident = Prod.partsEnCartera(dividend.Data);
-                var compraExt = Prod.desglosCompresDeParticipacionsEnData4(dividend.Data, partsEnDataDivident, false).SingleOrDefault(s => s._Compra == this);
-                if (compraExt != null)
-                {
-                    // Si alguna compra coincideix amb la del paràmetre, reparteixo els dividents entre les participacions que li corresponguin
-                    var div = dividend.PreuParticipacio / partsEnDataDivident * compraExt._PartsUtilitzades;
-                    divCompra += div;
-                }
-            }
-
-            return divCompra;
-        }
-
-        #region *** Test ***
-        
-        public decimal pigVenda4Test(bool pigOrig, bool inclouDespeses)
-        {
-            return pigVenda4(pigOrig, inclouDespeses);
-        }
-
-        public decimal pigCompra4Test(bool inclouDespeses, bool pigOrig, bool ambCartera, bool inclouDividends)
-        {
-            return pigCompra4(inclouDespeses, pigOrig, ambCartera, inclouDividends);
-        }
-
-        public decimal dividentsCompraTest()
-        {
-            return dividendsCompra4();
-        }
-
-        #endregion *** Test ***
-    }
-
-
+    
     public abstract partial class Producte
     {
         /*
@@ -573,73 +448,121 @@ namespace Inversions
          * 
          */
 
-        internal decimal pigHistoric4(int any, bool pigOrig, bool inclouDespeses, bool inclouDividends)
+        internal decimal pigEnAny4(int any, bool pigOrig, bool inclouDespeses, bool inclouCartera, bool utilitzarPiGVendaReal)
         {
             var dataIni = new DateTime(any, 1, 1).AddTicks(-1);
+            var dataFi = dataIni.AddYears(1);
 
-            return pigHistoric4(dataIni, dataIni.AddYears(1), pigOrig, inclouDespeses, inclouDividends);
+            return pigEntreDates4(dataIni, dataFi, pigOrig, inclouDespeses, inclouCartera, utilitzarPiGVendaReal);
         }
 
 
-        internal decimal pigHistoric4(DateTime dataInici, DateTime dataFi, bool pigOrig, bool inclouDespeses, bool inclouDividends)
+        internal decimal pigEntreDates4(DateTime dataInici, DateTime dataFi
+            , bool pigOrig, bool inclouDespeses, bool inclouCartera, bool utilitzarPiGVendaReal)
         {
-            decimal div = inclouDividends 
-                ? Moviment.MovimentsUsuari.Where(mov => mov.Prod == this && mov._EsDividents && mov.Data > dataInici && mov.Data <= dataFi)
-                .Sum(divid => divid._ImportBrut)
-                : 0;
+            var pigDataInici = pigEnData4(dataInici, pigOrig, inclouDespeses, inclouCartera, utilitzarPiGVendaReal);
+            var pigDataFinal = pigEnData4(dataFi, pigOrig, inclouDespeses, inclouCartera, utilitzarPiGVendaReal);
 
-            return pigHistoric4(dataFi, pigOrig, inclouDespeses) - pigHistoric4(dataInici, pigOrig, inclouDespeses) + div;
+            return pigDataFinal - pigDataInici;
         }
 
 
-        internal decimal pigHistoric4(DateTime data, bool pigOrig, bool inclouDespeses)
+        /// <summary>
+        /// PiG de totes les vendes anteriors a 'dataHora' més el PiG de les participacions en cartera a 'dataHora'.
+        /// </summary>
+        /// <param name="dataHora"></param>
+        /// <param name="pigOrig"></param>
+        /// <param name="inclouDespeses"></param>
+        /// <param name="inclouCartera"></param>
+        /// <param name="utilitzarPiGVendaReal"></param>
+        /// <returns></returns>
+        internal decimal pigEnData4(DateTime dataHora
+            , bool pigOrig, bool inclouDespeses, bool inclouCartera, bool utilitzarPiGVendaReal)
         {
-            var vendes = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data <= data).ToList();
+            var vendes = MovimentsProducteUsuari.Where(mov => mov.Data < dataHora && mov._EsVenda);
             
             if (pigOrig)
-                vendes = vendes.Where(w => w._EsVendaReal).ToList();
+                vendes = vendes.Where(venda => venda._EsVendaReal);
 
-            decimal pigVendes = vendes.Sum(venda => venda.pigVenda4(pigOrig, inclouDespeses));
+            var pigVendes = vendes.Sum(venda => venda.pigVenda4(pigOrig, inclouDespeses, utilitzarPiGVendaReal));
+            var pigEnCartera = inclouCartera ? pigEnCartera4(pigOrig, inclouDespeses, dataHora) : 0;
 
-            return pigVendes;
+            return pigVendes + pigEnCartera;
         }
 
 
-        internal decimal pigEnData4(int any, bool pigOrig, bool inclouDespeses)
+
+        #region *** Criden a els mètodes bàsics ***
+
+        /// <summary>
+        /// Calcula el PiG de les participacions en cartera.
+        /// </summary>
+        /// <param name="pigOrig">Indica si s'han d'utilitzar els preus origen o no.</param>
+        /// <param name="inclouDespeses">Torna les despeses de les compres.</param>
+        /// <param name="dataHora">Data a partir d'on buscaran les compres anteriors. Si null, data hora actual.</param>
+        /// <param name="preuParticipacio">Permet calcular la cartera amb un preu diferent a l'actual.</param>
+        /// <returns></returns>
+        internal decimal pigEnCartera4(bool pigOrig, bool inclouDespeses, DateTime? dataHora = null
+            , decimal? preuParticipacio = null)
         {
-            var dataIni = new DateTime(any, 1, 1).AddTicks(-1);
-
-            return pigEnData4(dataIni, dataIni.AddYears(1), pigOrig, inclouDespeses);
-        }
-
-
-        internal decimal pigEnData4(DateTime dataInici, DateTime dataFi, bool pigOrig, bool inclouDespeses)
-        {
-            return pigEnData4(dataFi, pigOrig, inclouDespeses) - pigEnData4(dataInici, pigOrig, inclouDespeses);
-        }
-
-        internal decimal pigEnData4(DateTime data, bool pigOrig, bool inclouDespeses, decimal? participacions = null, decimal? preuParticipacio = null)
-        {
-            decimal despesesCompres;
-
-            var parts = participacions.GetValueOrDefault(partsEnCartera(data));
+            var data = dataHora.GetValueOrDefault(DateTime.Now);
+            var parts = partsEnCartera(data);
             var preuPart = preuParticipacio.GetValueOrDefault(valorParticipacio(data));
 
-            var pig = pig4(data, parts, preuPart, pigOrig, out despesesCompres);
+            decimal despesesCompres;
+            var pig = basicPigVendaOCartera4(data, parts, preuPart, pigOrig, out despesesCompres);
 
-            return pig - (inclouDespeses ? despesesCompres : 0);
+            if (inclouDespeses)
+                pig -= despesesCompres;
+
+            return Math.Round(pig, 3);
         }
 
-
-        public decimal pigActual4Test(bool pigOrig, bool inclouDespeses)
+        /// <summary>
+        /// Calcula el PiG de la venda.
+        /// </summary>
+        /// <param name="venda"></param>
+        /// <param name="pigOrig">Indica si s'han d'utilitzar els preus origen o no.</param>
+        /// <param name="utilitzarPiGVendaReal">Indica si s'ha de agafar el valor del PiG del camp: 'PiGVendaReal'.</param>
+        /// <param name="despesesCompres">Torna les despeses de les compres.</param>
+        /// <returns></returns>
+        internal decimal pigVenda4(Moviment venda, bool pigOrig, bool utilitzarPiGVendaReal, out decimal despesesCompres)
         {
-            return pigActual4(pigOrig, inclouDespeses);
+            if (!venda._EsVenda)
+                throw new ArgumentException("El paràmetre no és una venda", "venda");
+
+            if (pigOrig)
+            {
+                if (!venda._EsVendaReal)
+                    // Si PigOrig, només tenen PiG les vendes reals.
+                    throw new ArgumentException("Si 'pigOrig = true', el paràmetre ha de ser venda real", "venda");
+
+                if (utilitzarPiGVendaReal && venda.PiGVendaReal.HasValue)
+                {
+                    despesesCompres = 0;
+                    return venda.PiGVendaReal.Value;
+                }
+            }
+
+            return basicPigVendaOCartera4(venda.Data, venda.Participacions, venda.PreuParticipacio, pigOrig, out despesesCompres);
         }
 
-        internal decimal pigActual4(bool pigOrig, bool inclouDespeses, decimal? participacions = null, decimal? preuParticipacio = null)
+        /// <summary>
+        /// Torna la llista de les vendes amb les participacions utilitzades de la compra i les participacions en cartera.
+        /// Les vendes de les participacions no son les mateixes si agafem dedes Originals.
+        /// </summary>
+        /// <param name="compra"></param>
+        /// <param name="pigOrig"></param>
+        /// <param name="partsEnCartera"></param>
+        /// <param name="desglosCompraTot"></param>
+        /// <returns></returns>
+        internal IEnumerable<VendaExt> vendesDeCompra4(Moviment compra, bool pigOrig, out decimal partsEnCartera
+            , out List<DesglosCompraExt> desglosCompraTot)
         {
-            return pigEnData4(DateTime.Now, pigOrig, inclouDespeses, participacions, preuParticipacio);
+            return basicVendesDeCompra4(compra, pigOrig, out partsEnCartera, out desglosCompraTot).ToList();
         }
+
+        #endregion *** Criden a els mètodes bàsics ***
 
 
         #region *** Mètodes bàsics ***
@@ -652,7 +575,7 @@ namespace Inversions
         /// <param name="numPartipacions">Son les partipacions de les que buscaré les seves compres.</param>
         /// <param name="pigOrig">Indica si les compres s'han d'ordenar per Data o per DataOrig.</param>
         /// <returns></returns>
-        internal IEnumerable<DesglosCompraExt> desglosCompresDeParticipacionsEnData4(DateTime dataHora, decimal numPartipacions, bool pigOrig = true)
+        internal IEnumerable<DesglosCompraExt> basicDesglosCompresDeParticipacionsEnData4(DateTime dataHora, decimal numPartipacions, bool pigOrig = true)
         {
             if (Utilitats.EsZero(numPartipacions))
                 return new List<DesglosCompraExt>();
@@ -713,12 +636,12 @@ namespace Inversions
         /// <param name="numPartipacions">Son les partipacions de les que buscaré les seves compres. Si null les que estan en cartera a la data.</param>
         /// <param name="pigOrig">Indica si les compres s'han d'ordenar per Data o per DataOrig.</param>
         /// <returns></returns>
-        internal IEnumerable<CompraExt> compresDePartipacionsEnData4(DateTime dataHora, decimal numPartipacions, bool pigOrig = true)
+        internal IEnumerable<CompraExt> basicCompresDePartipacionsEnData4(DateTime dataHora, decimal numPartipacions, bool pigOrig = true)
         {
             List<CompraExt> compres = new List<CompraExt>();
 
             // Creo la llista de compres de les participacions numPartipacions.
-            foreach (var desglosCompraExt in desglosCompresDeParticipacionsEnData4(dataHora, numPartipacions, pigOrig))
+            foreach (var desglosCompraExt in basicDesglosCompresDeParticipacionsEnData4(dataHora, numPartipacions, pigOrig))
             {
                 // Busca la compra en la llista de compresExt que estic creant.
                 var compra = compres.SingleOrDefault(w => w._Compra == desglosCompraExt._Compra);
@@ -738,24 +661,17 @@ namespace Inversions
             return compres;
         }
 
-        public IEnumerable<VendaExt> vendesDeCompra4(Moviment compra, bool pigOrig)
-        {
-            decimal partsEnCartera;
-            List<DesglosCompraExt> desglosCompraExt;
-            
-            return vendesDeCompra4(compra, pigOrig, out partsEnCartera, out desglosCompraExt).ToList();
-        }
-
         /// <summary>
         /// Torna la llista de les vendes amb les participacions utilitzades de la compra i les participacions en cartera.
         /// Les vendes de les participacions no son les mateixes si agafem dedes Originals.
         /// </summary>
         /// <param name="compra"></param>
         /// <param name="pigOrig"></param>
-        /// <param name="partsEncartera"></param>
+        /// <param name="partsEnCartera"></param>
         /// <param name="desglosCompraTot"></param>
         /// <returns></returns>
-        public IEnumerable<VendaExt> vendesDeCompra4(Moviment compra, bool pigOrig, out decimal partsEncartera, out List<DesglosCompraExt> desglosCompraTot)
+        private IEnumerable<VendaExt> basicVendesDeCompra4(Moviment compra, bool pigOrig, out decimal partsEnCartera
+            , out List<DesglosCompraExt> desglosCompraTot)
         {
         if (!compra._EsCompra)
                 throw new Exception("No és una compra");
@@ -778,10 +694,12 @@ namespace Inversions
             desglosCompraTot = desglosCompraTot.ToList();
 
             if (pigOrig)
-                desglosCompraTot = desglosCompraTot.OrderBy(o => o._DataOrig).ToList();
+                desglosCompraTot = desglosCompraTot.OrderBy(o => o._DataOrig).ThenBy(o=>o._Data).ToList();
             else
                 desglosCompraTot = desglosCompraTot.OrderBy(o => o._Data).ToList();
 
+            partsEnCartera = compra.Participacions;
+            
             foreach (var vendaExt in vendesTotes)
             {
                 var dataVenda = vendaExt._Data;
@@ -797,6 +715,9 @@ namespace Inversions
                         : vendaExt._PartsDisponibles;
 
                     if (compra == desglosCompraExt._Compra)
+                        partsEnCartera -= partsDisp;
+
+                    if (compra == desglosCompraExt._Compra && (vendaExt._EsVendaReal || !pigOrig))
                     {
                         desglosCompraExt._PartsUtilitzades += partsDisp;
                         vendaExt._PartsUtilitzades += partsDisp;
@@ -813,48 +734,44 @@ namespace Inversions
             }
 
             var vendes = vendesTotes.Where(venda=>venda._PartsUtilitzades > 0).ToList();
-            partsEncartera = compra.Participacions - vendes.Sum(venda => venda._PartsUtilitzades);
-            var aaa = vendesTotes.Sum(venda => venda._PartsUtilitzades);
 
             return vendes;
         }
 
 
         /// <summary>
-        /// Calcula el PiG, és indiferents si son participacions en cartera o corresponen a una venda.
+        /// Calcula el PiG, o de les participacions en cartera o les d'una venda.
         /// </summary>
         /// <param name="dataHora">Data a partir d'on buscaran les compres anteriors</param>
-        /// <param name="partipacions">Participacions utilitzades.</param>
+        /// <param name="participacions">Participacions utilitzades.</param>
         /// <param name="preuPart">Preu per calcular l'import sobre el que es restarà el preu de compra.</param>
         /// <param name="pigOrig">Indica si s'han d'utilitzar els preus origen o no.</param>
         /// <param name="despesesCompres">Torna les despeses de les compres.</param>
+        /// <param name="dividends">Torna els dividents de les compres utilitzades.</param>
         /// <returns></returns>
-        private decimal pig4(DateTime dataHora, decimal partipacions, decimal preuPart, bool pigOrig, out decimal despesesCompres)
+        private decimal basicPigVendaOCartera4(DateTime dataHora, decimal participacions, decimal preuPart, bool pigOrig
+            , out decimal despesesCompres)
         {
-            var desgloçCompres = desglosCompresDeParticipacionsEnData4(dataHora, partipacions, pigOrig).ToList();
-
-            decimal importCompra = pigOrig 
-                ? desgloçCompres.Sum(dcExt => dcExt._PartsUtilitzadesOrig * dcExt._PreuParticipacioOrig) 
-                : desgloçCompres.Sum(dcExt => dcExt._PartsUtilitzades * dcExt._Compra.PreuParticipacio);
-
-            if (!pigOrig)
+            decimal importCompra;
+            if (pigOrig && this is ProdFons)
             {
-                importCompra = 0;
-                decimal partsUt = 0;
-                foreach (DesglosCompraExt dcExt in desgloçCompres)
-                {
-                    importCompra += dcExt._PartsUtilitzades * dcExt._Compra.PreuParticipacio;
-                    partsUt += dcExt._PartsUtilitzades;
-                }
+                var desgloçCompres = basicDesglosCompresDeParticipacionsEnData4(dataHora, participacions, pigOrig).ToList();
+                
+                importCompra = desgloçCompres.Sum(dcExt => dcExt._PartsUtilitzadesOrig * dcExt._PreuParticipacioOrig);
+
+                // Algun fons pot tenir despeses, es poden produir en qualsevol dels traspassos i no tinc ganes de complicar-me la vida
+                despesesCompres = 0;
+            }
+            else
+            {
+                var compres = basicCompresDePartipacionsEnData4(dataHora, participacions, false).ToList();
+
+                importCompra = compres.Sum(compra => compra._PartsUtilitzades * compra._PreuParticipacio);
+
+                despesesCompres = Math.Round(compres.Sum(compra => compra._Compra.Despeses.GetValueOrDefault() / compra._Participacions * compra._PartsUtilitzades), 3);
             }
 
-
-            decimal importVenda = preuPart * partipacions;
-
-            // Algun fons pot tenir despeses, es poden produir en qualsevol dels traspassos i no tinc ganes de complicar-me la vida
-            despesesCompres = this is ProdAccions 
-                ? desgloçCompres.Sum(s => s._Compra.Despeses.GetValueOrDefault() / s._Compra.Participacions * s._PartsUtilitzades) 
-                : 0;
+            decimal importVenda = preuPart * participacions;
 
             return importVenda - importCompra;
         }
@@ -864,30 +781,30 @@ namespace Inversions
 
         #region *** Test ***
 
-
-        public decimal pigHistoric4Test(bool pigOrig, bool inclouDespeses, DateTime data)
+        public decimal pigHistoric4Test(bool pigOrig, bool inclouDespeses, DateTime data, bool utilitzarPiGVendaReal = true)
         {
-            return pigHistoric4(data, pigOrig, inclouDespeses);
+            return pigEnData4(data, pigOrig, inclouDespeses, false, utilitzarPiGVendaReal);
         }
 
         public IEnumerable<DesglosCompraExt> desglosCompresDeParticipacionsEnData4Test(DateTime dataHora, decimal numPartipacions)
         {
-            return desglosCompresDeParticipacionsEnData4(dataHora, numPartipacions, true);
+            return basicDesglosCompresDeParticipacionsEnData4(dataHora, numPartipacions, true);
         }
 
         public IEnumerable<CompraExt> compresDePartipacionsEnData4Test(DateTime dataHora, decimal? numPartipacions = null)
         {
-            return compresDePartipacionsEnData4(dataHora, numPartipacions.GetValueOrDefault(_Participacions), true);
+            return basicCompresDePartipacionsEnData4(dataHora, numPartipacions.GetValueOrDefault(_Participacions), true);
         }
 
-        public decimal pigHistoric4Test(int any, bool pigOrig, bool inclouDespeses, bool inclouDividends = true)
+        public decimal pigEnAny4Test(int any, bool pigOrig, bool inclouDespeses, bool inclouCartera = false, bool utilitzarPiGVendaReal = true)
         {
-            return pigHistoric4(any, pigOrig, inclouDespeses, inclouDividends);
+            return pigEnAny4(any, pigOrig, inclouDespeses, inclouCartera, utilitzarPiGVendaReal);
         }
 
-        public decimal pigEnData4Test(DateTime data, bool pigOrig, bool inclouDespeses, decimal? participacions = null, decimal? preuParticipacio = null)
+
+        public decimal pigEnCartera4Test(bool pigOrig, bool inclouDespeses)
         {
-            return pigEnData4(data, pigOrig, inclouDespeses, participacions, preuParticipacio);
+            return pigEnCartera4(pigOrig, inclouDespeses);
         }
 
         #endregion *** Test ***
