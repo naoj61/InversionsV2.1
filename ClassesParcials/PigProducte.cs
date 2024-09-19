@@ -75,7 +75,7 @@ namespace Inversions
         {
             get { return vVenda._EsVendaReal; }
         }
-        
+
 
         #region Equals
 
@@ -134,7 +134,8 @@ namespace Inversions
             vCompra = compra;
         }
 
-        public CompraExt(DesglosCompraExt desglosCompraExt) : this(desglosCompraExt._Compra)
+        public CompraExt(DesglosCompraExt desglosCompraExt)
+            : this(desglosCompraExt._Compra)
         {
             vDesglosCompra.Add(desglosCompraExt);
         }
@@ -245,7 +246,7 @@ namespace Inversions
 
         public override bool Equals(object obj)
         {
-            return Equals((CompraExt) obj);
+            return Equals((CompraExt)obj);
         }
 
         public bool Equals(CompraExt other)
@@ -267,7 +268,7 @@ namespace Inversions
             }
 
             // If one is null,return false.
-            if ((object) left == null || (object) right == null)
+            if ((object)left == null || (object)right == null)
             {
                 return false;
             }
@@ -334,12 +335,12 @@ namespace Inversions
         {
             get { return vDesglosCompra.Participacions - _PartsUtilitzades - _PartsOcupades; }
         }
-        
+
         public decimal _ParticipacionsOrig
         {
             get { return vDesglosCompra.ParticipacionsOrig; }
         }
-        
+
         /// <summary>
         /// Son les participacions originals utilitzades en aquest moviment.
         /// </summary>
@@ -430,7 +431,7 @@ namespace Inversions
     }
 
     #endregion Classes Ext
-    
+
     public abstract partial class Producte
     {
         /*
@@ -480,7 +481,7 @@ namespace Inversions
             , bool pigOrig, bool inclouDespeses, bool inclouCartera, bool utilitzarPiGVendaReal)
         {
             var vendes = MovimentsProducteUsuari.Where(mov => mov.Data < dataHora && mov._EsVenda);
-            
+
             if (pigOrig)
                 vendes = vendes.Where(venda => venda._EsVendaReal);
 
@@ -568,6 +569,39 @@ namespace Inversions
         #region *** Mètodes bàsics ***
 
         /// <summary>
+        /// Torna la llista de les compres de les partipacions del producte en una data.
+        /// la venda pot ser que encara no existeixi en la taula moviments o que siguin les participacions en cartera.
+        /// </summary>
+        /// <param name="dataHora">Es buscaran compres anteriors a aquesta data.</param>
+        /// <param name="numPartipacions">Son les partipacions de les que buscaré les seves compres. Si null les que estan en cartera a la data.</param>
+        /// <param name="pigOrig">Indica si les compres s'han d'ordenar per Data o per DataOrig.</param>
+        /// <returns></returns>
+        internal IEnumerable<CompraExt> basicCompresDePartipacionsEnData4(DateTime dataHora, decimal numPartipacions, bool pigOrig = true)
+        {
+            List<CompraExt> compres = new List<CompraExt>();
+
+            // Creo la llista de compres de les participacions numPartipacions.
+            foreach (var desglosCompraExt in basicDesglosCompresDeParticipacionsEnData4(dataHora, numPartipacions, pigOrig))
+            {
+                // Busca la compra en la llista de compresExt que estic creant.
+                var compra = compres.SingleOrDefault(w => w._Compra == desglosCompraExt._Compra);
+
+                if (compra == null)
+                {
+                    // La compra encara no existeix en la llista
+                    compres.Add(new CompraExt(desglosCompraExt));
+                }
+                else
+                {
+                    // La compra ja existeix en la llista
+                    compra.addDesglos(desglosCompraExt);
+                }
+            }
+
+            return compres;
+        }
+
+        /// <summary>
         /// Torna la llista de les desgloç compres de les partipacions del producte en una data.
         /// la venda pot ser que encara no existeixi en la taula moviments o que siguin les participacions en cartera.
         /// </summary>
@@ -629,39 +663,6 @@ namespace Inversions
         }
 
         /// <summary>
-        /// Torna la llista de les compres de les partipacions del producte en una data.
-        /// la venda pot ser que encara no existeixi en la taula moviments o que siguin les participacions en cartera.
-        /// </summary>
-        /// <param name="dataHora">Es buscaran compres anteriors a aquesta data.</param>
-        /// <param name="numPartipacions">Son les partipacions de les que buscaré les seves compres. Si null les que estan en cartera a la data.</param>
-        /// <param name="pigOrig">Indica si les compres s'han d'ordenar per Data o per DataOrig.</param>
-        /// <returns></returns>
-        internal IEnumerable<CompraExt> basicCompresDePartipacionsEnData4(DateTime dataHora, decimal numPartipacions, bool pigOrig = true)
-        {
-            List<CompraExt> compres = new List<CompraExt>();
-
-            // Creo la llista de compres de les participacions numPartipacions.
-            foreach (var desglosCompraExt in basicDesglosCompresDeParticipacionsEnData4(dataHora, numPartipacions, pigOrig))
-            {
-                // Busca la compra en la llista de compresExt que estic creant.
-                var compra = compres.SingleOrDefault(w => w._Compra == desglosCompraExt._Compra);
-
-                if (compra == null)
-                {
-                    // La compra encara no existeix en la llista
-                    compres.Add(new CompraExt(desglosCompraExt));
-                }
-                else
-                {
-                    // La compra ja existeix en la llista
-                    compra.addDesglos(desglosCompraExt);
-                }
-            }
-            
-            return compres;
-        }
-
-        /// <summary>
         /// Torna la llista de les vendes amb les participacions utilitzades de la compra i les participacions en cartera.
         /// Les vendes de les participacions no son les mateixes si agafem dedes Originals.
         /// </summary>
@@ -673,7 +674,7 @@ namespace Inversions
         private IEnumerable<VendaExt> basicVendesDeCompra4(Moviment compra, bool pigOrig, out decimal partsEnCartera
             , out List<DesglosCompraExt> desglosCompraTot)
         {
-        if (!compra._EsCompra)
+            if (!compra._EsCompra)
                 throw new Exception("No és una compra");
 
             if (compra.Usuari != Usuari.Seleccionat)
@@ -687,31 +688,32 @@ namespace Inversions
                 .Select(venda => new VendaExt(venda, 0, 0)).OrderBy(o => o._Data).ToList();
 
             desglosCompraTot = new List<DesglosCompraExt>();
-            foreach (var compraX in MovimentsProducteUsuari.Where(w=>w._EsCompra))
+            foreach (var compraX in MovimentsProducteUsuari.Where(w => w._EsCompra))
             {
                 desglosCompraTot.AddRange(compraX.DesglosCompres.Select(desglosCompra => new DesglosCompraExt(desglosCompra)));
             }
             desglosCompraTot = desglosCompraTot.ToList();
 
             if (pigOrig)
-                desglosCompraTot = desglosCompraTot.OrderBy(o => o._DataOrig).ThenBy(o=>o._Data).ToList();
+                desglosCompraTot = desglosCompraTot.OrderBy(o => o._DataOrig).ThenBy(o => o._Data).ToList();
             else
                 desglosCompraTot = desglosCompraTot.OrderBy(o => o._Data).ToList();
 
             partsEnCartera = compra.Participacions;
-            
+
             foreach (var vendaExt in vendesTotes)
             {
                 var dataVenda = vendaExt._Data;
-                foreach (var desglosCompraExt in desglosCompraTot.Where(w => w._Compra.Data < dataVenda && w._PartsDisponibles > 0))
+                var desglosCompraDisp = desglosCompraTot.Where(w => w._Compra.Data < dataVenda && w._PartsDisponibles > 0).ToList();
+                foreach (var desglosCompraExt in desglosCompraDisp)
                 {
                     /*
                      * Només compres anteriors a la venda. 
                      * Encara que la data orig sigui menor si en el moment de la venda encara no s'havia fet la compra...
                      */
 
-                    decimal partsDisp = vendaExt._PartsDisponibles > desglosCompraExt._PartsDisponibles 
-                        ? desglosCompraExt._PartsDisponibles 
+                    decimal partsDisp = vendaExt._PartsDisponibles > desglosCompraExt._PartsDisponibles
+                        ? desglosCompraExt._PartsDisponibles
                         : vendaExt._PartsDisponibles;
 
                     if (compra == desglosCompraExt._Compra)
@@ -728,12 +730,12 @@ namespace Inversions
                         vendaExt._PartsOcupades += partsDisp;
                     }
 
-                    if(vendaExt._PartsDisponibles == 0)
+                    if (vendaExt._PartsDisponibles == 0)
                         break;
                 }
             }
 
-            var vendes = vendesTotes.Where(venda=>venda._PartsUtilitzades > 0).ToList();
+            var vendes = vendesTotes.Where(venda => venda._PartsUtilitzades > 0).ToList();
 
             return vendes;
         }
@@ -756,7 +758,7 @@ namespace Inversions
             if (pigOrig && this is ProdFons)
             {
                 var desgloçCompres = basicDesglosCompresDeParticipacionsEnData4(dataHora, participacions, pigOrig).ToList();
-                
+
                 importCompra = desgloçCompres.Sum(dcExt => dcExt._PartsUtilitzadesOrig * dcExt._PreuParticipacioOrig);
 
                 // Algun fons pot tenir despeses, es poden produir en qualsevol dels traspassos i no tinc ganes de complicar-me la vida
@@ -806,6 +808,14 @@ namespace Inversions
         {
             return pigEnCartera4(pigOrig, inclouDespeses);
         }
+
+        public IEnumerable<VendaExt> vendesDeCompra4Test(Moviment compra, bool pigOrig, out decimal partsEnCartera
+            , out List<DesglosCompraExt> desglosCompraTot)
+        {
+
+            return vendesDeCompra4(compra, pigOrig, out partsEnCartera, out desglosCompraTot);
+        }
+
 
         #endregion *** Test ***
     }

@@ -6,6 +6,15 @@ namespace Inversions
 {
     public partial class Moviment
     {
+        #region *** Mètodes bàsics ***
+
+        /// <summary>
+        /// Torna el PiG de la compra, real o no.
+        /// </summary>
+        /// <param name="inclouDespeses"></param>
+        /// <param name="pigOrig"></param>
+        /// <param name="ambCartera"></param>
+        /// <returns></returns>
         internal decimal pigCompra4(bool inclouDespeses, bool pigOrig, bool ambCartera)
         {
             if (!_EsCompra)
@@ -15,7 +24,6 @@ namespace Inversions
             List<DesglosCompraExt> desglosCompraExt;
             var vendes = Prod.vendesDeCompra4(this, pigOrig, out partsEnCartera, out desglosCompraExt).ToList();
             desglosCompraExt = desglosCompraExt.Where(w => w._Compra == this).ToList();
-
 
             decimal importActualPartsEnCartera = 0;
             if (ambCartera)
@@ -46,10 +54,8 @@ namespace Inversions
                 ? Math.Round(vendes.Sum(s => s._DespesesPartsUtilitzades) + Despeses.GetValueOrDefault(), 3)
                 : 0;
 
-            return Math.Round(pig + despeses, 3);
+            return Math.Round(pig - despeses, 3);
         }
-
-        #region *** Mètodes bàsics ***
 
         /// <summary>
         /// PiG de la venda

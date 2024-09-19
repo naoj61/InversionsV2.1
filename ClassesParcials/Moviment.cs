@@ -313,7 +313,7 @@ namespace Inversions
                     DesglosCompra desglosCompra = connexio.DesglosCompres.Create();
 
                     // ** Per obtenir parts desgloç Traspas C
-                    desglosCompra.Participacions = Math.Round(grup.sumPartsUtil / vendaTraspas.Participacions * Participacions, 4);
+                    desglosCompra.Participacions =grup.sumPartsUtil / vendaTraspas.Participacions * Participacions;
 
                     // ** Per obtenir parts orig desgloç Traspas C
                     desglosCompra.ParticipacionsOrig = Math.Round(grup.sumPartsUtilOrig, 4);
@@ -329,8 +329,8 @@ namespace Inversions
                 // ** El desgloç és una fila lligada al propi moviment.
                 DesglosCompra desglosCompra = connexio.DesglosCompres.Create();
 
-                desglosCompra.Participacions = Math.Round(this.Participacions, 4);
-                desglosCompra.ParticipacionsOrig = Math.Round(this.Participacions, 4);
+                desglosCompra.Participacions = this.Participacions;
+                desglosCompra.ParticipacionsOrig = this.Participacions;
 
                 DesglosCompres.Add(desglosCompra);
                 DesglosCompresOrig.Add(desglosCompra);
