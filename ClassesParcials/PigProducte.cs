@@ -516,7 +516,7 @@ namespace Inversions
             if (inclouDespeses)
                 pig -= despesesCompres;
 
-            return Math.Round(pig, 3);
+            return pig;
         }
 
         /// <summary>
@@ -749,7 +749,6 @@ namespace Inversions
         /// <param name="preuPart">Preu per calcular l'import sobre el que es restarà el preu de compra.</param>
         /// <param name="pigOrig">Indica si s'han d'utilitzar els preus origen o no.</param>
         /// <param name="despesesCompres">Torna les despeses de les compres.</param>
-        /// <param name="dividends">Torna els dividents de les compres utilitzades.</param>
         /// <returns></returns>
         private decimal basicPigVendaOCartera4(DateTime dataHora, decimal participacions, decimal preuPart, bool pigOrig
             , out decimal despesesCompres)
@@ -770,7 +769,7 @@ namespace Inversions
 
                 importCompra = compres.Sum(compra => compra._PartsUtilitzades * compra._PreuParticipacio);
 
-                despesesCompres = Math.Round(compres.Sum(compra => compra._Compra.Despeses.GetValueOrDefault() / compra._Participacions * compra._PartsUtilitzades), 3);
+                despesesCompres = compres.Sum(compra => compra._Compra.Despeses.GetValueOrDefault() / compra._Participacions * compra._PartsUtilitzades);
             }
 
             decimal importVenda = preuPart * participacions;

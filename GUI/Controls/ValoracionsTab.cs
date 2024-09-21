@@ -206,7 +206,7 @@ namespace Inversions.GUI
 
         private void ompleGrafica1(List<Valoracio> valoracionsProducte)
         {
-            if (valoracionsProducte == null || valoracionsProducte.Count == 0)
+            if (valoracionsProducte == null || valoracionsProducte.Count <= 1)
             {
                 chart1.Series[0].Points.Clear();
             }

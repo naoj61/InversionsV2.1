@@ -51,10 +51,10 @@ namespace Inversions
             var pig = importActualPartsEnCartera + importPartsVenudes - importCompra;
 
             var despeses = inclouDespeses
-                ? Math.Round(vendes.Sum(s => s._DespesesPartsUtilitzades) + Despeses.GetValueOrDefault(), 3)
+                ? vendes.Sum(s => s._DespesesPartsUtilitzades) + Despeses.GetValueOrDefault()
                 : 0;
 
-            return Math.Round(pig - despeses, 3);
+            return pig - despeses;
         }
 
         /// <summary>
@@ -72,8 +72,6 @@ namespace Inversions
             if (inclouDespeses)
                 pig -= (despesesCompres + Despeses.GetValueOrDefault());
 
-            pig = Math.Round(pig, 3);
-            
             return pig;
         }
 
@@ -117,7 +115,7 @@ namespace Inversions
                 }
             }
 
-            return Math.Round(divCompra, 3);
+            return divCompra;
         }
 
         #endregion *** Mètodes bàsics ***
