@@ -171,7 +171,7 @@ namespace Inversions.GUI
             lbTotalPigTributen.ForeColor = pigTotalTributa < 0 ? Color.Red : Color.Black;
             lbTotalPigTributen.Text = pigTotalTributa.ToString("###,##0.00 €");
 
-            ntbPigActualPartsEnCartera.Valor = Producte.Pig2Cartera(tipusProducte, null, ultimAny, true, true);
+            ntbPigActualPartsEnCartera.Valor = Producte.Pig2Cartera4(tipusProducte, null, ultimAny, true, true);
             ntbPigRealMesCartera.Valor = ntbPigActualPartsEnCartera.Valor + pigTotalTributa;
         }
 
@@ -185,7 +185,8 @@ namespace Inversions.GUI
             }
 
             var compres = prodSeleccionat.MovimentsProducteUsuari.Where(w => w._EsCompra)
-                .Select(s => new StrDgvCompresProducte(s, ckAmbCartera.Checked, ckAmbDividends.Checked)).OrderBy(o => o._Data).ToList();
+                .Select(compra => new StrDgvCompresProducte(compra, ckAmbCartera.Checked, ckAmbDividends.Checked))
+                .OrderBy(o => o._Data).ToList();
 
             SuspendLayout();
             dgvCompresProducte.SuspendLayout();
@@ -236,7 +237,7 @@ namespace Inversions.GUI
 
                 for (int any = primerMovimentX.Data.Year; any <= DateTime.Today.Year; any++)
                 {
-                    anysPigTributa[any] = proSeleccionat.pigEnAny4(any, true, true, true, true);
+                    anysPigTributa[any] = proSeleccionat.pigEnAny4(any, true, true, false, true);
                 }
 
                 // Grid PiG Tributa del producte.
@@ -411,27 +412,21 @@ namespace Inversions.GUI
 
         private void btFiltreDates_Click(object sender, EventArgs e)
         {
+            var dataIni = dtpFiltreDataInici.Value.GetValueOrDefault(DateTime.MinValue);
+            var dataFi = dtpFiltreDataFi.Value.GetValueOrDefault(DateTime.Now);
+
             if (ckPiGEntreDatesNomesProdSel.Checked)
             {
-                var dataIni = dtpFiltreDataInici.Value.GetValueOrDefault(DateTime.MinValue);
-                var dataFi = dtpFiltreDataFi.Value.GetValueOrDefault(DateTime.Now);
+                //tbPigEntreDates.Valor = gestioProductesTabValoracions._ProducteSeleccionat.pig2TotalOrig(dataIni, dataFi, true, true);
                 
-                var aa = gestioProductesTabValoracions._ProducteSeleccionat.pig2TotalOrig(dataIni, dataFi, true, true);
-                //var bb = gestioProductesTabValoracions._ProducteSeleccionat.pigEnData4(dataIni, dataFi, true, true);
-                //var cc = gestioProductesTabValoracions._ProducteSeleccionat.pigHistoric4(dataIni, dataFi, true, true);
-                //var dd = bb + cc;
-
-                tbPigEntreDates.Valor = aa;
-                
-                //tbPigEntreDates.Valor = gestioProductesTabValoracions._ProducteSeleccionat
-                //    .pig2TotalOrig(dtpFiltreDataInici.Value, dtpFiltreDataFi.Value, true, true);
+                tbPigEntreDates.Valor = gestioProductesTabValoracions._ProducteSeleccionat
+                    .pigEntreDates4(dataIni, dataFi, true, true, true, true); 
             }
             else
             {
-                //var pigTributa = Producte.PigTributa(tipusProducte, null, any, true);
-
-                tbPigEntreDates.Valor = Producte.Pig2(Producte.TipusProducte.Tots, null,
-                    dtpFiltreDataInici.Value.GetValueOrDefault(DateTime.MinValue), dtpFiltreDataFi.Value.GetValueOrDefault(DateTime.MaxValue), true, true);
+                //tbPigEntreDates.Valor = Producte.Pig2(Producte.TipusProducte.Tots, null, dataIni, dataFi, true, true);
+                
+                tbPigEntreDates.Valor = Producte.Pig4(Producte.TipusProducte.Tots, null, dataIni, dataFi, true, true, true, true);
             }
         }
 

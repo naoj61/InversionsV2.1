@@ -94,6 +94,11 @@ namespace Inversions
             return dividends(DateTime.MinValue, DateTime.Today);
         }
 
+        private decimal dividends(DateTime dataFi)
+        {
+            return dividends(DateTime.MinValue, dataFi);
+        }
+
         private decimal dividends(DateTime dataInici, DateTime dataFi)
         {
             return MovimentsProducteUsuari

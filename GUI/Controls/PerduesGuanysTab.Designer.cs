@@ -163,9 +163,9 @@ namespace Inversions.GUI
             this.panel8.Controls.Add(this.panel9);
             this.panel8.Controls.Add(this.panel6);
             this.panel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel8.Location = new System.Drawing.Point(5, 444);
+            this.panel8.Location = new System.Drawing.Point(5, 464);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(420, 378);
+            this.panel8.Size = new System.Drawing.Size(420, 358);
             this.panel8.TabIndex = 22;
             // 
             // dgvPiGEnCartera
@@ -202,7 +202,7 @@ namespace Inversions.GUI
             this.dgvPiGEnCartera.ReadOnly = true;
             this.dgvPiGEnCartera.RowHeadersVisible = false;
             this.dgvPiGEnCartera.RowTemplate.Height = 24;
-            this.dgvPiGEnCartera.Size = new System.Drawing.Size(420, 296);
+            this.dgvPiGEnCartera.Size = new System.Drawing.Size(420, 276);
             this.dgvPiGEnCartera.TabIndex = 15;
             this.toolTip1.SetToolTip(this.dgvPiGEnCartera, "Només vendes reals.");
             this.dgvPiGEnCartera.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvPiGEnCartera_CellMouseClick);
@@ -232,7 +232,7 @@ namespace Inversions.GUI
             this.panel9.Controls.Add(this.label6);
             this.panel9.Controls.Add(this.lbTotalPigEnCartera);
             this.panel9.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel9.Location = new System.Drawing.Point(0, 340);
+            this.panel9.Location = new System.Drawing.Point(0, 320);
             this.panel9.Name = "panel9";
             this.panel9.Size = new System.Drawing.Size(420, 38);
             this.panel9.TabIndex = 17;
@@ -299,6 +299,7 @@ namespace Inversions.GUI
             // panel2
             // 
             this.panel2.AutoSize = true;
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.ntbPigRealMesCartera);
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.ntbPigActualPartsEnCartera);
@@ -307,7 +308,8 @@ namespace Inversions.GUI
             this.panel2.Location = new System.Drawing.Point(5, 322);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(420, 122);
+            this.panel2.Padding = new System.Windows.Forms.Padding(9);
+            this.panel2.Size = new System.Drawing.Size(420, 142);
             this.panel2.TabIndex = 20;
             // 
             // ntbPigRealMesCartera
@@ -322,11 +324,11 @@ namespace Inversions.GUI
             this.ntbPigRealMesCartera.Dock = System.Windows.Forms.DockStyle.Top;
             this.ntbPigRealMesCartera.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ntbPigRealMesCartera.ForeColor = System.Drawing.Color.Black;
-            this.ntbPigRealMesCartera.Location = new System.Drawing.Point(0, 92);
+            this.ntbPigRealMesCartera.Location = new System.Drawing.Point(9, 101);
             this.ntbPigRealMesCartera.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ntbPigRealMesCartera.Name = "ntbPigRealMesCartera";
             this.ntbPigRealMesCartera.ReadOnly = true;
-            this.ntbPigRealMesCartera.Size = new System.Drawing.Size(420, 30);
+            this.ntbPigRealMesCartera.Size = new System.Drawing.Size(400, 30);
             this.ntbPigRealMesCartera.TabIndex = 22;
             this.ntbPigRealMesCartera.Text = "0,00 €";
             this.ntbPigRealMesCartera.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -342,9 +344,9 @@ namespace Inversions.GUI
             this.label3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label3.Dock = System.Windows.Forms.DockStyle.Top;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(0, 61);
+            this.label3.Location = new System.Drawing.Point(9, 70);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(420, 31);
+            this.label3.Size = new System.Drawing.Size(400, 31);
             this.label3.TabIndex = 17;
             this.label3.Text = "PiG Real + Cartera";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -361,11 +363,11 @@ namespace Inversions.GUI
             this.ntbPigActualPartsEnCartera.Dock = System.Windows.Forms.DockStyle.Top;
             this.ntbPigActualPartsEnCartera.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ntbPigActualPartsEnCartera.ForeColor = System.Drawing.Color.Black;
-            this.ntbPigActualPartsEnCartera.Location = new System.Drawing.Point(0, 31);
+            this.ntbPigActualPartsEnCartera.Location = new System.Drawing.Point(9, 40);
             this.ntbPigActualPartsEnCartera.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ntbPigActualPartsEnCartera.Name = "ntbPigActualPartsEnCartera";
             this.ntbPigActualPartsEnCartera.ReadOnly = true;
-            this.ntbPigActualPartsEnCartera.Size = new System.Drawing.Size(420, 30);
+            this.ntbPigActualPartsEnCartera.Size = new System.Drawing.Size(400, 30);
             this.ntbPigActualPartsEnCartera.TabIndex = 20;
             this.ntbPigActualPartsEnCartera.Text = "0,00 €";
             this.ntbPigActualPartsEnCartera.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -381,9 +383,9 @@ namespace Inversions.GUI
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Location = new System.Drawing.Point(9, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(420, 31);
+            this.label1.Size = new System.Drawing.Size(400, 31);
             this.label1.TabIndex = 21;
             this.label1.Text = "PiG actual de les participacions en cartera";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -908,7 +910,7 @@ namespace Inversions.GUI
             this.gbSimulacioPig.Size = new System.Drawing.Size(609, 102);
             this.gbSimulacioPig.TabIndex = 25;
             this.gbSimulacioPig.TabStop = false;
-            this.gbSimulacioPig.Text = "Simulació PiG";
+            this.gbSimulacioPig.Text = "Simulació PiG Orig";
             // 
             // btSimulacioPiG
             // 

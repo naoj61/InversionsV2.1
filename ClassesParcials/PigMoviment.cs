@@ -81,13 +81,14 @@ namespace Inversions
         /// </summary>
         /// <param name="dataCalculDividend">Si una venda busca el divident, Tant la compra com el divident han de saer d'abans que la venda</param>
         /// <returns></returns>
+        [Obsolete("Molt complicat, calcular els dividents d'una compra a origen és un merder.", true)]
         internal decimal dividendsCompra4(DateTime dataCalculDividend)
         {
             /* 
              * Si una venda te una compra que li corresponen dividends però la venda és anterior al dividend, no li corrrespon dividend,
              * però en una venda posterior podria ser que encara que no utilitzi totes les participacions de la compra si que li correspondrien
              * tots els dividends que a l'artra venda no li corresponien.
-             * Aixó és un merder i no em vull compñicar la vida per tant poca cosa.
+             * Aixó és un merder i no em vull complicar la vida per tant poca cosa.
              */
 
             throw new NotImplementedException("No utilitzar aquesta funció, molt complicat");
