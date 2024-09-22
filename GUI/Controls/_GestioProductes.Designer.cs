@@ -52,7 +52,7 @@ namespace Inversions.GUI
             this.tbMercat = new System.Windows.Forms.TextBox();
             this.tbIsin = new System.Windows.Forms.TextBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.tbCostOrigPartActual = new Controls.NumericTextBox2();
+            this.tbCostOrigPartsCartera = new Controls.NumericTextBox2();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.tbValorActual = new Controls.NumericTextBox2();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -317,6 +317,82 @@ namespace Inversions.GUI
             0,
             131072});
             // 
+            // pnDescripcioFons
+            // 
+            this.pnDescripcioFons.Controls.Add(this.btDescripcioFons);
+            this.pnDescripcioFons.Location = new System.Drawing.Point(185, 144);
+            this.pnDescripcioFons.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pnDescripcioFons.Name = "pnDescripcioFons";
+            this.pnDescripcioFons.Padding = new System.Windows.Forms.Padding(6, 11, 6, 6);
+            this.pnDescripcioFons.Size = new System.Drawing.Size(176, 61);
+            this.pnDescripcioFons.TabIndex = 1;
+            this.pnDescripcioFons.Visible = false;
+            // 
+            // btDescripcioFons
+            // 
+            this.btDescripcioFons.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btDescripcioFons.Location = new System.Drawing.Point(6, 11);
+            this.btDescripcioFons.Name = "btDescripcioFons";
+            this.btDescripcioFons.Size = new System.Drawing.Size(164, 44);
+            this.btDescripcioFons.TabIndex = 0;
+            this.btDescripcioFons.Text = "Descripció";
+            this.btDescripcioFons.UseVisualStyleBackColor = true;
+            this.btDescripcioFons.Click += new System.EventHandler(this.btDescripcioFons_Click);
+            // 
+            // 
+            this.flowLayoutPanel2.Controls.Add(this.gbPigHistoric);
+            this.flowLayoutPanel2.Controls.Add(this.gbPigEnCartera);
+            this.flowLayoutPanel2.Controls.Add(this.gbPigHistoricOrig);
+            this.flowLayoutPanel2.Controls.Add(this.gbPigEnCarteraOrig);
+            this.flowLayoutPanel2.Controls.Add(this.gbDividents);
+            this.flowLayoutPanel2.Controls.Add(this.pnDescripcioFons);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(6, 274);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(369, 209);
+            this.flowLayoutPanel2.TabIndex = 10;
+            // 
+            // gbPigEnCarteraOrig
+            // 
+            this.gbPigEnCarteraOrig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbPigEnCarteraOrig.Controls.Add(this.tbPigEnCarteraOrig);
+            this.flowLayoutPanel2.SetFlowBreak(this.gbPigEnCarteraOrig, true);
+            this.gbPigEnCarteraOrig.Location = new System.Drawing.Point(185, 74);
+            this.gbPigEnCarteraOrig.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gbPigEnCarteraOrig.Name = "gbPigEnCarteraOrig";
+            this.gbPigEnCarteraOrig.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
+            this.gbPigEnCarteraOrig.Size = new System.Drawing.Size(176, 62);
+            this.gbPigEnCarteraOrig.TabIndex = 8;
+            this.gbPigEnCarteraOrig.TabStop = false;
+            this.gbPigEnCarteraOrig.Text = "PiG En Cartera Orig";
+            this.toolTip1.SetToolTip(this.gbPigEnCarteraOrig, "PiG participacions en cartera des del cost inicial.");
+            this.gbPigEnCarteraOrig.Visible = false;
+            // 
+            // tbPigEnCarteraOrig
+            // 
+            this.tbPigEnCarteraOrig._CapturaEscape = true;
+            this.tbPigEnCarteraOrig._Format = "#,#0.00 €";
+            this.tbPigEnCarteraOrig._NegatiusEnVermell = true;
+            this.tbPigEnCarteraOrig._PermetDecimals = true;
+            this.tbPigEnCarteraOrig._PermetNegatius = true;
+            this.tbPigEnCarteraOrig._PermetTextNull = false;
+            this.tbPigEnCarteraOrig.BackColor = System.Drawing.SystemColors.Window;
+            this.tbPigEnCarteraOrig.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbPigEnCarteraOrig.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbPigEnCarteraOrig.ForeColor = System.Drawing.Color.Black;
+            this.tbPigEnCarteraOrig.Location = new System.Drawing.Point(6, 23);
+            this.tbPigEnCarteraOrig.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tbPigEnCarteraOrig.Name = "tbPigEnCarteraOrig";
+            this.tbPigEnCarteraOrig.ReadOnly = true;
+            this.tbPigEnCarteraOrig.Size = new System.Drawing.Size(164, 25);
+            this.tbPigEnCarteraOrig.TabIndex = 0;
+            this.tbPigEnCarteraOrig.Text = "0,00 €";
+            this.tbPigEnCarteraOrig.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.tbPigEnCarteraOrig.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            // 
             // gbDividents
             // 
             this.gbDividents.Controls.Add(this.tbDividends);
@@ -443,7 +519,7 @@ namespace Inversions.GUI
             // groupBox7
             // 
             this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox7.Controls.Add(this.tbCostOrigPartActual);
+            this.groupBox7.Controls.Add(this.tbCostOrigPartsCartera);
             this.groupBox7.Location = new System.Drawing.Point(192, 205);
             this.groupBox7.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox7.Name = "groupBox7";
@@ -451,30 +527,31 @@ namespace Inversions.GUI
             this.groupBox7.Size = new System.Drawing.Size(176, 62);
             this.groupBox7.TabIndex = 5;
             this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Cost Orig Particip";
+            this.groupBox7.Text = "Cost Original";
+            this.toolTip1.SetToolTip(this.groupBox7, "És el cost de les compres reals de les parts en cartera.");
             // 
-            // tbCostOrigPartActual
+            // tbCostOrigPartsCartera
             // 
-            this.tbCostOrigPartActual._CapturaEscape = true;
-            this.tbCostOrigPartActual._Format = "#,#0.00 €";
-            this.tbCostOrigPartActual._NegatiusEnVermell = false;
-            this.tbCostOrigPartActual._PermetDecimals = true;
-            this.tbCostOrigPartActual._PermetNegatius = true;
-            this.tbCostOrigPartActual._PermetTextNull = false;
-            this.tbCostOrigPartActual.BackColor = System.Drawing.SystemColors.Window;
-            this.tbCostOrigPartActual.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbCostOrigPartActual.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbCostOrigPartActual.ForeColor = System.Drawing.Color.Black;
-            this.tbCostOrigPartActual.Location = new System.Drawing.Point(6, 23);
-            this.tbCostOrigPartActual.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tbCostOrigPartActual.Name = "tbCostOrigPartActual";
-            this.tbCostOrigPartActual.ReadOnly = true;
-            this.tbCostOrigPartActual.Size = new System.Drawing.Size(164, 25);
-            this.tbCostOrigPartActual.TabIndex = 0;
-            this.tbCostOrigPartActual.Text = "0,00 €";
-            this.tbCostOrigPartActual.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.toolTip1.SetToolTip(this.tbCostOrigPartActual, "Cost original total de les participacions actualment en cartera");
-            this.tbCostOrigPartActual.Valor = new decimal(new int[] {
+            this.tbCostOrigPartsCartera._CapturaEscape = true;
+            this.tbCostOrigPartsCartera._Format = "#,#0.00 €";
+            this.tbCostOrigPartsCartera._NegatiusEnVermell = false;
+            this.tbCostOrigPartsCartera._PermetDecimals = true;
+            this.tbCostOrigPartsCartera._PermetNegatius = true;
+            this.tbCostOrigPartsCartera._PermetTextNull = false;
+            this.tbCostOrigPartsCartera.BackColor = System.Drawing.SystemColors.Window;
+            this.tbCostOrigPartsCartera.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbCostOrigPartsCartera.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbCostOrigPartsCartera.ForeColor = System.Drawing.Color.Black;
+            this.tbCostOrigPartsCartera.Location = new System.Drawing.Point(6, 23);
+            this.tbCostOrigPartsCartera.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tbCostOrigPartsCartera.Name = "tbCostOrigPartsCartera";
+            this.tbCostOrigPartsCartera.ReadOnly = true;
+            this.tbCostOrigPartsCartera.Size = new System.Drawing.Size(164, 25);
+            this.tbCostOrigPartsCartera.TabIndex = 0;
+            this.tbCostOrigPartsCartera.Text = "0,00 €";
+            this.tbCostOrigPartsCartera.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.tbCostOrigPartsCartera, "Cost original total de les participacions actualment en cartera");
+            this.tbCostOrigPartsCartera.Valor = new decimal(new int[] {
             0,
             0,
             0,
@@ -1071,7 +1148,7 @@ namespace Inversions.GUI
         private Label lbFons;
         private Label label3;
         private GroupBox groupBox7;
-        private NumericTextBox2 tbCostOrigPartActual;
+        private NumericTextBox2 tbCostOrigPartsCartera;
         private GroupBox gbPigEnCartera;
         private NumericTextBox2 tbEnCartera;
         private FlowLayoutPanel flowLayoutPanel1;

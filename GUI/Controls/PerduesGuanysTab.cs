@@ -12,7 +12,45 @@ namespace Inversions.GUI
 {
     public partial class PerduesGuanysTab : TabX
     {
+        #region ***** Estructures per DataGrids *****
+
+        /// <summary>
+        /// Estructura per omplir DgvCompresProducte
+        /// </summary>
+        struct StrDgvCompresProducte
+        {
+            internal StrDgvCompresProducte(Moviment compra, bool ambCartera, bool ambDividents)
+                : this()
+            {
+                if (!compra._EsCompra)
+                    throw new Exception("El moviment no és una compra");
+
+                _Id = compra.Id;
+                _Data = compra.Data;
+                _PreuParticipacio = compra.PreuParticipacio;
+                _PigDeLaCompra = compra.pigCompra4(true, false, ambCartera);
+                _PigDeLaCompraOrigen = compra.pigCompra4(true, true, ambCartera);
+            }
+
+            public int _Id { get; private set; }
+
+            public DateTime _Data { get; private set; }
+
+            public decimal _PreuParticipacio { get; private set; }
+
+            public decimal _PigDeLaCompra { get; private set; }
+
+            public decimal _PigDeLaCompraOrigen { get; private set; }
+        }
+
+        #endregion ***** Estructures per DataGrids *****
+
         private readonly Producte vProdTotal = new ProdFons();
+
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem toolStripMenuItem1;
+        private ToolStripMenuItem toolStripMenuItem2;
+        private ToolStripMenuItem toolStripMenuItem3;
 
         public PerduesGuanysTab()
         {
@@ -23,6 +61,33 @@ namespace Inversions.GUI
             vProdTotal._NomProducte = "Total";
 
             InitializeContextMenu();
+        }
+
+        private void InitializeContextMenu()
+        {
+            // Crea el ContextMenuStrip
+            contextMenuStrip1 = new ContextMenuStrip();
+
+            // Crea els elements del menú contextual
+            toolStripMenuItem1 = new ToolStripMenuItem();
+            toolStripMenuItem1.Text = "Moviments";
+            toolStripMenuItem1.Click += ToolStripMenuItem1_Click;
+
+            toolStripMenuItem2 = new ToolStripMenuItem();
+            toolStripMenuItem2.Text = "Valoracions";
+            toolStripMenuItem2.Click += ToolStripMenuItem2_Click;
+
+            toolStripMenuItem3 = new ToolStripMenuItem();
+            toolStripMenuItem3.Text = "Simulació venda";
+            toolStripMenuItem3.Click += ToolStripMenuItem3_Click;
+
+            // Afegir els elements al ContextMenuStrip
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[]
+            {
+                toolStripMenuItem1,
+                toolStripMenuItem2,
+                toolStripMenuItem3
+            });
         }
 
         internal override void carregaInicial()
@@ -85,16 +150,16 @@ namespace Inversions.GUI
 
             dgvPiGAnualsTributen.Rows.Clear();
             decimal pigTotalTributa = 0;
-            for (uint any = (uint) Program.PrimerAny; any <= ultimAny; any++)
+            for (int any = Program.PrimerAny; any <= ultimAny; any++)
             {
                 // *** PiG Tributa ***
-                var pigTributa = Producte.PigTributa(tipusProducte, null, any, true);
+                var pigTributa = Producte.PigTributa4(tipusProducte, null, any, true);
                 pigTotalTributa += pigTributa;
                 if (!Utilitats.EsZero(pigTributa) || any == ultimAny)
                 {
                     // Hi ha vendes reals en l'any.
-                    var ff = dgvPiGAnualsTributen.Rows.Add(any, 0, 0, pigTributa);
-                    dgvPiGAnualsTributen.Rows[ff].Cells[3].Style.ForeColor = pigTributa < 0 ? Color.Red : Color.Black;
+                    var fila = dgvPiGAnualsTributen.Rows.Add(any, 0, 0, pigTributa);
+                    dgvPiGAnualsTributen.Rows[fila].Cells[3].Style.ForeColor = pigTributa < 0 ? Color.Red : Color.Black;
                 }
             }
 
@@ -106,10 +171,9 @@ namespace Inversions.GUI
             lbTotalPigTributen.ForeColor = pigTotalTributa < 0 ? Color.Red : Color.Black;
             lbTotalPigTributen.Text = pigTotalTributa.ToString("###,##0.00 €");
 
-            ntbPigActualPartsEnCartera.Valor = Producte.Pig2Cartera(tipusProducte, null, ultimAny, true, true);
+            ntbPigActualPartsEnCartera.Valor = Producte.Pig2Cartera4(tipusProducte, null, ultimAny, true, true);
             ntbPigRealMesCartera.Valor = ntbPigActualPartsEnCartera.Valor + pigTotalTributa;
         }
-
 
         private void ompleLlistaCompres(Producte prodSeleccionat)
         {
@@ -120,10 +184,9 @@ namespace Inversions.GUI
                 return;
             }
 
-            Moviment.AmbCartera = ckAmbCartera.Checked;
-            Moviment.AmbDividents = ckAmbDividends.Checked;
-
-            var compres = prodSeleccionat.MovimentsProducteUsuari.Where(w => w._EsCompra).OrderBy(o => o.Data).ToList();
+            var compres = prodSeleccionat.MovimentsProducteUsuari.Where(w => w._EsCompra)
+                .Select(compra => new StrDgvCompresProducte(compra, ckAmbCartera.Checked, ckAmbDividends.Checked))
+                .OrderBy(o => o._Data).ToList();
 
             SuspendLayout();
             dgvCompresProducte.SuspendLayout();
@@ -135,19 +198,23 @@ namespace Inversions.GUI
             dgvCompresProducte.SelectionChanged += dgvCompresProducte_SelectionChanged;
             dgvCompresProducte.CellFormatting -= dgv_CellFormatting;
 
+            //lbPigCompra.Text = "0";
+            //lbPigCompraOrig.Text = "0";
+
             dgvCompresProducte.ResumeLayout();
 
             ResumeLayout();
 
-            var pigCompra = compres.Sum(s => s.__PigDeLaCompra);
-            lbPigCompra.Text = pigCompra.ToString("###,##0.00 €");
-            ;
-            lbPigCompra.ForeColor = pigCompra < 0 ? Color.Red : Color.Black;
+            //var pigCompra = prodSeleccionat.pigHistoric4(false, true);
+            //lbPigCompra.Text = pigCompra.ToString("###,##0.00 €");
+            
+            //lbPigCompra.ForeColor = pigCompra < 0 ? Color.Red : Color.Black;
 
-            pigCompra = compres.Sum(s => s.__PigDeLaCompraOrigen);
-            lbPigCompraOrig.Text = pigCompra.ToString("###,##0.00 €");
-            ;
-            lbPigCompraOrig.ForeColor = pigCompra < 0 ? Color.Red : Color.Black;
+            //pigCompra = prodSeleccionat.pigHistoric4(true, true);
+            //lbPigCompraOrig.Text = pigCompra.ToString("###,##0.00 €");
+            
+            //lbPigCompraOrig.ForeColor = pigCompra < 0 ? Color.Red : Color.Black;
+           
         }
 
 
@@ -164,13 +231,13 @@ namespace Inversions.GUI
             {
                 dgvPiGProductePerAny.SuspendLayout();
 
-                Dictionary<uint, decimal> anysPigTributa = new Dictionary<uint, decimal>();
+                Dictionary<int, decimal> anysPigTributa = new Dictionary<int, decimal>();
                 decimal pigTotal = 0;
                 int fila;
 
-                for (uint any = (uint) primerMovimentX.Data.Year; any <= DateTime.Today.Year; any++)
+                for (int any = primerMovimentX.Data.Year; any <= DateTime.Today.Year; any++)
                 {
-                    anysPigTributa[any] = proSeleccionat.pig3Total(any, false, false);
+                    anysPigTributa[any] = proSeleccionat.pigEnAny4(any, true, true, false, true);
                 }
 
                 // Grid PiG Tributa del producte.
@@ -197,8 +264,7 @@ namespace Inversions.GUI
                     dgvPiGProductePerAny.Rows[fila].Cells[1].Style.ForeColor = pigTotal < 0 ? Color.Red : Color.Black;
                 }
 
-
-                var enCartera = proSeleccionat.pig2EnCarteraOrig();
+                var enCartera = proSeleccionat.pigEnCartera4(true, true);
                 fila = dgvPiGProductePerAny.Rows.Add("Cartera", enCartera);
                 dgvPiGProductePerAny.Rows[fila].Cells[1].Style.ForeColor = enCartera < 0 ? Color.Red : Color.Black;
 
@@ -224,9 +290,11 @@ namespace Inversions.GUI
             }
             else
             {
-                var pigActual = gestioProductesTabValoracions._ProducteSeleccionat.pig2EnCarteraOrig();
-                var pigCalculat = gestioProductesTabValoracions._ProducteSeleccionat.pig2EnCarteraOrig(preuParticipacio: ntbPreuParticipacio.Valor);
-                ntbPiG.Text = pigCalculat.ToString("0.00 €");
+                var pigActual = gestioProductesTabValoracions._ProducteSeleccionat.pigEnCartera4(true, true);
+                var pigCalculat = gestioProductesTabValoracions._ProducteSeleccionat
+                    .pigEnCartera4(true, true, null, ntbPreuParticipacio.Valor);
+
+                ntbPiG.Text = pigCalculat.ToString("#,##0.00 €");
                 ntbDiferencia.Valor = pigCalculat - pigActual;
 
                 if (pigCalculat < 0)
@@ -264,14 +332,15 @@ namespace Inversions.GUI
             dgvPiGEnCartera.Rows.Clear();
             foreach (var prod in productes.OrderBy(o => o.OrdreGrid))
             {
-                var pigEnCartera = prod.pigVariacioCartera(anyDades);
-                if (!Utilitats.EsZero(pigEnCartera))
+                //var pigProdAny = prod.pigEnAny4(anyDades, false, false) + prod.pigHistoric4(anyDades, false, true, true);
+                var pigProdAny = prod.pigEnAny4(anyDades, false, true, true, true);
+                if (!Utilitats.EsZero(pigProdAny))
                 {
-                    int ff = dgvPiGEnCartera.Rows.Add(prod, pigEnCartera);
+                    int ff = dgvPiGEnCartera.Rows.Add(prod, pigProdAny);
 
-                    dgvPiGEnCartera.Rows[ff].Cells[1].Style.ForeColor = pigEnCartera < 0 ? Color.Red : Color.Black;
+                    dgvPiGEnCartera.Rows[ff].Cells[1].Style.ForeColor = pigProdAny < 0 ? Color.Red : Color.Black;
 
-                    pigTotalEncartera += pigEnCartera;
+                    pigTotalEncartera += pigProdAny;
                 }
             }
 
@@ -308,7 +377,8 @@ namespace Inversions.GUI
                     vProdSelAnt = prodSel;
 
                     ckAmbDividends.Visible = gestioProductesTabValoracions._ProducteSeleccionat is ProdAccions;
-                    PigOrigen.Visible = ckAmbCartera.Checked && gestioProductesTabValoracions._ProducteSeleccionat is ProdFons;
+                    //PigOrigen.Visible = ckAmbCartera.Checked && gestioProductesTabValoracions._ProducteSeleccionat is ProdFons;
+                    PigOrigen.Visible = gestioProductesTabValoracions._ProducteSeleccionat is ProdFons;
                     gbPigCompraOrig.Visible = PigOrigen.Visible;
 
                     ompleLlistaCompres(gestioProductesTabValoracions._ProducteSeleccionat);
@@ -342,13 +412,21 @@ namespace Inversions.GUI
 
         private void btFiltreDates_Click(object sender, EventArgs e)
         {
+            var dataIni = dtpFiltreDataInici.Value.GetValueOrDefault(DateTime.MinValue);
+            var dataFi = dtpFiltreDataFi.Value.GetValueOrDefault(DateTime.Now);
+
             if (ckPiGEntreDatesNomesProdSel.Checked)
+            {
+                //tbPigEntreDates.Valor = gestioProductesTabValoracions._ProducteSeleccionat.pig2TotalOrig(dataIni, dataFi, true, true);
+                
                 tbPigEntreDates.Valor = gestioProductesTabValoracions._ProducteSeleccionat
-                    .pig2TotalOrig(dtpFiltreDataInici.Value, dtpFiltreDataFi.Value, true, true);
+                    .pigEntreDates4(dataIni, dataFi, true, true, true, true); 
+            }
             else
             {
-                tbPigEntreDates.Valor = Producte.Pig2(Producte.TipusProducte.Tots, null,
-                    dtpFiltreDataInici.Value.GetValueOrDefault(DateTime.MinValue), dtpFiltreDataFi.Value.GetValueOrDefault(DateTime.MaxValue), true, true);
+                //tbPigEntreDates.Valor = Producte.Pig2(Producte.TipusProducte.Tots, null, dataIni, dataFi, true, true);
+                
+                tbPigEntreDates.Valor = Producte.Pig4(Producte.TipusProducte.Tots, null, dataIni, dataFi, true, true, true, true);
             }
         }
 
@@ -377,25 +455,23 @@ namespace Inversions.GUI
             decimal pigOrig = 0;
             foreach (DataGridViewRow selectedRow in dgvCompresProducte.SelectedRows)
             {
-                pig += ((Moviment) selectedRow.DataBoundItem).pigCompra(ckAmbCartera.Checked, false, null, true, ckAmbDividends.Checked);
-                pigOrig += ((Moviment) selectedRow.DataBoundItem).pigCompra(ckAmbCartera.Checked, true, null, false, false);
+                pig += (decimal) selectedRow.Cells["PigDeLaCompra"].Value;
+                pigOrig += (decimal) selectedRow.Cells["PigOrigen"].Value;
             }
 
-            var pigCompra = Math.Round(pig, 2);
-            lbPigCompra.Text = pigCompra.ToString("###,##0.00 €");
-            ;
-            lbPigCompra.ForeColor = pigCompra < 0 ? Color.Red : Color.Black;
+            //var pigCompra = Math.Round(pig, 2);
+            lbPigCompra.Text = pig.ToString("###,##0.00 €");
 
-            pigCompra = Math.Round(pigOrig, 2);
-            lbPigCompraOrig.Text = pigCompra.ToString("###,##0.00 €");
-            ;
-            lbPigCompraOrig.ForeColor = pigCompra < 0 ? Color.Red : Color.Black;
+            //pigCompra = Math.Round(pigOrig, 2);
+            lbPigCompraOrig.Text = pigOrig.ToString("###,##0.00 €");
 
+            lbPigCompra.ForeColor = pig < 0 ? Color.Red : Color.Black;
+            lbPigCompraOrig.ForeColor = pigOrig < 0 ? Color.Red : Color.Black;
         }
 
         private void ckAmbCartera_CheckedChanged(object sender, EventArgs e)
         {
-            PigOrigen.Visible = ckAmbCartera.Checked && gestioProductesTabValoracions._ProducteSeleccionat is ProdFons;
+            //PigOrigen.Visible = ckAmbCartera.Checked && gestioProductesTabValoracions._ProducteSeleccionat is ProdFons;
             gbPigCompraOrig.Visible = PigOrigen.Visible;
 
             ompleLlistaCompres(gestioProductesTabValoracions._ProducteSeleccionat);
@@ -431,9 +507,6 @@ namespace Inversions.GUI
             }
         }
 
-        #endregion *** Events ***
-
-
 
         private void dgvPiGEnCartera_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -452,11 +525,6 @@ namespace Inversions.GUI
                 }
             }
         }
-
-        private ContextMenuStrip contextMenuStrip1;
-        private ToolStripMenuItem toolStripMenuItem1;
-        private ToolStripMenuItem toolStripMenuItem2;
-        private ToolStripMenuItem toolStripMenuItem3;
 
         private void ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -482,31 +550,7 @@ namespace Inversions.GUI
                 parentForm.obreSimulacióVendaTab(prod);
         }
 
-        private void InitializeContextMenu()
-        {
-            // Crea el ContextMenuStrip
-            contextMenuStrip1 = new ContextMenuStrip();
+        #endregion *** Events ***
 
-            // Crea els elements del menú contextual
-            toolStripMenuItem1 = new ToolStripMenuItem();
-            toolStripMenuItem1.Text = "Moviments";
-            toolStripMenuItem1.Click += ToolStripMenuItem1_Click;
-
-            toolStripMenuItem2 = new ToolStripMenuItem();
-            toolStripMenuItem2.Text = "Valoracions";
-            toolStripMenuItem2.Click += ToolStripMenuItem2_Click;
-
-            toolStripMenuItem3 = new ToolStripMenuItem();
-            toolStripMenuItem3.Text = "Simulació venda";
-            toolStripMenuItem3.Click += ToolStripMenuItem3_Click;
-
-            // Afegir els elements al ContextMenuStrip
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[]
-            {
-                toolStripMenuItem1,
-                toolStripMenuItem2,
-                toolStripMenuItem3
-            });
-        }
     }
 }

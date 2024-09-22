@@ -34,5 +34,6 @@ namespace Inversions
         public virtual DbSet<Moviment> Moviments { get; set; }
         public virtual DbSet<DesglosCompra> DesglosCompres { get; set; }
         public virtual DbSet<IngresExtern> IngressosExterns { get; set; }
+        public virtual DbSet<DesgloçCompresMoviments> DesgloçCompresMoviments { get; set; }
     }
 }

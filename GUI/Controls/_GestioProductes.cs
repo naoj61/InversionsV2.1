@@ -102,7 +102,7 @@ namespace Inversions.GUI
             tbIsin.Text = "";
             tbMercat.Text = "";
             lbMoneda.Text = "";
-            tbCostOrigPartActual.Text = "";
+            tbCostOrigPartsCartera.Text = "";
             tbEnCartera.Text = "";
             tbPigHistoricOrig.Text = "";
             tbDividends.Text = "";
@@ -258,15 +258,17 @@ namespace Inversions.GUI
                     tbDividends.Valor = prod.dividends();
                     tbValorActual.Valor = prod._ValorActualEnCartera;
 
-                    tbCostOrigPartActual.Valor = prod.costOriginalEnCartera4();
+                    tbCostOrigPartsCartera.Valor = prod.costOriginalEnCartera4();
 
-                    tbPigHistoric.Valor = prod.pig2Producte(); // PiG cartera + vendes reals + dividents - despeses, sense tenir en compte el preu original en cas de traspàs.
-                    tbEnCartera.Valor = prod.pig2Cartera(DateTime.Now, false, true); // PiG cartera + dividents - despeses, sense tenir en  compte el preu original.
+                    tbPigHistoric.Valor = prod.pig2Producte4(); // PiG cartera + vendes reals + dividents - despeses, sense tenir en compte el preu original en cas de traspàs.
+                    //tbEnCartera.Valor = prod.pig2Cartera(DateTime.Now, false, true); // PiG cartera + dividents - despeses, sense tenir en  compte el preu original.
+                    tbEnCartera.Valor = prod.pigEnCartera4(false, true);
                     
                     if (prod is ProdFons)
                     {
-                        tbPigHistoricOrig.Valor = prod.pig2TotalOrig(DateTime.MinValue, DateTime.Now, true, true); // PiG cartera + vendes reals + dividents - despeses, tenint en compte el preu original en cas de traspàs.
-                        tbPigEnCarteraOrig.Valor = prod.pig2Cartera(DateTime.Now, true, true); // PiG cartera, tenint en  compte el preu original.
+                        tbPigHistoricOrig.Valor = prod.pig2TotalOrig4(DateTime.MinValue, DateTime.Now, true, true); // PiG cartera + vendes reals + dividents - despeses, tenint en compte el preu original en cas de traspàs.
+                        //tbPigEnCarteraOrig.Valor = prod.pig2Cartera(DateTime.Now, true, true); // PiG cartera, tenint en  compte el preu original.
+                        tbPigEnCarteraOrig.Valor = prod.pigEnCartera4(true, true);
 
                         var prodFons = (ProdFons) prod;
                         tbIsin.Text = prodFons.ISIN;

@@ -94,6 +94,19 @@ namespace Inversions
             return dividends(DateTime.MinValue, DateTime.Today);
         }
 
+        private decimal dividends(DateTime dataFi)
+        {
+            return dividends(DateTime.MinValue, dataFi);
+        }
+
+        private decimal dividends(int any)
+        {
+            var dataInici = new DateTime(any, 1, 1);
+            var dataFinal = Utilitats.DataHoraFinalAny(any);
+
+            return dividends(dataInici, dataFinal);
+        }
+
         private decimal dividends(DateTime dataInici, DateTime dataFi)
         {
             return MovimentsProducteUsuari
@@ -487,7 +500,7 @@ namespace Inversions
                 throw new ApplicationException("No és una acció. Només es pot fer l'split si és una acció.");
 
             var descripcio = String.Format("{0}. Factor conversor: {1}.", "Split", factorConversor);
-            var compres = compresDePartipacionsEnData(dataHora, _Participacions).ToList();
+            var compres = basicCompresDePartipacionsEnData4(dataHora, _Participacions).ToList();
 
             foreach (var compraExt in compres)
             {
@@ -542,7 +555,7 @@ namespace Inversions
                 throw new ApplicationException("No és una acció. Només es pot fer l'split si és una acció.");
 
             var descripcio = String.Format("{0}. Factor conversor: {1}. Preu operació: {2}.", "ContraSplit", factorConversor, preuOperacio);
-            var compresAnt = compresDePartipacionsEnData(dataHora, _Participacions).ToList();
+            var compresAnt = basicCompresDePartipacionsEnData4(dataHora, _Participacions).ToList();
 
             foreach (var compraExt in compresAnt)
             {
