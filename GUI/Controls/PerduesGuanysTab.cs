@@ -153,7 +153,7 @@ namespace Inversions.GUI
             for (int any = Program.PrimerAny; any <= ultimAny; any++)
             {
                 // *** PiG Tributa ***
-                var pigTributa = Producte.PigTributa(tipusProducte, null, any, true);
+                var pigTributa = Producte.PigTributa4(tipusProducte, null, any, true);
                 pigTotalTributa += pigTributa;
                 if (!Utilitats.EsZero(pigTributa) || any == ultimAny)
                 {

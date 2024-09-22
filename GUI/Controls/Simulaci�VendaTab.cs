@@ -241,7 +241,7 @@ namespace Inversions.GUI
         }
 
 
-        private void ompleDgvCompres(Producte prod, decimal? preuPart = null)
+        private void  ompleDgvCompres(Producte prod, decimal? preuPart = null)
         {
             if (prod == null)
             {
@@ -342,7 +342,7 @@ namespace Inversions.GUI
         private void actualitzaControlsAny()
         {
             ntbTramExentAnual.Valor = valorTramExent(vAny);
-            ntbPerduesAnysAnteriors.Valor = Math.Abs(Producte.PerduesDarrersQuatreAnys(vAny));
+            ntbPerduesAnysAnteriors.Valor = Math.Abs(Producte.PerduesDarrersQuatreAnys4(vAny));
             ntbPiGActual.Valor = Moviment.MovimentsUsuari.Where(w => w._EsVendaReal && w.Data.Year == vAny).ToList().Sum(s => s.pigVenda(true));
             ntbIngressosExterns.Valor = valorIngressosExterns(vAny);
             ntbDividents.Valor = Moviment.MovimentsUsuari.Where(w => w.Data.Year == vAny && w.TipusMoviment == TipusMoviment.Dividends)

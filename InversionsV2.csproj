@@ -108,8 +108,8 @@
     <Compile Include="ClassesParcials\Empresa.cs" />
     <Compile Include="ClassesParcials\Mercat.cs" />
     <Compile Include="ClassesParcials\DesglosCompra.cs" />
-    <Compile Include="ClassesParcials\PigMoviment.cs" />
-    <Compile Include="ClassesParcials\PigProducte.cs" />
+    <Compile Include="ClassesParcials\PigMoviment4.cs" />
+    <Compile Include="ClassesParcials\PigProducte4.cs" />
     <Compile Include="ClassesParcials\Producte2.cs" />
     <Compile Include="ClassesParcials\Usuari.cs" />
     <Compile Include="ClassesParcials\Valoracio.cs" />

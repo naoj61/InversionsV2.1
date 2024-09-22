@@ -99,6 +99,14 @@ namespace Inversions
             return dividends(DateTime.MinValue, dataFi);
         }
 
+        private decimal dividends(int any)
+        {
+            var dataInici = new DateTime(any, 1, 1);
+            var dataFinal = Utilitats.DataHoraFinalAny(any);
+
+            return dividends(dataInici, dataFinal);
+        }
+
         private decimal dividends(DateTime dataInici, DateTime dataFi)
         {
             return MovimentsProducteUsuari

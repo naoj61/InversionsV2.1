@@ -865,10 +865,9 @@ namespace Inversions
             return pigEnAny4(any, pigOrig, inclouDespeses, inclouCartera, utilitzarPiGVendaReal);
         }
 
-
-        public decimal pigEnCartera4Test(bool pigOrig, bool inclouDespeses)
+        public decimal pigEnCartera4Test(bool pigOrig, bool inclouDespeses, DateTime? dataHora = null, decimal? preuParticipacio = null)
         {
-            return pigEnCartera4(pigOrig, inclouDespeses);
+            return pigEnCartera4(pigOrig, inclouDespeses, dataHora, preuParticipacio);
         }
 
         public IEnumerable<VendaExt> vendesDeCompra4Test(Moviment compra, bool pigOrig, out decimal partsEnCartera

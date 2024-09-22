@@ -38,15 +38,15 @@ namespace Inversions.GUI
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.gbData = new System.Windows.Forms.GroupBox();
             this.cData = new System.Windows.Forms.DateTimePicker();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
@@ -66,11 +66,6 @@ namespace Inversions.GUI
             this.pnEdicio = new System.Windows.Forms.Panel();
             this.btModifica = new System.Windows.Forms.Button();
             this.dgvValoracionsPerData = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colVariacioPercentatge = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colVariacioEuros2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btActualitzaLlista = new System.Windows.Forms.Button();
             this.gbFiltreTipusProducte = new System.Windows.Forms.GroupBox();
             this.checkedComboBoxEdit1 = new DevExpress.XtraEditors.CheckedComboBoxEdit();
@@ -88,6 +83,11 @@ namespace Inversions.GUI
             this.btCopiaValorsDelPaste = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colVariacioPercentatge = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colVariacioEuros2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gbData.SuspendLayout();
             this.groupBox10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvValoracions)).BeginInit();
@@ -147,8 +147,10 @@ namespace Inversions.GUI
             this.tbImport._NegatiusEnVermell = false;
             this.tbImport._PermetDecimals = true;
             this.tbImport._PermetNegatius = false;
+            this.tbImport._PermetTextNull = false;
             this.tbImport.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbImport.Enabled = false;
+            this.tbImport.ForeColor = System.Drawing.Color.Black;
             this.tbImport.Location = new System.Drawing.Point(6, 25);
             this.tbImport.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbImport.Name = "tbImport";
@@ -161,7 +163,6 @@ namespace Inversions.GUI
             0,
             0,
             65536});
-            //this.tbImport.Valor = 0m;
             this.tbImport.ValorChanged += new System.EventHandler(this.tbImport_ValorChanged);
             this.tbImport.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbImport_KeyDown);
             // 
@@ -409,72 +410,6 @@ namespace Inversions.GUI
             this.dgvValoracionsPerData.Size = new System.Drawing.Size(678, 298);
             this.dgvValoracionsPerData.TabIndex = 1;
             // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn3.DataPropertyName = "_Data";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.Format = "d";
-            dataGridViewCellStyle9.NullValue = null;
-            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle9;
-            this.dataGridViewTextBoxColumn3.FillWeight = 75F;
-            this.dataGridViewTextBoxColumn3.HeaderText = "Data";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            this.dataGridViewTextBoxColumn3.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn4.DataPropertyName = "_Import";
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle10.Format = "C3";
-            dataGridViewCellStyle10.NullValue = null;
-            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle10;
-            this.dataGridViewTextBoxColumn4.HeaderText = "PiG";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            this.dataGridViewTextBoxColumn4.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // colVariacioPercentatge
-            // 
-            this.colVariacioPercentatge.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colVariacioPercentatge.DataPropertyName = "_VariacioPercentatge";
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle11.Format = "#0.00%";
-            dataGridViewCellStyle11.NullValue = "-";
-            this.colVariacioPercentatge.DefaultCellStyle = dataGridViewCellStyle11;
-            this.colVariacioPercentatge.FillWeight = 50F;
-            this.colVariacioPercentatge.HeaderText = "Variació %";
-            this.colVariacioPercentatge.Name = "colVariacioPercentatge";
-            this.colVariacioPercentatge.ReadOnly = true;
-            this.colVariacioPercentatge.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // colVariacioEuros2
-            // 
-            this.colVariacioEuros2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colVariacioEuros2.DataPropertyName = "_VariacioEuros";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle12.Format = "#,#0.00€";
-            dataGridViewCellStyle12.NullValue = "-";
-            this.colVariacioEuros2.DefaultCellStyle = dataGridViewCellStyle12;
-            this.colVariacioEuros2.FillWeight = 50F;
-            this.colVariacioEuros2.HeaderText = "Variació €";
-            this.colVariacioEuros2.Name = "colVariacioEuros2";
-            this.colVariacioEuros2.ReadOnly = true;
-            this.colVariacioEuros2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // Column1
-            // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle13.Format = "#,#0.00€";
-            this.Column1.DefaultCellStyle = dataGridViewCellStyle13;
-            this.Column1.HeaderText = "Valor total";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
             // btActualitzaLlista
             // 
             this.btActualitzaLlista.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -717,6 +652,68 @@ namespace Inversions.GUI
             this.chart2.TabIndex = 4;
             this.chart2.Text = "chart2";
             // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.Format = "d";
+            dataGridViewCellStyle9.NullValue = null;
+            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle9;
+            this.dataGridViewTextBoxColumn3.FillWeight = 75F;
+            this.dataGridViewTextBoxColumn3.HeaderText = "Data";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            this.dataGridViewTextBoxColumn3.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle10.Format = "C3";
+            dataGridViewCellStyle10.NullValue = null;
+            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle10;
+            this.dataGridViewTextBoxColumn4.HeaderText = "PiG";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            this.dataGridViewTextBoxColumn4.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // colVariacioPercentatge
+            // 
+            this.colVariacioPercentatge.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.Format = "#0.00%";
+            dataGridViewCellStyle11.NullValue = "-";
+            this.colVariacioPercentatge.DefaultCellStyle = dataGridViewCellStyle11;
+            this.colVariacioPercentatge.FillWeight = 50F;
+            this.colVariacioPercentatge.HeaderText = "Variació %";
+            this.colVariacioPercentatge.Name = "colVariacioPercentatge";
+            this.colVariacioPercentatge.ReadOnly = true;
+            this.colVariacioPercentatge.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // colVariacioEuros2
+            // 
+            this.colVariacioEuros2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle12.Format = "#,#0.00€";
+            dataGridViewCellStyle12.NullValue = "-";
+            this.colVariacioEuros2.DefaultCellStyle = dataGridViewCellStyle12;
+            this.colVariacioEuros2.FillWeight = 50F;
+            this.colVariacioEuros2.HeaderText = "Variació €";
+            this.colVariacioEuros2.Name = "colVariacioEuros2";
+            this.colVariacioEuros2.ReadOnly = true;
+            this.colVariacioEuros2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle13.Format = "#,#0.00€";
+            this.Column1.DefaultCellStyle = dataGridViewCellStyle13;
+            this.Column1.HeaderText = "Valor total";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
             // ValoracionsTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -776,11 +773,6 @@ namespace Inversions.GUI
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker dtpDataIniciValoracions;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colVariacioPercentatge;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colVariacioEuros2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn colId;
         private System.Windows.Forms.DataGridViewTextBoxColumn colProducte;
         private System.Windows.Forms.DataGridViewTextBoxColumn colData;
@@ -789,5 +781,10 @@ namespace Inversions.GUI
         private System.Windows.Forms.DataGridViewTextBoxColumn colValor;
         private Controls.NumericTextBoxColumn colVariacioPercent;
         private Controls.NumericTextBoxColumn colVariacioEuros;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colVariacioPercentatge;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colVariacioEuros2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
     }
 }

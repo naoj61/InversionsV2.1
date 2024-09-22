@@ -371,7 +371,7 @@ namespace Inversions.GUI.Forms
 
             dgvProductes.DataSource = vProdsAmbVendesAny;
 
-            ntbPerduesAnysAnteriors.Valor = -Producte.PerduesDarrersQuatreAnys(vAny);
+            ntbPerduesAnysAnteriors.Valor = -Producte.PerduesDarrersQuatreAnys4(vAny);
 
             seleccionaFilesDataGrid();
 
