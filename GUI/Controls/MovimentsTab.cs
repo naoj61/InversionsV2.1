@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -13,11 +14,76 @@ namespace Inversions.GUI
         // Todo - Moneda. Les valoracions del valors en dolars els hauria de veure convertits a Euros a partir del l'ultim canvi de moneda introduit.
         // Todo - Afegir pestanya amb simulació venda. Veuria les PiG i l'import a tributar en cas d'una venda.
 
+        /// <summary>
+        /// Estructura per omplir DgvCompresProducte
+        /// </summary>
+        struct StrDgvMovimentsProd
+        {
+            private StrDgvMovimentsProd(Moviment moviment)
+                : this()
+            {
+                _Id = moviment.Id;
+                _Prod = moviment.Prod;
+                _Data = moviment.Data;
+                _Participacions = moviment.Participacions;
+                _PreuParticipacio = moviment.PreuParticipacio;
+                _ImportBrut = moviment.Participacions == 0 ? moviment.PreuParticipacio : moviment.Participacions * moviment.PreuParticipacio;
+                _ImportNet = _ImportBrut + (moviment._EsCompra ? moviment.Despeses.GetValueOrDefault() : -moviment.Despeses.GetValueOrDefault());
+                _CanviAplicat = moviment.CanviAplicat;
+                _Despeses = moviment.Despeses.GetValueOrDefault();
+                if (moviment.RefTraspas == null)
+                {
+                    _TipusMoviment = moviment.TipusMoviment.ToString();
+                }
+                else
+                {
+                    _TipusMoviment = (moviment.TipusMoviment == TipusMoviment.Compra ? "Traspàs C" : "Traspàs V");
+
+                    _ProducteTraspasOrigen = moviment.TipusMoviment == TipusMoviment.Compra ? moviment.RefTraspas.Prod : null;
+                    _ProducteTraspasDesti = moviment.TipusMoviment == TipusMoviment.Venda ? moviment.RefTraspas.Prod : null;
+                }
+                _Descripcio = moviment.Descripcio;
+            }
+
+
+            internal static List<StrDgvMovimentsProd> CarregaStruct(IEnumerable<Moviment> movimentsProducte)
+            {
+                return movimentsProducte.Select(moviment => new StrDgvMovimentsProd(moviment)).ToList();
+            }
+
+
+            public int _Id { get; private set; }
+
+            public string _TipusMoviment { get; private set; }
+
+            public DateTime _Data { get; private set; }
+
+            public Producte _Prod { get; private set; }
+
+            public decimal _Participacions { get; private set; }
+
+            public decimal _PreuParticipacio { get; private set; }
+
+            public decimal _ImportBrut { get; private set; }
+
+            public decimal _ImportNet { get; private set; }
+
+            public decimal _CanviAplicat { get; private set; }
+
+            public decimal _Despeses { get; private set; }
+
+            public Producte _ProducteTraspasOrigen { get; private set; }
+
+            public Producte _ProducteTraspasDesti { get; private set; }
+
+            public string _Descripcio { get; private set; }
+        }
+
         public MovimentsTab()
         {
             InitializeComponent();
 
-            cDataGridView1.AutoGenerateColumns = false;
+            dgvMovimentsProd.AutoGenerateColumns = false;
         }
 
         internal override void refresca()
@@ -37,7 +103,7 @@ namespace Inversions.GUI
             //gestioProductesTabMoviments.refrescaDadesControl(true);
             gestioProductesTabMoviments.refrescaDadesControl(null);
             
-            cDataGridView1.DataSource = null;
+            dgvMovimentsProd.DataSource = null;
         }
 
         internal override void carregaInicial()
@@ -116,20 +182,22 @@ namespace Inversions.GUI
 
         private void ompleTaulaMovimentsProducte(Producte prod)
         {
-            var movimentsProducte = Moviment.MovimentsUsuari.Where(w => w.Prod.Id == prod.Id).ToList();
+            //var movimentsProducte = Moviment.MovimentsUsuari.Where(w => w.Prod.Id == prod.Id).ToList();
 
-            cDataGridView1.SuspendLayout();
-            cDataGridView1.DataSource = movimentsProducte.OrderBy(o => o.Data).ToList();
-            cDataGridView1.Columns["colTraspasOrigen"].Visible = movimentsProducte.Any(eo => eo._ProducteTraspasOrigen != null);
-            cDataGridView1.Columns["colTraspasDesti"].Visible = movimentsProducte.Any(eo => eo._ProducteTraspasDesti != null);
-            cDataGridView1.ClearSelection();
-            var ultimaFila = cDataGridView1.Rows.GetLastRow(DataGridViewElementStates.Visible);
+            var movimentsProducte = StrDgvMovimentsProd.CarregaStruct(Moviment.MovimentsUsuari.Where(w => w.Prod.Id == prod.Id));
+
+            dgvMovimentsProd.SuspendLayout();
+            dgvMovimentsProd.DataSource = movimentsProducte.OrderBy(o => o._Data).ToList();
+            dgvMovimentsProd.Columns["colTraspasOrigen"].Visible = movimentsProducte.Any(eo => eo._ProducteTraspasOrigen != null);
+            dgvMovimentsProd.Columns["colTraspasDesti"].Visible = movimentsProducte.Any(eo => eo._ProducteTraspasDesti != null);
+            dgvMovimentsProd.ClearSelection();
+            var ultimaFila = dgvMovimentsProd.Rows.GetLastRow(DataGridViewElementStates.Visible);
             if (ultimaFila >= 0)
             {
                 // Selecciona la última fila del dataGrid.
-                cDataGridView1.FirstDisplayedScrollingRowIndex = ultimaFila;
+                dgvMovimentsProd.FirstDisplayedScrollingRowIndex = ultimaFila;
             }
-            cDataGridView1.ResumeLayout();
+            dgvMovimentsProd.ResumeLayout();
         }
 
         private bool? comprant = null;
@@ -504,7 +572,7 @@ namespace Inversions.GUI
             {
                 if (e.ColumnIndex == 10 || e.ColumnIndex == 11)
                 {
-                    var prodTraspas = (Producte)cDataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                    var prodTraspas = (Producte)dgvMovimentsProd.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
                     if (prodTraspas != null)
                     {
                         gestioProductesTabMoviments.seleccionaProducte(prodTraspas);

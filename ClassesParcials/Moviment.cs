@@ -14,20 +14,7 @@ namespace Inversions
     public partial class Moviment
     {
         #region *** Atributs ***
-
-        [Description("S'utilitza en un DataGrid")]
-        public Producte _ProducteTraspasOrigen
-        {
-            get { return TipusMoviment == TipusMoviment.Compra ? _ProducteTraspas : null; }
-        }
-
-        [Description("S'utilitza en un DataGrid")]
-        public Producte _ProducteTraspasDesti
-        {
-            get { return TipusMoviment == TipusMoviment.Venda ? _ProducteTraspas : null; }
-        }
-
-        [Description("S'utilitza en un DataGrid")]
+        
         public decimal _ImportBrut
         {
             get
@@ -45,7 +32,6 @@ namespace Inversions
             }
         }
 
-        [Description("S'utilitza en un DataGrid")]
         public decimal _ImportNet
         {
             get
@@ -67,49 +53,7 @@ namespace Inversions
                 return result;
             }
         }
-
-
-        private Producte _ProducteTraspas
-        {
-            get { return RefTraspas != null ? RefTraspas.Prod : null; }
-        }
-
-        /// <summary>
-        /// Torna tipus movimen en string i indica els traspassos.
-        /// </summary>
-        [Description("S'utilitza en un DataGrid")]
-        public string _TipusMoviment
-        {
-            get
-            {
-                if (TipusMoviment == TipusMoviment.Dividends)
-                {
-                    return TipusMoviment.Dividends.ToString();
-                }
-
-                if (TipusMoviment == TipusMoviment.Split)
-                {
-                    return TipusMoviment.Split.ToString();
-                }
-
-                if (TipusMoviment == TipusMoviment.ContraSplit)
-                {
-                    return TipusMoviment.ContraSplit.ToString();
-                }
-
-                if (TipusMoviment == TipusMoviment.Compra)
-                {
-                    return _EsTraspas ? "Traspàs C" : TipusMoviment.Compra.ToString();
-                }
-
-                if (TipusMoviment == TipusMoviment.Venda)
-                {
-                    return _EsTraspas ? "Traspàs V" : TipusMoviment.Venda.ToString();
-                }
-
-                throw new Exception("No hauria d'arribar aquí");
-            }
-        }
+        
 
         public bool _EsTraspas
         {
