@@ -34,7 +34,8 @@ namespace Inversions
         {
             Tots = 0,
             Accions = 1,
-            Fons = 2
+            Fons = 2,
+            Criptos = 3
         }
 
         #endregion
@@ -257,8 +258,11 @@ namespace Inversions
 
             switch (tipusProducte)
             {
+                case TipusProducte.Criptos:
+                    prods = new List<Producte>(ProdAccions.Tuples.Where(w => w.Mercat.Id == 4));
+                    break;
                 case TipusProducte.Accions:
-                    prods = new List<Producte>(ProdAccions.Tuples);
+                    prods = new List<Producte>(ProdAccions.Tuples.Where(w => w.Mercat.Id != 4));
                     break;
                 case TipusProducte.Fons:
                     if (tipusFons.HasValue)

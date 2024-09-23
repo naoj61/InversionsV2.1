@@ -60,10 +60,23 @@ namespace Inversions
         /// Valor de les accions en cartera en una data determinada.
         /// </summary>
         /// <param name="data"></param>
+        /// <param name="esCripto">True=Només criptos. False=Només accions. Null=Accions i criptos.</param>
         /// <returns></returns>
-        public static decimal Valor(DateTime data)
+        public static decimal Valor(DateTime data, bool? esCripto)
         {
-            return Tuples.ToList().Sum(producte => producte.valorEnCartera(data));
+            IEnumerable<ProdAccions> xx = Tuples;
+
+            if (esCripto.HasValue)
+            {
+                if (esCripto.Value)
+                    // Només criptos
+                    xx = xx.Where(w => w.MercatId == 4);
+                else
+                    // Només accions
+                    xx = xx.Where(w => w.MercatId != 4);
+            }
+
+            return xx.Sum(producte => producte.valorEnCartera(data));
         }
     }
 }

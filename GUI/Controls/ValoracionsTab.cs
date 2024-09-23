@@ -404,10 +404,16 @@ namespace Inversions.GUI
                 decimal pigPerData = 0;
                 decimal saldo = 0;
 
-                if (accions || criptos)
+                if (accions)
                 {
                     pigPerData += Producte.Pig4(Producte.TipusProducte.Accions, null, DateTime.MinValue, data, true, true, true, true);
-                    saldo += ProdAccions.Valor(data);
+                    saldo += ProdAccions.Valor(data, false);
+                }
+
+                if (criptos)
+                {
+                    pigPerData += Producte.Pig4(Producte.TipusProducte.Criptos, null, DateTime.MinValue, data, true, true, true, true);
+                    saldo += ProdAccions.Valor(data, true);
                 }
 
                 if (rv)
@@ -424,10 +430,6 @@ namespace Inversions.GUI
 
                 var percentVariacio = pigPerDataAnt == 0 ? 1 : (pigPerData / pigPerDataAnt - 1);
                 var variacio = pigPerData - pigPerDataAnt;
-
-                //int numFila = double.IsInfinity(percentVariacio)
-                //    ? dgvValoracionsPerData.Rows.Add(data, pigPerData, null, null, saldo)
-                //    : dgvValoracionsPerData.Rows.Add(data, pigPerData, percentVariacio, variacio, saldo);
 
                 int numFila = dgvValoracionsPerData.Rows.Add(data, pigPerData, percentVariacio, variacio, saldo);
 
