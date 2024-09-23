@@ -15,6 +15,85 @@ namespace Inversions.GUI
 {
     public partial class ValoracionsTab : TabX
     {
+
+        /// <summary>
+        /// Estructura per omplir DgvCompresProducte
+        /// </summary>
+        private struct StrDgvValoracions
+        {
+            private StrDgvValoracions(Valoracio valoracioAnterior, Valoracio valoracio)
+                : this()
+            {
+                var partsEnCartera = valoracio.Prod.partsEnCartera(Utilitats.PosoHora(valoracio.Data));
+
+                _Valoracio = valoracio;
+                _Id = valoracio.Id;
+                _Prod = valoracio.Prod;
+                _Data = valoracio.Data;
+                _NumParticipacions = partsEnCartera;
+                _PreuParticipacio = valoracio.PreuParticipacio;
+                _ValoracioTotal = valoracio.PreuParticipacio * partsEnCartera;
+                if (valoracioAnterior == null || valoracioAnterior.PreuParticipacio == 0)
+                {
+                    _VariacioEuros = 0;
+                    _VariacioPercentatge = 0;
+                }
+                else
+                {
+                    _VariacioPercentatge = valoracio.PreuParticipacio / valoracioAnterior.PreuParticipacio - 1;
+
+                    var partsEnCarteraAnt = valoracioAnterior.Prod.partsEnCartera(Utilitats.PosoHora(valoracioAnterior.Data));
+                    if (partsEnCarteraAnt < partsEnCartera)
+                    {
+                        // Hi ha hagut una compra, calculo només amb les parts anteriors.
+                        _VariacioEuros = (valoracio.PreuParticipacio - valoracioAnterior.PreuParticipacio) * partsEnCarteraAnt;
+                    }
+                    else
+                    {
+                        // Si no hi ha hagut moviment o ha sigut una venda, calculo amb les parts actuals.
+                        _VariacioEuros = (valoracio.PreuParticipacio - valoracioAnterior.PreuParticipacio) * partsEnCartera;
+                    }
+                }
+            }
+
+
+            internal static List<StrDgvValoracions> CarregaStruct(List<Valoracio> valoracions)
+            {
+                List<StrDgvValoracions> llista = new List<StrDgvValoracions>();
+
+                if (valoracions == null || !valoracions.Any())
+                    return llista;
+
+                Valoracio valAnt = valoracions.First().trobaValoracioAnterior(true);
+
+                foreach (var valoracio in valoracions)
+                {
+                    llista.Add(new StrDgvValoracions(valAnt, valoracio));
+                    valAnt = valoracio;
+                }
+
+                return llista;
+            }
+
+            internal Valoracio _Valoracio { get; private set; }
+
+            public int _Id { get; private set; }
+
+            public Producte _Prod { get; private set; }
+
+            public DateTime _Data { get; private set; }
+
+            public decimal _NumParticipacions { get; private set; }
+
+            public decimal _PreuParticipacio { get; private set; }
+
+            public decimal _ValoracioTotal { get; private set; }
+
+            public decimal _VariacioPercentatge { get; private set; }
+
+            public decimal _VariacioEuros { get; private set; }
+        }
+
         private enum TipusProd
         {
             Tot,
@@ -176,11 +255,13 @@ namespace Inversions.GUI
 
                     valoracionsProducteSelec = valoracionsProducteSelec.OrderBy(val => val.Data).ToList();
 
+                    var valoracionsProducteSelec2 = StrDgvValoracions.CarregaStruct(valoracionsProducteSelec);
+
                     dgvValoracions.SuspendLayout();
 
                     dgvValoracions.CellFormatting += dgv_CellFormatting;
 
-                    dgvValoracions.DataSource = valoracionsProducteSelec;
+                    dgvValoracions.DataSource = valoracionsProducteSelec2;
 
                     dgvValoracions.CellFormatting -= dgv_CellFormatting;
 
@@ -537,9 +618,10 @@ namespace Inversions.GUI
             {
                 vValoracioSeleccionada = null;
             }
-            else if (vValoracioSeleccionada != (Valoracio) dgvValoracions.Rows[e.RowIndex].DataBoundItem)
+            else if (vValoracioSeleccionada != ((StrDgvValoracions) dgvValoracions.Rows[e.RowIndex].DataBoundItem)._Valoracio)
             {
-                vValoracioSeleccionada = (Valoracio) dgvValoracions.Rows[e.RowIndex].DataBoundItem;
+                //vValoracioSeleccionada = (Valoracio)dgvValoracions.Rows[e.RowIndex].DataBoundItem;
+                vValoracioSeleccionada = ((StrDgvValoracions)dgvValoracions.Rows[e.RowIndex].DataBoundItem)._Valoracio;
                 posaValorsDeLaFilaSeleccionada();
                 btModifica.Enabled = true;
                 btEsborra.Enabled = true;

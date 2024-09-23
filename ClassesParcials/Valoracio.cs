@@ -38,28 +38,20 @@ namespace Inversions
         }
 
         /// <summary>
-        /// La valoració anterior amb preu superior a 0.
+        /// La valoració anterior.
         /// </summary>
-        /// <param name="preuMajorQueCero"></param>
+        /// <param name="preuMajorQueCero">Si true. La valoració anterior amb preu superior a 0.</param>
         /// <returns></returns>
-        private Valoracio trobaValoracioAnterior(bool preuMajorQueCero)
+        internal Valoracio trobaValoracioAnterior(bool preuMajorQueCero)
         {
             var valoracionsAnteriors = Valoracio.Tuples.Where(w => w.Prod.Id == Prod.Id && w.Data < Data);
 
             if (preuMajorQueCero)
                 valoracionsAnteriors = valoracionsAnteriors.Where(w => w.PreuParticipacio > 0);
 
-            return valoracionsAnteriors.OrderByDescending(e => e.Data).FirstOrDefault();
+            return valoracionsAnteriors.Any() ? valoracionsAnteriors.OrderByDescending(e => e.Data).FirstOrDefault() : null;
         }
 
-        /// <summary>
-        /// Comprova si el dia anterior al de la valoració hi havia participacions.
-        /// </summary>
-        /// <returns></returns>
-        bool hiHaviaParticipacionsAhir()
-        {
-            return Prod.partsEnCartera(Utilitats.DataHoraFinalDia(Data.AddDays(-1))) == 0;
-        }
 
         /// <summary>
         /// Expressió per seleccionar pendents en un LINQ.
@@ -83,73 +75,6 @@ namespace Inversions
             }
         }
 
-
-        /// <summary>
-        /// Variacio en % respecte a la valoració anterior amb preu > 0.
-        /// </summary>
-        [Description("S'utilitza en un DataGrid")]
-        public decimal _VariacioPercentatge
-        {
-            get
-            {
-                if (Prod == null)
-                    return 0;
-
-                Valoracio valoracioAnterior = trobaValoracioAnterior(true);
-                
-                if (valoracioAnterior == null)
-                    return 0;
-
-                return valoracioAnterior.PreuParticipacio > 0 ? PreuParticipacio / valoracioAnterior.PreuParticipacio - 1 : 0;
-            }
-        }
-
-
-        /// <summary>
-        /// Variacio en Euros respecte a la valoració anterior amb preu > 0.
-        /// </summary>
-        [Description("S'utilitza en un DataGrid")]
-        public decimal _VariacioEuros
-        {
-            get
-            {
-                if (Prod == null)
-                    return 0;
-
-                Valoracio valoracioAnterior = trobaValoracioAnterior(true);
-
-                if (valoracioAnterior == null)
-                    return 0;
-
-                if (Prod._Participacions == 0)
-                    return 0;
-
-                if (hiHaviaParticipacionsAhir())
-                    // Si ahir no hi havia participacions.
-                    return 0;
-
-                // Si en la data hi ha hagut moviments elimino els imports d'aquests per calcular la variació en Euros.
-                var movsEnData = Prod.MovimentsProducteUsuari.Where(w => w.Data.Date == Data.Date).ToList();
-                var importCompresVendes = 
-                    movsEnData.Where(w => w._EsCompra).Sum(s => s._ImportBrut) - movsEnData.Where(w => w._EsVenda).Sum(s => s._ImportBrut);
-
-                return _ValoracioTotal - valoracioAnterior._ValoracioTotal - importCompresVendes;
-            }
-        }
-
-        /// <summary>
-        /// Valoració total en funció de les participacions
-        /// </summary>
-        public decimal _ValoracioTotal
-        {
-            get
-            {
-                if (Prod == null)
-                    return 0;
-
-                return PreuParticipacio * Prod.partsEnCartera(Utilitats.PosoHora(Data));
-            }
-        }
 
         /// <summary>
         /// Crea una nova valoració.
