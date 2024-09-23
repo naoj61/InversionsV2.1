@@ -92,7 +92,7 @@ namespace Inversions
              */
 
             throw new NotImplementedException("No utilitzar aquesta funció, molt complicat");
-
+            /*
             if (!_EsCompra)
                 throw new Exception("El moviment no és una compra");
 
@@ -107,7 +107,7 @@ namespace Inversions
             foreach (var dividend in divs)
             {
                 var partsEnDataDivident = Prod.partsEnCartera(dividend.Data);
-                var compraExt = Prod.basicDesglosCompresDeParticipacionsEnData4(dividend.Data, partsEnDataDivident, false).SingleOrDefault(s => s._Compra == this);
+                var compraExt = Prod.desglosCompresDeParticipacionsEnData4(dividend.Data, partsEnDataDivident, false).SingleOrDefault(s => s._Compra == this);
                 if (compraExt != null)
                 {
                     // Si alguna compra coincideix amb la del paràmetre, reparteixo els dividents entre les participacions que li corresponguin
@@ -117,6 +117,7 @@ namespace Inversions
             }
 
             return divCompra;
+             */
         }
 
         #endregion *** Mètodes bàsics ***

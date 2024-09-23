@@ -259,7 +259,7 @@ namespace Inversions.GUI
 
             preuPart = preuPart.GetValueOrDefault(prod.ValoracionsProducte.Last().PreuParticipacio);
 
-            var desgloçPartsEnCartera = prod.basicDesglosCompresDeParticipacionsEnData4(DateTime.Now, prod._Participacions)
+            var desgloçPartsEnCartera = prod.desglosCompresDeParticipacionsEnData4(DateTime.Now, prod._Participacions)
                 .OrderBy(o => o._DataOrig).ToList();
 
             List<FilaCompresOriginals> compresProdSelecionat = new List<FilaCompresOriginals>();
@@ -342,7 +342,7 @@ namespace Inversions.GUI
         private void actualitzaControlsAny()
         {
             ntbTramExentAnual.Valor = valorTramExent(vAny);
-            ntbPerduesAnysAnteriors.Valor = Math.Abs(Producte.PerduesDarrersQuatreAnys4(vAny));
+            ntbPerduesAnysAnteriors.Valor = Math.Abs(Producte.PerduesDarrersQuatreAnys(vAny));
             ntbPiGActual.Valor = Moviment.MovimentsUsuari.Where(w => w._EsVendaReal && w.Data.Year == vAny).ToList().Sum(s => s.pigVenda(true));
             ntbIngressosExterns.Valor = valorIngressosExterns(vAny);
             ntbDividents.Valor = Moviment.MovimentsUsuari.Where(w => w.Data.Year == vAny && w.TipusMoviment == TipusMoviment.Dividends)

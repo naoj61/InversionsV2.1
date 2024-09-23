@@ -260,13 +260,13 @@ namespace Inversions.GUI
 
                     tbCostOrigPartsCartera.Valor = prod.costOriginalEnCartera4();
 
-                    tbPigHistoric.Valor = prod.pig2Producte4(); // PiG cartera + vendes reals + dividents - despeses, sense tenir en compte el preu original en cas de traspàs.
+                    tbPigHistoric.Valor = prod.pigEnData4(); // PiG cartera + vendes reals + dividents - despeses, sense tenir en compte el preu original en cas de traspàs.
                     //tbEnCartera.Valor = prod.pig2Cartera(DateTime.Now, false, true); // PiG cartera + dividents - despeses, sense tenir en  compte el preu original.
                     tbEnCartera.Valor = prod.pigEnCartera4(false, true);
                     
                     if (prod is ProdFons)
                     {
-                        tbPigHistoricOrig.Valor = prod.pig2TotalOrig4(DateTime.MinValue, DateTime.Now, true, true); // PiG cartera + vendes reals + dividents - despeses, tenint en compte el preu original en cas de traspàs.
+                        tbPigHistoricOrig.Valor = prod.pigEntreDates4(DateTime.MinValue, DateTime.Now, true, true); // PiG cartera + vendes reals + dividents - despeses, tenint en compte el preu original en cas de traspàs.
                         //tbPigEnCarteraOrig.Valor = prod.pig2Cartera(DateTime.Now, true, true); // PiG cartera, tenint en  compte el preu original.
                         tbPigEnCarteraOrig.Valor = prod.pigEnCartera4(true, true);
 

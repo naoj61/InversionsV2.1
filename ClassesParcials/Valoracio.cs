@@ -58,7 +58,7 @@ namespace Inversions
         /// <returns></returns>
         bool hiHaviaParticipacionsAhir()
         {
-            return Prod.numParticipacionsEnData(Utilitats.DataHoraFinalDia(Data.AddDays(-1))) == 0;
+            return Prod.partsEnCartera(Utilitats.DataHoraFinalDia(Data.AddDays(-1))) == 0;
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Inversions
         {
             get
             {
-                return Prod == null ? 0 : Prod.numParticipacionsEnData(Utilitats.DataHoraFinalDia(Data));
+                return Prod == null ? 0 : Prod.partsEnCartera(Utilitats.DataHoraFinalDia(Data));
             }
         }
 
@@ -147,7 +147,7 @@ namespace Inversions
                 if (Prod == null)
                     return 0;
 
-                return PreuParticipacio * Prod.numParticipacionsEnData(Utilitats.PosoHora(Data));
+                return PreuParticipacio * Prod.partsEnCartera(Utilitats.PosoHora(Data));
             }
         }
 

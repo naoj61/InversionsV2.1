@@ -108,15 +108,14 @@
     <Compile Include="ClassesParcials\Empresa.cs" />
     <Compile Include="ClassesParcials\Mercat.cs" />
     <Compile Include="ClassesParcials\DesglosCompra.cs" />
-    <Compile Include="ClassesParcials\PigMoviment4.cs" />
-    <Compile Include="ClassesParcials\PigProducte4.cs" />
-    <Compile Include="ClassesParcials\Producte2.cs" />
+    <Compile Include="ClassesParcials\MovimentPig4.cs" />
+    <Compile Include="ClassesParcials\ProductePig4.cs" />
+    <Compile Include="ClassesParcials\Producte.cs" />
     <Compile Include="ClassesParcials\Usuari.cs" />
     <Compile Include="ClassesParcials\Valoracio.cs" />
     <Compile Include="ClassesParcials\ProdFons.cs" />
     <Compile Include="ClassesParcials\ProdAccions.cs" />
     <Compile Include="ClassesParcials\Moviment.cs" />
-    <Compile Include="ClassesParcials\Producte.cs" />
     <Compile Include="DesglosCompra.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>

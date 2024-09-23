@@ -166,7 +166,7 @@ namespace Inversions
             if (!_EsVenda)
                 throw new ArgumentException(String.Format("El moviment ha de ser una venda. Id={0}", Id));
 
-            return Prod.basicCompresDePartipacionsEnData4(Data, Participacions);
+            return Prod.compresDePartipacionsEnData4(Data, Participacions);
         }
 
 
@@ -217,7 +217,7 @@ namespace Inversions
             foreach (var div in dividents)
             {
                 var partsVenudes = vendesDeLaCompra().Where(w => w._Data < div.Data).Sum(s => s._PartsUtilitzades);
-                var partsEnDataDivident = Prod.numParticipacionsEnData(div.Data);
+                var partsEnDataDivident = Prod.partsEnCartera(div.Data);
                 divident += div._ImportBrut / partsEnDataDivident * (Participacions - partsVenudes);
             }
 
@@ -239,7 +239,7 @@ namespace Inversions
             {
                 // ** És un traspàs.
 
-                var desgloçCompresVenda = vendaTraspas.Prod.basicDesglosCompresDeParticipacionsEnData4(vendaTraspas.Data, vendaTraspas.Participacions, true).ToList();
+                var desgloçCompresVenda = vendaTraspas.Prod.desglosCompresDeParticipacionsEnData4(vendaTraspas.Data, vendaTraspas.Participacions, true).ToList();
 
                 var agrupatPerIdOrig = desgloçCompresVenda.OrderBy(o => o._DataOrig).GroupBy(g => g._CompraOrig)
                     .Select(s => new

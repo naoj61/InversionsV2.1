@@ -171,7 +171,7 @@ namespace Inversions.GUI
             lbTotalPigTributen.ForeColor = pigTotalTributa < 0 ? Color.Red : Color.Black;
             lbTotalPigTributen.Text = pigTotalTributa.ToString("###,##0.00 €");
 
-            ntbPigActualPartsEnCartera.Valor = Producte.Pig2Cartera4(tipusProducte, null, ultimAny, true, true);
+            ntbPigActualPartsEnCartera.Valor = Producte.PigEnCartera4(tipusProducte, null, ultimAny, true, true);
             ntbPigRealMesCartera.Valor = ntbPigActualPartsEnCartera.Valor + pigTotalTributa;
         }
 
@@ -375,6 +375,8 @@ namespace Inversions.GUI
                 try
                 {
                     vProdSelAnt = prodSel;
+
+                    dgvCompresProducte.ClearSelection();
 
                     ckAmbDividends.Visible = gestioProductesTabValoracions._ProducteSeleccionat is ProdAccions;
                     //PigOrigen.Visible = ckAmbCartera.Checked && gestioProductesTabValoracions._ProducteSeleccionat is ProdFons;

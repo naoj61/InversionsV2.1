@@ -56,7 +56,7 @@ namespace Inversions
             get
             {
                 // Utilitzo Now perqué amb Today, al fer un moviment, aquest no el compta fins el dia següent.
-                return numParticipacionsEnData(DateTime.Now);
+                return partsEnCartera(DateTime.Now);
             }
         }
 
@@ -76,7 +76,7 @@ namespace Inversions
 
         public static DbSet<Producte> Tuples
         {
-            get { return Program.Sessio.Productes;}
+            get { return Program.Sessio.Productes; }
         }
 
 
@@ -94,12 +94,12 @@ namespace Inversions
             return dividends(DateTime.MinValue, DateTime.Today);
         }
 
-        private decimal dividends(DateTime dataFi)
+        internal decimal dividends(DateTime dataFi)
         {
             return dividends(DateTime.MinValue, dataFi);
         }
 
-        private decimal dividends(int any)
+        internal decimal dividends(int any)
         {
             var dataInici = new DateTime(any, 1, 1);
             var dataFinal = Utilitats.DataHoraFinalAny(any);
@@ -132,10 +132,10 @@ namespace Inversions
         /// <returns></returns>
         private decimal valorParticipacio(DateTime data)
         {
-            var valoracions = ValoracionsProducte.Where(w => w.Data <= data).Select(val => new { val.Data, val.PreuParticipacio }).ToList();
+            var valoracions = ValoracionsProducte.Where(w => w.Data <= data).Select(val => new {val.Data, val.PreuParticipacio}).ToList();
 
             var moviments = Moviments.Where(w => w.Data <= data && (w.TipusMoviment == TipusMoviment.Compra || w.TipusMoviment == TipusMoviment.Venda))
-                .Select(mov => new { mov.Data, mov.PreuParticipacio }).ToList();
+                .Select(mov => new {mov.Data, mov.PreuParticipacio}).ToList();
 
             var tot = valoracions.Union(moviments).OrderBy(o => o.Data).ToList();
 
@@ -147,31 +147,8 @@ namespace Inversions
             //throw new ApplicationException("No hi ha cap moviment ni cap valoració disponibles.");
             return 0;
         }
-        
-        
-        /// <summary>
-        /// Calcula els dividents en l'any.
-        /// </summary>
-        /// <param name="any"></param>
-        /// <returns></returns>
-        internal decimal calculaDividents(int any)
-        {
-            return calculaDividents(new DateTime(any, 1, 1), Utilitats.PosoHora(new DateTime(any, 12, 31)));
-        }
 
 
-        /// <summary>
-        /// Calcula els dividents en el periode.
-        /// </summary>
-        /// <param name="dInici"></param>
-        /// <param name="dFinal"></param>
-        /// <returns></returns>
-        private decimal calculaDividents(DateTime dInici, DateTime dFinal)
-        {
-            return MovimentsProducteUsuari.Where(w => w.Data >= dInici && w.Data <= dFinal && w._EsDividents).Sum(s => s.PreuParticipacio);
-        }
-
-        
         /// <summary>
         /// Torna el valor de les participacions en cartera en una data determinada.
         /// </summary>
@@ -183,7 +160,7 @@ namespace Inversions
         {
             var dFinal = Utilitats.PosoHora(data);
 
-            var participacions = numParticipacionsEnData(dFinal);
+            var participacions = partsEnCartera(dFinal);
 
             if (numPartsMax.HasValue)
                 if (numPartsMax.Value > participacions && numPartsMax.Value < 0)
@@ -196,7 +173,7 @@ namespace Inversions
 
             return participacions * preuParticipacio.GetValueOrDefault(valorParticipacio(dFinal));
         }
-        
+
 
         /// <summary>
         /// Torna les valoracions entre les dates, ponderades si s'indica.
@@ -216,7 +193,7 @@ namespace Inversions
             {
                 // *** Elimina el primer elemen si el PreuParticipacio és zero.
 
-                if(!valsProd.Any())
+                if (!valsProd.Any())
                     break;
 
                 var val = valsProd[0];
@@ -234,12 +211,110 @@ namespace Inversions
                     return valsProd.ToDictionary(x => x, x => x.PreuParticipacio);
 
                 const decimal pond = 10;
-                
+
                 decimal valorPonderacio = pond / valsProd.First().PreuParticipacio;
                 return valsProd.ToDictionary(x => x, x => (x.PreuParticipacio * valorPonderacio) - pond);
             }
 
             return null;
+        }
+
+
+        /// <summary>
+        /// Suma les perdues dels 4 anys anteriors
+        /// </summary>
+        /// <param name="anyRenda"></param>
+        /// <returns></returns>
+        internal static decimal PerduesDarrersQuatreAnys(int? anyRenda = null)
+        {
+            if (!anyRenda.HasValue || anyRenda.Value == 0)
+                return 0;
+
+            var any = anyRenda.Value - 4;
+            decimal pigT = 0;
+
+            for (int i = 0; i < 4; i++)
+            {
+                var pigAny = Pig4(TipusProducte.Tots, any++, false, false);
+                if (pigAny + pigT >= 0)
+                    pigT = 0;
+                else
+                    pigT += pigAny;
+            }
+
+            return pigT;
+        }
+
+        /// <summary>
+        /// Crea una llista de productes en funció dels paràmetres: "tipusProducte", "tipusFons"
+        /// </summary>
+        /// <param name="tipusProducte"></param>
+        /// <param name="tipusFons"></param>
+        /// <returns></returns>
+        private static IEnumerable<Producte> SeleccionaProds(TipusProducte tipusProducte, TipusFons? tipusFons)
+        {
+            List<Producte> prods = null;
+
+            switch (tipusProducte)
+            {
+                case TipusProducte.Accions:
+                    prods = new List<Producte>(ProdAccions.Tuples);
+                    break;
+                case TipusProducte.Fons:
+                    if (tipusFons.HasValue)
+                    {
+                        switch (tipusFons.Value)
+                        {
+                            case TipusFons.RF:
+                                prods = new List<Producte>(ProdFons.Tuples.Where(w => w.Tipus == TipusFons.RF));
+                                break;
+                            case TipusFons.RV:
+                                prods = new List<Producte>(ProdFons.Tuples.Where(w => w.Tipus == TipusFons.RV));
+                                break;
+                            default:
+                                prods = new List<Producte>(ProdFons.Tuples);
+                                break;
+                        }
+                    }
+                    else
+                        prods = new List<Producte>(ProdFons.Tuples);
+                    break;
+                default:
+                    prods = Producte.Tuples.ToList();
+                    break;
+            }
+
+            return prods;
+        }
+
+
+
+        /// <summary>
+        /// Trona les despeses de les participacions en cartera en una data,
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        internal decimal despeses(DateTime? data = null)
+        {
+            var dataH = Utilitats.DataHoraFinalDia(data.GetValueOrDefault(DateTime.Today));
+
+            return compresDePartipacionsEnData4(dataH, partsEnCartera(data))
+                .Sum(compra => compra._DespesesPartsUtilitzades);
+        }
+
+
+        /// <summary>
+        /// Participacions en cartera d'un producte en una data.
+        /// </summary>
+        /// <param name="dataHora">Si null, data d'avui.</param>
+        /// <returns></returns>
+        internal decimal partsEnCartera(DateTime? dataHora = null)
+        {
+            var dataH = dataHora.GetValueOrDefault(DateTime.Now);
+            var partsComprades = MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data <= dataH).Sum(s => s.Participacions);
+            var partsVenudes = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data <= dataH).Sum(s => s.Participacions);
+
+            return partsComprades - partsVenudes;
         }
 
         #endregion
@@ -439,8 +514,8 @@ namespace Inversions
         /// <param name="mostraFinestraAdvertencia"></param>
         /// <param name="pigVendaReal"></param>
         /// <returns></returns>
-        private Moviment desaVenda(InversionsBDContext connexio, DateTime dataHora, decimal participacions, decimal preuParticipacio, 
-            decimal canviAplicat, decimal? despeses, string descripcio, bool afegeigPreuAValoracions, bool mostraFinestraAdvertencia, 
+        private Moviment desaVenda(InversionsBDContext connexio, DateTime dataHora, decimal participacions, decimal preuParticipacio,
+            decimal canviAplicat, decimal? despeses, string descripcio, bool afegeigPreuAValoracions, bool mostraFinestraAdvertencia,
             decimal? pigVendaReal = null)
         {
             validacionsCompraVenda(connexio, dataHora, participacions, mostraFinestraAdvertencia);
@@ -511,8 +586,8 @@ namespace Inversions
                 mov1.TipusMoviment = TipusMoviment.Split; // Modifico el tipus de moviment de la compra.
                 mov1.Descripcio += descripcio;
 
-                int particSplit = (int)compraExt._PartsUtilitzades;
-                int particSenseSplit = (int)mov1.Participacions - particSplit;
+                int particSplit = (int) compraExt._PartsUtilitzades;
+                int particSenseSplit = (int) mov1.Participacions - particSplit;
 
                 decimal despesesSenseSplit = 0;
 
@@ -566,9 +641,9 @@ namespace Inversions
                 mov1.TipusMoviment = TipusMoviment.ContraSplit; // Modifico el tipus de moviment de la compra.
                 mov1.Descripcio += descripcio;
 
-                int partRestants = (int)compraExt._PartsUtilitzades % factorConversor; // Calculo el número de participacions que sobren i s'hauran de vendre.
-                int particContraSplit = (int)compraExt._PartsUtilitzades - partRestants;
-                int particSenseContraSplit = (int)mov1.Participacions - particContraSplit;
+                int partRestants = (int) compraExt._PartsUtilitzades % factorConversor; // Calculo el número de participacions que sobren i s'hauran de vendre.
+                int particContraSplit = (int) compraExt._PartsUtilitzades - partRestants;
+                int particSenseContraSplit = (int) mov1.Participacions - particContraSplit;
 
                 decimal despesesSenseContraSplit = 0;
 
@@ -709,6 +784,22 @@ namespace Inversions
             if (Id < other.Id)
                 return -1;
             return Id > other.Id ? 1 : 0;
+        }
+
+        #endregion
+
+
+        #region **** Mètodes cridats des de Test *****
+
+        public decimal partsEnCarteraTest(DateTime? dataHora = null)
+        {
+            return partsEnCartera(dataHora);
+        }
+
+
+        public decimal numParticipacionsEnDataTest(DateTime? data = null)
+        {
+            return partsEnCartera(data);
         }
 
         #endregion

@@ -52,7 +52,7 @@ namespace Inversions.GUI.Forms
             public StProductes(int any, Producte prod) : this()
             {
                 _Prod = prod;
-                _Divident = prod.calculaDividents(any);
+                _Divident = prod.dividends(any);
             }
 
             // ReSharper disable MemberCanBePrivate.Local
@@ -371,7 +371,7 @@ namespace Inversions.GUI.Forms
 
             dgvProductes.DataSource = vProdsAmbVendesAny;
 
-            ntbPerduesAnysAnteriors.Valor = -Producte.PerduesDarrersQuatreAnys4(vAny);
+            ntbPerduesAnysAnteriors.Valor = -Producte.PerduesDarrersQuatreAnys(vAny);
 
             seleccionaFilesDataGrid();
 
