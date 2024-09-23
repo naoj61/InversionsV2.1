@@ -595,7 +595,7 @@ namespace Inversions
                 {
                     // Creo una nova compra amb la part de la compra original que no li afecta el Split
                     data1 = data1.AddSeconds(1);
-                    despesesSenseSplit = Math.Round(mov1.Despeses.GetValueOrDefault() / mov1.Participacions * particSenseSplit, 4);
+                    despesesSenseSplit = (mov1.Despeses.GetValueOrDefault() / mov1.Participacions * particSenseSplit);
 
                     desaCompra(connexio, data1, particSenseSplit, mov1.PreuParticipacio, mov1.CanviAplicat, despesesSenseSplit, descripcio, null, false, false);
                 }
@@ -603,8 +603,8 @@ namespace Inversions
                 // Calculo el nou preu i les participacions del Split i creo una compra amb les participacions afectades.
                 data1 = data1.AddSeconds(1);
                 int participacions = particSplit * factorConversor;
-                decimal preuParticipacio = Math.Round(mov1.PreuParticipacio / factorConversor, 4);
-                decimal despesesSplit = Math.Round(mov1.Despeses.GetValueOrDefault() - despesesSenseSplit, 4);
+                decimal preuParticipacio = (mov1.PreuParticipacio / factorConversor);
+                decimal despesesSplit = (mov1.Despeses.GetValueOrDefault() - despesesSenseSplit);
                 desaCompra(connexio, data1, participacions, preuParticipacio, mov1.CanviAplicat, despesesSplit, descripcio, null, false, false);
             }
 
@@ -650,7 +650,7 @@ namespace Inversions
                 if (particSenseContraSplit > 0)
                 {
                     data1 = data1.AddSeconds(1);
-                    despesesSenseContraSplit = Math.Round(mov1.Despeses.GetValueOrDefault() / mov1.Participacions * particSenseContraSplit, 4);
+                    despesesSenseContraSplit = (mov1.Despeses.GetValueOrDefault() / mov1.Participacions * particSenseContraSplit);
 
                     // Creo una nova compra amb la part de la compra original que no li afecta el ContraSplit
                     desaCompra(connexio, data1, particSenseContraSplit, mov1.PreuParticipacio, mov1.CanviAplicat, despesesSenseContraSplit, descripcio, null, false, false);
@@ -670,8 +670,8 @@ namespace Inversions
                     // Creo una compra amb el nou numero de participacions i nou preu.
                     data1 = data1.AddSeconds(1);
                     int participacions = particContraSplit / factorConversor;
-                    var preuParticipacio = Math.Round(mov1.PreuParticipacio * factorConversor, 4); // Calculo el nou preu i les participacions del contraSplit
-                    decimal despesesContraSplit = Math.Round(mov1.Despeses.GetValueOrDefault() - despesesSenseContraSplit, 4);
+                    var preuParticipacio = (mov1.PreuParticipacio * factorConversor); // Calculo el nou preu i les participacions del contraSplit
+                    decimal despesesContraSplit = (mov1.Despeses.GetValueOrDefault() - despesesSenseContraSplit);
                     desaCompra(connexio, data1, participacions, preuParticipacio, mov1.CanviAplicat, despesesContraSplit, descripcio, null, false, false);
                 }
             }
@@ -724,9 +724,9 @@ namespace Inversions
             foreach (var valoracio in connexio.Valoracions.Where(w => w.ProdId == Id && w.Data >= dataPrimeraCompra.Date))
             {
                 if (tipusMoviment == TipusMoviment.ContraSplit)
-                    valoracio.PreuParticipacio = Math.Round(valoracio.PreuParticipacio * factorConversor, 4);
+                    valoracio.PreuParticipacio = (valoracio.PreuParticipacio * factorConversor);
                 else if (tipusMoviment == TipusMoviment.Split)
-                    valoracio.PreuParticipacio = Math.Round(valoracio.PreuParticipacio / factorConversor, 4);
+                    valoracio.PreuParticipacio = (valoracio.PreuParticipacio / factorConversor);
                 else
                     throw new ArgumentException("Paràmetre incorrecte", "tipusMoviment");
 

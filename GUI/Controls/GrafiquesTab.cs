@@ -101,9 +101,9 @@ namespace Inversions.GUI
 
                 foreach (var valoracio in vals)
                 {
-                    var valorPonderat = Math.Round((siPonderar
+                    var valorPonderat = ((siPonderar
                         ? (valoracio.PreuParticipacio * coeficient - primerValorMinim)
-                        : valoracio.PreuParticipacio), 5);
+                        : valoracio.PreuParticipacio));
 
                     valoracions.Add(valoracio, valorPonderat);
 

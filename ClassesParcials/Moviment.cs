@@ -260,7 +260,7 @@ namespace Inversions
                     desglosCompra.Participacions =grup.sumPartsUtil / vendaTraspas.Participacions * Participacions;
 
                     // ** Per obtenir parts orig desgloç Traspas C
-                    desglosCompra.ParticipacionsOrig = Math.Round(grup.sumPartsUtilOrig, 4);
+                    desglosCompra.ParticipacionsOrig = (grup.sumPartsUtilOrig);
 
                     DesglosCompres.Add(desglosCompra);
                     grup.movOrig.DesglosCompresOrig.Add(desglosCompra);
