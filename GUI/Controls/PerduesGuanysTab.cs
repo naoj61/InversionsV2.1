@@ -19,7 +19,7 @@ namespace Inversions.GUI
         /// </summary>
         struct StrDgvCompresProducte
         {
-            internal StrDgvCompresProducte(Moviment compra, bool ambCartera, bool ambDividents)
+            private StrDgvCompresProducte(Moviment compra, bool ambCartera, bool ambDividends)
                 : this()
             {
                 if (!compra._EsCompra)
@@ -30,6 +30,13 @@ namespace Inversions.GUI
                 _PreuParticipacio = compra.PreuParticipacio;
                 _PigDeLaCompra = compra.pigCompra4(true, false, ambCartera);
                 _PigDeLaCompraOrigen = compra.pigCompra4(true, true, ambCartera);
+                if (ambDividends)
+                    _PigDeLaCompra += compra.dividendCompra4();
+            }
+
+            internal static IEnumerable<StrDgvCompresProducte> CarregaStruct(IEnumerable<Moviment> compres, bool ambCartera, bool ambDividends)
+            {
+                return compres.Select(compra => new StrDgvCompresProducte(compra, ambCartera, ambDividends));
             }
 
             public int _Id { get; private set; }
@@ -184,9 +191,8 @@ namespace Inversions.GUI
                 return;
             }
 
-            var compres = prodSeleccionat.MovimentsProducteUsuari.Where(w => w._EsCompra)
-                .Select(compra => new StrDgvCompresProducte(compra, ckAmbCartera.Checked, ckAmbDividends.Checked))
-                .OrderBy(o => o._Data).ToList();
+            var compres = StrDgvCompresProducte.CarregaStruct(prodSeleccionat.MovimentsProducteUsuari
+                .Where(w => w._EsCompra), ckAmbCartera.Checked, ckAmbDividends.Checked).OrderBy(o => o._Data).ToList();
 
             SuspendLayout();
             dgvCompresProducte.SuspendLayout();
@@ -198,23 +204,9 @@ namespace Inversions.GUI
             dgvCompresProducte.SelectionChanged += dgvCompresProducte_SelectionChanged;
             dgvCompresProducte.CellFormatting -= dgv_CellFormatting;
 
-            //lbPigCompra.Text = "0";
-            //lbPigCompraOrig.Text = "0";
-
             dgvCompresProducte.ResumeLayout();
 
             ResumeLayout();
-
-            //var pigCompra = prodSeleccionat.pigHistoric4(false, true);
-            //lbPigCompra.Text = pigCompra.ToString("###,##0.00 €");
-            
-            //lbPigCompra.ForeColor = pigCompra < 0 ? Color.Red : Color.Black;
-
-            //pigCompra = prodSeleccionat.pigHistoric4(true, true);
-            //lbPigCompraOrig.Text = pigCompra.ToString("###,##0.00 €");
-            
-            //lbPigCompraOrig.ForeColor = pigCompra < 0 ? Color.Red : Color.Black;
-           
         }
 
 

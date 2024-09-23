@@ -75,55 +75,51 @@ namespace Inversions
             return pig;
         }
 
-
         /// <summary>
-        /// Torna l'import dels dividents cobrats que corresponen a la compra.
+        /// Calcula el dividend que correspon a una compra. Només per accions. Pels fons torna 0.
         /// </summary>
-        /// <param name="dataCalculDividend">Si una venda busca el divident, Tant la compra com el divident han de saer d'abans que la venda</param>
         /// <returns></returns>
-        [Obsolete("Molt complicat, calcular els dividents d'una compra a origen és un merder.", true)]
-        internal decimal dividendsCompra4(DateTime dataCalculDividend)
+        internal decimal dividendCompra4()
         {
-            /* 
-             * Si una venda te una compra que li corresponen dividends però la venda és anterior al dividend, no li corrrespon dividend,
-             * però en una venda posterior podria ser que encara que no utilitzi totes les participacions de la compra si que li correspondrien
-             * tots els dividends que a l'artra venda no li corresponien.
-             * Aixó és un merder i no em vull complicar la vida per tant poca cosa.
-             */
-
-            throw new NotImplementedException("No utilitzar aquesta funció, molt complicat");
-            /*
             if (!_EsCompra)
                 throw new Exception("El moviment no és una compra");
 
-            // Busco els dividents amb data superior a la compra.
-            var divs = MovimentsUsuari.Where(mov => mov.ProdId == ProdId && mov.Data >= Data && mov.Data < dataCalculDividend && mov._EsDividents).ToList();
-
-            if (divs.Count == 0)
+            if (Prod is ProdFons)
                 return 0;
 
-            // A partir de les participacions en cartera a la data de cada divident, miro quines compres li corresponen.
-            decimal divCompra = 0;
-            foreach (var dividend in divs)
+            var dividends = Prod.MovimentsProducteUsuari.Where(mov => mov._EsDividents && mov.Data > Data).OrderBy(o=>o.Data).ToList();
+
+            decimal div = 0;
+            foreach (var dividend in dividends)
             {
-                var partsEnDataDivident = Prod.partsEnCartera(dividend.Data);
-                var compraExt = Prod.desglosCompresDeParticipacionsEnData4(dividend.Data, partsEnDataDivident, false).SingleOrDefault(s => s._Compra == this);
-                if (compraExt != null)
+                var partsEnCarteraDiv = Prod.partsEnCartera(dividend.Data);
+                
+                // Compres a les que afecta el dividend.
+                var compresDiv = Prod.compresDePartipacionsEnData4(dividend.Data, partsEnCarteraDiv, false);
+                
+                // Miro si aquesta compra està afectada.
+                var compraDiv = compresDiv.SingleOrDefault(w => w._Id == Id);
+                
+                if (compraDiv != null)
                 {
-                    // Si alguna compra coincideix amb la del paràmetre, reparteixo els dividents entre les participacions que li corresponguin
-                    var div = dividend.PreuParticipacio / partsEnDataDivident * compraExt._PartsUtilitzades;
-                    divCompra += div;
+                    // Si aquesta compra està afectada, acumulo el dividend.
+                    div += dividend._PreuParticipacio / partsEnCarteraDiv * compraDiv._PartsUtilitzades;
                 }
             }
 
-            return divCompra;
-             */
+            return div;
         }
+
 
         #endregion *** Mètodes bàsics ***
 
 
         #region *** Test ***
+
+        public decimal dividendsCompra4Test()
+        {
+            return dividendCompra4();
+        }
 
         public decimal pigVenda4Test(bool pigOrig, bool inclouDespeses, bool utilitzarPiGVendaReal = true)
         {
