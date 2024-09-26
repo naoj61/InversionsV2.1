@@ -93,6 +93,12 @@ namespace Inversions
                 ParentForm.CancelButton = botoCancel;
         }
 
+
+        /// <summary>
+        /// Formateija les columnes numèriques. Si l'AutoSizeMode de la columna és Fill, no funciona!!!!
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void dgv_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             var cell = ((DataGridView) sender)[e.ColumnIndex, e.RowIndex];
@@ -100,6 +106,7 @@ namespace Inversions
             // Si és negatiu, establim el color del text a vermell
             if (cell is NumericCell)
             {
+                // ***** Si l'AutoSizeMode de la columna és Fill, no funciona!!!! *****
                 cell.Style.ForeColor = Convert.ToDecimal(cell.Value) < 0 ? Color.Red : Color.Black;
             }
         }

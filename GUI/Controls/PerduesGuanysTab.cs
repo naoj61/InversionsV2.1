@@ -411,15 +411,11 @@ namespace Inversions.GUI
 
             if (ckPiGEntreDatesNomesProdSel.Checked)
             {
-                //tbPigEntreDates.Valor = gestioProductesTabValoracions._ProducteSeleccionat.pig2TotalOrig(dataIni, dataFi, true, true);
-                
                 tbPigEntreDates.Valor = gestioProductesTabValoracions._ProducteSeleccionat
                     .pigEntreDates4(dataIni, dataFi, true, true, true, true); 
             }
             else
             {
-                //tbPigEntreDates.Valor = Producte.Pig2(Producte.TipusProducte.Tots, null, dataIni, dataFi, true, true);
-                
                 tbPigEntreDates.Valor = Producte.Pig4(Producte.TipusProducte.Tots, null, dataIni, dataFi, true, true, true, true);
             }
         }

@@ -19,6 +19,99 @@ namespace Inversions.GUI
         /// <summary>
         /// Estructura per omplir DgvCompresProducte
         /// </summary>
+        private struct StrDgvValoracionsPerData
+        {
+            private StrDgvValoracionsPerData(DateTime data, decimal pig, decimal variacioPercentatge, decimal variacioImport, decimal valorTotal)
+                : this()
+            {
+                _Data = data;
+                _Pig = pig;
+                _ValorTotal = valorTotal;
+                _VariacioPercentatge = variacioPercentatge;
+                _VariacioImport = variacioImport;
+            }
+
+
+            internal static IEnumerable<StrDgvValoracionsPerData> CarregaStruct(DateTime dataH, byte valor)
+            {
+                List<StrDgvValoracionsPerData> llista = new List<StrDgvValoracionsPerData>();
+
+                // Per saber que està seleccionat
+                var accions = (valor & (1 << 0)) != 0;
+                var criptos = (valor & (1 << 1)) != 0;
+                var rf = (valor & (1 << 2)) != 0;
+                var rv = (valor & (1 << 3)) != 0;
+
+                List<Producte> prods = new List<Producte>();
+
+                if (criptos)
+                    prods.AddRange(ProdAccions.Tuples.Where(w => w.Mercat.Id == 4));
+                if (accions)
+                    prods.AddRange(ProdAccions.Tuples.Where(w => w.Mercat.Id != 4));
+                if (rf)
+                    prods.AddRange(ProdFons.Tuples.Where(w => w.Tipus == TipusFons.RF));
+                if (rv)
+                    prods.AddRange(ProdFons.Tuples.Where(w => w.Tipus == TipusFons.RV));
+
+
+                var valoracions = Valoracio.Tuples.ToList().Where(w => prods.Contains(w.Prod)).ToList();
+                var dataAnt = valoracions.Where(w => w.Data.Date < dataH.Date).Max(m => m.Data).Date.AddDays(1).AddTicks(-1);
+                valoracions = valoracions.Where(w => w.Data.Date >= dataH.Date).ToList();
+
+                var moviments = Moviment.MovimentsUsuari.ToList().Where(w => w.Data >= dataH && prods.Contains(w.Prod)).ToList();
+
+                var dates = valoracions.Select(valoracio => valoracio.Data.Date).ToList();
+                dates = dates.Distinct().OrderBy(o => o).ToList();
+
+                decimal valorTotalAnt = prods.Sum(s => s.valorEnCartera(dataAnt));
+                
+                foreach (var data in dates)
+                {
+                    var dataFinalDia = data.Date.AddDays(1).AddTicks(-1);
+
+                    var prods2 = prods.Where(w => w.partsEnCartera(dataFinalDia) > 0).ToList();
+
+                    decimal pig = prods2.Sum(prod => prod.pigEnCartera4(true, true, dataFinalDia));
+                    decimal valorTotal = prods2.Sum(s => s.valorEnCartera(dataFinalDia));
+                    decimal variacioImport = valorTotalAnt == 0 ? 0 : (valorTotal - valorTotalAnt);
+                    decimal variacioPercentatge = valorTotalAnt == 0 ? 0 : (valorTotal / valorTotalAnt - 1);
+
+                    if (moviments.Any(w => w.Data.Date == data.Date) && valorTotalAnt != 0)
+                    {
+                        var movsData = moviments.Where(w => w.Data.Date == data.Date).ToList();
+                        var impVendes = movsData.Where(w => w._EsVenda).Sum(s => s._ImportBrut);
+                        var impCompres = movsData.Where(w => w._EsCompra).Sum(s => s._ImportBrut);
+
+                        variacioImport += impVendes - impCompres;
+                        variacioPercentatge = variacioImport / valorTotalAnt;
+                    }
+
+                    llista.Add(new StrDgvValoracionsPerData(data, pig, variacioPercentatge, variacioImport, valorTotal));
+
+                    valorTotalAnt = valorTotal;
+                }
+
+                return llista;
+            }
+
+
+            public DateTime _Data { get; private set; }
+
+            public decimal _Pig { get; private set; }
+
+            public decimal _VariacioPercentatge { get; set; }
+
+            public decimal _VariacioImport { get; private set; }
+
+            public decimal _ValorTotal { get; private set; }
+
+        }
+
+
+
+        /// <summary>
+        /// Estructura per omplir DgvCompresProducte
+        /// </summary>
         private struct StrDgvValoracions
         {
             private StrDgvValoracions(Valoracio valoracioAnterior, Valoracio valoracio)
@@ -305,161 +398,26 @@ namespace Inversions.GUI
 
         private void actualitzaLlistaValoracionsTotal()
         {
-            dgvValoracionsPerData.Rows.Clear();
-            chart2.Series[0].Points.Clear();
+            byte resultat = 0;
+            if (checkedComboBoxEdit1.Properties.Items[TipusProd.Accions].CheckState == CheckState.Checked) resultat |= 1 << 0; // Primer bit
+            if (checkedComboBoxEdit1.Properties.Items[TipusProd.Criptos].CheckState == CheckState.Checked) resultat |= 1 << 1; // Segon bit
+            if (checkedComboBoxEdit1.Properties.Items[TipusProd.RF].CheckState == CheckState.Checked) resultat |= 1 << 2; // Tercer bit
+            if (checkedComboBoxEdit1.Properties.Items[TipusProd.RV].CheckState == CheckState.Checked) resultat |= 1 << 3; // Quart bit
 
-            // Per saber que està seleccionat
-            var accions = checkedComboBoxEdit1.Properties.Items[TipusProd.Accions].CheckState == CheckState.Checked;
-            var criptos = checkedComboBoxEdit1.Properties.Items[TipusProd.Criptos].CheckState == CheckState.Checked;
-            var rf = checkedComboBoxEdit1.Properties.Items[TipusProd.RF].CheckState == CheckState.Checked;
-            var rv = checkedComboBoxEdit1.Properties.Items[TipusProd.RV].CheckState == CheckState.Checked;
+            List<StrDgvValoracionsPerData> xx = StrDgvValoracionsPerData.CarregaStruct(dtpDataIniciLlista.Value, resultat).OrderBy(o => o._Data).ToList();
 
+            dgvValoracionsPerData.SuspendLayout();
+            dgvValoracionsPerData.CellFormatting += dgv_CellFormatting;
 
-            if (!(accions || criptos || rf || rv))
-            {
-                lbTitolValoracionsPerData.Text = "";
-                return;
-            }
+            dgvValoracionsPerData.DataSource = xx;
 
-            // Posa el títol en el combo.
-            if (accions && criptos && rf && rv)
-                lbTitolValoracionsPerData.Text = "Tot";
-            else
-            {
-                lbTitolValoracionsPerData.Text = "";
-                if (rf && rv)
-                    lbTitolValoracionsPerData.Text += " + Fons";
-                else if (rf)
-                    lbTitolValoracionsPerData.Text += " + Fons renda fixa";
-                else if (rv)
-                    lbTitolValoracionsPerData.Text += " + Fons renda variable";
-                if (accions)
-                    lbTitolValoracionsPerData.Text += " + Accions";
-                if (criptos)
-                    lbTitolValoracionsPerData.Text += " + Criptos";
+            dgvValoracionsPerData.CellFormatting -= dgv_CellFormatting;
 
-                if (lbTitolValoracionsPerData.Text.Length > 1)
-                    lbTitolValoracionsPerData.Text = lbTitolValoracionsPerData.Text.Remove(0, 2);
-            }
+            var ultimaFilaX = dgvValoracionsPerData.Rows.GetLastRow(DataGridViewElementStates.Visible);
+            if (ultimaFilaX >= 0)
+                dgvValoracionsPerData.FirstDisplayedScrollingRowIndex = ultimaFilaX;
 
-            var valData = Valoracio.Tuples.Where(w => w.Data >= dtpDataIniciLlista.Value).ToList();
-            var movData = Moviment.MovimentsUsuari.Where(w => w.Data >= dtpDataIniciLlista.Value).ToList();
-
-            List<Valoracio> valoracions = new List<Valoracio>();
-            List<Moviment> moviments = new List<Moviment>();
-
-            if (accions || criptos)
-            {
-                Mercat mercatCriptos = Mercat.Tuples.Single(w => w.Nom == TipusProd.Criptos.ToString());
-
-                if (accions)
-                {
-                    valoracions.AddRange(valData.Where(w => w.Prod is ProdAccions && w.Prod._Mercat != mercatCriptos).ToList());
-                    moviments.AddRange(movData.Where(w => w.Prod is ProdAccions && w.Participacions > 0 && w.Prod._Mercat != mercatCriptos).ToList());
-                }
-
-                if (criptos)
-                {
-                    valoracions.AddRange(valData.Where(w => w.Prod is ProdAccions && w.Prod._Mercat == mercatCriptos).ToList());
-                    moviments.AddRange(movData.Where(w => w.Prod is ProdAccions && w.Participacions > 0 && w.Prod._Mercat == mercatCriptos).ToList());
-                }
-            }
-
-            if (rv && rf)
-            {
-                valoracions.AddRange(valData.Where(w => w.Prod is ProdFons).ToList());
-                moviments.AddRange(movData.Where(w => w.Prod is ProdFons && w.Participacions > 0).ToList());
-            }
-            else
-            {
-                if (rv)
-                {
-                    valoracions.AddRange(valData.Where(w => w.Prod is ProdFons && ((ProdFons) w.Prod).Tipus == TipusFons.RV).ToList());
-                    moviments.AddRange(movData.Where(w => w.Prod is ProdFons && w.Participacions > 0 && ((ProdFons) w.Prod).Tipus == TipusFons.RV).ToList());
-                }
-
-                if (rf)
-                {
-                    valoracions.AddRange(valData.Where(w => w.Prod is ProdFons && ((ProdFons) w.Prod).Tipus == TipusFons.RF).ToList());
-                    moviments.AddRange(movData.Where(w => w.Prod is ProdFons && w.Participacions > 0 && ((ProdFons) w.Prod).Tipus == TipusFons.RF).ToList());
-                }
-            }
-
-            var valMovs = valoracions.Select(s => new {Data = s.Data.Date, s.PreuParticipacio}).
-                Union(moviments.Select(s => new {Data = s.Data.Date, s.PreuParticipacio})).
-                GroupBy(g => g.Data).OrderBy(o => o.Key);
-
-            if (!valMovs.Any())
-                return;
-
-
-            decimal maxVal = 0;
-            decimal minVal = decimal.MaxValue;
-
-            decimal pigPerDataAnt = 0;
-            foreach (var valoracio in valMovs)
-            {
-                DateTime data = Utilitats.DataHoraFinalDia(valoracio.Key);
-
-                decimal pigPerData = 0;
-                decimal saldo = 0;
-
-                if (accions)
-                {
-                    pigPerData += Producte.Pig4(Producte.TipusProducte.Accions, null, DateTime.MinValue, data, true, true, true, true);
-                    saldo += ProdAccions.Valor(data, false);
-                }
-
-                if (criptos)
-                {
-                    pigPerData += Producte.Pig4(Producte.TipusProducte.Criptos, null, DateTime.MinValue, data, true, true, true, true);
-                    saldo += ProdAccions.Valor(data, true);
-                }
-
-                if (rv)
-                {
-                    pigPerData += Producte.Pig4(Producte.TipusProducte.Fons, TipusFons.RV, DateTime.MinValue, data, true, true, true, true);
-                    saldo += ProdFons.Valor(data, TipusFons.RV);
-                }
-
-                if (rf)
-                {
-                    pigPerData += Producte.Pig4(Producte.TipusProducte.Fons, TipusFons.RF, DateTime.MinValue, data, true, true, true, true);
-                    saldo += ProdFons.Valor(data, TipusFons.RF);
-                }
-
-                var percentVariacio = pigPerDataAnt == 0 ? 1 : (pigPerData / pigPerDataAnt - 1);
-                var variacio = pigPerData - pigPerDataAnt;
-
-                int numFila = dgvValoracionsPerData.Rows.Add(data, pigPerData, percentVariacio, variacio, saldo);
-
-                if ((pigPerData - pigPerDataAnt) < 0)
-                {
-                    dgvValoracionsPerData.Rows[numFila].Cells[colVariacioEuros2.Name].Style.ForeColor = Color.Red;
-                    dgvValoracionsPerData.Rows[numFila].Cells[colVariacioPercentatge.Name].Style.ForeColor = Color.Red;
-                }
-
-                if (data >= new DateTime(2015, 3, 20) && pigPerData > 0)
-                {
-                    chart2.Series[0].Points.AddXY(data.ToOADate(), pigPerData);
-
-                    if (maxVal < pigPerData)
-                        maxVal = Math.Ceiling(pigPerData / 10) * 10;
-
-                    if (minVal > pigPerData)
-                        minVal = Math.Floor(pigPerData / 10) * 10;
-                }
-
-                pigPerDataAnt = pigPerData;
-            }
-
-            var ultimaFila = dgvValoracionsPerData.Rows.GetLastRow(DataGridViewElementStates.Visible);
-            if (ultimaFila >= 0)
-                dgvValoracionsPerData.FirstDisplayedScrollingRowIndex = ultimaFila;
-
-            chart2.ChartAreas[0].AxisY.Minimum = (double) minVal;
-            chart2.ChartAreas[0].AxisY.Maximum = (double) maxVal;
-            chart2.Update();
+            dgvValoracionsPerData.ResumeLayout();
         }
 
 
@@ -623,7 +581,7 @@ namespace Inversions.GUI
             else if (vValoracioSeleccionada != ((StrDgvValoracions) dgvValoracions.Rows[e.RowIndex].DataBoundItem)._Valoracio)
             {
                 //vValoracioSeleccionada = (Valoracio)dgvValoracions.Rows[e.RowIndex].DataBoundItem;
-                vValoracioSeleccionada = ((StrDgvValoracions)dgvValoracions.Rows[e.RowIndex].DataBoundItem)._Valoracio;
+                vValoracioSeleccionada = ((StrDgvValoracions) dgvValoracions.Rows[e.RowIndex].DataBoundItem)._Valoracio;
                 posaValorsDeLaFilaSeleccionada();
                 btModifica.Enabled = true;
                 btEsborra.Enabled = true;

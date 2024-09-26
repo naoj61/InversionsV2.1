@@ -507,17 +507,25 @@ namespace Inversions
             return Pig4(tipusProducte, null, dataInici, dataFi, true, inclouCartera, true, inclouDividends);
         }
 
-        internal static decimal Pig4(TipusProducte tipusProducte, TipusFons? tipusFons,
-          DateTime dataInici, DateTime dataFinal, bool pigOrig, bool inclouCartera, bool inclouDespeses, bool inclouDividends)
-        {
-            var prods = SeleccionaProds(tipusProducte, tipusFons);
 
-            var div = inclouDividends ? prods.Sum(s=>s.dividends(dataInici, dataFinal)) : 0;
-            
+        internal static decimal Pig4(TipusProducte tipusProducte, TipusFons? tipusFons,
+            DateTime dataInici, DateTime dataFinal, bool pigOrig, bool inclouCartera, bool inclouDespeses, bool inclouDividends)
+        {
+            var prods = SeleccionaProds(tipusProducte, tipusFons).ToList();
+
+             return Pig4(prods, dataInici, dataFinal, pigOrig, inclouCartera, inclouDespeses, inclouDividends);
+        }
+
+
+        internal static decimal Pig4(List<Producte> prods, DateTime dataInici, DateTime dataFinal, bool pigOrig, bool inclouCartera, bool inclouDespeses, bool inclouDividends)
+        {
+            var div = inclouDividends ? prods.Sum(s => s.dividends(dataInici, dataFinal)) : 0;
+
             var pig = prods.Sum(prod => prod.pigEntreDates4(dataInici, dataFinal, pigOrig, inclouDespeses, inclouCartera, true));
 
             return pig + div;
         }
+
 
 
         internal decimal pigEnAny4(int any, bool pigOrig, bool inclouDespeses, bool inclouCartera, bool utilitzarPiGVendaReal)
