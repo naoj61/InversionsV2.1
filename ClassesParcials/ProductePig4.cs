@@ -494,38 +494,40 @@ namespace Inversions
         /// Preu compra --> Preu origen.
         /// Preu venda  --> Preu venda.
         /// </summary>
-        /// <param name="tipusProducte"></param>
         /// <param name="any"></param>
         /// <param name="inclouCartera"></param>
+        /// <param name="inclouDespeses"></param>
         /// <param name="inclouDividends">En la tributació a la renda els dividends tributen a part de les PiG de les accions. </param>
         /// <returns></returns>
-        internal static decimal Pig4(TipusProducte tipusProducte, int any, bool inclouCartera, bool inclouDividends)
+        internal static decimal Pig4(int any, bool inclouCartera, bool inclouDespeses, bool inclouDividends)
         {
             var dataInici = new DateTime(any, 1, 1);
             var dataFi = Utilitats.DataHoraFinalAny(any);
 
-            return Pig4(tipusProducte, null, dataInici, dataFi, true, inclouCartera, true, inclouDividends);
+            return Pig4(dataInici, dataFi, true, inclouCartera, inclouDespeses, inclouDividends);
         }
 
 
-        internal static decimal Pig4(TipusProducte tipusProducte, TipusFons? tipusFons,
-            DateTime dataInici, DateTime dataFinal, bool pigOrig, bool inclouCartera, bool inclouDespeses, bool inclouDividends)
+        /// <summary>
+        /// Torna la suma del PiG de tots els productes entre les dates.
+        /// </summary>
+        /// <param name="dataInici"></param>
+        /// <param name="dataFinal"></param>
+        /// <param name="pigOrig"></param>
+        /// <param name="inclouCartera"></param>
+        /// <param name="inclouDespeses"></param>
+        /// <param name="inclouDividends"></param>
+        /// <returns></returns>
+        internal static decimal Pig4(DateTime dataInici, DateTime dataFinal, bool pigOrig, bool inclouCartera, bool inclouDespeses, bool inclouDividends)
         {
-            var prods = SeleccionaProds(tipusProducte, tipusFons).ToList();
+            var prods = Tuples.ToList();
 
-             return Pig4(prods, dataInici, dataFinal, pigOrig, inclouCartera, inclouDespeses, inclouDividends);
-        }
-
-
-        internal static decimal Pig4(List<Producte> prods, DateTime dataInici, DateTime dataFinal, bool pigOrig, bool inclouCartera, bool inclouDespeses, bool inclouDividends)
-        {
             var div = inclouDividends ? prods.Sum(s => s.dividends(dataInici, dataFinal)) : 0;
 
             var pig = prods.Sum(prod => prod.pigEntreDates4(dataInici, dataFinal, pigOrig, inclouDespeses, inclouCartera, true));
 
             return pig + div;
         }
-
 
 
         internal decimal pigEnAny4(int any, bool pigOrig, bool inclouDespeses, bool inclouCartera, bool utilitzarPiGVendaReal)

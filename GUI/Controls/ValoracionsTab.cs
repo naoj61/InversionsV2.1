@@ -79,9 +79,11 @@ namespace Inversions.GUI
                     if (moviments.Any(w => w.Data.Date == data.Date) && valorTotalAnt != 0)
                     {
                         var movsData = moviments.Where(w => w.Data.Date == data.Date).ToList();
+
                         var impVendes = movsData.Where(w => w._EsVenda).Sum(s => s._ImportBrut);
                         var impCompres = movsData.Where(w => w._EsCompra).Sum(s => s._ImportBrut);
 
+                        // Si hi ha hagut moviments en el dia, recalculo la variació del import.
                         variacioImport += impVendes - impCompres;
                         variacioPercentatge = variacioImport / valorTotalAnt;
                     }
@@ -352,11 +354,11 @@ namespace Inversions.GUI
 
                     dgvValoracions.SuspendLayout();
 
-                    dgvValoracions.CellFormatting += dgv_CellFormatting;
+                    dgvValoracions.CellFormatting += NumericCell.CellFormatting;
 
                     dgvValoracions.DataSource = valoracionsProducteSelec2;
 
-                    dgvValoracions.CellFormatting -= dgv_CellFormatting;
+                    dgvValoracions.CellFormatting -= NumericCell.CellFormatting; 
 
                     // Ajusta l'amplada de la taula.
                     Utilitats.AjustaAmpladaDataGridView(dgvValoracions);
@@ -404,14 +406,13 @@ namespace Inversions.GUI
             if (checkedComboBoxEdit1.Properties.Items[TipusProd.RF].CheckState == CheckState.Checked) resultat |= 1 << 2; // Tercer bit
             if (checkedComboBoxEdit1.Properties.Items[TipusProd.RV].CheckState == CheckState.Checked) resultat |= 1 << 3; // Quart bit
 
-            List<StrDgvValoracionsPerData> xx = StrDgvValoracionsPerData.CarregaStruct(dtpDataIniciLlista.Value, resultat).OrderBy(o => o._Data).ToList();
-
             dgvValoracionsPerData.SuspendLayout();
-            dgvValoracionsPerData.CellFormatting += dgv_CellFormatting;
 
-            dgvValoracionsPerData.DataSource = xx;
+            dgvValoracionsPerData.CellFormatting += NumericCell.CellFormatting;
 
-            dgvValoracionsPerData.CellFormatting -= dgv_CellFormatting;
+            dgvValoracionsPerData.DataSource = StrDgvValoracionsPerData.CarregaStruct(dtpDataIniciLlista.Value, resultat).OrderBy(o => o._Data).ToList();
+
+            dgvValoracionsPerData.CellFormatting -= NumericCell.CellFormatting;
 
             var ultimaFilaX = dgvValoracionsPerData.Rows.GetLastRow(DataGridViewElementStates.Visible);
             if (ultimaFilaX >= 0)

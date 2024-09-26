@@ -304,10 +304,10 @@ namespace Inversions.GUI
             ntbPigOrigSimulacio.Valor = compresProdSelecionat.Sum(s => s._PigDeLaCompraOrigen);
 
             dgvCompresOriginals.SuspendLayout();
-            dgvCompresOriginals.CellFormatting += dgv_CellFormatting;
+            dgvCompresOriginals.CellFormatting += NumericCell.CellFormatting; 
             dgvCompresOriginals.DataSource = compresProdSelecionat.OrderBy(o => o._DataOrig).ToList();
             dgvCompresOriginals.ClearSelection();
-            dgvCompresOriginals.CellFormatting -= dgv_CellFormatting;
+            dgvCompresOriginals.CellFormatting -= NumericCell.CellFormatting;
             dgvCompresOriginals.ResumeLayout();
 
             calculaTotalATributar();

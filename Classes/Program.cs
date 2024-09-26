@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using Comuns;
+using Controls;
 using Inversions.GUI;
 using Microsoft.Win32;
 
@@ -82,7 +84,7 @@ namespace Inversions
                 {
                     // Si no hi ha usuari, l'agafa del registre;
                     var usuRegistreWindows = Utilitats.LlegeixVariableRegistre(Registry.CurrentUser, Claureg, NomVarReg);
-                    if (Utilitats.EsNumeric(usuRegistreWindows)) 
+                    if (Utilitats.EsNumeric(usuRegistreWindows))
                         idUsuari = Int32.Parse(usuRegistreWindows);
 
                     // Si tampoc hi és al registre, usuari 1 per defecte.
@@ -103,7 +105,7 @@ namespace Inversions
 
                         Usuari usuari = Sessio.Usuaris.Find(idUsuari.Value);
 
-                        if(usuari == null)
+                        if (usuari == null)
                             throw new Exception(String.Format("L'usuari: {0} no existeix", idUsuari.Value));
 
                         CanviUsuari(usuari);
@@ -193,7 +195,6 @@ namespace Inversions
             return Utilitats.LlegeixVariableRegistre(Registry.CurrentUser, ClauRegistre(llegeigDelUsuari), nomVarReg);
         }
 
-
         internal static void DesaVariableEnRegistreWindows(string nomVarReg, string valor, bool escriuAlUsuari)
         {
             if (nomVarReg == null)
@@ -201,6 +202,5 @@ namespace Inversions
 
             Utilitats.GravaVariableRegistre(Registry.CurrentUser, ClauRegistre(escriuAlUsuari), nomVarReg, valor);
         }
-
     }
 }

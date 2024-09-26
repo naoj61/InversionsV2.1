@@ -197,12 +197,12 @@ namespace Inversions.GUI
             SuspendLayout();
             dgvCompresProducte.SuspendLayout();
             dgvCompresProducte.SelectionChanged -= dgvCompresProducte_SelectionChanged;
-            dgvCompresProducte.CellFormatting += dgv_CellFormatting;
+            dgvCompresProducte.CellFormatting += NumericCell.CellFormatting;
             dgvCompresProducte.ClearSelection();
             dgvCompresProducte.DataSource = compres;
             dgvCompresProducte.ClearSelection();
             dgvCompresProducte.SelectionChanged += dgvCompresProducte_SelectionChanged;
-            dgvCompresProducte.CellFormatting -= dgv_CellFormatting;
+            dgvCompresProducte.CellFormatting -= NumericCell.CellFormatting;
 
             dgvCompresProducte.ResumeLayout();
 
@@ -416,7 +416,7 @@ namespace Inversions.GUI
             }
             else
             {
-                tbPigEntreDates.Valor = Producte.Pig4(Producte.TipusProducte.Tots, null, dataIni, dataFi, true, true, true, true);
+                tbPigEntreDates.Valor = Producte.Pig4(dataIni, dataFi, true, true, true, true);
             }
         }
 

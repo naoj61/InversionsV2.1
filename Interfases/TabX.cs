@@ -95,23 +95,6 @@ namespace Inversions
 
 
         /// <summary>
-        /// Formateija les columnes numèriques. Si l'AutoSizeMode de la columna és Fill, no funciona!!!!
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void dgv_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            var cell = ((DataGridView) sender)[e.ColumnIndex, e.RowIndex];
-
-            // Si és negatiu, establim el color del text a vermell
-            if (cell is NumericCell)
-            {
-                // ***** Si l'AutoSizeMode de la columna és Fill, no funciona!!!! *****
-                cell.Style.ForeColor = Convert.ToDecimal(cell.Value) < 0 ? Color.Red : Color.Black;
-            }
-        }
-
-        /// <summary>
         /// Càrrega inicial de la pestanya. Marca com a fet.
         /// </summary>
         internal virtual void carregaInicial()

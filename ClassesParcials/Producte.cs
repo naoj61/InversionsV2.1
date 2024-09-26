@@ -236,7 +236,8 @@ namespace Inversions
 
             for (int i = 0; i < 4; i++)
             {
-                var pigAny = Pig4(TipusProducte.Tots, any++, false, false);
+                var pigAny = Pig4(any++, false, true, false);
+                
                 if (pigAny + pigT >= 0)
                     pigT = 0;
                 else

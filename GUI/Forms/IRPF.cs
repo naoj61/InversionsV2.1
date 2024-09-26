@@ -19,37 +19,10 @@ namespace Inversions.GUI.Forms
 {
     public sealed partial class IRPF : Form
     {
-        private List<StProductes> vProdsAmbVendesAny;
-        private List<Moviment> vVendesAny;
-        private Dictionary<Inversions.Moviment, List<CompraExt>> vCompresVendesAny;
-        private int vAny;
-
-        public IRPF(int any)
+        private struct StrDgvProductes
         {
-            InitializeComponent();
-            
-            dgvIngressosForaAplicacio.RowsRemoved -= dgvIngressosForaAplicacio_RowsRemoved;
-
-            dgvProductes.AutoGenerateColumns = false;
-            dgvVendes.AutoGenerateColumns = false;
-            dgvCompresVenda.AutoGenerateColumns = false;
-            dgvIngressosForaAplicacio.AutoGenerateColumns = false;
-
-            dgvProductes.AutoSize = true;
-
-            cbAny.SelectedIndexChanged -= cbAny_SelectedIndexChanged;
-            for (int i = 2013; i <= DateTime.Today.Year; i++)
-            {
-                cbAny.Items.Add(i);
-            }
-            cbAny.SelectedIndexChanged += cbAny_SelectedIndexChanged;
-
-            cbAny.SelectedItem = any;
-        }
-
-        private struct StProductes
-        {
-            public StProductes(int any, Producte prod) : this()
+            public StrDgvProductes(int any, Producte prod)
+                : this()
             {
                 _Prod = prod;
                 _Divident = prod.dividends(any);
@@ -63,10 +36,10 @@ namespace Inversions.GUI.Forms
             // ReSharper restore UnusedAutoPropertyAccessor.Local
         }
 
-
-        private struct StVendesAny
+        private struct StrDgvVendes
         {
-            public StVendesAny(Moviment venda) : this()
+            public StrDgvVendes(Moviment venda)
+                : this()
             {
                 if (!venda._EsVenda)
                     throw new Exception("No és una venda");
@@ -134,10 +107,9 @@ namespace Inversions.GUI.Forms
             // ReSharper restore UnusedAutoPropertyAccessor.Local
         }
 
-
-        private struct StCompresVenda
+        private struct StrDgvCompresVenda
         {
-            public StCompresVenda(Moviment venda, CompraExt compra)
+            public StrDgvCompresVenda(Moviment venda, CompraExt compra)
                 : this()
             {
                 if (!venda._EsVenda)
@@ -264,25 +236,53 @@ namespace Inversions.GUI.Forms
                 return (vCompra != null ? vCompra.GetHashCode() : 0);
             }
 
-            public static bool operator ==(StCompresVenda a, StCompresVenda b)
+            public static bool operator ==(StrDgvCompresVenda a, StrDgvCompresVenda b)
             {
                 return a.vCompra == b.vCompra;
             }
 
-            public static bool operator !=(StCompresVenda a, StCompresVenda b)
+            public static bool operator !=(StrDgvCompresVenda a, StrDgvCompresVenda b)
             {
                 return !(a == b);
             }
 
             public override bool Equals(object obj)
             {
-                if (!(obj is StCompresVenda))
+                if (!(obj is StrDgvCompresVenda))
                     return false;
 
-                return this == (StCompresVenda) obj;
+                return this == (StrDgvCompresVenda)obj;
             }
 
             #endregion
+        }
+
+        private List<StrDgvProductes> vProdsAmbVendesAny;
+        private List<Moviment> vVendesAny;
+        private Dictionary<Inversions.Moviment, List<CompraExt>> vCompresVendesAny;
+        private int vAny;
+
+        public IRPF(int any)
+        {
+            InitializeComponent();
+            
+            dgvIngressosForaAplicacio.RowsRemoved -= dgvIngressosForaAplicacio_RowsRemoved;
+
+            dgvProductes.AutoGenerateColumns = false;
+            dgvVendes.AutoGenerateColumns = false;
+            dgvCompresVenda.AutoGenerateColumns = false;
+            dgvIngressosForaAplicacio.AutoGenerateColumns = false;
+
+            dgvProductes.AutoSize = true;
+
+            cbAny.SelectedIndexChanged -= cbAny_SelectedIndexChanged;
+            for (int i = 2013; i <= DateTime.Today.Year; i++)
+            {
+                cbAny.Items.Add(i);
+            }
+            cbAny.SelectedIndexChanged += cbAny_SelectedIndexChanged;
+
+            cbAny.SelectedItem = any;
         }
 
         public bool _ShaModificat
@@ -312,18 +312,20 @@ namespace Inversions.GUI.Forms
             // Crea llista de les vendes seleccionades de "dgvVendes".
             var vendessSelec = (from DataGridViewRow row in dgvVendes.SelectedRows select (Moviment) row.Cells[0].Value).ToList();
 
-            List<StCompresVenda> compresVenda = new List<StCompresVenda>();
+            List<StrDgvCompresVenda> compresVenda = new List<StrDgvCompresVenda>();
             foreach (Moviment venda in vendessSelec)
             {
-                compresVenda.AddRange(venda.compresDeLaVenda().Select(compraExt => new StCompresVenda(venda, compraExt)));
+                compresVenda.AddRange(venda.compresDeLaVenda().Select(compraExt => new StrDgvCompresVenda(venda, compraExt)));
             }
+
+            dgvCompresVenda.CellFormatting += NumericCell.CellFormatting;
 
             if (ckAgrupaCompres.Checked)
             {
                 ColDespesesCompra.Visible = false;
                 ColDespesesVenda.Visible = false;
 
-                List<StCompresVenda> compresVendaAgrup = new List<StCompresVenda>();
+                List<StrDgvCompresVenda> compresVendaAgrup = new List<StrDgvCompresVenda>();
                 foreach (var compraVenda in compresVenda)
                 {
                     if (compresVendaAgrup.Contains(compraVenda))
@@ -345,7 +347,10 @@ namespace Inversions.GUI.Forms
 
                 dgvCompresVenda.DataSource = compresVenda.OrderBy(o => o._Venda.Data).ThenBy(o => o._CompraExt._Data).ToList();
             }
+
+            dgvCompresVenda.CellFormatting -= NumericCell.CellFormatting;
         }
+
 
         private void calculaTotalATributar()
         {
@@ -366,7 +371,7 @@ namespace Inversions.GUI.Forms
             carregaTaulaIngressosExterns(vAny);
 
             vVendesAny = Moviment.MovimentsUsuari.Where(w => w._EsVendaReal && w.Data.Year == vAny).OrderBy(o => o.Prod).ThenBy(t => t.Data).ToList();
-            vProdsAmbVendesAny = vVendesAny.Select(s => s.Prod).Distinct().Select(i => new StProductes(vAny, i)).ToList();
+            vProdsAmbVendesAny = vVendesAny.Select(s => s.Prod).Distinct().Select(i => new StrDgvProductes(vAny, i)).ToList();
             vCompresVendesAny = vVendesAny.ToDictionary(x => x, x => x.compresDeLaVenda().ToList());
 
             dgvProductes.DataSource = vProdsAmbVendesAny;
@@ -478,16 +483,20 @@ namespace Inversions.GUI.Forms
                 // Crea llista dels productes seleccionats de "dgvProductes".
                 var prodsSelec = (from DataGridViewRow row in dgvProductes.SelectedRows select (Producte) row.Cells[1].Value).ToList();
 
-                List<StVendesAny> vendesAny = new List<StVendesAny>();
+                List<StrDgvVendes> vendesAny = new List<StrDgvVendes>();
                 foreach (Moviment venda in vVendesAny)
                 {
                     if (prodsSelec.Contains(venda.Prod))
-                        vendesAny.Add(new StVendesAny(venda));
+                        vendesAny.Add(new StrDgvVendes(venda));
                 }
+
+                dgvVendes.CellFormatting += NumericCell.CellFormatting; 
 
                 dgvVendes.DataSource = vendesAny;
 
-                ntbDividents.Valor = dgvProductes.SelectedRows.Cast<DataGridViewRow>().Sum(row => ((StProductes) row.DataBoundItem)._Divident);
+                dgvVendes.CellFormatting -= NumericCell.CellFormatting; 
+
+                ntbDividents.Valor = dgvProductes.SelectedRows.Cast<DataGridViewRow>().Sum(row => ((StrDgvProductes) row.DataBoundItem)._Divident);
             }
         }
 
@@ -502,7 +511,7 @@ namespace Inversions.GUI.Forms
             {
                 ompleGridCompresDeLaVenda();
 
-                ntbPiG.Valor = dgvVendes.SelectedRows.Cast<DataGridViewRow>().Sum(row => ((StVendesAny) row.DataBoundItem)._PiG);
+                ntbPiG.Valor = dgvVendes.SelectedRows.Cast<DataGridViewRow>().Sum(row => ((StrDgvVendes) row.DataBoundItem)._PiG);
             }
             calculaTotalATributar();
         }
