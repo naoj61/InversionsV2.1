@@ -13,12 +13,12 @@ using Microsoft.Win32;
 
 namespace Inversions.GUI
 {
-    internal struct StrFilaCompresOriginals
+    internal struct StrDgvCompresOriginals
     {
         private readonly DesglosCompraExt vDesglosCompra;
         private static decimal PreuParticipacioSimulacio;
 
-        public StrFilaCompresOriginals(DesglosCompraExt desglosCompra, decimal preuPart)
+        public StrDgvCompresOriginals(DesglosCompraExt desglosCompra, decimal preuPart)
             : this()
         {
             vDesglosCompra = desglosCompra;
@@ -105,22 +105,22 @@ namespace Inversions.GUI
 
         #region *** Mètodes sobreescrits ***
 
-        public static bool operator ==(StrFilaCompresOriginals a, StrFilaCompresOriginals b)
+        public static bool operator ==(StrDgvCompresOriginals a, StrDgvCompresOriginals b)
         {
             return a._IdOrig == b._IdOrig;
         }
 
-        public static bool operator !=(StrFilaCompresOriginals a, StrFilaCompresOriginals b)
+        public static bool operator !=(StrDgvCompresOriginals a, StrDgvCompresOriginals b)
         {
             return !(a == b);
         }
 
         public override bool Equals(object obj)
         {
-            if (!(obj is StrFilaCompresOriginals))
+            if (!(obj is StrDgvCompresOriginals))
                 return false;
 
-            return _IdOrig == ((StrFilaCompresOriginals) obj)._IdOrig;
+            return _IdOrig == ((StrDgvCompresOriginals) obj)._IdOrig;
         }
 
         public override int GetHashCode()
@@ -245,7 +245,7 @@ namespace Inversions.GUI
         {
             if (prod == null)
             {
-                dgvCompresOriginals.DataSource = new List<StrFilaCompresOriginals>();
+                dgvCompresOriginals.DataSource = new List<StrDgvCompresOriginals>();
                 
                 ntbImportBrut.Valor = 0;
                 ntbPigSimulacio.Valor = 0;
@@ -262,7 +262,7 @@ namespace Inversions.GUI
             var desgloçPartsEnCartera = prod.desglosCompresDeParticipacionsEnData4(DateTime.Now, prod._Participacions)
                 .OrderBy(o => o._DataOrig).ToList();
 
-            List<StrFilaCompresOriginals> compresProdSelecionat = new List<StrFilaCompresOriginals>();
+            List<StrDgvCompresOriginals> compresProdSelecionat = new List<StrDgvCompresOriginals>();
 
             /* *** Salta les participacions més antigues. 
                  * És per no haver de fer un traspàs simulat per veure el PiG de les més noves */
@@ -288,11 +288,11 @@ namespace Inversions.GUI
                 if (desglosCompraExt._PartsUtilitzades > partsResten)
                 {
                     desglosCompraExt._PartsUtilitzades = partsResten;
-                    compresProdSelecionat.Add(new StrFilaCompresOriginals(desglosCompraExt, preuPart.Value));
+                    compresProdSelecionat.Add(new StrDgvCompresOriginals(desglosCompraExt, preuPart.Value));
                     break;
                 }
 
-                compresProdSelecionat.Add(new StrFilaCompresOriginals(desglosCompraExt, preuPart.Value));
+                compresProdSelecionat.Add(new StrDgvCompresOriginals(desglosCompraExt, preuPart.Value));
 
                 partsResten -= desglosCompraExt._PartsUtilitzades;
             }
