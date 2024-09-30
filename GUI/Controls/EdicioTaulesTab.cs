@@ -340,6 +340,7 @@ namespace Inversions.GUI
 
         #region *** Mètodes que no s'utilitzen, però que poden servir en el futur ***
 
+        // ReSharper disable UnusedMember.Local
         /// <summary>
         /// Busca en els controls parent amb el nom.
         /// </summary>
@@ -386,6 +387,7 @@ namespace Inversions.GUI
             }
             return null; // Retorna null si no s'ha trobat cap control amb el nom especificat
         }
+        // ReSharper restore UnusedMember.Local
 
         #endregion *** Mètodes que no s'utilitzen, però que poden servir en el futur ***
 

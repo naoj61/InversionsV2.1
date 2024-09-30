@@ -24,7 +24,6 @@ namespace Inversions
     public static class Program
     {
         internal static InversionsBDContext Sessio;
-        internal static readonly bool RuntimeMode = LicenseManager.UsageMode == LicenseUsageMode.Runtime;
         internal static FileInfo FitxerLog = null;
         internal static readonly Version Versio = Assembly.GetExecutingAssembly().GetName().Version;
         public static int PrimerAny = 2000;
@@ -42,9 +41,6 @@ namespace Inversions
             Sessio.Configuration.LazyLoadingEnabled = true;
         }
 
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool SetForegroundWindow(IntPtr hWnd);
 
         internal static string Claureg;
         internal const string NomVarReg = "UsuariId";

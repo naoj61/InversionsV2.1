@@ -337,7 +337,7 @@ namespace Inversions.GUI
         {
             ntbTramExentAnual.Valor = valorTramExent(vAny);
             ntbPerduesAnysAnteriors.Valor = Math.Abs(Producte.PerduesDarrersQuatreAnys(vAny));
-            ntbPiGActual.Valor = Moviment.MovimentsUsuari.Where(w => w._EsVendaReal && w.Data.Year == vAny).ToList().Sum(s => s.pigVenda(true));
+            ntbPiGActual.Valor = Moviment.MovimentsUsuari.Where(w => w._EsVendaReal && w.Data.Year == vAny).ToList().Sum(s => s.pigVenda4(true, true, true));
             ntbIngressosExterns.Valor = valorIngressosExterns(vAny);
             ntbDividents.Valor = Moviment.MovimentsUsuari.Where(w => w.Data.Year == vAny && w.TipusMoviment == TipusMoviment.Dividends)
                 .ToList().Sum(s => s.PreuParticipacio);

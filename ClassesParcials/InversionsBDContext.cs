@@ -13,12 +13,6 @@ namespace Inversions
 {
     public partial class InversionsBDContext
     {
-        private ObjectContext _Context
-        {
-            get { return ((IObjectContextAdapter) this).ObjectContext; }
-        }
-
-
         /// <summary>
         /// Troba l'entity type a partir del nom de la taula. Ex Valoracions --> Valoracio
         /// </summary>
@@ -73,23 +67,6 @@ namespace Inversions
             context.Refresh(RefreshMode.StoreWins, objects);
         }
 
-        /// <summary>
-        /// Refresca totes les taules de la BD
-        /// </summary>
-        public void refrescaTot()
-        {
-            var context = ((IObjectContextAdapter)this).ObjectContext;
-
-            var objects = (context.ObjectStateManager.GetObjectStateEntries(
-                EntityState.Added |
-                EntityState.Deleted |
-                EntityState.Modified |
-                EntityState.Unchanged)
-                .Where(entry => entry.EntityKey != null)
-                .Select(entry => entry.Entity));
-
-            context.Refresh(RefreshMode.StoreWins, objects);
-        }
 
         /// <summary>
         /// Desfà els canvis pendents de "entity"

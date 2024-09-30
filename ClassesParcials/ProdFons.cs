@@ -55,18 +55,5 @@ namespace Inversions
         {
             get { return Descripcio; }
         }
-
-        /// <summary>
-        /// Valor dels fons en cartera en una data determinada.
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="tipusFons"></param>
-        /// <returns></returns>
-        public static decimal Valor(DateTime data, TipusFons tipusFons)
-        {
-            var prods = tipusFons == TipusFons.Tots ? Tuples : Tuples.Where(w => w.Tipus == tipusFons);
-
-            return prods.ToList().Sum(producte => producte.valorEnCartera(data));
-        }
     }
 }

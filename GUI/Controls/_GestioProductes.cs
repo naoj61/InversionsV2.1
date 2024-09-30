@@ -42,19 +42,16 @@ namespace Inversions.GUI
 
         public bool _FiltreAnyVisible
         {
-            get { return pnFiltreAny.Visible; }
             set { pnFiltreAny.Visible = value; }
         }
 
         public bool _NomesAmbParticipacions
         {
-            get { return ckNomesAmbParticipacions.Checked; }
             set { ckNomesAmbParticipacions.Checked = value; }
         }
 
         public bool _AmbMoviments
         {
-            get { return ckAmbMoviments.Checked; }
             set { ckAmbMoviments.Checked = value; }
         }
 

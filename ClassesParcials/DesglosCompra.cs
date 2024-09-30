@@ -30,10 +30,6 @@ namespace Inversions
             get { return MovCompraOrig.PreuParticipacio; }
         }
 
-        public decimal _PreuParticipacio
-        {
-            get { return MovCompra.PreuParticipacio; }
-        }
 
         public DateTime _DataOrig
         {

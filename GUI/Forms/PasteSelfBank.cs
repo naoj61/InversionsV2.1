@@ -38,7 +38,6 @@ namespace Inversions.GUI
         }
 
         private const string NomVarRegTancaAlDesar = "PasteSelfBankTancaAlDesar";
-        private const string NomVarRegCapturaAutomaticament = "PasteSelfBankCapturaAutomaticament";
         private const int DiferenciaMaimaxPreu = 10;
 
         private void capturaValorsPaste(DateTime? data = null)

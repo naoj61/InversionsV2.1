@@ -51,6 +51,7 @@ namespace Inversions.GUI.Forms
 
             // ReSharper disable MemberCanBePrivate.Local
             // ReSharper disable UnusedAutoPropertyAccessor.Local
+            // ReSharper disable UnusedMember.Local
 
             public Moviment _Venda
             {
@@ -99,10 +100,10 @@ namespace Inversions.GUI.Forms
 
             public decimal _PiG
             {
-                get { return _Venda.pigVenda(true); }
+                get { return _Venda.pigVenda4(true, true, true); }
             }
-
-
+            
+            // ReSharper restore UnusedMember.Local
             // ReSharper restore MemberCanBePrivate.Local
             // ReSharper restore UnusedAutoPropertyAccessor.Local
         }
@@ -144,6 +145,7 @@ namespace Inversions.GUI.Forms
 
             // ReSharper disable MemberCanBePrivate.Local
             // ReSharper disable UnusedAutoPropertyAccessor.Local
+            // ReSharper disable UnusedMember.Local
 
             public decimal _ParticipacionsUtilitzades
             {
@@ -225,6 +227,7 @@ namespace Inversions.GUI.Forms
                 get { return _ImportVendaNetUtil - _ImportCompraNetUtil; }
             }
 
+            // ReSharper restore UnusedMember.Local
             // ReSharper restore MemberCanBePrivate.Local
             // ReSharper restore UnusedAutoPropertyAccessor.Local
 
@@ -359,7 +362,6 @@ namespace Inversions.GUI.Forms
         }
 
         private const string RegImportMinimContribuent = "ImportMinimContribuent";
-        private const string RegIngressosForaApp = "IngressosForaApp";
         private decimal vImportMinimContribuent;
         private string vClauReg;
 

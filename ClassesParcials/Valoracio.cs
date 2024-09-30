@@ -54,17 +54,6 @@ namespace Inversions
 
 
         /// <summary>
-        /// Expressió per seleccionar pendents en un LINQ.
-        /// </summary>
-        public static Expression<Func<Valoracio, bool>> ExpHiHaParticipacions
-        {
-            get
-            {
-                return p => p.Prod != null && p.Prod.Moviments.Where(w => w.UsuariId == Usuari.Seleccionat.Id && w.Data <= p.Data).Sum(s => s.Participacions) > 0;
-            }
-        }
-
-        /// <summary>
         /// Número de participacions en la data de la valoració.
         /// </summary>
         public decimal _NumParticipacions

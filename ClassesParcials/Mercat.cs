@@ -14,7 +14,9 @@ namespace Inversions
             get { return Program.Sessio.Mercats; }
         }
 
+// ReSharper disable UnusedMember.Global
         public static void RefrescaTaula()
+// ReSharper restore UnusedMember.Global
         {
             Program.Sessio.refrescaTaula(typeof(Mercat));
 

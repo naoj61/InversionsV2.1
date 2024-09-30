@@ -17,6 +17,7 @@ namespace Inversions
     {
         #region Variables
 
+        // ReSharper disable UnusedMember.Global
         public abstract TipusProducte _TipusProducte { get; }
         public abstract string _NomProducte { get; set; }
         public abstract string _TipusNomProducte { get; }
@@ -24,6 +25,7 @@ namespace Inversions
         public abstract string _NomMercat { get; }
         public abstract string _Isin { get; }
         public abstract string _Descripcio { get; }
+        // ReSharper restore UnusedMember.Global
 
         public IEnumerable<Moviment> MovimentsProducteUsuari
         {
@@ -174,51 +176,6 @@ namespace Inversions
 
 
         /// <summary>
-        /// Torna les valoracions entre les dates, ponderades si s'indica.
-        /// </summary>
-        /// <param name="ponderar"></param>
-        /// <param name="dataInici"></param>
-        /// <param name="dataFinal"></param>
-        /// <returns></returns>
-        internal Dictionary<Valoracio, decimal> valoracionsPonderades(bool ponderar, DateTime dataInici, DateTime dataFinal)
-        {
-            var valsProd = ValoracionsProducte
-                .Where(w => w.Data >= dataInici && w.Data <= dataFinal)
-                .OrderBy(o => o.Data)
-                .ToList();
-
-            while (true)
-            {
-                // *** Elimina el primer elemen si el PreuParticipacio és zero.
-
-                if (!valsProd.Any())
-                    break;
-
-                var val = valsProd[0];
-
-                if (Utilitats.EsZero(val.PreuParticipacio))
-                    valsProd.Remove(val);
-                else
-                    break;
-            }
-
-            if (valsProd.Any())
-            {
-                if (!ponderar)
-                    // Sense ponderar.
-                    return valsProd.ToDictionary(x => x, x => x.PreuParticipacio);
-
-                const decimal pond = 10;
-
-                decimal valorPonderacio = pond / valsProd.First().PreuParticipacio;
-                return valsProd.ToDictionary(x => x, x => (x.PreuParticipacio * valorPonderacio) - pond);
-            }
-
-            return null;
-        }
-
-
-        /// <summary>
         /// Suma les perdues dels 4 anys anteriors
         /// </summary>
         /// <param name="anyRenda"></param>
@@ -294,22 +251,7 @@ namespace Inversions
 
             return prods;
         }
-
-
-
-        /// <summary>
-        /// Trona les despeses de les participacions en cartera en una data,
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        internal decimal despeses(DateTime? data = null)
-        {
-            var dataH = Utilitats.DataHoraFinalDia(data.GetValueOrDefault(DateTime.Today));
-
-            return compresDePartipacionsEnData4(dataH, partsEnCartera(data))
-                .Sum(compra => compra._DespesesPartsUtilitzades);
-        }
-
+        
 
         /// <summary>
         /// Participacions en cartera d'un producte en una data.

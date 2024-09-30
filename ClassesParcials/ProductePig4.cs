@@ -35,6 +35,7 @@ namespace Inversions
         }
 
 
+// ReSharper disable UnusedMember.Global
         public Moviment _Venda
         {
             get { return vVenda; }
@@ -75,6 +76,7 @@ namespace Inversions
         {
             get { return vVenda._EsVendaReal; }
         }
+        // ReSharper restore UnusedMember.Global
 
 
         #region Equals
@@ -170,7 +172,9 @@ namespace Inversions
             get { return vDesglosCompra.Sum(s => s._PartsUtilitzades); }
         }
 
+// ReSharper disable UnusedMember.Global
         public decimal _PartsOcupades
+// ReSharper restore UnusedMember.Global
         {
             get { return vDesglosCompra.Sum(s => s._PartsOcupades); }
         }
@@ -193,45 +197,6 @@ namespace Inversions
                 vDesglosCompra.Add(desglosCompra);
         }
 
-
-
-        /// <summary>
-        /// Calcula el preu total compra origen a partir del desgloç de les compres.
-        /// </summary>
-        /// <param name="calculaImportNet">Afegeig les despeses.</param>
-        /// <returns></returns>
-        public decimal calculaImportCompraOrigen3(bool calculaImportNet)
-        {
-            decimal desp = 0;
-            if (calculaImportNet && vCompra.Despeses.HasValue)
-            {
-                if (vCompra.Participacions == _PartsUtilitzades)
-                    //if (Utilitats.SonIguals(vCompra.Participacions, _PartsUtilitzades))
-                    // Per evitar embolics amb els decimals, si Participacions i _ParticipacionsUtilitzades son iguals ja no cal dividirlos.
-                    desp = vCompra.Despeses.Value;
-                else
-                    desp = vCompra.Despeses.Value / vCompra.Participacions * _PartsUtilitzades;
-            }
-
-
-            decimal import = 0;
-            foreach (DesglosCompraExt desglosCompra in vDesglosCompra)
-            {
-                decimal partsOrig;
-                if (Utilitats.SonIguals(desglosCompra._Participacions, desglosCompra._PartsUtilitzades))
-                {
-                    // Per evitar embolics amb els decimals, si Participacions i _ParticipacionsUtilitzades son iguals ja no cal dividirlos.
-                    partsOrig = desglosCompra._ParticipacionsOrig;
-                }
-                else
-                    // Pondero ParticipacionsOrig a partir de la diferència entre Participacions i _ParticipacionsUtilitzades.
-                    partsOrig = desglosCompra._ParticipacionsOrig / desglosCompra._Participacions * desglosCompra._PartsUtilitzades;
-
-                import += partsOrig * desglosCompra._PreuParticipacioOrig;
-            }
-
-            return import + desp;
-        }
 
 
         #region Equals
@@ -328,6 +293,7 @@ namespace Inversions
             get { return vDesglosCompra.Participacions - _PartsUtilitzades - _PartsOcupades; }
         }
 
+// ReSharper disable UnusedMember.Global
         public decimal _ParticipacionsOrig
         {
             get { return vDesglosCompra.ParticipacionsOrig; }
@@ -360,6 +326,7 @@ namespace Inversions
         {
             get { return vDesglosCompra._DataOrig; }
         }
+        // ReSharper restore UnusedMember.Global
 
         public static IEnumerable<DesglosCompraExt> OmpleLlista(IEnumerable<Moviment> compres)
         {

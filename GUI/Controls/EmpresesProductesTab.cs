@@ -17,7 +17,6 @@ namespace Inversions.GUI
 {
     public partial class EmpresesProductesTab : TabX
     {
-        private const string NomVarReg = "UltimaPestanyaSeleccionada";
         private InversionsBDContext vConnEmpreses;
         private InversionsBDContext vConnProductes;
         private Empresa vEmpresaSeleccionada;

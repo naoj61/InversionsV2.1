@@ -11,7 +11,9 @@ namespace Inversions
         public enum Usuaris
         {
             Joan = 1,
+// ReSharper disable UnusedMember.Global
             Carme = 2
+// ReSharper restore UnusedMember.Global
         }
 
 
@@ -20,6 +22,7 @@ namespace Inversions
             get { return Program.Sessio.Usuaris; }
         }
 
+// ReSharper disable UnusedMember.Global
         public static void RefrescaTaula()
         {
             Program.Sessio.refrescaTaula(typeof(Usuari));
@@ -27,6 +30,7 @@ namespace Inversions
             // Fa que es recarreguin el "ICollection" de la taula.
             var xx = Tuples.ToList();
         }
+        // ReSharper restore UnusedMember.Global
 
         public static Usuari Seleccionat { get; set; }
 
