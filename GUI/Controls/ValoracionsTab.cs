@@ -99,6 +99,8 @@ namespace Inversions.GUI
 
             public DateTime _Data { get; private set; }
 
+// ReSharper disable UnusedAutoPropertyAccessor.Local
+// ReSharper disable MemberCanBePrivate.Local
             public decimal _Pig { get; private set; }
 
             public decimal _VariacioPercentatge { get; set; }
@@ -106,7 +108,8 @@ namespace Inversions.GUI
             public decimal _VariacioImport { get; private set; }
 
             public decimal _ValorTotal { get; private set; }
-
+// ReSharper restore MemberCanBePrivate.Local
+// ReSharper restore UnusedAutoPropertyAccessor.Local
         }
 
 
@@ -170,7 +173,11 @@ namespace Inversions.GUI
                 return llista;
             }
 
+
             internal Valoracio _Valoracio { get; private set; }
+
+            // ReSharper disable UnusedAutoPropertyAccessor.Local
+            // ReSharper disable MemberCanBePrivate.Local
 
             public int _Id { get; private set; }
 
@@ -187,21 +194,21 @@ namespace Inversions.GUI
             public decimal _VariacioPercentatge { get; private set; }
 
             public decimal _VariacioEuros { get; private set; }
+            // ReSharper restore MemberCanBePrivate.Local
+            // ReSharper restore UnusedAutoPropertyAccessor.Local
         }
 
         private enum TipusProd
         {
-            Tot,
             Accions,
-            Fons,
             RF,
             RV,
             Criptos
         }
 
-        private bool vEsNouValor = false;
+        private bool vEsNouValor;
 
-        private Valoracio vValoracioSeleccionada = null;
+        private Valoracio vValoracioSeleccionada;
 
         public ValoracionsTab()
         {
@@ -260,19 +267,7 @@ namespace Inversions.GUI
 
             base.canviUsuari();
         }
-
-
-        public DateTime _Data
-        {
-            get { return cData.Value; }
-        }
-
-        public decimal _Import
-        {
-            get { return tbImport._DecimalValue; }
-        }
-
-
+        
         protected override void modeEdicio()
         {
             base.modeEdicio();

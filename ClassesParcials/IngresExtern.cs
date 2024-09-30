@@ -11,6 +11,7 @@ namespace Inversions
     public partial class IngresExtern
     {
 
+// ReSharper disable once MemberCanBePrivate.Global
         public static DbSet<IngresExtern> Tuples
         {
             get { return Program.Sessio.IngressosExterns; }

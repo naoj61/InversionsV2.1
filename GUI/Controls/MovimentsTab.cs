@@ -52,6 +52,8 @@ namespace Inversions.GUI
             }
 
 
+// ReSharper disable MemberCanBePrivate.Local
+// ReSharper disable UnusedAutoPropertyAccessor.Local
             public int _Id { get; private set; }
 
             public string _TipusMoviment { get; private set; }
@@ -77,6 +79,8 @@ namespace Inversions.GUI
             public Producte _ProducteTraspasDesti { get; private set; }
 
             public string _Descripcio { get; private set; }
+// ReSharper restore UnusedAutoPropertyAccessor.Local
+// ReSharper restore MemberCanBePrivate.Local
         }
 
         public MovimentsTab()

@@ -39,6 +39,8 @@ namespace Inversions.GUI
                 return compres.Select(compra => new StrDgvCompresProducte(compra, ambCartera, ambDividends));
             }
 
+// ReSharper disable MemberCanBePrivate.Local
+// ReSharper disable UnusedAutoPropertyAccessor.Local
             public int _Id { get; private set; }
 
             public DateTime _Data { get; private set; }
@@ -48,6 +50,8 @@ namespace Inversions.GUI
             public decimal _PigDeLaCompra { get; private set; }
 
             public decimal _PigDeLaCompraOrigen { get; private set; }
+            // ReSharper restore UnusedAutoPropertyAccessor.Local
+            // ReSharper restore MemberCanBePrivate.Local
         }
 
         #endregion ***** Estructures per DataGrids *****
@@ -160,13 +164,13 @@ namespace Inversions.GUI
             for (int any = Program.PrimerAny; any <= ultimAny; any++)
             {
                 // *** PiG Tributa ***
-                var pigTributa = Producte.PigTributa4(tipusProducte, null, any, true);
+                var pigTributa = Producte.PigTributa4(tipusProducte, any, true);
                 pigTotalTributa += pigTributa;
-                if (!Utilitats.EsZero(pigTributa) || any == ultimAny)
+                if (pigTributa != 0 || any == ultimAny)
                 {
                     // Hi ha vendes reals en l'any.
-                    var fila = dgvPiGAnualsTributen.Rows.Add(any, 0, 0, pigTributa);
-                    dgvPiGAnualsTributen.Rows[fila].Cells[3].Style.ForeColor = pigTributa < 0 ? Color.Red : Color.Black;
+                    var fila = dgvPiGAnualsTributen.Rows.Add(any, pigTributa);
+                    dgvPiGAnualsTributen.Rows[fila].Cells["colPigTributa"].Style.ForeColor = pigTributa < 0 ? Color.Red : Color.Black;
                 }
             }
 
@@ -176,7 +180,7 @@ namespace Inversions.GUI
             dgvPiGAnualsTributen.ClearSelection();
 
             lbTotalPigTributen.ForeColor = pigTotalTributa < 0 ? Color.Red : Color.Black;
-            lbTotalPigTributen.Text = pigTotalTributa.ToString("###,##0.00 €");
+            lbTotalPigTributen.Text = pigTotalTributa.ToString("#,##0.00 €");
 
             ntbPigActualPartsEnCartera.Valor = Producte.PigEnCartera4(tipusProducte, null, ultimAny, true, true);
             ntbPigRealMesCartera.Valor = ntbPigActualPartsEnCartera.Valor + pigTotalTributa;
@@ -342,7 +346,7 @@ namespace Inversions.GUI
             dgvPiGEnCartera.ClearSelection();
 
             lbTotalPigEnCartera.ForeColor = pigTotalEncartera < 0 ? Color.Red : Color.Black;
-            lbTotalPigEnCartera.Text = pigTotalEncartera.ToString("###,##0.00 €");
+            lbTotalPigEnCartera.Text = pigTotalEncartera.ToString("#,##0.00 €");
         }
 
 
@@ -450,10 +454,10 @@ namespace Inversions.GUI
             }
 
             //var pigCompra = Math.Round(pig, 2);
-            lbPigCompra.Text = pig.ToString("###,##0.00 €");
+            lbPigCompra.Text = pig.ToString("#,##0.00 €");
 
             //pigCompra = Math.Round(pigOrig, 2);
-            lbPigCompraOrig.Text = pigOrig.ToString("###,##0.00 €");
+            lbPigCompraOrig.Text = pigOrig.ToString("#,##0.00 €");
 
             lbPigCompra.ForeColor = pig < 0 ? Color.Red : Color.Black;
             lbPigCompraOrig.ForeColor = pigOrig < 0 ? Color.Red : Color.Black;

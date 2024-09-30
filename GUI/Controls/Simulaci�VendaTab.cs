@@ -28,49 +28,43 @@ namespace Inversions.GUI
 
         #region *** Propietats per mostrar en dataGridView ***
 
-        [Description("S'utilitza en un DataGrid")]
+// ReSharper disable UnusedMember.Global
+// ReSharper disable MemberCanBePrivate.Global
         public int _Id
         {
             get { return vDesglosCompra._Compra.Id; }
         }
 
-        [Description("S'utilitza en un DataGrid")]
         public int _IdOrig
         {
             get { return vDesglosCompra._CompraOrig.Id; }
         }
 
-        [Description("S'utilitza en un DataGrid")]
         public string _FonsOrig
         {
             get { return vDesglosCompra._CompraOrig.Prod._NomProducte; }
         }
 
-        [Description("S'utilitza en un DataGrid")]
         public DateTime _DataOrig
         {
             get { return vDesglosCompra._CompraOrig.Data; }
         }
 
-        [Description("S'utilitza en un DataGrid")]
         public DateTime _DataCompra
         {
             get { return vDesglosCompra._Compra.Data; }
         }
 
-        [Description("S'utilitza en un DataGrid")]
         public decimal _Participacions
         {
             get { return vDesglosCompra._Participacions; }
         }
 
-        [Description("S'utilitza en un DataGrid")]
         public decimal _ParticipacionsUtilitzades
         {
             get { return vDesglosCompra._PartsUtilitzades; }
         }
 
-        [Description("S'utilitza en un DataGrid")]
         public decimal _PigDeLaCompraOrigen
         {
             get
@@ -82,7 +76,6 @@ namespace Inversions.GUI
             }
         }
 
-        [Description("S'utilitza en un DataGrid")]
         public decimal _PigDeLaCompra
         {
             get
@@ -94,12 +87,13 @@ namespace Inversions.GUI
             }
         }
 
-        [Description("S'utilitza en un DataGrid")]
         public decimal _ValorActual
         {
             get { return PreuParticipacioSimulacio * vDesglosCompra._PartsUtilitzades; }
         }
-
+// ReSharper restore MemberCanBePrivate.Global
+// ReSharper restore UnusedMember.Global
+        
         #endregion *** Propietats per mostrar en dataGridView ***
 
 
