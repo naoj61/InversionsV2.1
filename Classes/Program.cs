@@ -25,7 +25,6 @@ namespace Inversions
     {
         internal static InversionsBDContext Sessio;
         internal static readonly bool RuntimeMode = LicenseManager.UsageMode == LicenseUsageMode.Runtime;
-        //internal static Usuari UsuariSeleccionat;
         internal static FileInfo FitxerLog = null;
         internal static readonly Version Versio = Assembly.GetExecutingAssembly().GetName().Version;
         public static int PrimerAny = 2000;
@@ -47,7 +46,6 @@ namespace Inversions
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool SetForegroundWindow(IntPtr hWnd);
 
-        public static Usuari UsuariSeleccionat;
         internal static string Claureg;
         internal const string NomVarReg = "UsuariId";
         private const string ArgUsuari = "IdUsuari:";

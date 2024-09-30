@@ -103,7 +103,7 @@ namespace Inversions
                 if (compraDiv != null)
                 {
                     // Si aquesta compra està afectada, acumulo el dividend.
-                    div += dividend._PreuParticipacio / partsEnCarteraDiv * compraDiv._PartsUtilitzades;
+                    div += dividend.PreuParticipacio / partsEnCarteraDiv * compraDiv._PartsUtilitzades;
                 }
             }
 

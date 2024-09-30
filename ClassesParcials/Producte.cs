@@ -94,12 +94,7 @@ namespace Inversions
         {
             return dividends(DateTime.MinValue, DateTime.Today);
         }
-
-        internal decimal dividends(DateTime dataFi)
-        {
-            return dividends(DateTime.MinValue, dataFi);
-        }
-
+        
         internal decimal dividends(int any)
         {
             var dataInici = new DateTime(any, 1, 1);
@@ -110,8 +105,10 @@ namespace Inversions
 
         private decimal dividends(DateTime dataInici, DateTime dataFi)
         {
+            dataFi = Utilitats.DataHoraFinalDia(dataFi);
+            
             return MovimentsProducteUsuari
-                .Where(w => w._EsDividents && w.Data >= dataInici && w.Data <= dataFi)
+                .Where(w => w._EsDividents && w.Data >= dataInici.Date && w.Data <= dataFi)
                 .Sum(s => s.PreuParticipacio);
         }
 
@@ -234,14 +231,20 @@ namespace Inversions
             var any = anyRenda.Value - 4;
             decimal pigT = 0;
 
+
             for (int i = 0; i < 4; i++)
             {
-                var pigAny = Pig4(any++, false, true, false);
-                
+                var dataInici = new DateTime(any, 1, 1);
+                var dataFi = Utilitats.DataHoraFinalAny(any);
+
+                var pigAny = Pig4(dataInici, dataFi, true, false, true, false);
+               
                 if (pigAny + pigT >= 0)
                     pigT = 0;
                 else
                     pigT += pigAny;
+
+                any++;
             }
 
             return pigT;

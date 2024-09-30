@@ -381,7 +381,7 @@ namespace Inversions.GUI
             0,
             0,
             0});
-            this.ntbOrdreGridProducte.Valor = 999m;
+            this.ntbOrdreGridProducte.Valor = 999;
             this.ntbOrdreGridProducte.TextChanged += new System.EventHandler(this.ntbOrdreGridProducte_TextChanged);
             // 
             // grNomProducte

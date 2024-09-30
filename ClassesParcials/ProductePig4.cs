@@ -126,17 +126,9 @@ namespace Inversions
 
     public class CompraExt
     {
-        public CompraExt(Moviment compra)
-        {
-            if (!compra._EsCompra)
-                throw new Exception("El paràmetre 'compra' no és una compra");
-
-            vCompra = compra;
-        }
-
         public CompraExt(DesglosCompraExt desglosCompraExt)
-            : this(desglosCompraExt._Compra)
         {
+            vCompra = desglosCompraExt._Compra;
             vDesglosCompra.Add(desglosCompraExt);
         }
 
@@ -477,36 +469,16 @@ namespace Inversions
         /// <param name="any"></param>
         /// <param name="inclouDividends"></param>
         /// <returns></returns>
-        internal static decimal PigTributa4(TipusProducte tipusProducte, TipusFons? tipusFons, int any, bool inclouDividends)
+        internal static decimal PigTributa4(TipusProducte tipusProducte, int any, bool inclouDividends)
         {
-            var prods = SeleccionaProds(tipusProducte, tipusFons);
-
-            var movsAnyProd = Moviment.MovimentsUsuari.Where(mov => mov.Data.Year == any && prods.Contains(mov.Prod)).ToList();
-
-            var pig = movsAnyProd.Where(mov => mov._EsVendaReal).Sum(venda => venda.pigVenda4(true, true, true));
-            decimal div = inclouDividends ? prods.Sum(s => s.dividends(any)) : 0;
+            var prods = SeleccionaProds(tipusProducte, null).ToList();
+            
+            var div = inclouDividends ? prods.Sum(s => s.dividends(any)) : 0;
+            var pig = prods.Sum(s => s.pigEnAny4(any, true, true, false, true));
 
             return pig + div;
         }
-
-        /// <summary>
-        /// PiG de tots els productes en un any. Vendes reals dins el periode.
-        /// Preu compra --> Preu origen.
-        /// Preu venda  --> Preu venda.
-        /// </summary>
-        /// <param name="any"></param>
-        /// <param name="inclouCartera"></param>
-        /// <param name="inclouDespeses"></param>
-        /// <param name="inclouDividends">En la tributació a la renda els dividends tributen a part de les PiG de les accions. </param>
-        /// <returns></returns>
-        internal static decimal Pig4(int any, bool inclouCartera, bool inclouDespeses, bool inclouDividends)
-        {
-            var dataInici = new DateTime(any, 1, 1);
-            var dataFi = Utilitats.DataHoraFinalAny(any);
-
-            return Pig4(dataInici, dataFi, true, inclouCartera, inclouDespeses, inclouDividends);
-        }
-
+        
 
         /// <summary>
         /// Torna la suma del PiG de tots els productes entre les dates.
@@ -597,7 +569,7 @@ namespace Inversions
             var dataF = dataHoraFinal.GetValueOrDefault(DateTime.MaxValue);
 
             var pig = pigEnData4(dataF, false, true, true, true);
-            var div = inclouDividends ? dividends(dataF) : 0;
+            var div = inclouDividends ? dividends(DateTime.MinValue, dataF) : 0;
 
             return pig + div;
         }

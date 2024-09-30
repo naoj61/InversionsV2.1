@@ -10,7 +10,6 @@ namespace Inversions
 {
     public partial class DesglosCompra
     {
-
         public static DbSet<DesglosCompra> Tuples
         {
             get { return Program.Sessio.DesglosCompres; }

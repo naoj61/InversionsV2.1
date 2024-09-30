@@ -97,10 +97,6 @@ namespace Inversions
             get { return TipusMoviment == TipusMoviment.Dividends; }
         }
 
-        public decimal _PreuParticipacio
-        {
-            get { return PreuParticipacio; }
-        }
 
 
         /// <summary>
