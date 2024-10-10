@@ -35,23 +35,33 @@ namespace Inversions.GUI
         private string vDescripcioFons;
 
 
+        [Browsable(false)]
         public Producte _ProducteSeleccionat
         {
             get { return (Producte) vLbProductes.SelectedItem; }
         }
 
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool _FiltreAnyVisible
         {
+            get { return pnFiltreAny.Visible; }
             set { pnFiltreAny.Visible = value; }
         }
 
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool _NomesAmbParticipacions
         {
+            get { return ckAmbMoviments.Checked; }
             set { ckNomesAmbParticipacions.Checked = value; }
         }
 
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool _AmbMoviments
         {
+            get { return ckAmbMoviments.Checked; }
             set { ckAmbMoviments.Checked = value; }
         }
 
