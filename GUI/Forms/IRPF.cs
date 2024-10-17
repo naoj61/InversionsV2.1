@@ -404,7 +404,8 @@ namespace Inversions.GUI.Forms
             using (SqlConnection connection = new SqlConnection(StringConexxio))
             {
                 // Consulta SQL para seleccionar todos los registros de la tabla
-                string query = String.Format("SELECT * FROM IngressosExterns Where [UsuariId] = {0} AND [Any] = {1}", Usuari.Seleccionat.Id, any);
+                string query = String.Format("SELECT * FROM IngressosExterns Where [UsuariId] = {0} AND [Any] = {1} Order By Rao"
+                    , Usuari.Seleccionat.Id, any);
 
                 SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
                 DataTable table = new DataTable();
@@ -413,7 +414,6 @@ namespace Inversions.GUI.Forms
 
                 // Asignar la tabla como origen de datos del DataGridView
                 dgvIngressosForaAplicacio.DataSource = table;
-                //dataGridView31.DataSource = table;
             }
         }
 
