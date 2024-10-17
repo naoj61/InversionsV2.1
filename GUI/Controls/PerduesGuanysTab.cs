@@ -201,12 +201,10 @@ namespace Inversions.GUI
             SuspendLayout();
             dgvCompresProducte.SuspendLayout();
             dgvCompresProducte.SelectionChanged -= dgvCompresProducte_SelectionChanged;
-            dgvCompresProducte.CellFormatting += NumericCell.CellFormatting;
             dgvCompresProducte.ClearSelection();
             dgvCompresProducte.DataSource = compres;
             dgvCompresProducte.ClearSelection();
             dgvCompresProducte.SelectionChanged += dgvCompresProducte_SelectionChanged;
-            dgvCompresProducte.CellFormatting -= NumericCell.CellFormatting;
 
             dgvCompresProducte.ResumeLayout();
 

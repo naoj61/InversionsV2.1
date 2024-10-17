@@ -1,4 +1,5 @@
 ﻿using System;
+using Controls;
 
 namespace Inversions.GUI
 {
@@ -54,18 +55,18 @@ namespace Inversions.GUI
             this.btCancela = new System.Windows.Forms.Button();
             this.btNouValor = new System.Windows.Forms.Button();
             this.btDesa = new System.Windows.Forms.Button();
-            this.dgvValoracions = new System.Windows.Forms.DataGridView();
+            this.dgvValoracions = new DataGridView3();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colProducte = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colData = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NumPart = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colImport = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colValor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colVariacioPercent = new Controls.NumericTextBoxColumn();
-            this.colVariacioEuros = new Controls.NumericTextBoxColumn();
+            this.colVariacioPercent = new Controls.NumericTextBoxColumn2();
+            this.colVariacioEuros = new Controls.NumericTextBoxColumn2();
             this.pnEdicio = new System.Windows.Forms.Panel();
             this.btModifica = new System.Windows.Forms.Button();
-            this.dgvValoracionsPerData = new System.Windows.Forms.DataGridView();
+            this.dgvValoracionsPerData = new DataGridView3();
             this.btActualitzaLlista = new System.Windows.Forms.Button();
             this.gbFiltreTipusProducte = new System.Windows.Forms.GroupBox();
             this.checkedComboBoxEdit1 = new DevExpress.XtraEditors.CheckedComboBoxEdit();
@@ -84,10 +85,10 @@ namespace Inversions.GUI
             this.panel3 = new System.Windows.Forms.Panel();
             this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new Controls.NumericTextBoxColumn();
-            this.colVariacioPercentatge = new Controls.NumericTextBoxColumn();
-            this.colVariacioEuros2 = new Controls.NumericTextBoxColumn();
-            this.Column1 = new Controls.NumericTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new Controls.NumericTextBoxColumn2();
+            this.colVariacioPercentatge = new Controls.NumericTextBoxColumn2();
+            this.colVariacioEuros2 = new Controls.NumericTextBoxColumn2();
+            this.Column1 = new Controls.NumericTextBoxColumn2();
             this.gbData.SuspendLayout();
             this.groupBox10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvValoracions)).BeginInit();
@@ -760,10 +761,10 @@ namespace Inversions.GUI
         private System.Windows.Forms.Button btCancela;
         private System.Windows.Forms.Button btNouValor;
         private System.Windows.Forms.Button btDesa;
-        private System.Windows.Forms.DataGridView dgvValoracions;
+        private Controls.DataGridView3 dgvValoracions;
         private System.Windows.Forms.Panel pnEdicio;
         private System.Windows.Forms.Button btModifica;
-        private System.Windows.Forms.DataGridView dgvValoracionsPerData;
+        private Controls.DataGridView3 dgvValoracionsPerData;
         private System.Windows.Forms.Button btActualitzaLlista;
         private System.Windows.Forms.GroupBox gbFiltreTipusProducte;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
@@ -787,12 +788,12 @@ namespace Inversions.GUI
         private System.Windows.Forms.DataGridViewTextBoxColumn NumPart;
         private System.Windows.Forms.DataGridViewTextBoxColumn colImport;
         private System.Windows.Forms.DataGridViewTextBoxColumn colValor;
-        private Controls.NumericTextBoxColumn colVariacioPercent;
-        private Controls.NumericTextBoxColumn colVariacioEuros;
+        private Controls.NumericTextBoxColumn2 colVariacioPercent;
+        private Controls.NumericTextBoxColumn2 colVariacioEuros;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private Controls.NumericTextBoxColumn dataGridViewTextBoxColumn4;
-        private Controls.NumericTextBoxColumn colVariacioPercentatge;
-        private Controls.NumericTextBoxColumn colVariacioEuros2;
-        private Controls.NumericTextBoxColumn Column1;
+        private Controls.NumericTextBoxColumn2 dataGridViewTextBoxColumn4;
+        private Controls.NumericTextBoxColumn2 colVariacioPercentatge;
+        private Controls.NumericTextBoxColumn2 colVariacioEuros2;
+        private Controls.NumericTextBoxColumn2 Column1;
     }
 }

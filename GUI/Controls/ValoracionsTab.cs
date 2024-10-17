@@ -15,6 +15,7 @@ namespace Inversions.GUI
 {
     public partial class ValoracionsTab : TabX
     {
+        #region *** Structs per DataGridViews ***
 
         /// <summary>
         /// Estructura per omplir DgvCompresProducte
@@ -64,7 +65,7 @@ namespace Inversions.GUI
                 dates = dates.Distinct().OrderBy(o => o).ToList();
 
                 decimal valorTotalAnt = prods.Sum(s => s.valorEnCartera(dataAnt));
-                
+
                 foreach (var data in dates)
                 {
                     var dataFinalDia = data.Date.AddDays(1).AddTicks(-1);
@@ -99,8 +100,8 @@ namespace Inversions.GUI
 
             public DateTime _Data { get; private set; }
 
-// ReSharper disable UnusedAutoPropertyAccessor.Local
-// ReSharper disable MemberCanBePrivate.Local
+            // ReSharper disable UnusedAutoPropertyAccessor.Local
+            // ReSharper disable MemberCanBePrivate.Local
             public decimal _Pig { get; private set; }
 
             public decimal _VariacioPercentatge { get; set; }
@@ -108,11 +109,9 @@ namespace Inversions.GUI
             public decimal _VariacioImport { get; private set; }
 
             public decimal _ValorTotal { get; private set; }
-// ReSharper restore MemberCanBePrivate.Local
-// ReSharper restore UnusedAutoPropertyAccessor.Local
+            // ReSharper restore MemberCanBePrivate.Local
+            // ReSharper restore UnusedAutoPropertyAccessor.Local
         }
-
-
 
         /// <summary>
         /// Estructura per omplir DgvCompresProducte
@@ -197,7 +196,8 @@ namespace Inversions.GUI
             // ReSharper restore MemberCanBePrivate.Local
             // ReSharper restore UnusedAutoPropertyAccessor.Local
         }
-
+        
+        #endregion
         private enum TipusProd
         {
             Accions,
@@ -349,11 +349,11 @@ namespace Inversions.GUI
 
                     dgvValoracions.SuspendLayout();
 
-                    dgvValoracions.CellFormatting += NumericCell.CellFormatting;
+                    //dgvValoracions.CellFormatting += NumericCell.CellFormatting;
 
                     dgvValoracions.DataSource = valoracionsProducteSelec2;
 
-                    dgvValoracions.CellFormatting -= NumericCell.CellFormatting; 
+                    //dgvValoracions.CellFormatting -= NumericCell.CellFormatting; 
 
                     // Ajusta l'amplada de la taula.
                     Utilitats.AjustaAmpladaDataGridView(dgvValoracions);
@@ -403,11 +403,11 @@ namespace Inversions.GUI
 
             dgvValoracionsPerData.SuspendLayout();
 
-            dgvValoracionsPerData.CellFormatting += NumericCell.CellFormatting;
+            //dgvValoracionsPerData.CellFormatting += NumericCell.CellFormatting;
 
             dgvValoracionsPerData.DataSource = StrDgvValoracionsPerData.CarregaStruct(dtpDataIniciLlista.Value, resultat).OrderBy(o => o._Data).ToList();
 
-            dgvValoracionsPerData.CellFormatting -= NumericCell.CellFormatting;
+            //dgvValoracionsPerData.CellFormatting -= NumericCell.CellFormatting;
 
             var ultimaFilaX = dgvValoracionsPerData.Rows.GetLastRow(DataGridViewElementStates.Visible);
             if (ultimaFilaX >= 0)

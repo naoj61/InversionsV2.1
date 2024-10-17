@@ -1,4 +1,5 @@
 ﻿using System;
+using Controls;
 
 namespace Inversions.GUI
 {
@@ -43,7 +44,7 @@ namespace Inversions.GUI
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.dgvCompresOriginals = new System.Windows.Forms.DataGridView();
+            this.dgvCompresOriginals = new DataGridView3();
             this.IdOrig = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fonsOrig = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,8 +52,8 @@ namespace Inversions.GUI
             this.DataCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Parts = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PartsUtil = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PigOrigen = new Controls.NumericTextBoxColumn();
-            this.PigDeLaCompra = new Controls.NumericTextBoxColumn();
+            this.PigOrigen = new Controls.NumericTextBoxColumn2();
+            this.PigDeLaCompra = new Controls.NumericTextBoxColumn2();
             this.ValorAct = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
@@ -921,7 +922,7 @@ namespace Inversions.GUI
         private System.Windows.Forms.Button btRecalcula;
         private System.Windows.Forms.GroupBox groupBox7;
         private Controls.NumericTextBox2 ntbImportBrut;
-        private System.Windows.Forms.DataGridView dgvCompresOriginals;
+        private Controls.DataGridView3 dgvCompresOriginals;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.GroupBox groupBox8;
         private Controls.NumericTextBox2 ntbRestaTramNoTributa;
@@ -948,8 +949,8 @@ namespace Inversions.GUI
         private System.Windows.Forms.DataGridViewTextBoxColumn DataCompra;
         private System.Windows.Forms.DataGridViewTextBoxColumn Parts;
         private System.Windows.Forms.DataGridViewTextBoxColumn PartsUtil;
-        private Controls.NumericTextBoxColumn PigOrigen;
-        private Controls.NumericTextBoxColumn PigDeLaCompra;
+        private Controls.NumericTextBoxColumn2 PigOrigen;
+        private Controls.NumericTextBoxColumn2 PigDeLaCompra;
         private System.Windows.Forms.DataGridViewTextBoxColumn ValorAct;
         private System.Windows.Forms.GroupBox groupBox14;
         private Controls.NumericTextBox2 ntbPartsSaltades;

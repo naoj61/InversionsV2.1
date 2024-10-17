@@ -19,6 +19,8 @@ namespace Inversions.GUI.Forms
 {
     public sealed partial class IRPF : Form
     {
+        #region *** Structs per DataGridView ***
+        
         private struct StrDgvProductes
         {
             public StrDgvProductes(int any, Producte prod)
@@ -102,7 +104,7 @@ namespace Inversions.GUI.Forms
             {
                 get { return _Venda.pigVenda4(true, true, true); }
             }
-            
+
             // ReSharper restore UnusedMember.Local
             // ReSharper restore MemberCanBePrivate.Local
             // ReSharper restore UnusedAutoPropertyAccessor.Local
@@ -260,6 +262,8 @@ namespace Inversions.GUI.Forms
             #endregion
         }
 
+        #endregion
+        
         private List<StrDgvProductes> vProdsAmbVendesAny;
         private List<Moviment> vVendesAny;
         private Dictionary<Inversions.Moviment, List<CompraExt>> vCompresVendesAny;
@@ -321,7 +325,7 @@ namespace Inversions.GUI.Forms
                 compresVenda.AddRange(venda.compresDeLaVenda().Select(compraExt => new StrDgvCompresVenda(venda, compraExt)));
             }
 
-            dgvCompresVenda.CellFormatting += NumericCell.CellFormatting;
+            //dgvCompresVenda.CellFormatting += NumericCell.CellFormatting;
 
             if (ckAgrupaCompres.Checked)
             {
@@ -351,7 +355,7 @@ namespace Inversions.GUI.Forms
                 dgvCompresVenda.DataSource = compresVenda.OrderBy(o => o._Venda.Data).ThenBy(o => o._CompraExt._Data).ToList();
             }
 
-            dgvCompresVenda.CellFormatting -= NumericCell.CellFormatting;
+            //dgvCompresVenda.CellFormatting -= NumericCell.CellFormatting;
         }
 
 
@@ -409,6 +413,7 @@ namespace Inversions.GUI.Forms
 
                 // Asignar la tabla como origen de datos del DataGridView
                 dgvIngressosForaAplicacio.DataSource = table;
+                //dataGridView31.DataSource = table;
             }
         }
 
@@ -492,11 +497,11 @@ namespace Inversions.GUI.Forms
                         vendesAny.Add(new StrDgvVendes(venda));
                 }
 
-                dgvVendes.CellFormatting += NumericCell.CellFormatting; 
+                //dgvVendes.CellFormatting += NumericCell.CellFormatting; 
 
                 dgvVendes.DataSource = vendesAny;
 
-                dgvVendes.CellFormatting -= NumericCell.CellFormatting; 
+                //dgvVendes.CellFormatting -= NumericCell.CellFormatting; 
 
                 ntbDividents.Valor = dgvProductes.SelectedRows.Cast<DataGridViewRow>().Sum(row => ((StrDgvProductes) row.DataBoundItem)._Divident);
             }
