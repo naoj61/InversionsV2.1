@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -196,8 +197,9 @@ namespace Inversions.GUI
             // ReSharper restore MemberCanBePrivate.Local
             // ReSharper restore UnusedAutoPropertyAccessor.Local
         }
-        
+
         #endregion
+
         private enum TipusProd
         {
             Accions,
@@ -267,7 +269,7 @@ namespace Inversions.GUI
 
             base.canviUsuari();
         }
-        
+
         protected override void modeEdicio()
         {
             base.modeEdicio();
@@ -340,7 +342,7 @@ namespace Inversions.GUI
                     }
 
                     if (ckValsAmbParticipacions.Checked)
-                        // Elimina valoracions sense participacions o amb preu participacio = 0.
+                        // * Elimina valoracions sense participacions o amb preu participacio = 0.
                         valoracionsProducteSelec = valoracionsProducteSelec.Where(val => val._NumParticipacions > 0 && val.PreuParticipacio > 0).ToList();
 
                     valoracionsProducteSelec = valoracionsProducteSelec.OrderBy(val => val.Data).ToList();
@@ -349,13 +351,9 @@ namespace Inversions.GUI
 
                     dgvValoracions.SuspendLayout();
 
-                    //dgvValoracions.CellFormatting += NumericCell.CellFormatting;
-
                     dgvValoracions.DataSource = valoracionsProducteSelec2;
 
-                    //dgvValoracions.CellFormatting -= NumericCell.CellFormatting; 
-
-                    // Ajusta l'amplada de la taula.
+                    // * Ajusta l'amplada de la taula.
                     Utilitats.AjustaAmpladaDataGridView(dgvValoracions);
 
                     var ultimaFila = dgvValoracions.Rows.GetLastRow(DataGridViewElementStates.Visible);
@@ -363,6 +361,8 @@ namespace Inversions.GUI
                     {
                         dgvValoracions.FirstDisplayedScrollingRowIndex = ultimaFila;
                     }
+
+                    actualitzaPercentatges();
 
                     ompleGrafica1(valoracionsProducteSelec);
                 }
@@ -374,6 +374,81 @@ namespace Inversions.GUI
                 Cursor = cursor;
             }
         }
+
+        private void actualitzaPercentatges()
+        {
+            if (gestioProductesTabValoracions._ProducteSeleccionat == null)
+            {
+                gbPercent1M.Visible = false;
+                gbPercent3M.Visible = false;
+                gbPercent6M.Visible = false;
+                gbPercent1A.Visible = false;
+                return;
+            }
+
+            var valoracionsProdSel = Valoracio.Tuples.Where(w => w.ProdId == gestioProductesTabValoracions._ProducteSeleccionat.Id)
+                .OrderBy(o => o.Data).ToList();
+
+            var valActual = valoracionsProdSel.Last();
+            var val1M = valoracionsProdSel.FirstOrDefault(w => w.Data >= DateTime.Today.AddMonths(-1).AddDays(-1));
+            var val3M = valoracionsProdSel.FirstOrDefault(w => w.Data >= DateTime.Today.AddMonths(-3).AddDays(-1));
+            var val6M = valoracionsProdSel.FirstOrDefault(w => w.Data >= DateTime.Today.AddMonths(-6).AddDays(-1));
+            var val1A = valoracionsProdSel.FirstOrDefault(w => w.Data >= DateTime.Today.AddMonths(-12).AddDays(-1));
+
+            decimal percent;
+
+            if (val1M == null || (valActual.Data - val1M.Data).Days < 25)
+            {
+                gbPercent1M.Visible = false;
+            }
+            else
+            {
+                gbPercent1M.Visible = true;
+
+                percent = valActual.PreuParticipacio / val1M.PreuParticipacio - 1;
+                ntbPercent1M.Valor = percent;
+                ntbPercent1M12.Valor = percent * 12;
+            }
+
+            if (val3M == null || (valActual.Data - val3M.Data).Days < 85)
+            {
+                gbPercent3M.Visible = false;
+            }
+            else
+            {
+                gbPercent3M.Visible = true;
+
+                percent = valActual.PreuParticipacio / val3M.PreuParticipacio - 1;
+                ntbPercent3M.Valor = percent;
+                ntbPercent3M12.Valor = percent * 4;
+            }
+
+            if (val6M == null || (valActual.Data - val6M.Data).Days < 175)
+            {
+                gbPercent6M.Visible = false;
+            }
+            else
+            {
+                gbPercent6M.Visible = true;
+
+                percent = valActual.PreuParticipacio / val6M.PreuParticipacio - 1;
+                ntbPercent6M.Valor = percent;
+                ntbPercent6M12.Valor = percent * 2;
+            }
+
+            if (val1A == null || (valActual.Data - val1A.Data).Days < 350)
+            {
+                gbPercent1A.Visible = false;
+            }
+            else
+            {
+                gbPercent1A.Visible = true;
+
+                percent = valActual.PreuParticipacio / val1A.PreuParticipacio - 1;
+                ntbPercent1A.Valor = percent;
+            }
+        }
+
 
         private void ompleGrafica1(List<Valoracio> valoracionsProducte)
         {
@@ -554,18 +629,14 @@ namespace Inversions.GUI
             tbImport.Valor = 0;
             pnEdicio.Visible = hiHaUnProducteSeleccionat;
 
-            //if (hiHaUnProducteSeleccionat)
-            {
-                var prodSelect = (Producte) sender;
+            var prodSelect = (Producte) sender;
 
-                if (vProdAnt != prodSelect)
-                {
-                    actualitzaLlistaValoracionsPerProducte();
-                    vProdAnt = prodSelect;
-                }
+            if (vProdAnt != prodSelect)
+            {
+                actualitzaLlistaValoracionsPerProducte();
+
+                vProdAnt = prodSelect;
             }
-            //else
-            //    dgvValoracions.DataSource = null;
         }
 
         private void cDataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
