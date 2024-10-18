@@ -568,7 +568,7 @@ namespace Inversions.GUI
             chartArea1.Name = "ChartArea1";
             this.chart1.ChartAreas.Add(chartArea1);
             this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chart1.Location = new System.Drawing.Point(454, 591);
+            this.chart1.Location = new System.Drawing.Point(454, 597);
             this.chart1.Margin = new System.Windows.Forms.Padding(0);
             this.chart1.Name = "chart1";
             series1.BorderWidth = 2;
@@ -581,7 +581,7 @@ namespace Inversions.GUI
             series1.YValueMembers = "PreuParticipacio";
             series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(552, 228);
+            this.chart1.Size = new System.Drawing.Size(552, 222);
             this.chart1.TabIndex = 3;
             this.chart1.Text = "chart1";
             // 
@@ -621,7 +621,7 @@ namespace Inversions.GUI
             this.panel4.Location = new System.Drawing.Point(454, 535);
             this.panel4.Name = "panel4";
             this.panel4.Padding = new System.Windows.Forms.Padding(3);
-            this.panel4.Size = new System.Drawing.Size(552, 56);
+            this.panel4.Size = new System.Drawing.Size(552, 62);
             this.panel4.TabIndex = 4;
             // 
             // gbPercent1A
@@ -631,7 +631,8 @@ namespace Inversions.GUI
             this.gbPercent1A.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbPercent1A.Location = new System.Drawing.Point(462, 3);
             this.gbPercent1A.Name = "gbPercent1A";
-            this.gbPercent1A.Size = new System.Drawing.Size(81, 50);
+            this.gbPercent1A.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            this.gbPercent1A.Size = new System.Drawing.Size(81, 56);
             this.gbPercent1A.TabIndex = 2;
             this.gbPercent1A.TabStop = false;
             this.gbPercent1A.Text = "% 1A";
@@ -648,18 +649,18 @@ namespace Inversions.GUI
             this.ntbPercent1A.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPercent1A.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ntbPercent1A.ForeColor = System.Drawing.Color.Black;
-            this.ntbPercent1A.Location = new System.Drawing.Point(3, 22);
+            this.ntbPercent1A.Location = new System.Drawing.Point(5, 22);
             this.ntbPercent1A.Name = "ntbPercent1A";
             this.ntbPercent1A.ReadOnly = true;
-            this.ntbPercent1A.Size = new System.Drawing.Size(75, 26);
+            this.ntbPercent1A.Size = new System.Drawing.Size(71, 26);
             this.ntbPercent1A.TabIndex = 0;
-            this.ntbPercent1A.Text = "0,000";
+            this.ntbPercent1A.Text = "0,00%";
             this.ntbPercent1A.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbPercent1A.Valor = new decimal(new int[] {
             0,
             0,
             0,
-            196608});
+            131072});
             // 
             // gbPercent6M
             // 
@@ -669,7 +670,8 @@ namespace Inversions.GUI
             this.gbPercent6M.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbPercent6M.Location = new System.Drawing.Point(309, 3);
             this.gbPercent6M.Name = "gbPercent6M";
-            this.gbPercent6M.Size = new System.Drawing.Size(153, 50);
+            this.gbPercent6M.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            this.gbPercent6M.Size = new System.Drawing.Size(153, 56);
             this.gbPercent6M.TabIndex = 1;
             this.gbPercent6M.TabStop = false;
             this.gbPercent6M.Text = "% 6M";
@@ -683,21 +685,21 @@ namespace Inversions.GUI
             this.ntbPercent6M12._PermetNegatius = true;
             this.ntbPercent6M12._PermetTextNull = false;
             this.ntbPercent6M12.BackColor = System.Drawing.SystemColors.Window;
-            this.ntbPercent6M12.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ntbPercent6M12.Dock = System.Windows.Forms.DockStyle.Right;
             this.ntbPercent6M12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ntbPercent6M12.ForeColor = System.Drawing.Color.Black;
-            this.ntbPercent6M12.Location = new System.Drawing.Point(78, 22);
+            this.ntbPercent6M12.Location = new System.Drawing.Point(80, 22);
             this.ntbPercent6M12.Name = "ntbPercent6M12";
             this.ntbPercent6M12.ReadOnly = true;
-            this.ntbPercent6M12.Size = new System.Drawing.Size(75, 26);
+            this.ntbPercent6M12.Size = new System.Drawing.Size(68, 26);
             this.ntbPercent6M12.TabIndex = 1;
-            this.ntbPercent6M12.Text = "0,000";
+            this.ntbPercent6M12.Text = "0,00%";
             this.ntbPercent6M12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbPercent6M12.Valor = new decimal(new int[] {
             0,
             0,
             0,
-            196608});
+            131072});
             // 
             // ntbPercent6M
             // 
@@ -711,18 +713,18 @@ namespace Inversions.GUI
             this.ntbPercent6M.Dock = System.Windows.Forms.DockStyle.Left;
             this.ntbPercent6M.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ntbPercent6M.ForeColor = System.Drawing.Color.Black;
-            this.ntbPercent6M.Location = new System.Drawing.Point(3, 22);
+            this.ntbPercent6M.Location = new System.Drawing.Point(5, 22);
             this.ntbPercent6M.Name = "ntbPercent6M";
             this.ntbPercent6M.ReadOnly = true;
-            this.ntbPercent6M.Size = new System.Drawing.Size(75, 26);
+            this.ntbPercent6M.Size = new System.Drawing.Size(68, 26);
             this.ntbPercent6M.TabIndex = 0;
-            this.ntbPercent6M.Text = "0,000";
+            this.ntbPercent6M.Text = "0,00%";
             this.ntbPercent6M.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbPercent6M.Valor = new decimal(new int[] {
             0,
             0,
             0,
-            196608});
+            131072});
             // 
             // gbPercent3M
             // 
@@ -732,7 +734,8 @@ namespace Inversions.GUI
             this.gbPercent3M.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbPercent3M.Location = new System.Drawing.Point(156, 3);
             this.gbPercent3M.Name = "gbPercent3M";
-            this.gbPercent3M.Size = new System.Drawing.Size(153, 50);
+            this.gbPercent3M.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            this.gbPercent3M.Size = new System.Drawing.Size(153, 56);
             this.gbPercent3M.TabIndex = 0;
             this.gbPercent3M.TabStop = false;
             this.gbPercent3M.Text = "% 3M";
@@ -746,22 +749,22 @@ namespace Inversions.GUI
             this.ntbPercent3M12._PermetNegatius = true;
             this.ntbPercent3M12._PermetTextNull = false;
             this.ntbPercent3M12.BackColor = System.Drawing.SystemColors.Window;
-            this.ntbPercent3M12.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ntbPercent3M12.Dock = System.Windows.Forms.DockStyle.Right;
             this.ntbPercent3M12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ntbPercent3M12.ForeColor = System.Drawing.Color.Black;
-            this.ntbPercent3M12.Location = new System.Drawing.Point(78, 22);
+            this.ntbPercent3M12.Location = new System.Drawing.Point(80, 22);
             this.ntbPercent3M12.Margin = new System.Windows.Forms.Padding(11, 3, 3, 3);
             this.ntbPercent3M12.Name = "ntbPercent3M12";
             this.ntbPercent3M12.ReadOnly = true;
-            this.ntbPercent3M12.Size = new System.Drawing.Size(75, 26);
+            this.ntbPercent3M12.Size = new System.Drawing.Size(68, 26);
             this.ntbPercent3M12.TabIndex = 1;
-            this.ntbPercent3M12.Text = "0,000";
+            this.ntbPercent3M12.Text = "0,00%";
             this.ntbPercent3M12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbPercent3M12.Valor = new decimal(new int[] {
             0,
             0,
             0,
-            196608});
+            131072});
             // 
             // ntbPercent3M
             // 
@@ -775,18 +778,18 @@ namespace Inversions.GUI
             this.ntbPercent3M.Dock = System.Windows.Forms.DockStyle.Left;
             this.ntbPercent3M.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ntbPercent3M.ForeColor = System.Drawing.Color.Black;
-            this.ntbPercent3M.Location = new System.Drawing.Point(3, 22);
+            this.ntbPercent3M.Location = new System.Drawing.Point(5, 22);
             this.ntbPercent3M.Name = "ntbPercent3M";
             this.ntbPercent3M.ReadOnly = true;
-            this.ntbPercent3M.Size = new System.Drawing.Size(75, 26);
+            this.ntbPercent3M.Size = new System.Drawing.Size(68, 26);
             this.ntbPercent3M.TabIndex = 0;
-            this.ntbPercent3M.Text = "0,000";
+            this.ntbPercent3M.Text = "0,00%";
             this.ntbPercent3M.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbPercent3M.Valor = new decimal(new int[] {
             0,
             0,
             0,
-            196608});
+            131072});
             // 
             // gbPercent1M
             // 
@@ -796,10 +799,11 @@ namespace Inversions.GUI
             this.gbPercent1M.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbPercent1M.Location = new System.Drawing.Point(3, 3);
             this.gbPercent1M.Name = "gbPercent1M";
-            this.gbPercent1M.Size = new System.Drawing.Size(153, 50);
+            this.gbPercent1M.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            this.gbPercent1M.Size = new System.Drawing.Size(153, 56);
             this.gbPercent1M.TabIndex = 3;
             this.gbPercent1M.TabStop = false;
-            this.gbPercent1M.Text = "% 1M";
+            this.gbPercent1M.Text = "% 1 M";
             // 
             // ntbPercent1M12
             // 
@@ -810,22 +814,22 @@ namespace Inversions.GUI
             this.ntbPercent1M12._PermetNegatius = true;
             this.ntbPercent1M12._PermetTextNull = false;
             this.ntbPercent1M12.BackColor = System.Drawing.SystemColors.Window;
-            this.ntbPercent1M12.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ntbPercent1M12.Dock = System.Windows.Forms.DockStyle.Right;
             this.ntbPercent1M12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ntbPercent1M12.ForeColor = System.Drawing.Color.Black;
-            this.ntbPercent1M12.Location = new System.Drawing.Point(78, 22);
+            this.ntbPercent1M12.Location = new System.Drawing.Point(80, 22);
             this.ntbPercent1M12.Margin = new System.Windows.Forms.Padding(11, 3, 3, 3);
             this.ntbPercent1M12.Name = "ntbPercent1M12";
             this.ntbPercent1M12.ReadOnly = true;
-            this.ntbPercent1M12.Size = new System.Drawing.Size(75, 26);
+            this.ntbPercent1M12.Size = new System.Drawing.Size(68, 26);
             this.ntbPercent1M12.TabIndex = 1;
-            this.ntbPercent1M12.Text = "0,000";
+            this.ntbPercent1M12.Text = "0,00%";
             this.ntbPercent1M12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbPercent1M12.Valor = new decimal(new int[] {
             0,
             0,
             0,
-            196608});
+            131072});
             // 
             // ntbPercent1M
             // 
@@ -839,18 +843,18 @@ namespace Inversions.GUI
             this.ntbPercent1M.Dock = System.Windows.Forms.DockStyle.Left;
             this.ntbPercent1M.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ntbPercent1M.ForeColor = System.Drawing.Color.Black;
-            this.ntbPercent1M.Location = new System.Drawing.Point(3, 22);
+            this.ntbPercent1M.Location = new System.Drawing.Point(5, 22);
             this.ntbPercent1M.Name = "ntbPercent1M";
             this.ntbPercent1M.ReadOnly = true;
-            this.ntbPercent1M.Size = new System.Drawing.Size(75, 26);
+            this.ntbPercent1M.Size = new System.Drawing.Size(68, 26);
             this.ntbPercent1M.TabIndex = 0;
-            this.ntbPercent1M.Text = "0,000";
+            this.ntbPercent1M.Text = "0,00%";
             this.ntbPercent1M.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbPercent1M.Valor = new decimal(new int[] {
             0,
             0,
             0,
-            196608});
+            131072});
             // 
             // pnFiltreValoracions
             // 
@@ -1079,8 +1083,8 @@ namespace Inversions.GUI
         private NumericTextBox2 ntbPercent3M;
         private NumericTextBox2 ntbPercent3M12;
         private NumericTextBox2 ntbPercent6M12;
-        private System.Windows.Forms.GroupBox gbPercent1M;
         private NumericTextBox2 ntbPercent1M12;
         private NumericTextBox2 ntbPercent1M;
+        private System.Windows.Forms.GroupBox gbPercent1M;
     }
 }
