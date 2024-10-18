@@ -44,7 +44,7 @@ namespace Inversions.GUI
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.dgvCompresOriginals = new DataGridView3();
+            this.dgvCompresOriginals = new Controls.DataGridView3();
             this.IdOrig = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fonsOrig = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -264,6 +264,7 @@ namespace Inversions.GUI
             // 
             // PigOrigen
             // 
+            this.PigOrigen._NegatiusEnVermell = true;
             this.PigOrigen.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
             this.PigOrigen.DataPropertyName = "_PigDeLaCompraOrigen";
             dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
@@ -278,6 +279,7 @@ namespace Inversions.GUI
             // 
             // PigDeLaCompra
             // 
+            this.PigDeLaCompra._NegatiusEnVermell = true;
             this.PigDeLaCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
             this.PigDeLaCompra.DataPropertyName = "_PigDeLaCompra";
             dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
@@ -347,8 +349,11 @@ namespace Inversions.GUI
             this.ntbDividents._NegatiusEnVermell = false;
             this.ntbDividents._PermetDecimals = true;
             this.ntbDividents._PermetNegatius = true;
+            this.ntbDividents._PermetTextNull = false;
+            this.ntbDividents.BackColor = System.Drawing.SystemColors.Window;
             this.ntbDividents.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbDividents.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbDividents.ForeColor = System.Drawing.Color.Black;
             this.ntbDividents.Location = new System.Drawing.Point(3, 19);
             this.ntbDividents.Name = "ntbDividents";
             this.ntbDividents.ReadOnly = true;
@@ -380,8 +385,11 @@ namespace Inversions.GUI
             this.ntbIngressosExterns._NegatiusEnVermell = false;
             this.ntbIngressosExterns._PermetDecimals = true;
             this.ntbIngressosExterns._PermetNegatius = true;
+            this.ntbIngressosExterns._PermetTextNull = false;
+            this.ntbIngressosExterns.BackColor = System.Drawing.SystemColors.Window;
             this.ntbIngressosExterns.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbIngressosExterns.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbIngressosExterns.ForeColor = System.Drawing.Color.Black;
             this.ntbIngressosExterns.Location = new System.Drawing.Point(3, 19);
             this.ntbIngressosExterns.Name = "ntbIngressosExterns";
             this.ntbIngressosExterns.ReadOnly = true;
@@ -413,8 +421,11 @@ namespace Inversions.GUI
             this.ntbPerduesAnysAnteriors._NegatiusEnVermell = false;
             this.ntbPerduesAnysAnteriors._PermetDecimals = true;
             this.ntbPerduesAnysAnteriors._PermetNegatius = true;
+            this.ntbPerduesAnysAnteriors._PermetTextNull = false;
+            this.ntbPerduesAnysAnteriors.BackColor = System.Drawing.SystemColors.Window;
             this.ntbPerduesAnysAnteriors.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPerduesAnysAnteriors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPerduesAnysAnteriors.ForeColor = System.Drawing.Color.Black;
             this.ntbPerduesAnysAnteriors.Location = new System.Drawing.Point(3, 19);
             this.ntbPerduesAnysAnteriors.Name = "ntbPerduesAnysAnteriors";
             this.ntbPerduesAnysAnteriors.ReadOnly = true;
@@ -444,11 +455,14 @@ namespace Inversions.GUI
             // 
             this.ntbPiGAltresProductes._CapturaEscape = true;
             this.ntbPiGAltresProductes._Format = "#,##0.00 €";
-            this.ntbPiGAltresProductes._NegatiusEnVermell = false;
+            this.ntbPiGAltresProductes._NegatiusEnVermell = true;
             this.ntbPiGAltresProductes._PermetDecimals = true;
             this.ntbPiGAltresProductes._PermetNegatius = false;
+            this.ntbPiGAltresProductes._PermetTextNull = false;
+            this.ntbPiGAltresProductes.BackColor = System.Drawing.SystemColors.Window;
             this.ntbPiGAltresProductes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPiGAltresProductes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPiGAltresProductes.ForeColor = System.Drawing.Color.Black;
             this.ntbPiGAltresProductes.Location = new System.Drawing.Point(3, 19);
             this.ntbPiGAltresProductes.Name = "ntbPiGAltresProductes";
             this.ntbPiGAltresProductes.Size = new System.Drawing.Size(150, 26);
@@ -482,8 +496,11 @@ namespace Inversions.GUI
             this.ntbTramExentAnual._NegatiusEnVermell = false;
             this.ntbTramExentAnual._PermetDecimals = true;
             this.ntbTramExentAnual._PermetNegatius = false;
+            this.ntbTramExentAnual._PermetTextNull = false;
+            this.ntbTramExentAnual.BackColor = System.Drawing.SystemColors.Window;
             this.ntbTramExentAnual.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbTramExentAnual.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbTramExentAnual.ForeColor = System.Drawing.Color.Black;
             this.ntbTramExentAnual.Location = new System.Drawing.Point(3, 19);
             this.ntbTramExentAnual.Name = "ntbTramExentAnual";
             this.ntbTramExentAnual.Size = new System.Drawing.Size(150, 26);
@@ -514,11 +531,14 @@ namespace Inversions.GUI
             // 
             this.ntbPiGActual._CapturaEscape = true;
             this.ntbPiGActual._Format = "#,##0.00 €";
-            this.ntbPiGActual._NegatiusEnVermell = false;
+            this.ntbPiGActual._NegatiusEnVermell = true;
             this.ntbPiGActual._PermetDecimals = true;
             this.ntbPiGActual._PermetNegatius = true;
+            this.ntbPiGActual._PermetTextNull = false;
+            this.ntbPiGActual.BackColor = System.Drawing.SystemColors.Window;
             this.ntbPiGActual.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPiGActual.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPiGActual.ForeColor = System.Drawing.Color.Black;
             this.ntbPiGActual.Location = new System.Drawing.Point(3, 19);
             this.ntbPiGActual.Name = "ntbPiGActual";
             this.ntbPiGActual.ReadOnly = true;
@@ -551,8 +571,11 @@ namespace Inversions.GUI
             this.ntbRestaTramNoTributa._NegatiusEnVermell = false;
             this.ntbRestaTramNoTributa._PermetDecimals = true;
             this.ntbRestaTramNoTributa._PermetNegatius = true;
+            this.ntbRestaTramNoTributa._PermetTextNull = false;
+            this.ntbRestaTramNoTributa.BackColor = System.Drawing.SystemColors.Window;
             this.ntbRestaTramNoTributa.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbRestaTramNoTributa.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbRestaTramNoTributa.ForeColor = System.Drawing.Color.Black;
             this.ntbRestaTramNoTributa.Location = new System.Drawing.Point(3, 19);
             this.ntbRestaTramNoTributa.Name = "ntbRestaTramNoTributa";
             this.ntbRestaTramNoTributa.ReadOnly = true;
@@ -587,9 +610,12 @@ namespace Inversions.GUI
             this.ntbPartsSaltades._NegatiusEnVermell = false;
             this.ntbPartsSaltades._PermetDecimals = true;
             this.ntbPartsSaltades._PermetNegatius = false;
+            this.ntbPartsSaltades._PermetTextNull = false;
+            this.ntbPartsSaltades.BackColor = System.Drawing.SystemColors.Window;
             this.ntbPartsSaltades.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPartsSaltades.Enabled = false;
             this.ntbPartsSaltades.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPartsSaltades.ForeColor = System.Drawing.Color.Black;
             this.ntbPartsSaltades.Location = new System.Drawing.Point(3, 19);
             this.ntbPartsSaltades.Name = "ntbPartsSaltades";
             this.ntbPartsSaltades.Size = new System.Drawing.Size(129, 26);
@@ -622,9 +648,12 @@ namespace Inversions.GUI
             this.ntbNumParticipacions._NegatiusEnVermell = false;
             this.ntbNumParticipacions._PermetDecimals = true;
             this.ntbNumParticipacions._PermetNegatius = false;
+            this.ntbNumParticipacions._PermetTextNull = false;
+            this.ntbNumParticipacions.BackColor = System.Drawing.SystemColors.Window;
             this.ntbNumParticipacions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbNumParticipacions.Enabled = false;
             this.ntbNumParticipacions.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbNumParticipacions.ForeColor = System.Drawing.Color.Black;
             this.ntbNumParticipacions.Location = new System.Drawing.Point(3, 19);
             this.ntbNumParticipacions.Name = "ntbNumParticipacions";
             this.ntbNumParticipacions.Size = new System.Drawing.Size(129, 26);
@@ -657,9 +686,12 @@ namespace Inversions.GUI
             this.ntbPreuParticipacio._NegatiusEnVermell = false;
             this.ntbPreuParticipacio._PermetDecimals = true;
             this.ntbPreuParticipacio._PermetNegatius = false;
+            this.ntbPreuParticipacio._PermetTextNull = false;
+            this.ntbPreuParticipacio.BackColor = System.Drawing.SystemColors.Window;
             this.ntbPreuParticipacio.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPreuParticipacio.Enabled = false;
             this.ntbPreuParticipacio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPreuParticipacio.ForeColor = System.Drawing.Color.Black;
             this.ntbPreuParticipacio.Location = new System.Drawing.Point(3, 19);
             this.ntbPreuParticipacio.Name = "ntbPreuParticipacio";
             this.ntbPreuParticipacio.Size = new System.Drawing.Size(129, 26);
@@ -693,8 +725,11 @@ namespace Inversions.GUI
             this.ntbTributaRenda._NegatiusEnVermell = false;
             this.ntbTributaRenda._PermetDecimals = true;
             this.ntbTributaRenda._PermetNegatius = true;
+            this.ntbTributaRenda._PermetTextNull = false;
+            this.ntbTributaRenda.BackColor = System.Drawing.SystemColors.Window;
             this.ntbTributaRenda.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbTributaRenda.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbTributaRenda.ForeColor = System.Drawing.Color.Black;
             this.ntbTributaRenda.Location = new System.Drawing.Point(3, 19);
             this.ntbTributaRenda.Name = "ntbTributaRenda";
             this.ntbTributaRenda.ReadOnly = true;
@@ -727,8 +762,11 @@ namespace Inversions.GUI
             this.ntbImportBrut._NegatiusEnVermell = false;
             this.ntbImportBrut._PermetDecimals = true;
             this.ntbImportBrut._PermetNegatius = true;
+            this.ntbImportBrut._PermetTextNull = false;
+            this.ntbImportBrut.BackColor = System.Drawing.SystemColors.Window;
             this.ntbImportBrut.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbImportBrut.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbImportBrut.ForeColor = System.Drawing.Color.Black;
             this.ntbImportBrut.Location = new System.Drawing.Point(3, 19);
             this.ntbImportBrut.Name = "ntbImportBrut";
             this.ntbImportBrut.ReadOnly = true;
@@ -781,11 +819,14 @@ namespace Inversions.GUI
             // 
             this.ntbPigSimulacio._CapturaEscape = true;
             this.ntbPigSimulacio._Format = "#,##0.00 €";
-            this.ntbPigSimulacio._NegatiusEnVermell = false;
+            this.ntbPigSimulacio._NegatiusEnVermell = true;
             this.ntbPigSimulacio._PermetDecimals = true;
             this.ntbPigSimulacio._PermetNegatius = true;
+            this.ntbPigSimulacio._PermetTextNull = false;
+            this.ntbPigSimulacio.BackColor = System.Drawing.SystemColors.Window;
             this.ntbPigSimulacio.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPigSimulacio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPigSimulacio.ForeColor = System.Drawing.Color.Black;
             this.ntbPigSimulacio.Location = new System.Drawing.Point(3, 19);
             this.ntbPigSimulacio.Name = "ntbPigSimulacio";
             this.ntbPigSimulacio.ReadOnly = true;
@@ -816,11 +857,14 @@ namespace Inversions.GUI
             // 
             this.ntbPigOrigSimulacio._CapturaEscape = true;
             this.ntbPigOrigSimulacio._Format = "#,##0.00 €";
-            this.ntbPigOrigSimulacio._NegatiusEnVermell = false;
+            this.ntbPigOrigSimulacio._NegatiusEnVermell = true;
             this.ntbPigOrigSimulacio._PermetDecimals = true;
             this.ntbPigOrigSimulacio._PermetNegatius = true;
+            this.ntbPigOrigSimulacio._PermetTextNull = false;
+            this.ntbPigOrigSimulacio.BackColor = System.Drawing.SystemColors.Window;
             this.ntbPigOrigSimulacio.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPigOrigSimulacio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPigOrigSimulacio.ForeColor = System.Drawing.Color.Black;
             this.ntbPigOrigSimulacio.Location = new System.Drawing.Point(3, 19);
             this.ntbPigOrigSimulacio.Name = "ntbPigOrigSimulacio";
             this.ntbPigOrigSimulacio.ReadOnly = true;
