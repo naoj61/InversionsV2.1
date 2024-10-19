@@ -539,7 +539,7 @@ namespace Inversions.GUI.Forms
             }
         }
 
-        private void ntbMinimContribuent_ValorChanged(object sender, EventArgs e)
+        private void ntbMinimContribuent_TextChanged(object sender, EventArgs e)
         {
             modeEdicio();
             calculaTotalATributar();

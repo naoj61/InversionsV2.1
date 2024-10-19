@@ -182,7 +182,7 @@ namespace Inversions.GUI
             0,
             0,
             65536});
-            this.tbImport.ValorChanged += new System.EventHandler(this.tbImport_ValorChanged);
+            this.tbImport.TextChanged += new System.EventHandler(this.tbImport_TextChanged);
             this.tbImport.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbImport_KeyDown);
             // 
             // btCancela

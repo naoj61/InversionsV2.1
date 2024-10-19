@@ -432,7 +432,7 @@ namespace Inversions.GUI.Forms
             0,
             0,
             131072});
-            this.ntbMinimContribuent.ValorChanged += new System.EventHandler(this.ntbMinimContribuent_ValorChanged);
+            this.ntbMinimContribuent.TextChanged += new System.EventHandler(this.ntbMinimContribuent_TextChanged);
             this.ntbMinimContribuent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ntbMinimContribuent_KeyDown);
             // 
             // groupBox6

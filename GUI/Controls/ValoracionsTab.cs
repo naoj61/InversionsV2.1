@@ -697,7 +697,8 @@ namespace Inversions.GUI
             }
         }
 
-        private void tbImport_ValorChanged(object sender, EventArgs e)
+
+        private void tbImport_TextChanged(object sender, EventArgs e)
         {
             cancelButton(tbImport.Modified ? null : btCancela);
         }
