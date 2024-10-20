@@ -17,7 +17,7 @@ namespace Inversions.GUI
         /// <summary>
         /// Estructura per omplir DgvCompresProducte
         /// </summary>
-        struct StrDgvCompresProducte
+        private struct StrDgvCompresProducte
         {
             private StrDgvCompresProducte(Moviment compra, bool ambCartera, bool ambDividends)
                 : this()
@@ -56,12 +56,6 @@ namespace Inversions.GUI
 
         #endregion ***** Estructures per DataGrids *****
 
-        private readonly Producte vProdTotal = new ProdFons();
-
-        private ContextMenuStrip contextMenuStrip1;
-        private ToolStripMenuItem toolStripMenuItem1;
-        private ToolStripMenuItem toolStripMenuItem2;
-        private ToolStripMenuItem toolStripMenuItem3;
 
         public PerduesGuanysTab()
         {
@@ -73,6 +67,22 @@ namespace Inversions.GUI
 
             InitializeContextMenu();
         }
+
+
+        #region *** Variables ***
+
+        private readonly Producte vProdTotal = new ProdFons();
+
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem toolStripMenuItem1;
+        private ToolStripMenuItem toolStripMenuItem2;
+        private ToolStripMenuItem toolStripMenuItem3;
+        private Producte vProdSelAnt;
+
+        #endregion *** Variables ***
+
+
+        #region *** Mètodes ***
 
         private void InitializeContextMenu()
         {
@@ -107,7 +117,7 @@ namespace Inversions.GUI
 
             gestioProductesTabValoracions._NomesAmbParticipacions = true;
 
-            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof (Producte.TipusProducte));
+            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof(Producte.TipusProducte));
             cbTipusProducteFiltreTab2.SelectedIndex = -1;
             cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
             cbTipusProducteFiltreTab2.SelectedIndex = 0;
@@ -155,7 +165,7 @@ namespace Inversions.GUI
 
         private void calculaPiG()
         {
-            Producte.TipusProducte tipusProducte = (Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem;
+            Producte.TipusProducte tipusProducte = (Producte.TipusProducte)cbTipusProducteFiltreTab2.SelectedItem;
 
             var ultimAny = DateTime.Today.Year;
 
@@ -211,14 +221,12 @@ namespace Inversions.GUI
             ResumeLayout();
         }
 
-
         /// <summary>
         /// Actualitza grids
         /// </summary>
         private void actualitzaLlistaPerduesGuanys()
         {
             var proSeleccionat = gestioProductesTabValoracions._ProducteSeleccionat;
-
 
             var primerMovimentX = proSeleccionat.MovimentsProducteUsuari.OrderBy(o => o.Data).FirstOrDefault();
             if (primerMovimentX != null)
@@ -262,8 +270,6 @@ namespace Inversions.GUI
                 fila = dgvPiGProductePerAny.Rows.Add("Cartera", enCartera);
                 dgvPiGProductePerAny.Rows[fila].Cells[1].Style.ForeColor = enCartera < 0 ? Color.Red : Color.Black;
 
-
-
                 fila = dgvPiGProductePerAny.Rows.Add(vProdTotal, pigTotal + enCartera);
                 dgvPiGProductePerAny.Rows[fila].DefaultCellStyle.Font = new Font(dgvPiGProductePerAny.Font, FontStyle.Bold);
                 dgvPiGProductePerAny.Rows[fila].Cells[1].Style.ForeColor = pigTotal + enCartera < 0 ? Color.Red : Color.Black;
@@ -279,7 +285,7 @@ namespace Inversions.GUI
         {
             if (ntbPreuParticipacio.Valor == 0)
             {
-                ntbPiG.Text = "0,00 €";
+                ntbPiG.Valor = 0;
                 ntbDiferencia.Valor = 0;
             }
             else
@@ -288,14 +294,10 @@ namespace Inversions.GUI
                 var pigCalculat = gestioProductesTabValoracions._ProducteSeleccionat
                     .pigEnCartera4(true, true, null, ntbPreuParticipacio.Valor);
 
-                ntbPiG.Text = pigCalculat.ToString("#,##0.00 €");
+                ntbPiG.Valor = pigCalculat;
                 ntbDiferencia.Valor = pigCalculat - pigActual;
-
-                if (pigCalculat < 0)
-                    ntbPiG.ForeColor = Color.Red;
-                else
-                    ntbPiG.ForeColor = Color.Black;
             }
+
             actualitzaLlistaPerduesGuanys();
             calculaPiG();
         }
@@ -306,7 +308,7 @@ namespace Inversions.GUI
 
             List<Producte> productes;
 
-            switch ((Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem)
+            switch ((Producte.TipusProducte)cbTipusProducteFiltreTab2.SelectedItem)
             {
                 case Producte.TipusProducte.Tots:
                     productes = Producte.Tuples.ToList();
@@ -321,7 +323,7 @@ namespace Inversions.GUI
                     return;
             }
 
-            var anyDades = (int) cbAnysPiGEnCartera.SelectedItem;
+            var anyDades = (int)cbAnysPiGEnCartera.SelectedItem;
             decimal pigTotalEncartera = 0;
             dgvPiGEnCartera.Rows.Clear();
             foreach (var prod in productes.OrderBy(o => o.OrdreGrid))
@@ -347,6 +349,8 @@ namespace Inversions.GUI
             lbTotalPigEnCartera.Text = pigTotalEncartera.ToString("#,##0.00 €");
         }
 
+        #endregion *** Mètodes ***
+
 
         #region *** Events ***
 
@@ -354,8 +358,6 @@ namespace Inversions.GUI
         {
             recalculaValorsControls();
         }
-
-        private Producte vProdSelAnt;
 
         private void gestioProductesTabValoracions_ProducteSeleccionat(object sender, EventArgs e)
         {
@@ -414,7 +416,7 @@ namespace Inversions.GUI
             if (ckPiGEntreDatesNomesProdSel.Checked)
             {
                 tbPigEntreDates.Valor = gestioProductesTabValoracions._ProducteSeleccionat
-                    .pigEntreDates4(dataIni, dataFi, true, true, true, true); 
+                    .pigEntreDates4(dataIni, dataFi, true, true, true, true);
             }
             else
             {
@@ -451,14 +453,8 @@ namespace Inversions.GUI
                 pigOrig += (decimal) selectedRow.Cells["PigOrigen"].Value;
             }
 
-            //var pigCompra = Math.Round(pig, 2);
-            lbPigCompra.Text = pig.ToString("#,##0.00 €");
-
-            //pigCompra = Math.Round(pigOrig, 2);
-            lbPigCompraOrig.Text = pigOrig.ToString("#,##0.00 €");
-
-            lbPigCompra.ForeColor = pig < 0 ? Color.Red : Color.Black;
-            lbPigCompraOrig.ForeColor = pigOrig < 0 ? Color.Red : Color.Black;
+            ntbPigCompra.Valor = pig;
+            ntbPigCompraOrig.Valor = pigOrig;
         }
 
         private void ckAmbCartera_CheckedChanged(object sender, EventArgs e)
@@ -479,7 +475,6 @@ namespace Inversions.GUI
             ompleDgvPiGEnCartera();
         }
 
-
         private void dgvPiGEnCartera_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
         {
             // *** Faig que la línia "Total" sempre surti al final. ***
@@ -498,7 +493,6 @@ namespace Inversions.GUI
                 e.Handled = true;
             }
         }
-
 
         private void dgvPiGEnCartera_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -542,7 +536,26 @@ namespace Inversions.GUI
                 parentForm.obreSimulacióVendaTab(prod);
         }
 
-        #endregion *** Events ***
+        private void ntbPreuParticipacio_Enter(object sender, EventArgs e)
+        {
+            acceptButton(btSimulacioPiG);
+        }
 
+        private void dtpFiltreDataInici_Enter(object sender, EventArgs e)
+        {
+            acceptButton(btFiltreDates);
+        }
+
+        private void dtpFiltreDataFi_Enter(object sender, EventArgs e)
+        {
+            acceptButton(btFiltreDates);
+        }
+
+        private void ntb_Leave(object sender, EventArgs e)
+        {
+            acceptButton(null);
+        }
+
+        #endregion *** Events ***
     }
 }
