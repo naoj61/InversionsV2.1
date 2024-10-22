@@ -405,6 +405,7 @@ namespace Inversions.GUI
                 columnaVisible(2, false);
                 columnaVisible(3, false);
                 columnaVisible(4, false);
+                columnaVisible(5, false);
 
                 return;
             }

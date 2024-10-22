@@ -31,23 +31,23 @@ namespace Inversions.GUI
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.gbData = new System.Windows.Forms.GroupBox();
             this.cData = new System.Windows.Forms.DateTimePicker();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
@@ -239,14 +239,14 @@ namespace Inversions.GUI
             this.dgvValoracions.AllowUserToDeleteRows = false;
             this.dgvValoracions.AllowUserToOrderColumns = true;
             this.dgvValoracions.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvValoracions.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvValoracions.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
             this.dgvValoracions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvValoracions.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colId,
@@ -258,7 +258,7 @@ namespace Inversions.GUI
             this.colVariacioPercent,
             this.colVariacioEuros});
             this.dgvValoracions.Dock = System.Windows.Forms.DockStyle.Left;
-            this.dgvValoracions.Location = new System.Drawing.Point(0, 562);
+            this.dgvValoracions.Location = new System.Drawing.Point(0, 574);
             this.dgvValoracions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dgvValoracions.Name = "dgvValoracions";
             this.dgvValoracions.ReadOnly = true;
@@ -266,7 +266,7 @@ namespace Inversions.GUI
             this.dgvValoracions.RowTemplate.Height = 24;
             this.dgvValoracions.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgvValoracions.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvValoracions.Size = new System.Drawing.Size(293, 257);
+            this.dgvValoracions.Size = new System.Drawing.Size(460, 245);
             this.dgvValoracions.TabIndex = 0;
             this.dgvValoracions.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.cDataGridView1_RowEnter);
             // 
@@ -296,10 +296,10 @@ namespace Inversions.GUI
             // 
             this.colData.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colData.DataPropertyName = "_Data";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.Format = "d";
-            dataGridViewCellStyle2.NullValue = null;
-            this.colData.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle15.Format = "d";
+            dataGridViewCellStyle15.NullValue = null;
+            this.colData.DefaultCellStyle = dataGridViewCellStyle15;
             this.colData.HeaderText = "Data";
             this.colData.Name = "colData";
             this.colData.ReadOnly = true;
@@ -311,10 +311,10 @@ namespace Inversions.GUI
             // 
             this.NumPart.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.NumPart.DataPropertyName = "_NumParticipacions";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "N4";
-            dataGridViewCellStyle3.NullValue = null;
-            this.NumPart.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle16.Format = "N4";
+            dataGridViewCellStyle16.NullValue = null;
+            this.NumPart.DefaultCellStyle = dataGridViewCellStyle16;
             this.NumPart.HeaderText = "Num. Part.";
             this.NumPart.Name = "NumPart";
             this.NumPart.ReadOnly = true;
@@ -326,10 +326,10 @@ namespace Inversions.GUI
             // 
             this.colImport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
             this.colImport.DataPropertyName = "_PreuParticipacio";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "#,#0.00###### €";
-            dataGridViewCellStyle4.NullValue = null;
-            this.colImport.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle17.Format = "#,#0.00###### €";
+            dataGridViewCellStyle17.NullValue = null;
+            this.colImport.DefaultCellStyle = dataGridViewCellStyle17;
             this.colImport.HeaderText = "Import Part/Acc";
             this.colImport.Name = "colImport";
             this.colImport.ReadOnly = true;
@@ -341,10 +341,10 @@ namespace Inversions.GUI
             // 
             this.colValor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colValor.DataPropertyName = "_ValoracioTotal";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Format = "C2";
-            dataGridViewCellStyle5.NullValue = null;
-            this.colValor.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle18.Format = "C2";
+            dataGridViewCellStyle18.NullValue = null;
+            this.colValor.DefaultCellStyle = dataGridViewCellStyle18;
             this.colValor.HeaderText = "Valor Total";
             this.colValor.Name = "colValor";
             this.colValor.ReadOnly = true;
@@ -357,10 +357,10 @@ namespace Inversions.GUI
             this.colVariacioPercent._NegatiusEnVermell = true;
             this.colVariacioPercent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colVariacioPercent.DataPropertyName = "_VariacioPercentatge";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "#0.00# %";
-            dataGridViewCellStyle6.NullValue = null;
-            this.colVariacioPercent.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle19.Format = "#0.00# %";
+            dataGridViewCellStyle19.NullValue = null;
+            this.colVariacioPercent.DefaultCellStyle = dataGridViewCellStyle19;
             this.colVariacioPercent.HeaderText = "Variació %";
             this.colVariacioPercent.Name = "colVariacioPercent";
             this.colVariacioPercent.ReadOnly = true;
@@ -373,10 +373,10 @@ namespace Inversions.GUI
             this.colVariacioEuros._NegatiusEnVermell = true;
             this.colVariacioEuros.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colVariacioEuros.DataPropertyName = "_VariacioEuros";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle7.Format = "#,#0.00 €";
-            dataGridViewCellStyle7.NullValue = null;
-            this.colVariacioEuros.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle20.Format = "#,#0.00 €";
+            dataGridViewCellStyle20.NullValue = null;
+            this.colVariacioEuros.DefaultCellStyle = dataGridViewCellStyle20;
             this.colVariacioEuros.HeaderText = "Variació €";
             this.colVariacioEuros.Name = "colVariacioEuros";
             this.colVariacioEuros.ReadOnly = true;
@@ -415,14 +415,14 @@ namespace Inversions.GUI
             this.dgvValoracionsPerData.AllowUserToOrderColumns = true;
             this.dgvValoracionsPerData.AllowUserToResizeRows = false;
             this.dgvValoracionsPerData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvValoracionsPerData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle21.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle21.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle21.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle21.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle21.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvValoracionsPerData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle21;
             this.dgvValoracionsPerData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvValoracionsPerData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn3,
@@ -445,10 +445,10 @@ namespace Inversions.GUI
             // 
             this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.dataGridViewTextBoxColumn3.DataPropertyName = "_Data";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.Format = "d";
-            dataGridViewCellStyle9.NullValue = null;
-            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle22.Format = "d";
+            dataGridViewCellStyle22.NullValue = null;
+            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle22;
             this.dataGridViewTextBoxColumn3.FillWeight = 75F;
             this.dataGridViewTextBoxColumn3.HeaderText = "Data";
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
@@ -460,10 +460,10 @@ namespace Inversions.GUI
             this.dataGridViewTextBoxColumn4._NegatiusEnVermell = true;
             this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dataGridViewTextBoxColumn4.DataPropertyName = "_Pig";
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle10.Format = "#,##0.00 €";
-            dataGridViewCellStyle10.NullValue = null;
-            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle23.Format = "#,##0.00 €";
+            dataGridViewCellStyle23.NullValue = null;
+            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle23;
             this.dataGridViewTextBoxColumn4.HeaderText = "PiG en Cartera";
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.ReadOnly = true;
@@ -475,10 +475,10 @@ namespace Inversions.GUI
             this.colVariacioPercentatge._NegatiusEnVermell = true;
             this.colVariacioPercentatge.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colVariacioPercentatge.DataPropertyName = "_VariacioPercentatge";
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle11.Format = "#0.00 %";
-            dataGridViewCellStyle11.NullValue = "-";
-            this.colVariacioPercentatge.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle24.Format = "#0.00 %";
+            dataGridViewCellStyle24.NullValue = "-";
+            this.colVariacioPercentatge.DefaultCellStyle = dataGridViewCellStyle24;
             this.colVariacioPercentatge.FillWeight = 20F;
             this.colVariacioPercentatge.HeaderText = "Variació %";
             this.colVariacioPercentatge.Name = "colVariacioPercentatge";
@@ -491,10 +491,10 @@ namespace Inversions.GUI
             this.colVariacioEuros2._NegatiusEnVermell = true;
             this.colVariacioEuros2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colVariacioEuros2.DataPropertyName = "_VariacioImport";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle12.Format = "#,##0.00 €";
-            dataGridViewCellStyle12.NullValue = "-";
-            this.colVariacioEuros2.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle25.Format = "#,##0.00 €";
+            dataGridViewCellStyle25.NullValue = "-";
+            this.colVariacioEuros2.DefaultCellStyle = dataGridViewCellStyle25;
             this.colVariacioEuros2.FillWeight = 50F;
             this.colVariacioEuros2.HeaderText = "Variació €";
             this.colVariacioEuros2.Name = "colVariacioEuros2";
@@ -507,9 +507,9 @@ namespace Inversions.GUI
             this.Column1._NegatiusEnVermell = true;
             this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Column1.DataPropertyName = "_ValorTotal";
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle13.Format = "#,##0.00 €";
-            this.Column1.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle26.Format = "#,##0.00 €";
+            this.Column1.DefaultCellStyle = dataGridViewCellStyle26;
             this.Column1.HeaderText = "Valor total";
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
@@ -598,25 +598,25 @@ namespace Inversions.GUI
             // chart1
             // 
             this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.FrameThin1;
-            chartArea1.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
-            chartArea1.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
+            chartArea3.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
+            chartArea3.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
+            chartArea3.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea3);
             this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chart1.Location = new System.Drawing.Point(293, 562);
+            this.chart1.Location = new System.Drawing.Point(460, 574);
             this.chart1.Margin = new System.Windows.Forms.Padding(0);
             this.chart1.Name = "chart1";
-            series1.BorderWidth = 2;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.IsVisibleInLegend = false;
-            series1.Name = "Series1";
-            series1.XValueMember = "Data";
-            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-            series1.YValueMembers = "PreuParticipacio";
-            series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(713, 257);
+            series3.BorderWidth = 2;
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series3.IsVisibleInLegend = false;
+            series3.Name = "Series1";
+            series3.XValueMember = "Data";
+            series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            series3.YValueMembers = "PreuParticipacio";
+            series3.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            this.chart1.Series.Add(series3);
+            this.chart1.Size = new System.Drawing.Size(546, 245);
             this.chart1.TabIndex = 1;
             this.chart1.Text = "chart1";
             // 
@@ -628,17 +628,19 @@ namespace Inversions.GUI
             this.pnFiltreValoracions.Location = new System.Drawing.Point(0, 494);
             this.pnFiltreValoracions.Name = "pnFiltreValoracions";
             this.pnFiltreValoracions.Padding = new System.Windows.Forms.Padding(5);
-            this.pnFiltreValoracions.Size = new System.Drawing.Size(1006, 68);
+            this.pnFiltreValoracions.Size = new System.Drawing.Size(1006, 80);
             this.pnFiltreValoracions.TabIndex = 1;
             // 
             // tlpPercents
             // 
-            this.tlpPercents.ColumnCount = 5;
+            this.tlpPercents.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tlpPercents.ColumnCount = 6;
             this.tlpPercents.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlpPercents.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlpPercents.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlpPercents.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlpPercents.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpPercents.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpPercents.Controls.Add(this.panel9, 4, 1);
             this.tlpPercents.Controls.Add(this.panel8, 3, 1);
             this.tlpPercents.Controls.Add(this.panel7, 2, 1);
@@ -649,21 +651,23 @@ namespace Inversions.GUI
             this.tlpPercents.Controls.Add(this.label3, 1, 0);
             this.tlpPercents.Controls.Add(this.label2, 0, 0);
             this.tlpPercents.Controls.Add(this.panel4, 0, 1);
-            this.tlpPercents.Dock = System.Windows.Forms.DockStyle.Left;
-            this.tlpPercents.Location = new System.Drawing.Point(270, 5);
+            this.tlpPercents.Dock = System.Windows.Forms.DockStyle.Right;
+            this.tlpPercents.Location = new System.Drawing.Point(310, 5);
             this.tlpPercents.Name = "tlpPercents";
             this.tlpPercents.RowCount = 2;
-            this.tlpPercents.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpPercents.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tlpPercents.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpPercents.Size = new System.Drawing.Size(626, 58);
+            this.tlpPercents.Size = new System.Drawing.Size(691, 70);
             this.tlpPercents.TabIndex = 2;
             // 
             // panel9
             // 
+            this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel9.Controls.Add(this.ntbPercent1A);
-            this.panel9.Location = new System.Drawing.Point(533, 23);
+            this.panel9.Location = new System.Drawing.Point(570, 28);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(90, 29);
+            this.panel9.Padding = new System.Windows.Forms.Padding(3);
+            this.panel9.Size = new System.Drawing.Size(84, 39);
             this.panel9.TabIndex = 9;
             // 
             // ntbPercent1A
@@ -674,14 +678,14 @@ namespace Inversions.GUI
             this.ntbPercent1A._PermetDecimals = true;
             this.ntbPercent1A._PermetNegatius = true;
             this.ntbPercent1A._PermetTextNull = false;
-            this.ntbPercent1A.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.ntbPercent1A.BackColor = System.Drawing.Color.Khaki;
             this.ntbPercent1A.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ntbPercent1A.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbPercent1A.ForeColor = System.Drawing.Color.White;
-            this.ntbPercent1A.Location = new System.Drawing.Point(0, 0);
+            this.ntbPercent1A.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPercent1A.ForeColor = System.Drawing.Color.Black;
+            this.ntbPercent1A.Location = new System.Drawing.Point(3, 3);
             this.ntbPercent1A.Name = "ntbPercent1A";
             this.ntbPercent1A.ReadOnly = true;
-            this.ntbPercent1A.Size = new System.Drawing.Size(90, 26);
+            this.ntbPercent1A.Size = new System.Drawing.Size(76, 26);
             this.ntbPercent1A.TabIndex = 1;
             this.ntbPercent1A.Text = "0,00%";
             this.ntbPercent1A.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -693,10 +697,12 @@ namespace Inversions.GUI
             // 
             // panel8
             // 
+            this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel8.Controls.Add(this.ntbPercentAny);
-            this.panel8.Location = new System.Drawing.Point(438, 23);
+            this.panel8.Location = new System.Drawing.Point(480, 28);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(89, 29);
+            this.panel8.Padding = new System.Windows.Forms.Padding(3);
+            this.panel8.Size = new System.Drawing.Size(84, 39);
             this.panel8.TabIndex = 8;
             // 
             // ntbPercentAny
@@ -709,12 +715,12 @@ namespace Inversions.GUI
             this.ntbPercentAny._PermetTextNull = false;
             this.ntbPercentAny.BackColor = System.Drawing.SystemColors.Window;
             this.ntbPercentAny.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ntbPercentAny.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPercentAny.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ntbPercentAny.ForeColor = System.Drawing.Color.Black;
-            this.ntbPercentAny.Location = new System.Drawing.Point(0, 0);
+            this.ntbPercentAny.Location = new System.Drawing.Point(3, 3);
             this.ntbPercentAny.Name = "ntbPercentAny";
             this.ntbPercentAny.ReadOnly = true;
-            this.ntbPercentAny.Size = new System.Drawing.Size(89, 26);
+            this.ntbPercentAny.Size = new System.Drawing.Size(76, 26);
             this.ntbPercentAny.TabIndex = 1;
             this.ntbPercentAny.Text = "0,00%";
             this.ntbPercentAny.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -726,11 +732,13 @@ namespace Inversions.GUI
             // 
             // panel7
             // 
+            this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel7.Controls.Add(this.ntbPercent6M12);
             this.panel7.Controls.Add(this.ntbPercent6M);
-            this.panel7.Location = new System.Drawing.Point(293, 23);
+            this.panel7.Location = new System.Drawing.Point(321, 28);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(139, 29);
+            this.panel7.Padding = new System.Windows.Forms.Padding(3);
+            this.panel7.Size = new System.Drawing.Size(153, 39);
             this.panel7.TabIndex = 7;
             // 
             // ntbPercent6M12
@@ -741,11 +749,11 @@ namespace Inversions.GUI
             this.ntbPercent6M12._PermetDecimals = true;
             this.ntbPercent6M12._PermetNegatius = true;
             this.ntbPercent6M12._PermetTextNull = false;
-            this.ntbPercent6M12.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.ntbPercent6M12.BackColor = System.Drawing.Color.Khaki;
             this.ntbPercent6M12.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ntbPercent6M12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbPercent6M12.ForeColor = System.Drawing.Color.White;
-            this.ntbPercent6M12.Location = new System.Drawing.Point(71, 0);
+            this.ntbPercent6M12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPercent6M12.ForeColor = System.Drawing.Color.Black;
+            this.ntbPercent6M12.Location = new System.Drawing.Point(80, 3);
             this.ntbPercent6M12.Name = "ntbPercent6M12";
             this.ntbPercent6M12.ReadOnly = true;
             this.ntbPercent6M12.Size = new System.Drawing.Size(68, 26);
@@ -768,9 +776,9 @@ namespace Inversions.GUI
             this.ntbPercent6M._PermetTextNull = false;
             this.ntbPercent6M.BackColor = System.Drawing.SystemColors.Window;
             this.ntbPercent6M.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ntbPercent6M.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPercent6M.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ntbPercent6M.ForeColor = System.Drawing.Color.Black;
-            this.ntbPercent6M.Location = new System.Drawing.Point(0, 0);
+            this.ntbPercent6M.Location = new System.Drawing.Point(3, 3);
             this.ntbPercent6M.Name = "ntbPercent6M";
             this.ntbPercent6M.ReadOnly = true;
             this.ntbPercent6M.Size = new System.Drawing.Size(68, 26);
@@ -785,11 +793,13 @@ namespace Inversions.GUI
             // 
             // panel6
             // 
+            this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel6.Controls.Add(this.ntbPercent3M12);
             this.panel6.Controls.Add(this.ntbPercent3M);
-            this.panel6.Location = new System.Drawing.Point(148, 23);
+            this.panel6.Location = new System.Drawing.Point(162, 28);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(139, 29);
+            this.panel6.Padding = new System.Windows.Forms.Padding(3);
+            this.panel6.Size = new System.Drawing.Size(153, 39);
             this.panel6.TabIndex = 6;
             // 
             // ntbPercent3M12
@@ -800,11 +810,11 @@ namespace Inversions.GUI
             this.ntbPercent3M12._PermetDecimals = true;
             this.ntbPercent3M12._PermetNegatius = true;
             this.ntbPercent3M12._PermetTextNull = false;
-            this.ntbPercent3M12.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.ntbPercent3M12.BackColor = System.Drawing.Color.Khaki;
             this.ntbPercent3M12.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ntbPercent3M12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbPercent3M12.ForeColor = System.Drawing.Color.White;
-            this.ntbPercent3M12.Location = new System.Drawing.Point(71, 0);
+            this.ntbPercent3M12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPercent3M12.ForeColor = System.Drawing.Color.Black;
+            this.ntbPercent3M12.Location = new System.Drawing.Point(80, 3);
             this.ntbPercent3M12.Margin = new System.Windows.Forms.Padding(11, 3, 3, 3);
             this.ntbPercent3M12.Name = "ntbPercent3M12";
             this.ntbPercent3M12.ReadOnly = true;
@@ -828,9 +838,9 @@ namespace Inversions.GUI
             this.ntbPercent3M._PermetTextNull = false;
             this.ntbPercent3M.BackColor = System.Drawing.SystemColors.Window;
             this.ntbPercent3M.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ntbPercent3M.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPercent3M.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ntbPercent3M.ForeColor = System.Drawing.Color.Black;
-            this.ntbPercent3M.Location = new System.Drawing.Point(0, 0);
+            this.ntbPercent3M.Location = new System.Drawing.Point(3, 3);
             this.ntbPercent3M.Name = "ntbPercent3M";
             this.ntbPercent3M.ReadOnly = true;
             this.ntbPercent3M.Size = new System.Drawing.Size(68, 26);
@@ -845,66 +855,78 @@ namespace Inversions.GUI
             // 
             // label6
             // 
+            this.label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(533, 0);
+            this.label6.Location = new System.Drawing.Point(567, 0);
+            this.label6.Margin = new System.Windows.Forms.Padding(0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(90, 20);
+            this.label6.Size = new System.Drawing.Size(90, 25);
             this.label6.TabIndex = 4;
             this.label6.Text = "% 1A";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbPercentAny
             // 
+            this.lbPercentAny.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lbPercentAny.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPercentAny.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPercentAny.Location = new System.Drawing.Point(438, 0);
+            this.lbPercentAny.Location = new System.Drawing.Point(477, 0);
+            this.lbPercentAny.Margin = new System.Windows.Forms.Padding(0);
             this.lbPercentAny.Name = "lbPercentAny";
-            this.lbPercentAny.Size = new System.Drawing.Size(89, 20);
+            this.lbPercentAny.Size = new System.Drawing.Size(90, 25);
             this.lbPercentAny.TabIndex = 3;
             this.lbPercentAny.Text = "% Any";
             this.lbPercentAny.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label4
             // 
+            this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(293, 0);
+            this.label4.Location = new System.Drawing.Point(318, 0);
+            this.label4.Margin = new System.Windows.Forms.Padding(0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(139, 20);
+            this.label4.Size = new System.Drawing.Size(159, 25);
             this.label4.TabIndex = 2;
             this.label4.Text = "% 6M";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
             // 
+            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(148, 0);
+            this.label3.Location = new System.Drawing.Point(159, 0);
+            this.label3.Margin = new System.Windows.Forms.Padding(0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(139, 20);
+            this.label3.Size = new System.Drawing.Size(159, 25);
             this.label3.TabIndex = 1;
             this.label3.Text = "% 3M";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label2
             // 
+            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Margin = new System.Windows.Forms.Padding(0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(139, 20);
+            this.label2.Size = new System.Drawing.Size(159, 25);
             this.label2.TabIndex = 0;
             this.label2.Text = "% 1M";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel4
             // 
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel4.Controls.Add(this.ntbPercent1M12);
             this.panel4.Controls.Add(this.ntbPercent1M);
-            this.panel4.Location = new System.Drawing.Point(3, 23);
+            this.panel4.Location = new System.Drawing.Point(3, 28);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(139, 29);
+            this.panel4.Padding = new System.Windows.Forms.Padding(3);
+            this.panel4.Size = new System.Drawing.Size(153, 39);
             this.panel4.TabIndex = 5;
             // 
             // ntbPercent1M12
@@ -915,11 +937,11 @@ namespace Inversions.GUI
             this.ntbPercent1M12._PermetDecimals = true;
             this.ntbPercent1M12._PermetNegatius = true;
             this.ntbPercent1M12._PermetTextNull = false;
-            this.ntbPercent1M12.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.ntbPercent1M12.BackColor = System.Drawing.Color.Khaki;
             this.ntbPercent1M12.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ntbPercent1M12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbPercent1M12.ForeColor = System.Drawing.Color.White;
-            this.ntbPercent1M12.Location = new System.Drawing.Point(71, 0);
+            this.ntbPercent1M12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPercent1M12.ForeColor = System.Drawing.Color.Black;
+            this.ntbPercent1M12.Location = new System.Drawing.Point(80, 3);
             this.ntbPercent1M12.Margin = new System.Windows.Forms.Padding(11, 3, 3, 3);
             this.ntbPercent1M12.Name = "ntbPercent1M12";
             this.ntbPercent1M12.ReadOnly = true;
@@ -943,9 +965,9 @@ namespace Inversions.GUI
             this.ntbPercent1M._PermetTextNull = false;
             this.ntbPercent1M.BackColor = System.Drawing.SystemColors.Window;
             this.ntbPercent1M.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ntbPercent1M.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPercent1M.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ntbPercent1M.ForeColor = System.Drawing.Color.Black;
-            this.ntbPercent1M.Location = new System.Drawing.Point(0, 0);
+            this.ntbPercent1M.Location = new System.Drawing.Point(3, 3);
             this.ntbPercent1M.Name = "ntbPercent1M";
             this.ntbPercent1M.ReadOnly = true;
             this.ntbPercent1M.Size = new System.Drawing.Size(68, 26);
@@ -966,7 +988,7 @@ namespace Inversions.GUI
             this.panel5.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel5.Location = new System.Drawing.Point(5, 5);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(265, 58);
+            this.panel5.Size = new System.Drawing.Size(233, 70);
             this.panel5.TabIndex = 0;
             // 
             // label1
@@ -985,7 +1007,7 @@ namespace Inversions.GUI
             this.ckValsAmbParticipacions.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.ckValsAmbParticipacions.Checked = true;
             this.ckValsAmbParticipacions.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ckValsAmbParticipacions.Location = new System.Drawing.Point(4, 33);
+            this.ckValsAmbParticipacions.Location = new System.Drawing.Point(4, 37);
             this.ckValsAmbParticipacions.Margin = new System.Windows.Forms.Padding(0);
             this.ckValsAmbParticipacions.Name = "ckValsAmbParticipacions";
             this.ckValsAmbParticipacions.Size = new System.Drawing.Size(221, 24);
@@ -1072,24 +1094,24 @@ namespace Inversions.GUI
             // chart2
             // 
             this.chart2.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.FrameThin1;
-            chartArea2.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
-            chartArea2.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
-            chartArea2.Name = "ChartArea1";
-            this.chart2.ChartAreas.Add(chartArea2);
+            chartArea4.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
+            chartArea4.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
+            chartArea4.Name = "ChartArea1";
+            this.chart2.ChartAreas.Add(chartArea4);
             this.chart2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.chart2.Location = new System.Drawing.Point(0, 535);
             this.chart2.Margin = new System.Windows.Forms.Padding(0);
             this.chart2.Name = "chart2";
-            series2.BorderWidth = 2;
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.IsVisibleInLegend = false;
-            series2.Name = "Series1";
-            series2.XValueMember = "Data";
-            series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-            series2.YValueMembers = "PreuParticipacio";
-            series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            this.chart2.Series.Add(series2);
+            series4.BorderWidth = 2;
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series4.IsVisibleInLegend = false;
+            series4.Name = "Series1";
+            series4.XValueMember = "Data";
+            series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            series4.YValueMembers = "PreuParticipacio";
+            series4.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            this.chart2.Series.Add(series4);
             this.chart2.Size = new System.Drawing.Size(636, 284);
             this.chart2.TabIndex = 4;
             this.chart2.Text = "chart2";
