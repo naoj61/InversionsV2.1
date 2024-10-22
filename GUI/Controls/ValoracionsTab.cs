@@ -232,7 +232,7 @@ namespace Inversions.GUI
             base.carregaInicial();
 
             cData.Value = DateTime.Today;
-
+            
             dtpDataIniciLlista.Value = DateTime.Now.AddMonths(-6);
             dtpDataIniciValoracions.Value = DateTime.Now.AddMonths(-6);
 
@@ -414,6 +414,9 @@ namespace Inversions.GUI
 
             var valoracionsProdSel = Valoracio.Tuples.Where(w => w.ProdId == gestioProductesTabValoracions._ProducteSeleccionat.Id)
                 .OrderBy(o => o.Data).ToList();
+
+            if (!valoracionsProdSel.Any())
+                return;
 
             var valActual = valoracionsProdSel.Last();
             var val1M = valoracionsProdSel.FirstOrDefault(w => w.Data >= DateTime.Today.AddMonths(-1).AddDays(-1));
