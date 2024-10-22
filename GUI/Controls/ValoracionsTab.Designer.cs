@@ -76,24 +76,32 @@ namespace Inversions.GUI
             this.gbFiltreTipusProducte = new System.Windows.Forms.GroupBox();
             this.checkedComboBoxEdit1 = new DevExpress.XtraEditors.CheckedComboBoxEdit();
             this.dtpDataIniciLlista = new System.Windows.Forms.DateTimePicker();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.btEsborra = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.gbPercent1A = new System.Windows.Forms.GroupBox();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.pnFiltreValoracions = new System.Windows.Forms.Panel();
+            this.tlpPercents = new System.Windows.Forms.TableLayoutPanel();
+            this.panel9 = new System.Windows.Forms.Panel();
             this.ntbPercent1A = new Controls.NumericTextBox2();
-            this.gbPercent6M = new System.Windows.Forms.GroupBox();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.ntbPercentAny = new Controls.NumericTextBox2();
+            this.panel7 = new System.Windows.Forms.Panel();
             this.ntbPercent6M12 = new Controls.NumericTextBox2();
             this.ntbPercent6M = new Controls.NumericTextBox2();
-            this.gbPercent3M = new System.Windows.Forms.GroupBox();
+            this.panel6 = new System.Windows.Forms.Panel();
             this.ntbPercent3M12 = new Controls.NumericTextBox2();
             this.ntbPercent3M = new Controls.NumericTextBox2();
-            this.gbPercent1M = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lbPercentAny = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.ntbPercent1M12 = new Controls.NumericTextBox2();
             this.ntbPercent1M = new Controls.NumericTextBox2();
-            this.pnFiltreValoracions = new System.Windows.Forms.Panel();
-            this.ckValsAmbParticipacions = new System.Windows.Forms.CheckBox();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.ckValsAmbParticipacions = new System.Windows.Forms.CheckBox();
             this.dtpDataIniciValoracions = new System.Windows.Forms.DateTimePicker();
             this.gestioProductesTabValoracions = new Inversions.GUI.GestioProductes();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -108,14 +116,16 @@ namespace Inversions.GUI
             ((System.ComponentModel.ISupportInitialize)(this.dgvValoracionsPerData)).BeginInit();
             this.gbFiltreTipusProducte.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.checkedComboBoxEdit1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.panel1.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.gbPercent1A.SuspendLayout();
-            this.gbPercent6M.SuspendLayout();
-            this.gbPercent3M.SuspendLayout();
-            this.gbPercent1M.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.pnFiltreValoracions.SuspendLayout();
+            this.tlpPercents.SuspendLayout();
+            this.panel9.SuspendLayout();
+            this.panel8.SuspendLayout();
+            this.panel7.SuspendLayout();
+            this.panel6.SuspendLayout();
+            this.panel4.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
@@ -248,7 +258,7 @@ namespace Inversions.GUI
             this.colVariacioPercent,
             this.colVariacioEuros});
             this.dgvValoracions.Dock = System.Windows.Forms.DockStyle.Left;
-            this.dgvValoracions.Location = new System.Drawing.Point(0, 535);
+            this.dgvValoracions.Location = new System.Drawing.Point(0, 562);
             this.dgvValoracions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dgvValoracions.Name = "dgvValoracions";
             this.dgvValoracions.ReadOnly = true;
@@ -256,8 +266,8 @@ namespace Inversions.GUI
             this.dgvValoracions.RowTemplate.Height = 24;
             this.dgvValoracions.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgvValoracions.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvValoracions.Size = new System.Drawing.Size(454, 284);
-            this.dgvValoracions.TabIndex = 2;
+            this.dgvValoracions.Size = new System.Drawing.Size(293, 257);
+            this.dgvValoracions.TabIndex = 0;
             this.dgvValoracions.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.cDataGridView1_RowEnter);
             // 
             // colId
@@ -560,31 +570,6 @@ namespace Inversions.GUI
             this.dtpDataIniciLlista.Size = new System.Drawing.Size(115, 26);
             this.dtpDataIniciLlista.TabIndex = 1;
             // 
-            // chart1
-            // 
-            this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.FrameThin1;
-            chartArea1.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
-            chartArea1.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chart1.Location = new System.Drawing.Point(454, 597);
-            this.chart1.Margin = new System.Windows.Forms.Padding(0);
-            this.chart1.Name = "chart1";
-            series1.BorderWidth = 2;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.IsVisibleInLegend = false;
-            series1.Name = "Series1";
-            series1.XValueMember = "Data";
-            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-            series1.YValueMembers = "PreuParticipacio";
-            series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(552, 222);
-            this.chart1.TabIndex = 3;
-            this.chart1.Text = "chart1";
-            // 
             // btEsborra
             // 
             this.btEsborra.Enabled = false;
@@ -600,7 +585,6 @@ namespace Inversions.GUI
             // panel1
             // 
             this.panel1.Controls.Add(this.chart1);
-            this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.dgvValoracions);
             this.panel1.Controls.Add(this.pnFiltreValoracions);
             this.panel1.Controls.Add(this.gestioProductesTabValoracions);
@@ -611,31 +595,76 @@ namespace Inversions.GUI
             this.panel1.Size = new System.Drawing.Size(1006, 819);
             this.panel1.TabIndex = 0;
             // 
-            // panel4
+            // chart1
             // 
-            this.panel4.Controls.Add(this.gbPercent1A);
-            this.panel4.Controls.Add(this.gbPercent6M);
-            this.panel4.Controls.Add(this.gbPercent3M);
-            this.panel4.Controls.Add(this.gbPercent1M);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel4.Location = new System.Drawing.Point(454, 535);
-            this.panel4.Name = "panel4";
-            this.panel4.Padding = new System.Windows.Forms.Padding(3);
-            this.panel4.Size = new System.Drawing.Size(552, 62);
-            this.panel4.TabIndex = 4;
+            this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.FrameThin1;
+            chartArea1.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
+            chartArea1.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chart1.Location = new System.Drawing.Point(293, 562);
+            this.chart1.Margin = new System.Windows.Forms.Padding(0);
+            this.chart1.Name = "chart1";
+            series1.BorderWidth = 2;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.IsVisibleInLegend = false;
+            series1.Name = "Series1";
+            series1.XValueMember = "Data";
+            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            series1.YValueMembers = "PreuParticipacio";
+            series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            this.chart1.Series.Add(series1);
+            this.chart1.Size = new System.Drawing.Size(713, 257);
+            this.chart1.TabIndex = 1;
+            this.chart1.Text = "chart1";
             // 
-            // gbPercent1A
+            // pnFiltreValoracions
             // 
-            this.gbPercent1A.Controls.Add(this.ntbPercent1A);
-            this.gbPercent1A.Dock = System.Windows.Forms.DockStyle.Left;
-            this.gbPercent1A.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbPercent1A.Location = new System.Drawing.Point(462, 3);
-            this.gbPercent1A.Name = "gbPercent1A";
-            this.gbPercent1A.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
-            this.gbPercent1A.Size = new System.Drawing.Size(81, 56);
-            this.gbPercent1A.TabIndex = 2;
-            this.gbPercent1A.TabStop = false;
-            this.gbPercent1A.Text = "% 1A";
+            this.pnFiltreValoracions.Controls.Add(this.tlpPercents);
+            this.pnFiltreValoracions.Controls.Add(this.panel5);
+            this.pnFiltreValoracions.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnFiltreValoracions.Location = new System.Drawing.Point(0, 494);
+            this.pnFiltreValoracions.Name = "pnFiltreValoracions";
+            this.pnFiltreValoracions.Padding = new System.Windows.Forms.Padding(5);
+            this.pnFiltreValoracions.Size = new System.Drawing.Size(1006, 68);
+            this.pnFiltreValoracions.TabIndex = 1;
+            // 
+            // tlpPercents
+            // 
+            this.tlpPercents.ColumnCount = 5;
+            this.tlpPercents.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpPercents.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpPercents.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpPercents.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpPercents.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpPercents.Controls.Add(this.panel9, 4, 1);
+            this.tlpPercents.Controls.Add(this.panel8, 3, 1);
+            this.tlpPercents.Controls.Add(this.panel7, 2, 1);
+            this.tlpPercents.Controls.Add(this.panel6, 1, 1);
+            this.tlpPercents.Controls.Add(this.label6, 4, 0);
+            this.tlpPercents.Controls.Add(this.lbPercentAny, 3, 0);
+            this.tlpPercents.Controls.Add(this.label4, 2, 0);
+            this.tlpPercents.Controls.Add(this.label3, 1, 0);
+            this.tlpPercents.Controls.Add(this.label2, 0, 0);
+            this.tlpPercents.Controls.Add(this.panel4, 0, 1);
+            this.tlpPercents.Dock = System.Windows.Forms.DockStyle.Left;
+            this.tlpPercents.Location = new System.Drawing.Point(270, 5);
+            this.tlpPercents.Name = "tlpPercents";
+            this.tlpPercents.RowCount = 2;
+            this.tlpPercents.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpPercents.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpPercents.Size = new System.Drawing.Size(626, 58);
+            this.tlpPercents.TabIndex = 2;
+            // 
+            // panel9
+            // 
+            this.panel9.Controls.Add(this.ntbPercent1A);
+            this.panel9.Location = new System.Drawing.Point(533, 23);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(90, 29);
+            this.panel9.TabIndex = 9;
             // 
             // ntbPercent1A
             // 
@@ -645,15 +674,15 @@ namespace Inversions.GUI
             this.ntbPercent1A._PermetDecimals = true;
             this.ntbPercent1A._PermetNegatius = true;
             this.ntbPercent1A._PermetTextNull = false;
-            this.ntbPercent1A.BackColor = System.Drawing.SystemColors.Window;
+            this.ntbPercent1A.BackColor = System.Drawing.Color.CornflowerBlue;
             this.ntbPercent1A.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbPercent1A.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbPercent1A.ForeColor = System.Drawing.Color.Black;
-            this.ntbPercent1A.Location = new System.Drawing.Point(5, 22);
+            this.ntbPercent1A.ForeColor = System.Drawing.Color.White;
+            this.ntbPercent1A.Location = new System.Drawing.Point(0, 0);
             this.ntbPercent1A.Name = "ntbPercent1A";
             this.ntbPercent1A.ReadOnly = true;
-            this.ntbPercent1A.Size = new System.Drawing.Size(71, 26);
-            this.ntbPercent1A.TabIndex = 0;
+            this.ntbPercent1A.Size = new System.Drawing.Size(90, 26);
+            this.ntbPercent1A.TabIndex = 1;
             this.ntbPercent1A.Text = "0,00%";
             this.ntbPercent1A.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbPercent1A.Valor = new decimal(new int[] {
@@ -662,19 +691,47 @@ namespace Inversions.GUI
             0,
             131072});
             // 
-            // gbPercent6M
+            // panel8
             // 
-            this.gbPercent6M.Controls.Add(this.ntbPercent6M12);
-            this.gbPercent6M.Controls.Add(this.ntbPercent6M);
-            this.gbPercent6M.Dock = System.Windows.Forms.DockStyle.Left;
-            this.gbPercent6M.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbPercent6M.Location = new System.Drawing.Point(309, 3);
-            this.gbPercent6M.Name = "gbPercent6M";
-            this.gbPercent6M.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
-            this.gbPercent6M.Size = new System.Drawing.Size(153, 56);
-            this.gbPercent6M.TabIndex = 1;
-            this.gbPercent6M.TabStop = false;
-            this.gbPercent6M.Text = "% 6M";
+            this.panel8.Controls.Add(this.ntbPercentAny);
+            this.panel8.Location = new System.Drawing.Point(438, 23);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(89, 29);
+            this.panel8.TabIndex = 8;
+            // 
+            // ntbPercentAny
+            // 
+            this.ntbPercentAny._CapturaEscape = true;
+            this.ntbPercentAny._Format = "0.00%";
+            this.ntbPercentAny._NegatiusEnVermell = true;
+            this.ntbPercentAny._PermetDecimals = true;
+            this.ntbPercentAny._PermetNegatius = true;
+            this.ntbPercentAny._PermetTextNull = false;
+            this.ntbPercentAny.BackColor = System.Drawing.SystemColors.Window;
+            this.ntbPercentAny.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbPercentAny.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPercentAny.ForeColor = System.Drawing.Color.Black;
+            this.ntbPercentAny.Location = new System.Drawing.Point(0, 0);
+            this.ntbPercentAny.Name = "ntbPercentAny";
+            this.ntbPercentAny.ReadOnly = true;
+            this.ntbPercentAny.Size = new System.Drawing.Size(89, 26);
+            this.ntbPercentAny.TabIndex = 1;
+            this.ntbPercentAny.Text = "0,00%";
+            this.ntbPercentAny.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbPercentAny.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            // 
+            // panel7
+            // 
+            this.panel7.Controls.Add(this.ntbPercent6M12);
+            this.panel7.Controls.Add(this.ntbPercent6M);
+            this.panel7.Location = new System.Drawing.Point(293, 23);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(139, 29);
+            this.panel7.TabIndex = 7;
             // 
             // ntbPercent6M12
             // 
@@ -684,15 +741,15 @@ namespace Inversions.GUI
             this.ntbPercent6M12._PermetDecimals = true;
             this.ntbPercent6M12._PermetNegatius = true;
             this.ntbPercent6M12._PermetTextNull = false;
-            this.ntbPercent6M12.BackColor = System.Drawing.SystemColors.Window;
+            this.ntbPercent6M12.BackColor = System.Drawing.Color.CornflowerBlue;
             this.ntbPercent6M12.Dock = System.Windows.Forms.DockStyle.Right;
             this.ntbPercent6M12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbPercent6M12.ForeColor = System.Drawing.Color.Black;
-            this.ntbPercent6M12.Location = new System.Drawing.Point(80, 22);
+            this.ntbPercent6M12.ForeColor = System.Drawing.Color.White;
+            this.ntbPercent6M12.Location = new System.Drawing.Point(71, 0);
             this.ntbPercent6M12.Name = "ntbPercent6M12";
             this.ntbPercent6M12.ReadOnly = true;
             this.ntbPercent6M12.Size = new System.Drawing.Size(68, 26);
-            this.ntbPercent6M12.TabIndex = 1;
+            this.ntbPercent6M12.TabIndex = 3;
             this.ntbPercent6M12.Text = "0,00%";
             this.ntbPercent6M12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbPercent6M12.Valor = new decimal(new int[] {
@@ -713,11 +770,11 @@ namespace Inversions.GUI
             this.ntbPercent6M.Dock = System.Windows.Forms.DockStyle.Left;
             this.ntbPercent6M.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ntbPercent6M.ForeColor = System.Drawing.Color.Black;
-            this.ntbPercent6M.Location = new System.Drawing.Point(5, 22);
+            this.ntbPercent6M.Location = new System.Drawing.Point(0, 0);
             this.ntbPercent6M.Name = "ntbPercent6M";
             this.ntbPercent6M.ReadOnly = true;
             this.ntbPercent6M.Size = new System.Drawing.Size(68, 26);
-            this.ntbPercent6M.TabIndex = 0;
+            this.ntbPercent6M.TabIndex = 2;
             this.ntbPercent6M.Text = "0,00%";
             this.ntbPercent6M.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbPercent6M.Valor = new decimal(new int[] {
@@ -726,19 +783,14 @@ namespace Inversions.GUI
             0,
             131072});
             // 
-            // gbPercent3M
+            // panel6
             // 
-            this.gbPercent3M.Controls.Add(this.ntbPercent3M12);
-            this.gbPercent3M.Controls.Add(this.ntbPercent3M);
-            this.gbPercent3M.Dock = System.Windows.Forms.DockStyle.Left;
-            this.gbPercent3M.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbPercent3M.Location = new System.Drawing.Point(156, 3);
-            this.gbPercent3M.Name = "gbPercent3M";
-            this.gbPercent3M.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
-            this.gbPercent3M.Size = new System.Drawing.Size(153, 56);
-            this.gbPercent3M.TabIndex = 0;
-            this.gbPercent3M.TabStop = false;
-            this.gbPercent3M.Text = "% 3M";
+            this.panel6.Controls.Add(this.ntbPercent3M12);
+            this.panel6.Controls.Add(this.ntbPercent3M);
+            this.panel6.Location = new System.Drawing.Point(148, 23);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(139, 29);
+            this.panel6.TabIndex = 6;
             // 
             // ntbPercent3M12
             // 
@@ -748,16 +800,16 @@ namespace Inversions.GUI
             this.ntbPercent3M12._PermetDecimals = true;
             this.ntbPercent3M12._PermetNegatius = true;
             this.ntbPercent3M12._PermetTextNull = false;
-            this.ntbPercent3M12.BackColor = System.Drawing.SystemColors.Window;
+            this.ntbPercent3M12.BackColor = System.Drawing.Color.CornflowerBlue;
             this.ntbPercent3M12.Dock = System.Windows.Forms.DockStyle.Right;
             this.ntbPercent3M12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbPercent3M12.ForeColor = System.Drawing.Color.Black;
-            this.ntbPercent3M12.Location = new System.Drawing.Point(80, 22);
+            this.ntbPercent3M12.ForeColor = System.Drawing.Color.White;
+            this.ntbPercent3M12.Location = new System.Drawing.Point(71, 0);
             this.ntbPercent3M12.Margin = new System.Windows.Forms.Padding(11, 3, 3, 3);
             this.ntbPercent3M12.Name = "ntbPercent3M12";
             this.ntbPercent3M12.ReadOnly = true;
             this.ntbPercent3M12.Size = new System.Drawing.Size(68, 26);
-            this.ntbPercent3M12.TabIndex = 1;
+            this.ntbPercent3M12.TabIndex = 3;
             this.ntbPercent3M12.Text = "0,00%";
             this.ntbPercent3M12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbPercent3M12.Valor = new decimal(new int[] {
@@ -778,11 +830,11 @@ namespace Inversions.GUI
             this.ntbPercent3M.Dock = System.Windows.Forms.DockStyle.Left;
             this.ntbPercent3M.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ntbPercent3M.ForeColor = System.Drawing.Color.Black;
-            this.ntbPercent3M.Location = new System.Drawing.Point(5, 22);
+            this.ntbPercent3M.Location = new System.Drawing.Point(0, 0);
             this.ntbPercent3M.Name = "ntbPercent3M";
             this.ntbPercent3M.ReadOnly = true;
             this.ntbPercent3M.Size = new System.Drawing.Size(68, 26);
-            this.ntbPercent3M.TabIndex = 0;
+            this.ntbPercent3M.TabIndex = 2;
             this.ntbPercent3M.Text = "0,00%";
             this.ntbPercent3M.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbPercent3M.Valor = new decimal(new int[] {
@@ -791,19 +843,69 @@ namespace Inversions.GUI
             0,
             131072});
             // 
-            // gbPercent1M
+            // label6
             // 
-            this.gbPercent1M.Controls.Add(this.ntbPercent1M12);
-            this.gbPercent1M.Controls.Add(this.ntbPercent1M);
-            this.gbPercent1M.Dock = System.Windows.Forms.DockStyle.Left;
-            this.gbPercent1M.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbPercent1M.Location = new System.Drawing.Point(3, 3);
-            this.gbPercent1M.Name = "gbPercent1M";
-            this.gbPercent1M.Padding = new System.Windows.Forms.Padding(5, 3, 5, 3);
-            this.gbPercent1M.Size = new System.Drawing.Size(153, 56);
-            this.gbPercent1M.TabIndex = 3;
-            this.gbPercent1M.TabStop = false;
-            this.gbPercent1M.Text = "% 1 M";
+            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(533, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(90, 20);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "% 1A";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbPercentAny
+            // 
+            this.lbPercentAny.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbPercentAny.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPercentAny.Location = new System.Drawing.Point(438, 0);
+            this.lbPercentAny.Name = "lbPercentAny";
+            this.lbPercentAny.Size = new System.Drawing.Size(89, 20);
+            this.lbPercentAny.TabIndex = 3;
+            this.lbPercentAny.Text = "% Any";
+            this.lbPercentAny.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label4
+            // 
+            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(293, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(139, 20);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "% 6M";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(148, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(139, 20);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "% 3M";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label2
+            // 
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(139, 20);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "% 1M";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.ntbPercent1M12);
+            this.panel4.Controls.Add(this.ntbPercent1M);
+            this.panel4.Location = new System.Drawing.Point(3, 23);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(139, 29);
+            this.panel4.TabIndex = 5;
             // 
             // ntbPercent1M12
             // 
@@ -813,16 +915,16 @@ namespace Inversions.GUI
             this.ntbPercent1M12._PermetDecimals = true;
             this.ntbPercent1M12._PermetNegatius = true;
             this.ntbPercent1M12._PermetTextNull = false;
-            this.ntbPercent1M12.BackColor = System.Drawing.SystemColors.Window;
+            this.ntbPercent1M12.BackColor = System.Drawing.Color.CornflowerBlue;
             this.ntbPercent1M12.Dock = System.Windows.Forms.DockStyle.Right;
             this.ntbPercent1M12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbPercent1M12.ForeColor = System.Drawing.Color.Black;
-            this.ntbPercent1M12.Location = new System.Drawing.Point(80, 22);
+            this.ntbPercent1M12.ForeColor = System.Drawing.Color.White;
+            this.ntbPercent1M12.Location = new System.Drawing.Point(71, 0);
             this.ntbPercent1M12.Margin = new System.Windows.Forms.Padding(11, 3, 3, 3);
             this.ntbPercent1M12.Name = "ntbPercent1M12";
             this.ntbPercent1M12.ReadOnly = true;
             this.ntbPercent1M12.Size = new System.Drawing.Size(68, 26);
-            this.ntbPercent1M12.TabIndex = 1;
+            this.ntbPercent1M12.TabIndex = 3;
             this.ntbPercent1M12.Text = "0,00%";
             this.ntbPercent1M12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbPercent1M12.Valor = new decimal(new int[] {
@@ -843,11 +945,11 @@ namespace Inversions.GUI
             this.ntbPercent1M.Dock = System.Windows.Forms.DockStyle.Left;
             this.ntbPercent1M.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ntbPercent1M.ForeColor = System.Drawing.Color.Black;
-            this.ntbPercent1M.Location = new System.Drawing.Point(5, 22);
+            this.ntbPercent1M.Location = new System.Drawing.Point(0, 0);
             this.ntbPercent1M.Name = "ntbPercent1M";
             this.ntbPercent1M.ReadOnly = true;
             this.ntbPercent1M.Size = new System.Drawing.Size(68, 26);
-            this.ntbPercent1M.TabIndex = 0;
+            this.ntbPercent1M.TabIndex = 2;
             this.ntbPercent1M.Text = "0,00%";
             this.ntbPercent1M.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbPercent1M.Valor = new decimal(new int[] {
@@ -856,16 +958,26 @@ namespace Inversions.GUI
             0,
             131072});
             // 
-            // pnFiltreValoracions
+            // panel5
             // 
-            this.pnFiltreValoracions.Controls.Add(this.ckValsAmbParticipacions);
-            this.pnFiltreValoracions.Controls.Add(this.label1);
-            this.pnFiltreValoracions.Controls.Add(this.dtpDataIniciValoracions);
-            this.pnFiltreValoracions.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnFiltreValoracions.Location = new System.Drawing.Point(0, 494);
-            this.pnFiltreValoracions.Name = "pnFiltreValoracions";
-            this.pnFiltreValoracions.Size = new System.Drawing.Size(1006, 41);
-            this.pnFiltreValoracions.TabIndex = 1;
+            this.panel5.Controls.Add(this.label1);
+            this.panel5.Controls.Add(this.ckValsAmbParticipacions);
+            this.panel5.Controls.Add(this.dtpDataIniciValoracions);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel5.Location = new System.Drawing.Point(5, 5);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(265, 58);
+            this.panel5.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 4);
+            this.label1.Margin = new System.Windows.Forms.Padding(0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(76, 20);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Data Inici";
             // 
             // ckValsAmbParticipacions
             // 
@@ -873,33 +985,22 @@ namespace Inversions.GUI
             this.ckValsAmbParticipacions.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.ckValsAmbParticipacions.Checked = true;
             this.ckValsAmbParticipacions.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ckValsAmbParticipacions.Location = new System.Drawing.Point(206, 9);
+            this.ckValsAmbParticipacions.Location = new System.Drawing.Point(4, 33);
+            this.ckValsAmbParticipacions.Margin = new System.Windows.Forms.Padding(0);
             this.ckValsAmbParticipacions.Name = "ckValsAmbParticipacions";
-            this.ckValsAmbParticipacions.Size = new System.Drawing.Size(304, 24);
+            this.ckValsAmbParticipacions.Size = new System.Drawing.Size(221, 24);
             this.ckValsAmbParticipacions.TabIndex = 2;
-            this.ckValsAmbParticipacions.Text = "Només valoracions amb participacions";
+            this.ckValsAmbParticipacions.Text = "Només amb participacions";
             this.ckValsAmbParticipacions.UseVisualStyleBackColor = true;
-            this.ckValsAmbParticipacions.CheckedChanged += new System.EventHandler(this.ckValsAmbParticipacions_CheckedChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 11);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(76, 20);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Data Inici";
             // 
             // dtpDataIniciValoracions
             // 
             this.dtpDataIniciValoracions.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDataIniciValoracions.Location = new System.Drawing.Point(85, 8);
-            this.dtpDataIniciValoracions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dtpDataIniciValoracions.Location = new System.Drawing.Point(86, 2);
+            this.dtpDataIniciValoracions.Margin = new System.Windows.Forms.Padding(0);
             this.dtpDataIniciValoracions.Name = "dtpDataIniciValoracions";
             this.dtpDataIniciValoracions.Size = new System.Drawing.Size(115, 26);
             this.dtpDataIniciValoracions.TabIndex = 1;
-            this.dtpDataIniciValoracions.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dtpDataIniciValoracions_KeyPress);
-            this.dtpDataIniciValoracions.Validating += new System.ComponentModel.CancelEventHandler(this.dtpDataIniciValoracions_Validating);
             // 
             // gestioProductesTabValoracions
             // 
@@ -1011,19 +1112,22 @@ namespace Inversions.GUI
             ((System.ComponentModel.ISupportInitialize)(this.dgvValoracionsPerData)).EndInit();
             this.gbFiltreTipusProducte.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.checkedComboBoxEdit1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.panel1.ResumeLayout(false);
-            this.panel4.ResumeLayout(false);
-            this.gbPercent1A.ResumeLayout(false);
-            this.gbPercent1A.PerformLayout();
-            this.gbPercent6M.ResumeLayout(false);
-            this.gbPercent6M.PerformLayout();
-            this.gbPercent3M.ResumeLayout(false);
-            this.gbPercent3M.PerformLayout();
-            this.gbPercent1M.ResumeLayout(false);
-            this.gbPercent1M.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.pnFiltreValoracions.ResumeLayout(false);
-            this.pnFiltreValoracions.PerformLayout();
+            this.tlpPercents.ResumeLayout(false);
+            this.panel9.ResumeLayout(false);
+            this.panel9.PerformLayout();
+            this.panel8.ResumeLayout(false);
+            this.panel8.PerformLayout();
+            this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
+            this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
@@ -1046,7 +1150,6 @@ namespace Inversions.GUI
         private Controls.DataGridView3 dgvValoracionsPerData;
         private System.Windows.Forms.Button btActualitzaLlista;
         private System.Windows.Forms.GroupBox gbFiltreTipusProducte;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.Button btEsborra;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
@@ -1057,9 +1160,6 @@ namespace Inversions.GUI
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label lbTitolValoracionsPerData;
         private System.Windows.Forms.Panel pnFiltreValoracions;
-        private System.Windows.Forms.CheckBox ckValsAmbParticipacions;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DateTimePicker dtpDataIniciValoracions;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
         private System.Windows.Forms.DataGridViewTextBoxColumn colId;
         private System.Windows.Forms.DataGridViewTextBoxColumn colProducte;
@@ -1074,17 +1174,29 @@ namespace Inversions.GUI
         private Controls.NumericTextBoxColumn2 colVariacioPercentatge;
         private Controls.NumericTextBoxColumn2 colVariacioEuros2;
         private Controls.NumericTextBoxColumn2 Column1;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.GroupBox gbPercent1A;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox ckValsAmbParticipacions;
+        private System.Windows.Forms.DateTimePicker dtpDataIniciValoracions;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.TableLayoutPanel tlpPercents;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lbPercentAny;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Panel panel9;
         private NumericTextBox2 ntbPercent1A;
-        private System.Windows.Forms.GroupBox gbPercent6M;
-        private NumericTextBox2 ntbPercent6M;
-        private System.Windows.Forms.GroupBox gbPercent3M;
-        private NumericTextBox2 ntbPercent3M;
-        private NumericTextBox2 ntbPercent3M12;
+        private System.Windows.Forms.Panel panel8;
+        private NumericTextBox2 ntbPercentAny;
+        private System.Windows.Forms.Panel panel7;
         private NumericTextBox2 ntbPercent6M12;
+        private NumericTextBox2 ntbPercent6M;
+        private System.Windows.Forms.Panel panel6;
+        private NumericTextBox2 ntbPercent3M12;
+        private NumericTextBox2 ntbPercent3M;
+        private System.Windows.Forms.Panel panel4;
         private NumericTextBox2 ntbPercent1M12;
         private NumericTextBox2 ntbPercent1M;
-        private System.Windows.Forms.GroupBox gbPercent1M;
     }
 }

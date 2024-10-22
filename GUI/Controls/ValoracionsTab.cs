@@ -238,6 +238,8 @@ namespace Inversions.GUI
 
             //gestioProductesTabValoracions.refrescaDadesControl(true);
             gestioProductesTabValoracions.refrescaDadesControl(null);
+
+            actualitzaPercentatges();
         }
 
         internal override void refresca()
@@ -249,6 +251,8 @@ namespace Inversions.GUI
 
             //gestioProductesTabValoracions.refrescaDadesControl(_PendentCanviUsuari);
             gestioProductesTabValoracions.refrescaDadesControl();
+
+            actualitzaPercentatges();
 
             modeConsulta();
         }
@@ -375,16 +379,37 @@ namespace Inversions.GUI
             }
         }
 
+        /// <summary>
+        /// Assigna l'atribut Visible a tots els controls dins de TableLayoutPanel.
+        /// </summary>
+        /// <param name="indexColumn"></param>
+        /// <param name="visible"></param>
+        private void columnaVisible(int indexColumn, bool visible)
+        {
+            foreach (Control control in tlpPercents.Controls)
+            {
+                if (tlpPercents.GetColumn(control) == indexColumn)
+                {
+                    // * Canvia Visible de tots els controls dins de TableLayoutPanel
+                    control.Visible = visible;
+                }
+            }
+        }
+
         private void actualitzaPercentatges()
         {
             if (gestioProductesTabValoracions._ProducteSeleccionat == null)
             {
-                gbPercent1M.Visible = false;
-                gbPercent3M.Visible = false;
-                gbPercent6M.Visible = false;
-                gbPercent1A.Visible = false;
+                columnaVisible(0, false);
+                columnaVisible(1, false);
+                columnaVisible(2, false);
+                columnaVisible(3, false);
+                columnaVisible(4, false);
+
                 return;
             }
+
+            var dataIniciAny = new DateTime(DateTime.Today.Year, 1, 1);
 
             var valoracionsProdSel = Valoracio.Tuples.Where(w => w.ProdId == gestioProductesTabValoracions._ProducteSeleccionat.Id)
                 .OrderBy(o => o.Data).ToList();
@@ -394,16 +419,17 @@ namespace Inversions.GUI
             var val3M = valoracionsProdSel.FirstOrDefault(w => w.Data >= DateTime.Today.AddMonths(-3).AddDays(-1));
             var val6M = valoracionsProdSel.FirstOrDefault(w => w.Data >= DateTime.Today.AddMonths(-6).AddDays(-1));
             var val1A = valoracionsProdSel.FirstOrDefault(w => w.Data >= DateTime.Today.AddMonths(-12).AddDays(-1));
+            var valAny = valoracionsProdSel.FirstOrDefault(w => w.Data >= dataIniciAny);
 
             decimal percent;
 
             if (val1M == null || (valActual.Data - val1M.Data).Days < 25)
             {
-                gbPercent1M.Visible = false;
+                columnaVisible(0, false);
             }
             else
             {
-                gbPercent1M.Visible = true;
+                columnaVisible(0, true);
 
                 percent = valActual.PreuParticipacio / val1M.PreuParticipacio - 1;
                 ntbPercent1M.Valor = percent;
@@ -412,11 +438,11 @@ namespace Inversions.GUI
 
             if (val3M == null || (valActual.Data - val3M.Data).Days < 85)
             {
-                gbPercent3M.Visible = false;
+                columnaVisible(1, false);
             }
             else
             {
-                gbPercent3M.Visible = true;
+                columnaVisible(1, true);
 
                 percent = valActual.PreuParticipacio / val3M.PreuParticipacio - 1;
                 ntbPercent3M.Valor = percent;
@@ -425,24 +451,40 @@ namespace Inversions.GUI
 
             if (val6M == null || (valActual.Data - val6M.Data).Days < 175)
             {
-                gbPercent6M.Visible = false;
+                columnaVisible(2, false);
             }
             else
             {
-                gbPercent6M.Visible = true;
+                columnaVisible(2, true);
 
                 percent = valActual.PreuParticipacio / val6M.PreuParticipacio - 1;
                 ntbPercent6M.Valor = percent;
                 ntbPercent6M12.Valor = percent * 2;
             }
 
-            if (val1A == null || (valActual.Data - val1A.Data).Days < 350)
+            int diesDesDeIniciAny = (DateTime.Now - dataIniciAny).Days + 1;
+
+            if (valAny == null || (valActual.Data - val1A.Data).Days < diesDesDeIniciAny)
             {
-                gbPercent1A.Visible = false;
+                columnaVisible(3, false);
             }
             else
             {
-                gbPercent1A.Visible = true;
+                columnaVisible(3, true);
+                
+                lbPercentAny.Text = "% " + dataIniciAny.Year;
+
+                percent = valActual.PreuParticipacio / valAny.PreuParticipacio - 1;
+                ntbPercentAny.Valor = percent;
+            }
+
+            if (val1A == null || (valActual.Data - val1A.Data).Days < 350)
+            {
+                columnaVisible(4, false);
+            }
+            else
+            {
+                columnaVisible(4, true);
 
                 percent = valActual.PreuParticipacio / val1A.PreuParticipacio - 1;
                 ntbPercent1A.Valor = percent;
