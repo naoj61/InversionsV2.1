@@ -186,7 +186,8 @@ namespace Inversions.GUI
             this.groupBox1.Controls.Add(this.ntbIntervalEixY);
             this.groupBox1.Location = new System.Drawing.Point(311, 103);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(90, 55);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 5);
+            this.groupBox1.Size = new System.Drawing.Size(108, 58);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Interval Y";
@@ -198,10 +199,13 @@ namespace Inversions.GUI
             this.ntbIntervalEixY._NegatiusEnVermell = false;
             this.ntbIntervalEixY._PermetDecimals = true;
             this.ntbIntervalEixY._PermetNegatius = false;
+            this.ntbIntervalEixY._PermetTextNull = false;
+            this.ntbIntervalEixY.BackColor = System.Drawing.SystemColors.Window;
+            this.ntbIntervalEixY.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ntbIntervalEixY.ForeColor = System.Drawing.Color.Black;
-            this.ntbIntervalEixY.Location = new System.Drawing.Point(1, 25);
+            this.ntbIntervalEixY.Location = new System.Drawing.Point(3, 22);
             this.ntbIntervalEixY.Name = "ntbIntervalEixY";
-            this.ntbIntervalEixY.Size = new System.Drawing.Size(85, 26);
+            this.ntbIntervalEixY.Size = new System.Drawing.Size(102, 26);
             this.ntbIntervalEixY.TabIndex = 0;
             this.ntbIntervalEixY.Text = "1,00";
             this.ntbIntervalEixY.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;

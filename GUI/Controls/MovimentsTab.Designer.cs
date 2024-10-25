@@ -61,7 +61,6 @@
             this.pnCompraVenda = new System.Windows.Forms.FlowLayoutPanel();
             this.gbDataMoviment = new System.Windows.Forms.GroupBox();
             this.cData1 = new System.Windows.Forms.DateTimePicker();
-            this.ckActivaDataDesti = new System.Windows.Forms.CheckBox();
             this.gbParticipacions = new System.Windows.Forms.GroupBox();
             this.tbNumParticipacions = new Controls.NumericTextBox2();
             this.gbCanviAplicat = new System.Windows.Forms.GroupBox();
@@ -76,6 +75,8 @@
             this.tbDescripcio = new System.Windows.Forms.TextBox();
             this.gbEdicio = new System.Windows.Forms.GroupBox();
             this.gbTraspas = new System.Windows.Forms.GroupBox();
+            this.pnProddesti = new System.Windows.Forms.Panel();
+            this.ckActivaDataDesti = new System.Windows.Forms.CheckBox();
             this.gbDataDesti = new System.Windows.Forms.GroupBox();
             this.cDataDesti = new System.Windows.Forms.DateTimePicker();
             this.gbNumParticipacionsDesti = new System.Windows.Forms.GroupBox();
@@ -105,6 +106,7 @@
             this.gbDescripcio.SuspendLayout();
             this.gbEdicio.SuspendLayout();
             this.gbTraspas.SuspendLayout();
+            this.pnProddesti.SuspendLayout();
             this.gbDataDesti.SuspendLayout();
             this.gbNumParticipacionsDesti.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -294,7 +296,7 @@
             // gbPreuPartic
             // 
             this.gbPreuPartic.Controls.Add(this.ntbPreuParticipacio);
-            this.gbPreuPartic.Location = new System.Drawing.Point(3, 74);
+            this.gbPreuPartic.Location = new System.Drawing.Point(441, 4);
             this.gbPreuPartic.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbPreuPartic.Name = "gbPreuPartic";
             this.gbPreuPartic.Padding = new System.Windows.Forms.Padding(6);
@@ -333,7 +335,7 @@
             // 
             this.gbFactorConversor.Controls.Add(this.ntbFactorConversor);
             this.gbFactorConversor.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbFactorConversor.Location = new System.Drawing.Point(441, 4);
+            this.gbFactorConversor.Location = new System.Drawing.Point(293, 4);
             this.gbFactorConversor.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbFactorConversor.Name = "gbFactorConversor";
             this.gbFactorConversor.Padding = new System.Windows.Forms.Padding(6);
@@ -410,7 +412,6 @@
             this.pnCompraVenda.AutoSize = true;
             this.pnCompraVenda.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.pnCompraVenda.Controls.Add(this.gbDataMoviment);
-            this.pnCompraVenda.Controls.Add(this.ckActivaDataDesti);
             this.pnCompraVenda.Controls.Add(this.gbParticipacions);
             this.pnCompraVenda.Controls.Add(this.gbFactorConversor);
             this.pnCompraVenda.Controls.Add(this.gbPreuPartic);
@@ -448,24 +449,10 @@
             this.cData1.Size = new System.Drawing.Size(130, 26);
             this.cData1.TabIndex = 0;
             // 
-            // ckActivaDataDesti
-            // 
-            this.ckActivaDataDesti.AutoSize = true;
-            this.ckActivaDataDesti.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.ckActivaDataDesti.Location = new System.Drawing.Point(151, 4);
-            this.ckActivaDataDesti.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ckActivaDataDesti.Name = "ckActivaDataDesti";
-            this.ckActivaDataDesti.Padding = new System.Windows.Forms.Padding(0, 1, 0, 0);
-            this.ckActivaDataDesti.Size = new System.Drawing.Size(142, 46);
-            this.ckActivaDataDesti.TabIndex = 1;
-            this.ckActivaDataDesti.Text = "Mostra Data Destí";
-            this.ckActivaDataDesti.UseVisualStyleBackColor = true;
-            this.ckActivaDataDesti.CheckedChanged += new System.EventHandler(this.ckActivaDataDesti_CheckedChanged);
-            // 
             // gbParticipacions
             // 
             this.gbParticipacions.Controls.Add(this.tbNumParticipacions);
-            this.gbParticipacions.Location = new System.Drawing.Point(299, 4);
+            this.gbParticipacions.Location = new System.Drawing.Point(151, 4);
             this.gbParticipacions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbParticipacions.Name = "gbParticipacions";
             this.gbParticipacions.Padding = new System.Windows.Forms.Padding(6);
@@ -502,7 +489,7 @@
             // gbCanviAplicat
             // 
             this.gbCanviAplicat.Controls.Add(this.tbCanviAplicat);
-            this.gbCanviAplicat.Location = new System.Drawing.Point(145, 74);
+            this.gbCanviAplicat.Location = new System.Drawing.Point(3, 74);
             this.gbCanviAplicat.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbCanviAplicat.Name = "gbCanviAplicat";
             this.gbCanviAplicat.Padding = new System.Windows.Forms.Padding(6);
@@ -539,7 +526,7 @@
             // gbDespeses
             // 
             this.gbDespeses.Controls.Add(this.tbDespeses);
-            this.gbDespeses.Location = new System.Drawing.Point(259, 74);
+            this.gbDespeses.Location = new System.Drawing.Point(117, 74);
             this.gbDespeses.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbDespeses.Name = "gbDespeses";
             this.gbDespeses.Padding = new System.Windows.Forms.Padding(6);
@@ -576,7 +563,7 @@
             // gbImportTotal
             // 
             this.gbImportTotal.Controls.Add(this.tbImportTotal);
-            this.gbImportTotal.Location = new System.Drawing.Point(373, 74);
+            this.gbImportTotal.Location = new System.Drawing.Point(231, 74);
             this.gbImportTotal.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbImportTotal.Name = "gbImportTotal";
             this.gbImportTotal.Padding = new System.Windows.Forms.Padding(6);
@@ -614,7 +601,7 @@
             // 
             this.gbPigVendaReal.Controls.Add(this.ntbPigVendaReal);
             this.gbPigVendaReal.Dock = System.Windows.Forms.DockStyle.Right;
-            this.gbPigVendaReal.Location = new System.Drawing.Point(487, 74);
+            this.gbPigVendaReal.Location = new System.Drawing.Point(345, 74);
             this.gbPigVendaReal.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbPigVendaReal.Name = "gbPigVendaReal";
             this.gbPigVendaReal.Padding = new System.Windows.Forms.Padding(6);
@@ -655,7 +642,7 @@
             this.gbDescripcio.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbDescripcio.Name = "gbDescripcio";
             this.gbDescripcio.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbDescripcio.Size = new System.Drawing.Size(638, 154);
+            this.gbDescripcio.Size = new System.Drawing.Size(638, 146);
             this.gbDescripcio.TabIndex = 1;
             this.gbDescripcio.TabStop = false;
             this.gbDescripcio.Text = "Descripció";
@@ -668,7 +655,7 @@
             this.tbDescripcio.Multiline = true;
             this.tbDescripcio.Name = "tbDescripcio";
             this.tbDescripcio.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.tbDescripcio.Size = new System.Drawing.Size(632, 127);
+            this.tbDescripcio.Size = new System.Drawing.Size(632, 119);
             this.tbDescripcio.TabIndex = 0;
             // 
             // gbEdicio
@@ -690,32 +677,60 @@
             // gbTraspas
             // 
             this.gbTraspas.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.gbTraspas.Controls.Add(this.gbDataDesti);
-            this.gbTraspas.Controls.Add(this.gbNumParticipacionsDesti);
-            this.gbTraspas.Controls.Add(this.groupBox3);
-            this.gbTraspas.Controls.Add(this.groupBox2);
+            this.gbTraspas.Controls.Add(this.pnProddesti);
             this.gbTraspas.Controls.Add(this.gbProducteTraspas);
             this.gbTraspas.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.gbTraspas.Location = new System.Drawing.Point(3, 323);
+            this.gbTraspas.Location = new System.Drawing.Point(3, 315);
             this.gbTraspas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbTraspas.Name = "gbTraspas";
             this.gbTraspas.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbTraspas.Size = new System.Drawing.Size(638, 157);
+            this.gbTraspas.Size = new System.Drawing.Size(638, 165);
             this.gbTraspas.TabIndex = 2;
             this.gbTraspas.TabStop = false;
             this.gbTraspas.Text = "Traspàs";
             this.gbTraspas.Visible = false;
             // 
+            // pnProddesti
+            // 
+            this.pnProddesti.Controls.Add(this.ckActivaDataDesti);
+            this.pnProddesti.Controls.Add(this.gbDataDesti);
+            this.pnProddesti.Controls.Add(this.gbNumParticipacionsDesti);
+            this.pnProddesti.Controls.Add(this.groupBox3);
+            this.pnProddesti.Controls.Add(this.groupBox2);
+            this.pnProddesti.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnProddesti.Location = new System.Drawing.Point(3, 94);
+            this.pnProddesti.Name = "pnProddesti";
+            this.pnProddesti.Size = new System.Drawing.Size(632, 67);
+            this.pnProddesti.TabIndex = 1;
+            this.pnProddesti.Visible = false;
+            // 
+            // ckActivaDataDesti
+            // 
+            this.ckActivaDataDesti.AutoSize = true;
+            this.ckActivaDataDesti.CheckAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.ckActivaDataDesti.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ckActivaDataDesti.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ckActivaDataDesti.Location = new System.Drawing.Point(0, 0);
+            this.ckActivaDataDesti.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ckActivaDataDesti.Name = "ckActivaDataDesti";
+            this.ckActivaDataDesti.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
+            this.ckActivaDataDesti.Size = new System.Drawing.Size(89, 67);
+            this.ckActivaDataDesti.TabIndex = 10;
+            this.ckActivaDataDesti.Text = "Data Destí";
+            this.ckActivaDataDesti.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.ckActivaDataDesti.UseVisualStyleBackColor = true;
+            this.ckActivaDataDesti.CheckedChanged += new System.EventHandler(this.ckActivaDataDesti_CheckedChanged);
+            // 
             // gbDataDesti
             // 
             this.gbDataDesti.Controls.Add(this.cDataDesti);
             this.gbDataDesti.Dock = System.Windows.Forms.DockStyle.Right;
-            this.gbDataDesti.Location = new System.Drawing.Point(126, 94);
+            this.gbDataDesti.Location = new System.Drawing.Point(106, 0);
             this.gbDataDesti.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbDataDesti.Name = "gbDataDesti";
-            this.gbDataDesti.Padding = new System.Windows.Forms.Padding(6);
-            this.gbDataDesti.Size = new System.Drawing.Size(125, 59);
-            this.gbDataDesti.TabIndex = 1;
+            this.gbDataDesti.Padding = new System.Windows.Forms.Padding(6, 6, 6, 9);
+            this.gbDataDesti.Size = new System.Drawing.Size(142, 67);
+            this.gbDataDesti.TabIndex = 6;
             this.gbDataDesti.TabStop = false;
             this.gbDataDesti.Text = "Data";
             // 
@@ -726,19 +741,19 @@
             this.cDataDesti.Location = new System.Drawing.Point(6, 25);
             this.cDataDesti.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cDataDesti.Name = "cDataDesti";
-            this.cDataDesti.Size = new System.Drawing.Size(113, 26);
+            this.cDataDesti.Size = new System.Drawing.Size(130, 26);
             this.cDataDesti.TabIndex = 0;
             // 
             // gbNumParticipacionsDesti
             // 
             this.gbNumParticipacionsDesti.Controls.Add(this.tbNumParticipacionsDesti);
             this.gbNumParticipacionsDesti.Dock = System.Windows.Forms.DockStyle.Right;
-            this.gbNumParticipacionsDesti.Location = new System.Drawing.Point(251, 94);
+            this.gbNumParticipacionsDesti.Location = new System.Drawing.Point(248, 0);
             this.gbNumParticipacionsDesti.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbNumParticipacionsDesti.Name = "gbNumParticipacionsDesti";
-            this.gbNumParticipacionsDesti.Padding = new System.Windows.Forms.Padding(6);
-            this.gbNumParticipacionsDesti.Size = new System.Drawing.Size(128, 59);
-            this.gbNumParticipacionsDesti.TabIndex = 2;
+            this.gbNumParticipacionsDesti.Padding = new System.Windows.Forms.Padding(6, 6, 6, 9);
+            this.gbNumParticipacionsDesti.Size = new System.Drawing.Size(128, 67);
+            this.gbNumParticipacionsDesti.TabIndex = 7;
             this.gbNumParticipacionsDesti.TabStop = false;
             this.gbNumParticipacionsDesti.Text = "Num Parts";
             // 
@@ -765,19 +780,17 @@
             0,
             0,
             0});
-            this.tbNumParticipacionsDesti.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbNumParticipacionsDesti_KeyPress);
-            this.tbNumParticipacionsDesti.Leave += new System.EventHandler(this.tbNumParticipacionsDesti_Leave);
             // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.ntbPreuParticipacioFonsCompra);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.groupBox3.Location = new System.Drawing.Point(379, 94);
+            this.groupBox3.Location = new System.Drawing.Point(376, 0);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(6);
-            this.groupBox3.Size = new System.Drawing.Size(128, 59);
-            this.groupBox3.TabIndex = 3;
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(6, 6, 6, 9);
+            this.groupBox3.Size = new System.Drawing.Size(128, 67);
+            this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Preu Partic";
             // 
@@ -804,19 +817,17 @@
             0,
             0,
             0});
-            this.ntbPreuParticipacioFonsCompra.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ntbPreuParticipacioFonsCompra_KeyPress);
-            this.ntbPreuParticipacioFonsCompra.Leave += new System.EventHandler(this.ntbPreuParticipacioFonsCompra_Leave);
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.ntbDespeses);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.groupBox2.Location = new System.Drawing.Point(507, 94);
+            this.groupBox2.Location = new System.Drawing.Point(504, 0);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(6);
-            this.groupBox2.Size = new System.Drawing.Size(128, 59);
-            this.groupBox2.TabIndex = 4;
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(6, 6, 6, 9);
+            this.groupBox2.Size = new System.Drawing.Size(128, 67);
+            this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Despeses";
             // 
@@ -962,7 +973,6 @@
             this.gbFactorConversor.ResumeLayout(false);
             this.gbFactorConversor.PerformLayout();
             this.pnCompraVenda.ResumeLayout(false);
-            this.pnCompraVenda.PerformLayout();
             this.gbDataMoviment.ResumeLayout(false);
             this.gbParticipacions.ResumeLayout(false);
             this.gbParticipacions.PerformLayout();
@@ -979,6 +989,8 @@
             this.gbEdicio.ResumeLayout(false);
             this.gbEdicio.PerformLayout();
             this.gbTraspas.ResumeLayout(false);
+            this.pnProddesti.ResumeLayout(false);
+            this.pnProddesti.PerformLayout();
             this.gbDataDesti.ResumeLayout(false);
             this.gbNumParticipacionsDesti.ResumeLayout(false);
             this.gbNumParticipacionsDesti.PerformLayout();
@@ -1031,15 +1043,6 @@
         private System.Windows.Forms.GroupBox gbTraspas;
         private System.Windows.Forms.GroupBox gbProducteTraspas;
         private System.Windows.Forms.ComboBox cProducteTraspas;
-        private System.Windows.Forms.GroupBox gbDataDesti;
-        private System.Windows.Forms.DateTimePicker cDataDesti;
-        private System.Windows.Forms.GroupBox gbNumParticipacionsDesti;
-        private Controls.NumericTextBox2 tbNumParticipacionsDesti;
-        private System.Windows.Forms.CheckBox ckActivaDataDesti;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private Controls.NumericTextBox2 ntbPreuParticipacioFonsCompra;
-        private Controls.NumericTextBox2 ntbDespeses;
         private System.Windows.Forms.GroupBox gbPigVendaReal;
         private Controls.NumericTextBox2 ntbPigVendaReal;
         private System.Windows.Forms.DataGridViewTextBoxColumn colId;
@@ -1055,5 +1058,15 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colTraspasOrigen;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTraspasDesti;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDescripcio;
+        private System.Windows.Forms.Panel pnProddesti;
+        private System.Windows.Forms.CheckBox ckActivaDataDesti;
+        private System.Windows.Forms.GroupBox gbDataDesti;
+        private System.Windows.Forms.DateTimePicker cDataDesti;
+        private System.Windows.Forms.GroupBox gbNumParticipacionsDesti;
+        private Controls.NumericTextBox2 tbNumParticipacionsDesti;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private Controls.NumericTextBox2 ntbPreuParticipacioFonsCompra;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private Controls.NumericTextBox2 ntbDespeses;
     }
 }

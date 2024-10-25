@@ -199,10 +199,10 @@ namespace Inversions.GUI
             // 
             this.btCancela.Enabled = false;
             this.btCancela.ForeColor = System.Drawing.Color.Red;
-            this.btCancela.Location = new System.Drawing.Point(418, 61);
+            this.btCancela.Location = new System.Drawing.Point(495, 61);
             this.btCancela.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btCancela.Name = "btCancela";
-            this.btCancela.Size = new System.Drawing.Size(150, 45);
+            this.btCancela.Size = new System.Drawing.Size(130, 45);
             this.btCancela.TabIndex = 6;
             this.btCancela.Text = "Cancela";
             this.btCancela.UseVisualStyleBackColor = true;
@@ -211,10 +211,10 @@ namespace Inversions.GUI
             // btNouValor
             // 
             this.btNouValor.Enabled = false;
-            this.btNouValor.Location = new System.Drawing.Point(150, 9);
+            this.btNouValor.Location = new System.Drawing.Point(189, 9);
             this.btNouValor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btNouValor.Name = "btNouValor";
-            this.btNouValor.Size = new System.Drawing.Size(110, 45);
+            this.btNouValor.Size = new System.Drawing.Size(130, 45);
             this.btNouValor.TabIndex = 1;
             this.btNouValor.Text = "Nou Valor";
             this.btNouValor.UseVisualStyleBackColor = true;
@@ -224,10 +224,10 @@ namespace Inversions.GUI
             // 
             this.btDesa.Enabled = false;
             this.btDesa.ForeColor = System.Drawing.Color.Green;
-            this.btDesa.Location = new System.Drawing.Point(276, 61);
+            this.btDesa.Location = new System.Drawing.Point(339, 61);
             this.btDesa.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btDesa.Name = "btDesa";
-            this.btDesa.Size = new System.Drawing.Size(124, 45);
+            this.btDesa.Size = new System.Drawing.Size(130, 45);
             this.btDesa.TabIndex = 5;
             this.btDesa.Text = "Desa";
             this.btDesa.UseVisualStyleBackColor = true;
@@ -388,7 +388,7 @@ namespace Inversions.GUI
             // 
             this.pnEdicio.Controls.Add(this.groupBox10);
             this.pnEdicio.Controls.Add(this.gbData);
-            this.pnEdicio.Location = new System.Drawing.Point(278, 119);
+            this.pnEdicio.Location = new System.Drawing.Point(337, 119);
             this.pnEdicio.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnEdicio.Name = "pnEdicio";
             this.pnEdicio.Padding = new System.Windows.Forms.Padding(3, 6, 3, 4);
@@ -399,10 +399,10 @@ namespace Inversions.GUI
             // btModifica
             // 
             this.btModifica.Enabled = false;
-            this.btModifica.Location = new System.Drawing.Point(276, 9);
+            this.btModifica.Location = new System.Drawing.Point(339, 9);
             this.btModifica.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btModifica.Name = "btModifica";
-            this.btModifica.Size = new System.Drawing.Size(124, 45);
+            this.btModifica.Size = new System.Drawing.Size(130, 45);
             this.btModifica.TabIndex = 2;
             this.btModifica.Text = "Modifica";
             this.btModifica.UseVisualStyleBackColor = true;
@@ -521,7 +521,7 @@ namespace Inversions.GUI
             this.btActualitzaLlista.Location = new System.Drawing.Point(6, 68);
             this.btActualitzaLlista.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btActualitzaLlista.Name = "btActualitzaLlista";
-            this.btActualitzaLlista.Size = new System.Drawing.Size(240, 45);
+            this.btActualitzaLlista.Size = new System.Drawing.Size(313, 45);
             this.btActualitzaLlista.TabIndex = 2;
             this.btActualitzaLlista.Text = "Actualitza";
             this.btActualitzaLlista.UseVisualStyleBackColor = true;
@@ -532,17 +532,19 @@ namespace Inversions.GUI
             this.gbFiltreTipusProducte.Controls.Add(this.checkedComboBoxEdit1);
             this.gbFiltreTipusProducte.Controls.Add(this.dtpDataIniciLlista);
             this.gbFiltreTipusProducte.Controls.Add(this.btActualitzaLlista);
-            this.gbFiltreTipusProducte.Location = new System.Drawing.Point(20, 76);
+            this.gbFiltreTipusProducte.Location = new System.Drawing.Point(6, 76);
             this.gbFiltreTipusProducte.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gbFiltreTipusProducte.Name = "gbFiltreTipusProducte";
             this.gbFiltreTipusProducte.Padding = new System.Windows.Forms.Padding(6);
-            this.gbFiltreTipusProducte.Size = new System.Drawing.Size(252, 119);
+            this.gbFiltreTipusProducte.Size = new System.Drawing.Size(325, 119);
             this.gbFiltreTipusProducte.TabIndex = 4;
             this.gbFiltreTipusProducte.TabStop = false;
-            this.gbFiltreTipusProducte.Text = "Tipus Prod.           Data Inici";
+            this.gbFiltreTipusProducte.Text = "Tipus Prod.                         Data Inici";
             // 
             // checkedComboBoxEdit1
             // 
+            this.checkedComboBoxEdit1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.checkedComboBoxEdit1.EditValue = "RF, RV, Accions, Criptos";
             this.checkedComboBoxEdit1.Location = new System.Drawing.Point(11, 25);
             this.checkedComboBoxEdit1.Name = "checkedComboBoxEdit1";
@@ -556,27 +558,27 @@ namespace Inversions.GUI
             this.checkedComboBoxEdit1.Properties.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Style3D;
             this.checkedComboBoxEdit1.Properties.SelectAllItemCaption = "Selecciona-ho Tot";
             this.checkedComboBoxEdit1.Properties.ShowButtons = false;
-            this.checkedComboBoxEdit1.Size = new System.Drawing.Size(109, 26);
+            this.checkedComboBoxEdit1.Size = new System.Drawing.Size(166, 26);
             this.checkedComboBoxEdit1.TabIndex = 0;
             this.checkedComboBoxEdit1.CloseUp += new DevExpress.XtraEditors.Controls.CloseUpEventHandler(this.checkedComboBoxEdit1_CloseUp);
             // 
             // dtpDataIniciLlista
             // 
-            this.dtpDataIniciLlista.Dock = System.Windows.Forms.DockStyle.Right;
+            this.dtpDataIniciLlista.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpDataIniciLlista.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDataIniciLlista.Location = new System.Drawing.Point(131, 25);
+            this.dtpDataIniciLlista.Location = new System.Drawing.Point(186, 25);
             this.dtpDataIniciLlista.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dtpDataIniciLlista.Name = "dtpDataIniciLlista";
-            this.dtpDataIniciLlista.Size = new System.Drawing.Size(115, 26);
+            this.dtpDataIniciLlista.Size = new System.Drawing.Size(133, 26);
             this.dtpDataIniciLlista.TabIndex = 1;
             // 
             // btEsborra
             // 
             this.btEsborra.Enabled = false;
-            this.btEsborra.Location = new System.Drawing.Point(416, 9);
+            this.btEsborra.Location = new System.Drawing.Point(495, 9);
             this.btEsborra.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btEsborra.Name = "btEsborra";
-            this.btEsborra.Size = new System.Drawing.Size(150, 45);
+            this.btEsborra.Size = new System.Drawing.Size(130, 45);
             this.btEsborra.TabIndex = 3;
             this.btEsborra.Text = "Esborra";
             this.btEsborra.UseVisualStyleBackColor = true;
@@ -1077,7 +1079,7 @@ namespace Inversions.GUI
             this.btCopiaValorsDelPaste.Location = new System.Drawing.Point(20, 4);
             this.btCopiaValorsDelPaste.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btCopiaValorsDelPaste.Name = "btCopiaValorsDelPaste";
-            this.btCopiaValorsDelPaste.Size = new System.Drawing.Size(114, 54);
+            this.btCopiaValorsDelPaste.Size = new System.Drawing.Size(130, 54);
             this.btCopiaValorsDelPaste.TabIndex = 0;
             this.btCopiaValorsDelPaste.Text = "Còpia des d\'un Paste";
             this.btCopiaValorsDelPaste.UseVisualStyleBackColor = false;

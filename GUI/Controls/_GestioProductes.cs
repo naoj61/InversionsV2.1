@@ -108,7 +108,7 @@ namespace Inversions.GUI
             tbPigHistoric.Text = "";
             tbIsin.Text = "";
             tbMercat.Text = "";
-            lbMoneda.Text = "";
+            tbMoneda.Text = "";
             tbCostOrigPartsCartera.Text = "";
             tbEnCartera.Text = "";
             tbPigHistoricOrig.Text = "";
@@ -258,7 +258,7 @@ namespace Inversions.GUI
                 else
                 {
                     lbEmpresa.Text = prod._NomEmpresa;
-                    lbMoneda.Text = prod.Moneda;
+                    tbMoneda.Text = prod.Moneda;
 
                     tbParticipacions.Valor = prod._Participacions;
                     ntbPreuPartActual.Valor = prod._PreuParticipacioActual;

@@ -546,12 +546,14 @@ namespace Inversions.GUI
             {
                 gbDataDesti.Visible = false;
                 gbNumParticipacionsDesti.Visible = false;
+                pnProddesti.Visible = false;
             }
             else
             {
                 cDataDesti.Value = cData1.Value;
-                gbDataDesti.Visible = true;
+                gbDataDesti.Visible = ckActivaDataDesti.Checked;
                 gbNumParticipacionsDesti.Visible = true;
+                pnProddesti.Visible = true;
             }
         }
 
