@@ -105,8 +105,8 @@ namespace Inversions
                         CanviUsuari(usuari);
 
 
-                        Application.EnableVisualStyles();
-                        Application.SetCompatibleTextRenderingDefault(false);
+                        //Application.EnableVisualStyles();
+                        //Application.SetCompatibleTextRenderingDefault(false);
                         Application.Run(new Principal());
                     }
                     else
