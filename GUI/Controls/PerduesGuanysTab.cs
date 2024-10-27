@@ -28,10 +28,14 @@ namespace Inversions.GUI
                 _Id = compra.Id;
                 _Data = compra.Data;
                 _PreuParticipacio = compra.PreuParticipacio;
+                _ImportCompraBrut = compra.PreuParticipacio * compra.Participacions;
                 _PigDeLaCompra = compra.pigCompra4(true, false, ambCartera);
                 _PigDeLaCompraOrigen = compra.pigCompra4(true, true, ambCartera);
                 if (ambDividends)
                     _PigDeLaCompra += compra.dividendCompra4();
+
+                _PercentPiG = _PigDeLaCompra / _ImportCompraBrut;
+                _PercentPiGOrig = _PigDeLaCompraOrigen / _ImportCompraBrut;
             }
 
             internal static IEnumerable<StrDgvCompresProducte> CarregaStruct(IEnumerable<Moviment> compres, bool ambCartera, bool ambDividends)
@@ -47,9 +51,16 @@ namespace Inversions.GUI
 
             public decimal _PreuParticipacio { get; private set; }
 
+            public decimal _ImportCompraBrut { get; private set; }
+
             public decimal _PigDeLaCompra { get; private set; }
 
             public decimal _PigDeLaCompraOrigen { get; private set; }
+
+            public decimal _PercentPiG { get; private set; }
+
+            public decimal _PercentPiGOrig { get; private set; }
+
             // ReSharper restore UnusedAutoPropertyAccessor.Local
             // ReSharper restore MemberCanBePrivate.Local
         }
@@ -211,9 +222,9 @@ namespace Inversions.GUI
             SuspendLayout();
             dgvCompresProducte.SuspendLayout();
             dgvCompresProducte.SelectionChanged -= dgvCompresProducte_SelectionChanged;
-            dgvCompresProducte.ClearSelection();
             dgvCompresProducte.DataSource = compres;
             dgvCompresProducte.ClearSelection();
+            dgvCompresProducte.FirstDisplayedScrollingRowIndex = dgvCompresProducte.RowCount - 1;
             dgvCompresProducte.SelectionChanged += dgvCompresProducte_SelectionChanged;
 
             dgvCompresProducte.ResumeLayout();
@@ -378,6 +389,7 @@ namespace Inversions.GUI
                     //PigOrigen.Visible = ckAmbCartera.Checked && gestioProductesTabValoracions._ProducteSeleccionat is ProdFons;
                     PigOrigen.Visible = gestioProductesTabValoracions._ProducteSeleccionat is ProdFons;
                     gbPigCompraOrig.Visible = PigOrigen.Visible;
+                    PercentPiGOrig.Visible = gestioProductesTabValoracions._ProducteSeleccionat is ProdFons;
 
                     ompleLlistaCompres(gestioProductesTabValoracions._ProducteSeleccionat);
 
