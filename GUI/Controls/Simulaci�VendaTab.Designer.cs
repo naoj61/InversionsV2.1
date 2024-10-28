@@ -56,6 +56,8 @@ namespace Inversions.GUI
             this.PigDeLaCompra = new Controls.NumericTextBoxColumn2();
             this.ValorAct = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.groupBox15 = new System.Windows.Forms.GroupBox();
+            this.ntbNumPartsSelect = new Controls.NumericTextBox2();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.ntbDividents = new Controls.NumericTextBox2();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -92,6 +94,7 @@ namespace Inversions.GUI
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCompresOriginals)).BeginInit();
             this.panel2.SuspendLayout();
+            this.groupBox15.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -309,6 +312,7 @@ namespace Inversions.GUI
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.groupBox15);
             this.panel2.Controls.Add(this.groupBox10);
             this.panel2.Controls.Add(this.groupBox5);
             this.panel2.Controls.Add(this.groupBox4);
@@ -330,6 +334,43 @@ namespace Inversions.GUI
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(673, 329);
             this.panel2.TabIndex = 0;
+            // 
+            // groupBox15
+            // 
+            this.groupBox15.Controls.Add(this.ntbNumPartsSelect);
+            this.groupBox15.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox15.Location = new System.Drawing.Point(11, 272);
+            this.groupBox15.Name = "groupBox15";
+            this.groupBox15.Size = new System.Drawing.Size(135, 57);
+            this.groupBox15.TabIndex = 16;
+            this.groupBox15.TabStop = false;
+            this.groupBox15.Text = "Num Parts Sel";
+            this.toolTip1.SetToolTip(this.groupBox15, "Son les participacions de les files seleccionades en la taula.");
+            // 
+            // ntbNumPartsSelect
+            // 
+            this.ntbNumPartsSelect._CapturaEscape = true;
+            this.ntbNumPartsSelect._Format = "#,##0.#######";
+            this.ntbNumPartsSelect._NegatiusEnVermell = false;
+            this.ntbNumPartsSelect._PermetDecimals = true;
+            this.ntbNumPartsSelect._PermetNegatius = false;
+            this.ntbNumPartsSelect._PermetTextNull = false;
+            this.ntbNumPartsSelect.BackColor = System.Drawing.SystemColors.Window;
+            this.ntbNumPartsSelect.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbNumPartsSelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbNumPartsSelect.ForeColor = System.Drawing.Color.Black;
+            this.ntbNumPartsSelect.Location = new System.Drawing.Point(3, 19);
+            this.ntbNumPartsSelect.Name = "ntbNumPartsSelect";
+            this.ntbNumPartsSelect.ReadOnly = true;
+            this.ntbNumPartsSelect.Size = new System.Drawing.Size(129, 26);
+            this.ntbNumPartsSelect.TabIndex = 0;
+            this.ntbNumPartsSelect.Text = "0";
+            this.ntbNumPartsSelect.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ntbNumPartsSelect.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            262144});
             // 
             // groupBox10
             // 
@@ -918,6 +959,8 @@ namespace Inversions.GUI
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCompresOriginals)).EndInit();
             this.panel2.ResumeLayout(false);
+            this.groupBox15.ResumeLayout(false);
+            this.groupBox15.PerformLayout();
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
             this.groupBox5.ResumeLayout(false);
@@ -999,5 +1042,7 @@ namespace Inversions.GUI
         private System.Windows.Forms.GroupBox groupBox14;
         private Controls.NumericTextBox2 ntbPartsSaltades;
         private Controls.NumericTextBox2 ntbTramExentAnual;
+        private System.Windows.Forms.GroupBox groupBox15;
+        private NumericTextBox2 ntbNumPartsSelect;
     }
 }

@@ -298,8 +298,10 @@ namespace Inversions.GUI
             ntbPigOrigSimulacio.Valor = compresProdSelecionat.Sum(s => s._PigDeLaCompraOrigen);
 
             dgvCompresOriginals.SuspendLayout();
+            dgvCompresOriginals.SelectionChanged -= dgvCompresOriginals_SelectionChanged;
             dgvCompresOriginals.DataSource = compresProdSelecionat.OrderBy(o => o._DataOrig).ToList();
             dgvCompresOriginals.ClearSelection();
+            dgvCompresOriginals.SelectionChanged += dgvCompresOriginals_SelectionChanged;
             dgvCompresOriginals.ResumeLayout();
 
             calculaTotalATributar();
@@ -501,6 +503,14 @@ namespace Inversions.GUI
             }
 
             ompleDgvCompres(vProducteSeleccionat, ntbPreuParticipacio.Valor);
+        }
+
+        private void dgvCompresOriginals_SelectionChanged(object sender, EventArgs e)
+        {
+            ntbNumPartsSelect.Valor = dgvCompresOriginals
+                .SelectedRows
+                .Cast<DataGridViewRow>()
+                .Sum(selectedRow => (decimal) selectedRow.Cells["PartsUtil"].Value);
         }
 
         #endregion *** Events ***
