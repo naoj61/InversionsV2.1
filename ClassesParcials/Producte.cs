@@ -415,7 +415,7 @@ namespace Inversions
             connexio.Entry(novaCompra).Reference(c => c.Prod).Load();
 
             if (afegeigPreuAValoracions)
-                this.afegeigPreuAValoracions(connexio, dataHora, preuParticipacio, true);
+                this.afegeigPreuAValoracions(connexio, dataHora, preuParticipacio, false);
 
             connexio.SaveChanges();
 

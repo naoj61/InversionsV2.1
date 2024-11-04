@@ -11,9 +11,6 @@ namespace Inversions.GUI
 {
     public partial class MovimentsTab : TabX
     {
-        // Todo - Moneda. Les valoracions del valors en dolars els hauria de veure convertits a Euros a partir del l'ultim canvi de moneda introduit.
-        // Todo - Afegir pestanya amb simulació venda. Veuria les PiG i l'import a tributar en cas d'una venda.
-
         /// <summary>
         /// Estructura per omplir DgvCompresProducte
         /// </summary>
