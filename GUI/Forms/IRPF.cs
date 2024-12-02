@@ -264,7 +264,7 @@ namespace Inversions.GUI.Forms
 
         #endregion
         
-        private List<StrDgvProductes> vProdsAmbVendesAny;
+        private List<StrDgvProductes> vProdsAmbVendesDividentsAny;
         private List<Moviment> vVendesAny;
         private Dictionary<Inversions.Moviment, List<CompraExt>> vCompresVendesAny;
         private int vAny;
@@ -376,11 +376,22 @@ namespace Inversions.GUI.Forms
 
             carregaTaulaIngressosExterns(vAny);
 
-            vVendesAny = Moviment.MovimentsUsuari.Where(w => w._EsVendaReal && w.Data.Year == vAny).OrderBy(o => o.Prod).ThenBy(t => t.Data).ToList();
-            vProdsAmbVendesAny = vVendesAny.Select(s => s.Prod).Distinct().Select(i => new StrDgvProductes(vAny, i)).ToList();
+            vVendesAny = Moviment.MovimentsUsuari.Where(w => w._EsVendaReal && w.Data.Year == vAny).ToList();
+            vProdsAmbVendesDividentsAny = vVendesAny.Select(s => s.Prod).Distinct().Select(i => new StrDgvProductes(vAny, i)).ToList();
+            
+            // Afegeixo dividents.
+            List<StrDgvProductes>prodsAmbDividentsAny= new List<StrDgvProductes>();
+            foreach (var mov in Moviment.MovimentsUsuari.Where(w=>w._EsDividents && w.Data.Year == vAny))
+            {
+                var xx = new StrDgvProductes(vAny, mov.Prod);
+                if (!prodsAmbDividentsAny.Contains(xx))
+                    prodsAmbDividentsAny.Add(xx);
+            }
+            vProdsAmbVendesDividentsAny.AddRange(prodsAmbDividentsAny);
+
             vCompresVendesAny = vVendesAny.ToDictionary(x => x, x => x.compresDeLaVenda().ToList());
 
-            dgvProductes.DataSource = vProdsAmbVendesAny;
+            dgvProductes.DataSource = vProdsAmbVendesDividentsAny;
 
             ntbPerduesAnysAnteriors.Valor = -Producte.PerduesDarrersQuatreAnys(vAny);
 
@@ -486,7 +497,6 @@ namespace Inversions.GUI.Forms
             }
             else
             {
-
                 // Crea llista dels productes seleccionats de "dgvProductes".
                 var prodsSelec = (from DataGridViewRow row in dgvProductes.SelectedRows select (Producte) row.Cells[1].Value).ToList();
 
@@ -499,7 +509,7 @@ namespace Inversions.GUI.Forms
 
                 //dgvVendes.CellFormatting += NumericCell.CellFormatting; 
 
-                dgvVendes.DataSource = vendesAny;
+                dgvVendes.DataSource = vendesAny.OrderBy(o=>o._Prod).ThenBy(o=>o._Data).ToList();
 
                 //dgvVendes.CellFormatting -= NumericCell.CellFormatting; 
 

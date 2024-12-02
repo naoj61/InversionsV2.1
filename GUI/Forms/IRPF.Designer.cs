@@ -32,7 +32,6 @@ namespace Inversions.GUI.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -91,7 +90,7 @@ namespace Inversions.GUI.Forms
             this.panel2 = new System.Windows.Forms.Panel();
             this.btDesa = new System.Windows.Forms.Button();
             this.btCancela = new System.Windows.Forms.Button();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip1 = new System.Windows.Forms.ToolTip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.gbDividents = new System.Windows.Forms.GroupBox();
@@ -722,7 +721,7 @@ namespace Inversions.GUI.Forms
             this.gbDividents.Size = new System.Drawing.Size(1194, 142);
             this.gbDividents.TabIndex = 5;
             this.gbDividents.TabStop = false;
-            this.gbDividents.Text = "Dividents del any";
+            this.gbDividents.Text = "Productes amb Vendes o Dividents del any";
             // 
             // dgvProductes
             // 
