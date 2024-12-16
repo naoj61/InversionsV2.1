@@ -34,7 +34,7 @@ namespace Inversions.GUI
             }
 
 
-            internal static IEnumerable<StrDgvValoracionsPerData> CarregaStruct(DateTime dataH, byte valor)
+            internal static IEnumerable<StrDgvValoracionsPerData> CarregaStruct(DateTime dataH, byte valor, Chart chart)
             {
                 List<StrDgvValoracionsPerData> llista = new List<StrDgvValoracionsPerData>();
 
@@ -66,6 +66,9 @@ namespace Inversions.GUI
                 dates = dates.Distinct().OrderBy(o => o).ToList();
 
                 decimal valorTotalAnt = prods.Sum(s => s.valorEnCartera(dataAnt));
+                
+                decimal maxVal = 0;
+                decimal minVal = decimal.MaxValue;
 
                 foreach (var data in dates)
                 {
@@ -90,10 +93,25 @@ namespace Inversions.GUI
                         variacioPercentatge = variacioImport / valorTotalAnt;
                     }
 
+                    if (data >= new DateTime(2015, 3, 20) && pig > 0)
+                    {
+                        chart.Series[0].Points.AddXY(data.ToOADate(), pig);
+
+                        if (maxVal < pig)
+                            maxVal = Math.Ceiling(pig / 10) * 10;
+
+                        if (minVal > pig)
+                            minVal = Math.Floor(pig / 10) * 10;
+                    }
+
                     llista.Add(new StrDgvValoracionsPerData(data, pig, variacioPercentatge, variacioImport, valorTotal));
 
                     valorTotalAnt = valorTotal;
                 }
+
+                chart.ChartAreas[0].AxisY.Minimum = (double)minVal;
+                chart.ChartAreas[0].AxisY.Maximum = (double)maxVal;
+                chart.Update();
 
                 return llista;
             }
@@ -216,14 +234,14 @@ namespace Inversions.GUI
         {
             InitializeComponent();
 
-            chart1.GetToolTipText += chart1_GetToolTipText;
+            chProd.GetToolTipText += chart1_GetToolTipText;
 
             dgvValoracions.AutoGenerateColumns = false;
 
-            chart1.ChartAreas[0].AxisY.LabelStyle.Format = "#,##0.00";
-            chart1.ChartAreas[0].AxisX.LabelStyle.Enabled = false;
+            chProd.ChartAreas[0].AxisY.LabelStyle.Format = "#,##0.00";
+            chProd.ChartAreas[0].AxisX.LabelStyle.Enabled = false;
 
-            chart2.ChartAreas[0].AxisX.LabelStyle.Enabled = false;
+            chTotals.ChartAreas[0].AxisX.LabelStyle.Enabled = false;
         }
 
 
@@ -500,17 +518,17 @@ namespace Inversions.GUI
         {
             if (valoracionsProducte == null || valoracionsProducte.Count <= 1)
             {
-                chart1.Series[0].Points.Clear();
+                chProd.Series[0].Points.Clear();
             }
             else
             {
-                chart1.ChartAreas[0].AxisY.Minimum = (double) (valoracionsProducte.Min(m => m.PreuParticipacio)); // / 1.02M);
-                chart1.ChartAreas[0].AxisY.Maximum = (double) (valoracionsProducte.Max(m => m.PreuParticipacio)); // * 1.02M);
+                chProd.ChartAreas[0].AxisY.Minimum = (double) (valoracionsProducte.Min(m => m.PreuParticipacio)); // / 1.02M);
+                chProd.ChartAreas[0].AxisY.Maximum = (double) (valoracionsProducte.Max(m => m.PreuParticipacio)); // * 1.02M);
 
-                chart1.DataSource = valoracionsProducte;
+                chProd.DataSource = valoracionsProducte;
 
-                chart1.DataBind();
-                chart1.Update();
+                chProd.DataBind();
+                chProd.Update();
             }
         }
 
@@ -526,8 +544,7 @@ namespace Inversions.GUI
 
             //dgvValoracionsPerData.CellFormatting += NumericCell.CellFormatting;
 
-            dgvValoracionsPerData.DataSource = StrDgvValoracionsPerData.CarregaStruct(dtpDataIniciLlista.Value, resultat).OrderBy(o => o._Data).ToList();
-
+            dgvValoracionsPerData.DataSource = StrDgvValoracionsPerData.CarregaStruct(dtpDataIniciLlista.Value, resultat, chTotals).OrderBy(o => o._Data).ToList();
             //dgvValoracionsPerData.CellFormatting -= NumericCell.CellFormatting;
 
             var ultimaFilaX = dgvValoracionsPerData.Rows.GetLastRow(DataGridViewElementStates.Visible);
@@ -536,6 +553,7 @@ namespace Inversions.GUI
 
             dgvValoracionsPerData.ResumeLayout();
         }
+
 
 
 
