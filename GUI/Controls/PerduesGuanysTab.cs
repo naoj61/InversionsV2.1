@@ -184,13 +184,15 @@ namespace Inversions.GUI
             decimal pigTotalTributa = 0;
             for (int any = Program.PrimerAny; any <= ultimAny; any++)
             {
+                var ingressosExterns = IngresExtern.Tuples.ToList().Where(w => w.Any == any && w.Usuari == Usuari.Seleccionat).Sum(s => s.Import);
+
                 // *** PiG Tributa ***
                 var pigTributa = Producte.PigTributa4(tipusProducte, any, true);
                 pigTotalTributa += pigTributa;
                 if (pigTributa != 0 || any == ultimAny)
                 {
                     // Hi ha vendes reals en l'any.
-                    var fila = dgvPiGAnualsTributen.Rows.Add(any, pigTributa);
+                    var fila = dgvPiGAnualsTributen.Rows.Add(any, pigTributa + ingressosExterns);
                     dgvPiGAnualsTributen.Rows[fila].Cells["colPigTributa"].Style.ForeColor = pigTributa < 0 ? Color.Red : Color.Black;
                 }
             }
@@ -334,10 +336,13 @@ namespace Inversions.GUI
                     return;
             }
 
+            // ** Selecciones només productes amb cartera i els ordena.
+            productes = productes.Where(producte => producte.partsEnCartera() > 0).OrderBy(o => o.OrdreGrid).ToList();
+
             var anyDades = (int)cbAnysPiGEnCartera.SelectedItem;
             decimal pigTotalEncartera = 0;
             dgvPiGEnCartera.Rows.Clear();
-            foreach (var prod in productes.OrderBy(o => o.OrdreGrid))
+            foreach (var prod in productes)
             {
                 //var pigProdAny = prod.pigEnAny4(anyDades, false, false) + prod.pigHistoric4(anyDades, false, true, true);
                 var pigProdAny = prod.pigEnAny4(anyDades, false, true, true, true);

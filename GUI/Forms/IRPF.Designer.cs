@@ -32,6 +32,7 @@ namespace Inversions.GUI.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -90,7 +91,7 @@ namespace Inversions.GUI.Forms
             this.panel2 = new System.Windows.Forms.Panel();
             this.btDesa = new System.Windows.Forms.Button();
             this.btCancela = new System.Windows.Forms.Button();
-            this.toolTip1 = new System.Windows.Forms.ToolTip();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.gbDividents = new System.Windows.Forms.GroupBox();
@@ -465,7 +466,7 @@ namespace Inversions.GUI.Forms
             this.ntbIngressosForaApp.ReadOnly = true;
             this.ntbIngressosForaApp.Size = new System.Drawing.Size(153, 26);
             this.ntbIngressosForaApp.TabIndex = 0;
-            this.ntbIngressosForaApp.Text = "1.184,41 €";
+            this.ntbIngressosForaApp.Text = "0 €";
             this.ntbIngressosForaApp.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ntbIngressosForaApp.Valor = new decimal(new int[] {
             118441,
