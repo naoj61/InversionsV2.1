@@ -66,7 +66,9 @@ namespace Inversions.GUI
                 dates = dates.Distinct().OrderBy(o => o).ToList();
 
                 decimal valorTotalAnt = prods.Sum(s => s.valorEnCartera(dataAnt));
-                
+
+                chart.Series[0].Points.Clear();
+ 
                 decimal maxVal = 0;
                 decimal minVal = decimal.MaxValue;
 
@@ -93,7 +95,8 @@ namespace Inversions.GUI
                         variacioPercentatge = variacioImport / valorTotalAnt;
                     }
 
-                    if (data >= new DateTime(2015, 3, 20) && pig > 0)
+                    //if (data >= new DateTime(2015, 3, 20) && pig > 0)
+                    if (data >= dataH && pig != 0)
                     {
                         chart.Series[0].Points.AddXY(data.ToOADate(), pig);
 
@@ -109,9 +112,12 @@ namespace Inversions.GUI
                     valorTotalAnt = valorTotal;
                 }
 
-                chart.ChartAreas[0].AxisY.Minimum = (double)minVal;
-                chart.ChartAreas[0].AxisY.Maximum = (double)maxVal;
-                chart.Update();
+                if (chart.Series[0].Points.Count > 1)
+                {
+                    chart.ChartAreas[0].AxisY.Minimum = (double) minVal;
+                    chart.ChartAreas[0].AxisY.Maximum = (double) maxVal;
+                    chart.Update();
+                }
 
                 return llista;
             }
@@ -544,7 +550,9 @@ namespace Inversions.GUI
 
             //dgvValoracionsPerData.CellFormatting += NumericCell.CellFormatting;
 
-            dgvValoracionsPerData.DataSource = StrDgvValoracionsPerData.CarregaStruct(dtpDataIniciLlista.Value, resultat, chTotals).OrderBy(o => o._Data).ToList();
+            dgvValoracionsPerData.DataSource = StrDgvValoracionsPerData
+                .CarregaStruct(dtpDataIniciLlista.Value, resultat, chTotals).OrderBy(o => o._Data).ToList();
+
             //dgvValoracionsPerData.CellFormatting -= NumericCell.CellFormatting;
 
             var ultimaFilaX = dgvValoracionsPerData.Rows.GetLastRow(DataGridViewElementStates.Visible);
