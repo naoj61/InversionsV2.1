@@ -522,6 +522,7 @@ namespace Inversions.GUI.Forms
             if (dgvVendes.SelectedRows.Count == 0)
             {
                 dgvVendes.DataSource = null;
+                dgvCompresVenda.DataSource = null;
                 ntbPiG.Valor = 0;
             }
             else
