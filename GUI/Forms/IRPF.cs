@@ -189,9 +189,14 @@ namespace Inversions.GUI.Forms
                 get { return _CompraExt._Id; }
             }
 
-            public DateTime _Data
+            public DateTime _DataCompra
             {
                 get { return _CompraExt._Data; }
+            }
+
+            public DateTime _DataVenda
+            {
+                get { return vVenda.Data; }
             }
 
             public decimal _Participacions
@@ -199,9 +204,14 @@ namespace Inversions.GUI.Forms
                 get { return _CompraExt._Participacions; }
             }
 
-            public decimal _PreuUnitari
+            public decimal _PreuUnitariCompra
             {
                 get { return _CompraExt._PreuParticipacio; }
+            }
+
+            public decimal _PreuUnitariVenda
+            {
+                get { return vVenda.PreuParticipacio; }
             }
 
             public decimal _ImportCompraBrutUtil
@@ -304,7 +314,7 @@ namespace Inversions.GUI.Forms
 
         private void IRPF_Load(object sender, EventArgs e)
         {
-            ckAgrupaCompres.Checked = true;
+            //ckAgrupaCompres.Checked = true;
 
             dgvProductes.ClearSelection();
 
@@ -329,8 +339,8 @@ namespace Inversions.GUI.Forms
 
             if (ckAgrupaCompres.Checked)
             {
-                ColDespesesCompra.Visible = false;
-                ColDespesesVenda.Visible = false;
+                //ColDespesesCompra.Visible = false;
+                //ColDespesesVenda.Visible = false;
 
                 List<StrDgvCompresVenda> compresVendaAgrup = new List<StrDgvCompresVenda>();
                 foreach (var compraVenda in compresVenda)
@@ -349,8 +359,8 @@ namespace Inversions.GUI.Forms
             }
             else
             {
-                ColDespesesCompra.Visible = true;
-                ColDespesesVenda.Visible = true;
+                //ColDespesesCompra.Visible = true;
+                //ColDespesesVenda.Visible = true;
 
                 dgvCompresVenda.DataSource = compresVenda.OrderBy(o => o._Venda.Data).ThenBy(o => o._CompraExt._Data).ToList();
             }
