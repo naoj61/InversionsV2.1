@@ -131,11 +131,14 @@ namespace Inversions
         public CompraExt(DesglosCompraExt desglosCompraExt)
         {
             vCompra = desglosCompraExt._Compra;
-            vDesglosCompra.Add(desglosCompraExt);
+            vDesglosCompraExt.Add(desglosCompraExt);
         }
 
         private readonly Moviment vCompra;
-        private readonly List<DesglosCompraExt> vDesglosCompra = new List<DesglosCompraExt>();
+        private readonly List<DesglosCompraExt> vDesglosCompraExt = new List<DesglosCompraExt>();
+        
+        
+        #region **** Atributs ****
 
         public Moviment _Compra
         {
@@ -169,14 +172,14 @@ namespace Inversions
 
         public decimal _PartsUtilitzades
         {
-            get { return vDesglosCompra.Sum(s => s._PartsUtilitzades); }
+            get { return vDesglosCompraExt.Sum(s => s._PartsUtilitzades); }
         }
 
-// ReSharper disable UnusedMember.Global
+        // ReSharper disable UnusedMember.Global
         public decimal _PartsOcupades
-// ReSharper restore UnusedMember.Global
+        // ReSharper restore UnusedMember.Global
         {
-            get { return vDesglosCompra.Sum(s => s._PartsOcupades); }
+            get { return vDesglosCompraExt.Sum(s => s._PartsOcupades); }
         }
 
         public decimal _DespesesPartsUtilitzades
@@ -184,19 +187,25 @@ namespace Inversions
             get { return vCompra.Despeses.GetValueOrDefault() / vCompra.Participacions * _PartsUtilitzades; }
         }
 
+        public List<DesglosCompraExt> _DesglosCompraExt
+        {
+            get { return vDesglosCompraExt; }
+        }
+
+        #endregion **** Atributs ****
+
 
         internal void addDesglos(DesglosCompraExt desglosCompra)
         {
-            if (vDesglosCompra.Contains(desglosCompra))
+            if (vDesglosCompraExt.Contains(desglosCompra))
             {
-                var desg = vDesglosCompra.Single(w => w == desglosCompra);
+                var desg = vDesglosCompraExt.Single(w => w == desglosCompra);
                 desg._PartsOcupades += desglosCompra._PartsOcupades;
                 desg._PartsUtilitzades += desglosCompra._PartsUtilitzades;
             }
             else
-                vDesglosCompra.Add(desglosCompra);
+                vDesglosCompraExt.Add(desglosCompra);
         }
-
 
 
         #region Equals
