@@ -336,16 +336,25 @@ namespace Inversions.GUI
                     return;
             }
 
-            // ** Selecciones només productes amb cartera i els ordena.
-            productes = productes.Where(producte => producte.partsEnCartera() > 0).OrderBy(o => o.OrdreGrid).ToList();
-
             var anyDades = (int)cbAnysPiGEnCartera.SelectedItem;
+            var dataIni = new DateTime(anyDades, 1, 1);
+            var dataFi = new DateTime(anyDades + 1, 1, 1).AddTicks(-1);
+
+            // ** Selecciones només productes amb cartera i els ordena.
+            productes = productes.Where(producte => producte.partsEnCartera(dataFi) > 0).OrderBy(o => o.OrdreGrid).ToList();
+
             decimal pigTotalEncartera = 0;
             dgvPiGEnCartera.Rows.Clear();
             foreach (var prod in productes)
             {
                 //var pigProdAny = prod.pigEnAny4(anyDades, false, false) + prod.pigHistoric4(anyDades, false, true, true);
-                var pigProdAny = prod.pigEnAny4(anyDades, false, true, true, true);
+                //var pigProdAny = prod.pigEnAny4(anyDades, false, true, true, true);
+                if (dataFi > DateTime.Now)
+                    dataFi = DateTime.Now;
+
+                var pigProdAny = prod.pigEnCarteraEntreDates(dataIni, dataFi);
+
+                
                 if (!Utilitats.EsZero(pigProdAny))
                 {
                     int ff = dgvPiGEnCartera.Rows.Add(prod, pigProdAny);

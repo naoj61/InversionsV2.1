@@ -601,6 +601,47 @@ namespace Inversions
         }
 
         /// <summary>
+        /// Calcula el PiG de les participacions en cartera del producte.
+        /// Com que no´mes és calcula les parts en cartera, no s'utilitza mai el PU Orig.
+        /// </summary>
+        /// <param name="dataHoraIni"></param>
+        /// <param name="dataHoraFi"></param>
+        /// <returns></returns>
+        internal decimal pigEnCarteraEntreDates(DateTime dataHoraIni, DateTime dataHoraFi)
+        {
+            /*
+             * L'objectiu és saber el PiG de les participacions en cartera en un període. 
+             * La xifra és independent de les vendes reals.
+             * És un valor que inclou participacions comprades, venudes i traspasades, per tant no se sumarà al PiG real.
+             * 
+             * Hi ha quatre escenaris. 
+             * 1-Participacions en cartera durant tot el periode.
+                (PU DataFi - PU Inici) * Num parts fi.
+             * 2-Participacions en cartera a DataInici, però venudes o traspassades abans DataFi.
+                (PU venda - PU Inici) * Num parts venda.
+             * 3-Participacions comprades o traspassades després de DataInici i conservades fins DataFi.
+                (PU DataFi - PU Compra) * Num parts compra.
+             * 4-Participacions comprades o traspassades després de DataInici i venudes o traspassades abans DataFi.
+                PiG de la operació.
+            */
+
+            var compres = MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data >= dataHoraIni && w.Data <= dataHoraFi).ToList();
+            var vendes = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data >= dataHoraIni && w.Data <= dataHoraFi).ToList();
+
+            var partsEnCarteraFi = partsEnCartera(dataHoraFi);
+            var partsComprades = compres.Sum(s => s.Participacions);
+
+            var preuPartIni = preuParticipacioEnData(dataHoraIni);
+            var preuPartFi = preuParticipacioEnData(dataHoraFi);
+
+            var piGPartsIniciFinal = (preuPartFi - preuPartIni) * (partsEnCarteraFi - partsComprades);
+            var piGPartsComprades = compres.Sum(s => (preuPartFi - s.PreuParticipacio) * s.Participacions - s.Despeses.GetValueOrDefault());
+            var piGPartsVenudes = vendes.Sum(s => (s.PreuParticipacio - preuPartIni) * s.Participacions - s.Despeses.GetValueOrDefault());
+
+            return piGPartsIniciFinal + piGPartsComprades + piGPartsVenudes;
+        }
+
+        /// <summary>
         /// Calcula el PiG de la venda.
         /// </summary>
         /// <param name="venda"></param>

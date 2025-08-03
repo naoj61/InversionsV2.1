@@ -121,7 +121,18 @@ namespace Inversions
         /// <returns></returns>
         public decimal _PreuParticipacioActual
         {
-            get { return valorParticipacio(DateTime.Now); }
+            get { return preuParticipacioEnData(DateTime.Now); }
+        }
+
+
+        /// <summary>
+        /// Torna el valor de l'accio inmediatament anterior a la data hora del paràmetre 'dataHora'.
+        /// </summary>
+        /// <param name="dataHora"></param>
+        /// <returns></returns>
+        public decimal preuParticipacioEnData(DateTime dataHora)
+        {
+            return valorParticipacio(dataHora); 
         }
 
 
