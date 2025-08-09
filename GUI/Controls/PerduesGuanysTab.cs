@@ -352,7 +352,7 @@ namespace Inversions.GUI
                 if (dataFi > DateTime.Now)
                     dataFi = DateTime.Now;
 
-                var pigProdAny = prod.pigEnCarteraEntreDates(dataIni, dataFi);
+                var pigProdAny = prod.pigEnCarteraEntreDates(dataIni, dataFi, true);
 
                 
                 if (!Utilitats.EsZero(pigProdAny))

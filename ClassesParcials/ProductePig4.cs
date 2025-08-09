@@ -606,8 +606,9 @@ namespace Inversions
         /// </summary>
         /// <param name="dataHoraIni"></param>
         /// <param name="dataHoraFi"></param>
+        /// <param name="inclouDividents"></param>
         /// <returns></returns>
-        internal decimal pigEnCarteraEntreDates(DateTime dataHoraIni, DateTime dataHoraFi)
+        internal decimal pigEnCarteraEntreDates(DateTime dataHoraIni, DateTime dataHoraFi, bool inclouDividents)
         {
             /*
              * L'objectiu és saber el PiG de les participacions en cartera en un període. 
@@ -627,6 +628,9 @@ namespace Inversions
 
             var compres = MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data >= dataHoraIni && w.Data <= dataHoraFi).ToList();
             var vendes = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data >= dataHoraIni && w.Data <= dataHoraFi).ToList();
+            var dividents = inclouDividents 
+                ? MovimentsProducteUsuari.Where(w => w._EsDividents && w.Data >= dataHoraIni && w.Data <= dataHoraFi).Sum(s => s.PreuParticipacio) 
+                : 0;
 
             var partsEnCarteraFi = partsEnCartera(dataHoraFi);
             var partsComprades = compres.Sum(s => s.Participacions);
@@ -637,8 +641,9 @@ namespace Inversions
             var piGPartsIniciFinal = (preuPartFi - preuPartIni) * (partsEnCarteraFi - partsComprades);
             var piGPartsComprades = compres.Sum(s => (preuPartFi - s.PreuParticipacio) * s.Participacions - s.Despeses.GetValueOrDefault());
             var piGPartsVenudes = vendes.Sum(s => (s.PreuParticipacio - preuPartIni) * s.Participacions - s.Despeses.GetValueOrDefault());
+            
 
-            return piGPartsIniciFinal + piGPartsComprades + piGPartsVenudes;
+            return piGPartsIniciFinal + piGPartsComprades + piGPartsVenudes + dividents;
         }
 
         /// <summary>
