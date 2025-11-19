@@ -91,9 +91,10 @@ namespace Inversions.GUI
         {
             get { return PreuParticipacioSimulacio * vDesglosCompra._PartsUtilitzades; }
         }
+
 // ReSharper restore MemberCanBePrivate.Global
 // ReSharper restore UnusedMember.Global
-        
+
         #endregion *** Propietats per mostrar en dataGridView ***
 
 
@@ -179,6 +180,7 @@ namespace Inversions.GUI
 
 
         private bool vNoValidaControlsNtb = false;
+
         internal override void canviUsuari()
         {
             base.canviUsuari();
@@ -188,7 +190,7 @@ namespace Inversions.GUI
 
             //ctrProductes.refrescaDadesControl(true); //Mostra els productes del nou usuari.
             ctrProductes.refrescaDadesControl(null); //Mostra els productes del nou usuari.
-           
+
             actualitzaControlsAny();
         }
 
@@ -208,7 +210,7 @@ namespace Inversions.GUI
 
         internal override void escape(object sender, KeyEventArgs e)
         {
-            if (!(((SimulacióVendaTab)((Form)sender).ActiveControl).ActiveControl is NumericTextBox2))
+            if (!(((SimulacióVendaTab) ((Form) sender).ActiveControl).ActiveControl is NumericTextBox2))
                 // Si el control actiu és del tipus NumericTextBox2, no es crida a "base.escape" per evitar que s'executi "refresca()".
                 base.escape(sender, e);
         }
@@ -216,7 +218,10 @@ namespace Inversions.GUI
         #endregion *** Overrides ***
 
 
-        private bool _EsAnyActual { get { return Convert.ToInt32(cbAny.SelectedItem) == DateTime.Today.Year; } }
+        private bool _EsAnyActual
+        {
+            get { return Convert.ToInt32(cbAny.SelectedItem) == DateTime.Today.Year; }
+        }
 
         private decimal valorTramExent(int any)
         {
@@ -231,16 +236,16 @@ namespace Inversions.GUI
 
         private decimal valorIngressosExterns(int any)
         {
-            return Program.Sessio.IngressosExterns.Where(w =>w.Usuari.Id == Usuari.Seleccionat.Id && w.Any == any).ToList().Sum(s => s.Import);
+            return Program.Sessio.IngressosExterns.Where(w => w.Usuari.Id == Usuari.Seleccionat.Id && w.Any == any).ToList().Sum(s => s.Import);
         }
 
 
-        private void  ompleDgvCompres(Producte prod, decimal? preuPart = null)
+        private void ompleDgvCompres(Producte prod, decimal? preuPart = null)
         {
             if (prod == null)
             {
                 dgvCompresOriginals.DataSource = new List<StrDgvCompresOriginals>();
-                
+
                 ntbImportBrut.Valor = 0;
                 ntbPigSimulacio.Valor = 0;
                 ntbPigOrigSimulacio.Valor = 0;
@@ -283,12 +288,13 @@ namespace Inversions.GUI
                 {
                     desglosCompraExt._PartsUtilitzades = partsResten;
                     compresProdSelecionat.Add(new StrDgvCompresOriginals(desglosCompraExt, preuPart.Value));
-                    break;
+                    partsResten = 0;
                 }
-
-                compresProdSelecionat.Add(new StrDgvCompresOriginals(desglosCompraExt, preuPart.Value));
-
-                partsResten -= desglosCompraExt._PartsUtilitzades;
+                else
+                {
+                    compresProdSelecionat.Add(new StrDgvCompresOriginals(desglosCompraExt, preuPart.Value));
+                    partsResten -= desglosCompraExt._PartsUtilitzades;
+                }
             }
 
             SuspendLayout();
@@ -315,8 +321,8 @@ namespace Inversions.GUI
         /// <returns></returns>
         private void calculaTotalATributar()
         {
-            var tramNoTributa = (ntbTramExentAnual.Valor + ntbPerduesAnysAnteriors.Valor) 
-                - (ntbPiGActual.Valor + ntbIngressosExterns.Valor + ntbDividents.Valor);
+            var tramNoTributa = (ntbTramExentAnual.Valor + ntbPerduesAnysAnteriors.Valor)
+                                - (ntbPiGActual.Valor + ntbIngressosExterns.Valor + ntbDividents.Valor);
 
             var tributaRenda = ntbPigOrigSimulacio.Valor + ntbPiGAltresProductes.Valor - tramNoTributa;
 
@@ -375,7 +381,7 @@ namespace Inversions.GUI
             {
                 cbAny.Items.Add(i);
             }
-           
+
             cbAny.SelectedIndexChanged += cbAny_SelectedIndexChanged;
             cbAny.SelectedItem = Convert.ToInt32(DateTime.Today.Year);
         }
@@ -398,6 +404,7 @@ namespace Inversions.GUI
         }
 
         private int vAny;
+
         private void cbAny_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbAny.SelectedItem != null && vAny != Convert.ToInt32(cbAny.SelectedItem))
@@ -429,7 +436,7 @@ namespace Inversions.GUI
                 actualitzaControlsAny();
             }
         }
-        
+
 
         private void ntb_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -448,6 +455,14 @@ namespace Inversions.GUI
 
         private void ntb_Validating(object sender, CancelEventArgs e)
         {
+            var form = this.FindForm();
+            if (form is Principal && ((Principal) form).SestaTancantForm)
+            {
+                // S'està tancant el formulari → no validar
+                e.Cancel = false;
+                return;
+            }
+
             if (vNoValidaControlsNtb)
             {
                 // Quan no vull que es facin les validacions. P.ex. si vProducteSeleccionat == null.
@@ -459,7 +474,7 @@ namespace Inversions.GUI
 
             if (ntb == ntbNumParticipacions || ntb == ntbPartsSaltades)
             {
-                if(ntb.Valor > vProducteSeleccionat._Participacions)
+                if (ntb.Valor > vProducteSeleccionat._Participacions)
                 {
                     MessageBox.Show("El valor és superior a les participacions disponibles.", "Avís", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     e.Cancel = true;
@@ -470,7 +485,7 @@ namespace Inversions.GUI
                 {
                     var missatge = "La suma de 'Num, Partic.' + 'Parts Saltades' supera les participacions disponibles. " +
                                    String.Format("Vols disminuir les participacions a: {0}?"
-                                   , ntb == ntbNumParticipacions ? "Parts saldates" : "Num Parts");
+                                       , ntb == ntbNumParticipacions ? "Parts saldates" : "Num Parts");
 
                     if (MessageBox.Show(missatge, "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
                     {

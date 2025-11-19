@@ -231,6 +231,23 @@ namespace Inversions.GUI
             }
         }
 
+        /// <summary>
+        /// Indicador per què els controls del Form sàpiguuen que s'està tancant el formulari.
+        /// </summary>
+        public bool SestaTancantForm { get; private set; }
+
+        protected override void WndProc(ref Message m)
+        {
+            const int WM_CLOSE = 0x0010;
+
+            if (m.Msg == WM_CLOSE)
+            {
+                SestaTancantForm = true;   // ← AIXÒ s'executa abans del Validating
+            }
+
+            base.WndProc(ref m);
+        }
+
 
         private void Principal_FormClosing(object sender, FormClosingEventArgs e)
         {
