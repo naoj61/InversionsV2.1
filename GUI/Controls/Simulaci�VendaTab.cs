@@ -307,8 +307,29 @@ namespace Inversions.GUI
             dgvCompresOriginals.SelectionChanged -= dgvCompresOriginals_SelectionChanged;
             dgvCompresOriginals.DataSource = compresProdSelecionat.OrderBy(o => o._DataOrig).ToList();
             dgvCompresOriginals.ClearSelection();
+            foreach (DataGridViewRow row in dgvCompresOriginals.Rows)
+            {
+                var parts = (decimal)row.Cells["Parts"].Value;
+                var partsUtil = (decimal)row.Cells["PartsUtil"].Value;
+                if (partsUtil == 0)
+                {
+                    row.Cells["PartsUtil"].Style.BackColor = Color.Lime;
+                    row.Cells["PartsUtil"].Style.ForeColor = Color.Black;
+                }
+                else if (partsUtil == parts)
+                {
+                    row.Cells["PartsUtil"].Style.BackColor = Color.Red;
+                    row.Cells["PartsUtil"].Style.ForeColor = Color.White;
+                }
+                else
+                {
+                    row.Cells["PartsUtil"].Style.BackColor = Color.Orange;
+                    row.Cells["PartsUtil"].Style.ForeColor = Color.Black;
+                }
+            }
             dgvCompresOriginals.SelectionChanged += dgvCompresOriginals_SelectionChanged;
             dgvCompresOriginals.ResumeLayout();
+
 
             calculaTotalATributar();
 
@@ -476,7 +497,8 @@ namespace Inversions.GUI
             {
                 if (ntb.Valor > vProducteSeleccionat._Participacions)
                 {
-                    MessageBox.Show("El valor és superior a les participacions disponibles.", "Avís", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("El valor és superior a les participacions disponibles. Max: " + vProducteSeleccionat._Participacions.ToString("0.000"), 
+                        "Avís", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     e.Cancel = true;
                     return;
                 }
