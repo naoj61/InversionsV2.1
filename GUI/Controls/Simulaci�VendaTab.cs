@@ -307,26 +307,6 @@ namespace Inversions.GUI
             dgvCompresOriginals.SelectionChanged -= dgvCompresOriginals_SelectionChanged;
             dgvCompresOriginals.DataSource = compresProdSelecionat.OrderBy(o => o._DataOrig).ToList();
             dgvCompresOriginals.ClearSelection();
-            foreach (DataGridViewRow row in dgvCompresOriginals.Rows)
-            {
-                var parts = (decimal)row.Cells["Parts"].Value;
-                var partsUtil = (decimal)row.Cells["PartsUtil"].Value;
-                if (partsUtil == 0)
-                {
-                    row.Cells["PartsUtil"].Style.BackColor = Color.Lime;
-                    row.Cells["PartsUtil"].Style.ForeColor = Color.Black;
-                }
-                else if (partsUtil == parts)
-                {
-                    row.Cells["PartsUtil"].Style.BackColor = Color.Red;
-                    row.Cells["PartsUtil"].Style.ForeColor = Color.White;
-                }
-                else
-                {
-                    row.Cells["PartsUtil"].Style.BackColor = Color.Orange;
-                    row.Cells["PartsUtil"].Style.ForeColor = Color.Black;
-                }
-            }
             dgvCompresOriginals.SelectionChanged += dgvCompresOriginals_SelectionChanged;
             dgvCompresOriginals.ResumeLayout();
 
@@ -458,7 +438,6 @@ namespace Inversions.GUI
             }
         }
 
-
         private void ntb_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char) Keys.Enter)
@@ -550,6 +529,43 @@ namespace Inversions.GUI
                 .Sum(selectedRow => (decimal) selectedRow.Cells["PartsUtil"].Value);
         }
 
+        private void dgvCompresOriginals_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // 1. Comprovar que estem a la columna que ens interessa
+            if (dgvCompresOriginals.Columns[e.ColumnIndex].Name == "PartsUtil")
+            {
+                // 2. Assegurar-se que el valor no és nul per evitar errors
+                if (e.Value == null || dgvCompresOriginals.Rows[e.RowIndex].Cells["Parts"].Value == null)
+                {
+                    e.CellStyle.BackColor = Color.White;
+                    e.CellStyle.ForeColor = Color.Black;
+                }
+                else
+                {
+                    decimal partsUtils = (decimal)e.Value;
+                    decimal parts = (decimal)dgvCompresOriginals.Rows[e.RowIndex].Cells["Parts"].Value;
+
+                    // 3. Aplicar el color segons el valor
+                    if (partsUtils == 0)
+                    {
+                        e.CellStyle.BackColor = Color.Lime;
+                        e.CellStyle.ForeColor = Color.Black;
+                    }
+                    else if (partsUtils == parts)
+                    {
+                        e.CellStyle.BackColor = Color.Red;
+                        e.CellStyle.ForeColor = Color.White;
+                    }
+                    else
+                    {
+                        e.CellStyle.BackColor = Color.Orange;
+                        e.CellStyle.ForeColor = Color.Black;
+                    }
+                }
+            }
+        }
+
         #endregion *** Events ***
+
     }
 }
