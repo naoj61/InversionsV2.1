@@ -56,6 +56,9 @@ namespace Inversions.GUI
             this.PigDeLaCompra = new Controls.NumericTextBoxColumn2();
             this.ValorAct = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.ntbNumPartsSelect = new Controls.NumericTextBox2();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
@@ -119,7 +122,7 @@ namespace Inversions.GUI
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 493);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1459, 329);
+            this.panel1.Size = new System.Drawing.Size(1459, 371);
             this.panel1.TabIndex = 0;
             // 
             // dgvCompresOriginals
@@ -166,7 +169,7 @@ namespace Inversions.GUI
             this.dgvCompresOriginals.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.dgvCompresOriginals.RowTemplate.Height = 24;
             this.dgvCompresOriginals.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCompresOriginals.Size = new System.Drawing.Size(786, 329);
+            this.dgvCompresOriginals.Size = new System.Drawing.Size(786, 371);
             this.dgvCompresOriginals.TabIndex = 1;
             this.dgvCompresOriginals.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvCompresOriginals_CellFormatting);
             // 
@@ -239,7 +242,7 @@ namespace Inversions.GUI
             this.Parts.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.Parts.DataPropertyName = "_Participacions";
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "N3";
+            dataGridViewCellStyle6.Format = "N5";
             dataGridViewCellStyle6.NullValue = null;
             this.Parts.DefaultCellStyle = dataGridViewCellStyle6;
             this.Parts.HeaderText = "Parts";
@@ -312,6 +315,9 @@ namespace Inversions.GUI
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.groupBox15);
             this.panel2.Controls.Add(this.groupBox10);
             this.panel2.Controls.Add(this.groupBox5);
@@ -332,8 +338,47 @@ namespace Inversions.GUI
             this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(673, 329);
+            this.panel2.Size = new System.Drawing.Size(673, 371);
             this.panel2.TabIndex = 0;
+            // 
+            // label3
+            // 
+            this.label3.BackColor = System.Drawing.Color.Orange;
+            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label3.Location = new System.Drawing.Point(503, 303);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(154, 31);
+            this.label3.TabIndex = 19;
+            this.label3.Text = "Util. parcialment";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label2
+            // 
+            this.label2.BackColor = System.Drawing.Color.Red;
+            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(503, 334);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(154, 31);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "Utilitzades totes";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.Lime;
+            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label1.Location = new System.Drawing.Point(503, 272);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(154, 31);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "No utilitzades";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox15
             // 
@@ -366,6 +411,7 @@ namespace Inversions.GUI
             this.ntbNumPartsSelect.TabIndex = 0;
             this.ntbNumPartsSelect.Text = "0";
             this.ntbNumPartsSelect.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.ntbNumPartsSelect, "Son les participacions de les files seleccionades en la taula.");
             this.ntbNumPartsSelect.Valor = new decimal(new int[] {
             0,
             0,
@@ -510,11 +556,13 @@ namespace Inversions.GUI
             this.ntbPiGAltresProductes.TabIndex = 0;
             this.ntbPiGAltresProductes.Text = "0,00 €";
             this.ntbPiGAltresProductes.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.ntbPiGAltresProductes, "Si vull acumular els PiGs de més d\'un producte, poso aquí limport dels altres.");
             this.ntbPiGAltresProductes.Valor = new decimal(new int[] {
             0,
             0,
             0,
             131072});
+            this.ntbPiGAltresProductes.TextChanged += new System.EventHandler(this.ntb_TextChanged);
             this.ntbPiGAltresProductes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ntb_KeyPress);
             this.ntbPiGAltresProductes.Validating += new System.ComponentModel.CancelEventHandler(this.ntb_Validating);
             // 
@@ -528,7 +576,7 @@ namespace Inversions.GUI
             this.groupBox11.TabIndex = 8;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Exent Anual";
-            this.toolTip1.SetToolTip(this.groupBox11, "És l\'import que no tributa marcat per Hidenda");
+            this.toolTip1.SetToolTip(this.groupBox11, "És l\'import que no tributa marcat per Hidenda.");
             // 
             // ntbTramExentAnual
             // 
@@ -548,11 +596,13 @@ namespace Inversions.GUI
             this.ntbTramExentAnual.TabIndex = 0;
             this.ntbTramExentAnual.Text = "0,00 €";
             this.ntbTramExentAnual.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.ntbTramExentAnual, "És l\'import que no tributa marcat per Hidenda.");
             this.ntbTramExentAnual.Valor = new decimal(new int[] {
             0,
             0,
             0,
             131072});
+            this.ntbTramExentAnual.TextChanged += new System.EventHandler(this.ntb_TextChanged);
             this.ntbTramExentAnual.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ntb_KeyPress);
             this.ntbTramExentAnual.Validating += new System.ComponentModel.CancelEventHandler(this.ntb_Validating);
             // 
@@ -566,7 +616,7 @@ namespace Inversions.GUI
             this.gbPigRealAny.TabIndex = 10;
             this.gbPigRealAny.TabStop = false;
             this.gbPigRealAny.Text = "PiG Any: ";
-            this.toolTip1.SetToolTip(this.gbPigRealAny, "És el PiG de les vendes realitzades en l\'any");
+            this.toolTip1.SetToolTip(this.gbPigRealAny, "És el PiG de les vendes realitzades en l\'any.");
             // 
             // ntbPiGActual
             // 
@@ -587,6 +637,7 @@ namespace Inversions.GUI
             this.ntbPiGActual.TabIndex = 0;
             this.ntbPiGActual.Text = "0,00 €";
             this.ntbPiGActual.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.ntbPiGActual, "És el PiG de les vendes realitzades en l\'any.");
             this.ntbPiGActual.Valor = new decimal(new int[] {
             0,
             0,
@@ -642,7 +693,7 @@ namespace Inversions.GUI
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Parts Saltades";
             this.toolTip1.SetToolTip(this.groupBox14, "Salta les participacions més antigues, fa com si estiguessin venudes.\r\nÉs per no " +
-        "haver de fer un traspàs simulat per veure el PiG de les més noves");
+        "haver de fer un traspàs simulat per veure el PiG de les més noves.");
             // 
             // ntbPartsSaltades
             // 
@@ -663,11 +714,14 @@ namespace Inversions.GUI
             this.ntbPartsSaltades.TabIndex = 0;
             this.ntbPartsSaltades.Text = "0,0000";
             this.ntbPartsSaltades.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.ntbPartsSaltades, "Salta les participacions més antigues, fa com si estiguessin venudes.\r\nÉs per no " +
+        "haver de fer un traspàs simulat per veure el PiG de les més noves.");
             this.ntbPartsSaltades.Valor = new decimal(new int[] {
             0,
             0,
             0,
             262144});
+            this.ntbPartsSaltades.TextChanged += new System.EventHandler(this.ntb_TextChanged);
             this.ntbPartsSaltades.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ntb_KeyPress);
             this.ntbPartsSaltades.Validating += new System.ComponentModel.CancelEventHandler(this.ntb_Validating);
             // 
@@ -706,6 +760,7 @@ namespace Inversions.GUI
             0,
             0,
             262144});
+            this.ntbNumParticipacions.TextChanged += new System.EventHandler(this.ntb_TextChanged);
             this.ntbNumParticipacions.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ntb_KeyPress);
             this.ntbNumParticipacions.Validating += new System.ComponentModel.CancelEventHandler(this.ntb_Validating);
             // 
@@ -744,6 +799,7 @@ namespace Inversions.GUI
             0,
             0,
             196608});
+            this.ntbPreuParticipacio.TextChanged += new System.EventHandler(this.ntb_TextChanged);
             this.ntbPreuParticipacio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ntb_KeyPress);
             this.ntbPreuParticipacio.Validating += new System.ComponentModel.CancelEventHandler(this.ntb_Validating);
             // 
@@ -757,7 +813,7 @@ namespace Inversions.GUI
             this.groupBox9.TabIndex = 15;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Tributa Renda";
-            this.toolTip1.SetToolTip(this.groupBox9, "Tram exent + Perdues Ant. - PiG Actual - Dividents - PiG Simulació");
+            this.toolTip1.SetToolTip(this.groupBox9, "Tram exent + Perdues Ant. - PiG Actual - Dividents - PiG Simulació.");
             // 
             // ntbTributaRenda
             // 
@@ -778,6 +834,7 @@ namespace Inversions.GUI
             this.ntbTributaRenda.TabIndex = 0;
             this.ntbTributaRenda.Text = "0,00 €";
             this.ntbTributaRenda.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.ntbTributaRenda, "Tram exent + Perdues Ant. - PiG Actual - Dividents - PiG Simulació.");
             this.ntbTributaRenda.Valor = new decimal(new int[] {
             0,
             0,
@@ -794,7 +851,7 @@ namespace Inversions.GUI
             this.groupBox7.TabIndex = 5;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Import Brut";
-            this.toolTip1.SetToolTip(this.groupBox7, "Import de la venda");
+            this.toolTip1.SetToolTip(this.groupBox7, "Son les participacions de les files seleccionades en la taula.");
             // 
             // ntbImportBrut
             // 
@@ -816,6 +873,7 @@ namespace Inversions.GUI
             this.ntbImportBrut.Tag = "";
             this.ntbImportBrut.Text = "0,00 €";
             this.ntbImportBrut.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.ntbImportBrut, "Son les participacions de les files seleccionades en la taula.");
             this.ntbImportBrut.Valor = new decimal(new int[] {
             0,
             0,
@@ -854,7 +912,7 @@ namespace Inversions.GUI
             this.groupBox12.TabIndex = 6;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "P i G Prod";
-            this.toolTip1.SetToolTip(this.groupBox12, "PiG actual de la simulació");
+            this.toolTip1.SetToolTip(this.groupBox12, "PiG actual de la simulació.");
             // 
             // ntbPigSimulacio
             // 
@@ -876,6 +934,7 @@ namespace Inversions.GUI
             this.ntbPigSimulacio.Tag = "";
             this.ntbPigSimulacio.Text = "0,00 €";
             this.ntbPigSimulacio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.ntbPigSimulacio, "PiG actual de la simulació.");
             this.ntbPigSimulacio.Valor = new decimal(new int[] {
             0,
             0,
@@ -892,7 +951,7 @@ namespace Inversions.GUI
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "P i G Orig";
-            this.toolTip1.SetToolTip(this.groupBox2, "PiG origen de la simulació");
+            this.toolTip1.SetToolTip(this.groupBox2, "PiG origen de la simulació.");
             // 
             // ntbPigOrigSimulacio
             // 
@@ -914,6 +973,7 @@ namespace Inversions.GUI
             this.ntbPigOrigSimulacio.Tag = "";
             this.ntbPigOrigSimulacio.Text = "0,00 €";
             this.ntbPigOrigSimulacio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.ntbPigOrigSimulacio, "PiG origen de la simulació.");
             this.ntbPigOrigSimulacio.Valor = new decimal(new int[] {
             0,
             0,
@@ -954,7 +1014,7 @@ namespace Inversions.GUI
             this.Controls.Add(this.ctrProductes);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "SimulacióVendaTab";
-            this.Size = new System.Drawing.Size(1459, 822);
+            this.Size = new System.Drawing.Size(1459, 864);
             this.Load += new System.EventHandler(this.simulacióVendaTab_Load);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCompresOriginals)).EndInit();
@@ -1034,6 +1094,9 @@ namespace Inversions.GUI
         private Controls.NumericTextBox2 ntbTramExentAnual;
         private System.Windows.Forms.GroupBox groupBox15;
         private NumericTextBox2 ntbNumPartsSelect;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridViewTextBoxColumn IdOrig;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn fonsOrig;

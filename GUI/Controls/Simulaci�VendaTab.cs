@@ -160,6 +160,7 @@ namespace Inversions.GUI
         private const string RegImportMinimContribuent = "ImportMinimContribuent";
         private Producte vProducteSeleccionat = null;
         private string vClauReg;
+        private bool vPendentRefrescar = false;
 
         public SimulacióVendaTab()
         {
@@ -239,9 +240,13 @@ namespace Inversions.GUI
             return Program.Sessio.IngressosExterns.Where(w => w.Usuari.Id == Usuari.Seleccionat.Id && w.Any == any).ToList().Sum(s => s.Import);
         }
 
-
         private void ompleDgvCompres(Producte prod, decimal? preuPart = null)
         {
+            if (vPendentRefrescar)
+                vPendentRefrescar = false;
+            else
+                return;
+
             if (prod == null)
             {
                 dgvCompresOriginals.DataSource = new List<StrDgvCompresOriginals>();
@@ -269,21 +274,21 @@ namespace Inversions.GUI
             var partsResten = ntbNumParticipacions.Valor;
             foreach (var desglosCompraExt in desgloçPartsEnCartera)
             {
+
                 if (saltResten > 0)
                 {
                     if (desglosCompraExt._PartsUtilitzades <= saltResten)
                     {
                         saltResten -= desglosCompraExt._PartsUtilitzades;
-                        continue;
+                        desglosCompraExt._PartsUtilitzades = 0;
                     }
-
-                    if (saltResten > 0)
+                    else
                     {
                         desglosCompraExt._PartsUtilitzades -= saltResten;
                         saltResten = 0;
                     }
                 }
-
+                
                 if (desglosCompraExt._PartsUtilitzades > partsResten)
                 {
                     desglosCompraExt._PartsUtilitzades = partsResten;
@@ -398,7 +403,12 @@ namespace Inversions.GUI
 
         private void productes_ProducteSeleccionat(object sender, EventArgs e)
         {
-            actualitzaControlsProducte((Producte) sender);
+            var prod = (Producte) sender;
+
+            vPendentRefrescar = prod != null && prod != vProducteSeleccionat;
+           
+            if (vPendentRefrescar)
+                actualitzaControlsProducte(prod);
 
             if (sender != null)
                 ntbNumParticipacions.Focus();
@@ -462,6 +472,9 @@ namespace Inversions.GUI
                 e.Cancel = false;
                 return;
             }
+
+            if(!vPendentRefrescar)
+                return;
 
             if (vNoValidaControlsNtb)
             {
@@ -565,7 +578,11 @@ namespace Inversions.GUI
             }
         }
 
-        #endregion *** Events ***
+        private void ntb_TextChanged(object sender, EventArgs e)
+        {
+            vPendentRefrescar = true;
+        }
 
+        #endregion *** Events ***
     }
 }
