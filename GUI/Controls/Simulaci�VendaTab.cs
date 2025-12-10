@@ -17,12 +17,16 @@ namespace Inversions.GUI
     {
         private readonly DesglosCompraExt vDesglosCompra;
         private static decimal PreuParticipacioSimulacio;
+        private readonly Color vBackColorPartsUtil;
+        private readonly Color vForeColorPartsUtil;
 
-        public StrDgvCompresOriginals(DesglosCompraExt desglosCompra, decimal preuPart)
+        public StrDgvCompresOriginals(DesglosCompraExt desglosCompra, decimal preuPart, Color backColorPartsUtil)
             : this()
         {
             vDesglosCompra = desglosCompra;
             PreuParticipacioSimulacio = preuPart;
+            vBackColorPartsUtil = backColorPartsUtil;
+            vForeColorPartsUtil = backColorPartsUtil == Color.Red ? Color.White : Color.Black;
         }
 
 
@@ -63,6 +67,16 @@ namespace Inversions.GUI
         public decimal _ParticipacionsUtilitzades
         {
             get { return vDesglosCompra._PartsUtilitzades; }
+        }
+
+        public Color _BackColorPartsUtil
+        {
+            get { return vBackColorPartsUtil; }
+        }
+
+        public Color _ForeColorPartsUtil
+        {
+            get { return vForeColorPartsUtil; }
         }
 
         public decimal _PigDeLaCompraOrigen
@@ -288,16 +302,22 @@ namespace Inversions.GUI
                         saltResten = 0;
                     }
                 }
-                
+
+                // Deso el color de la cel·la: Parts Utils.
+                Color backColor = 
+                    partsResten == 0 ? Color.Lime 
+                    : partsResten < desglosCompraExt._PartsUtilitzades ? Color.Orange
+                    : Color.Red;
+
                 if (desglosCompraExt._PartsUtilitzades > partsResten)
                 {
                     desglosCompraExt._PartsUtilitzades = partsResten;
-                    compresProdSelecionat.Add(new StrDgvCompresOriginals(desglosCompraExt, preuPart.Value));
+                    compresProdSelecionat.Add(new StrDgvCompresOriginals(desglosCompraExt, preuPart.Value, backColor));
                     partsResten = 0;
                 }
                 else
                 {
-                    compresProdSelecionat.Add(new StrDgvCompresOriginals(desglosCompraExt, preuPart.Value));
+                    compresProdSelecionat.Add(new StrDgvCompresOriginals(desglosCompraExt, preuPart.Value, backColor));
                     partsResten -= desglosCompraExt._PartsUtilitzades;
                 }
             }
@@ -547,33 +567,12 @@ namespace Inversions.GUI
             // 1. Comprovar que estem a la columna que ens interessa
             if (dgvCompresOriginals.Columns[e.ColumnIndex].Name == "PartsUtil")
             {
-                // 2. Assegurar-se que el valor no és nul per evitar errors
-                if (e.Value == null || dgvCompresOriginals.Rows[e.RowIndex].Cells["Parts"].Value == null)
-                {
-                    e.CellStyle.BackColor = Color.White;
-                    e.CellStyle.ForeColor = Color.Black;
-                }
-                else
-                {
-                    decimal partsUtils = (decimal)e.Value;
-                    decimal parts = (decimal)dgvCompresOriginals.Rows[e.RowIndex].Cells["Parts"].Value;
+                var col = dgvCompresOriginals.Rows[e.RowIndex].Cells["_BackColorPartsUtil"].Value;
 
-                    // 3. Aplicar el color segons el valor
-                    if (partsUtils == 0)
-                    {
-                        e.CellStyle.BackColor = Color.Lime;
-                        e.CellStyle.ForeColor = Color.Black;
-                    }
-                    else if (partsUtils == parts)
-                    {
-                        e.CellStyle.BackColor = Color.Red;
-                        e.CellStyle.ForeColor = Color.White;
-                    }
-                    else
-                    {
-                        e.CellStyle.BackColor = Color.Orange;
-                        e.CellStyle.ForeColor = Color.Black;
-                    }
+                if (dgvCompresOriginals.Rows[e.RowIndex].Cells["_BackColorPartsUtil"].Value is Color)
+                {
+                    e.CellStyle.BackColor = (Color)col;
+                    e.CellStyle.ForeColor = (Color)dgvCompresOriginals.Rows[e.RowIndex].Cells["_ForeColorPartsUtil"].Value;
                 }
             }
         }
