@@ -20,13 +20,13 @@ namespace Inversions.GUI
         private readonly Color vBackColorPartsUtil;
         private readonly Color vForeColorPartsUtil;
 
-        public StrDgvCompresOriginals(DesglosCompraExt desglosCompra, decimal preuPart, Color backColorPartsUtil)
+        public StrDgvCompresOriginals(DesglosCompraExt desglosCompra, decimal preuPart, Label etiquetaColor)
             : this()
         {
             vDesglosCompra = desglosCompra;
             PreuParticipacioSimulacio = preuPart;
-            vBackColorPartsUtil = backColorPartsUtil;
-            vForeColorPartsUtil = backColorPartsUtil == Color.Red ? Color.White : Color.Black;
+            vBackColorPartsUtil = etiquetaColor.BackColor;
+            vForeColorPartsUtil = etiquetaColor.ForeColor;
         }
 
 
@@ -304,10 +304,10 @@ namespace Inversions.GUI
                 }
 
                 // Deso el color de la cel·la: Parts Utils.
-                Color backColor = 
-                    partsResten == 0 ? Color.Lime 
-                    : partsResten < desglosCompraExt._PartsUtilitzades ? Color.Orange
-                    : Color.Red;
+                Label backColor = 
+                    partsResten == 0 ? lbVerd 
+                    : partsResten < desglosCompraExt._PartsUtilitzades ? lbTaronja
+                    : lbVermell;
 
                 if (desglosCompraExt._PartsUtilitzades > partsResten)
                 {
@@ -351,16 +351,19 @@ namespace Inversions.GUI
                                 - (ntbPiGActual.Valor + ntbIngressosExterns.Valor + ntbDividents.Valor);
 
             var tributaRenda = ntbPigOrigSimulacio.Valor + ntbPiGAltresProductes.Valor - tramNoTributa;
-
-            // Si "tributaRenda" és negatiu significa que encara és pot seguir venent sense tributar. Passo el valor a positiu.
-            // Si "tributaRenda" és positiu significa que ja s'ha sobrepasat el límit que no tributa. Poso "ntbRestaTramNoTributa" a 0.
-            if (_EsAnyActual)
-                ntbRestaTramNoTributa.Valor = tributaRenda <= 0 ? Math.Abs(tributaRenda) : 0;
-            else
+            
+            if (tributaRenda > 0)
+            {
                 ntbRestaTramNoTributa.Valor = 0;
-
-            ntbTributaRenda.Valor = tributaRenda <= 0 ? 0 : tributaRenda;
+                ntbTributaRenda.Valor = tributaRenda;
+            }
+            else
+            {
+                ntbRestaTramNoTributa.Valor = Math.Abs(tributaRenda); // Poso el valor positiu.
+                ntbTributaRenda.Valor = 0;
+            }
         }
+
 
         /// <summary>
         /// Son els controls que varien al canviar d'any o al refrescar.
@@ -384,7 +387,7 @@ namespace Inversions.GUI
         private void actualitzaControlsProducte(Producte prod)
         {
             vProducteSeleccionat = prod;
-
+            
             ntbNumParticipacions.Enabled = prod != null && prod._Participacions > 0;
             ntbPreuParticipacio.Enabled = prod != null && prod._Participacions > 0;
             ntbPartsSaltades.Enabled = prod != null && prod._Participacions > 0;
@@ -425,7 +428,7 @@ namespace Inversions.GUI
         {
             var prod = (Producte) sender;
 
-            vPendentRefrescar = prod != null && prod != vProducteSeleccionat;
+            vPendentRefrescar = prod != vProducteSeleccionat;
            
             if (vPendentRefrescar)
                 actualitzaControlsProducte(prod);
