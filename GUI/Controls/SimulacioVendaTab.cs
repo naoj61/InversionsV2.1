@@ -169,14 +169,14 @@ namespace Inversions.GUI
     * 
     */
 
-    public partial class SimulacióVendaTab : TabX
+    public partial class SimulacioVendaTab : TabX
     {
         private const string RegImportMinimContribuent = "ImportMinimContribuent";
         private Producte vProducteSeleccionat = null;
         private string vClauReg;
         private bool vPendentRefrescar = false;
 
-        public SimulacióVendaTab()
+        public SimulacioVendaTab()
         {
             InitializeComponent();
         }
@@ -225,7 +225,7 @@ namespace Inversions.GUI
 
         internal override void escape(object sender, KeyEventArgs e)
         {
-            if (!(((SimulacióVendaTab) ((Form) sender).ActiveControl).ActiveControl is NumericTextBox2))
+            if (!(((SimulacioVendaTab) ((Form) sender).ActiveControl).ActiveControl is NumericTextBox2))
                 // Si el control actiu és del tipus NumericTextBox2, no es crida a "base.escape" per evitar que s'executi "refresca()".
                 base.escape(sender, e);
         }

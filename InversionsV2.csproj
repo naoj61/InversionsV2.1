@@ -152,11 +152,11 @@
     <Compile Include="GUI\Controls\MovimentsTab.Designer.cs">
       <DependentUpon>MovimentsTab.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Controls\SimulacióVendaTab.cs">
+    <Compile Include="GUI\Controls\SimulacioVendaTab.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\Controls\SimulacióVendaTab.Designer.cs">
-      <DependentUpon>SimulacióVendaTab.cs</DependentUpon>
+    <Compile Include="GUI\Controls\SimulacioVendaTab.Designer.cs">
+      <DependentUpon>SimulacioVendaTab.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Controls\PerduesGuanysTab.cs">
       <SubType>UserControl</SubType>
@@ -277,8 +277,8 @@
       <DependentUpon>MovimentsTab.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Controls\SimulacióVendaTab.resx">
-      <DependentUpon>SimulacióVendaTab.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\Controls\SimulacioVendaTab.resx">
+      <DependentUpon>SimulacioVendaTab.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\PerduesGuanysTab.resx">
       <DependentUpon>PerduesGuanysTab.cs</DependentUpon>

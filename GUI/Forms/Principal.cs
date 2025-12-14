@@ -27,7 +27,7 @@ namespace Inversions.GUI
         private readonly ValoracionsTab vValoracionsTab = new ValoracionsTab();
         private readonly PerduesGuanysTab vPerduesGuanysTab = new PerduesGuanysTab();
         private readonly GrafiquesTab vGrafiquesTab = new GrafiquesTab();
-        private readonly SimulacióVendaTab vSimulacióVendaTab = new SimulacióVendaTab();
+        private readonly SimulacioVendaTab vSimulacioVendaTab = new SimulacioVendaTab();
         private readonly UsuarisTab vUsuarisTab = new UsuarisTab();
         private readonly EdicioTaulesTab vEdicioTaulesTab = new EdicioTaulesTab();
 
@@ -158,10 +158,10 @@ namespace Inversions.GUI
             vGrafiquesTab.Dock = DockStyle.Fill;
             tabGrafiques.ResumeLayout();
 
-            // Afegeig SimulacióVendaTab
+            // Afegeig SimulacioVendaTab
             tabSimulacióVenda.SuspendLayout();
-            tabSimulacióVenda.Controls.Add(vSimulacióVendaTab);
-            vSimulacióVendaTab.Dock = DockStyle.Fill;
+            tabSimulacióVenda.Controls.Add(vSimulacioVendaTab);
+            vSimulacioVendaTab.Dock = DockStyle.Fill;
             tabSimulacióVenda.ResumeLayout();
 
             // Afegeig EdicioTaulesTab
@@ -284,7 +284,7 @@ namespace Inversions.GUI
         public void obreSimulacióVendaTab(Producte prod)
         {
             tabControl1.SelectTab(tabSimulacióVenda);
-            vSimulacióVendaTab.obrePestanya(prod);
+            vSimulacioVendaTab.obrePestanya(prod);
         }
 
 
