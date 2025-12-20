@@ -124,37 +124,7 @@
           <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJECTS\_ACTIU\INVERSIONSV2\BD\INVERSIONSBD.MDF.dbo.DesgloçCompresMoviments' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="DesgloçCompresMoviments">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="IdProdMov" />
-            <PropertyRef Name="ProdMov" />
-            <PropertyRef Name="IdMov" />
-            <PropertyRef Name="DataMov" />
-            <PropertyRef Name="PartsMov" />
-            <PropertyRef Name="PUMov" />
-            <PropertyRef Name="IdProdOrig" />
-            <PropertyRef Name="ProdOrig" />
-            <PropertyRef Name="IdOrig" />
-            <PropertyRef Name="DataOrig" />
-            <PropertyRef Name="PartsOrig" />
-            <PropertyRef Name="PUOrig" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="IdProdMov" Type="int" Nullable="false" />
-          <Property Name="ProdMov" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="IdMov" Type="int" Nullable="false" />
-          <Property Name="DataMov" Type="datetime" Nullable="false" />
-          <Property Name="PartsMov" Type="decimal" Precision="20" Scale="13" Nullable="false" />
-          <Property Name="PUMov" Type="decimal" Precision="20" Scale="13" Nullable="false" />
-          <Property Name="IdProdOrig" Type="int" Nullable="false" />
-          <Property Name="ProdOrig" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="IdOrig" Type="int" Nullable="false" />
-          <Property Name="DataOrig" Type="datetime" Nullable="false" />
-          <Property Name="PartsOrig" Type="decimal" Precision="20" Scale="13" Nullable="false" />
-          <Property Name="PUOrig" Type="decimal" Precision="20" Scale="13" Nullable="false" />
-        </EntityType>
+warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJECTS\_ACTIU\INVERSIONSV2\BD\INVERSIONSBD.MDF.dbo.DesglosCompresMoviments' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <Association Name="FK_EmpresaGestor">
           <End Role="Empreses" Type="Self.Empreses" Multiplicity="1" />
           <End Role="Gestors" Type="Self.Gestors" Multiplicity="*" />
@@ -340,23 +310,6 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
           <EntitySet Name="Productes_ProdFons" EntityType="Self.Productes_ProdFons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuaris" EntityType="Self.Usuaris" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Valoracions" EntityType="Self.Valoracions" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DesgloçCompresMoviments" EntityType="Self.DesgloçCompresMoviments" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [DesgloçCompresMoviments].[Id] AS [Id], 
-    [DesgloçCompresMoviments].[IdProdMov] AS [IdProdMov], 
-    [DesgloçCompresMoviments].[ProdMov] AS [ProdMov], 
-    [DesgloçCompresMoviments].[IdMov] AS [IdMov], 
-    [DesgloçCompresMoviments].[DataMov] AS [DataMov], 
-    [DesgloçCompresMoviments].[PartsMov] AS [PartsMov], 
-    [DesgloçCompresMoviments].[PUMov] AS [PUMov], 
-    [DesgloçCompresMoviments].[IdProdOrig] AS [IdProdOrig], 
-    [DesgloçCompresMoviments].[ProdOrig] AS [ProdOrig], 
-    [DesgloçCompresMoviments].[IdOrig] AS [IdOrig], 
-    [DesgloçCompresMoviments].[DataOrig] AS [DataOrig], 
-    [DesgloçCompresMoviments].[PartsOrig] AS [PartsOrig], 
-    [DesgloçCompresMoviments].[PUOrig] AS [PUOrig]
-    FROM [dbo].[DesgloçCompresMoviments] AS [DesgloçCompresMoviments]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_EmpresaGestor" Association="Self.FK_EmpresaGestor">
             <End Role="Empreses" EntitySet="Empreses" />
             <End Role="Gestors" EntitySet="Gestors" />
@@ -472,7 +425,6 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
             <End Role="Usuari" EntitySet="Usuaris" />
             <End Role="IngressosExtern" EntitySet="IngressosExterns" />
           </AssociationSet>
-          <EntitySet Name="DesgloçCompresMoviments" EntityType="InversionsBD.DesgloçCompresMoviments" />
           </EntityContainer>
         <EntityType Name="Empresa">
           <Key>
@@ -750,36 +702,6 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="DesgloçCompresMoviments">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="IdProdMov" />
-            <PropertyRef Name="ProdMov" />
-            <PropertyRef Name="IdMov" />
-            <PropertyRef Name="DataMov" />
-            <PropertyRef Name="PartsMov" />
-            <PropertyRef Name="PUMov" />
-            <PropertyRef Name="IdProdOrig" />
-            <PropertyRef Name="ProdOrig" />
-            <PropertyRef Name="IdOrig" />
-            <PropertyRef Name="DataOrig" />
-            <PropertyRef Name="PartsOrig" />
-            <PropertyRef Name="PUOrig" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="IdProdMov" Type="Int32" Nullable="false" />
-          <Property Name="ProdMov" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IdMov" Type="Int32" Nullable="false" />
-          <Property Name="DataMov" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="PartsMov" Type="Decimal" Nullable="false" Precision="20" Scale="13" />
-          <Property Name="PUMov" Type="Decimal" Nullable="false" Precision="20" Scale="13" />
-          <Property Name="IdProdOrig" Type="Int32" Nullable="false" />
-          <Property Name="ProdOrig" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IdOrig" Type="Int32" Nullable="false" />
-          <Property Name="DataOrig" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="PartsOrig" Type="Decimal" Nullable="false" Precision="20" Scale="13" />
-          <Property Name="PUOrig" Type="Decimal" Nullable="false" Precision="20" Scale="13" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -907,25 +829,6 @@ warning 6002: The table/view 'C:\USERS\JOANP\DOCUMENTS\VISUAL STUDIO 2013\PROJEC
                 <ScalarProperty Name="Rao" ColumnName="Rao" />
                 <ScalarProperty Name="Any" ColumnName="Any" />
                 <ScalarProperty Name="UsuariId" ColumnName="UsuariId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DesgloçCompresMoviments">
-            <EntityTypeMapping TypeName="InversionsBD.DesgloçCompresMoviments">
-              <MappingFragment StoreEntitySet="DesgloçCompresMoviments">
-                <ScalarProperty Name="PUOrig" ColumnName="PUOrig" />
-                <ScalarProperty Name="PartsOrig" ColumnName="PartsOrig" />
-                <ScalarProperty Name="DataOrig" ColumnName="DataOrig" />
-                <ScalarProperty Name="IdOrig" ColumnName="IdOrig" />
-                <ScalarProperty Name="ProdOrig" ColumnName="ProdOrig" />
-                <ScalarProperty Name="IdProdOrig" ColumnName="IdProdOrig" />
-                <ScalarProperty Name="PUMov" ColumnName="PUMov" />
-                <ScalarProperty Name="PartsMov" ColumnName="PartsMov" />
-                <ScalarProperty Name="DataMov" ColumnName="DataMov" />
-                <ScalarProperty Name="IdMov" ColumnName="IdMov" />
-                <ScalarProperty Name="ProdMov" ColumnName="ProdMov" />
-                <ScalarProperty Name="IdProdMov" ColumnName="IdProdMov" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
