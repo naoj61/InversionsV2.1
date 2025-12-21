@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Inversions
+namespace Inversions.ClassesEntity
 {
     public partial class Usuari
     {

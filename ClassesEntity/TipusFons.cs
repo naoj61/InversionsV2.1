@@ -7,15 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Inversions
+namespace Inversions.ClassesEntity
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class ProdAccions : Producte
+    public enum TipusFons : int
     {
-        public int MercatId { get; set; }
-    
-        public virtual Mercat Mercat { get; set; }
+        RF = 0,
+        RV = 1,
+        Tots = 2
     }
 }

@@ -7,14 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Inversions
+namespace Inversions.ClassesEntity
 {
     using System;
     
-    public enum TipusFons : int
+    public partial class NomEmpresa
     {
-        RF = 0,
-        RV = 1,
-        Tots = 2
+        public string Nom { get; set; }
     }
 }

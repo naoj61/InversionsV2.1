@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Inversions
+namespace Inversions.ClassesEntity
 {
     public partial class InversionsBDContext
     {

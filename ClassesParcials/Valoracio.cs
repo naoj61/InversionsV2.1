@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 using Comuns;
 using Inversions.GUI;
 
-namespace Inversions
+namespace Inversions.ClassesEntity
 {
     public partial class Valoracio : IComparable<Valoracio>
     {

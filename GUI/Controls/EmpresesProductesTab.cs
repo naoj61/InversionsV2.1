@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using Comuns;
 using Controls;
 using DevExpress.Utils.Paint;
+using Inversions.ClassesEntity;
 
 namespace Inversions.GUI
 {

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using DevExpress.XtraPrinting.Native;
+using Inversions.ClassesEntity;
 
 namespace Inversions.GUI
 {
@@ -21,7 +22,7 @@ namespace Inversions.GUI
             tbMercat.Dock = DockStyle.Fill;
 
             cbTipusProducteFiltreTab2.SelectedIndexChanged -= cbTipusProducteFiltreTab2_SelectedIndexChanged;
-            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof (Producte.TipusProducte));
+            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof(ClassesEntity.Producte.TipusProducte));
             cbTipusProducteFiltreTab2.Focus();
             cbTipusProducteFiltreTab2.SelectedIndex = 0;
             cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
@@ -186,19 +187,19 @@ namespace Inversions.GUI
         /// </summary>
         internal void aplicaFiltre()
         {
-            IEnumerable<Producte> prods;
+            IEnumerable<ClassesEntity.Producte> prods;
 
-            if ((Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem == Producte.TipusProducte.Accions)
+            if ((ClassesEntity.Producte.TipusProducte)cbTipusProducteFiltreTab2.SelectedItem == ClassesEntity.Producte.TipusProducte.Accions)
             {
                 prods = ProdAccions.Tuples;
             }
-            else if ((Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem == Producte.TipusProducte.Fons)
+            else if ((ClassesEntity.Producte.TipusProducte)cbTipusProducteFiltreTab2.SelectedItem == ClassesEntity.Producte.TipusProducte.Fons)
             {
                 prods = ProdFons.Tuples;
             }
             else
             {
-                prods = Producte.Tuples;
+                prods = ClassesEntity.Producte.Tuples;
             }
 
             if (ckNomesAmbParticipacions.Checked)

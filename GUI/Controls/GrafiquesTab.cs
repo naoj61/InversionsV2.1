@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Comuns;
+using Inversions.ClassesEntity;
 
 namespace Inversions.GUI
 {

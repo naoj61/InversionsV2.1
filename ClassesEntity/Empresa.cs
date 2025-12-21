@@ -7,23 +7,25 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Inversions
+namespace Inversions.ClassesEntity
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class ProdFons : Producte
+    public partial class Empresa
     {
-        public ProdFons()
+        public Empresa()
         {
             this.Gestors = new HashSet<Gestor>();
+            this.Productes = new HashSet<Producte>();
         }
     
+        public int Id { get; private set; }
         public string Nom { get; set; }
-        public string ISIN { get; set; }
-        public TipusFons Tipus { get; set; }
-        public string Descripcio { get; set; }
+        public TipusEmpresa TipusEmpresa { get; set; }
+        public byte[] RowVersion { get; private set; }
     
         public virtual ICollection<Gestor> Gestors { get; set; }
+        public virtual ICollection<Producte> Productes { get; set; }
     }
 }

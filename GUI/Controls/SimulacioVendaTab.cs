@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Comuns;
 using Controls;
 using DevExpress.XtraEditors.ButtonPanel;
+using Inversions.ClassesEntity;
 using Inversions.GUI.Forms;
 using Microsoft.Win32;
 

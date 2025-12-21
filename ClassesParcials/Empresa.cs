@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Linq;
 
-namespace Inversions
+namespace Inversions.ClassesEntity
 {
     using System;
     using System.Collections.Generic;

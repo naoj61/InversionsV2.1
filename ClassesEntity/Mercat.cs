@@ -7,23 +7,22 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Inversions
+namespace Inversions.ClassesEntity
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Usuari
+    public partial class Mercat
     {
-        public Usuari()
+        public Mercat()
         {
-            this.Moviments = new HashSet<Moviment>();
-            this.IngressosExterns = new HashSet<IngresExtern>();
+            this.ProdAccions = new HashSet<ProdAccions>();
         }
     
         public int Id { get; set; }
         public string Nom { get; set; }
+        public byte[] RowVersion { get; private set; }
     
-        public virtual ICollection<Moviment> Moviments { get; set; }
-        public virtual ICollection<IngresExtern> IngressosExterns { get; set; }
+        public virtual ICollection<ProdAccions> ProdAccions { get; set; }
     }
 }

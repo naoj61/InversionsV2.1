@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Inversions
+namespace Inversions.ClassesEntity
 {
     public partial class Moviment
     {

@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using System.Xml;
 using Comuns;
 using DevExpress.Utils;
+using Inversions.ClassesEntity;
 using Microsoft.Win32;
 
 namespace Inversions.GUI

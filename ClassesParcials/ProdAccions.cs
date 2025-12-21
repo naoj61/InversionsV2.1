@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using Comuns;
 
-namespace Inversions
+namespace Inversions.ClassesEntity
 {
     public partial class ProdAccions
     {
@@ -18,9 +18,9 @@ namespace Inversions
             Producte.RefrescaTaula();
         }
 
-        public override TipusProducte _TipusProducte
+        public override Producte.TipusProducte _TipusProducte
         {
-            get { return TipusProducte.Accions; }
+            get { return Producte.TipusProducte.Accions; }
         }
 
         public override string _NomProducte

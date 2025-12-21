@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using Comuns;
 
-namespace Inversions
+namespace Inversions.ClassesEntity
 {
     public partial class IngresExtern
     {

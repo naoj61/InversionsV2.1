@@ -7,19 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Inversions
+namespace Inversions.ClassesEntity
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Valoracio
+    public partial class Usuari
     {
-        public int Id { get; private set; }
-        public int ProdId { get; set; }
-        public System.DateTime Data { get; set; }
-        public decimal PreuParticipacio { get; set; }
-        public byte[] RowVersion { get; private set; }
+        public Usuari()
+        {
+            this.Moviments = new HashSet<Moviment>();
+            this.IngressosExterns = new HashSet<IngresExtern>();
+        }
     
-        public virtual Producte Prod { get; set; }
+        public int Id { get; set; }
+        public string Nom { get; set; }
+    
+        public virtual ICollection<Moviment> Moviments { get; set; }
+        public virtual ICollection<IngresExtern> IngressosExterns { get; set; }
     }
 }

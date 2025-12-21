@@ -11,7 +11,7 @@ using System.Security;
 using System.Windows.Forms;
 using Comuns;
 
-namespace Inversions
+namespace Inversions.ClassesEntity
 {
     public abstract partial class Producte : IComparable<Producte>
     {

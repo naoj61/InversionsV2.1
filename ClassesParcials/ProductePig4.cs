@@ -4,7 +4,7 @@ using System.Linq;
 using Comuns;
 
 
-namespace Inversions
+namespace Inversions.ClassesEntity
 {
     #region Classes Ext
 
@@ -427,7 +427,7 @@ namespace Inversions
         /// <param name="pigOrigen">Calcula el PiG respecte el valor de compra original.</param>
         /// <param name="ambDespeses">Afegeig les despeses.</param>
         /// <returns></returns>
-        internal static decimal PigEnCartera4(TipusProducte tipusProducte, TipusFons? tipusFons, int any, bool pigOrigen, bool ambDespeses)
+        internal static decimal PigEnCartera4(ClassesEntity.Producte.TipusProducte tipusProducte, TipusFons? tipusFons, int any, bool pigOrigen, bool ambDespeses)
         {
             var prods = SeleccionaProds(tipusProducte, tipusFons);
 
@@ -445,7 +445,7 @@ namespace Inversions
         /// <param name="any"></param>
         /// <param name="inclouDividends"></param>
         /// <returns></returns>
-        internal static decimal PigTributa4(TipusProducte tipusProducte, int any, bool inclouDividends)
+        internal static decimal PigTributa4(ClassesEntity.Producte.TipusProducte tipusProducte, int any, bool inclouDividends)
         {
             var prods = SeleccionaProds(tipusProducte, null).ToList();
             
@@ -960,7 +960,7 @@ namespace Inversions
         }
 
 
-        public static decimal PigEnCartera4Test(TipusProducte tipusProducte, TipusFons? tipusFons, int any, bool pigOrigen, bool ambDespeses)
+        public static decimal PigEnCartera4Test(ClassesEntity.Producte.TipusProducte tipusProducte, TipusFons? tipusFons, int any, bool pigOrigen, bool ambDespeses)
         {
             return PigEnCartera4(tipusProducte, tipusFons, any, pigOrigen, ambDespeses);
         }

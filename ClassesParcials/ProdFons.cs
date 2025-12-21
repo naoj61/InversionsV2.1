@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Forms.VisualStyles;
 using Comuns;
 
-namespace Inversions
+namespace Inversions.ClassesEntity
 {
     public partial class ProdFons
     {

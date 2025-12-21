@@ -7,19 +7,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Inversions
+namespace Inversions.ClassesEntity
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class IngresExtern
+    public partial class DesglosCompra
     {
         public int Id { get; set; }
-        public int UsuariId { get; set; }
-        public short Any { get; set; }
-        public string Rao { get; set; }
-        public decimal Import { get; set; }
+        public int MovCompraId { get; set; }
+        public int MovCompraOrigId { get; set; }
+        public decimal Participacions { get; set; }
+        public decimal ParticipacionsOrig { get; set; }
+        public byte[] RowVersion { get; set; }
     
-        public virtual Usuari Usuari { get; set; }
+        public virtual Moviment MovCompra { get; set; }
+        public virtual Moviment MovCompraOrig { get; set; }
     }
 }

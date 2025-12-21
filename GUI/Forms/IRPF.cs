@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using Comuns;
 using Controls;
 using DevExpress.Utils.OAuth.Provider;
+using Inversions.ClassesEntity;
 using Microsoft.Win32;
 
 namespace Inversions.GUI.Forms
@@ -276,7 +277,7 @@ namespace Inversions.GUI.Forms
         
         private List<StrDgvProductes> vProdsAmbVendesDividentsAny;
         private List<Moviment> vVendesAny;
-        private Dictionary<Inversions.Moviment, List<CompraExt>> vCompresVendesAny;
+        private Dictionary<Moviment, List<CompraExt>> vCompresVendesAny;
         private int vAny;
 
         public IRPF(int any)

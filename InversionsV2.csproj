@@ -116,13 +116,13 @@
     <Compile Include="ClassesParcials\ProdFons.cs" />
     <Compile Include="ClassesParcials\ProdAccions.cs" />
     <Compile Include="ClassesParcials\Moviment.cs" />
-    <Compile Include="DesglosCompra.cs">
+    <Compile Include="ClassesEntity\DesglosCompra.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Empresa.cs">
+    <Compile Include="ClassesEntity\Empresa.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Gestor.cs">
+    <Compile Include="ClassesEntity\Gestor.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
     <Compile Include="GUI\Controls\EdicioTaulesTab.cs">
@@ -200,41 +200,41 @@
     <Compile Include="GUI\Forms\IRPF.Designer.cs">
       <DependentUpon>IRPF.cs</DependentUpon>
     </Compile>
-    <Compile Include="IngresExtern.cs">
+    <Compile Include="ClassesEntity\IngresExtern.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
-    <Compile Include="InversionsBD.Context.cs">
+    <Compile Include="ClassesEntity\InversionsBD.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>InversionsBD.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="InversionsBD.cs">
+    <Compile Include="ClassesEntity\InversionsBD.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
-    <Compile Include="InversionsBD.Designer.cs">
+    <Compile Include="ClassesEntity\InversionsBD.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>InversionsBD.edmx</DependentUpon>
     </Compile>
     <Compile Include="Classes\Program.cs" />
-    <Compile Include="Mercat.cs">
+    <Compile Include="ClassesEntity\Mercat.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Moviment.cs">
+    <Compile Include="ClassesEntity\Moviment.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
-    <Compile Include="NomEmpresa.cs">
+    <Compile Include="ClassesEntity\NomEmpresa.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProdAccions.cs">
+    <Compile Include="ClassesEntity\ProdAccions.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProdFons.cs">
+    <Compile Include="ClassesEntity\ProdFons.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Producte.cs">
+    <Compile Include="ClassesEntity\Producte.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -243,19 +243,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TipusEmpresa.cs">
+    <Compile Include="ClassesEntity\TipusEmpresa.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
-    <Compile Include="TipusFons.cs">
+    <Compile Include="ClassesEntity\TipusFons.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
-    <Compile Include="TipusMoviment.cs">
+    <Compile Include="ClassesEntity\TipusMoviment.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Usuari.cs">
+    <Compile Include="ClassesEntity\Usuari.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Valoracio.cs">
+    <Compile Include="ClassesEntity\Valoracio.cs">
       <DependentUpon>InversionsBD.tt</DependentUpon>
     </Compile>
     <EmbeddedResource Include="GUI\Controls\EdicioTaulesTab.resx">
@@ -307,22 +307,22 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="InversionsBD.edmx">
+    <EntityDeploy Include="ClassesEntity\InversionsBD.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>InversionsBD.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="Fitxers\InversionsBD.pdf" />
-    <None Include="InversionsBD.Context.tt">
+    <None Include="ClassesEntity\InversionsBD.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>InversionsBD.Context.cs</LastGenOutput>
       <DependentUpon>InversionsBD.edmx</DependentUpon>
     </None>
-    <None Include="InversionsBD.tt">
+    <None Include="ClassesEntity\InversionsBD.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>InversionsBD.cs</LastGenOutput>
       <DependentUpon>InversionsBD.edmx</DependentUpon>
     </None>
-    <None Include="InversionsBD.edmx.diagram">
+    <None Include="ClassesEntity\InversionsBD.edmx.diagram">
       <DependentUpon>InversionsBD.edmx</DependentUpon>
     </None>
     <None Include="Inversions_TemporaryKey.pfx" />
@@ -347,7 +347,7 @@
     <Content Include="Docs\Notes.txt" />
     <Content Include="Fitxers\BaseDades.txt" />
     <Content Include="Fitxers\ProvesAmbEntityFramework.txt" />
-    <Content Include="InversionsBD.edmx.sql" />
+    <Content Include="ClassesEntity\InversionsBD.edmx.sql" />
     <None Include="Resources\SIGIOC_square.ico" />
   </ItemGroup>
   <ItemGroup>

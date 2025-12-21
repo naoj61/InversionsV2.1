@@ -11,6 +11,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using Comuns;
 using Controls;
 using DevExpress.XtraEditors.Controls;
+using Inversions.ClassesEntity;
 
 namespace Inversions.GUI
 {

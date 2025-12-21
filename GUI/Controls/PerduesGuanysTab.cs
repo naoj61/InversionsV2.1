@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Comuns;
 using Controls;
+using Inversions.ClassesEntity;
 using Inversions.GUI.Forms;
 
 namespace Inversions.GUI

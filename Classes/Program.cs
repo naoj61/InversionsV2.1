@@ -16,6 +16,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using Comuns;
 using Controls;
+using Inversions.ClassesEntity;
 using Inversions.GUI;
 using Microsoft.Win32;
 

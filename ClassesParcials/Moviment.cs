@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading;
 using Comuns;
 
-namespace Inversions
+namespace Inversions.ClassesEntity
 {
     public partial class Moviment
     {

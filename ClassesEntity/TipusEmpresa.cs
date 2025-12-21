@@ -7,17 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Inversions
+namespace Inversions.ClassesEntity
 {
     using System;
     
-    public enum TipusMoviment : int
+    public enum TipusEmpresa : int
     {
-        Compra = 0,
-        Venda = 1,
-        Dividends = 2,
-        Traspàs = 3,
-        Split = 4,
-        ContraSplit = 5
+        GestoraFons = 0,
+        Accions = 1
     }
 }

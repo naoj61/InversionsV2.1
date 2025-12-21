@@ -7,13 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Inversions
+namespace Inversions.ClassesEntity
 {
     using System;
+    using System.Collections.Generic;
     
-    public enum TipusEmpresa : int
+    public partial class Valoracio
     {
-        GestoraFons = 0,
-        Accions = 1
+        public int Id { get; private set; }
+        public int ProdId { get; set; }
+        public System.DateTime Data { get; set; }
+        public decimal PreuParticipacio { get; set; }
+        public byte[] RowVersion { get; private set; }
+    
+        public virtual Producte Prod { get; set; }
     }
 }
