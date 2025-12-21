@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -12,8 +10,8 @@ namespace Inversions.GUI
 {
     public partial class GrafiquesTab : TabX
     {
-        readonly int vNumElem = Enum.GetValues(typeof(ChartColorPalette)).Length;
         private readonly ChartArea vChartArea;
+        private readonly int vNumElem = Enum.GetValues(typeof (ChartColorPalette)).Length;
 
         public GrafiquesTab()
         {
@@ -50,13 +48,13 @@ namespace Inversions.GUI
 
         private void creaGrafica()
         {
-            var dataInici = dtpInici.Value.GetValueOrDefault(DateTime.MinValue);
+            DateTime dataInici = dtpInici.Value.GetValueOrDefault(DateTime.MinValue);
 
             // *** Troba la data comun mínima ***
-            var dataIniciMin = dataInici;
-            foreach (var prodSelect in gestioProductesTabValoracions.productesSeleccionats())
+            DateTime dataIniciMin = dataInici;
+            foreach (Producte prodSelect in gestioProductesTabValoracions.productesSeleccionats())
             {
-                var vals = prodSelect.ValoracionsProducte.Where(w => w.Data >= dataInici && w.PreuParticipacio > 0)
+                IOrderedEnumerable<Valoracio> vals = prodSelect.ValoracionsProducte.Where(w => w.Data >= dataInici && w.PreuParticipacio > 0)
                     .OrderBy(o => o.Data);
 
                 dataIniciMin = new DateTime(Math.Max(dataIniciMin.Ticks, vals.First().Data.Ticks));
@@ -67,10 +65,10 @@ namespace Inversions.GUI
 
 
             // *** Troba el primer valor minim
-            var primerValorMinim = Decimal.MaxValue;
-            foreach (var prodSelect in gestioProductesTabValoracions.productesSeleccionats())
+            decimal primerValorMinim = Decimal.MaxValue;
+            foreach (Producte prodSelect in gestioProductesTabValoracions.productesSeleccionats())
             {
-                var vals = prodSelect.ValoracionsProducte.Where(w => w.Data >= dataInici && w.PreuParticipacio > 0)
+                IOrderedEnumerable<Valoracio> vals = prodSelect.ValoracionsProducte.Where(w => w.Data >= dataInici && w.PreuParticipacio > 0)
                     .OrderBy(o => o.Data);
 
                 primerValorMinim = Math.Min(primerValorMinim, vals.First().PreuParticipacio);
@@ -79,15 +77,15 @@ namespace Inversions.GUI
 
             // ******* Crea gràfica **********
 
-            var siPonderar = ckPonderat.Checked && gestioProductesTabValoracions.productesSeleccionats().Count() > 1;
-            var valorMinim = Decimal.MaxValue;
-            var valorMaxim = Decimal.MinValue;
+            bool siPonderar = ckPonderat.Checked && gestioProductesTabValoracions.productesSeleccionats().Count() > 1;
+            decimal valorMinim = Decimal.MaxValue;
+            decimal valorMaxim = Decimal.MinValue;
 
             chart1.Series.Clear();
 
-            foreach (var prodSelect in gestioProductesTabValoracions.productesSeleccionats())
+            foreach (Producte prodSelect in gestioProductesTabValoracions.productesSeleccionats())
             {
-                var vals = prodSelect.ValoracionsProducte.Where(w => w.Data >= dataInici && w.PreuParticipacio > 0).OrderBy(o => o.Data);
+                IOrderedEnumerable<Valoracio> vals = prodSelect.ValoracionsProducte.Where(w => w.Data >= dataInici && w.PreuParticipacio > 0).OrderBy(o => o.Data);
 
                 if (!vals.Any())
                 {
@@ -96,13 +94,13 @@ namespace Inversions.GUI
                     return;
                 }
 
-                Dictionary<Valoracio, decimal> valoracions = new Dictionary<Valoracio, decimal>(vals.Count());
+                var valoracions = new Dictionary<Valoracio, decimal>(vals.Count());
 
-                var coeficient = primerValorMinim / vals.First().PreuParticipacio;
+                decimal coeficient = primerValorMinim / vals.First().PreuParticipacio;
 
-                foreach (var valoracio in vals)
+                foreach (Valoracio valoracio in vals)
                 {
-                    var valorPonderat = ((siPonderar
+                    decimal valorPonderat = ((siPonderar
                         ? (valoracio.PreuParticipacio * coeficient - primerValorMinim)
                         : valoracio.PreuParticipacio));
 
@@ -112,10 +110,10 @@ namespace Inversions.GUI
                     valorMaxim = Math.Max(valorMaxim, valorPonderat);
                 }
 
-                vChartArea.AxisY.Interval = (double)(ckIntervalAutomatic.Checked ? (valorMaxim - valorMinim) / 10 : ntbIntervalEixY.Valor);
-                vChartArea.AxisY.Minimum = (double)valorMinim;
-                vChartArea.AxisY.Maximum = (double)valorMaxim;
-                chart1.DataBindTable(valoracions.Select(x => new { x.Value, x.Key.Data }).ToList(), "Data");
+                vChartArea.AxisY.Interval = (double) (ckIntervalAutomatic.Checked ? (valorMaxim - valorMinim) / 10 : ntbIntervalEixY.Valor);
+                vChartArea.AxisY.Minimum = (double) valorMinim;
+                vChartArea.AxisY.Maximum = (double) valorMaxim;
+                chart1.DataBindTable(valoracions.Select(x => new {x.Value, x.Key.Data}).ToList(), "Data");
                 Series series1 = chart1.Series["Value"]; // És el nom de la variable del eix X.
                 series1.XValueType = ChartValueType.Date;
                 series1.ChartType = SeriesChartType.Line;
@@ -136,12 +134,12 @@ namespace Inversions.GUI
 
         private void chart1_DoubleClick(object sender, EventArgs e)
         {
-            var posElem = (int)chart1.Palette + 1;
+            int posElem = (int) chart1.Palette + 1;
 
             if (posElem == vNumElem)
                 posElem = 1;
 
-            chart1.Palette = (ChartColorPalette)(posElem);
+            chart1.Palette = (ChartColorPalette) (posElem);
         }
 
         private void chart1_GetToolTipText(object sender, ToolTipEventArgs e)
@@ -173,7 +171,7 @@ namespace Inversions.GUI
             DateTime dataInici = dtpInici.Value.GetValueOrDefault(DateTime.MinValue);
             if (ckDataIniciComu.Checked)
             {
-                foreach (var producteSeleccionat in gestioProductesTabValoracions.productesSeleccionats())
+                foreach (Producte producteSeleccionat in gestioProductesTabValoracions.productesSeleccionats())
                 {
                     DateTime minDataVal = producteSeleccionat.ValoracionsProducte.Min(m => m.Data);
                     if (minDataVal > dataInici && minDataVal <= dtpFinal.Value)
@@ -201,6 +199,5 @@ namespace Inversions.GUI
         }
 
         #endregion *** Events ***
-
     }
 }

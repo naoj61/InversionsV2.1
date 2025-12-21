@@ -6,15 +6,18 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Inversions.ClassesEntity
 {
     public partial class InversionsBDContext
     {
+        public virtual DbSet<ProdFons> ProdFons { get; set; }
+        public virtual DbSet<ProdAccions> ProdAccions { get; set; }
+        public virtual DbSet<Valoracio> Valoracio { get; set; }
+
         /// <summary>
-        /// Troba l'entity type a partir del nom de la taula. Ex Valoracions --> Valoracio
+        ///     Troba l'entity type a partir del nom de la taula. Ex Valoracions --> Valoracio
         /// </summary>
         /// <param name="nomTaula"></param>
         /// <returns></returns>
@@ -25,9 +28,9 @@ namespace Inversions.ClassesEntity
                 nomTaula = nomTaula.Substring(nomTaula.IndexOf('_') + 1);
 
             // Busquem la propietat DbSet corresponent al nom del conjunt d'entitats utilitzant reflexió
-            var dbSetProperty = this.GetType().GetProperties()
+            PropertyInfo dbSetProperty = GetType().GetProperties()
                 .FirstOrDefault(p => p.PropertyType.IsGenericType &&
-                                     p.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>) &&
+                                     p.PropertyType.GetGenericTypeDefinition() == typeof (DbSet<>) &&
                                      p.Name == nomTaula);
 
             // Si no s'ha trobat cap coincidència, retornem null
@@ -35,13 +38,13 @@ namespace Inversions.ClassesEntity
         }
 
         /// <summary>
-        /// Refresca només una taula a partir del nom.
+        ///     Refresca només una taula a partir del nom.
         /// </summary>
         /// <param name="nomTaula"></param>
         public void refrescaTaula(string nomTaula)
         {
-            var entityType = GetEntityType(nomTaula);
-           
+            Type entityType = GetEntityType(nomTaula);
+
             if (entityType == null)
                 throw new InvalidExpressionException("La taula: " + nomTaula + " no existeix");
 
@@ -49,14 +52,14 @@ namespace Inversions.ClassesEntity
         }
 
         /// <summary>
-        /// Refresca només una taula a partir del Type.
+        ///     Refresca només una taula a partir del Type.
         /// </summary>
         /// <param name="entityType"></param>
         public void refrescaTaula(Type entityType)
         {
-            var context = ((IObjectContextAdapter) this).ObjectContext;
+            ObjectContext context = ((IObjectContextAdapter) this).ObjectContext;
 
-            var objects = context.ObjectStateManager.GetObjectStateEntries(
+            IEnumerable<object> objects = context.ObjectStateManager.GetObjectStateEntries(
                 EntityState.Added |
                 EntityState.Deleted |
                 EntityState.Modified |
@@ -69,12 +72,12 @@ namespace Inversions.ClassesEntity
 
 
         /// <summary>
-        /// Desfà els canvis pendents de "entity"
+        ///     Desfà els canvis pendents de "entity"
         /// </summary>
         /// <param name="entity"></param>
         internal void UndoingChangesDbEntityPropertyLevel(object entity)
         {
-            DbEntityEntry entry = this.Entry(entity);
+            DbEntityEntry entry = Entry(entity);
             if (entry.State == EntityState.Added || entry.State == EntityState.Detached)
             {
                 entry.State = EntityState.Detached;
@@ -92,7 +95,7 @@ namespace Inversions.ClassesEntity
 
             if (entityEntry.Entity is Empresa)
             {
-                Empresa entity = entityEntry.Entity as Empresa;
+                var entity = entityEntry.Entity as Empresa;
 
                 if (entity.Nom == "")
                     list.Add(new DbValidationError("Nom", "El Nom és obligatori"));
@@ -106,7 +109,7 @@ namespace Inversions.ClassesEntity
             }
             else if (entityEntry.Entity is Gestor)
             {
-                Gestor entity = entityEntry.Entity as Gestor;
+                var entity = entityEntry.Entity as Gestor;
 
                 if (entity.Nom == "")
                     list.Add(new DbValidationError("Nom", "Nom is required"));
@@ -116,7 +119,7 @@ namespace Inversions.ClassesEntity
             }
             else if (entityEntry.Entity is ProdFons)
             {
-                ProdFons entity = entityEntry.Entity as ProdFons;
+                var entity = entityEntry.Entity as ProdFons;
 
                 if (entity.Nom == "")
                     list.Add(new DbValidationError("Nom", "Nom is required"));
@@ -139,13 +142,7 @@ namespace Inversions.ClassesEntity
 
             if (list.Count > 0)
                 return new DbEntityValidationResult(entityEntry, list);
-            else
-                return base.ValidateEntity(entityEntry, items);
+            return base.ValidateEntity(entityEntry, items);
         }
-
-
-        public virtual DbSet<ProdFons> ProdFons { get; set; }
-        public virtual DbSet<ProdAccions> ProdAccions { get; set; }
-        public virtual DbSet<Valoracio> Valoracio { get; set; }
     }
 }

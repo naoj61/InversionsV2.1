@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Globalization;
 using System.Linq;
-using System.Windows.Forms.DataVisualization.Charting;
-using Comuns;
 
 namespace Inversions.ClassesEntity
 {
@@ -17,10 +14,10 @@ namespace Inversions.ClassesEntity
 
         public static void RefrescaTaula()
         {
-            Program.Sessio.refrescaTaula(typeof(DesglosCompra));
+            Program.Sessio.refrescaTaula(typeof (DesglosCompra));
 
             // Fa que es recarreguin el "ICollection" de la taula.
-            var xx = Tuples.ToList();
+            List<DesglosCompra> xx = Tuples.ToList();
         }
 
         #region *** Atributs ***
@@ -36,9 +33,7 @@ namespace Inversions.ClassesEntity
             get { return MovCompraOrig.Data; }
         }
 
-
         #endregion *** Atributs ***
-
 
         #region Overrides
 
@@ -74,7 +69,7 @@ namespace Inversions.ClassesEntity
             if (!(obj is DesglosCompra))
                 return false;
 
-            return this == (DesglosCompra)obj;
+            return this == (DesglosCompra) obj;
         }
 
         public override string ToString()

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Windows.Forms.VisualStyles;
-using Comuns;
+﻿using System.Data.Entity;
 
 namespace Inversions.ClassesEntity
 {
@@ -12,11 +7,6 @@ namespace Inversions.ClassesEntity
         public new static DbSet<ProdFons> Tuples
         {
             get { return Program.Sessio.ProdFons; }
-        }
-
-        public new static void RefrescaTaula()
-        {
-            Producte.RefrescaTaula();
         }
 
         public override TipusProducte _TipusProducte
@@ -54,6 +44,11 @@ namespace Inversions.ClassesEntity
         public override string _Descripcio
         {
             get { return Descripcio; }
+        }
+
+        public new static void RefrescaTaula()
+        {
+            Producte.RefrescaTaula();
         }
     }
 }

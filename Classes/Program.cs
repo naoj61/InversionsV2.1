@@ -1,21 +1,11 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.Design;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using Comuns;
-using Controls;
 using Inversions.ClassesEntity;
 using Inversions.GUI;
 using Microsoft.Win32;
@@ -24,10 +14,14 @@ namespace Inversions
 {
     public static class Program
     {
+        internal const string NomVarReg = "UsuariId";
+        private const string ArgUsuari = "IdUsuari:";
+        private const string ArgBd = "Bd:";
         internal static InversionsBDContext Sessio;
         internal static FileInfo FitxerLog = null;
         internal static readonly Version Versio = Assembly.GetExecutingAssembly().GetName().Version;
         public static int PrimerAny = 2000;
+        internal static string Claureg;
 
         static Program()
         {
@@ -43,13 +37,8 @@ namespace Inversions
         }
 
 
-        internal static string Claureg;
-        internal const string NomVarReg = "UsuariId";
-        private const string ArgUsuari = "IdUsuari:";
-        private const string ArgBd = "Bd:";
-
         /// <summary>
-        /// The main entry point for the application.
+        ///     The main entry point for the application.
         /// </summary>
         [STAThread]
         private static void Main(string[] args)
@@ -78,7 +67,7 @@ namespace Inversions
                 if (!idUsuari.HasValue)
                 {
                     // Si no hi ha usuari, l'agafa del registre;
-                    var usuRegistreWindows = Utilitats.LlegeixVariableRegistre(Registry.CurrentUser, Claureg, NomVarReg);
+                    string usuRegistreWindows = Utilitats.LlegeixVariableRegistre(Registry.CurrentUser, Claureg, NomVarReg);
                     if (Utilitats.EsNumeric(usuRegistreWindows))
                         idUsuari = Int32.Parse(usuRegistreWindows);
 
@@ -87,7 +76,7 @@ namespace Inversions
                         idUsuari = 1;
                 }
 
-                var nomProces = Utilitats.NomProcesActual();
+                string nomProces = Utilitats.NomProcesActual();
 
                 bool createdNew;
                 using (new Mutex(true, nomProces, out createdNew))
@@ -129,7 +118,7 @@ namespace Inversions
 
 
         /// <summary>
-        /// Llegeix els parèmetres que arriven de l'execució de l'app
+        ///     Llegeix els parèmetres que arriven de l'execució de l'app
         /// </summary>
         /// <param name="args"></param>
         /// <param name="idUsuari"></param>
@@ -139,13 +128,13 @@ namespace Inversions
             idUsuari = null;
             bd = null;
 
-            foreach (var arg in args)
+            foreach (string arg in args)
             {
-                var argu = arg.Substring(0, arg.IndexOf(':') + 1);
+                string argu = arg.Substring(0, arg.IndexOf(':') + 1);
 
                 if (argu.Equals(ArgUsuari, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    var idUsuString = arg.Remove(0, ArgUsuari.Length);
+                    string idUsuString = arg.Remove(0, ArgUsuari.Length);
                     if (!Utilitats.EsNumeric(idUsuString))
                         throw new ArgumentException(String.Format("El paràmetre no és numèric"), ArgUsuari);
 

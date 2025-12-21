@@ -1,14 +1,11 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 namespace Inversions.ClassesEntity
 {
-    using System;
-    using System.Collections.Generic;
-
     public partial class Mercat
     {
-
         public static DbSet<Mercat> Tuples
         {
             get { return Program.Sessio.Mercats; }
@@ -18,10 +15,10 @@ namespace Inversions.ClassesEntity
         public static void RefrescaTaula()
 // ReSharper restore UnusedMember.Global
         {
-            Program.Sessio.refrescaTaula(typeof(Mercat));
+            Program.Sessio.refrescaTaula(typeof (Mercat));
 
             // Fa que es recarreguin el "ICollection" de la taula.
-            var xx = Tuples.ToList();
+            List<Mercat> xx = Tuples.ToList();
         }
 
         #region Overrides
@@ -40,7 +37,7 @@ namespace Inversions.ClassesEntity
             }
 
             // If one is null,return false.
-            if ((object)a == null || (object)b == null)
+            if ((object) a == null || (object) b == null)
             {
                 return false;
             }
@@ -58,7 +55,7 @@ namespace Inversions.ClassesEntity
             if (!(obj is Mercat))
                 return false;
 
-            return this == (Mercat)obj;
+            return this == (Mercat) obj;
         }
 
         public override string ToString()
@@ -67,6 +64,5 @@ namespace Inversions.ClassesEntity
         }
 
         #endregion
-
     }
 }

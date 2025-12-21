@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Migrations;
-using System.Diagnostics;
-using System.Drawing;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Comuns;
-using Controls;
 using DevExpress.XtraEditors.Controls;
 using Inversions.ClassesEntity;
+using Cursor = System.Windows.Forms.Cursor;
 
 namespace Inversions.GUI
 {
@@ -20,7 +18,91 @@ namespace Inversions.GUI
         #region *** Structs per DataGridViews ***
 
         /// <summary>
-        /// Estructura per omplir DgvCompresProducte
+        ///     Estructura per omplir DgvCompresProducte
+        /// </summary>
+        private struct StrDgvValoracions
+        {
+            private StrDgvValoracions(Valoracio valoracioAnterior, Valoracio valoracio)
+                : this()
+            {
+                decimal partsEnCartera = valoracio.Prod.partsEnCartera(Utilitats.PosoHora(valoracio.Data));
+
+                _Valoracio = valoracio;
+                _Id = valoracio.Id;
+                _Prod = valoracio.Prod;
+                _Data = valoracio.Data;
+                _NumParticipacions = partsEnCartera;
+                _PreuParticipacio = valoracio.PreuParticipacio;
+                _ValoracioTotal = valoracio.PreuParticipacio * partsEnCartera;
+                if (valoracioAnterior == null || valoracioAnterior.PreuParticipacio == 0)
+                {
+                    _VariacioEuros = 0;
+                    _VariacioPercentatge = 0;
+                }
+                else
+                {
+                    _VariacioPercentatge = valoracio.PreuParticipacio / valoracioAnterior.PreuParticipacio - 1;
+
+                    decimal partsEnCarteraAnt = valoracioAnterior.Prod.partsEnCartera(Utilitats.PosoHora(valoracioAnterior.Data));
+                    if (partsEnCarteraAnt < partsEnCartera)
+                    {
+                        // Hi ha hagut una compra, calculo només amb les parts anteriors.
+                        _VariacioEuros = (valoracio.PreuParticipacio - valoracioAnterior.PreuParticipacio) * partsEnCarteraAnt;
+                    }
+                    else
+                    {
+                        // Si no hi ha hagut moviment o ha sigut una venda, calculo amb les parts actuals.
+                        _VariacioEuros = (valoracio.PreuParticipacio - valoracioAnterior.PreuParticipacio) * partsEnCartera;
+                    }
+                }
+            }
+
+
+            internal Valoracio _Valoracio { get; private set; }
+
+            // ReSharper disable UnusedAutoPropertyAccessor.Local
+            // ReSharper disable MemberCanBePrivate.Local
+
+            public int _Id { get; private set; }
+
+            public Producte _Prod { get; private set; }
+
+            public DateTime _Data { get; private set; }
+
+            public decimal _NumParticipacions { get; private set; }
+
+            public decimal _PreuParticipacio { get; private set; }
+
+            public decimal _ValoracioTotal { get; private set; }
+
+            public decimal _VariacioPercentatge { get; private set; }
+
+            public decimal _VariacioEuros { get; private set; }
+
+            internal static List<StrDgvValoracions> CarregaStruct(List<Valoracio> valoracions)
+            {
+                var llista = new List<StrDgvValoracions>();
+
+                if (valoracions == null || !valoracions.Any())
+                    return llista;
+
+                Valoracio valAnt = valoracions.First().trobaValoracioAnterior(true);
+
+                foreach (Valoracio valoracio in valoracions)
+                {
+                    llista.Add(new StrDgvValoracions(valAnt, valoracio));
+                    valAnt = valoracio;
+                }
+
+                return llista;
+            }
+
+            // ReSharper restore MemberCanBePrivate.Local
+            // ReSharper restore UnusedAutoPropertyAccessor.Local
+        }
+
+        /// <summary>
+        ///     Estructura per omplir DgvCompresProducte
         /// </summary>
         private struct StrDgvValoracionsPerData
         {
@@ -35,17 +117,29 @@ namespace Inversions.GUI
             }
 
 
+            public DateTime _Data { get; private set; }
+
+            // ReSharper disable UnusedAutoPropertyAccessor.Local
+            // ReSharper disable MemberCanBePrivate.Local
+            public decimal _Pig { get; private set; }
+
+            public decimal _VariacioPercentatge { get; set; }
+
+            public decimal _VariacioImport { get; private set; }
+
+            public decimal _ValorTotal { get; private set; }
+
             internal static IEnumerable<StrDgvValoracionsPerData> CarregaStruct(DateTime dataH, byte valor, Chart chart)
             {
-                List<StrDgvValoracionsPerData> llista = new List<StrDgvValoracionsPerData>();
+                var llista = new List<StrDgvValoracionsPerData>();
 
                 // Per saber que està seleccionat
-                var accions = (valor & (1 << 0)) != 0;
-                var criptos = (valor & (1 << 1)) != 0;
-                var rf = (valor & (1 << 2)) != 0;
-                var rv = (valor & (1 << 3)) != 0;
+                bool accions = (valor & (1 << 0)) != 0;
+                bool criptos = (valor & (1 << 1)) != 0;
+                bool rf = (valor & (1 << 2)) != 0;
+                bool rv = (valor & (1 << 3)) != 0;
 
-                List<Producte> prods = new List<Producte>();
+                var prods = new List<Producte>();
 
                 if (criptos)
                     prods.AddRange(ProdAccions.Tuples.Where(w => w.Mercat.Id == 4));
@@ -57,27 +151,27 @@ namespace Inversions.GUI
                     prods.AddRange(ProdFons.Tuples.Where(w => w.Tipus == TipusFons.RV));
 
 
-                var valoracions = Valoracio.Tuples.ToList().Where(w => prods.Contains(w.Prod)).ToList();
-                var dataAnt = valoracions.Where(w => w.Data.Date < dataH.Date).Max(m => m.Data).Date.AddDays(1).AddTicks(-1);
+                List<Valoracio> valoracions = Valoracio.Tuples.ToList().Where(w => prods.Contains(w.Prod)).ToList();
+                DateTime dataAnt = valoracions.Where(w => w.Data.Date < dataH.Date).Max(m => m.Data).Date.AddDays(1).AddTicks(-1);
                 valoracions = valoracions.Where(w => w.Data.Date >= dataH.Date).ToList();
 
-                var moviments = Moviment.MovimentsUsuari.ToList().Where(w => w.Data >= dataH && prods.Contains(w.Prod)).ToList();
+                List<Moviment> moviments = Moviment.MovimentsUsuari.ToList().Where(w => w.Data >= dataH && prods.Contains(w.Prod)).ToList();
 
-                var dates = valoracions.Select(valoracio => valoracio.Data.Date).ToList();
+                List<DateTime> dates = valoracions.Select(valoracio => valoracio.Data.Date).ToList();
                 dates = dates.Distinct().OrderBy(o => o).ToList();
 
                 decimal valorTotalAnt = prods.Sum(s => s.valorEnCartera(dataAnt));
 
                 chart.Series[0].Points.Clear();
- 
+
                 decimal maxVal = 0;
                 decimal minVal = decimal.MaxValue;
 
-                foreach (var data in dates)
+                foreach (DateTime data in dates)
                 {
-                    var dataFinalDia = data.Date.AddDays(1).AddTicks(-1);
+                    DateTime dataFinalDia = data.Date.AddDays(1).AddTicks(-1);
 
-                    var prods2 = prods.Where(w => w.partsEnCartera(dataFinalDia) > 0).ToList();
+                    List<Producte> prods2 = prods.Where(w => w.partsEnCartera(dataFinalDia) > 0).ToList();
 
                     decimal pig = prods2.Sum(prod => prod.pigEnCartera4(true, true, dataFinalDia));
                     decimal valorTotal = prods2.Sum(s => s.valorEnCartera(dataFinalDia));
@@ -86,10 +180,10 @@ namespace Inversions.GUI
 
                     if (moviments.Any(w => w.Data.Date == data.Date) && valorTotalAnt != 0)
                     {
-                        var movsData = moviments.Where(w => w.Data.Date == data.Date).ToList();
+                        List<Moviment> movsData = moviments.Where(w => w.Data.Date == data.Date).ToList();
 
-                        var impVendes = movsData.Where(w => w._EsVenda).Sum(s => s._ImportBrut);
-                        var impCompres = movsData.Where(w => w._EsCompra).Sum(s => s._ImportBrut);
+                        decimal impVendes = movsData.Where(w => w._EsVenda).Sum(s => s._ImportBrut);
+                        decimal impCompres = movsData.Where(w => w._EsCompra).Sum(s => s._ImportBrut);
 
                         // Si hi ha hagut moviments en el dia, recalculo la variació del import.
                         variacioImport += impVendes - impCompres;
@@ -123,115 +217,11 @@ namespace Inversions.GUI
                 return llista;
             }
 
-
-            public DateTime _Data { get; private set; }
-
-            // ReSharper disable UnusedAutoPropertyAccessor.Local
-            // ReSharper disable MemberCanBePrivate.Local
-            public decimal _Pig { get; private set; }
-
-            public decimal _VariacioPercentatge { get; set; }
-
-            public decimal _VariacioImport { get; private set; }
-
-            public decimal _ValorTotal { get; private set; }
-            // ReSharper restore MemberCanBePrivate.Local
-            // ReSharper restore UnusedAutoPropertyAccessor.Local
-        }
-
-        /// <summary>
-        /// Estructura per omplir DgvCompresProducte
-        /// </summary>
-        private struct StrDgvValoracions
-        {
-            private StrDgvValoracions(Valoracio valoracioAnterior, Valoracio valoracio)
-                : this()
-            {
-                var partsEnCartera = valoracio.Prod.partsEnCartera(Utilitats.PosoHora(valoracio.Data));
-
-                _Valoracio = valoracio;
-                _Id = valoracio.Id;
-                _Prod = valoracio.Prod;
-                _Data = valoracio.Data;
-                _NumParticipacions = partsEnCartera;
-                _PreuParticipacio = valoracio.PreuParticipacio;
-                _ValoracioTotal = valoracio.PreuParticipacio * partsEnCartera;
-                if (valoracioAnterior == null || valoracioAnterior.PreuParticipacio == 0)
-                {
-                    _VariacioEuros = 0;
-                    _VariacioPercentatge = 0;
-                }
-                else
-                {
-                    _VariacioPercentatge = valoracio.PreuParticipacio / valoracioAnterior.PreuParticipacio - 1;
-
-                    var partsEnCarteraAnt = valoracioAnterior.Prod.partsEnCartera(Utilitats.PosoHora(valoracioAnterior.Data));
-                    if (partsEnCarteraAnt < partsEnCartera)
-                    {
-                        // Hi ha hagut una compra, calculo només amb les parts anteriors.
-                        _VariacioEuros = (valoracio.PreuParticipacio - valoracioAnterior.PreuParticipacio) * partsEnCarteraAnt;
-                    }
-                    else
-                    {
-                        // Si no hi ha hagut moviment o ha sigut una venda, calculo amb les parts actuals.
-                        _VariacioEuros = (valoracio.PreuParticipacio - valoracioAnterior.PreuParticipacio) * partsEnCartera;
-                    }
-                }
-            }
-
-
-            internal static List<StrDgvValoracions> CarregaStruct(List<Valoracio> valoracions)
-            {
-                List<StrDgvValoracions> llista = new List<StrDgvValoracions>();
-
-                if (valoracions == null || !valoracions.Any())
-                    return llista;
-
-                Valoracio valAnt = valoracions.First().trobaValoracioAnterior(true);
-
-                foreach (var valoracio in valoracions)
-                {
-                    llista.Add(new StrDgvValoracions(valAnt, valoracio));
-                    valAnt = valoracio;
-                }
-
-                return llista;
-            }
-
-
-            internal Valoracio _Valoracio { get; private set; }
-
-            // ReSharper disable UnusedAutoPropertyAccessor.Local
-            // ReSharper disable MemberCanBePrivate.Local
-
-            public int _Id { get; private set; }
-
-            public Producte _Prod { get; private set; }
-
-            public DateTime _Data { get; private set; }
-
-            public decimal _NumParticipacions { get; private set; }
-
-            public decimal _PreuParticipacio { get; private set; }
-
-            public decimal _ValoracioTotal { get; private set; }
-
-            public decimal _VariacioPercentatge { get; private set; }
-
-            public decimal _VariacioEuros { get; private set; }
             // ReSharper restore MemberCanBePrivate.Local
             // ReSharper restore UnusedAutoPropertyAccessor.Local
         }
 
         #endregion
-
-        private enum TipusProd
-        {
-            Accions,
-            RF,
-            RV,
-            Criptos
-        }
 
         private bool vEsNouValor;
 
@@ -257,7 +247,7 @@ namespace Inversions.GUI
             base.carregaInicial();
 
             cData.Value = DateTime.Today.AddDays(-1);
-            
+
             dtpDataIniciLlista.Value = DateTime.Now.AddMonths(-6);
             dtpDataIniciValoracions.Value = DateTime.Now.AddMonths(-6);
 
@@ -354,14 +344,14 @@ namespace Inversions.GUI
 
         private void actualitzaLlistaValoracionsPerProducte()
         {
-            var cursor = Cursor;
+            Cursor cursor = Cursor;
             Cursor = Cursors.WaitCursor;
 
             try
             {
                 if (gestioProductesTabValoracions != null)
                 {
-                    List<Valoracio> valoracionsProducteSelec = new List<Valoracio>();
+                    var valoracionsProducteSelec = new List<Valoracio>();
 
                     if (gestioProductesTabValoracions._ProducteSeleccionat != null
                         && gestioProductesTabValoracions._ProducteSeleccionat.ValoracionsProducte != null)
@@ -376,7 +366,7 @@ namespace Inversions.GUI
 
                     valoracionsProducteSelec = valoracionsProducteSelec.OrderBy(val => val.Data).ToList();
 
-                    var valoracionsProducteSelec2 = StrDgvValoracions.CarregaStruct(valoracionsProducteSelec);
+                    List<StrDgvValoracions> valoracionsProducteSelec2 = StrDgvValoracions.CarregaStruct(valoracionsProducteSelec);
 
                     dgvValoracions.SuspendLayout();
 
@@ -385,7 +375,7 @@ namespace Inversions.GUI
                     // * Ajusta l'amplada de la taula.
                     Utilitats.AjustaAmpladaDataGridView(dgvValoracions);
 
-                    var ultimaFila = dgvValoracions.Rows.GetLastRow(DataGridViewElementStates.Visible);
+                    int ultimaFila = dgvValoracions.Rows.GetLastRow(DataGridViewElementStates.Visible);
                     if (ultimaFila >= 0)
                     {
                         dgvValoracions.FirstDisplayedScrollingRowIndex = ultimaFila;
@@ -405,7 +395,7 @@ namespace Inversions.GUI
         }
 
         /// <summary>
-        /// Assigna l'atribut Visible a tots els controls dins de TableLayoutPanel.
+        ///     Assigna l'atribut Visible a tots els controls dins de TableLayoutPanel.
         /// </summary>
         /// <param name="indexColumn"></param>
         /// <param name="visible"></param>
@@ -437,18 +427,18 @@ namespace Inversions.GUI
 
             var dataIniciAny = new DateTime(DateTime.Today.Year, 1, 1);
 
-            var valoracionsProdSel = Valoracio.Tuples.Where(w => w.ProdId == gestioProductesTabValoracions._ProducteSeleccionat.Id)
+            List<Valoracio> valoracionsProdSel = Valoracio.Tuples.Where(w => w.ProdId == gestioProductesTabValoracions._ProducteSeleccionat.Id)
                 .OrderBy(o => o.Data).ToList();
 
             if (!valoracionsProdSel.Any())
                 return;
 
-            var valActual = valoracionsProdSel.Last();
-            var val1M = valoracionsProdSel.FirstOrDefault(w => w.Data >= DateTime.Today.AddMonths(-1).AddDays(-1));
-            var val3M = valoracionsProdSel.FirstOrDefault(w => w.Data >= DateTime.Today.AddMonths(-3).AddDays(-1));
-            var val6M = valoracionsProdSel.FirstOrDefault(w => w.Data >= DateTime.Today.AddMonths(-6).AddDays(-1));
-            var val1A = valoracionsProdSel.FirstOrDefault(w => w.Data >= DateTime.Today.AddMonths(-12).AddDays(-1));
-            var valAny = valoracionsProdSel.FirstOrDefault(w => w.Data >= dataIniciAny);
+            Valoracio valActual = valoracionsProdSel.Last();
+            Valoracio val1M = valoracionsProdSel.FirstOrDefault(w => w.Data >= DateTime.Today.AddMonths(-1).AddDays(-1));
+            Valoracio val3M = valoracionsProdSel.FirstOrDefault(w => w.Data >= DateTime.Today.AddMonths(-3).AddDays(-1));
+            Valoracio val6M = valoracionsProdSel.FirstOrDefault(w => w.Data >= DateTime.Today.AddMonths(-6).AddDays(-1));
+            Valoracio val1A = valoracionsProdSel.FirstOrDefault(w => w.Data >= DateTime.Today.AddMonths(-12).AddDays(-1));
+            Valoracio valAny = valoracionsProdSel.FirstOrDefault(w => w.Data >= dataIniciAny);
 
             decimal percent;
 
@@ -500,7 +490,7 @@ namespace Inversions.GUI
             else
             {
                 columnaVisible(3, true);
-                
+
                 lbPercentAny.Text = "% " + dataIniciAny.Year;
 
                 percent = valActual.PreuParticipacio / valAny.PreuParticipacio - 1;
@@ -556,17 +546,16 @@ namespace Inversions.GUI
 
             //dgvValoracionsPerData.CellFormatting -= NumericCell.CellFormatting;
 
-            var ultimaFilaX = dgvValoracionsPerData.Rows.GetLastRow(DataGridViewElementStates.Visible);
+            int ultimaFilaX = dgvValoracionsPerData.Rows.GetLastRow(DataGridViewElementStates.Visible);
             if (ultimaFilaX >= 0)
                 dgvValoracionsPerData.FirstDisplayedScrollingRowIndex = ultimaFilaX;
 
             dgvValoracionsPerData.ResumeLayout();
         }
 
-
-
-
         #region *** Events ***
+
+        private Producte vProdAnt;
 
         private void btNouValor_Click(object sender, EventArgs e)
         {
@@ -605,13 +594,13 @@ namespace Inversions.GUI
                     }
                     catch (DbUpdateException ex2)
                     {
-                        Comuns.Utilitats.EscriuLog(ex2, Program.FitxerLog, Program.Versio);
+                        Utilitats.EscriuLog(ex2, Program.FitxerLog, Program.Versio);
                         //MessageBox.Show(ex2.InnerException.InnerException.Message);
                         conn.UndoingChangesDbEntityPropertyLevel(vValoracioSeleccionada);
                     }
                     catch (Exception ex)
                     {
-                        Comuns.Utilitats.EscriuLog(ex, Program.FitxerLog, Program.Versio);
+                        Utilitats.EscriuLog(ex, Program.FitxerLog, Program.Versio);
                         //MessageBox.Show(ex.Message);
                         conn.UndoingChangesDbEntityPropertyLevel(vValoracioSeleccionada);
                     }
@@ -630,12 +619,12 @@ namespace Inversions.GUI
 
         private void btDesa_Click(object sender, EventArgs e)
         {
-            var cursor = this.Cursor;
-            this.Cursor = Cursors.WaitCursor;
+            Cursor cursor = Cursor;
+            Cursor = Cursors.WaitCursor;
 
             if (tbImport.Valor <= 0)
             {
-                MessageBox.Show(this.ParentForm, "El valor no potser igual o inferior a 0", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ParentForm, "El valor no potser igual o inferior a 0", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -660,9 +649,9 @@ namespace Inversions.GUI
                         }
                         catch (Exception ex)
                         {
-                            var xx = Utilitats.ExtreuInnerException(ex);
+                            Exception xx = Utilitats.ExtreuInnerException(ex);
 
-                            if (xx is System.Data.SqlClient.SqlException && ((System.Data.SqlClient.SqlException) xx).Number == 2627)
+                            if (xx is SqlException && ((SqlException) xx).Number == 2627)
                                 MessageBox.Show("Valoració ja existeix", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             else
                                 MessageBox.Show(xx.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -676,7 +665,7 @@ namespace Inversions.GUI
                 //gestioProductesTabValoracions.refrescaDadesControl(false);
                 gestioProductesTabValoracions.refrescaDadesControl();
 
-                TabX.ActivaRefrescaEnTabs(this);
+                ActivaRefrescaEnTabs(this);
 
                 modeConsulta();
 
@@ -686,15 +675,13 @@ namespace Inversions.GUI
             }
             finally
             {
-                this.Cursor = cursor;
+                Cursor = cursor;
             }
         }
 
-        private Producte vProdAnt;
-
         private void gestioProductesTabValoracions_ProducteSeleccionat(object sender, EventArgs e)
         {
-            var hiHaUnProducteSeleccionat = sender != null;
+            bool hiHaUnProducteSeleccionat = sender != null;
 
             btNouValor.Enabled = hiHaUnProducteSeleccionat;
             btModifica.Enabled = false;
@@ -730,16 +717,16 @@ namespace Inversions.GUI
 
         private void btCopiaValorsDelPaste_Click(object sender, EventArgs e)
         {
-            PasteSelfBank pSelf = new PasteSelfBank();
+            var pSelf = new PasteSelfBank();
             if (pSelf.ShowDialog(this) == DialogResult.OK)
             {
-                TabX.ActivaRefrescaEnTabs(this);
+                ActivaRefrescaEnTabs(this);
                 //gestioProductesTabValoracions.refrescaDadesControl(false);
                 gestioProductesTabValoracions.refrescaDadesControl();
             }
         }
 
-        private void checkedComboBoxEdit1_CloseUp(object sender, DevExpress.XtraEditors.Controls.CloseUpEventArgs e)
+        private void checkedComboBoxEdit1_CloseUp(object sender, CloseUpEventArgs e)
         {
             if (e.AcceptValue)
             {
@@ -762,7 +749,7 @@ namespace Inversions.GUI
                 case ChartElementType.DataPoint:
                     if (e.HitTestResult.Series != null)
                     {
-                        var dataPoint = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
+                        DataPoint dataPoint = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
 
                         e.Text = string.Format("Import:\t{0}", dataPoint.YValues[0]);
                     }
@@ -804,5 +791,13 @@ namespace Inversions.GUI
         }
 
         #endregion *** Events ***
+
+        private enum TipusProd
+        {
+            Accions,
+            RF,
+            RV,
+            Criptos
+        }
     }
 }

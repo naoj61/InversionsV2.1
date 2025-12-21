@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using Comuns;
+﻿using System.Data.Entity;
 
 namespace Inversions.ClassesEntity
 {
@@ -13,14 +9,9 @@ namespace Inversions.ClassesEntity
             get { return Program.Sessio.ProdAccions; }
         }
 
-        public new static void RefrescaTaula()
+        public override TipusProducte _TipusProducte
         {
-            Producte.RefrescaTaula();
-        }
-
-        public override Producte.TipusProducte _TipusProducte
-        {
-            get { return Producte.TipusProducte.Accions; }
+            get { return TipusProducte.Accions; }
         }
 
         public override string _NomProducte
@@ -42,7 +33,7 @@ namespace Inversions.ClassesEntity
 
         public override string _NomMercat
         {
-            get { return Mercat == null ? null :Mercat.Nom; }
+            get { return Mercat == null ? null : Mercat.Nom; }
         }
 
         public override string _Isin
@@ -53,6 +44,11 @@ namespace Inversions.ClassesEntity
         public override string _Descripcio
         {
             get { return null; }
+        }
+
+        public new static void RefrescaTaula()
+        {
+            Producte.RefrescaTaula();
         }
     }
 }

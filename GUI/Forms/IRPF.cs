@@ -1,18 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Comuns;
-using Controls;
-using DevExpress.Utils.OAuth.Provider;
 using Inversions.ClassesEntity;
 using Microsoft.Win32;
 
@@ -21,98 +13,13 @@ namespace Inversions.GUI.Forms
     public sealed partial class IRPF : Form
     {
         #region *** Structs per DataGridView ***
-        
-        private struct StrDgvProductes
-        {
-            public StrDgvProductes(int any, Producte prod)
-                : this()
-            {
-                _Prod = prod;
-                _Divident = prod.dividends(any);
-            }
-
-            // ReSharper disable MemberCanBePrivate.Local
-            // ReSharper disable UnusedAutoPropertyAccessor.Local
-            public Producte _Prod { get; private set; }
-            public decimal _Divident { get; private set; }
-            // ReSharper restore MemberCanBePrivate.Local
-            // ReSharper restore UnusedAutoPropertyAccessor.Local
-        }
-
-        private struct StrDgvVendes
-        {
-            public StrDgvVendes(Moviment venda)
-                : this()
-            {
-                if (!venda._EsVenda)
-                    throw new Exception("No és una venda");
-
-                vVenda = venda;
-            }
-
-            private readonly Moviment vVenda;
-
-            // ReSharper disable MemberCanBePrivate.Local
-            // ReSharper disable UnusedAutoPropertyAccessor.Local
-            // ReSharper disable UnusedMember.Local
-
-            public Moviment _Venda
-            {
-                get { return vVenda; }
-            }
-
-            public int _Id
-            {
-                get { return _Venda.Id; }
-            }
-
-            public DateTime _Data
-            {
-                get { return _Venda.Data; }
-            }
-
-            public Producte _Prod
-            {
-                get { return _Venda.Prod; }
-            }
-
-            public decimal _Parts
-            {
-                get { return _Venda.Participacions; }
-            }
-
-            public decimal _PreuUnitari
-            {
-                get { return _Venda.PreuParticipacio; }
-            }
-
-            public decimal _Despeses
-            {
-                get { return _Venda.Despeses.GetValueOrDefault(); }
-            }
-
-            public decimal _ImportBrut
-            {
-                get { return _Venda._ImportBrut; }
-            }
-
-            public decimal _ImportNet
-            {
-                get { return _Venda._ImportNet; }
-            }
-
-            public decimal _PiG
-            {
-                get { return _Venda.pigVenda4(true, true, true); }
-            }
-
-            // ReSharper restore UnusedMember.Local
-            // ReSharper restore MemberCanBePrivate.Local
-            // ReSharper restore UnusedAutoPropertyAccessor.Local
-        }
 
         private struct StrDgvCompresVenda
         {
+            private readonly CompraExt vCompra;
+            private readonly Moviment vVenda;
+            private decimal vParticipacionsUtilitzades;
+
             public StrDgvCompresVenda(Moviment venda, CompraExt compra)
                 : this()
             {
@@ -126,10 +33,6 @@ namespace Inversions.GUI.Forms
                 vParticipacionsUtilitzades = compra._PartsUtilitzades;
             }
 
-            private readonly Moviment vVenda;
-            private readonly CompraExt vCompra;
-            private decimal vParticipacionsUtilitzades;
-
             private decimal _DespesesCompraUtil
             {
                 get { return vCompra._DespesesPartsUtilitzades / vCompra._Participacions * vParticipacionsUtilitzades; }
@@ -140,11 +43,6 @@ namespace Inversions.GUI.Forms
                 get { return vVenda.Despeses.GetValueOrDefault() / vVenda.Participacions * vParticipacionsUtilitzades; }
             }
 
-
-            public void afegeigParticipacionsUtilitzades(decimal participacionsUtilitzades)
-            {
-                vParticipacionsUtilitzades += participacionsUtilitzades;
-            }
 
             // ReSharper disable MemberCanBePrivate.Local
             // ReSharper disable UnusedAutoPropertyAccessor.Local
@@ -240,11 +138,6 @@ namespace Inversions.GUI.Forms
                 get { return _ImportVendaNetUtil - _ImportCompraNetUtil; }
             }
 
-            // ReSharper restore UnusedMember.Local
-            // ReSharper restore MemberCanBePrivate.Local
-            // ReSharper restore UnusedAutoPropertyAccessor.Local
-
-
             #region Overrides
 
             public override int GetHashCode()
@@ -267,23 +160,126 @@ namespace Inversions.GUI.Forms
                 if (!(obj is StrDgvCompresVenda))
                     return false;
 
-                return this == (StrDgvCompresVenda)obj;
+                return this == (StrDgvCompresVenda) obj;
             }
 
             #endregion
+
+            public void afegeigParticipacionsUtilitzades(decimal participacionsUtilitzades)
+            {
+                vParticipacionsUtilitzades += participacionsUtilitzades;
+            }
+
+            // ReSharper restore UnusedMember.Local
+            // ReSharper restore MemberCanBePrivate.Local
+            // ReSharper restore UnusedAutoPropertyAccessor.Local
+        }
+
+        private struct StrDgvProductes
+        {
+            public StrDgvProductes(int any, Producte prod)
+                : this()
+            {
+                _Prod = prod;
+                _Divident = prod.dividends(any);
+            }
+
+            // ReSharper disable MemberCanBePrivate.Local
+            // ReSharper disable UnusedAutoPropertyAccessor.Local
+            public Producte _Prod { get; private set; }
+            public decimal _Divident { get; private set; }
+            // ReSharper restore MemberCanBePrivate.Local
+            // ReSharper restore UnusedAutoPropertyAccessor.Local
+        }
+
+        private struct StrDgvVendes
+        {
+            private readonly Moviment vVenda;
+
+            public StrDgvVendes(Moviment venda)
+                : this()
+            {
+                if (!venda._EsVenda)
+                    throw new Exception("No és una venda");
+
+                vVenda = venda;
+            }
+
+            // ReSharper disable MemberCanBePrivate.Local
+            // ReSharper disable UnusedAutoPropertyAccessor.Local
+            // ReSharper disable UnusedMember.Local
+
+            public Moviment _Venda
+            {
+                get { return vVenda; }
+            }
+
+            public int _Id
+            {
+                get { return _Venda.Id; }
+            }
+
+            public DateTime _Data
+            {
+                get { return _Venda.Data; }
+            }
+
+            public Producte _Prod
+            {
+                get { return _Venda.Prod; }
+            }
+
+            public decimal _Parts
+            {
+                get { return _Venda.Participacions; }
+            }
+
+            public decimal _PreuUnitari
+            {
+                get { return _Venda.PreuParticipacio; }
+            }
+
+            public decimal _Despeses
+            {
+                get { return _Venda.Despeses.GetValueOrDefault(); }
+            }
+
+            public decimal _ImportBrut
+            {
+                get { return _Venda._ImportBrut; }
+            }
+
+            public decimal _ImportNet
+            {
+                get { return _Venda._ImportNet; }
+            }
+
+            public decimal _PiG
+            {
+                get { return _Venda.pigVenda4(true, true, true); }
+            }
+
+            // ReSharper restore UnusedMember.Local
+            // ReSharper restore MemberCanBePrivate.Local
+            // ReSharper restore UnusedAutoPropertyAccessor.Local
         }
 
         #endregion
-        
-        private List<StrDgvProductes> vProdsAmbVendesDividentsAny;
-        private List<Moviment> vVendesAny;
-        private Dictionary<Moviment, List<CompraExt>> vCompresVendesAny;
+
+        private const string RegImportMinimContribuent = "ImportMinimContribuent";
+        private static readonly string StringConexxio = Program.Sessio.Database.Connection.ConnectionString;
         private int vAny;
+        private string vClauReg;
+        private Dictionary<Moviment, List<CompraExt>> vCompresVendesAny;
+        private decimal vImportMinimContribuent;
+        private List<StrDgvProductes> vProdsAmbVendesDividentsAny;
+        private bool vShaModificat;
+        private List<Moviment> vVendesAny;
 
         public IRPF(int any)
         {
             InitializeComponent();
-            
+
             dgvIngressosForaAplicacio.RowsRemoved -= dgvIngressosForaAplicacio_RowsRemoved;
 
             dgvProductes.AutoGenerateColumns = false;
@@ -310,7 +306,6 @@ namespace Inversions.GUI.Forms
 
         private void IRPF_Shown(object sender, EventArgs e)
         {
-
         }
 
         private void IRPF_Load(object sender, EventArgs e)
@@ -328,9 +323,9 @@ namespace Inversions.GUI.Forms
         private void ompleGridCompresDeLaVenda()
         {
             // Crea llista de les vendes seleccionades de "dgvVendes".
-            var vendessSelec = (from DataGridViewRow row in dgvVendes.SelectedRows select (Moviment) row.Cells[0].Value).ToList();
+            List<Moviment> vendessSelec = (from DataGridViewRow row in dgvVendes.SelectedRows select (Moviment) row.Cells[0].Value).ToList();
 
-            List<StrDgvCompresVenda> compresVenda = new List<StrDgvCompresVenda>();
+            var compresVenda = new List<StrDgvCompresVenda>();
             foreach (Moviment venda in vendessSelec)
             {
                 compresVenda.AddRange(venda.compresDeLaVenda().Select(compraExt => new StrDgvCompresVenda(venda, compraExt)));
@@ -343,13 +338,13 @@ namespace Inversions.GUI.Forms
                 //ColDespesesCompra.Visible = false;
                 //ColDespesesVenda.Visible = false;
 
-                List<StrDgvCompresVenda> compresVendaAgrup = new List<StrDgvCompresVenda>();
-                foreach (var compraVenda in compresVenda)
+                var compresVendaAgrup = new List<StrDgvCompresVenda>();
+                foreach (StrDgvCompresVenda compraVenda in compresVenda)
                 {
                     if (compresVendaAgrup.Contains(compraVenda))
                     {
                         // Aixó és perquè "compraVenda" son strucs i la llista retorna una còpia no una referència.
-                        var idx = compresVendaAgrup.IndexOf(compraVenda);
+                        int idx = compresVendaAgrup.IndexOf(compraVenda);
                         compraVenda.afegeigParticipacionsUtilitzades(compresVendaAgrup[idx]._ParticipacionsUtilitzades);
                         compresVendaAgrup[idx] = compraVenda;
                     }
@@ -376,10 +371,6 @@ namespace Inversions.GUI.Forms
                                      - ntbPerduesAnysAnteriors.Valor - ntbMinimContribuent.Valor;
         }
 
-        private const string RegImportMinimContribuent = "ImportMinimContribuent";
-        private decimal vImportMinimContribuent;
-        private string vClauReg;
-
 
         private void cbAny_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -389,10 +380,10 @@ namespace Inversions.GUI.Forms
 
             vVendesAny = Moviment.MovimentsUsuari.Where(w => w._EsVendaReal && w.Data.Year == vAny).ToList();
             vProdsAmbVendesDividentsAny = vVendesAny.Select(s => s.Prod).Distinct().Select(i => new StrDgvProductes(vAny, i)).ToList();
-            
+
             // Afegeixo dividents.
-            List<StrDgvProductes>prodsAmbDividentsAny= new List<StrDgvProductes>();
-            foreach (var mov in Moviment.MovimentsUsuari.Where(w=>w._EsDividents && w.Data.Year == vAny))
+            var prodsAmbDividentsAny = new List<StrDgvProductes>();
+            foreach (Moviment mov in Moviment.MovimentsUsuari.Where(w => w._EsDividents && w.Data.Year == vAny))
             {
                 var xx = new StrDgvProductes(vAny, mov.Prod);
                 if (!prodsAmbDividentsAny.Contains(xx))
@@ -410,7 +401,7 @@ namespace Inversions.GUI.Forms
 
             vClauReg = Utilitats.CreaClauRegistre() + "\\" + Usuari.Seleccionat.Nom + "\\" + cbAny.Text;
 
-            var dd1 = Utilitats.LlegeixVariableRegistre(Registry.CurrentUser, vClauReg, RegImportMinimContribuent);
+            string dd1 = Utilitats.LlegeixVariableRegistre(Registry.CurrentUser, vClauReg, RegImportMinimContribuent);
             Decimal.TryParse(dd1, out vImportMinimContribuent);
             ntbMinimContribuent.Valor = vImportMinimContribuent;
 
@@ -419,18 +410,16 @@ namespace Inversions.GUI.Forms
             calculaTotalATributar();
         }
 
-        private static readonly string StringConexxio = Program.Sessio.Database.Connection.ConnectionString;
-
         private void carregaTaulaIngressosExterns(int any)
         {
-            using (SqlConnection connection = new SqlConnection(StringConexxio))
+            using (var connection = new SqlConnection(StringConexxio))
             {
                 // Consulta SQL para seleccionar todos los registros de la tabla
                 string query = String.Format("SELECT * FROM IngressosExterns Where [UsuariId] = {0} AND [Any] = {1} Order By Rao"
                     , Usuari.Seleccionat.Id, any);
 
-                SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
-                DataTable table = new DataTable();
+                var adapter = new SqlDataAdapter(query, connection);
+                var table = new DataTable();
 
                 adapter.Fill(table);
 
@@ -454,12 +443,12 @@ namespace Inversions.GUI.Forms
         private void desaTaulaIngressosExterns()
         {
             // Guardar cambios en la base de datos al hacer clic en el botón "Guardar"
-            using (SqlConnection connection = new SqlConnection(StringConexxio))
+            using (var connection = new SqlConnection(StringConexxio))
             {
-                SqlDataAdapter adapter = new SqlDataAdapter();
+                var adapter = new SqlDataAdapter();
 
                 // Crear comandos SQL para actualizar los cambios en la base de datos
-                SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
+                var builder = new SqlCommandBuilder(adapter);
                 adapter.SelectCommand = new SqlCommand("SELECT * FROM IngressosExterns", connection);
                 connection.Open();
 
@@ -482,11 +471,11 @@ namespace Inversions.GUI.Forms
                 IngresExtern.RefrescaTaula();
             }
 
-            if(MessageBox.Show("Canvis desats correctament. Tanco la finestra?", "Avís"
-                , MessageBoxButtons.YesNo, MessageBoxIcon.Question)== DialogResult.Yes)
+            if (MessageBox.Show("Canvis desats correctament. Tanco la finestra?", "Avís"
+                , MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 btDesa.Enabled = false;
-                this.Close();
+                Close();
             }
         }
 
@@ -509,9 +498,9 @@ namespace Inversions.GUI.Forms
             else
             {
                 // Crea llista dels productes seleccionats de "dgvProductes".
-                var prodsSelec = (from DataGridViewRow row in dgvProductes.SelectedRows select (Producte) row.Cells[1].Value).ToList();
+                List<Producte> prodsSelec = (from DataGridViewRow row in dgvProductes.SelectedRows select (Producte) row.Cells[1].Value).ToList();
 
-                List<StrDgvVendes> vendesAny = new List<StrDgvVendes>();
+                var vendesAny = new List<StrDgvVendes>();
                 foreach (Moviment venda in vVendesAny)
                 {
                     if (prodsSelec.Contains(venda.Prod))
@@ -520,7 +509,7 @@ namespace Inversions.GUI.Forms
 
                 //dgvVendes.CellFormatting += NumericCell.CellFormatting; 
 
-                dgvVendes.DataSource = vendesAny.OrderBy(o=>o._Prod).ThenBy(o=>o._Data).ToList();
+                dgvVendes.DataSource = vendesAny.OrderBy(o => o._Prod).ThenBy(o => o._Data).ToList();
 
                 //dgvVendes.CellFormatting -= NumericCell.CellFormatting; 
 
@@ -572,7 +561,7 @@ namespace Inversions.GUI.Forms
         {
             if (!modeEdicioOn.HasValue)
             {
-                var filesModif = ((DataTable) dgvIngressosForaAplicacio.DataSource).GetChanges();
+                DataTable filesModif = ((DataTable) dgvIngressosForaAplicacio.DataSource).GetChanges();
 
                 modeEdicioOn = vImportMinimContribuent != ntbMinimContribuent.Valor || filesModif != null;
             }
@@ -603,7 +592,6 @@ namespace Inversions.GUI.Forms
             modeEdicio(false);
         }
 
-        private bool vShaModificat = false;
         private void btDesa_Click(object sender, EventArgs e)
         {
             Utilitats.GravaVariableRegistre(Registry.CurrentUser, vClauReg, RegImportMinimContribuent, ntbMinimContribuent.Valor);
@@ -628,17 +616,16 @@ namespace Inversions.GUI.Forms
             }
         }
 
-
         #region *** Gestiona Ingressos fora de l'aplicació ***
 
         private void dgvIngressosForaAplicacio_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
         {
-            DataGridView dataGridView = sender as DataGridView;
+            var dataGridView = sender as DataGridView;
 
             if (dataGridView != null && dataGridView.IsCurrentRowDirty)
             {
-                var rao = dataGridView.Rows[e.RowIndex].Cells["ColumnaRao"].Value;
-                var import = dataGridView.Rows[e.RowIndex].Cells["ColumnaImport"].Value;
+                object rao = dataGridView.Rows[e.RowIndex].Cells["ColumnaRao"].Value;
+                object import = dataGridView.Rows[e.RowIndex].Cells["ColumnaImport"].Value;
 
                 if (rao != null || rao != DBNull.Value || import != null || import != DBNull.Value)
                 {

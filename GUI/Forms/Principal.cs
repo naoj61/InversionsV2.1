@@ -1,19 +1,7 @@
 ﻿using System;
-using System.CodeDom;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Migrations;
-using System.Data.Entity.Validation;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using Comuns;
-using Controls;
 using Inversions.ClassesEntity;
 using Microsoft.Win32;
 
@@ -22,15 +10,15 @@ namespace Inversions.GUI
     public partial class Principal : Form
     {
         private const string NomVarReg = "UltimaPestanyaSeleccionada";
+        private readonly EdicioTaulesTab vEdicioTaulesTab = new EdicioTaulesTab();
 
         private readonly EmpresesProductesTab vEmpresesProductesTab = new EmpresesProductesTab();
-        private readonly MovimentsTab vMovimentsTab = new MovimentsTab();
-        private readonly ValoracionsTab vValoracionsTab = new ValoracionsTab();
-        private readonly PerduesGuanysTab vPerduesGuanysTab = new PerduesGuanysTab();
         private readonly GrafiquesTab vGrafiquesTab = new GrafiquesTab();
+        private readonly MovimentsTab vMovimentsTab = new MovimentsTab();
+        private readonly PerduesGuanysTab vPerduesGuanysTab = new PerduesGuanysTab();
         private readonly SimulacioVendaTab vSimulacioVendaTab = new SimulacioVendaTab();
         private readonly UsuarisTab vUsuarisTab = new UsuarisTab();
-        private readonly EdicioTaulesTab vEdicioTaulesTab = new EdicioTaulesTab();
+        private readonly ValoracionsTab vValoracionsTab = new ValoracionsTab();
 
         public Principal()
         {
@@ -39,11 +27,10 @@ namespace Inversions.GUI
             titolFinestra();
         }
 
-
         #region *** Mètodes ***
 
         /// <summary>
-        /// Tora el control TabX seleccionat.
+        ///     Tora el control TabX seleccionat.
         /// </summary>
         /// <param name="tabPage"></param>
         /// <returns></returns>
@@ -63,13 +50,13 @@ namespace Inversions.GUI
 
 
         /// <summary>
-        /// Torna l'usuari següent al del paràmetre, si aquest és null torna el següent al seleccionat.
+        ///     Torna l'usuari següent al del paràmetre, si aquest és null torna el següent al seleccionat.
         /// </summary>
         /// <param name="usuari"></param>
         /// <returns></returns>
         private Usuari tornaUsuariSeguent(Usuari usuari)
         {
-            var usuaris = Program.Sessio.Usuaris.OrderBy(o => o.Id);
+            IOrderedQueryable<Usuari> usuaris = Program.Sessio.Usuaris.OrderBy(o => o.Id);
 
             if (usuari == null)
                 return usuaris.First();
@@ -80,12 +67,12 @@ namespace Inversions.GUI
 
         private void canviUsuari(Usuari usuari = null)
         {
-            var cursor = this.Cursor;
+            Cursor cursor = Cursor;
             try
             {
-                this.Cursor = Cursors.WaitCursor;
+                Cursor = Cursors.WaitCursor;
 
-                var tabPageX = tornaTabX();
+                TabX tabPageX = tornaTabX();
 
                 if (tabPageX._EnModeEdicio)
                 {
@@ -107,14 +94,18 @@ namespace Inversions.GUI
             }
             finally
             {
-                this.Cursor = cursor;
+                Cursor = cursor;
             }
         }
 
         #endregion *** Mètodes ***
 
-
         #region *** Events ***
+
+        /// <summary>
+        ///     Indicador per què els controls del Form sàpiguuen que s'està tancant el formulari.
+        /// </summary>
+        public bool SestaTancantForm { get; private set; }
 
         private void Principal_Load(object sender, EventArgs e)
         {
@@ -178,10 +169,10 @@ namespace Inversions.GUI
             if (Usuari.Seleccionat == null)
                 Program.CanviUsuari(Usuari.Tuples.First());
 
-            var ultimaPestanyaSeleccionada = Program.LlegeigVariableEnRegistreWindows(NomVarReg, true);
-            
+            string ultimaPestanyaSeleccionada = Program.LlegeigVariableEnRegistreWindows(NomVarReg, true);
+
             //ultimaPestanyaSeleccionada = "tabPerduesGuanys";
-            
+
             try
             {
                 tabControl1.SelectTab(ultimaPestanyaSeleccionada);
@@ -197,7 +188,7 @@ namespace Inversions.GUI
         {
             if (e.Control && e.KeyCode == Keys.U)
             {
-                var tabPageX = tornaTabX();
+                TabX tabPageX = tornaTabX();
                 if (tabPageX != null && tabPageX._EnModeEdicio)
                     MessageBox.Show("Està en mode edició");
                 else
@@ -205,13 +196,13 @@ namespace Inversions.GUI
             }
             else if (e.KeyCode == Keys.F5 || (e.Control && e.KeyCode == Keys.R))
             {
-                var tabX = tornaTabX();
+                TabX tabX = tornaTabX();
                 if (tabX != null)
                     tabX.refresca();
             }
             else if (e.KeyCode == Keys.Escape)
             {
-                var tabX = tornaTabX();
+                TabX tabX = tornaTabX();
                 if (tabX != null)
                     tabX.escape(sender, e);
             }
@@ -221,10 +212,10 @@ namespace Inversions.GUI
         private void Principal_Activated(object sender, EventArgs e)
         {
             // *** Canvia d'usuari si s'ha intentat arrancar de nou el procés amb un usuari diferent.
-            var usuariId = Convert.ToInt32(Utilitats.LlegeixVariableRegistre(Registry.CurrentUser, Program.Claureg, Program.NomVarReg));
+            int usuariId = Convert.ToInt32(Utilitats.LlegeixVariableRegistre(Registry.CurrentUser, Program.Claureg, Program.NomVarReg));
             if (usuariId != Usuari.Seleccionat.Id)
             {
-                var usuari = Usuari.Tuples.Find(usuariId);
+                Usuari usuari = Usuari.Tuples.Find(usuariId);
                 if (usuari != null)
                 {
                     canviUsuari(usuari);
@@ -232,18 +223,13 @@ namespace Inversions.GUI
             }
         }
 
-        /// <summary>
-        /// Indicador per què els controls del Form sàpiguuen que s'està tancant el formulari.
-        /// </summary>
-        public bool SestaTancantForm { get; private set; }
-
         protected override void WndProc(ref Message m)
         {
             const int WM_CLOSE = 0x0010;
 
             if (m.Msg == WM_CLOSE)
             {
-                SestaTancantForm = true;   // ← AIXÒ s'executa abans del Validating
+                SestaTancantForm = true; // ← AIXÒ s'executa abans del Validating
             }
 
             base.WndProc(ref m);
@@ -252,7 +238,7 @@ namespace Inversions.GUI
 
         private void Principal_FormClosing(object sender, FormClosingEventArgs e)
         {
-            var tabX = tornaTabX();
+            TabX tabX = tornaTabX();
 
             if (tabX != null)
                 // Impideix canviar de pastanya si la pestanya seleccionada està en mode edició.
@@ -262,7 +248,7 @@ namespace Inversions.GUI
 
         private void tabControl1_Deselecting(object sender, TabControlCancelEventArgs e)
         {
-            var tabX = tornaTabX(e.TabPage);
+            TabX tabX = tornaTabX(e.TabPage);
 
             if (tabX != null)
                 // Impideix canviar de pastanya si la pestanya seleccionada està en mode edició.
@@ -291,7 +277,7 @@ namespace Inversions.GUI
 
         private void tabControl1_Selected(object sender, TabControlEventArgs e)
         {
-            var tabXSeleccionada = tornaTabX(e.TabPage);
+            TabX tabXSeleccionada = tornaTabX(e.TabPage);
 
             if (tabXSeleccionada != null)
             {
@@ -327,7 +313,7 @@ namespace Inversions.GUI
         }
 
         /// <summary>
-        /// Mètode per saber quin control te el focus real.
+        ///     Mètode per saber quin control te el focus real.
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
@@ -353,4 +339,3 @@ namespace Inversions.GUI
         }
     }
 }
- 

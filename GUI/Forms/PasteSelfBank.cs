@@ -1,29 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml;
 using Comuns;
-using DevExpress.Utils;
 using Inversions.ClassesEntity;
-using Microsoft.Win32;
 
 namespace Inversions.GUI
 {
     public partial class PasteSelfBank : Form
     {
+        private const string NomVarRegTancaAlDesar = "PasteSelfBankTancaAlDesar";
+        private const int DiferenciaMaimaxPreu = 10;
+
         public PasteSelfBank()
         {
             InitializeComponent();
 
-            var xx = Convert.ToInt32(Program.LlegeigVariableEnRegistreWindows("ColumnaPreuParticio", false));
+            int xx = Convert.ToInt32(Program.LlegeigVariableEnRegistreWindows("ColumnaPreuParticio", false));
             cbColumnaPreuParticio.SelectedIndex = Convert.ToInt32(Program.LlegeigVariableEnRegistreWindows("ColumnaPreuParticio", false));
             cbColumnaPreuParticio.SelectedIndexChanged += cbColumnaPreuParticio_SelectedIndexChanged;
 
@@ -37,9 +31,6 @@ namespace Inversions.GUI
             tbPaste.Text = Clipboard.GetText();
             // tbPaste.Select(0, 0);
         }
-
-        private const string NomVarRegTancaAlDesar = "PasteSelfBankTancaAlDesar";
-        private const int DiferenciaMaimaxPreu = 10;
 
         private void capturaValorsPaste(DateTime? data = null)
         {
@@ -56,7 +47,7 @@ namespace Inversions.GUI
 
         private void capturaValorsPasteKraken(DateTime? data = null)
         {
-            var cursor = Cursor;
+            Cursor cursor = Cursor;
             Cursor = Cursors.WaitCursor;
 
             try
@@ -64,14 +55,14 @@ namespace Inversions.GUI
                 bool avis = false;
 
                 data = data ?? DateTime.Now;
-              
+
                 dataGridView1.Rows.Clear();
 
-                var text1 = tbPaste.Text.Replace(Environment.NewLine, "\t");
-                var items = text1.Split(new char[] {'\t',}, StringSplitOptions.RemoveEmptyEntries);
+                string text1 = tbPaste.Text.Replace(Environment.NewLine, "\t");
+                string[] items = text1.Split(new[] {'\t'}, StringSplitOptions.RemoveEmptyEntries);
 
                 ProdAccions prod = null;
-                var pos = items[0] == "Kraken" ? 1 : 4;
+                int pos = items[0] == "Kraken" ? 1 : 4;
 
                 for (int i = 0; i < items.Count(); i++)
                 {
@@ -96,7 +87,7 @@ namespace Inversions.GUI
                         string valorStr = Char.IsNumber(items[i][0]) ? items[i] : items[i].Substring(1);
 
                         // Si pos = 1 -> valor = Preu moneda. Si pos = 4 -> valor = Valor inversió.
-                        var valor = Convert.ToDecimal(valorStr, CultureInfo.InvariantCulture);
+                        decimal valor = Convert.ToDecimal(valorStr, CultureInfo.InvariantCulture);
 
                         if (items[0] == "Kraken")
                             // *** Paste a partir de la pantalla de preus, sense fer login.
@@ -129,15 +120,15 @@ namespace Inversions.GUI
 
         private void capturaValorsPasteSelfBank(DateTime? data = null)
         {
-            var cursor = Cursor;
+            Cursor cursor = Cursor;
             Cursor = Cursors.WaitCursor;
 
             try
             {
                 dataGridView1.Rows.Clear();
 
-                var text1 = tbPaste.Text.Replace(Environment.NewLine, "\t");
-                var items = text1.Split(new char[] {'\t',}, StringSplitOptions.RemoveEmptyEntries);
+                string text1 = tbPaste.Text.Replace(Environment.NewLine, "\t");
+                string[] items = text1.Split(new[] {'\t'}, StringSplitOptions.RemoveEmptyEntries);
                 ProdFons prod = null;
                 int? posPreuPart = null;
                 int? pos = null;
@@ -145,9 +136,9 @@ namespace Inversions.GUI
 
                 for (int index = 0; index < items.Length; index++)
                 {
-                    var item = items[index];
+                    string item = items[index];
 
-                    if (item.Equals("FONDOS NACIONALES", StringComparison.OrdinalIgnoreCase) 
+                    if (item.Equals("FONDOS NACIONALES", StringComparison.OrdinalIgnoreCase)
                         || item.Equals("FONDOS INTERNACIONALES", StringComparison.OrdinalIgnoreCase))
                     {
                         pos = 0;
@@ -215,7 +206,7 @@ namespace Inversions.GUI
 
 
         /// <summary>
-        /// Crea les valoracions capturades del paste.
+        ///     Crea les valoracions capturades del paste.
         /// </summary>
         /// <param name="data"></param>
         /// <param name="prod"></param>
@@ -227,14 +218,17 @@ namespace Inversions.GUI
             if (!data.HasValue)
                 throw new Exception("Falta la data");
 
-            var dataVal = data.Value.Date;
+            DateTime dataVal = data.Value.Date;
 
-            var existeisValoracio = Valoracio.Tuples.SingleOrDefault(w => w.Prod.Id == prod.Id && w.Data == dataVal) != null;
-            var difPercent = (preuPart / prod._PreuParticipacioActual - 1);
-            var difValor = ((preuPart - prod._PreuParticipacioActual) * prod._Participacions);
+            bool existeisValoracio = Valoracio.Tuples.SingleOrDefault(w => w.Prod.Id == prod.Id && w.Data == dataVal) != null;
+            decimal difPercent = (preuPart / prod._PreuParticipacioActual - 1);
+            decimal difValor = ((preuPart - prod._PreuParticipacioActual) * prod._Participacions);
 
-            int numFila = dataGridView1.Rows.Add(new object[] { !existeisValoracio, prod, !existeisValoracio, dataVal
-                                , prod._PreuParticipacioActual, preuPart, difPercent, difValor });
+            int numFila = dataGridView1.Rows.Add(new object[]
+            {
+                !existeisValoracio, prod, !existeisValoracio, dataVal
+                , prod._PreuParticipacioActual, preuPart, difPercent, difValor
+            });
 
             if (existeisValoracio)
                 dataGridView1.Rows[numFila].Cells[colData.Name].Style.ForeColor = Color.Blue;
@@ -273,7 +267,7 @@ namespace Inversions.GUI
                         DateTime data = ckDataUnica.Checked ? dtpDataUnica.Value : (DateTime) row.Cells[colData.Name].Value;
                         var preuPart = (decimal) row.Cells[colValorNou.Name].Value;
 
-                        var val = connexio.Valoracions.SingleOrDefault(w => w.ProdId == producte.Id && w.Data == data);
+                        Valoracio val = connexio.Valoracions.SingleOrDefault(w => w.ProdId == producte.Id && w.Data == data);
                         if (val == null)
                         {
                             // Només noves valoracions. No modifica
@@ -283,7 +277,7 @@ namespace Inversions.GUI
 
                             connexio.Valoracions.Add(val);
                         }
-                        
+
                         val.PreuParticipacio = preuPart;
                     }
 
@@ -297,8 +291,8 @@ namespace Inversions.GUI
                         MessageBox.Show("Fet!" + Environment.NewLine + "Vols tancar la finestra?", "Fet",
                             MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        this.DialogResult = DialogResult.OK;
-                        this.Close();
+                        DialogResult = DialogResult.OK;
+                        Close();
                     }
                 }
                 catch (Exception ex)
@@ -322,7 +316,7 @@ namespace Inversions.GUI
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.ColumnIndex == colSeleccionat.Index)
+            if (e.ColumnIndex == colSeleccionat.Index)
             {
                 dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
@@ -332,9 +326,9 @@ namespace Inversions.GUI
         {
             if (dataGridView1.Rows.Count > 0 && e.ColumnIndex == colSeleccionat.Index)
             {
-                var estatOriginalCheckBox = (bool)dataGridView1.Rows[e.RowIndex].Cells[colEstatOriginalCheckBox.Name].Value;
+                var estatOriginalCheckBox = (bool) dataGridView1.Rows[e.RowIndex].Cells[colEstatOriginalCheckBox.Name].Value;
                 //var valorActualCheckBox = (bool)dataGridView1.CurrentCell.Value;
-                var valorActualCheckBox = (bool)dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                var valorActualCheckBox = (bool) dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
                 if (!estatOriginalCheckBox && valorActualCheckBox && !ckSobreescriuValoracions.Checked)
                 {
                     if (MessageBox.Show("Marco per sobreescriure valoracions?", "La valoració ja existeix", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -358,7 +352,7 @@ namespace Inversions.GUI
             // Comprovar si s'han de sobreescriure valors per la data.
             capturaValorsPaste(ckDataUnica.Checked ? dtpDataUnica.Value : (DateTime?) null);
         }
-        
+
         private void btCapturaValorPaste_Click(object sender, EventArgs e)
         {
             capturaValorsPaste();

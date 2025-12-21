@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Windows.Forms;
 
 namespace Inversions.ClassesEntity
 {
@@ -23,13 +22,7 @@ namespace Inversions.ClassesEntity
         }
 
 // ReSharper disable UnusedMember.Global
-        public static void RefrescaTaula()
-        {
-            Program.Sessio.refrescaTaula(typeof(Usuari));
 
-            // Fa que es recarreguin el "ICollection" de la taula.
-            var xx = Tuples.ToList();
-        }
         // ReSharper restore UnusedMember.Global
 
         public static Usuari Seleccionat { get; set; }
@@ -50,7 +43,7 @@ namespace Inversions.ClassesEntity
             }
 
             // If one is null,return false.
-            if ((object)a == null || (object)b == null)
+            if ((object) a == null || (object) b == null)
             {
                 return false;
             }
@@ -68,7 +61,7 @@ namespace Inversions.ClassesEntity
             if (!(obj is Usuari))
                 return false;
 
-            return this == (Usuari)obj;
+            return this == (Usuari) obj;
         }
 
         public override string ToString()
@@ -77,5 +70,13 @@ namespace Inversions.ClassesEntity
         }
 
         #endregion
+
+        public static void RefrescaTaula()
+        {
+            Program.Sessio.refrescaTaula(typeof (Usuari));
+
+            // Fa que es recarreguin el "ICollection" de la taula.
+            List<Usuari> xx = Tuples.ToList();
+        }
     }
 }

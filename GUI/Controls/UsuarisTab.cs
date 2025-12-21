@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
-using Comuns;
 using Inversions.ClassesEntity;
 
 namespace Inversions.GUI
 {
     public partial class UsuarisTab : TabX
     {
-
         public UsuarisTab()
         {
             InitializeComponent();
@@ -51,9 +44,9 @@ namespace Inversions.GUI
             cbUsuaris.SelectedItem = Usuari.Seleccionat;
             cbUsuaris.SelectedIndexChanged += cbUsuaris_SelectedIndexChanged;
         }
-       
 
-        void cbUsuaris_SelectedIndexChanged(object sender, EventArgs e)
+
+        private void cbUsuaris_SelectedIndexChanged(object sender, EventArgs e)
         {
             EventHandler handler = _SelectedIndexChanged;
             if (handler != null) handler(cbUsuaris.SelectedItem, e);

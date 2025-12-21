@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Globalization;
 using System.Linq;
-using System.Windows.Forms.DataVisualization.Charting;
-using Comuns;
 
 namespace Inversions.ClassesEntity
 {
     public partial class IngresExtern
     {
-
 // ReSharper disable once MemberCanBePrivate.Global
         public static DbSet<IngresExtern> Tuples
         {
@@ -19,17 +15,15 @@ namespace Inversions.ClassesEntity
 
         public static void RefrescaTaula()
         {
-            Program.Sessio.refrescaTaula(typeof(IngresExtern));
+            Program.Sessio.refrescaTaula(typeof (IngresExtern));
 
             // Fa que es recarreguin el "ICollection" de la taula.
-            var xx = Tuples.ToList();
+            List<IngresExtern> xx = Tuples.ToList();
         }
 
         #region *** Atributs ***
-        
 
         #endregion *** Atributs ***
-
 
         #region Overrides
 
@@ -65,7 +59,7 @@ namespace Inversions.ClassesEntity
             if (!(obj is DesglosCompra))
                 return false;
 
-            return this == (IngresExtern)obj;
+            return this == (IngresExtern) obj;
         }
 
         public override string ToString()

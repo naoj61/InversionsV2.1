@@ -1,26 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Controls;
 using Inversions.ClassesEntity;
-using Inversions.GUI;
 
 namespace Inversions
 {
     public class TabX : UserControl
     {
-        /// <summary> 
-        /// Required designer variable.
-        /// </summary>
-        private readonly IContainer components = null;
-
         private static readonly List<TabX> TabsX = new List<TabX>();
+
+        /// <summary>
+        ///     Required designer variable.
+        /// </summary>
+        private readonly IContainer components;
 
         protected TabX()
         {
@@ -35,13 +28,33 @@ namespace Inversions
             TabsX.Add(this);
         }
 
+        /// <summary>
+        ///     Indica que la pestanya està s'està editant.
+        /// </summary>
+        public bool _EnModeEdicio { get; private set; }
+
+        /// <summary>
+        ///     Indica si ja s'ha carregat la pestanya.
+        /// </summary>
+        public bool _PendentCarregaInicial { get; private set; }
+
+        /// <summary>
+        ///     Indica que s'han de recarregar les dades de la pestanya.
+        /// </summary>
+        internal bool _PendentRefrescar { get; private set; }
+
+        /// <summary>
+        ///     Indica que s'ha canviat d'usuari i la pestanya stà pendent d'actualitzar;
+        /// </summary>
+        internal bool _PendentCanviUsuari { get; private set; }
+
         ~TabX()
         {
             TabsX.Remove(this);
         }
 
         /// <summary>
-        /// Marca les pestanyes per refrescar.
+        ///     Marca les pestanyes per refrescar.
         /// </summary>
         /// <param name="noActivarAquestTabX">No activa la pestanya del paràmetre.</param>
         internal static void ActivaRefrescaEnTabs(TabX noActivarAquestTabX)
@@ -62,26 +75,6 @@ namespace Inversions
             }
         }
 
-        /// <summary>
-        /// Indica que la pestanya està s'està editant.
-        /// </summary>
-        public bool _EnModeEdicio { get; private set; }
-
-        /// <summary>
-        /// Indica si ja s'ha carregat la pestanya.
-        /// </summary>
-        public bool _PendentCarregaInicial { get; private set; }
-
-        /// <summary>
-        /// Indica que s'han de recarregar les dades de la pestanya.
-        /// </summary>
-        internal bool _PendentRefrescar { get; private set; }
-        
-        /// <summary>
-        /// Indica que s'ha canviat d'usuari i la pestanya stà pendent d'actualitzar;
-        /// </summary>
-        internal bool _PendentCanviUsuari { get; private set; }
-
         protected void acceptButton(Button botoAccept)
         {
             if (ParentForm != null)
@@ -96,7 +89,7 @@ namespace Inversions
 
 
         /// <summary>
-        /// Càrrega inicial de la pestanya. Marca com a fet.
+        ///     Càrrega inicial de la pestanya. Marca com a fet.
         /// </summary>
         internal virtual void carregaInicial()
         {
@@ -104,7 +97,7 @@ namespace Inversions
         }
 
         /// <summary>
-        /// Refresca les dades de la pestanya i marco com refrescat.
+        ///     Refresca les dades de la pestanya i marco com refrescat.
         /// </summary>
         internal virtual void refresca()
         {
@@ -112,7 +105,7 @@ namespace Inversions
         }
 
         /// <summary>
-        /// Obre la pestanya amb el producte seleccionat.
+        ///     Obre la pestanya amb el producte seleccionat.
         /// </summary>
         /// <param name="prod"></param>
         internal virtual void obrePestanya(Producte prod)
@@ -120,7 +113,7 @@ namespace Inversions
         }
 
         /// <summary>
-        /// Quan Principal detecta canvi d'usuari, crida el mètode de la pestanya seleccionada.
+        ///     Quan Principal detecta canvi d'usuari, crida el mètode de la pestanya seleccionada.
         /// </summary>
         internal virtual void canviUsuari()
         {
@@ -128,7 +121,7 @@ namespace Inversions
         }
 
         /// <summary>
-        /// Quan Principal detecta Escape, crida el mètode de la pestanya seleccionada.
+        ///     Quan Principal detecta Escape, crida el mètode de la pestanya seleccionada.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -148,7 +141,7 @@ namespace Inversions
         }
 
         /// <summary>
-        /// Impideix sortir de la pastanya si està en mode edició.
+        ///     Impideix sortir de la pastanya si està en mode edició.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -162,8 +155,8 @@ namespace Inversions
         }
 
 
-        /// <summary> 
-        /// Clean up any resources being used.
+        /// <summary>
+        ///     Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)

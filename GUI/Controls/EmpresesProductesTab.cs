@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
@@ -11,7 +9,6 @@ using System.Linq;
 using System.Windows.Forms;
 using Comuns;
 using Controls;
-using DevExpress.Utils.Paint;
 using Inversions.ClassesEntity;
 
 namespace Inversions.GUI
@@ -26,13 +23,12 @@ namespace Inversions.GUI
         public EmpresesProductesTab()
         {
             InitializeComponent();
-            }
-
+        }
 
         #region *** Mètodes ***
 
         /// <summary>
-        /// Mostra o amaga els controls en funvio del tipus d'empresa seleccionada.
+        ///     Mostra o amaga els controls en funvio del tipus d'empresa seleccionada.
         /// </summary>
         private void preparaControlsProducte()
         {
@@ -165,7 +161,7 @@ namespace Inversions.GUI
 
         private void teclaEscapeEdicioProducte()
         {
-            IValorControlRestaurable control = ActiveControl as IValorControlRestaurable;
+            var control = ActiveControl as IValorControlRestaurable;
             if (control != null)
             {
                 if (control.Modified)
@@ -188,13 +184,13 @@ namespace Inversions.GUI
             cbMercatProducte.ResumeLayout();
 
             cbMonedaProducte.SuspendLayout();
-            cbMonedaProducte.DataSource = Enum.GetValues(typeof(Comuns.Utilitats.Monedes));
+            cbMonedaProducte.DataSource = Enum.GetValues(typeof (Utilitats.Monedes));
             cbMonedaProducte.SelectedItem = null;
             cbMonedaProducte.ResumeLayout();
 
 
             cbTipusProducte.SuspendLayout();
-            cbTipusProducte.DataSource = Enum.GetValues(typeof(TipusFons));
+            cbTipusProducte.DataSource = Enum.GetValues(typeof (TipusFons));
             cbTipusProducte.SelectedItem = null;
             cbTipusProducte.ResumeLayout();
 
@@ -261,8 +257,8 @@ namespace Inversions.GUI
                 return;
             }
 
-            var currentEmpreses = dgvEmpreses.CurrentRow.DataBoundItem;
-            var currentProductes = dgvProductes.CurrentRow != null ? dgvProductes.CurrentRow.DataBoundItem : null;
+            object currentEmpreses = dgvEmpreses.CurrentRow.DataBoundItem;
+            object currentProductes = dgvProductes.CurrentRow != null ? dgvProductes.CurrentRow.DataBoundItem : null;
 
             carregaGridEmpreses();
 
@@ -293,9 +289,7 @@ namespace Inversions.GUI
             }
         }
 
-
         #endregion *** Mètodes ***
-
 
         #region *** Events ***
 
@@ -364,8 +358,8 @@ namespace Inversions.GUI
                 Producte.RefrescaTaula();
                 ProdAccions.RefrescaTaula();
                 ProdFons.RefrescaTaula();
-                
-                TabX.ActivaRefrescaEnTabs(this);
+
+                ActivaRefrescaEnTabs(this);
 
                 if (esProdNou)
                 {
@@ -409,7 +403,7 @@ namespace Inversions.GUI
             {
                 string message = "\nValidation Errors: ";
 
-                foreach (var error in ex.EntityValidationErrors.SelectMany(entity => entity.ValidationErrors))
+                foreach (DbValidationError error in ex.EntityValidationErrors.SelectMany(entity => entity.ValidationErrors))
                 {
                     message += String.Format("\nNom camp: {0}, Missatge: {1}", error.PropertyName, error.ErrorMessage);
                 }
@@ -432,8 +426,6 @@ namespace Inversions.GUI
 
                 //// Throw a new DbEntityValidationException with the improved exception message.
                 //throw new DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
-
-
 
 
                 //if (ex.HResult == -2146232032)
@@ -460,7 +452,7 @@ namespace Inversions.GUI
         {
             try
             {
-                var cela = dgvEmpreses[e.ColumnIndex, e.RowIndex];
+                DataGridViewCell cela = dgvEmpreses[e.ColumnIndex, e.RowIndex];
                 var valorNou = (string) cela.EditedFormattedValue;
                 if (cela.OwningRow.DataBoundItem != null)
                 {
@@ -472,7 +464,7 @@ namespace Inversions.GUI
                             break;
 
                         case "TipusEmpresa":
-                            var valorInicial = cela.Value;
+                            object valorInicial = cela.Value;
                             var tipusEmp = (TipusEmpresa) Enum.Parse(typeof (TipusEmpresa), valorNou);
 
                             if ((TipusEmpresa) valorInicial != tipusEmp)
@@ -532,7 +524,7 @@ namespace Inversions.GUI
                 if (Moviment.Tuples.Any(a => a.ProdId == vProducteSeleccionat.Id))
                     throw new ApplicationException("No es pot esborrar el producte perquè té moviments");
 
-                var prod = vProducteSeleccionat;
+                Producte prod = vProducteSeleccionat;
 
                 vConnProductes.Valoracions.RemoveRange(vConnProductes.Valoracions.Where(w => w.ProdId == prod.Id));
 
@@ -581,8 +573,8 @@ namespace Inversions.GUI
                 vConnEmpreses.SaveChanges();
 
                 Empresa.RefrescaTaula();
-                
-                TabX.ActivaRefrescaEnTabs(this);
+
+                ActivaRefrescaEnTabs(this);
 
                 pnDesaCanvisEmpreses.Enabled = false;
             }

@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data.Entity;
-using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
 using System.Linq;
-using System.Threading;
 using Comuns;
 
 namespace Inversions.ClassesEntity
@@ -14,7 +10,7 @@ namespace Inversions.ClassesEntity
     public partial class Moviment
     {
         #region *** Atributs ***
-        
+
         public decimal _ImportBrut
         {
             get
@@ -53,7 +49,7 @@ namespace Inversions.ClassesEntity
                 return result;
             }
         }
-        
+
 
         public bool _EsTraspas
         {
@@ -61,7 +57,7 @@ namespace Inversions.ClassesEntity
         }
 
         /// <summary>
-        /// Pot ser compra o traspas compra.
+        ///     Pot ser compra o traspas compra.
         /// </summary>
         public bool _EsCompra
         {
@@ -69,7 +65,7 @@ namespace Inversions.ClassesEntity
         }
 
         /// <summary>
-        /// Compra. No traspàs.
+        ///     Compra. No traspàs.
         /// </summary>
         public bool _EsCompraReal
         {
@@ -77,7 +73,7 @@ namespace Inversions.ClassesEntity
         }
 
         /// <summary>
-        /// Pot ser venda o traspàs venda.
+        ///     Pot ser venda o traspàs venda.
         /// </summary>
         public bool _EsVenda
         {
@@ -85,7 +81,7 @@ namespace Inversions.ClassesEntity
         }
 
         /// <summary>
-        /// Venda. no traspàs
+        ///     Venda. no traspàs
         /// </summary>
         public bool _EsVendaReal
         {
@@ -98,11 +94,10 @@ namespace Inversions.ClassesEntity
         }
 
 
-
         /// <summary>
-        /// És la referéncia del la venda traspàs sobre la compra.
-        /// En la BD és una relació de 0..1-->*, però hauria de ser de 0..1-->1.
-        /// Per aixó només torno el primer element, que hauria de ser l'unic, si existeix.
+        ///     És la referéncia del la venda traspàs sobre la compra.
+        ///     En la BD és una relació de 0..1-->*, però hauria de ser de 0..1-->1.
+        ///     Per aixó només torno el primer element, que hauria de ser l'unic, si existeix.
         /// </summary>
         public Moviment _MovimentRefCompra
         {
@@ -111,17 +106,16 @@ namespace Inversions.ClassesEntity
 
 
         /// <summary>
-        /// És la referéncia del la venda traspàs sobre la compra.
-        /// En la BD és una relació de 0..1-->*, però hauria de ser de 0..1-->1.
-        /// Per aixó només torno el primer element, que hauria de ser l'unic, si existeix.
+        ///     És la referéncia del la venda traspàs sobre la compra.
+        ///     En la BD és una relació de 0..1-->*, però hauria de ser de 0..1-->1.
+        ///     Per aixó només torno el primer element, que hauria de ser l'unic, si existeix.
         /// </summary>
         public bool _EsOrigen
         {
-            get { return DesglosCompres.Count == 1 && DesglosCompres.Any(w=>w.MovCompraId == w.MovCompraOrigId); }
+            get { return DesglosCompres.Count == 1 && DesglosCompres.Any(w => w.MovCompraId == w.MovCompraOrigId); }
         }
 
         #endregion *** Atributs ***
-
 
         #region *** Mètodes ***
 
@@ -130,17 +124,17 @@ namespace Inversions.ClassesEntity
             get { return Program.Sessio.Moviments; }
         }
 
-        public static void RefrescaTaula()
-        {
-            Program.Sessio.refrescaTaula(typeof(Moviment));
-
-            // Fa que es recarreguin el "ICollection" de la taula.
-            var xx = Tuples.ToList();
-        }
-
         public static IEnumerable<Moviment> MovimentsUsuari
         {
             get { return Tuples.Where(w => w.UsuariId == Usuari.Seleccionat.Id); }
+        }
+
+        public static void RefrescaTaula()
+        {
+            Program.Sessio.refrescaTaula(typeof (Moviment));
+
+            // Fa que es recarreguin el "ICollection" de la taula.
+            List<Moviment> xx = Tuples.ToList();
         }
 
 
@@ -154,7 +148,7 @@ namespace Inversions.ClassesEntity
 
 
         /// <summary>
-        /// Torna la llista de les compres afectades per aquesta venda.
+        ///     Torna la llista de les compres afectades per aquesta venda.
         /// </summary>
         /// <returns></returns>
         internal IEnumerable<CompraExt> compresDeLaVenda()
@@ -166,25 +160,24 @@ namespace Inversions.ClassesEntity
         }
 
 
-
         /// <summary>
-        /// Calcula el divident que s'ha cobrat per la compra.
-        /// Pot ser que hi hagi més d'un divident o que algun divident no correspongui completament a les accions de la compra.
+        ///     Calcula el divident que s'ha cobrat per la compra.
+        ///     Pot ser que hi hagi més d'un divident o que algun divident no correspongui completament a les accions de la compra.
         /// </summary>
         /// <returns></returns>
         private decimal dividentsDeLaCompra()
         {
             if (!_EsCompra)
                 throw new Exception(String.Format("L'Id:{0}. Ha de ser una compra", Id));
-            
+
             decimal divident = 0;
-            var dataIni = Data;
-            var dataFi = vendesDeLaCompra().Any() ? vendesDeLaCompra().Last()._Data : DateTime.Now;
-            var dividents = Moviment.MovimentsUsuari.Where(w => w._EsDividents && w.Data >= dataIni && w.Data <= dataFi).ToList();
-            foreach (var div in dividents)
+            DateTime dataIni = Data;
+            DateTime dataFi = vendesDeLaCompra().Any() ? vendesDeLaCompra().Last()._Data : DateTime.Now;
+            List<Moviment> dividents = MovimentsUsuari.Where(w => w._EsDividents && w.Data >= dataIni && w.Data <= dataFi).ToList();
+            foreach (Moviment div in dividents)
             {
-                var partsVenudes = vendesDeLaCompra().Where(w => w._Data < div.Data).Sum(s => s._PartsUtilitzades);
-                var partsEnDataDivident = Prod.partsEnCartera(div.Data);
+                decimal partsVenudes = vendesDeLaCompra().Where(w => w._Data < div.Data).Sum(s => s._PartsUtilitzades);
+                decimal partsEnDataDivident = Prod.partsEnCartera(div.Data);
                 divident += div._ImportBrut / partsEnDataDivident * (Participacions - partsVenudes);
             }
 
@@ -193,7 +186,7 @@ namespace Inversions.ClassesEntity
 
 
         /// <summary>
-        /// Al crear una nova compra, s'ha de crear el desgloç de les compres originals que li corresponen.
+        ///     Al crear una nova compra, s'ha de crear el desgloç de les compres originals que li corresponen.
         /// </summary>
         /// <param name="connexio"></param>
         /// <param name="vendaTraspas"></param>
@@ -206,7 +199,7 @@ namespace Inversions.ClassesEntity
             {
                 // ** És un traspàs.
 
-                var desgloçCompresVenda = vendaTraspas.Prod.desglosCompresDeParticipacionsEnData4(vendaTraspas.Data, vendaTraspas.Participacions, true).ToList();
+                List<DesglosCompraExt> desgloçCompresVenda = vendaTraspas.Prod.desglosCompresDeParticipacionsEnData4(vendaTraspas.Data, vendaTraspas.Participacions, true).ToList();
 
                 var agrupatPerIdOrig = desgloçCompresVenda.OrderBy(o => o._DataOrig).GroupBy(g => g._CompraOrig)
                     .Select(s => new
@@ -224,7 +217,7 @@ namespace Inversions.ClassesEntity
                     DesglosCompra desglosCompra = connexio.DesglosCompres.Create();
 
                     // ** Per obtenir parts desgloç Traspas C
-                    desglosCompra.Participacions =grup.sumPartsUtil / vendaTraspas.Participacions * Participacions;
+                    desglosCompra.Participacions = grup.sumPartsUtil / vendaTraspas.Participacions * Participacions;
 
                     // ** Per obtenir parts orig desgloç Traspas C
                     desglosCompra.ParticipacionsOrig = (grup.sumPartsUtilOrig);
@@ -240,8 +233,8 @@ namespace Inversions.ClassesEntity
                 // ** El desgloç és una fila lligada al propi moviment.
                 DesglosCompra desglosCompra = connexio.DesglosCompres.Create();
 
-                desglosCompra.Participacions = this.Participacions;
-                desglosCompra.ParticipacionsOrig = this.Participacions;
+                desglosCompra.Participacions = Participacions;
+                desglosCompra.ParticipacionsOrig = Participacions;
 
                 DesglosCompres.Add(desglosCompra);
                 DesglosCompresOrig.Add(desglosCompra);
@@ -251,7 +244,6 @@ namespace Inversions.ClassesEntity
         }
 
         #endregion *** Mètodes ***
-        
 
         #region **** Mètodes cridats des de Test *****
 
@@ -264,14 +256,13 @@ namespace Inversions.ClassesEntity
         {
             return vendesDeLaCompra();
         }
-        
+
         public decimal dividentsDeLaCompraTest()
         {
             return dividentsDeLaCompra();
         }
-        
-        #endregion
 
+        #endregion
 
         #region Overrides
 
@@ -316,6 +307,5 @@ namespace Inversions.ClassesEntity
         }
 
         #endregion
-
     }
 }

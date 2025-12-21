@@ -1,35 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 using System.Globalization;
 using System.Linq;
-using System.Linq.Expressions;
 using Comuns;
-using Inversions.GUI;
 
 namespace Inversions.ClassesEntity
 {
     public partial class Valoracio : IComparable<Valoracio>
     {
-
         public static DbSet<Valoracio> Tuples
         {
             get { return Program.Sessio.Valoracions; }
         }
 
+        /// <summary>
+        ///     Número de participacions en la data de la valoració.
+        /// </summary>
+        public decimal _NumParticipacions
+        {
+            get { return Prod == null ? 0 : Prod.partsEnCartera(Utilitats.DataHoraFinalDia(Data)); }
+        }
+
+        public int CompareTo(Valoracio other)
+        {
+            if (Id < other.Id)
+                return -1;
+            return Id > other.Id ? 1 : 0;
+        }
+
         public static void RefrescaTaula()
         {
-            Program.Sessio.refrescaTaula(typeof(Valoracio));
+            Program.Sessio.refrescaTaula(typeof (Valoracio));
 
             // Fa que es recarreguin el "ICollection" de la taula.
-            var xx = Tuples.ToList();
+            List<Valoracio> xx = Tuples.ToList();
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="valoracio"></param>
         public static void Reload(Valoracio valoracio)
@@ -38,13 +48,13 @@ namespace Inversions.ClassesEntity
         }
 
         /// <summary>
-        /// La valoració anterior.
+        ///     La valoració anterior.
         /// </summary>
         /// <param name="preuMajorQueCero">Si true. La valoració anterior amb preu superior a 0.</param>
         /// <returns></returns>
         internal Valoracio trobaValoracioAnterior(bool preuMajorQueCero)
         {
-            var valoracionsAnteriors = Valoracio.Tuples.Where(w => w.Prod.Id == Prod.Id && w.Data < Data);
+            IQueryable<Valoracio> valoracionsAnteriors = Tuples.Where(w => w.Prod.Id == Prod.Id && w.Data < Data);
 
             if (preuMajorQueCero)
                 valoracionsAnteriors = valoracionsAnteriors.Where(w => w.PreuParticipacio > 0);
@@ -54,19 +64,7 @@ namespace Inversions.ClassesEntity
 
 
         /// <summary>
-        /// Número de participacions en la data de la valoració.
-        /// </summary>
-        public decimal _NumParticipacions
-        {
-            get
-            {
-                return Prod == null ? 0 : Prod.partsEnCartera(Utilitats.DataHoraFinalDia(Data));
-            }
-        }
-
-
-        /// <summary>
-        /// Crea una nova valoració.
+        ///     Crea una nova valoració.
         /// </summary>
         /// <param name="conn"></param>
         /// <param name="producte"></param>
@@ -88,19 +86,18 @@ namespace Inversions.ClassesEntity
             }
             catch (DbUpdateException ex2)
             {
-                Comuns.Utilitats.EscriuLog(ex2, Program.FitxerLog, Program.Versio);
+                Utilitats.EscriuLog(ex2, Program.FitxerLog, Program.Versio);
                 conn.UndoingChangesDbEntityPropertyLevel(val);
                 if (ex2.InnerException != null)
                     if (ex2.InnerException.InnerException != null)
                         throw ex2.InnerException.InnerException;
                     else
                         throw ex2.InnerException;
-                else
-                    throw;
+                throw;
             }
             catch (Exception ex)
             {
-                Comuns.Utilitats.EscriuLog(ex, Program.FitxerLog, Program.Versio);
+                Utilitats.EscriuLog(ex, Program.FitxerLog, Program.Versio);
                 conn.UndoingChangesDbEntityPropertyLevel(val);
                 throw;
             }
@@ -109,7 +106,7 @@ namespace Inversions.ClassesEntity
         }
 
         /// <summary>
-        /// Modifica una valoració
+        ///     Modifica una valoració
         /// </summary>
         /// <param name="conn"></param>
         /// <param name="data"></param>
@@ -131,18 +128,17 @@ namespace Inversions.ClassesEntity
             }
             catch (DbUpdateException ex2)
             {
-                Comuns.Utilitats.EscriuLog(ex2, Program.FitxerLog, Program.Versio);
+                Utilitats.EscriuLog(ex2, Program.FitxerLog, Program.Versio);
                 conn.UndoingChangesDbEntityPropertyLevel(val);
                 throw ex2.InnerException.InnerException;
             }
             catch (Exception ex)
             {
-                Comuns.Utilitats.EscriuLog(ex, Program.FitxerLog, Program.Versio);
+                Utilitats.EscriuLog(ex, Program.FitxerLog, Program.Versio);
                 conn.UndoingChangesDbEntityPropertyLevel(val);
                 throw;
             }
         }
-
 
         #region Overrides
 
@@ -198,12 +194,5 @@ namespace Inversions.ClassesEntity
         }
 
         #endregion
-
-        public int CompareTo(Valoracio other)
-        {
-            if (Id < other.Id)
-                return -1;
-            return Id > other.Id ? 1 : 0;
-        }
     }
 }

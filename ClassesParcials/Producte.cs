@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Security;
 using System.Windows.Forms;
 using Comuns;
 
@@ -18,6 +14,14 @@ namespace Inversions.ClassesEntity
         #region Variables
 
         // ReSharper disable UnusedMember.Global
+        public enum TipusProducte
+        {
+            Tots = 0,
+            Accions = 1,
+            Fons = 2,
+            Criptos = 3
+        }
+
         public abstract TipusProducte _TipusProducte { get; }
         public abstract string _NomProducte { get; set; }
         public abstract string _TipusNomProducte { get; }
@@ -29,19 +33,10 @@ namespace Inversions.ClassesEntity
 
         public IEnumerable<Moviment> MovimentsProducteUsuari
         {
-            get { return this.Moviments.Where(w => w.UsuariId == Usuari.Seleccionat.Id); }
-        }
-
-        public enum TipusProducte
-        {
-            Tots = 0,
-            Accions = 1,
-            Fons = 2,
-            Criptos = 3
+            get { return Moviments.Where(w => w.UsuariId == Usuari.Seleccionat.Id); }
         }
 
         #endregion
-
 
         #region Atributs
 
@@ -52,7 +47,7 @@ namespace Inversions.ClassesEntity
 
 
         /// <summary>
-        /// Torna les participacions actuals.
+        ///     Torna les participacions actuals.
         /// </summary>
         public decimal _Participacions
         {
@@ -65,7 +60,7 @@ namespace Inversions.ClassesEntity
 
 
         /// <summary>
-        /// És el valor de les participacions avui.
+        ///     És el valor de les participacions avui.
         /// </summary>
         public decimal _ValorActualEnCartera
         {
@@ -74,7 +69,6 @@ namespace Inversions.ClassesEntity
 
         #endregion
 
-
         #region Mètodes
 
         public static DbSet<Producte> Tuples
@@ -82,41 +76,8 @@ namespace Inversions.ClassesEntity
             get { return Program.Sessio.Productes; }
         }
 
-
-        public static void RefrescaTaula()
-        {
-            Program.Sessio.refrescaTaula(typeof (Producte));
-
-            // Fa que es recarreguin el "ICollection" de la taula.
-            var xx = Tuples.ToList();
-        }
-
-
-        internal decimal dividends()
-        {
-            return dividends(DateTime.MinValue, DateTime.Today);
-        }
-        
-        internal decimal dividends(int any)
-        {
-            var dataInici = new DateTime(any, 1, 1);
-            var dataFinal = Utilitats.DataHoraFinalAny(any);
-
-            return dividends(dataInici, dataFinal);
-        }
-
-        private decimal dividends(DateTime dataInici, DateTime dataFi)
-        {
-            dataFi = Utilitats.DataHoraFinalDia(dataFi);
-            
-            return MovimentsProducteUsuari
-                .Where(w => w._EsDividents && w.Data >= dataInici.Date && w.Data <= dataFi)
-                .Sum(s => s.PreuParticipacio);
-        }
-
-
         /// <summary>
-        /// Torna el valor de l'accio inmediatament anterior a la data hora actual.
+        ///     Torna el valor de l'accio inmediatament anterior a la data hora actual.
         /// </summary>
         /// <returns></returns>
         public decimal _PreuParticipacioActual
@@ -125,19 +86,51 @@ namespace Inversions.ClassesEntity
         }
 
 
+        public static void RefrescaTaula()
+        {
+            Program.Sessio.refrescaTaula(typeof (Producte));
+
+            // Fa que es recarreguin el "ICollection" de la taula.
+            List<Producte> xx = Tuples.ToList();
+        }
+
+
+        internal decimal dividends()
+        {
+            return dividends(DateTime.MinValue, DateTime.Today);
+        }
+
+        internal decimal dividends(int any)
+        {
+            var dataInici = new DateTime(any, 1, 1);
+            DateTime dataFinal = Utilitats.DataHoraFinalAny(any);
+
+            return dividends(dataInici, dataFinal);
+        }
+
+        private decimal dividends(DateTime dataInici, DateTime dataFi)
+        {
+            dataFi = Utilitats.DataHoraFinalDia(dataFi);
+
+            return MovimentsProducteUsuari
+                .Where(w => w._EsDividents && w.Data >= dataInici.Date && w.Data <= dataFi)
+                .Sum(s => s.PreuParticipacio);
+        }
+
+
         /// <summary>
-        /// Torna el valor de l'accio inmediatament anterior a la data hora del paràmetre 'dataHora'.
+        ///     Torna el valor de l'accio inmediatament anterior a la data hora del paràmetre 'dataHora'.
         /// </summary>
         /// <param name="dataHora"></param>
         /// <returns></returns>
         public decimal preuParticipacioEnData(DateTime dataHora)
         {
-            return valorParticipacio(dataHora); 
+            return valorParticipacio(dataHora);
         }
 
 
         /// <summary>
-        /// Torna el valor de l'accio inmediatament anterior a la data.
+        ///     Torna el valor de l'accio inmediatament anterior a la data.
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
@@ -161,7 +154,7 @@ namespace Inversions.ClassesEntity
 
 
         /// <summary>
-        /// Torna el valor de les participacions en cartera en una data determinada.
+        ///     Torna el valor de les participacions en cartera en una data determinada.
         /// </summary>
         /// <param name="data"></param>
         /// <param name="numPartsMax">Limita el cost a num de participacions</param>
@@ -169,9 +162,9 @@ namespace Inversions.ClassesEntity
         /// <returns></returns>
         public decimal valorEnCartera(DateTime? data = null, decimal? numPartsMax = null, decimal? preuParticipacio = null)
         {
-            var dFinal = Utilitats.PosoHora(data);
+            DateTime dFinal = Utilitats.PosoHora(data);
 
-            var participacions = partsEnCartera(dFinal);
+            decimal participacions = partsEnCartera(dFinal);
 
             if (numPartsMax.HasValue)
                 if (numPartsMax.Value > participacions && numPartsMax.Value < 0)
@@ -187,7 +180,7 @@ namespace Inversions.ClassesEntity
 
 
         /// <summary>
-        /// Suma les perdues dels 4 anys anteriors
+        ///     Suma les perdues dels 4 anys anteriors
         /// </summary>
         /// <param name="anyRenda"></param>
         /// <returns></returns>
@@ -196,17 +189,17 @@ namespace Inversions.ClassesEntity
             if (!anyRenda.HasValue || anyRenda.Value == 0)
                 return 0;
 
-            var any = anyRenda.Value - 4;
+            int any = anyRenda.Value - 4;
             decimal pigT = 0;
 
 
             for (int i = 0; i < 4; i++)
             {
                 var dataInici = new DateTime(any, 1, 1);
-                var dataFi = Utilitats.DataHoraFinalAny(any);
+                DateTime dataFi = Utilitats.DataHoraFinalAny(any);
 
-                var pigAny = Pig4(dataInici, dataFi, true, false, true, false);
-               
+                decimal pigAny = Pig4(dataInici, dataFi, true, false, true, false);
+
                 if (pigAny + pigT >= 0)
                     pigT = 0;
                 else
@@ -219,7 +212,7 @@ namespace Inversions.ClassesEntity
         }
 
         /// <summary>
-        /// Crea una llista de productes en funció dels paràmetres: "tipusProducte", "tipusFons"
+        ///     Crea una llista de productes en funció dels paràmetres: "tipusProducte", "tipusFons"
         /// </summary>
         /// <param name="tipusProducte"></param>
         /// <param name="tipusFons"></param>
@@ -256,35 +249,34 @@ namespace Inversions.ClassesEntity
                         prods = new List<Producte>(ProdFons.Tuples);
                     break;
                 default:
-                    prods = Producte.Tuples.ToList();
+                    prods = Tuples.ToList();
                     break;
             }
 
             return prods;
         }
-        
+
 
         /// <summary>
-        /// Participacions en cartera d'un producte en una data.
+        ///     Participacions en cartera d'un producte en una data.
         /// </summary>
         /// <param name="dataHora">Si null, data d'avui.</param>
         /// <returns></returns>
         internal decimal partsEnCartera(DateTime? dataHora = null)
         {
-            var dataH = dataHora.GetValueOrDefault(DateTime.Now);
-            var partsComprades = MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data <= dataH).Sum(s => s.Participacions);
-            var partsVenudes = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data <= dataH).Sum(s => s.Participacions);
+            DateTime dataH = dataHora.GetValueOrDefault(DateTime.Now);
+            decimal partsComprades = MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data <= dataH).Sum(s => s.Participacions);
+            decimal partsVenudes = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data <= dataH).Sum(s => s.Participacions);
 
             return partsComprades - partsVenudes;
         }
 
         #endregion
 
-
         #region *** Mètodes que modifiquen la BD ***
 
         /// <summary>
-        /// Validacions en Compres o Vendes.
+        ///     Validacions en Compres o Vendes.
         /// </summary>
         /// <param name="connexio"></param>
         /// <param name="dataHora"></param>
@@ -302,7 +294,7 @@ namespace Inversions.ClassesEntity
 
             if (MovimentsProducteUsuari.Any())
             {
-                var ultimaData = MovimentsProducteUsuari.Max(m => m.Data);
+                DateTime ultimaData = MovimentsProducteUsuari.Max(m => m.Data);
 
                 // Valido que DateTime no sigui inferior a un moviment prèvi del mateix producte.
                 if (ultimaData >= dataHora && mostraFinestraAdvertencia)
@@ -325,7 +317,7 @@ namespace Inversions.ClassesEntity
         }
 
         /// <summary>
-        /// Traspàs de un fons.
+        ///     Traspàs de un fons.
         /// </summary>
         /// <param name="connexio"></param>
         /// <param name="dataHoraVenda"></param>
@@ -349,15 +341,15 @@ namespace Inversions.ClassesEntity
 
             //decimal preuParticipacioCompra = preuParticipacioVenda * participacionsVenda / participacionsCompra;
 
-            var venda = this.desaVenda(connexio, dataHoraVenda, participacionsVenda, preuParticipacioVenda, 1, null, descripcio, afegeigPreuAValoracions,
+            Moviment venda = desaVenda(connexio, dataHoraVenda, participacionsVenda, preuParticipacioVenda, 1, null, descripcio, afegeigPreuAValoracions,
                 true);
-            var compra = prodCompra.desaCompra(connexio, dataHoraCompra, participacionsCompra, preuParticipacioCompra, 1, despeses, descripcio, venda,
+            Moviment compra = prodCompra.desaCompra(connexio, dataHoraCompra, participacionsCompra, preuParticipacioCompra, 1, despeses, descripcio, venda,
                 afegeigPreuAValoracions, true);
         }
 
 
         /// <summary>
-        /// Compra. No es crida en els traspassos.
+        ///     Compra. No es crida en els traspassos.
         /// </summary>
         /// <param name="connexio"></param>
         /// <param name="data"></param>
@@ -380,7 +372,7 @@ namespace Inversions.ClassesEntity
 
 
         /// <summary>
-        /// Compra o traspàs compra.
+        ///     Compra o traspàs compra.
         /// </summary>
         /// <param name="connexio"></param>
         /// <param name="dataHora"></param>
@@ -422,7 +414,7 @@ namespace Inversions.ClassesEntity
                 movimentVendaVinculatTraspas.RefTraspas1.Add(novaCompra);
             }
 
-            this.Moviments.Add(novaCompra); // Carrega les referències.
+            Moviments.Add(novaCompra); // Carrega les referències.
             connexio.Entry(novaCompra).Reference(c => c.Prod).Load();
 
             if (afegeigPreuAValoracions)
@@ -437,7 +429,7 @@ namespace Inversions.ClassesEntity
 
 
         /// <summary>
-        /// Venda. No s'utilitza ens traspassos.
+        ///     Venda. No s'utilitza ens traspassos.
         /// </summary>
         /// <param name="connexio"></param>
         /// <param name="data"></param>
@@ -462,7 +454,7 @@ namespace Inversions.ClassesEntity
 
 
         /// <summary>
-        /// Venda o traspàs venda.
+        ///     Venda o traspàs venda.
         /// </summary>
         /// <param name="connexio"></param>
         /// <param name="dataHora"></param>
@@ -492,7 +484,7 @@ namespace Inversions.ClassesEntity
             moviment.Data = dataHora;
             moviment.Descripcio = String.IsNullOrEmpty(descripcio) ? null : descripcio;
 
-            this.Moviments.Add(moviment);
+            Moviments.Add(moviment);
             connexio.Entry(moviment).Reference(c => c.Prod).Load(); // Carrega les referències.
 
             if (afegeigPreuAValoracions)
@@ -509,7 +501,7 @@ namespace Inversions.ClassesEntity
             Moviment moviment = connexio.Moviments.Create();
             moviment.UsuariId = Usuari.Seleccionat.Id;
             moviment.TipusMoviment = TipusMoviment.Dividends;
-            moviment.ProdId = this.Id;
+            moviment.ProdId = Id;
             moviment.Participacions = 0;
             moviment.PreuParticipacio = importTotalDividend;
             moviment.CanviAplicat = canviAplicat;
@@ -525,7 +517,7 @@ namespace Inversions.ClassesEntity
 
 
         /// <summary>
-        /// Split de les accions en cartera del producte
+        ///     Split de les accions en cartera del producte
         /// </summary>
         /// <param name="connexio"></param>
         /// <param name="dataHora"></param>
@@ -535,19 +527,19 @@ namespace Inversions.ClassesEntity
             if (!(this is ProdAccions))
                 throw new ApplicationException("No és una acció. Només es pot fer l'split si és una acció.");
 
-            var descripcio = String.Format("{0}. Factor conversor: {1}.", "Split", factorConversor);
-            var compres = basicCompresDePartipacionsEnData4(dataHora, _Participacions).ToList();
+            string descripcio = String.Format("{0}. Factor conversor: {1}.", "Split", factorConversor);
+            List<CompraExt> compres = basicCompresDePartipacionsEnData4(dataHora, _Participacions).ToList();
 
-            foreach (var compraExt in compres)
+            foreach (CompraExt compraExt in compres)
             {
-                var mov1 = connexio.Moviments.Find(compraExt._Id);
+                Moviment mov1 = connexio.Moviments.Find(compraExt._Id);
 
                 DateTime data1 = mov1.Data; // Deso la data per sumar-li segons.
 
                 mov1.TipusMoviment = TipusMoviment.Split; // Modifico el tipus de moviment de la compra.
                 mov1.Descripcio += descripcio;
 
-                int particSplit = (int) compraExt._PartsUtilitzades;
+                var particSplit = (int) compraExt._PartsUtilitzades;
                 int particSenseSplit = (int) mov1.Participacions - particSplit;
 
                 decimal despesesSenseSplit = 0;
@@ -570,7 +562,7 @@ namespace Inversions.ClassesEntity
             }
 
             // Modifico les valoracions a partir de la data del Split.
-            var dataPrimeraCompra = compres.First()._Data;
+            DateTime dataPrimeraCompra = compres.First()._Data;
             modificaValoracions(connexio, TipusMoviment.Split, dataPrimeraCompra.Date, factorConversor);
 
             //connexio.SaveChanges();
@@ -578,7 +570,7 @@ namespace Inversions.ClassesEntity
 
 
         /// <summary>
-        /// ContraSplit de les accions en cartera del producte
+        ///     ContraSplit de les accions en cartera del producte
         /// </summary>
         /// <param name="connexio"></param>
         /// <param name="dataHora"></param>
@@ -590,12 +582,12 @@ namespace Inversions.ClassesEntity
             if (!(this is ProdAccions))
                 throw new ApplicationException("No és una acció. Només es pot fer l'split si és una acció.");
 
-            var descripcio = String.Format("{0}. Factor conversor: {1}. Preu operació: {2}.", "ContraSplit", factorConversor, preuOperacio);
-            var compresAnt = basicCompresDePartipacionsEnData4(dataHora, _Participacions).ToList();
+            string descripcio = String.Format("{0}. Factor conversor: {1}. Preu operació: {2}.", "ContraSplit", factorConversor, preuOperacio);
+            List<CompraExt> compresAnt = basicCompresDePartipacionsEnData4(dataHora, _Participacions).ToList();
 
-            foreach (var compraExt in compresAnt)
+            foreach (CompraExt compraExt in compresAnt)
             {
-                var mov1 = connexio.Moviments.Find(compraExt._Id);
+                Moviment mov1 = connexio.Moviments.Find(compraExt._Id);
 
                 DateTime data1 = mov1.Data; // Deso la data per sumar-li segons.
 
@@ -622,7 +614,7 @@ namespace Inversions.ClassesEntity
                 {
                     // Venc les participacions restants.
                     data1 = data1.AddSeconds(1);
-                    var ven = desaVenda(connexio, data1, partRestants, preuOperacio, canviAplicat, 0, descripcio, false, false);
+                    Moviment ven = desaVenda(connexio, data1, partRestants, preuOperacio, canviAplicat, 0, descripcio, false, false);
                 }
 
 
@@ -631,14 +623,14 @@ namespace Inversions.ClassesEntity
                     // Creo una compra amb el nou numero de participacions i nou preu.
                     data1 = data1.AddSeconds(1);
                     int participacions = particContraSplit / factorConversor;
-                    var preuParticipacio = (mov1.PreuParticipacio * factorConversor); // Calculo el nou preu i les participacions del contraSplit
+                    decimal preuParticipacio = (mov1.PreuParticipacio * factorConversor); // Calculo el nou preu i les participacions del contraSplit
                     decimal despesesContraSplit = (mov1.Despeses.GetValueOrDefault() - despesesSenseContraSplit);
                     desaCompra(connexio, data1, participacions, preuParticipacio, mov1.CanviAplicat, despesesContraSplit, descripcio, null, false, false);
                 }
             }
 
             // Modifico les valoracions a partir de la data del ContraSplit.
-            var dataPrimeraCompra = compresAnt.First()._Data;
+            DateTime dataPrimeraCompra = compresAnt.First()._Data;
             modificaValoracions(connexio, TipusMoviment.ContraSplit, dataPrimeraCompra.Date, factorConversor);
 
             //connexio.SaveChanges();
@@ -646,7 +638,7 @@ namespace Inversions.ClassesEntity
 
 
         /// <summary>
-        /// Afegeig un preu a la taula "Valoracions"
+        ///     Afegeig un preu a la taula "Valoracions"
         /// </summary>
         /// <param name="connexio"></param>
         /// <param name="dataHora"></param>
@@ -674,7 +666,7 @@ namespace Inversions.ClassesEntity
 
 
         /// <summary>
-        /// Modifica les valoracions al fer Split o ContraSplit
+        ///     Modifica les valoracions al fer Split o ContraSplit
         /// </summary>
         /// <param name="connexio"></param>
         /// <param name="tipusMoviment"></param>
@@ -682,7 +674,7 @@ namespace Inversions.ClassesEntity
         /// <param name="factorConversor"></param>
         private void modificaValoracions(InversionsBDContext connexio, TipusMoviment tipusMoviment, DateTime dataPrimeraCompra, int factorConversor)
         {
-            foreach (var valoracio in connexio.Valoracions.Where(w => w.ProdId == Id && w.Data >= dataPrimeraCompra.Date))
+            foreach (Valoracio valoracio in connexio.Valoracions.Where(w => w.ProdId == Id && w.Data >= dataPrimeraCompra.Date))
             {
                 if (tipusMoviment == TipusMoviment.ContraSplit)
                     valoracio.PreuParticipacio = (valoracio.PreuParticipacio * factorConversor);
@@ -697,8 +689,14 @@ namespace Inversions.ClassesEntity
 
         #endregion *** Mètodes que modifiquen la BD ***
 
-
         #region Overrides
+
+        public int CompareTo(Producte other)
+        {
+            if (Id < other.Id)
+                return -1;
+            return Id > other.Id ? 1 : 0;
+        }
 
         public override int GetHashCode()
         {
@@ -740,15 +738,7 @@ namespace Inversions.ClassesEntity
             return _NomProducte;
         }
 
-        public int CompareTo(Producte other)
-        {
-            if (Id < other.Id)
-                return -1;
-            return Id > other.Id ? 1 : 0;
-        }
-
         #endregion
-
 
         #region **** Mètodes cridats des de Test *****
 

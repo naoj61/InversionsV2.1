@@ -9,7 +9,7 @@ namespace Inversions.ClassesEntity
         #region *** Mètodes bàsics ***
 
         /// <summary>
-        /// Torna el PiG de la compra, real o no.
+        ///     Torna el PiG de la compra, real o no.
         /// </summary>
         /// <param name="inclouDespeses"></param>
         /// <param name="pigOrig"></param>
@@ -22,7 +22,7 @@ namespace Inversions.ClassesEntity
 
             decimal partsEnCartera;
             List<DesglosCompraExt> desglosCompraExt;
-            var vendes = Prod.vendesDeCompra4(this, pigOrig, out partsEnCartera, out desglosCompraExt).ToList();
+            List<VendaExt> vendes = Prod.vendesDeCompra4(this, pigOrig, out partsEnCartera, out desglosCompraExt).ToList();
             desglosCompraExt = desglosCompraExt.Where(w => w._Compra == this).ToList();
 
             decimal importActualPartsEnCartera = 0;
@@ -31,7 +31,7 @@ namespace Inversions.ClassesEntity
                 importActualPartsEnCartera = partsEnCartera * Prod._PreuParticipacioActual;
             }
 
-            var importPartsVenudes = vendes.Sum(s => s._PartsUtilitzades * s._PreuParticipacio);
+            decimal importPartsVenudes = vendes.Sum(s => s._PartsUtilitzades * s._PreuParticipacio);
 
             decimal importCompra;
             if (pigOrig)
@@ -48,9 +48,9 @@ namespace Inversions.ClassesEntity
             else
                 importCompra = (Participacions - partsEnCartera) * PreuParticipacio;
 
-            var pig = importActualPartsEnCartera + importPartsVenudes - importCompra;
+            decimal pig = importActualPartsEnCartera + importPartsVenudes - importCompra;
 
-            var despeses = inclouDespeses
+            decimal despeses = inclouDespeses
                 ? vendes.Sum(s => s._DespesesPartsUtilitzades) + Despeses.GetValueOrDefault()
                 : 0;
 
@@ -58,7 +58,7 @@ namespace Inversions.ClassesEntity
         }
 
         /// <summary>
-        /// PiG de la venda
+        ///     PiG de la venda
         /// </summary>
         /// <param name="pigOrig"></param>
         /// <param name="inclouDespeses"></param>
@@ -67,7 +67,7 @@ namespace Inversions.ClassesEntity
         internal decimal pigVenda4(bool pigOrig, bool inclouDespeses, bool utilitzarPiGVendaReal)
         {
             decimal despesesCompres;
-            var pig = Prod.pigVenda4(this, pigOrig, utilitzarPiGVendaReal, out despesesCompres);
+            decimal pig = Prod.pigVenda4(this, pigOrig, utilitzarPiGVendaReal, out despesesCompres);
 
             if (inclouDespeses)
                 pig -= (despesesCompres + Despeses.GetValueOrDefault());
@@ -76,7 +76,7 @@ namespace Inversions.ClassesEntity
         }
 
         /// <summary>
-        /// Calcula el dividend que correspon a una compra. Només per accions. Pels fons torna 0.
+        ///     Calcula el dividend que correspon a una compra. Només per accions. Pels fons torna 0.
         /// </summary>
         /// <returns></returns>
         internal decimal dividendCompra4()
@@ -87,19 +87,19 @@ namespace Inversions.ClassesEntity
             if (Prod is ProdFons)
                 return 0;
 
-            var dividends = Prod.MovimentsProducteUsuari.Where(mov => mov._EsDividents && mov.Data > Data).OrderBy(o=>o.Data).ToList();
+            List<Moviment> dividends = Prod.MovimentsProducteUsuari.Where(mov => mov._EsDividents && mov.Data > Data).OrderBy(o => o.Data).ToList();
 
             decimal div = 0;
-            foreach (var dividend in dividends)
+            foreach (Moviment dividend in dividends)
             {
-                var partsEnCarteraDiv = Prod.partsEnCartera(dividend.Data);
-                
+                decimal partsEnCarteraDiv = Prod.partsEnCartera(dividend.Data);
+
                 // Compres a les que afecta el dividend.
-                var compresDiv = Prod.compresDePartipacionsEnData4(dividend.Data, partsEnCarteraDiv, false);
-                
+                IEnumerable<CompraExt> compresDiv = Prod.compresDePartipacionsEnData4(dividend.Data, partsEnCarteraDiv, false);
+
                 // Miro si aquesta compra està afectada.
-                var compraDiv = compresDiv.SingleOrDefault(w => w._Id == Id);
-                
+                CompraExt compraDiv = compresDiv.SingleOrDefault(w => w._Id == Id);
+
                 if (compraDiv != null)
                 {
                     // Si aquesta compra està afectada, acumulo el dividend.
@@ -110,9 +110,7 @@ namespace Inversions.ClassesEntity
             return div;
         }
 
-
         #endregion *** Mètodes bàsics ***
-
 
         #region *** Test ***
 
@@ -130,7 +128,7 @@ namespace Inversions.ClassesEntity
         {
             return pigCompra4(inclouDespeses, pigOrig, ambCartera);
         }
-        
+
         #endregion *** Test ***
     }
 }

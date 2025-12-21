@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using Comuns;
 
-
 namespace Inversions.ClassesEntity
 {
+
     #region Classes Ext
 
     public class VendaExt
     {
+        private readonly Moviment vVenda;
+
         public VendaExt(Moviment venda, decimal partsOcupades, decimal partsUtilitzades)
         {
             if (!venda._EsVenda)
@@ -20,14 +22,12 @@ namespace Inversions.ClassesEntity
             _PartsUtilitzades = partsUtilitzades;
         }
 
-
-        private readonly Moviment vVenda;
         public decimal _PartsUtilitzades { get; set; }
         public decimal _PartsOcupades { get; set; }
 
 
         /// <summary>
-        /// Participacions lliures.
+        ///     Participacions lliures.
         /// </summary>
         public decimal _PartsDisponibles
         {
@@ -76,14 +76,12 @@ namespace Inversions.ClassesEntity
         {
             get { return vVenda._EsVendaReal; }
         }
-        // ReSharper restore UnusedMember.Global
-
 
         #region Equals
 
         public override bool Equals(object obj)
         {
-            return Equals((VendaExt)obj);
+            return Equals((VendaExt) obj);
         }
 
         public bool Equals(VendaExt other)
@@ -105,7 +103,7 @@ namespace Inversions.ClassesEntity
             }
 
             // If one is null,return false.
-            if ((object)left == null || (object)right == null)
+            if ((object) left == null || (object) right == null)
             {
                 return false;
             }
@@ -120,6 +118,8 @@ namespace Inversions.ClassesEntity
 
         #endregion Equals
 
+        // ReSharper restore UnusedMember.Global
+
         public override string ToString()
         {
             return vVenda.ToString();
@@ -128,16 +128,9 @@ namespace Inversions.ClassesEntity
 
     public class CompraExt
     {
-        public CompraExt(DesglosCompraExt desglosCompraExt)
-        {
-            vCompra = desglosCompraExt._Compra;
-            vDesglosCompraExt.Add(desglosCompraExt);
-        }
-
         private readonly Moviment vCompra;
         private readonly List<DesglosCompraExt> vDesglosCompraExt = new List<DesglosCompraExt>();
-        
-        
+
         #region **** Atributs ****
 
         public Moviment _Compra
@@ -177,7 +170,7 @@ namespace Inversions.ClassesEntity
 
         // ReSharper disable UnusedMember.Global
         public decimal _PartsOcupades
-        // ReSharper restore UnusedMember.Global
+            // ReSharper restore UnusedMember.Global
         {
             get { return vDesglosCompraExt.Sum(s => s._PartsOcupades); }
         }
@@ -194,12 +187,17 @@ namespace Inversions.ClassesEntity
 
         #endregion **** Atributs ****
 
+        public CompraExt(DesglosCompraExt desglosCompraExt)
+        {
+            vCompra = desglosCompraExt._Compra;
+            vDesglosCompraExt.Add(desglosCompraExt);
+        }
 
         internal void addDesglos(DesglosCompraExt desglosCompra)
         {
             if (vDesglosCompraExt.Contains(desglosCompra))
             {
-                var desg = vDesglosCompraExt.Single(w => w == desglosCompra);
+                DesglosCompraExt desg = vDesglosCompraExt.Single(w => w == desglosCompra);
                 desg._PartsOcupades += desglosCompra._PartsOcupades;
                 desg._PartsUtilitzades += desglosCompra._PartsUtilitzades;
             }
@@ -207,12 +205,16 @@ namespace Inversions.ClassesEntity
                 vDesglosCompraExt.Add(desglosCompra);
         }
 
+        public override string ToString()
+        {
+            return vCompra.ToString();
+        }
 
         #region Equals
 
         public override bool Equals(object obj)
         {
-            return Equals((CompraExt)obj);
+            return Equals((CompraExt) obj);
         }
 
         public bool Equals(CompraExt other)
@@ -234,7 +236,7 @@ namespace Inversions.ClassesEntity
             }
 
             // If one is null,return false.
-            if ((object)left == null || (object)right == null)
+            if ((object) left == null || (object) right == null)
             {
                 return false;
             }
@@ -248,21 +250,16 @@ namespace Inversions.ClassesEntity
         }
 
         #endregion Equals
-
-        public override string ToString()
-        {
-            return vCompra.ToString();
-        }
     }
 
     public class DesglosCompraExt
     {
+        private readonly DesglosCompra vDesglosCompra;
+
         public DesglosCompraExt(DesglosCompra desgloçCompra)
         {
             vDesglosCompra = desgloçCompra;
         }
-
-        private readonly DesglosCompra vDesglosCompra;
 
         public Moviment _CompraOrig
         {
@@ -285,17 +282,17 @@ namespace Inversions.ClassesEntity
         }
 
         /// <summary>
-        /// Participacions que utilitza el procés actual.
+        ///     Participacions que utilitza el procés actual.
         /// </summary>
         public decimal _PartsUtilitzades { get; set; }
 
         /// <summary>
-        /// Participacions utilitzades per processos anteriors.
+        ///     Participacions utilitzades per processos anteriors.
         /// </summary>
         public decimal _PartsOcupades { get; set; }
 
         /// <summary>
-        /// Participacions lliures.
+        ///     Participacions lliures.
         /// </summary>
         public decimal _PartsDisponibles
         {
@@ -309,7 +306,7 @@ namespace Inversions.ClassesEntity
         }
 
         /// <summary>
-        /// Son les participacions originals utilitzades en aquest moviment.
+        ///     Son les participacions originals utilitzades en aquest moviment.
         /// </summary>
         public decimal _PartsUtilitzadesOrig
         {
@@ -335,11 +332,12 @@ namespace Inversions.ClassesEntity
         {
             get { return vDesglosCompra._DataOrig; }
         }
+
         // ReSharper restore UnusedMember.Global
 
         public static IEnumerable<DesglosCompraExt> OmpleLlista(IEnumerable<Moviment> compres)
         {
-            List<DesglosCompraExt> list = new List<DesglosCompraExt>();
+            var list = new List<DesglosCompraExt>();
             foreach (Moviment compra in compres)
             {
                 if (!compra._EsCompra)
@@ -350,16 +348,21 @@ namespace Inversions.ClassesEntity
             return list;
         }
 
+        public override string ToString()
+        {
+            return vDesglosCompra.ToString();
+        }
+
         #region Equals
 
         public override bool Equals(object obj)
         {
-            return Equals((DesglosCompraExt)obj);
+            return Equals((DesglosCompraExt) obj);
         }
 
         public bool Equals(DesglosCompraExt other)
         {
-            return this.vDesglosCompra == other.vDesglosCompra;
+            return vDesglosCompra == other.vDesglosCompra;
         }
 
         public override int GetHashCode()
@@ -376,7 +379,7 @@ namespace Inversions.ClassesEntity
             }
 
             // If one is null,return false.
-            if ((object)left == null || (object)right == null)
+            if ((object) left == null || (object) right == null)
             {
                 return false;
             }
@@ -390,12 +393,6 @@ namespace Inversions.ClassesEntity
         }
 
         #endregion Equals
-
-        public override string ToString()
-        {
-            return vDesglosCompra.ToString();
-        }
-
     }
 
     #endregion Classes Ext
@@ -419,7 +416,7 @@ namespace Inversions.ClassesEntity
 
 
         /// <summary>
-        /// Calcula el PiG de les accions en cartera a final d'any de tots els productes.
+        ///     Calcula el PiG de les accions en cartera a final d'any de tots els productes.
         /// </summary>
         /// <param name="tipusProducte"></param>
         /// <param name="tipusFons">Si null, tots els fons.</param>
@@ -427,37 +424,37 @@ namespace Inversions.ClassesEntity
         /// <param name="pigOrigen">Calcula el PiG respecte el valor de compra original.</param>
         /// <param name="ambDespeses">Afegeig les despeses.</param>
         /// <returns></returns>
-        internal static decimal PigEnCartera4(ClassesEntity.Producte.TipusProducte tipusProducte, TipusFons? tipusFons, int any, bool pigOrigen, bool ambDespeses)
+        internal static decimal PigEnCartera4(TipusProducte tipusProducte, TipusFons? tipusFons, int any, bool pigOrigen, bool ambDespeses)
         {
-            var prods = SeleccionaProds(tipusProducte, tipusFons);
+            IEnumerable<Producte> prods = SeleccionaProds(tipusProducte, tipusFons);
 
-            var dataFinalAny = Utilitats.DataHoraFinalAny(any);
+            DateTime dataFinalAny = Utilitats.DataHoraFinalAny(any);
 
             return prods.Sum(prod => prod.pigEnCartera4(pigOrigen, ambDespeses, dataFinalAny));
         }
 
 
         /// <summary>
-        /// Calcula el PiG que tributa dins d'un any.
+        ///     Calcula el PiG que tributa dins d'un any.
         /// </summary>
         /// <param name="tipusProducte"></param>
         /// <param name="tipusFons"></param>
         /// <param name="any"></param>
         /// <param name="inclouDividends"></param>
         /// <returns></returns>
-        internal static decimal PigTributa4(ClassesEntity.Producte.TipusProducte tipusProducte, int any, bool inclouDividends)
+        internal static decimal PigTributa4(TipusProducte tipusProducte, int any, bool inclouDividends)
         {
-            var prods = SeleccionaProds(tipusProducte, null).ToList();
-            
-            var div = inclouDividends ? prods.Sum(s => s.dividends(any)) : 0;
-            var pig = prods.Sum(s => s.pigEnAny4(any, true, true, false, true));
+            List<Producte> prods = SeleccionaProds(tipusProducte, null).ToList();
+
+            decimal div = inclouDividends ? prods.Sum(s => s.dividends(any)) : 0;
+            decimal pig = prods.Sum(s => s.pigEnAny4(any, true, true, false, true));
 
             return pig + div;
         }
-        
+
 
         /// <summary>
-        /// Torna la suma del PiG de tots els productes entre les dates.
+        ///     Torna la suma del PiG de tots els productes entre les dates.
         /// </summary>
         /// <param name="dataInici"></param>
         /// <param name="dataFinal"></param>
@@ -468,11 +465,11 @@ namespace Inversions.ClassesEntity
         /// <returns></returns>
         internal static decimal Pig4(DateTime dataInici, DateTime dataFinal, bool pigOrig, bool inclouCartera, bool inclouDespeses, bool inclouDividends)
         {
-            var prods = Tuples.ToList();
+            List<Producte> prods = Tuples.ToList();
 
-            var div = inclouDividends ? prods.Sum(s => s.dividends(dataInici, dataFinal)) : 0;
+            decimal div = inclouDividends ? prods.Sum(s => s.dividends(dataInici, dataFinal)) : 0;
 
-            var pig = prods.Sum(prod => prod.pigEntreDates4(dataInici, dataFinal, pigOrig, inclouDespeses, inclouCartera, true));
+            decimal pig = prods.Sum(prod => prod.pigEntreDates4(dataInici, dataFinal, pigOrig, inclouDespeses, inclouCartera, true));
 
             return pig + div;
         }
@@ -480,15 +477,16 @@ namespace Inversions.ClassesEntity
 
         internal decimal pigEnAny4(int any, bool pigOrig, bool inclouDespeses, bool inclouCartera, bool utilitzarPiGVendaReal)
         {
-            var dataIni = new DateTime(any, 1, 1).AddTicks(-1);
-            var dataFi = dataIni.AddYears(1);
+            DateTime dataIni = new DateTime(any, 1, 1).AddTicks(-1);
+            DateTime dataFi = dataIni.AddYears(1);
 
             return pigEntreDates4(dataIni, dataFi, pigOrig, inclouDespeses, inclouCartera, utilitzarPiGVendaReal);
         }
 
 
         /// <summary>
-        /// Calcula perdues i guanys de les vendes reals més els dividents entre les dates, inclou participacions en cartera si -> inclouCartera=true.
+        ///     Calcula perdues i guanys de les vendes reals més els dividents entre les dates, inclou participacions en cartera si
+        ///     -> inclouCartera=true.
         /// </summary>
         /// <param name="dataHoraInici"></param>
         /// <param name="dataHoraFinal"></param>
@@ -497,11 +495,11 @@ namespace Inversions.ClassesEntity
         /// <returns></returns>
         public decimal pigEntreDates4(DateTime? dataHoraInici, DateTime? dataHoraFinal, bool inclouCartera, bool inclouDividends)
         {
-            var dataIni = dataHoraInici.GetValueOrDefault(DateTime.MinValue);
-            var dataFi = dataHoraFinal.GetValueOrDefault(DateTime.MaxValue);
+            DateTime dataIni = dataHoraInici.GetValueOrDefault(DateTime.MinValue);
+            DateTime dataFi = dataHoraFinal.GetValueOrDefault(DateTime.MaxValue);
 
-            var divid = inclouDividends ? dividends(dataIni, dataFi) : 0;
-            var pigVendesReals = pigEntreDates4(dataIni, dataFi, true, true, inclouCartera, true);
+            decimal divid = inclouDividends ? dividends(dataIni, dataFi) : 0;
+            decimal pigVendesReals = pigEntreDates4(dataIni, dataFi, true, true, inclouCartera, true);
 
             return pigVendesReals + divid;
         }
@@ -509,24 +507,23 @@ namespace Inversions.ClassesEntity
         internal decimal pigEntreDates4(DateTime dataInici, DateTime dataFi
             , bool pigOrig, bool inclouDespeses, bool inclouCartera, bool utilitzarPiGVendaReal)
         {
-            var pigDataInici = pigEnData4(dataInici, pigOrig, inclouDespeses, inclouCartera, utilitzarPiGVendaReal);
-            var pigDataFinal = pigEnData4(dataFi, pigOrig, inclouDespeses, inclouCartera, utilitzarPiGVendaReal);
+            decimal pigDataInici = pigEnData4(dataInici, pigOrig, inclouDespeses, inclouCartera, utilitzarPiGVendaReal);
+            decimal pigDataFinal = pigEnData4(dataFi, pigOrig, inclouDespeses, inclouCartera, utilitzarPiGVendaReal);
 
             return pigDataFinal - pigDataInici;
         }
 
 
-
         /// <summary>
-        /// Calcula el cost original de les participacions en cartera. Inclou despeses. 
+        ///     Calcula el cost original de les participacions en cartera. Inclou despeses.
         /// </summary>
         /// <param name="dataHoraFinal">Si null calcula les participacions avui, sinò les que hi havia a la data.</param>
         /// <param name="numPartsMax">Limita el cost a num de participacions</param>
         /// <returns></returns>
         internal decimal costOriginalEnCartera4(DateTime? dataHoraFinal = null, decimal? numPartsMax = null)
         {
-            var dataH = dataHoraFinal.GetValueOrDefault(DateTime.Now);
-            var numParts = numPartsMax.GetValueOrDefault(partsEnCartera(dataH));
+            DateTime dataH = dataHoraFinal.GetValueOrDefault(DateTime.Now);
+            decimal numParts = numPartsMax.GetValueOrDefault(partsEnCartera(dataH));
 
             decimal despesesCompres;
 
@@ -535,23 +532,23 @@ namespace Inversions.ClassesEntity
 
 
         /// <summary>
-        /// PiG del producte sense tenir en compte el preu original en cas de traspàs.
+        ///     PiG del producte sense tenir en compte el preu original en cas de traspàs.
         /// </summary>
         /// <param name="dataHoraFinal"></param>
         /// <param name="inclouDividends"></param>
         /// <returns></returns>
         internal decimal pigEnData4(DateTime? dataHoraFinal = null, bool inclouDividends = true)
         {
-            var dataF = dataHoraFinal.GetValueOrDefault(DateTime.MaxValue);
+            DateTime dataF = dataHoraFinal.GetValueOrDefault(DateTime.MaxValue);
 
-            var pig = pigEnData4(dataF, false, true, true, true);
-            var div = inclouDividends ? dividends(DateTime.MinValue, dataF) : 0;
+            decimal pig = pigEnData4(dataF, false, true, true, true);
+            decimal div = inclouDividends ? dividends(DateTime.MinValue, dataF) : 0;
 
             return pig + div;
         }
 
         /// <summary>
-        /// PiG de totes les vendes anteriors a 'dataHora' més el PiG de les participacions en cartera a 'dataHora'.
+        ///     PiG de totes les vendes anteriors a 'dataHora' més el PiG de les participacions en cartera a 'dataHora'.
         /// </summary>
         /// <param name="dataHora"></param>
         /// <param name="pigOrig"></param>
@@ -561,23 +558,21 @@ namespace Inversions.ClassesEntity
         /// <returns></returns>
         internal decimal pigEnData4(DateTime dataHora, bool pigOrig, bool inclouDespeses, bool inclouCartera, bool utilitzarPiGVendaReal)
         {
-            var vendes = MovimentsProducteUsuari.Where(mov => mov.Data < dataHora && mov._EsVenda).ToList();
+            List<Moviment> vendes = MovimentsProducteUsuari.Where(mov => mov.Data < dataHora && mov._EsVenda).ToList();
 
             if (pigOrig)
                 vendes = vendes.Where(venda => venda._EsVendaReal).ToList();
 
-            var pigVendes = vendes.Sum(venda => venda.pigVenda4(pigOrig, inclouDespeses, utilitzarPiGVendaReal));
-            var pigEnCartera = inclouCartera ? pigEnCartera4(pigOrig, inclouDespeses, dataHora) : 0;
+            decimal pigVendes = vendes.Sum(venda => venda.pigVenda4(pigOrig, inclouDespeses, utilitzarPiGVendaReal));
+            decimal pigEnCartera = inclouCartera ? pigEnCartera4(pigOrig, inclouDespeses, dataHora) : 0;
 
             return pigVendes + pigEnCartera;
         }
 
-
-
         #region *** Criden a els mètodes bàsics ***
 
         /// <summary>
-        /// Calcula el PiG de les participacions en cartera.
+        ///     Calcula el PiG de les participacions en cartera.
         /// </summary>
         /// <param name="pigOrig">Indica si s'han d'utilitzar els preus origen o no.</param>
         /// <param name="inclouDespeses">Torna les despeses de les compres.</param>
@@ -587,12 +582,12 @@ namespace Inversions.ClassesEntity
         internal decimal pigEnCartera4(bool pigOrig, bool inclouDespeses, DateTime? dataHora = null
             , decimal? preuParticipacio = null)
         {
-            var data = dataHora.GetValueOrDefault(DateTime.Now);
-            var parts = partsEnCartera(data);
-            var preuPart = preuParticipacio.GetValueOrDefault(valorParticipacio(data));
+            DateTime data = dataHora.GetValueOrDefault(DateTime.Now);
+            decimal parts = partsEnCartera(data);
+            decimal preuPart = preuParticipacio.GetValueOrDefault(valorParticipacio(data));
 
             decimal despesesCompres;
-            var pig = basicPigVendaOCartera4(data, parts, preuPart, pigOrig, out despesesCompres);
+            decimal pig = basicPigVendaOCartera4(data, parts, preuPart, pigOrig, out despesesCompres);
 
             if (inclouDespeses)
                 pig -= despesesCompres;
@@ -601,8 +596,8 @@ namespace Inversions.ClassesEntity
         }
 
         /// <summary>
-        /// Calcula el PiG de les participacions en cartera del producte.
-        /// Com que no´mes és calcula les parts en cartera, no s'utilitza mai el PU Orig.
+        ///     Calcula el PiG de les participacions en cartera del producte.
+        ///     Com que no´mes és calcula les parts en cartera, no s'utilitza mai el PU Orig.
         /// </summary>
         /// <param name="dataHoraIni"></param>
         /// <param name="dataHoraFi"></param>
@@ -626,28 +621,28 @@ namespace Inversions.ClassesEntity
                 PiG de la operació.
             */
 
-            var compres = MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data >= dataHoraIni && w.Data <= dataHoraFi).ToList();
-            var vendes = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data >= dataHoraIni && w.Data <= dataHoraFi).ToList();
-            var dividents = inclouDividents 
-                ? MovimentsProducteUsuari.Where(w => w._EsDividents && w.Data >= dataHoraIni && w.Data <= dataHoraFi).Sum(s => s.PreuParticipacio) 
+            List<Moviment> compres = MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data >= dataHoraIni && w.Data <= dataHoraFi).ToList();
+            List<Moviment> vendes = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data >= dataHoraIni && w.Data <= dataHoraFi).ToList();
+            decimal dividents = inclouDividents
+                ? MovimentsProducteUsuari.Where(w => w._EsDividents && w.Data >= dataHoraIni && w.Data <= dataHoraFi).Sum(s => s.PreuParticipacio)
                 : 0;
 
-            var partsEnCarteraFi = partsEnCartera(dataHoraFi);
-            var partsComprades = compres.Sum(s => s.Participacions);
+            decimal partsEnCarteraFi = partsEnCartera(dataHoraFi);
+            decimal partsComprades = compres.Sum(s => s.Participacions);
 
-            var preuPartIni = preuParticipacioEnData(dataHoraIni);
-            var preuPartFi = preuParticipacioEnData(dataHoraFi);
+            decimal preuPartIni = preuParticipacioEnData(dataHoraIni);
+            decimal preuPartFi = preuParticipacioEnData(dataHoraFi);
 
-            var piGPartsIniciFinal = (preuPartFi - preuPartIni) * (partsEnCarteraFi - partsComprades);
-            var piGPartsComprades = compres.Sum(s => (preuPartFi - s.PreuParticipacio) * s.Participacions - s.Despeses.GetValueOrDefault());
-            var piGPartsVenudes = vendes.Sum(s => (s.PreuParticipacio - preuPartIni) * s.Participacions - s.Despeses.GetValueOrDefault());
-            
+            decimal piGPartsIniciFinal = (preuPartFi - preuPartIni) * (partsEnCarteraFi - partsComprades);
+            decimal piGPartsComprades = compres.Sum(s => (preuPartFi - s.PreuParticipacio) * s.Participacions - s.Despeses.GetValueOrDefault());
+            decimal piGPartsVenudes = vendes.Sum(s => (s.PreuParticipacio - preuPartIni) * s.Participacions - s.Despeses.GetValueOrDefault());
+
 
             return piGPartsIniciFinal + piGPartsComprades + piGPartsVenudes + dividents;
         }
 
         /// <summary>
-        /// Calcula el PiG de la venda.
+        ///     Calcula el PiG de la venda.
         /// </summary>
         /// <param name="venda"></param>
         /// <param name="pigOrig">Indica si s'han d'utilitzar els preus origen o no.</param>
@@ -676,8 +671,8 @@ namespace Inversions.ClassesEntity
         }
 
         /// <summary>
-        /// Torna la llista de les vendes amb les participacions utilitzades de la compra i les participacions en cartera.
-        /// Les vendes de les participacions no son les mateixes si agafem dedes Originals.
+        ///     Torna la llista de les vendes amb les participacions utilitzades de la compra i les participacions en cartera.
+        ///     Les vendes de les participacions no son les mateixes si agafem dedes Originals.
         /// </summary>
         /// <param name="compra"></param>
         /// <param name="pigOrig"></param>
@@ -702,26 +697,28 @@ namespace Inversions.ClassesEntity
 
         #endregion *** Criden a els mètodes bàsics ***
 
-
         #region *** Mètodes bàsics ***
 
         /// <summary>
-        /// Torna la llista de les compres de les partipacions del producte en una data.
-        /// la venda pot ser que encara no existeixi en la taula moviments o que siguin les participacions en cartera.
+        ///     Torna la llista de les compres de les partipacions del producte en una data.
+        ///     la venda pot ser que encara no existeixi en la taula moviments o que siguin les participacions en cartera.
         /// </summary>
         /// <param name="dataHora">Es buscaran compres anteriors a aquesta data.</param>
-        /// <param name="numPartipacions">Son les partipacions de les que buscaré les seves compres. Si null les que estan en cartera a la data.</param>
+        /// <param name="numPartipacions">
+        ///     Son les partipacions de les que buscaré les seves compres. Si null les que estan en
+        ///     cartera a la data.
+        /// </param>
         /// <param name="pigOrig">Indica si les compres s'han d'ordenar per Data o per DataOrig.</param>
         /// <returns></returns>
         private IEnumerable<CompraExt> basicCompresDePartipacionsEnData4(DateTime dataHora, decimal numPartipacions, bool pigOrig = true)
         {
-            List<CompraExt> compres = new List<CompraExt>();
+            var compres = new List<CompraExt>();
 
             // Creo la llista de compres de les participacions numPartipacions.
-            foreach (var desglosCompraExt in basicDesglosCompresDeParticipacionsEnData4(dataHora, numPartipacions, pigOrig))
+            foreach (DesglosCompraExt desglosCompraExt in basicDesglosCompresDeParticipacionsEnData4(dataHora, numPartipacions, pigOrig))
             {
                 // Busca la compra en la llista de compresExt que estic creant.
-                var compra = compres.SingleOrDefault(w => w._Compra == desglosCompraExt._Compra);
+                CompraExt compra = compres.SingleOrDefault(w => w._Compra == desglosCompraExt._Compra);
 
                 if (compra == null)
                 {
@@ -739,8 +736,8 @@ namespace Inversions.ClassesEntity
         }
 
         /// <summary>
-        /// Torna la llista de les desgloç compres de les partipacions del producte en una data.
-        /// la venda pot ser que encara no existeixi en la taula moviments o que siguin les participacions en cartera.
+        ///     Torna la llista de les desgloç compres de les partipacions del producte en una data.
+        ///     la venda pot ser que encara no existeixi en la taula moviments o que siguin les participacions en cartera.
         /// </summary>
         /// <param name="dataHora">Es buscaran compres anteriors a aquesta data.</param>
         /// <param name="numPartipacions">Son les partipacions de les que buscaré les seves compres.</param>
@@ -751,8 +748,8 @@ namespace Inversions.ClassesEntity
             if (Utilitats.EsZero(numPartipacions))
                 return new List<DesglosCompraExt>();
 
-            var vendesAnt = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data < dataHora).OrderBy(o => o.Data).ToList();
-            var desglosCompresAnt = DesglosCompraExt.OmpleLlista(MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data < dataHora));
+            List<Moviment> vendesAnt = MovimentsProducteUsuari.Where(w => w._EsVenda && w.Data < dataHora).OrderBy(o => o.Data).ToList();
+            IEnumerable<DesglosCompraExt> desglosCompresAnt = DesglosCompraExt.OmpleLlista(MovimentsProducteUsuari.Where(w => w._EsCompra && w.Data < dataHora));
 
             // Ordena les compres anteriors.
             desglosCompresAnt = pigOrig ? desglosCompresAnt.OrderBy(o => o._DataOrig) : desglosCompresAnt.OrderBy(o => o._Data);
@@ -760,12 +757,12 @@ namespace Inversions.ClassesEntity
 
             // Marco les participacions ocupades per vendes anteriors.
             decimal partsVenudesResten;
-            foreach (var venda in vendesAnt)
+            foreach (Moviment venda in vendesAnt)
             {
-                var dataVenda = venda.Data;
+                DateTime dataVenda = venda.Data;
                 partsVenudesResten = venda.Participacions;
 
-                foreach (var desgCompra in desglosCompresAnt.Where(w => w._Data < dataVenda && w._PartsDisponibles > 0))
+                foreach (DesglosCompraExt desgCompra in desglosCompresAnt.Where(w => w._Data < dataVenda && w._PartsDisponibles > 0))
                 {
                     if (partsVenudesResten > desgCompra._PartsDisponibles)
                     {
@@ -782,7 +779,7 @@ namespace Inversions.ClassesEntity
 
             // Marco les participacions utilitzades en aquesta venda.
             partsVenudesResten = numPartipacions;
-            foreach (var desgCompra in desglosCompresAnt.Where(w => w._PartsDisponibles > 0))
+            foreach (DesglosCompraExt desgCompra in desglosCompresAnt.Where(w => w._PartsDisponibles > 0))
             {
                 if (partsVenudesResten > desgCompra._PartsDisponibles)
                 {
@@ -800,8 +797,8 @@ namespace Inversions.ClassesEntity
         }
 
         /// <summary>
-        /// Torna la llista de les vendes amb les participacions utilitzades de la compra i les participacions en cartera.
-        /// Les vendes de les participacions no son les mateixes si agafem dedes Originals.
+        ///     Torna la llista de les vendes amb les participacions utilitzades de la compra i les participacions en cartera.
+        ///     Les vendes de les participacions no son les mateixes si agafem dedes Originals.
         /// </summary>
         /// <param name="compra"></param>
         /// <param name="pigOrig"></param>
@@ -821,11 +818,11 @@ namespace Inversions.ClassesEntity
                 throw new Exception("La compra no pertany a  aquest producte");
 
 
-            var vendesTotes = MovimentsProducteUsuari.Where(venda => venda._EsVenda)
+            List<VendaExt> vendesTotes = MovimentsProducteUsuari.Where(venda => venda._EsVenda)
                 .Select(venda => new VendaExt(venda, 0, 0)).OrderBy(o => o._Data).ToList();
 
             desglosCompraTot = new List<DesglosCompraExt>();
-            foreach (var compraX in MovimentsProducteUsuari.Where(w => w._EsCompra))
+            foreach (Moviment compraX in MovimentsProducteUsuari.Where(w => w._EsCompra))
             {
                 desglosCompraTot.AddRange(compraX.DesglosCompres.Select(desglosCompra => new DesglosCompraExt(desglosCompra)));
             }
@@ -838,11 +835,11 @@ namespace Inversions.ClassesEntity
 
             partsEnCartera = compra.Participacions;
 
-            foreach (var vendaExt in vendesTotes)
+            foreach (VendaExt vendaExt in vendesTotes)
             {
-                var dataVenda = vendaExt._Data;
-                var desglosCompraDisp = desglosCompraTot.Where(w => w._Compra.Data < dataVenda && w._PartsDisponibles > 0).ToList();
-                foreach (var desglosCompraExt in desglosCompraDisp)
+                DateTime dataVenda = vendaExt._Data;
+                List<DesglosCompraExt> desglosCompraDisp = desglosCompraTot.Where(w => w._Compra.Data < dataVenda && w._PartsDisponibles > 0).ToList();
+                foreach (DesglosCompraExt desglosCompraExt in desglosCompraDisp)
                 {
                     /*
                      * Només compres anteriors a la venda. 
@@ -872,14 +869,14 @@ namespace Inversions.ClassesEntity
                 }
             }
 
-            var vendes = vendesTotes.Where(venda => venda._PartsUtilitzades > 0).ToList();
+            List<VendaExt> vendes = vendesTotes.Where(venda => venda._PartsUtilitzades > 0).ToList();
 
             return vendes;
         }
 
 
         /// <summary>
-        /// Calcula el PiG, o de les participacions en cartera o les d'una venda.
+        ///     Calcula el PiG, o de les participacions en cartera o les d'una venda.
         /// </summary>
         /// <param name="dataHora">Data a partir d'on buscaran les compres anteriors</param>
         /// <param name="participacions">Participacions utilitzades.</param>
@@ -891,14 +888,14 @@ namespace Inversions.ClassesEntity
             , out decimal despesesCompres)
         {
             decimal impCompra = importCompra(dataHora, participacions, pigOrig, out despesesCompres);
-            
+
             decimal importVenda = preuPart * participacions;
 
             return importVenda - impCompra;
         }
 
         /// <summary>
-        /// Calcula el preu de cost de les compres anteriors a DataHora.
+        ///     Calcula el preu de cost de les compres anteriors a DataHora.
         /// </summary>
         /// <param name="dataHora"></param>
         /// <param name="participacions"></param>
@@ -910,7 +907,7 @@ namespace Inversions.ClassesEntity
             decimal impCompra;
             if (pigOrig && this is ProdFons)
             {
-                var desgloçCompres = basicDesglosCompresDeParticipacionsEnData4(dataHora, participacions, pigOrig).ToList();
+                List<DesglosCompraExt> desgloçCompres = basicDesglosCompresDeParticipacionsEnData4(dataHora, participacions, pigOrig).ToList();
 
                 impCompra = desgloçCompres.Sum(dcExt => dcExt._PartsUtilitzadesOrig * dcExt._PreuParticipacioOrig);
 
@@ -919,7 +916,7 @@ namespace Inversions.ClassesEntity
             }
             else
             {
-                var compres = basicCompresDePartipacionsEnData4(dataHora, participacions, false).ToList();
+                List<CompraExt> compres = basicCompresDePartipacionsEnData4(dataHora, participacions, false).ToList();
 
                 impCompra = compres.Sum(compra => compra._PartsUtilitzades * compra._PreuParticipacio);
 
@@ -930,7 +927,6 @@ namespace Inversions.ClassesEntity
         }
 
         #endregion *** Mètodes bàsics ***
-
 
         #region *** Test ***
 
@@ -960,7 +956,7 @@ namespace Inversions.ClassesEntity
         }
 
 
-        public static decimal PigEnCartera4Test(ClassesEntity.Producte.TipusProducte tipusProducte, TipusFons? tipusFons, int any, bool pigOrigen, bool ambDespeses)
+        public static decimal PigEnCartera4Test(TipusProducte tipusProducte, TipusFons? tipusFons, int any, bool pigOrigen, bool ambDespeses)
         {
             return PigEnCartera4(tipusProducte, tipusFons, any, pigOrigen, ambDespeses);
         }

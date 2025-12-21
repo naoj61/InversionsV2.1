@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
-using DevExpress.XtraPrinting.Native;
 using Inversions.ClassesEntity;
 
 namespace Inversions.GUI
 {
     public partial class GestioProductes : UserControl
     {
+        private string vDescripcioFons;
+        private ListBox vLbProductes;
+        private bool vMostraLlistaAmbChecks;
+        private Producte vProducteSeleccioatAnt;
+
         public GestioProductes()
         {
             InitializeComponent();
@@ -22,18 +22,11 @@ namespace Inversions.GUI
             tbMercat.Dock = DockStyle.Fill;
 
             cbTipusProducteFiltreTab2.SelectedIndexChanged -= cbTipusProducteFiltreTab2_SelectedIndexChanged;
-            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof(ClassesEntity.Producte.TipusProducte));
+            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof (Producte.TipusProducte));
             cbTipusProducteFiltreTab2.Focus();
             cbTipusProducteFiltreTab2.SelectedIndex = 0;
             cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
-
         }
-
-        private ListBox vLbProductes;
-        private bool vMostraLlistaAmbChecks;
-        public event EventHandler EventProducteSeleccionat;
-        public event ItemCheckEventHandler EventItemCheck;
-        private string vDescripcioFons;
 
 
         [Browsable(false)]
@@ -76,9 +69,12 @@ namespace Inversions.GUI
             }
         }
 
+        public event EventHandler EventProducteSeleccionat;
+        public event ItemCheckEventHandler EventItemCheck;
+
 
         /// <summary>
-        /// Torna tots els productes amb Check si és un CheckedListBox o el producte seleccionat si és un ListBox.
+        ///     Torna tots els productes amb Check si és un CheckedListBox o el producte seleccionat si és un ListBox.
         /// </summary>
         /// <returns></returns>
         public IEnumerable<Producte> productesSeleccionats()
@@ -118,7 +114,7 @@ namespace Inversions.GUI
 
 
         /// <summary>
-        /// Refresca Dades Control i torna a seleccionar el producte actual.
+        ///     Refresca Dades Control i torna a seleccionar el producte actual.
         /// </summary>
         internal void refrescaDadesControl()
         {
@@ -128,7 +124,7 @@ namespace Inversions.GUI
 
 
         /// <summary>
-        /// Refresca Dades Control i selecciona producte.
+        ///     Refresca Dades Control i selecciona producte.
         /// </summary>
         /// <param name="prod">Si null no selecciona cap producte, sinó no prod.</param>
         internal void refrescaDadesControl(Producte prod)
@@ -183,23 +179,23 @@ namespace Inversions.GUI
         }
 
         /// <summary>
-        /// Aplica el filtre i omple el ListBox amb els productes.
+        ///     Aplica el filtre i omple el ListBox amb els productes.
         /// </summary>
         internal void aplicaFiltre()
         {
-            IEnumerable<ClassesEntity.Producte> prods;
+            IEnumerable<Producte> prods;
 
-            if ((ClassesEntity.Producte.TipusProducte)cbTipusProducteFiltreTab2.SelectedItem == ClassesEntity.Producte.TipusProducte.Accions)
+            if ((Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem == Producte.TipusProducte.Accions)
             {
                 prods = ProdAccions.Tuples;
             }
-            else if ((ClassesEntity.Producte.TipusProducte)cbTipusProducteFiltreTab2.SelectedItem == ClassesEntity.Producte.TipusProducte.Fons)
+            else if ((Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem == Producte.TipusProducte.Fons)
             {
                 prods = ProdFons.Tuples;
             }
             else
             {
-                prods = ClassesEntity.Producte.Tuples;
+                prods = Producte.Tuples;
             }
 
             if (ckNomesAmbParticipacions.Checked)
@@ -213,10 +209,10 @@ namespace Inversions.GUI
 
             if (ckFiltreCompresAny.Checked || ckFiltreVendesAny.Checked || ckFiltreDivAny.Checked)
             {
-                var movs = Moviment.MovimentsUsuari.Where(w => w.Data.Year == (int) cbFiltreAny.SelectedItem
-                                                               && ((ckFiltreCompresAny.Checked && w.TipusMoviment == TipusMoviment.Compra)
-                                                                   || (ckFiltreVendesAny.Checked && w.TipusMoviment == TipusMoviment.Venda)
-                                                                   || (ckFiltreDivAny.Checked && w.TipusMoviment == TipusMoviment.Dividends)));
+                IEnumerable<Moviment> movs = Moviment.MovimentsUsuari.Where(w => w.Data.Year == (int) cbFiltreAny.SelectedItem
+                                                                                 && ((ckFiltreCompresAny.Checked && w.TipusMoviment == TipusMoviment.Compra)
+                                                                                     || (ckFiltreVendesAny.Checked && w.TipusMoviment == TipusMoviment.Venda)
+                                                                                     || (ckFiltreDivAny.Checked && w.TipusMoviment == TipusMoviment.Dividends)));
 
                 if (!ckFiltreTraspasAny.Checked)
                     movs = movs.Where(w => !w._EsTraspas);
@@ -229,7 +225,7 @@ namespace Inversions.GUI
                 prods = prods.Where(w => (w._NomProducte + w._NomEmpresa).IndexOf(tbFiltreNom.Text, StringComparison.OrdinalIgnoreCase) >= 0);
             }
 
-            var llistaProds = prods.OrderBy(o => o.OrdreGrid).ToList();
+            List<Producte> llistaProds = prods.OrderBy(o => o.OrdreGrid).ToList();
             if (_MostraLlistaAmbChecks)
             {
                 vLbProductes.DataSource = llistaProds;
@@ -244,7 +240,6 @@ namespace Inversions.GUI
         }
 
 
-        private Producte vProducteSeleccioatAnt;
         private void lbProductesTab2_SelectedIndexChanged(object sender, EventArgs e)
         {
             Producte prod = _ProducteSeleccionat;
@@ -271,7 +266,7 @@ namespace Inversions.GUI
                     tbPigHistoric.Valor = prod.pigEnData4(); // PiG cartera + vendes reals + dividents - despeses, sense tenir en compte el preu original en cas de traspàs.
                     //tbEnCartera.Valor = prod.pig2Cartera(DateTime.Now, false, true); // PiG cartera + dividents - despeses, sense tenir en  compte el preu original.
                     tbEnCartera.Valor = prod.pigEnCartera4(false, true);
-                    
+
                     if (prod is ProdFons)
                     {
                         tbPigHistoricOrig.Valor = prod.pigEntreDates4(DateTime.MinValue, DateTime.Now, true, true); // PiG cartera + vendes reals + dividents - despeses, tenint en compte el preu original en cas de traspàs.
@@ -292,7 +287,7 @@ namespace Inversions.GUI
                     }
                     else if (prod is ProdAccions)
                     {
-                        var prodAccions = (ProdAccions)prod;
+                        var prodAccions = (ProdAccions) prod;
                         tbMercat.Text = prodAccions.Mercat.Nom;
 
                         gbIsinMercat.Text = "Mercat";
@@ -313,8 +308,6 @@ namespace Inversions.GUI
                 pnDescripcioFons.Visible = prod is ProdFons;
                 gbFons.Visible = prod is ProdFons;
                 pnDescripcioFons.Visible = prod is ProdFons;
-
-
             }
 
             if (EventProducteSeleccionat != null)
@@ -344,7 +337,8 @@ namespace Inversions.GUI
         }
 
         /// <summary>
-        /// En funció de la propietat "_MostraLlistaAmbChecks", converteix la llista de productes en un Listbox o un CheckedListBox.
+        ///     En funció de la propietat "_MostraLlistaAmbChecks", converteix la llista de productes en un Listbox o un
+        ///     CheckedListBox.
         /// </summary>
         /// <param name="seraCheckedListBox"></param>
         private void preparaLlistaProductes(bool seraCheckedListBox)
@@ -379,7 +373,7 @@ namespace Inversions.GUI
             vLbProductes.ResumeLayout();
         }
 
-        void lbProductesTab2_ItemCheck(object sender, ItemCheckEventArgs e)
+        private void lbProductesTab2_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             if (EventItemCheck != null)
                 EventItemCheck(sender, e);
@@ -388,18 +382,18 @@ namespace Inversions.GUI
         private void btSeleccionaTot_Click(object sender, EventArgs e)
         {
             // Selecciona tots els productes de la llista.
-            selDeselTot(true);         
+            selDeselTot(true);
         }
 
         private void btDeseleccionaTot_Click(object sender, EventArgs e)
         {
             // Deselecciona tots els productes de la llista.
-            selDeselTot(false);         
+            selDeselTot(false);
         }
 
         private void selDeselTot(bool selecciona)
         {
-            CheckedListBox chLb = (CheckedListBox) vLbProductes;
+            var chLb = (CheckedListBox) vLbProductes;
 
             for (int i = 0; i < chLb.Items.Count; i++)
             {
@@ -429,7 +423,7 @@ namespace Inversions.GUI
 
         private void tbFiltreNom_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if(e.KeyChar == 13)
+            if (e.KeyChar == 13)
             {
                 aplicaFiltre();
             }

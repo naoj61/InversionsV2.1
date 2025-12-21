@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Comuns;
@@ -12,74 +11,8 @@ namespace Inversions.GUI
 {
     public partial class MovimentsTab : TabX
     {
-        /// <summary>
-        /// Estructura per omplir DgvCompresProducte
-        /// </summary>
-        struct StrDgvMovimentsProd
-        {
-            private StrDgvMovimentsProd(Moviment moviment)
-                : this()
-            {
-                _Id = moviment.Id;
-                _Prod = moviment.Prod;
-                _Data = moviment.Data;
-                _Participacions = moviment.Participacions;
-                _PreuParticipacio = moviment.PreuParticipacio;
-                _ImportBrut = moviment.Participacions == 0 ? moviment.PreuParticipacio : moviment.Participacions * moviment.PreuParticipacio;
-                _ImportNet = _ImportBrut + (moviment._EsCompra ? moviment.Despeses.GetValueOrDefault() : -moviment.Despeses.GetValueOrDefault());
-                _CanviAplicat = moviment.CanviAplicat;
-                _Despeses = moviment.Despeses.GetValueOrDefault();
-                if (moviment.RefTraspas == null)
-                {
-                    _TipusMoviment = moviment.TipusMoviment.ToString();
-                }
-                else
-                {
-                    _TipusMoviment = (moviment.TipusMoviment == TipusMoviment.Compra ? "Traspàs C" : "Traspàs V");
-
-                    _ProducteTraspasOrigen = moviment.TipusMoviment == TipusMoviment.Compra ? moviment.RefTraspas.Prod : null;
-                    _ProducteTraspasDesti = moviment.TipusMoviment == TipusMoviment.Venda ? moviment.RefTraspas.Prod : null;
-                }
-                _Descripcio = moviment.Descripcio;
-            }
-
-
-            internal static List<StrDgvMovimentsProd> CarregaStruct(IEnumerable<Moviment> movimentsProducte)
-            {
-                return movimentsProducte.Select(moviment => new StrDgvMovimentsProd(moviment)).ToList();
-            }
-
-
-// ReSharper disable MemberCanBePrivate.Local
-// ReSharper disable UnusedAutoPropertyAccessor.Local
-            public int _Id { get; private set; }
-
-            public string _TipusMoviment { get; private set; }
-
-            public DateTime _Data { get; private set; }
-
-            public Producte _Prod { get; private set; }
-
-            public decimal _Participacions { get; private set; }
-
-            public decimal _PreuParticipacio { get; private set; }
-
-            public decimal _ImportBrut { get; private set; }
-
-            public decimal _ImportNet { get; private set; }
-
-            public decimal _CanviAplicat { get; private set; }
-
-            public decimal _Despeses { get; private set; }
-
-            public Producte _ProducteTraspasOrigen { get; private set; }
-
-            public Producte _ProducteTraspasDesti { get; private set; }
-
-            public string _Descripcio { get; private set; }
-// ReSharper restore UnusedAutoPropertyAccessor.Local
-// ReSharper restore MemberCanBePrivate.Local
-        }
+        private bool? comprant;
+        private string vDesaToolTipGbPreuPartic;
 
         public MovimentsTab()
         {
@@ -93,7 +26,7 @@ namespace Inversions.GUI
             if (!_EnModeEdicio)
             {
                 gestioProductesTabMoviments.refrescaDadesControl();
-                
+
                 base.refresca();
             }
         }
@@ -104,16 +37,16 @@ namespace Inversions.GUI
 
             //gestioProductesTabMoviments.refrescaDadesControl(true);
             gestioProductesTabMoviments.refrescaDadesControl(null);
-            
+
             dgvMovimentsProd.DataSource = null;
         }
 
         internal override void carregaInicial()
         {
             base.carregaInicial();
-            
+
             gestioProductesTabMoviments._NomesAmbParticipacions = true;
-            
+
             refresca();
         }
 
@@ -124,11 +57,11 @@ namespace Inversions.GUI
 
 
         /// <summary>
-        /// Canvia les dades del control a les del nou producte
+        ///     Canvia les dades del control a les del nou producte
         /// </summary>
         private void canviProducteSeleccionat()
         {
-            var cursor = Cursor;
+            Cursor cursor = Cursor;
             Cursor = Cursors.WaitCursor;
 
             try
@@ -186,14 +119,14 @@ namespace Inversions.GUI
         {
             //var movimentsProducte = Moviment.MovimentsUsuari.Where(w => w.Prod.Id == prod.Id).ToList();
 
-            var movimentsProducte = StrDgvMovimentsProd.CarregaStruct(Moviment.MovimentsUsuari.Where(w => w.Prod.Id == prod.Id));
+            List<StrDgvMovimentsProd> movimentsProducte = StrDgvMovimentsProd.CarregaStruct(Moviment.MovimentsUsuari.Where(w => w.Prod.Id == prod.Id));
 
             dgvMovimentsProd.SuspendLayout();
             dgvMovimentsProd.DataSource = movimentsProducte.OrderBy(o => o._Data).ToList();
             dgvMovimentsProd.Columns["colTraspasOrigen"].Visible = movimentsProducte.Any(eo => eo._ProducteTraspasOrigen != null);
             dgvMovimentsProd.Columns["colTraspasDesti"].Visible = movimentsProducte.Any(eo => eo._ProducteTraspasDesti != null);
             dgvMovimentsProd.ClearSelection();
-            var ultimaFila = dgvMovimentsProd.Rows.GetLastRow(DataGridViewElementStates.Visible);
+            int ultimaFila = dgvMovimentsProd.Rows.GetLastRow(DataGridViewElementStates.Visible);
             if (ultimaFila >= 0)
             {
                 // Selecciona la última fila del dataGrid.
@@ -201,8 +134,6 @@ namespace Inversions.GUI
             }
             dgvMovimentsProd.ResumeLayout();
         }
-
-        private bool? comprant = null;
 
         private void compra()
         {
@@ -221,7 +152,7 @@ namespace Inversions.GUI
         {
             comprant = false;
 
-            var prod = gestioProductesTabMoviments._ProducteSeleccionat;
+            Producte prod = gestioProductesTabMoviments._ProducteSeleccionat;
 
             if (prod._TipusProducte == Producte.TipusProducte.Fons)
             {
@@ -256,13 +187,11 @@ namespace Inversions.GUI
             modeEdicio();
         }
 
-        private string vDesaToolTipGbPreuPartic = null;
-
         private void split()
         {
             gbPreuPartic.Text = "Preu operació";
-            vDesaToolTipGbPreuPartic = this.toolTip1.GetToolTip(this.gbPreuPartic);
-            toolTip1.SetToolTip(this.gbPreuPartic, "Preu participació abans del Split");
+            vDesaToolTipGbPreuPartic = toolTip1.GetToolTip(gbPreuPartic);
+            toolTip1.SetToolTip(gbPreuPartic, "Preu participació abans del Split");
 
             modeEdicio();
         }
@@ -270,29 +199,32 @@ namespace Inversions.GUI
         private void contraSplit()
         {
             gbPreuPartic.Text = "PV sobrants";
-            vDesaToolTipGbPreuPartic = this.toolTip1.GetToolTip(this.gbPreuPartic);
-            toolTip1.SetToolTip(this.gbPreuPartic, "Preu venda de les participacions sobrants del ContraSplit");
+            vDesaToolTipGbPreuPartic = toolTip1.GetToolTip(gbPreuPartic);
+            toolTip1.SetToolTip(gbPreuPartic, "Preu venda de les participacions sobrants del ContraSplit");
 
             modeEdicio();
         }
 
         /// <summary>
-        /// Modifica la tauma "Moviments"
+        ///     Modifica la tauma "Moviments"
         /// </summary>
         /// <param name="tipusMoviment">Compra o venda.</param>
         /// <param name="prodOrigen">Producte on es fa la compra/venda</param>
-        /// <param name="prodDesti">És el fons on van les participacions venudes en cas de traspàs. Si != null, ha de ser una venda que es trapassa. </param>
+        /// <param name="prodDesti">
+        ///     És el fons on van les participacions venudes en cas de traspàs. Si != null, ha de ser una venda
+        ///     que es trapassa.
+        /// </param>
         private void desaMoviment(TipusMoviment tipusMoviment, Producte prodOrigen, ProdFons prodDesti = null)
         {
             if (prodDesti != null && tipusMoviment != TipusMoviment.Traspàs)
                 throw new ArgumentException("L'argument només pot estar informat si és un traspàs.", "prodDesti");
-            
+
             using (var conn = new InversionsBDContext())
             {
-                var prodOrigenContext = conn.Productes.Find(prodOrigen.Id);
+                Producte prodOrigenContext = conn.Productes.Find(prodOrigen.Id);
                 ProdFons prodDestiContext = prodDesti == null ? null : conn.ProdFons.Find(prodDesti.Id);
 
-                using (var dbContextTransaction = conn.Database.BeginTransaction())
+                using (DbContextTransaction dbContextTransaction = conn.Database.BeginTransaction())
                 {
                     // Conserva la data però li posa l'hora actual.
                     DateTime data1 = cData1.Value.Date + DateTime.Now.TimeOfDay;
@@ -329,7 +261,7 @@ namespace Inversions.GUI
                     }
                     else
                     {
-                        var dataDesti = ckActivaDataDesti.Checked ? cDataDesti.Value : data1;
+                        DateTime dataDesti = ckActivaDataDesti.Checked ? cDataDesti.Value : data1;
                         prodOrigenContext.desaTraspas(conn, data1, tbNumParticipacions._DecimalValue, ntbPreuParticipacio._DecimalValue, tbDescripcio.Text,
                             dataDesti, prodDestiContext, tbNumParticipacionsDesti._DecimalValue, ntbPreuParticipacioFonsCompra.Valor, ntbDespeses.Valor);
                     }
@@ -353,7 +285,7 @@ namespace Inversions.GUI
 
         private void calculaImportTotal()
         {
-            var imp = ntbPreuParticipacio.Valor * tbNumParticipacions.Valor;
+            decimal imp = ntbPreuParticipacio.Valor * tbNumParticipacions.Valor;
             if (comprant.GetValueOrDefault())
                 imp += tbDespeses.Valor;
             else
@@ -365,7 +297,7 @@ namespace Inversions.GUI
         protected override void modeConsulta()
         {
             base.modeConsulta();
-    
+
             gbEdicio.Visible = false;
 
             cbTipusMoviment.Enabled = true;
@@ -376,7 +308,7 @@ namespace Inversions.GUI
             gbPreuPartic.Text = "Preu Partic.";
             if (vDesaToolTipGbPreuPartic != null)
             {
-                toolTip1.SetToolTip(this.gbPreuPartic, vDesaToolTipGbPreuPartic);
+                toolTip1.SetToolTip(gbPreuPartic, vDesaToolTipGbPreuPartic);
                 vDesaToolTipGbPreuPartic = null;
             }
 
@@ -389,9 +321,9 @@ namespace Inversions.GUI
         protected override void modeEdicio()
         {
             base.modeEdicio();
-        
-            var tipusProd = gestioProductesTabMoviments._ProducteSeleccionat._TipusProducte;
-            var esUnaAccio = tipusProd == Producte.TipusProducte.Accions;
+
+            Producte.TipusProducte tipusProd = gestioProductesTabMoviments._ProducteSeleccionat._TipusProducte;
+            bool esUnaAccio = tipusProd == Producte.TipusProducte.Accions;
             var tipusMov = (TipusMoviment) cbTipusMoviment.SelectedItem;
 
             gestioProductesTabMoviments.Enabled = false;
@@ -424,14 +356,24 @@ namespace Inversions.GUI
         {
             ntbPreuParticipacioFonsCompra.Valor = tbImportTotal.Valor / tbNumParticipacionsDesti.Valor;
         }
-        
+
         private void calculaDespesesTraspas()
         {
-            var impTotalCompra = ntbPreuParticipacioFonsCompra.Valor * tbNumParticipacionsDesti.Valor;
+            decimal impTotalCompra = ntbPreuParticipacioFonsCompra.Valor * tbNumParticipacionsDesti.Valor;
 
             ntbDespeses.Valor = tbImportTotal.Valor == impTotalCompra ? 0 : tbImportTotal.Valor - impTotalCompra;
         }
 
+        private void ntbPreuParticipacioFonsCompra_Leave(object sender, EventArgs e)
+        {
+            calculaDespesesTraspas();
+        }
+
+        private void ntbPreuParticipacioFonsCompra_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+                calculaDespesesTraspas();
+        }
 
         #region *** Events ***
 
@@ -447,7 +389,7 @@ namespace Inversions.GUI
 
         private void btDesaMoviment_Click(object sender, EventArgs e)
         {
-            TipusMoviment tp = (TipusMoviment)cbTipusMoviment.SelectedItem;
+            var tp = (TipusMoviment) cbTipusMoviment.SelectedItem;
 
             if (tp == TipusMoviment.Venda && !String.IsNullOrEmpty(ntbPigVendaReal.Text) && ntbPigVendaReal.Valor == 0)
             {
@@ -496,7 +438,7 @@ namespace Inversions.GUI
                 return;
             }
 
-            var prod = gestioProductesTabMoviments._ProducteSeleccionat;
+            Producte prod = gestioProductesTabMoviments._ProducteSeleccionat;
 
             if ((tp == TipusMoviment.Venda || tp == TipusMoviment.Traspàs) && tbNumParticipacions.Valor > prod._Participacions)
             {
@@ -520,15 +462,15 @@ namespace Inversions.GUI
 
             try
             {
-                desaMoviment(tp, prod, (ProdFons)cProducteTraspas.SelectedItem);
+                desaMoviment(tp, prod, (ProdFons) cProducteTraspas.SelectedItem);
             }
             catch (Exception ex1)
             {
-                var log = Utilitats.EscriuLog(ex1, true, true);
+                FileInfo log = Utilitats.EscriuLog(ex1, true, true);
                 return;
             }
 
-            TabX.ActivaRefrescaEnTabs(this);
+            ActivaRefrescaEnTabs(this);
 
             modeConsulta();
         }
@@ -576,7 +518,7 @@ namespace Inversions.GUI
             {
                 if (e.ColumnIndex == 10 || e.ColumnIndex == 11)
                 {
-                    var prodTraspas = (Producte)dgvMovimentsProd.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                    var prodTraspas = (Producte) dgvMovimentsProd.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
                     if (prodTraspas != null)
                     {
                         gestioProductesTabMoviments.seleccionaProducte(prodTraspas);
@@ -594,7 +536,7 @@ namespace Inversions.GUI
         {
             if (cbTipusMoviment.SelectedItem != null)
             {
-                switch ((TipusMoviment)cbTipusMoviment.SelectedItem)
+                switch ((TipusMoviment) cbTipusMoviment.SelectedItem)
                 {
                     case TipusMoviment.Compra:
                         compra();
@@ -632,18 +574,73 @@ namespace Inversions.GUI
 
         #endregion *** Events ***
 
-        private void ntbPreuParticipacioFonsCompra_Leave(object sender, EventArgs e)
+        /// <summary>
+        ///     Estructura per omplir DgvCompresProducte
+        /// </summary>
+        private struct StrDgvMovimentsProd
         {
-            calculaDespesesTraspas();
+            private StrDgvMovimentsProd(Moviment moviment)
+                : this()
+            {
+                _Id = moviment.Id;
+                _Prod = moviment.Prod;
+                _Data = moviment.Data;
+                _Participacions = moviment.Participacions;
+                _PreuParticipacio = moviment.PreuParticipacio;
+                _ImportBrut = moviment.Participacions == 0 ? moviment.PreuParticipacio : moviment.Participacions * moviment.PreuParticipacio;
+                _ImportNet = _ImportBrut + (moviment._EsCompra ? moviment.Despeses.GetValueOrDefault() : -moviment.Despeses.GetValueOrDefault());
+                _CanviAplicat = moviment.CanviAplicat;
+                _Despeses = moviment.Despeses.GetValueOrDefault();
+                if (moviment.RefTraspas == null)
+                {
+                    _TipusMoviment = moviment.TipusMoviment.ToString();
+                }
+                else
+                {
+                    _TipusMoviment = (moviment.TipusMoviment == TipusMoviment.Compra ? "Traspàs C" : "Traspàs V");
 
+                    _ProducteTraspasOrigen = moviment.TipusMoviment == TipusMoviment.Compra ? moviment.RefTraspas.Prod : null;
+                    _ProducteTraspasDesti = moviment.TipusMoviment == TipusMoviment.Venda ? moviment.RefTraspas.Prod : null;
+                }
+                _Descripcio = moviment.Descripcio;
+            }
+
+
+// ReSharper disable MemberCanBePrivate.Local
+// ReSharper disable UnusedAutoPropertyAccessor.Local
+            public int _Id { get; private set; }
+
+            public string _TipusMoviment { get; private set; }
+
+            public DateTime _Data { get; private set; }
+
+            public Producte _Prod { get; private set; }
+
+            public decimal _Participacions { get; private set; }
+
+            public decimal _PreuParticipacio { get; private set; }
+
+            public decimal _ImportBrut { get; private set; }
+
+            public decimal _ImportNet { get; private set; }
+
+            public decimal _CanviAplicat { get; private set; }
+
+            public decimal _Despeses { get; private set; }
+
+            public Producte _ProducteTraspasOrigen { get; private set; }
+
+            public Producte _ProducteTraspasDesti { get; private set; }
+
+            public string _Descripcio { get; private set; }
+
+            internal static List<StrDgvMovimentsProd> CarregaStruct(IEnumerable<Moviment> movimentsProducte)
+            {
+                return movimentsProducte.Select(moviment => new StrDgvMovimentsProd(moviment)).ToList();
+            }
+
+// ReSharper restore UnusedAutoPropertyAccessor.Local
+// ReSharper restore MemberCanBePrivate.Local
         }
-
-        private void ntbPreuParticipacioFonsCompra_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == 13)
-                calculaDespesesTraspas();
-
-        }
-
     }
 }

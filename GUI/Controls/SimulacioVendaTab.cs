@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Comuns;
 using Controls;
-using DevExpress.XtraEditors.ButtonPanel;
 using Inversions.ClassesEntity;
-using Inversions.GUI.Forms;
 using Microsoft.Win32;
 
 namespace Inversions.GUI
 {
     internal struct StrDgvCompresOriginals
     {
-        private readonly DesglosCompraExt vDesglosCompra;
         private static decimal PreuParticipacioSimulacio;
         private readonly Color vBackColorPartsUtil;
+        private readonly DesglosCompraExt vDesglosCompra;
         private readonly Color vForeColorPartsUtil;
 
         public StrDgvCompresOriginals(DesglosCompraExt desglosCompra, decimal preuPart, Label etiquetaColor)
@@ -29,7 +26,6 @@ namespace Inversions.GUI
             vBackColorPartsUtil = etiquetaColor.BackColor;
             vForeColorPartsUtil = etiquetaColor.ForeColor;
         }
-
 
         #region *** Propietats per mostrar en dataGridView ***
 
@@ -84,8 +80,8 @@ namespace Inversions.GUI
         {
             get
             {
-                var costOrig = vDesglosCompra._CompraOrig.PreuParticipacio * vDesglosCompra._PartsUtilitzadesOrig;
-                var valorSim = PreuParticipacioSimulacio * vDesglosCompra._PartsUtilitzades;
+                decimal costOrig = vDesglosCompra._CompraOrig.PreuParticipacio * vDesglosCompra._PartsUtilitzadesOrig;
+                decimal valorSim = PreuParticipacioSimulacio * vDesglosCompra._PartsUtilitzades;
 
                 return valorSim - costOrig;
             }
@@ -95,8 +91,8 @@ namespace Inversions.GUI
         {
             get
             {
-                var cost = vDesglosCompra._Compra.PreuParticipacio * vDesglosCompra._PartsUtilitzades;
-                var valorSim = PreuParticipacioSimulacio * vDesglosCompra._PartsUtilitzades;
+                decimal cost = vDesglosCompra._Compra.PreuParticipacio * vDesglosCompra._PartsUtilitzades;
+                decimal valorSim = PreuParticipacioSimulacio * vDesglosCompra._PartsUtilitzades;
 
                 return valorSim - cost;
             }
@@ -111,7 +107,6 @@ namespace Inversions.GUI
 // ReSharper restore UnusedMember.Global
 
         #endregion *** Propietats per mostrar en dataGridView ***
-
 
         #region *** Mètodes sobreescrits ***
 
@@ -173,17 +168,18 @@ namespace Inversions.GUI
     public partial class SimulacioVendaTab : TabX
     {
         private const string RegImportMinimContribuent = "ImportMinimContribuent";
-        private Producte vProducteSeleccionat = null;
         private string vClauReg;
-        private bool vPendentRefrescar = false;
+        private bool vPendentRefrescar;
+        private Producte vProducteSeleccionat;
 
         public SimulacioVendaTab()
         {
             InitializeComponent();
         }
 
-
         #region *** Overrides ***
+
+        private bool vNoValidaControlsNtb;
 
         internal override void carregaInicial()
         {
@@ -193,9 +189,6 @@ namespace Inversions.GUI
             //ctrProductes.refrescaDadesControl(true);
             ctrProductes.refrescaDadesControl(null);
         }
-
-
-        private bool vNoValidaControlsNtb = false;
 
         internal override void canviUsuari()
         {
@@ -233,7 +226,6 @@ namespace Inversions.GUI
 
         #endregion *** Overrides ***
 
-
         private bool _EsAnyActual
         {
             get { return Convert.ToInt32(cbAny.SelectedItem) == DateTime.Today.Year; }
@@ -243,7 +235,7 @@ namespace Inversions.GUI
         {
             decimal tramExentAnual;
             vClauReg = Utilitats.CreaClauRegistre() + "\\" + Usuari.Seleccionat.Nom + "\\" + any;
-            var dd1 = Utilitats.LlegeixVariableRegistre(Registry.CurrentUser, vClauReg, RegImportMinimContribuent);
+            string dd1 = Utilitats.LlegeixVariableRegistre(Registry.CurrentUser, vClauReg, RegImportMinimContribuent);
             Decimal.TryParse(dd1, out tramExentAnual);
 
             return tramExentAnual;
@@ -278,18 +270,17 @@ namespace Inversions.GUI
 
             preuPart = preuPart.GetValueOrDefault(prod.ValoracionsProducte.Last().PreuParticipacio);
 
-            var desgloçPartsEnCartera = prod.desglosCompresDeParticipacionsEnData4(DateTime.Now, prod._Participacions)
+            List<DesglosCompraExt> desgloçPartsEnCartera = prod.desglosCompresDeParticipacionsEnData4(DateTime.Now, prod._Participacions)
                 .OrderBy(o => o._DataOrig).ToList();
 
-            List<StrDgvCompresOriginals> compresProdSelecionat = new List<StrDgvCompresOriginals>();
+            var compresProdSelecionat = new List<StrDgvCompresOriginals>();
 
             /* *** Salta les participacions més antigues. 
                  * És per no haver de fer un traspàs simulat per veure el PiG de les més noves */
-            var saltResten = ntbPartsSaltades.Valor;
-            var partsResten = ntbNumParticipacions.Valor;
-            foreach (var desglosCompraExt in desgloçPartsEnCartera)
+            decimal saltResten = ntbPartsSaltades.Valor;
+            decimal partsResten = ntbNumParticipacions.Valor;
+            foreach (DesglosCompraExt desglosCompraExt in desgloçPartsEnCartera)
             {
-
                 if (saltResten > 0)
                 {
                     if (desglosCompraExt._PartsUtilitzades <= saltResten)
@@ -305,10 +296,10 @@ namespace Inversions.GUI
                 }
 
                 // Deso el color de la cel·la: Parts Utils.
-                Label backColor = 
-                    partsResten == 0 ? lbVerd 
-                    : partsResten < desglosCompraExt._PartsUtilitzades ? lbTaronja
-                    : lbVermell;
+                Label backColor =
+                    partsResten == 0 ? lbVerd
+                        : partsResten < desglosCompraExt._PartsUtilitzades ? lbTaronja
+                            : lbVermell;
 
                 if (desglosCompraExt._PartsUtilitzades > partsResten)
                 {
@@ -343,16 +334,16 @@ namespace Inversions.GUI
         }
 
         /// <summary>
-        /// Calcula el valor a tributar. Si negatiu és que no s'ha arribat al límit que no tributa.
+        ///     Calcula el valor a tributar. Si negatiu és que no s'ha arribat al límit que no tributa.
         /// </summary>
         /// <returns></returns>
         private void calculaTotalATributar()
         {
-            var tramNoTributa = (ntbTramExentAnual.Valor + ntbPerduesAnysAnteriors.Valor)
-                                - (ntbPiGActual.Valor + ntbIngressosExterns.Valor + ntbDividents.Valor);
+            decimal tramNoTributa = (ntbTramExentAnual.Valor + ntbPerduesAnysAnteriors.Valor)
+                                    - (ntbPiGActual.Valor + ntbIngressosExterns.Valor + ntbDividents.Valor);
 
-            var tributaRenda = ntbPigOrigSimulacio.Valor + ntbPiGAltresProductes.Valor - tramNoTributa;
-            
+            decimal tributaRenda = ntbPigOrigSimulacio.Valor + ntbPiGAltresProductes.Valor - tramNoTributa;
+
             if (tributaRenda > 0)
             {
                 ntbRestaTramNoTributa.Valor = 0;
@@ -367,7 +358,7 @@ namespace Inversions.GUI
 
 
         /// <summary>
-        /// Son els controls que varien al canviar d'any o al refrescar.
+        ///     Son els controls que varien al canviar d'any o al refrescar.
         /// </summary>
         private void actualitzaControlsAny()
         {
@@ -382,13 +373,13 @@ namespace Inversions.GUI
         }
 
         /// <summary>
-        /// Son els controls que varien al canviar de producte.
+        ///     Son els controls que varien al canviar de producte.
         /// </summary>
         /// <param name="prod"></param>
         private void actualitzaControlsProducte(Producte prod)
         {
             vProducteSeleccionat = prod;
-            
+
             ntbNumParticipacions.Enabled = prod != null && prod._Participacions > 0;
             ntbPreuParticipacio.Enabled = prod != null && prod._Participacions > 0;
             ntbPartsSaltades.Enabled = prod != null && prod._Participacions > 0;
@@ -403,6 +394,8 @@ namespace Inversions.GUI
         }
 
         #region *** Events ***
+
+        private int vAny;
 
         private void simulacióVendaTab_Load(object sender, EventArgs e)
         {
@@ -422,7 +415,6 @@ namespace Inversions.GUI
             ntb_Validating(sender, cancel);
             if (cancel.Cancel)
                 return;
-
         }
 
         private void productes_ProducteSeleccionat(object sender, EventArgs e)
@@ -430,15 +422,13 @@ namespace Inversions.GUI
             var prod = (Producte) sender;
 
             vPendentRefrescar = prod != vProducteSeleccionat;
-           
+
             if (vPendentRefrescar)
                 actualitzaControlsProducte(prod);
 
             if (sender != null)
                 ntbNumParticipacions.Focus();
         }
-
-        private int vAny;
 
         private void cbAny_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -489,7 +479,7 @@ namespace Inversions.GUI
 
         private void ntb_Validating(object sender, CancelEventArgs e)
         {
-            var form = this.FindForm();
+            Form form = FindForm();
             if (form is Principal && ((Principal) form).SestaTancantForm)
             {
                 // S'està tancant el formulari → no validar
@@ -497,7 +487,7 @@ namespace Inversions.GUI
                 return;
             }
 
-            if(!vPendentRefrescar)
+            if (!vPendentRefrescar)
                 return;
 
             if (vNoValidaControlsNtb)
@@ -513,7 +503,7 @@ namespace Inversions.GUI
             {
                 if (ntb.Valor > vProducteSeleccionat._Participacions)
                 {
-                    MessageBox.Show("El valor és superior a les participacions disponibles. Max: " + vProducteSeleccionat._Participacions.ToString("0.000"), 
+                    MessageBox.Show("El valor és superior a les participacions disponibles. Max: " + vProducteSeleccionat._Participacions.ToString("0.000"),
                         "Avís", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     e.Cancel = true;
                     return;
@@ -521,9 +511,9 @@ namespace Inversions.GUI
 
                 if ((ntbNumParticipacions.Valor + ntbPartsSaltades.Valor) > vProducteSeleccionat._Participacions)
                 {
-                    var missatge = "La suma de 'Num, Partic.' + 'Parts Saltades' supera les participacions disponibles. " +
-                                   String.Format("Vols disminuir les participacions a: {0}?"
-                                       , ntb == ntbNumParticipacions ? "Parts saldates" : "Num Parts");
+                    string missatge = "La suma de 'Num, Partic.' + 'Parts Saltades' supera les participacions disponibles. " +
+                                      String.Format("Vols disminuir les participacions a: {0}?"
+                                          , ntb == ntbNumParticipacions ? "Parts saldates" : "Num Parts");
 
                     if (MessageBox.Show(missatge, "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
                     {
@@ -571,12 +561,12 @@ namespace Inversions.GUI
             // 1. Comprovar que estem a la columna que ens interessa
             if (dgvCompresOriginals.Columns[e.ColumnIndex].Name == "PartsUtil")
             {
-                var col = dgvCompresOriginals.Rows[e.RowIndex].Cells["_BackColorPartsUtil"].Value;
+                object col = dgvCompresOriginals.Rows[e.RowIndex].Cells["_BackColorPartsUtil"].Value;
 
                 if (dgvCompresOriginals.Rows[e.RowIndex].Cells["_BackColorPartsUtil"].Value is Color)
                 {
-                    e.CellStyle.BackColor = (Color)col;
-                    e.CellStyle.ForeColor = (Color)dgvCompresOriginals.Rows[e.RowIndex].Cells["_ForeColorPartsUtil"].Value;
+                    e.CellStyle.BackColor = (Color) col;
+                    e.CellStyle.ForeColor = (Color) dgvCompresOriginals.Rows[e.RowIndex].Cells["_ForeColorPartsUtil"].Value;
                 }
             }
         }

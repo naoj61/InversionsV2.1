@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Comuns;
-using Controls;
 using Inversions.ClassesEntity;
 using Inversions.GUI.Forms;
 
@@ -16,7 +14,7 @@ namespace Inversions.GUI
         #region ***** Estructures per DataGrids *****
 
         /// <summary>
-        /// Estructura per omplir DgvCompresProducte
+        ///     Estructura per omplir DgvCompresProducte
         /// </summary>
         private struct StrDgvCompresProducte
         {
@@ -39,11 +37,6 @@ namespace Inversions.GUI
                 _PercentPiGOrig = _PigDeLaCompraOrigen / _ImportCompraBrut;
             }
 
-            internal static IEnumerable<StrDgvCompresProducte> CarregaStruct(IEnumerable<Moviment> compres, bool ambCartera, bool ambDividends)
-            {
-                return compres.Select(compra => new StrDgvCompresProducte(compra, ambCartera, ambDividends));
-            }
-
 // ReSharper disable MemberCanBePrivate.Local
 // ReSharper disable UnusedAutoPropertyAccessor.Local
             public int _Id { get; private set; }
@@ -62,12 +55,16 @@ namespace Inversions.GUI
 
             public decimal _PercentPiGOrig { get; private set; }
 
+            internal static IEnumerable<StrDgvCompresProducte> CarregaStruct(IEnumerable<Moviment> compres, bool ambCartera, bool ambDividends)
+            {
+                return compres.Select(compra => new StrDgvCompresProducte(compra, ambCartera, ambDividends));
+            }
+
             // ReSharper restore UnusedAutoPropertyAccessor.Local
             // ReSharper restore MemberCanBePrivate.Local
         }
 
         #endregion ***** Estructures per DataGrids *****
-
 
         public PerduesGuanysTab()
         {
@@ -80,7 +77,6 @@ namespace Inversions.GUI
             InitializeContextMenu();
         }
 
-
         #region *** Variables ***
 
         private readonly Producte vProdTotal = new ProdFons();
@@ -92,7 +88,6 @@ namespace Inversions.GUI
         private Producte vProdSelAnt;
 
         #endregion *** Variables ***
-
 
         #region *** Mètodes ***
 
@@ -129,7 +124,7 @@ namespace Inversions.GUI
 
             gestioProductesTabValoracions._NomesAmbParticipacions = true;
 
-            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof(Producte.TipusProducte));
+            cbTipusProducteFiltreTab2.DataSource = Enum.GetValues(typeof (Producte.TipusProducte));
             cbTipusProducteFiltreTab2.SelectedIndex = -1;
             cbTipusProducteFiltreTab2.SelectedIndexChanged += cbTipusProducteFiltreTab2_SelectedIndexChanged;
             cbTipusProducteFiltreTab2.SelectedIndex = 0;
@@ -159,7 +154,7 @@ namespace Inversions.GUI
         }
 
         /// <summary>
-        /// S'executa si s'han canviat les dades a la BD o els filtres en la pestanya.
+        ///     S'executa si s'han canviat les dades a la BD o els filtres en la pestanya.
         /// </summary>
         private void recalculaValorsControls()
         {
@@ -177,23 +172,23 @@ namespace Inversions.GUI
 
         private void calculaPiG()
         {
-            Producte.TipusProducte tipusProducte = (Producte.TipusProducte)cbTipusProducteFiltreTab2.SelectedItem;
+            var tipusProducte = (Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem;
 
-            var ultimAny = DateTime.Today.Year;
+            int ultimAny = DateTime.Today.Year;
 
             dgvPiGAnualsTributen.Rows.Clear();
             decimal pigTotalTributa = 0;
             for (int any = Program.PrimerAny; any <= ultimAny; any++)
             {
-                var ingressosExterns = IngresExtern.Tuples.ToList().Where(w => w.Any == any && w.Usuari == Usuari.Seleccionat).Sum(s => s.Import);
+                decimal ingressosExterns = IngresExtern.Tuples.ToList().Where(w => w.Any == any && w.Usuari == Usuari.Seleccionat).Sum(s => s.Import);
 
                 // *** PiG Tributa ***
-                var pigTributa = Producte.PigTributa4(tipusProducte, any, true);
+                decimal pigTributa = Producte.PigTributa4(tipusProducte, any, true);
                 pigTotalTributa += pigTributa;
                 if (pigTributa != 0 || any == ultimAny)
                 {
                     // Hi ha vendes reals en l'any.
-                    var fila = dgvPiGAnualsTributen.Rows.Add(any, pigTributa + ingressosExterns);
+                    int fila = dgvPiGAnualsTributen.Rows.Add(any, pigTributa + ingressosExterns);
                     dgvPiGAnualsTributen.Rows[fila].Cells["colPigTributa"].Style.ForeColor = pigTributa < 0 ? Color.Red : Color.Black;
                 }
             }
@@ -219,7 +214,7 @@ namespace Inversions.GUI
                 return;
             }
 
-            var compres = StrDgvCompresProducte.CarregaStruct(prodSeleccionat.MovimentsProducteUsuari
+            List<StrDgvCompresProducte> compres = StrDgvCompresProducte.CarregaStruct(prodSeleccionat.MovimentsProducteUsuari
                 .Where(w => w._EsCompra), ckAmbCartera.Checked, ckAmbDividends.Checked).OrderBy(o => o._Data).ToList();
 
             SuspendLayout();
@@ -236,18 +231,18 @@ namespace Inversions.GUI
         }
 
         /// <summary>
-        /// Actualitza grids
+        ///     Actualitza grids
         /// </summary>
         private void actualitzaLlistaPerduesGuanys()
         {
-            var proSeleccionat = gestioProductesTabValoracions._ProducteSeleccionat;
+            Producte proSeleccionat = gestioProductesTabValoracions._ProducteSeleccionat;
 
-            var primerMovimentX = proSeleccionat.MovimentsProducteUsuari.OrderBy(o => o.Data).FirstOrDefault();
+            Moviment primerMovimentX = proSeleccionat.MovimentsProducteUsuari.OrderBy(o => o.Data).FirstOrDefault();
             if (primerMovimentX != null)
             {
                 dgvPiGProductePerAny.SuspendLayout();
 
-                Dictionary<int, decimal> anysPigTributa = new Dictionary<int, decimal>();
+                var anysPigTributa = new Dictionary<int, decimal>();
                 decimal pigTotal = 0;
                 int fila;
 
@@ -280,7 +275,7 @@ namespace Inversions.GUI
                     dgvPiGProductePerAny.Rows[fila].Cells[1].Style.ForeColor = pigTotal < 0 ? Color.Red : Color.Black;
                 }
 
-                var enCartera = proSeleccionat.pigEnCartera4(true, true);
+                decimal enCartera = proSeleccionat.pigEnCartera4(true, true);
                 fila = dgvPiGProductePerAny.Rows.Add("Cartera", enCartera);
                 dgvPiGProductePerAny.Rows[fila].Cells[1].Style.ForeColor = enCartera < 0 ? Color.Red : Color.Black;
 
@@ -304,8 +299,8 @@ namespace Inversions.GUI
             }
             else
             {
-                var pigActual = gestioProductesTabValoracions._ProducteSeleccionat.pigEnCartera4(true, true);
-                var pigCalculat = gestioProductesTabValoracions._ProducteSeleccionat
+                decimal pigActual = gestioProductesTabValoracions._ProducteSeleccionat.pigEnCartera4(true, true);
+                decimal pigCalculat = gestioProductesTabValoracions._ProducteSeleccionat
                     .pigEnCartera4(true, true, null, ntbPreuParticipacio.Valor);
 
                 ntbPiG.Valor = pigCalculat;
@@ -322,7 +317,7 @@ namespace Inversions.GUI
 
             List<Producte> productes;
 
-            switch ((Producte.TipusProducte)cbTipusProducteFiltreTab2.SelectedItem)
+            switch ((Producte.TipusProducte) cbTipusProducteFiltreTab2.SelectedItem)
             {
                 case Producte.TipusProducte.Tots:
                     productes = Producte.Tuples.ToList();
@@ -337,25 +332,25 @@ namespace Inversions.GUI
                     return;
             }
 
-            var anyDades = (int)cbAnysPiGEnCartera.SelectedItem;
+            var anyDades = (int) cbAnysPiGEnCartera.SelectedItem;
             var dataIni = new DateTime(anyDades, 1, 1);
-            var dataFi = new DateTime(anyDades + 1, 1, 1).AddTicks(-1);
+            DateTime dataFi = new DateTime(anyDades + 1, 1, 1).AddTicks(-1);
 
             // ** Selecciones només productes amb cartera i els ordena.
             productes = productes.Where(producte => producte.partsEnCartera(dataFi) > 0).OrderBy(o => o.OrdreGrid).ToList();
 
             decimal pigTotalEncartera = 0;
             dgvPiGEnCartera.Rows.Clear();
-            foreach (var prod in productes)
+            foreach (Producte prod in productes)
             {
                 //var pigProdAny = prod.pigEnAny4(anyDades, false, false) + prod.pigHistoric4(anyDades, false, true, true);
                 //var pigProdAny = prod.pigEnAny4(anyDades, false, true, true, true);
                 if (dataFi > DateTime.Now)
                     dataFi = DateTime.Now;
 
-                var pigProdAny = prod.pigEnCarteraEntreDates(dataIni, dataFi, true);
+                decimal pigProdAny = prod.pigEnCarteraEntreDates(dataIni, dataFi, true);
 
-                
+
                 if (!Utilitats.EsZero(pigProdAny))
                 {
                     int ff = dgvPiGEnCartera.Rows.Add(prod, pigProdAny);
@@ -377,7 +372,6 @@ namespace Inversions.GUI
 
         #endregion *** Mètodes ***
 
-
         #region *** Events ***
 
         private void cbTipusProducteFiltreTab2_SelectedIndexChanged(object sender, EventArgs e)
@@ -391,7 +385,7 @@ namespace Inversions.GUI
 
             if (vProdSelAnt != prodSel)
             {
-                var cursor = Cursor;
+                Cursor cursor = Cursor;
                 Cursor = Cursors.WaitCursor;
 
                 try
@@ -437,8 +431,8 @@ namespace Inversions.GUI
 
         private void btFiltreDates_Click(object sender, EventArgs e)
         {
-            var dataIni = dtpFiltreDataInici.Value.GetValueOrDefault(DateTime.MinValue);
-            var dataFi = dtpFiltreDataFi.Value.GetValueOrDefault(DateTime.Now);
+            DateTime dataIni = dtpFiltreDataInici.Value.GetValueOrDefault(DateTime.MinValue);
+            DateTime dataFi = dtpFiltreDataFi.Value.GetValueOrDefault(DateTime.Now);
 
             if (ckPiGEntreDatesNomesProdSel.Checked)
             {
@@ -461,13 +455,13 @@ namespace Inversions.GUI
             if (e.RowIndex < 0)
                 return;
 
-            var any = Convert.ToInt32(dgvPiGAnualsTributen[0, e.RowIndex].Value);
+            int any = Convert.ToInt32(dgvPiGAnualsTributen[0, e.RowIndex].Value);
 
-            IRPF trib = new IRPF(any);
+            var trib = new IRPF(any);
             trib.ShowDialog(this);
 
             if (trib._ShaModificat)
-                TabX.ActivaRefrescaEnTabs(this);
+                ActivaRefrescaEnTabs(this);
         }
 
         private void dgvCompresProducte_SelectionChanged(object sender, EventArgs e)

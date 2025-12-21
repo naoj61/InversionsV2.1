@@ -1,14 +1,11 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 namespace Inversions.ClassesEntity
 {
-    using System;
-    using System.Collections.Generic;
-
     public partial class Empresa
     {
-
         public static DbSet<Empresa> Tuples
         {
             get { return Program.Sessio.Empreses; }
@@ -16,10 +13,10 @@ namespace Inversions.ClassesEntity
 
         public static void RefrescaTaula()
         {
-            Program.Sessio.refrescaTaula(typeof(Empresa));
+            Program.Sessio.refrescaTaula(typeof (Empresa));
 
             // Fa que es recarreguin el "ICollection" de la taula.
-            var xx = Tuples.ToList();
+            List<Empresa> xx = Tuples.ToList();
         }
 
         #region Overrides
@@ -38,7 +35,7 @@ namespace Inversions.ClassesEntity
             }
 
             // If one is null,return false.
-            if ((object)a == null || (object)b == null)
+            if ((object) a == null || (object) b == null)
             {
                 return false;
             }
@@ -56,7 +53,7 @@ namespace Inversions.ClassesEntity
             if (!(obj is Empresa))
                 return false;
 
-            return this == (Empresa)obj;
+            return this == (Empresa) obj;
         }
 
         public override string ToString()
@@ -65,6 +62,5 @@ namespace Inversions.ClassesEntity
         }
 
         #endregion
-
     }
 }
