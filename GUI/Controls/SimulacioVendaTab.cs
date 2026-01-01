@@ -1,21 +1,22 @@
-﻿using System;
+﻿using Comuns;
+using Controls;
+using Inversions.ClassesEntity;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Comuns;
-using Controls;
-using Inversions.ClassesEntity;
-using Microsoft.Win32;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Inversions.GUI
 {
     internal struct StrDgvCompresOriginals
     {
         private static decimal PreuParticipacioSimulacio;
-        private readonly Color vBackColorPartsUtil;
         private readonly DesglosCompraExt vDesglosCompra;
+        private readonly Color vBackColorPartsUtil;
         private readonly Color vForeColorPartsUtil;
 
         public StrDgvCompresOriginals(DesglosCompraExt desglosCompra, decimal preuPart, Label etiquetaColor)
@@ -29,8 +30,6 @@ namespace Inversions.GUI
 
         #region *** Propietats per mostrar en dataGridView ***
 
-// ReSharper disable UnusedMember.Global
-// ReSharper disable MemberCanBePrivate.Global
         public int _Id
         {
             get { return vDesglosCompra._Compra.Id; }
@@ -66,14 +65,25 @@ namespace Inversions.GUI
             get { return vDesglosCompra._PartsUtilitzades; }
         }
 
-        public Color _BackColorPartsUtil
+        internal Color _BackColorPartsUtil
         {
             get { return vBackColorPartsUtil; }
         }
 
-        public Color _ForeColorPartsUtil
+        internal Color _ForeColorPartsUtil
         {
             get { return vForeColorPartsUtil; }
+        }
+
+        public decimal _PigDeLaCompraOrigenTot
+        {
+            get
+            {
+                decimal costOrig = vDesglosCompra._CompraOrig.PreuParticipacio * vDesglosCompra._ParticipacionsOrig;
+                decimal valorSim = PreuParticipacioSimulacio * vDesglosCompra._Participacions;
+
+                return valorSim - costOrig;
+            }
         }
 
         public decimal _PigDeLaCompraOrigen
@@ -102,9 +112,6 @@ namespace Inversions.GUI
         {
             get { return PreuParticipacioSimulacio * vDesglosCompra._PartsUtilitzades; }
         }
-
-// ReSharper restore MemberCanBePrivate.Global
-// ReSharper restore UnusedMember.Global
 
         #endregion *** Propietats per mostrar en dataGridView ***
 
@@ -175,6 +182,8 @@ namespace Inversions.GUI
         public SimulacioVendaTab()
         {
             InitializeComponent();
+
+            dgvCompresOriginals.AutoGenerateColumns = false;
         }
 
         #region *** Overrides ***
@@ -380,11 +389,16 @@ namespace Inversions.GUI
         {
             vProducteSeleccionat = prod;
 
-            ntbNumParticipacions.Enabled = prod != null && prod._Participacions > 0;
-            ntbPreuParticipacio.Enabled = prod != null && prod._Participacions > 0;
-            ntbPartsSaltades.Enabled = prod != null && prod._Participacions > 0;
+            var ctrlActivat = prod != null && prod._Participacions > 0;
 
-            ntbNumParticipacions.Valor = prod == null ? 0 : prod._Participacions;
+            ntbNumParticipacions.Enabled = ctrlActivat;
+            ntbPreuParticipacio.Enabled = ctrlActivat;
+            ntbPartsSaltades.Enabled = ctrlActivat;
+            btMaxPartsNoTributa.Enabled = ctrlActivat;
+            btMaxParts .Enabled = ctrlActivat;
+
+            //ntbNumParticipacions.Valor = prod == null ? 0 : prod._Participacions;
+            ntbNumParticipacions.Valor = 0;
             ntbPreuParticipacio.Valor = prod == null ? 0 : prod.ValoracionsProducte.Last().PreuParticipacio;
 
             ntbPartsSaltades.Valor = 0;
@@ -548,6 +562,11 @@ namespace Inversions.GUI
             ompleDgvCompres(vProducteSeleccionat, ntbPreuParticipacio.Valor);
         }
 
+        private void ntb_TextChanged(object sender, EventArgs e)
+        {
+            vPendentRefrescar = true;
+        }
+
         private void dgvCompresOriginals_SelectionChanged(object sender, EventArgs e)
         {
             ntbNumPartsSelect.Valor = dgvCompresOriginals
@@ -561,21 +580,52 @@ namespace Inversions.GUI
             // 1. Comprovar que estem a la columna que ens interessa
             if (dgvCompresOriginals.Columns[e.ColumnIndex].Name == "PartsUtil")
             {
-                object col = dgvCompresOriginals.Rows[e.RowIndex].Cells["_BackColorPartsUtil"].Value;
-
-                if (dgvCompresOriginals.Rows[e.RowIndex].Cells["_BackColorPartsUtil"].Value is Color)
-                {
-                    e.CellStyle.BackColor = (Color) col;
-                    e.CellStyle.ForeColor = (Color) dgvCompresOriginals.Rows[e.RowIndex].Cells["_ForeColorPartsUtil"].Value;
-                }
+                var item = (StrDgvCompresOriginals)dgvCompresOriginals.Rows[e.RowIndex].DataBoundItem;
+                e.CellStyle.BackColor = item._BackColorPartsUtil;
+                e.CellStyle.ForeColor = item._ForeColorPartsUtil;
             }
         }
 
-        private void ntb_TextChanged(object sender, EventArgs e)
+        #endregion *** Events ***
+
+        private void btMaxPartsNoTributa_Click(object sender, EventArgs e)
         {
-            vPendentRefrescar = true;
+            if (vProducteSeleccionat != null)
+            {
+                var restaNoTributa = ntbRestaTramNoTributa.Valor;
+                decimal numParts = 0;
+
+                foreach (DataGridViewRow fila in dgvCompresOriginals.Rows)
+                {
+                    var filaStruc = (StrDgvCompresOriginals) fila.DataBoundItem;
+                    var pigOrigTotal = filaStruc._PigDeLaCompraOrigenTot;
+                    
+                    if (restaNoTributa > pigOrigTotal)
+                    {
+                        restaNoTributa -= pigOrigTotal;
+                        numParts += filaStruc._Participacions;
+                    }
+                    else
+                    {
+                        numParts += filaStruc._Participacions / pigOrigTotal * restaNoTributa;
+                        break;
+                    }
+                }
+
+                ntbNumParticipacions.Valor = Math.Round(numParts, 3);
+
+                vPendentRefrescar = true;
+                ompleDgvCompres(vProducteSeleccionat, ntbPreuParticipacio.Valor);
+            }
         }
 
-        #endregion *** Events ***
+        private void btMaxParts_Click(object sender, EventArgs e)
+        {
+            ntbNumParticipacions.Valor = Math.Round(vProducteSeleccionat._Participacions, 3);
+
+            vPendentRefrescar = true;
+            ompleDgvCompres(vProducteSeleccionat, ntbPreuParticipacio.Valor);
+
+        }
     }
 }
