@@ -5,143 +5,11 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Inversions.GUI
 {
-    internal struct StrDgvCompresOriginals
-    {
-        private static decimal PreuParticipacioSimulacio;
-        private readonly DesglosCompraExt vDesglosCompra;
-        private readonly Color vBackColorPartsUtil;
-        private readonly Color vForeColorPartsUtil;
-
-        public StrDgvCompresOriginals(DesglosCompraExt desglosCompra, decimal preuPart, Label etiquetaColor)
-            : this()
-        {
-            vDesglosCompra = desglosCompra;
-            PreuParticipacioSimulacio = preuPart;
-            vBackColorPartsUtil = etiquetaColor.BackColor;
-            vForeColorPartsUtil = etiquetaColor.ForeColor;
-        }
-
-        #region *** Propietats per mostrar en dataGridView ***
-
-        public int _Id
-        {
-            get { return vDesglosCompra._Compra.Id; }
-        }
-
-        public int _IdOrig
-        {
-            get { return vDesglosCompra._CompraOrig.Id; }
-        }
-
-        public string _FonsOrig
-        {
-            get { return vDesglosCompra._CompraOrig.Prod._NomProducte; }
-        }
-
-        public DateTime _DataOrig
-        {
-            get { return vDesglosCompra._CompraOrig.Data; }
-        }
-
-        public DateTime _DataCompra
-        {
-            get { return vDesglosCompra._Compra.Data; }
-        }
-
-        public decimal _Participacions
-        {
-            get { return vDesglosCompra._Participacions; }
-        }
-
-        public decimal _ParticipacionsUtilitzades
-        {
-            get { return vDesglosCompra._PartsUtilitzades; }
-        }
-
-        internal Color _BackColorPartsUtil
-        {
-            get { return vBackColorPartsUtil; }
-        }
-
-        internal Color _ForeColorPartsUtil
-        {
-            get { return vForeColorPartsUtil; }
-        }
-
-        public decimal _PigDeLaCompraOrigenTot
-        {
-            get
-            {
-                decimal costOrig = vDesglosCompra._CompraOrig.PreuParticipacio * vDesglosCompra._ParticipacionsOrig;
-                decimal valorSim = PreuParticipacioSimulacio * vDesglosCompra._Participacions;
-
-                return valorSim - costOrig;
-            }
-        }
-
-        public decimal _PigDeLaCompraOrigen
-        {
-            get
-            {
-                decimal costOrig = vDesglosCompra._CompraOrig.PreuParticipacio * vDesglosCompra._PartsUtilitzadesOrig;
-                decimal valorSim = PreuParticipacioSimulacio * vDesglosCompra._PartsUtilitzades;
-
-                return valorSim - costOrig;
-            }
-        }
-
-        public decimal _PigDeLaCompra
-        {
-            get
-            {
-                decimal cost = vDesglosCompra._Compra.PreuParticipacio * vDesglosCompra._PartsUtilitzades;
-                decimal valorSim = PreuParticipacioSimulacio * vDesglosCompra._PartsUtilitzades;
-
-                return valorSim - cost;
-            }
-        }
-
-        public decimal _ValorActual
-        {
-            get { return PreuParticipacioSimulacio * vDesglosCompra._PartsUtilitzades; }
-        }
-
-        #endregion *** Propietats per mostrar en dataGridView ***
-
-        #region *** Mètodes sobreescrits ***
-
-        public static bool operator ==(StrDgvCompresOriginals a, StrDgvCompresOriginals b)
-        {
-            return a._IdOrig == b._IdOrig;
-        }
-
-        public static bool operator !=(StrDgvCompresOriginals a, StrDgvCompresOriginals b)
-        {
-            return !(a == b);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (!(obj is StrDgvCompresOriginals))
-                return false;
-
-            return _IdOrig == ((StrDgvCompresOriginals) obj)._IdOrig;
-        }
-
-        public override int GetHashCode()
-        {
-            return _IdOrig;
-        }
-
-        #endregion *** Mètodes sobreescrits ***
-    }
 
     /*
     * *** Van amb l'any --> Si canvia l'any inicialitzar la resta ***
@@ -184,6 +52,8 @@ namespace Inversions.GUI
             InitializeComponent();
 
             dgvCompresOriginals.AutoGenerateColumns = false;
+
+            SimulacioVendaTabDgv.Inicialitza(this);
         }
 
         #region *** Overrides ***
@@ -218,7 +88,7 @@ namespace Inversions.GUI
             base.refresca();
 
             actualitzaControlsAny();
-            ompleDgvCompres(vProducteSeleccionat, ntbPreuParticipacio.Valor);
+            carregaNouProducte(vProducteSeleccionat, ntbPreuParticipacio.Valor);
         }
 
         internal override void obrePestanya(Producte prod)
@@ -228,7 +98,7 @@ namespace Inversions.GUI
 
         internal override void escape(object sender, KeyEventArgs e)
         {
-            if (!(((SimulacioVendaTab) ((Form) sender).ActiveControl).ActiveControl is NumericTextBox2))
+            if (!(((SimulacioVendaTab)((Form)sender).ActiveControl).ActiveControl is NumericTextBox2))
                 // Si el control actiu és del tipus NumericTextBox2, no es crida a "base.escape" per evitar que s'executi "refresca()".
                 base.escape(sender, e);
         }
@@ -256,7 +126,7 @@ namespace Inversions.GUI
             return Program.Sessio.IngressosExterns.Where(w => w.Usuari.Id == Usuari.Seleccionat.Id && w.Any == any).ToList().Sum(s => s.Import);
         }
 
-        private void ompleDgvCompres(Producte prod, decimal? preuPart = null)
+        private void carregaNouProducte(Producte prod, decimal? preuPart = null)
         {
             if (vPendentRefrescar)
                 vPendentRefrescar = false;
@@ -265,7 +135,8 @@ namespace Inversions.GUI
 
             if (prod == null)
             {
-                dgvCompresOriginals.DataSource = new List<StrDgvCompresOriginals>();
+                dgvCompresOriginals.DataSource = new BindingList<SimulacioVendaTabDgv>();
+
 
                 ntbImportBrut.Valor = 0;
                 ntbPigSimulacio.Valor = 0;
@@ -279,59 +150,31 @@ namespace Inversions.GUI
 
             preuPart = preuPart.GetValueOrDefault(prod.ValoracionsProducte.Last().PreuParticipacio);
 
-            List<DesglosCompraExt> desgloçPartsEnCartera = prod.desglosCompresDeParticipacionsEnData4(DateTime.Now, prod._Participacions)
-                .OrderBy(o => o._DataOrig).ToList();
+            SimulacioVendaTabDgv.CarregaProducte(prod);
+            //SimulacioVendaTabDgv.ModificaValors(ntbPreuParticipacio.Valor, ntbPartsSaltades.Valor, ntbNumParticipacions.Valor);
 
-            var compresProdSelecionat = new List<StrDgvCompresOriginals>();
+            ompleDgvCompres();
+        }
 
-            /* *** Salta les participacions més antigues. 
-                 * És per no haver de fer un traspàs simulat per veure el PiG de les més noves */
-            decimal saltResten = ntbPartsSaltades.Valor;
-            decimal partsResten = ntbNumParticipacions.Valor;
-            foreach (DesglosCompraExt desglosCompraExt in desgloçPartsEnCartera)
-            {
-                if (saltResten > 0)
-                {
-                    if (desglosCompraExt._PartsUtilitzades <= saltResten)
-                    {
-                        saltResten -= desglosCompraExt._PartsUtilitzades;
-                        desglosCompraExt._PartsUtilitzades = 0;
-                    }
-                    else
-                    {
-                        desglosCompraExt._PartsUtilitzades -= saltResten;
-                        saltResten = 0;
-                    }
-                }
 
-                // Deso el color de la cel·la: Parts Utils.
-                Label backColor =
-                    partsResten == 0 ? lbVerd
-                        : partsResten < desglosCompraExt._PartsUtilitzades ? lbTaronja
-                            : lbVermell;
-
-                if (desglosCompraExt._PartsUtilitzades > partsResten)
-                {
-                    desglosCompraExt._PartsUtilitzades = partsResten;
-                    compresProdSelecionat.Add(new StrDgvCompresOriginals(desglosCompraExt, preuPart.Value, backColor));
-                    partsResten = 0;
-                }
-                else
-                {
-                    compresProdSelecionat.Add(new StrDgvCompresOriginals(desglosCompraExt, preuPart.Value, backColor));
-                    partsResten -= desglosCompraExt._PartsUtilitzades;
-                }
-            }
-
+        void ompleDgvCompres()
+        {
             SuspendLayout();
 
-            ntbImportBrut.Valor = ntbNumParticipacions.Valor * preuPart.Value;
-            ntbPigSimulacio.Valor = compresProdSelecionat.Sum(s => s._PigDeLaCompra);
-            ntbPigOrigSimulacio.Valor = compresProdSelecionat.Sum(s => s._PigDeLaCompraOrigen);
+            ntbImportBrut.Valor = ntbNumParticipacions.Valor * ntbPreuParticipacio.Valor;
+
+            ntbPigSimulacio.Valor = SimulacioVendaTabDgv._LCompresOriginals.Sum(s => s._PigDeLaCompra);
+            ntbPigOrigSimulacio.Valor = SimulacioVendaTabDgv._LCompresOriginals.Sum(s => s._PigDeLaCompraOrigen);
 
             dgvCompresOriginals.SuspendLayout();
             dgvCompresOriginals.SelectionChanged -= dgvCompresOriginals_SelectionChanged;
-            dgvCompresOriginals.DataSource = compresProdSelecionat.OrderBy(o => o._DataOrig).ToList();
+
+            //BindingSource bindingSource = new BindingSource();
+            //bindingSource.DataSource = SimulacioVendaTabDgv._LCompresOriginals.OrderBy(o => o._DataOrig).ToList();
+            //dgvCompresOriginals.DataSource = bindingSource;
+
+            //dgvCompresOriginals.DataSource = SimulacioVendaTabDgv._LCompresOriginals.OrderBy(o => o._DataOrig).ToList();
+
             dgvCompresOriginals.ClearSelection();
             dgvCompresOriginals.SelectionChanged += dgvCompresOriginals_SelectionChanged;
             dgvCompresOriginals.ResumeLayout();
@@ -395,7 +238,7 @@ namespace Inversions.GUI
             ntbPreuParticipacio.Enabled = ctrlActivat;
             ntbPartsSaltades.Enabled = ctrlActivat;
             btMaxPartsNoTributa.Enabled = ctrlActivat;
-            btMaxParts .Enabled = ctrlActivat;
+            btMaxParts.Enabled = ctrlActivat;
 
             //ntbNumParticipacions.Valor = prod == null ? 0 : prod._Participacions;
             ntbNumParticipacions.Valor = 0;
@@ -404,7 +247,7 @@ namespace Inversions.GUI
             ntbPartsSaltades.Valor = 0;
             ntbTributaRenda.Valor = 0;
 
-            ompleDgvCompres(prod);
+            carregaNouProducte(prod);
         }
 
         #region *** Events ***
@@ -433,7 +276,7 @@ namespace Inversions.GUI
 
         private void productes_ProducteSeleccionat(object sender, EventArgs e)
         {
-            var prod = (Producte) sender;
+            var prod = (Producte)sender;
 
             vPendentRefrescar = prod != vProducteSeleccionat;
 
@@ -478,7 +321,7 @@ namespace Inversions.GUI
 
         private void ntb_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char) Keys.Enter)
+            if (e.KeyChar == (char)Keys.Enter)
             {
                 var cancel = new CancelEventArgs();
                 ntb_Validating(sender, cancel);
@@ -487,14 +330,14 @@ namespace Inversions.GUI
                     e.Handled = true;
                     return;
                 }
-                ((NumericTextBox2) sender).SelectAll();
+                ((NumericTextBox2)sender).SelectAll();
             }
         }
 
         private void ntb_Validating(object sender, CancelEventArgs e)
         {
             Form form = FindForm();
-            if (form is Principal && ((Principal) form).SestaTancantForm)
+            if (form is Principal && ((Principal)form).SestaTancantForm)
             {
                 // S'està tancant el formulari → no validar
                 e.Cancel = false;
@@ -511,7 +354,7 @@ namespace Inversions.GUI
                 return;
             }
 
-            var ntb = (NumericTextBox2) sender;
+            var ntb = (NumericTextBox2)sender;
 
             if (ntb == ntbNumParticipacions || ntb == ntbPartsSaltades)
             {
@@ -559,7 +402,7 @@ namespace Inversions.GUI
                 }
             }
 
-            ompleDgvCompres(vProducteSeleccionat, ntbPreuParticipacio.Valor);
+            carregaNouProducte(vProducteSeleccionat, ntbPreuParticipacio.Valor);
         }
 
         private void ntb_TextChanged(object sender, EventArgs e)
@@ -567,20 +410,22 @@ namespace Inversions.GUI
             vPendentRefrescar = true;
         }
 
-        private void dgvCompresOriginals_SelectionChanged(object sender, EventArgs e)
+        public void dgvCompresOriginals_SelectionChanged(object sender, EventArgs e)
         {
             ntbNumPartsSelect.Valor = dgvCompresOriginals
                 .SelectedRows
                 .Cast<DataGridViewRow>()
-                .Sum(selectedRow => (decimal) selectedRow.Cells["PartsUtil"].Value);
+                .Sum(selectedRow => (decimal)selectedRow.Cells["PartsUtil"].Value);
         }
+
 
         private void dgvCompresOriginals_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             // 1. Comprovar que estem a la columna que ens interessa
             if (dgvCompresOriginals.Columns[e.ColumnIndex].Name == "PartsUtil")
             {
-                var item = (StrDgvCompresOriginals)dgvCompresOriginals.Rows[e.RowIndex].DataBoundItem;
+                var item = (SimulacioVendaTabDgv)dgvCompresOriginals.Rows[e.RowIndex].DataBoundItem;
+                var id = item._Id;
                 e.CellStyle.BackColor = item._BackColorPartsUtil;
                 e.CellStyle.ForeColor = item._ForeColorPartsUtil;
             }
@@ -590,6 +435,12 @@ namespace Inversions.GUI
 
         private void btMaxPartsNoTributa_Click(object sender, EventArgs e)
         {
+            ntbNumParticipacions.Valor = SimulacioVendaTabDgv.CalculaParticipacionsPerLimitExent(ntbRestaTramNoTributa.Valor);
+            vPendentRefrescar = true;
+            //dgvCompresOriginals.Refresh();
+
+            return;
+
             if (vProducteSeleccionat != null)
             {
                 var restaNoTributa = ntbRestaTramNoTributa.Valor;
@@ -597,13 +448,13 @@ namespace Inversions.GUI
 
                 foreach (DataGridViewRow fila in dgvCompresOriginals.Rows)
                 {
-                    var filaStruc = (StrDgvCompresOriginals) fila.DataBoundItem;
+                    var filaStruc = (SimulacioVendaTabDgv)fila.DataBoundItem;
                     var pigOrigTotal = filaStruc._PigDeLaCompraOrigenTot;
-                    
+
                     if (restaNoTributa > pigOrigTotal)
                     {
                         restaNoTributa -= pigOrigTotal;
-                        numParts += filaStruc._Participacions;
+                        numParts += filaStruc._PartsDisp;
                     }
                     else
                     {
@@ -612,10 +463,14 @@ namespace Inversions.GUI
                     }
                 }
 
+                // 28-Euro Fund A-2 Acc -> Num Parts=24,46665
+
                 ntbNumParticipacions.Valor = Math.Round(numParts, 3);
 
                 vPendentRefrescar = true;
-                ompleDgvCompres(vProducteSeleccionat, ntbPreuParticipacio.Valor);
+                //ompleDgvCompres(vProducteSeleccionat, ntbPreuParticipacio.Valor);
+                SimulacioVendaTabDgv.ModificaValors(ntbPreuParticipacio.Valor, ntbPartsSaltades.Valor, ntbNumParticipacions.Valor);
+                ompleDgvCompres();
             }
         }
 
@@ -624,8 +479,10 @@ namespace Inversions.GUI
             ntbNumParticipacions.Valor = Math.Round(vProducteSeleccionat._Participacions, 3);
 
             vPendentRefrescar = true;
-            ompleDgvCompres(vProducteSeleccionat, ntbPreuParticipacio.Valor);
+            SimulacioVendaTabDgv.ModificaValors(ntbPreuParticipacio.Valor, ntbPartsSaltades.Valor, ntbNumParticipacions.Valor);
+            ompleDgvCompres();
 
+            //carregaNouProducte(vProducteSeleccionat, ntbPreuParticipacio.Valor);
         }
     }
 }
