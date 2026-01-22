@@ -17,29 +17,26 @@ namespace Inversions.GUI
             static SimulacioVendaTab RefSimulacioVendaTab;
             private static Producte Producte;
 
-            private static BindingList<SimulacioVendaTabDgv> LlistaCompresOriginals = new BindingList<SimulacioVendaTabDgv>();
+            private static BindingList<SimulacioVendaTabDgv> LlistaCompresOriginals;
             private static BindingSource BsDgvCompresOriginals;
             private static decimal PreuParticipacioSimulacio;
 
             private readonly DesglosCompraExt vDesglosCompra;
-            private Label vEtiquetaColorColor;
 
 
-            #region *** Constructors ***
+            #region *** Mètodes statics ***
 
             /// <summary>
-            /// Inicialitza les etiquetes de colors per a les parts utilitzades.
+            /// Desa la referencia a: SimulacioVendaTab.
             /// </summary>
-            /// <param name="totLliure"></param>
-            /// <param name="parcialLliure"></param>
-            /// <param name="totPle"></param>
-            internal static void Inicialitza(SimulacioVendaTab ss)
+            /// <param name="refSimulacioVendaTab"></param>
+            internal static void Inicialitza(SimulacioVendaTab refSimulacioVendaTab)
             {
-                RefSimulacioVendaTab = ss;
+                RefSimulacioVendaTab = refSimulacioVendaTab;
             }
 
             /// <summary>
-            /// Carrega el producte.
+            /// Carrega el DgvCompresOriginals amb el producte.
             /// </summary>
             /// <param name="prod"></param>
             internal static void CarregaProducte(Producte prod)
@@ -56,22 +53,22 @@ namespace Inversions.GUI
 
                 foreach (DesglosCompraExt desglosCompra in desgloçPartsEnCartera)
                 {
-                    desglosCompra._PartsUtilitzades = 0;
-                    LlistaCompresOriginals.Add(new SimulacioVendaTabDgv(desglosCompra, RefSimulacioVendaTab.lbTotLliure));
+                    LlistaCompresOriginals.Add(new SimulacioVendaTabDgv(desglosCompra));
                 }
 
                 BsDgvCompresOriginals = new BindingSource();
                 BsDgvCompresOriginals.DataSource = _LCompresOriginals;
-                _DgvCompresOriginals.DataSource = BsDgvCompresOriginals;
+                _DgvCompresOriginals.DataSource = null;
 
-                foreach (DataGridViewColumn col in _DgvCompresOriginals.Columns) 
-                {
-                    if (col.AutoSizeMode == DataGridViewAutoSizeColumnMode.AllCellsExceptHeader)
-                        _DgvCompresOriginals
-                            .AutoResizeColumn(col.Index, DataGridViewAutoSizeColumnMode.AllCellsExceptHeader);
-                }
+                OmpleDataGrid(0, 0);
+
+                //foreach (DataGridViewColumn col in _DgvCompresOriginals.Columns)
+                //{
+                //    if (col.AutoSizeMode == DataGridViewAutoSizeColumnMode.AllCellsExceptHeader)
+                //        _DgvCompresOriginals
+                //            .AutoResizeColumn(col.Index, DataGridViewAutoSizeColumnMode.AllCellsExceptHeader);
+                //}
             }
-
 
 
             /// <summary>
@@ -117,24 +114,22 @@ namespace Inversions.GUI
                         }
                     }
 
-                    // Deso el color de la cel·la: Parts Utils.
-                    Label labelColor = partsResten == 0 ? RefSimulacioVendaTab.lbTotLliure
-                            : partsResten < desglosCompra._PartsUtilitzades ? RefSimulacioVendaTab.lbParcialLliure 
-                            : RefSimulacioVendaTab.lbTotPle;
-
                     if (desglosCompra._PartsUtilitzades > partsResten)
                     {
                         desglosCompra._PartsUtilitzades = partsResten;
-                        LlistaCompresOriginals.Add(new SimulacioVendaTabDgv(desglosCompra, labelColor));
+                        LlistaCompresOriginals.Add(new SimulacioVendaTabDgv(desglosCompra));
                         partsResten = 0;
                     }
                     else
                     {
-                        LlistaCompresOriginals.Add(new SimulacioVendaTabDgv(desglosCompra, labelColor));
+                        LlistaCompresOriginals.Add(new SimulacioVendaTabDgv(desglosCompra));
                         partsResten -= desglosCompra._PartsUtilitzades;
                     }
                 }
             }
+
+            #endregion *** Mètodes statics ***
+
 
             /// <summary>
             /// Inicialitza una nova instància de la classe SimulacioVendaTabDgv amb el desglossament de la compra i l'etiqueta especificats
@@ -142,13 +137,10 @@ namespace Inversions.GUI
             /// </summary>
             /// <param name="desglosCompra">Les dades del desglossament de la compra que s'utilitzaran per a la inicialització. No pot ser nul.</param>
             /// <param name="etiquetaColor">L'etiqueta els colors de fons i primer pla de la qual s'utilitzen per establir l'esquema de colors inicial. No pot ser nul.</param>
-            private SimulacioVendaTabDgv(DesglosCompraExt desglosCompra, Label etiquetaColor)
+            private SimulacioVendaTabDgv(DesglosCompraExt desglosCompra)
             {
                 vDesglosCompra = desglosCompra;
-                vEtiquetaColorColor = etiquetaColor;
             }
-
-            #endregion *** Constructors ***
 
 
             public event PropertyChangedEventHandler PropertyChanged;
@@ -159,53 +151,103 @@ namespace Inversions.GUI
                     handler(this, new PropertyChangedEventArgs(propietat));
             }
 
-            // Todo: Revisar aquest càlcul perquè no funciona be..
-            internal static decimal CalculaParticipacionsPerLimitExent(decimal restaNoTributa)
+            internal static decimal CalculaPartPerLimitExent(decimal restaNoTributa, decimal saltaParts)
             {
-                _DgvCompresOriginals.SuspendLayout();
-
                 foreach (SimulacioVendaTabDgv fila in BsDgvCompresOriginals)
                 {
                     fila.vDesglosCompra._PartsUtilitzades = 0;
                 }
 
-                decimal numParts = 0;
+                decimal partsPerLimit = 0;
+                decimal saltaPartsLocal = saltaParts;
 
                 foreach (SimulacioVendaTabDgv fila in BsDgvCompresOriginals)
                 {
-                    var pigOrigTotal = fila._PigOrigenDisponible;
+                    var partsDisp = fila._PartsDisp;
 
-                    if (restaNoTributa > pigOrigTotal)
+                    // Salta parts si cal
+                    if (saltaPartsLocal > 0)
                     {
-                        restaNoTributa -= pigOrigTotal;
-                        numParts += fila._PartsDisp;
+                        if (partsDisp <= saltaPartsLocal)
+                        {
+                            saltaPartsLocal -= partsDisp;
+                            continue;
+                        }
+                        else
+                        {
+                            partsDisp -= saltaPartsLocal;
+                            saltaPartsLocal = 0;
+                        }
+                    }
+
+                    var pigOrigDisp = fila._PigOrigenDisponible / fila._PartsDisp * partsDisp;
+
+                    if (restaNoTributa > pigOrigDisp)
+                    {
+                        restaNoTributa -= pigOrigDisp;
+                        partsPerLimit += fila._PartsDisp;
                     }
                     else
                     {
-                        numParts += fila._Participacions / pigOrigTotal * restaNoTributa;
+                        partsPerLimit += fila._Participacions / pigOrigDisp * restaNoTributa;
                         break;
                     }
                 }
-                // 28-Euro Fund A-2 Acc -> Num Parts = 24,46665
 
+                OmpleDataGrid(partsPerLimit, saltaParts);
 
-                var nParts = numParts;
+                return partsPerLimit;
+            }
+
+            internal static void OmpleDataGrid(decimal parts, decimal saltaParts)
+            {
+                _DgvCompresOriginals.SuspendLayout();
+
+                if (_DgvCompresOriginals.DataSource == null)
+                    _DgvCompresOriginals.DataSource = BsDgvCompresOriginals;
+
+                // Primer posa a zero les partsUtilitzades.
+                foreach (SimulacioVendaTabDgv fila in BsDgvCompresOriginals)
+                {
+                    fila.vDesglosCompra._PartsUtilitzades = 0;
+                }
+
+                // Ara assigna els partsPerLimit calculats
+                var nParts = parts;
+                var saltaPartsLocal = saltaParts;
 
                 foreach (SimulacioVendaTabDgv fila in BsDgvCompresOriginals)
                 {
-                    if (fila.vDesglosCompra._PartsDisponibles >= nParts)
+                    var partsDisp = fila._PartsDisp;
+
+                    // Salta parts si cal
+                    if (saltaPartsLocal > 0)
+                    {
+                        if (partsDisp <= saltaPartsLocal)
+                        {
+                            fila.vDesglosCompra._PartsOcupades += partsDisp;
+                            saltaPartsLocal -= partsDisp;
+                            continue;
+                        }
+                        else
+                        {
+                            fila.vDesglosCompra._PartsOcupades += saltaPartsLocal;
+                            partsDisp -= saltaPartsLocal;
+                            saltaPartsLocal = 0;
+                        }
+                    }
+
+                    if (nParts <= partsDisp)
                     {
                         fila.vDesglosCompra._PartsUtilitzades += nParts; // Més parts utilitzades, menys disponibles.
-                        fila.vEtiquetaColorColor = RefSimulacioVendaTab.lbParcialLliure;
                         nParts = 0;
                     }
-                    else
+                    else 
                     {
-                        var pDisp = fila.vDesglosCompra._PartsDisponibles;
-                        fila.vDesglosCompra._PartsUtilitzades += pDisp; // Més parts utilitzades, menys disponibles.
-                        fila.vEtiquetaColorColor = RefSimulacioVendaTab.lbTotPle;
-                        nParts -= pDisp;
+                        fila.vDesglosCompra._PartsUtilitzades += partsDisp; // Més parts utilitzades, menys disponibles.
+                        nParts -= partsDisp;
                     }
+                   
 
                     // Indica que ha de redibuixar la fila
                     var indexFila = BsDgvCompresOriginals.IndexOf(fila);
@@ -220,18 +262,13 @@ namespace Inversions.GUI
                     _DgvCompresOriginals.InvalidateRow(indexFila);
 
                     //fila.OnPropertyChanged("_ParticipacionsUtilitzades");
-
-                    if (nParts == 0)
-                        break;
                 }
 
                 //_DgvCompresOriginals.Refresh();
                 _DgvCompresOriginals.ClearSelection();
                 _DgvCompresOriginals.ResumeLayout();
-
-                return Math.Round(numParts, 3);
             }
-            
+
 
             private static DataGridView _DgvCompresOriginals
             {
@@ -241,16 +278,6 @@ namespace Inversions.GUI
             internal static BindingList<SimulacioVendaTabDgv> _LCompresOriginals
             {
                 get { return LlistaCompresOriginals; }
-            }
-
-            internal Color _BackColorPartsUtil
-            {
-                get { return vEtiquetaColorColor.BackColor; }
-            }
-
-            internal Color _ForeColorPartsUtil
-            {
-                get { return vEtiquetaColorColor.ForeColor; }
             }
 
 
@@ -354,12 +381,12 @@ namespace Inversions.GUI
 
             public static bool operator ==(SimulacioVendaTabDgv a, SimulacioVendaTabDgv b)
             {
-                if (ReferenceEquals(a, b)) 
-                    return true; 
-                
-                if ((object)a == null || (object)b == null) 
-                    return false; 
-                
+                if (ReferenceEquals(a, b))
+                    return true;
+
+                if ((object)a == null || (object)b == null)
+                    return false;
+
                 return a.Equals(b);
             }
 
@@ -382,11 +409,12 @@ namespace Inversions.GUI
 
             public override int GetHashCode()
             {
-                unchecked { 
-                    int hash = 17; 
-                    hash = hash * 23 + _Id.GetHashCode(); 
-                    hash = hash * 23 + _IdOrig.GetHashCode(); 
-                    return hash; 
+                unchecked
+                {
+                    int hash = 17;
+                    hash = hash * 23 + _Id.GetHashCode();
+                    hash = hash * 23 + _IdOrig.GetHashCode();
+                    return hash;
                 }
             }
 

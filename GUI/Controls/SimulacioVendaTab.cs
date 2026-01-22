@@ -87,6 +87,8 @@ namespace Inversions.GUI
         {
             base.refresca();
 
+            vPendentRefrescar = true;
+
             actualitzaControlsAny();
             carregaNouProducte(vProducteSeleccionat, ntbPreuParticipacio.Valor);
         }
@@ -132,6 +134,10 @@ namespace Inversions.GUI
                 vPendentRefrescar = false;
             else
                 return;
+
+            SimulacioVendaTabDgv.CarregaProducte(prod);
+
+            return;
 
             if (prod == null)
             {
@@ -402,7 +408,9 @@ namespace Inversions.GUI
                 }
             }
 
-            carregaNouProducte(vProducteSeleccionat, ntbPreuParticipacio.Valor);
+            SimulacioVendaTabDgv.OmpleDataGrid(ntbNumParticipacions.Valor, ntbPartsSaltades.Valor);
+
+            //carregaNouProducte(vProducteSeleccionat, ntbPreuParticipacio.Valor);
         }
 
         private void ntb_TextChanged(object sender, EventArgs e)
@@ -425,9 +433,22 @@ namespace Inversions.GUI
             if (dgvCompresOriginals.Columns[e.ColumnIndex].Name == "PartsUtil")
             {
                 var item = (SimulacioVendaTabDgv)dgvCompresOriginals.Rows[e.RowIndex].DataBoundItem;
-                var id = item._Id;
-                e.CellStyle.BackColor = item._BackColorPartsUtil;
-                e.CellStyle.ForeColor = item._ForeColorPartsUtil;
+
+                if (item._ParticipacionsUtilitzades == 0)
+                {
+                    e.CellStyle.BackColor = lbTotLliure.BackColor;
+                    e.CellStyle.ForeColor = lbTotLliure.ForeColor;
+                }
+                else if (item._PartsDisp == 0)
+                {
+                    e.CellStyle.BackColor = lbTotPle.BackColor;
+                    e.CellStyle.ForeColor = lbTotPle.ForeColor;
+                }
+                else
+                {
+                    e.CellStyle.BackColor = lbParcialLliure.BackColor;
+                    e.CellStyle.ForeColor = lbParcialLliure.ForeColor;
+                }
             }
         }
 
@@ -435,43 +456,8 @@ namespace Inversions.GUI
 
         private void btMaxPartsNoTributa_Click(object sender, EventArgs e)
         {
-            ntbNumParticipacions.Valor = SimulacioVendaTabDgv.CalculaParticipacionsPerLimitExent(ntbRestaTramNoTributa.Valor);
+            ntbNumParticipacions.Valor = SimulacioVendaTabDgv.CalculaPartPerLimitExent(ntbRestaTramNoTributa.Valor, ntbPartsSaltades.Valor);
             vPendentRefrescar = true;
-            //dgvCompresOriginals.Refresh();
-
-            return;
-
-            if (vProducteSeleccionat != null)
-            {
-                var restaNoTributa = ntbRestaTramNoTributa.Valor;
-                decimal numParts = 0;
-
-                foreach (DataGridViewRow fila in dgvCompresOriginals.Rows)
-                {
-                    var filaStruc = (SimulacioVendaTabDgv)fila.DataBoundItem;
-                    var pigOrigTotal = filaStruc._PigDeLaCompraOrigenTot;
-
-                    if (restaNoTributa > pigOrigTotal)
-                    {
-                        restaNoTributa -= pigOrigTotal;
-                        numParts += filaStruc._PartsDisp;
-                    }
-                    else
-                    {
-                        numParts += filaStruc._Participacions / pigOrigTotal * restaNoTributa;
-                        break;
-                    }
-                }
-
-                // 28-Euro Fund A-2 Acc -> Num Parts=24,46665
-
-                ntbNumParticipacions.Valor = Math.Round(numParts, 3);
-
-                vPendentRefrescar = true;
-                //ompleDgvCompres(vProducteSeleccionat, ntbPreuParticipacio.Valor);
-                SimulacioVendaTabDgv.ModificaValors(ntbPreuParticipacio.Valor, ntbPartsSaltades.Valor, ntbNumParticipacions.Valor);
-                ompleDgvCompres();
-            }
         }
 
         private void btMaxParts_Click(object sender, EventArgs e)
@@ -479,10 +465,7 @@ namespace Inversions.GUI
             ntbNumParticipacions.Valor = Math.Round(vProducteSeleccionat._Participacions, 3);
 
             vPendentRefrescar = true;
-            SimulacioVendaTabDgv.ModificaValors(ntbPreuParticipacio.Valor, ntbPartsSaltades.Valor, ntbNumParticipacions.Valor);
-            ompleDgvCompres();
-
-            //carregaNouProducte(vProducteSeleccionat, ntbPreuParticipacio.Valor);
+            SimulacioVendaTabDgv.OmpleDataGrid(ntbNumParticipacions.Valor, ntbPartsSaltades.Valor);
         }
     }
 }
