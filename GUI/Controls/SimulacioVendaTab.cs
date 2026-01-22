@@ -53,7 +53,7 @@ namespace Inversions.GUI
 
             dgvCompresOriginals.AutoGenerateColumns = false;
 
-            SimulacioVendaTabDgv.Inicialitza(this);
+            SimulacioVendaTabDgv.Inicialitza(dgvCompresOriginals);
         }
 
         #region *** Overrides ***
@@ -138,58 +138,8 @@ namespace Inversions.GUI
             SimulacioVendaTabDgv.CarregaProducte(prod);
 
             return;
-
-            if (prod == null)
-            {
-                dgvCompresOriginals.DataSource = new BindingList<SimulacioVendaTabDgv>();
-
-
-                ntbImportBrut.Valor = 0;
-                ntbPigSimulacio.Valor = 0;
-                ntbPigOrigSimulacio.Valor = 0;
-                ntbPiGAltresProductes.Valor = 0;
-
-                calculaTotalATributar();
-
-                return;
-            }
-
-            preuPart = preuPart.GetValueOrDefault(prod.ValoracionsProducte.Last().PreuParticipacio);
-
-            SimulacioVendaTabDgv.CarregaProducte(prod);
-            //SimulacioVendaTabDgv.ModificaValors(ntbPreuParticipacio.Valor, ntbPartsSaltades.Valor, ntbNumParticipacions.Valor);
-
-            ompleDgvCompres();
         }
 
-
-        void ompleDgvCompres()
-        {
-            SuspendLayout();
-
-            ntbImportBrut.Valor = ntbNumParticipacions.Valor * ntbPreuParticipacio.Valor;
-
-            ntbPigSimulacio.Valor = SimulacioVendaTabDgv._LCompresOriginals.Sum(s => s._PigDeLaCompra);
-            ntbPigOrigSimulacio.Valor = SimulacioVendaTabDgv._LCompresOriginals.Sum(s => s._PigDeLaCompraOrigen);
-
-            dgvCompresOriginals.SuspendLayout();
-            dgvCompresOriginals.SelectionChanged -= dgvCompresOriginals_SelectionChanged;
-
-            //BindingSource bindingSource = new BindingSource();
-            //bindingSource.DataSource = SimulacioVendaTabDgv._LCompresOriginals.OrderBy(o => o._DataOrig).ToList();
-            //dgvCompresOriginals.DataSource = bindingSource;
-
-            //dgvCompresOriginals.DataSource = SimulacioVendaTabDgv._LCompresOriginals.OrderBy(o => o._DataOrig).ToList();
-
-            dgvCompresOriginals.ClearSelection();
-            dgvCompresOriginals.SelectionChanged += dgvCompresOriginals_SelectionChanged;
-            dgvCompresOriginals.ResumeLayout();
-
-
-            calculaTotalATributar();
-
-            ResumeLayout();
-        }
 
         /// <summary>
         ///     Calcula el valor a tributar. Si negatiu és que no s'ha arribat al límit que no tributa.
@@ -351,7 +301,9 @@ namespace Inversions.GUI
             }
 
             if (!vPendentRefrescar)
+            {
                 return;
+            }
 
             if (vNoValidaControlsNtb)
             {
@@ -408,9 +360,8 @@ namespace Inversions.GUI
                 }
             }
 
-            SimulacioVendaTabDgv.OmpleDataGrid(ntbNumParticipacions.Valor, ntbPartsSaltades.Valor);
-
-            //carregaNouProducte(vProducteSeleccionat, ntbPreuParticipacio.Valor);
+            SimulacioVendaTabDgv.OmpleDataGrid(ntbNumParticipacions.Valor, ntbPartsSaltades.Valor, ntbPreuParticipacio.Valor);
+            ompleValorsTotals();
         }
 
         private void ntb_TextChanged(object sender, EventArgs e)
@@ -434,15 +385,16 @@ namespace Inversions.GUI
             {
                 var item = (SimulacioVendaTabDgv)dgvCompresOriginals.Rows[e.RowIndex].DataBoundItem;
 
-                if (item._ParticipacionsUtilitzades == 0)
-                {
-                    e.CellStyle.BackColor = lbTotLliure.BackColor;
-                    e.CellStyle.ForeColor = lbTotLliure.ForeColor;
-                }
-                else if (item._PartsDisp == 0)
+                // Primer comprovar _PartsDisp abans de _ParticipacionsUtilitzades
+                if (item._PartsDisp == 0)
                 {
                     e.CellStyle.BackColor = lbTotPle.BackColor;
                     e.CellStyle.ForeColor = lbTotPle.ForeColor;
+                }
+                else if (item._ParticipacionsUtilitzades == 0)
+                {
+                    e.CellStyle.BackColor = lbTotLliure.BackColor;
+                    e.CellStyle.ForeColor = lbTotLliure.ForeColor;
                 }
                 else
                 {
@@ -454,18 +406,31 @@ namespace Inversions.GUI
 
         #endregion *** Events ***
 
+        private void ompleValorsTotals()
+        {
+            ntbImportBrut.Valor = ntbNumParticipacions.Valor * ntbPreuParticipacio.Valor;
+            ntbPigSimulacio.Valor = SimulacioVendaTabDgv._LlistaCompresOriginals.Sum(s => s._PigDeLaCompraPartsUtil);
+            ntbPigOrigSimulacio.Valor = SimulacioVendaTabDgv._LlistaCompresOriginals.Sum(s => s._PigDeLaCompraPartsUtilOrig);
+        }
+
         private void btMaxPartsNoTributa_Click(object sender, EventArgs e)
         {
-            ntbNumParticipacions.Valor = SimulacioVendaTabDgv.CalculaPartPerLimitExent(ntbRestaTramNoTributa.Valor, ntbPartsSaltades.Valor);
             vPendentRefrescar = true;
+
+            ntbNumParticipacions.Valor = SimulacioVendaTabDgv.CalculaPartPerLimitExent(ntbRestaTramNoTributa.Valor, ntbPartsSaltades.Valor);
+
+            ompleValorsTotals();
         }
 
         private void btMaxParts_Click(object sender, EventArgs e)
         {
+            vPendentRefrescar = true;
+
             ntbNumParticipacions.Valor = Math.Round(vProducteSeleccionat._Participacions, 3);
 
-            vPendentRefrescar = true;
-            SimulacioVendaTabDgv.OmpleDataGrid(ntbNumParticipacions.Valor, ntbPartsSaltades.Valor);
+            SimulacioVendaTabDgv.OmpleDataGrid(ntbNumParticipacions.Valor, ntbPartsSaltades.Valor, ntbPreuParticipacio.Valor);
+
+            ompleValorsTotals();
         }
     }
 }

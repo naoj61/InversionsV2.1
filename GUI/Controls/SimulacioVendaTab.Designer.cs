@@ -1159,7 +1159,7 @@ namespace Inversions.GUI
             // 
             this.PigOrigenUtil._NegatiusEnVermell = true;
             this.PigOrigenUtil.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
-            this.PigOrigenUtil.DataPropertyName = "_PigDeLaCompraOrigen";
+            this.PigOrigenUtil.DataPropertyName = "_PigDeLaCompraPartsUtilOrig";
             dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle12.Format = "C2";
             this.PigOrigenUtil.DefaultCellStyle = dataGridViewCellStyle12;
