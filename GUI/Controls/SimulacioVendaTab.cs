@@ -54,43 +54,82 @@ namespace Inversions.GUI
             dgvCompresOriginals.AutoGenerateColumns = false;
 
             SimulacioVendaTabDgv.Inicialitza(dgvCompresOriginals);
+       
+            ctrProductes.refrescaDadesControl(null);
         }
 
         #region *** Overrides ***
 
         private bool vNoValidaControlsNtb;
 
-        internal override void carregaInicial()
-        {
-            base.carregaInicial();
 
-            // Càrrega el control GestioProductes sense necessitat de clicar "Filtrar".
-            //ctrProductes.refrescaDadesControl(true);
-            ctrProductes.refrescaDadesControl(null);
-        }
+        Producte vProducteUsuariAnterior;
+        int vAnyRendaUsuariAnterior;
+        decimal vPreuPartUsuariAnterior;
+        decimal vNumPartsUsuariAnterior;
+        decimal vPartsSaltadesUsuariAnterior;
+        decimal vPiGAltresProductesUsuariAnterior;
 
         internal override void canviUsuari()
         {
             base.canviUsuari();
 
-            vNoValidaControlsNtb = true; // Evita que es facin les validacions al canviar el focus a 'ctrProductes'
-            ctrProductes.Focus();
+            Usuari usuari = Usuari.Seleccionat;
 
-            //ctrProductes.refrescaDadesControl(true); //Mostra els productes del nou usuari.
-            ctrProductes.refrescaDadesControl(null); //Mostra els productes del nou usuari.
+            /* 
+             * ** Dades a desar abans de canviar d'usuari:
+             * Producte
+             * Any Renda
+             * Num Parts
+             * Preu Part
+             * Parts Saltades
+             * PiG Altres Productes
+            */
 
-            actualitzaControlsAny();
+            // Recuperar dades de l'usuari actual
+            var anyRenda = vAnyRendaUsuariAnterior;
+            var prod = vProducteUsuariAnterior;
+            var preuPart = vPreuPartUsuariAnterior;
+            var numParts = vNumPartsUsuariAnterior;
+            var partsSaltades = vPartsSaltadesUsuariAnterior;
+            var pigAltresProductes = vPiGAltresProductesUsuariAnterior;
+
+            // Desar dades de l'usuari anterior
+            vAnyRendaUsuariAnterior = vAnyRenda;
+            vProducteUsuariAnterior = vProducteSeleccionat;
+            vPreuPartUsuariAnterior = ntbPreuParticipacio.Valor;
+            vNumPartsUsuariAnterior = ntbNumParticipacions.Valor;
+            vPartsSaltadesUsuariAnterior = ntbPartsSaltades.Valor;
+            vPiGAltresProductesUsuariAnterior = ntbPigAltresProductes.Valor;
+
+            // Carregar dades de l'usuari actual
+            cbAny.SelectedItem = anyRenda == 0 ? DateTime.Today.Year : anyRenda; ;
+            vProducteSeleccionat = prod;
+            ctrProductes.seleccionaProducte(vProducteSeleccionat);
+            ntbPreuParticipacio.Valor = preuPart;
+            ntbNumParticipacions.Valor = numParts;
+            ntbPartsSaltades.Valor = partsSaltades;
+            ntbPigAltresProductes.Valor = pigAltresProductes;
+
+            SimulacioVendaTabDgv.CarregaProducte(vProducteSeleccionat, false);
+            SimulacioVendaTabDgv.OmpleDataGrid(ntbNumParticipacions.Valor, ntbPartsSaltades.Valor, ntbPreuParticipacio.Valor);
+
+            actualitzaControlsCanviDany();
+            ompleValorsTotals();
         }
 
 
         internal override void refresca()
         {
             base.refresca();
-
+            // todo. Norefresca be.
             vPendentRefrescar = true;
 
-            actualitzaControlsAny();
+            actualitzaControlsCanviDany();
+            ompleValorsTotals();
             carregaNouProducte(vProducteSeleccionat, ntbPreuParticipacio.Valor);
+
+            ompleValorsTotals();
         }
 
         internal override void obrePestanya(Producte prod)
@@ -150,7 +189,7 @@ namespace Inversions.GUI
             decimal tramNoTributa = (ntbTramExentAnual.Valor + ntbPerduesAnysAnteriors.Valor)
                                     - (ntbPiGActual.Valor + ntbIngressosExterns.Valor + ntbDividents.Valor);
 
-            decimal tributaRenda = ntbPigOrigSimulacio.Valor + ntbPiGAltresProductes.Valor - tramNoTributa;
+            decimal tributaRenda = ntbPigOrigSimulacio.Valor + ntbPigAltresProductes.Valor - tramNoTributa;
 
             if (tributaRenda > 0)
             {
@@ -168,17 +207,16 @@ namespace Inversions.GUI
         /// <summary>
         ///     Son els controls que varien al canviar d'any o al refrescar.
         /// </summary>
-        private void actualitzaControlsAny()
+        private void actualitzaControlsCanviDany()
         {
-            ntbTramExentAnual.Valor = valorTramExent(vAny);
-            ntbPerduesAnysAnteriors.Valor = Math.Abs(Producte.PerduesDarrersQuatreAnys(vAny));
-            ntbPiGActual.Valor = Moviment.MovimentsUsuari.Where(w => w._EsVendaReal && w.Data.Year == vAny).ToList().Sum(s => s.pigVenda4(true, true, true));
-            ntbIngressosExterns.Valor = valorIngressosExterns(vAny);
-            ntbDividents.Valor = Moviment.MovimentsUsuari.Where(w => w.Data.Year == vAny && w.TipusMoviment == TipusMoviment.Dividends)
+            ntbTramExentAnual.Valor = valorTramExent(vAnyRenda);
+            ntbPerduesAnysAnteriors.Valor = Math.Abs(Producte.PerduesDarrersQuatreAnys(vAnyRenda));
+            ntbPiGActual.Valor = Moviment.MovimentsUsuari.Where(w => w._EsVendaReal && w.Data.Year == vAnyRenda).ToList().Sum(s => s.pigVenda4(true, true, true));
+            ntbIngressosExterns.Valor = valorIngressosExterns(vAnyRenda);
+            ntbDividents.Valor = Moviment.MovimentsUsuari.Where(w => w.Data.Year == vAnyRenda && w.TipusMoviment == TipusMoviment.Dividends)
                 .ToList().Sum(s => s.PreuParticipacio);
-
-            calculaTotalATributar();
         }
+
 
         /// <summary>
         ///     Son els controls que varien al canviar de producte.
@@ -208,7 +246,7 @@ namespace Inversions.GUI
 
         #region *** Events ***
 
-        private int vAny;
+        private int vAnyRenda;
 
         private void simulacióVendaTab_Load(object sender, EventArgs e)
         {
@@ -245,9 +283,9 @@ namespace Inversions.GUI
 
         private void cbAny_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbAny.SelectedItem != null && vAny != Convert.ToInt32(cbAny.SelectedItem))
+            if (cbAny.SelectedItem != null && vAnyRenda != Convert.ToInt32(cbAny.SelectedItem))
             {
-                vAny = Convert.ToInt32(cbAny.SelectedItem);
+                vAnyRenda = Convert.ToInt32(cbAny.SelectedItem);
 
                 gbPigRealAny.Text = "PiG Any: " + cbAny.Text;
 
@@ -255,7 +293,7 @@ namespace Inversions.GUI
                 ctrProductes.Enabled = _EsAnyActual;
 
                 ntbTramExentAnual.ReadOnly = !_EsAnyActual;
-                ntbPiGAltresProductes.Enabled = _EsAnyActual;
+                ntbPigAltresProductes.Enabled = _EsAnyActual;
 
                 // *** Inicialitza valors
                 ctrProductes.seleccionaProducte(null);
@@ -265,13 +303,14 @@ namespace Inversions.GUI
                 ntbNumParticipacions.Parent.Visible = _EsAnyActual;
                 ntbPreuParticipacio.Parent.Visible = _EsAnyActual;
                 ntbPartsSaltades.Parent.Visible = _EsAnyActual;
-                ntbPiGAltresProductes.Parent.Visible = _EsAnyActual;
+                ntbPigAltresProductes.Parent.Visible = _EsAnyActual;
                 ntbImportBrut.Parent.Visible = _EsAnyActual;
                 ntbPigSimulacio.Parent.Visible = _EsAnyActual;
                 ntbPigOrigSimulacio.Parent.Visible = _EsAnyActual;
                 ntbRestaTramNoTributa.Parent.Visible = _EsAnyActual;
 
-                actualitzaControlsAny();
+                actualitzaControlsCanviDany();
+                ompleValorsTotals();
             }
         }
 
@@ -345,7 +384,7 @@ namespace Inversions.GUI
                 }
             }
 
-            if (ntb == ntbTramExentAnual && ntbTramExentAnual.Valor != valorTramExent(vAny))
+            if (ntb == ntbTramExentAnual && ntbTramExentAnual.Valor != valorTramExent(vAnyRenda))
             {
                 if (MessageBox.Show("S'ha modificat el valor del 'Tram Exent Anual'. Vols desar el nou valor al registre de Windows?"
                     , "Avís", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -354,7 +393,7 @@ namespace Inversions.GUI
                 }
                 else
                 {
-                    ntbTramExentAnual.Valor = valorTramExent(vAny);
+                    ntbTramExentAnual.Valor = valorTramExent(vAnyRenda);
                     e.Cancel = true;
                     return;
                 }
@@ -411,6 +450,8 @@ namespace Inversions.GUI
             ntbImportBrut.Valor = ntbNumParticipacions.Valor * ntbPreuParticipacio.Valor;
             ntbPigSimulacio.Valor = SimulacioVendaTabDgv._LlistaCompresOriginals.Sum(s => s._PigDeLaCompraPartsUtil);
             ntbPigOrigSimulacio.Valor = SimulacioVendaTabDgv._LlistaCompresOriginals.Sum(s => s._PigDeLaCompraPartsUtilOrig);
+
+            calculaTotalATributar();
         }
 
         private void btMaxPartsNoTributa_Click(object sender, EventArgs e)

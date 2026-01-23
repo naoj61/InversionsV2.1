@@ -44,23 +44,32 @@ namespace Inversions.GUI
         internal static void Inicialitza(DataGridView dgvCompresOriginals)
         {
             DgvCompresOriginals = dgvCompresOriginals;
+
+            CarregaProducte(null);
         }
 
         /// <summary>
         /// Carrega el DgvCompresOriginals amb el producte.
         /// </summary>
         /// <param name="prod"></param>
-        internal static void CarregaProducte(Producte prod)
+        internal static void CarregaProducte(Producte prod, bool ompleDataGrid = true)
         {
             Producte = prod;
 
+            IOrderedEnumerable<DesglosCompraExt> desgloçPartsEnCartera;
+            if (prod == null)
+            {
+                PreuParticipacioSimulacio = 0;
+                desgloçPartsEnCartera = Enumerable.Empty<DesglosCompraExt>().OrderBy(o => o._DataOrig);
+            }
+            else
+            {
+                PreuParticipacioSimulacio = prod.ValoracionsProducte.Last().PreuParticipacio;
+                desgloçPartsEnCartera = prod.desglosCompresDeParticipacionsEnData4(DateTime.Now, prod._Participacions)
+                               .OrderBy(o => o._DataOrig);
+            }
+
             var LlistaCompresOriginals = new BindingList<SimulacioVendaTabDgv>();
-
-            PreuParticipacioSimulacio = prod.ValoracionsProducte.Last().PreuParticipacio;
-
-            var desgloçPartsEnCartera = Producte.desglosCompresDeParticipacionsEnData4(DateTime.Now, Producte._Participacions)
-                .OrderBy(o => o._DataOrig);
-
             foreach (DesglosCompraExt desglosCompra in desgloçPartsEnCartera)
             {
                 var fila = new SimulacioVendaTabDgv(desglosCompra);
@@ -73,7 +82,79 @@ namespace Inversions.GUI
             BsDgvCompresOriginals.DataSource = LlistaCompresOriginals;
             DgvCompresOriginals.DataSource = BsDgvCompresOriginals;
 
-            OmpleDataGrid(0, 0);
+            if (ompleDataGrid)
+                OmpleDataGrid(0, 0);
+        }
+
+
+        /// <summary>
+        /// Omple i actualitza dgvCompresOriginals.
+        /// </summary>
+        /// <remarks>Aquest mètode actualitza la font de dades subjacent de la quadrícula de dades per reflectir l'
+        /// assignació de parts de participació, ajusta l'amplada de les columnes i actualitza la pantalla. Està pensat per a
+        /// ús dins del flux de treball de simulació i assumeix que la quadrícula de dades i la seva font de dades estan correctament
+        /// inicialitzades.</remarks>
+        /// <param name="parts">El nombre total de parts de participació que s'assignaran a la quadrícula de dades. Ha de ser zero o superior.</param>
+        /// <param name="saltaParts">El nombre de parts de participació que s'ometran abans que comenci l'assignació. Ha de ser zero o superior.</param>
+        /// <param name="preuParticipacio">El preu de participació que s'utilitzarà per a la simulació. Si és nul, es conserva el preu de simulació existent.</param>
+        internal static void OmpleDataGrid(decimal parts, decimal saltaParts, decimal? preuParticipacio = null)
+        {
+            if (preuParticipacio.HasValue)
+                PreuParticipacioSimulacio = preuParticipacio.Value;
+
+            // Primer posa a zero les partsUtilitzades.
+            foreach (SimulacioVendaTabDgv fila in BsDgvCompresOriginals)
+            {
+                fila.vDesglosCompra._PartsUtilitzades = 0;
+                fila.vDesglosCompra._PartsOcupades = fila.vPartsOcupades;
+            }
+
+            // Ara assigna els partsPerLimit calculats
+            var nParts = parts;
+            var saltaPartsLocal = saltaParts;
+
+            foreach (SimulacioVendaTabDgv fila in BsDgvCompresOriginals)
+            {
+                var partsDisp = fila._PartsDisp;
+
+                // Salta parts si cal
+                if (saltaPartsLocal > 0)
+                {
+                    if (partsDisp <= saltaPartsLocal)
+                    {
+                        fila.vDesglosCompra._PartsOcupades += partsDisp;
+                        saltaPartsLocal -= partsDisp;
+                        continue;
+                    }
+                    else
+                    {
+                        fila.vDesglosCompra._PartsOcupades += saltaPartsLocal;
+                        partsDisp -= saltaPartsLocal;
+                        saltaPartsLocal = 0;
+                    }
+                }
+
+                if (nParts == 0)
+                {
+                    fila.vDesglosCompra._PartsUtilitzades = 0;
+                }
+                else if (nParts < partsDisp)
+                {
+                    fila.vDesglosCompra._PartsUtilitzades += nParts; // Més parts utilitzades, menys disponibles.
+                    nParts = 0;
+                }
+                else
+                {
+                    fila.vDesglosCompra._PartsUtilitzades += partsDisp; // Més parts utilitzades, menys disponibles.
+                    nParts -= partsDisp;
+                }
+            }
+
+
+            // Actualitza les dades mostrades i les amplades de les columnes a DgvCompresOriginals sense reinicialitzar-la tota.
+            BsDgvCompresOriginals.ResetBindings(false);
+
+            DgvCompresOriginals.ClearSelection();
         }
 
 
@@ -136,80 +217,6 @@ namespace Inversions.GUI
             OmpleDataGrid(partsPerLimit, saltaParts);
 
             return partsPerLimit;
-        }
-
-
-        /// <summary>
-        /// Omple i actualitza dgvCompresOriginals.
-        /// </summary>
-        /// <remarks>Aquest mètode actualitza la font de dades subjacent de la quadrícula de dades per reflectir l'
-        /// assignació de parts de participació, ajusta l'amplada de les columnes i actualitza la pantalla. Està pensat per a
-        /// ús dins del flux de treball de simulació i assumeix que la quadrícula de dades i la seva font de dades estan correctament
-        /// inicialitzades.</remarks>
-        /// <param name="parts">El nombre total de parts de participació que s'assignaran a la quadrícula de dades. Ha de ser zero o superior.</param>
-        /// <param name="saltaParts">El nombre de parts de participació que s'ometran abans que comenci l'assignació. Ha de ser zero o superior.</param>
-        /// <param name="preuParticipacio">El preu de participació que s'utilitzarà per a la simulació. Si és nul, es conserva el preu de simulació existent.</param>
-        internal static void OmpleDataGrid(decimal parts, decimal saltaParts, decimal? preuParticipacio = null)
-        {
-            DgvCompresOriginals.SuspendLayout();
-
-            if (preuParticipacio.HasValue)
-                PreuParticipacioSimulacio = preuParticipacio.Value;
-
-            // Primer posa a zero les partsUtilitzades.
-            foreach (SimulacioVendaTabDgv fila in BsDgvCompresOriginals)
-            {
-                fila.vDesglosCompra._PartsUtilitzades = 0;
-                fila.vDesglosCompra._PartsOcupades = fila.vPartsOcupades;
-            }
-
-            // Ara assigna els partsPerLimit calculats
-            var nParts = parts;
-            var saltaPartsLocal = saltaParts;
-
-            foreach (SimulacioVendaTabDgv fila in BsDgvCompresOriginals)
-            {
-                var partsDisp = fila._PartsDisp;
-
-                // Salta parts si cal
-                if (saltaPartsLocal > 0)
-                {
-                    if (partsDisp <= saltaPartsLocal)
-                    {
-                        fila.vDesglosCompra._PartsOcupades += partsDisp;
-                        saltaPartsLocal -= partsDisp;
-                        continue;
-                    }
-                    else
-                    {
-                        fila.vDesglosCompra._PartsOcupades += saltaPartsLocal;
-                        partsDisp -= saltaPartsLocal;
-                        saltaPartsLocal = 0;
-                    }
-                }
-
-                if (nParts == 0)
-                {
-                    fila.vDesglosCompra._PartsUtilitzades = 0;
-                }
-                else if (nParts < partsDisp)
-                {
-                    fila.vDesglosCompra._PartsUtilitzades += nParts; // Més parts utilitzades, menys disponibles.
-                    nParts = 0;
-                }
-                else
-                {
-                    fila.vDesglosCompra._PartsUtilitzades += partsDisp; // Més parts utilitzades, menys disponibles.
-                    nParts -= partsDisp;
-                }
-            }
-
-
-            // Actualitza les dades mostrades i les amplades de les columnes a DgvCompresOriginals sense reinicialitzar-la tota.
-            BsDgvCompresOriginals.ResetBindings(false); 
-
-            DgvCompresOriginals.ClearSelection();
-            DgvCompresOriginals.ResumeLayout();
         }
 
         #endregion *** Mètodes statics ***

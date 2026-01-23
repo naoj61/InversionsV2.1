@@ -64,7 +64,7 @@ namespace Inversions.GUI
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.ntbPerduesAnysAnteriors = new Controls.NumericTextBox2();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
-            this.ntbPiGAltresProductes = new Controls.NumericTextBox2();
+            this.ntbPigAltresProductes = new Controls.NumericTextBox2();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.ntbTramExentAnual = new Controls.NumericTextBox2();
             this.gbPigRealAny = new System.Windows.Forms.GroupBox();
@@ -456,7 +456,7 @@ namespace Inversions.GUI
             // 
             // groupBox13
             // 
-            this.groupBox13.Controls.Add(this.ntbPiGAltresProductes);
+            this.groupBox13.Controls.Add(this.ntbPigAltresProductes);
             this.groupBox13.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox13.Location = new System.Drawing.Point(331, 142);
             this.groupBox13.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -470,32 +470,32 @@ namespace Inversions.GUI
             // 
             // ntbPiGAltresProductes
             // 
-            this.ntbPiGAltresProductes._CapturaEscape = true;
-            this.ntbPiGAltresProductes._Format = "#,##0.00 €";
-            this.ntbPiGAltresProductes._NegatiusEnVermell = true;
-            this.ntbPiGAltresProductes._PermetDecimals = true;
-            this.ntbPiGAltresProductes._PermetNegatius = false;
-            this.ntbPiGAltresProductes._PermetTextNull = false;
-            this.ntbPiGAltresProductes.BackColor = System.Drawing.SystemColors.Window;
-            this.ntbPiGAltresProductes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ntbPiGAltresProductes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ntbPiGAltresProductes.ForeColor = System.Drawing.Color.Black;
-            this.ntbPiGAltresProductes.Location = new System.Drawing.Point(3, 18);
-            this.ntbPiGAltresProductes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ntbPiGAltresProductes.Name = "ntbPiGAltresProductes";
-            this.ntbPiGAltresProductes.Size = new System.Drawing.Size(150, 26);
-            this.ntbPiGAltresProductes.TabIndex = 0;
-            this.ntbPiGAltresProductes.Text = "0,00 €";
-            this.ntbPiGAltresProductes.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.toolTip1.SetToolTip(this.ntbPiGAltresProductes, "Si vull acumular els PiGs de més d\'un producte, poso aquí limport dels altres.");
-            this.ntbPiGAltresProductes.Valor = new decimal(new int[] {
+            this.ntbPigAltresProductes._CapturaEscape = true;
+            this.ntbPigAltresProductes._Format = "#,##0.00 €";
+            this.ntbPigAltresProductes._NegatiusEnVermell = true;
+            this.ntbPigAltresProductes._PermetDecimals = true;
+            this.ntbPigAltresProductes._PermetNegatius = false;
+            this.ntbPigAltresProductes._PermetTextNull = false;
+            this.ntbPigAltresProductes.BackColor = System.Drawing.SystemColors.Window;
+            this.ntbPigAltresProductes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ntbPigAltresProductes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ntbPigAltresProductes.ForeColor = System.Drawing.Color.Black;
+            this.ntbPigAltresProductes.Location = new System.Drawing.Point(3, 18);
+            this.ntbPigAltresProductes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ntbPigAltresProductes.Name = "ntbPiGAltresProductes";
+            this.ntbPigAltresProductes.Size = new System.Drawing.Size(150, 26);
+            this.ntbPigAltresProductes.TabIndex = 0;
+            this.ntbPigAltresProductes.Text = "0,00 €";
+            this.ntbPigAltresProductes.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.ntbPigAltresProductes, "Si vull acumular els PiGs de més d\'un producte, poso aquí limport dels altres.");
+            this.ntbPigAltresProductes.Valor = new decimal(new int[] {
             0,
             0,
             0,
             131072});
-            this.ntbPiGAltresProductes.TextChanged += new System.EventHandler(this.ntb_TextChanged);
-            this.ntbPiGAltresProductes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ntb_KeyPress);
-            this.ntbPiGAltresProductes.Validating += new System.ComponentModel.CancelEventHandler(this.ntb_Validating);
+            this.ntbPigAltresProductes.TextChanged += new System.EventHandler(this.ntb_TextChanged);
+            this.ntbPigAltresProductes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ntb_KeyPress);
+            this.ntbPigAltresProductes.Validating += new System.ComponentModel.CancelEventHandler(this.ntb_Validating);
             // 
             // groupBox11
             // 
@@ -1274,7 +1274,7 @@ namespace Inversions.GUI
         private System.Windows.Forms.GroupBox gbPigRealAny;
         private Controls.NumericTextBox2 ntbPiGActual;
         private System.Windows.Forms.GroupBox groupBox13;
-        private Controls.NumericTextBox2 ntbPiGAltresProductes;
+        private Controls.NumericTextBox2 ntbPigAltresProductes;
         private System.Windows.Forms.GroupBox groupBox12;
         private Controls.NumericTextBox2 ntbPigSimulacio;
         private System.Windows.Forms.GroupBox groupBox14;
