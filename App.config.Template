@@ -9,7 +9,7 @@
   </startup>
   <!-- (LocalDB)\v11.0        Per Visual Studio 2013
        (LocalDB)\MSSQLLocalDB Per Visual Studio 2026 -->
-  <connectionStrings><add name="InversionsBDContext" connectionString="metadata=res://*/ClassesEntity.InversionsBD.csdl|res://*/ClassesEntity.InversionsBD.ssdl|res://*/ClassesEntity.InversionsBD.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=(LocalDB)\v11.0;attachdbfilename=|DataDirectory|\InversionsBD.mdf;integrated security=True;multipleactiveresultsets=True;connect timeout=30;application name=EntityFramework&quot;" providerName="System.Data.EntityClient" /></connectionStrings>
+  <connectionStrings><add name="InversionsBDContext" connectionString="metadata=res://*/ClassesEntity.InversionsBD.csdl|res://*/ClassesEntity.InversionsBD.ssdl|res://*/ClassesEntity.InversionsBD.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=(LocalDB)\MSSQLLocalDB;attachdbfilename=|DataDirectory|\InversionsBD.mdf;integrated security=True;multipleactiveresultsets=True;connect timeout=30;application name=EntityFramework&quot;" providerName="System.Data.EntityClient" /></connectionStrings>
   <entityFramework>
     <defaultConnectionFactory type="System.Data.Entity.Infrastructure.LocalDbConnectionFactory, EntityFramework">
       <parameters>
