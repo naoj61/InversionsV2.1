@@ -11,9 +11,12 @@ BD2/
 *.orig
 
 # Paquets i configuració d'usuari
-packages/
+packages/*
 *.suo
 *.DotSettings.user
+
+# No ignoris aquesta carpeta específica
+!packages/DevExpress/
 
 # Arxius temporals de sistema i Office
 Thumbs.db
