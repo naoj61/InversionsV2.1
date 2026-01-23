@@ -969,7 +969,7 @@ namespace Inversions.GUI
             this.ctrProductes.Name = "ctrProductes";
             this.ctrProductes.Size = new System.Drawing.Size(1537, 493);
             this.ctrProductes.TabIndex = 1;
-            this.ctrProductes.EventProducteSeleccionat += new System.EventHandler(this.productes_ProducteSeleccionat);
+            this.ctrProductes.EventProducteSeleccionat += new System.EventHandler(this.ctrProductes_EventProducteSeleccionat);
             // 
             // fonsOrig
             // 

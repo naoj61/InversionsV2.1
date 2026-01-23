@@ -68,7 +68,7 @@ namespace Inversions.GUI
         decimal vPreuPartUsuariAnterior;
         decimal vNumPartsUsuariAnterior;
         decimal vPartsSaltadesUsuariAnterior;
-        decimal vPiGAltresProductesUsuariAnterior;
+        decimal vPigAltresProductesUsuariAnterior;
 
         internal override void canviUsuari()
         {
@@ -92,7 +92,7 @@ namespace Inversions.GUI
             var preuPart = vPreuPartUsuariAnterior;
             var numParts = vNumPartsUsuariAnterior;
             var partsSaltades = vPartsSaltadesUsuariAnterior;
-            var pigAltresProductes = vPiGAltresProductesUsuariAnterior;
+            var pigAltresProductes = vPigAltresProductesUsuariAnterior;
 
             // Desar dades de l'usuari anterior
             vAnyRendaUsuariAnterior = vAnyRenda;
@@ -100,7 +100,7 @@ namespace Inversions.GUI
             vPreuPartUsuariAnterior = ntbPreuParticipacio.Valor;
             vNumPartsUsuariAnterior = ntbNumParticipacions.Valor;
             vPartsSaltadesUsuariAnterior = ntbPartsSaltades.Valor;
-            vPiGAltresProductesUsuariAnterior = ntbPigAltresProductes.Valor;
+            vPigAltresProductesUsuariAnterior = ntbPigAltresProductes.Valor;
 
             // Carregar dades de l'usuari actual
             cbAny.SelectedItem = anyRenda == 0 ? DateTime.Today.Year : anyRenda; ;
@@ -122,14 +122,29 @@ namespace Inversions.GUI
         internal override void refresca()
         {
             base.refresca();
-            // todo. Norefresca be.
+
+
             vPendentRefrescar = true;
 
-            actualitzaControlsCanviDany();
-            ompleValorsTotals();
-            carregaNouProducte(vProducteSeleccionat, ntbPreuParticipacio.Valor);
+            // Guardar valors actuals
+            var anyRenda = vAnyRenda;
+            var prod = vProducteSeleccionat;
+            var preuPart = ntbPreuParticipacio.Valor;
+            var numParts = ntbNumParticipacions.Valor;
+            var partsSaltades = ntbPartsSaltades.Valor;
+            var pigAltresProductes = ntbPigAltresProductes.Valor;
 
-            ompleValorsTotals();
+            ctrProductes.refrescaDadesControl(vProducteSeleccionat);
+
+            // Recuperar valors actuals
+            vAnyRenda = anyRenda;
+            vProducteSeleccionat = prod;
+            ntbPreuParticipacio.Valor = preuPart;
+            ntbNumParticipacions.Valor = numParts;
+            ntbPartsSaltades.Valor = partsSaltades;
+            ntbPigAltresProductes.Valor = pigAltresProductes;
+
+            SimulacioVendaTabDgv.OmpleDataGrid(ntbNumParticipacions.Valor, ntbPartsSaltades.Valor, ntbPreuParticipacio.Valor);
         }
 
         internal override void obrePestanya(Producte prod)
@@ -268,7 +283,7 @@ namespace Inversions.GUI
                 return;
         }
 
-        private void productes_ProducteSeleccionat(object sender, EventArgs e)
+        private void ctrProductes_EventProducteSeleccionat(object sender, EventArgs e)
         {
             var prod = (Producte)sender;
 
